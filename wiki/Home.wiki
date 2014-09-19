@@ -1,9 +1,9 @@
 = Welcome to the DOSE 2014 =
 
 == Universities, Teams, Groups ==
-  *[Universities]
-  *Teams
-  *Groups
+  * [Universities]
+  * Teams
+  * Groups
 
 == Deadlines ==
 
