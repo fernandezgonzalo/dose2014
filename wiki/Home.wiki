@@ -1,0 +1,22 @@
+= Welcome to the DOSE 2014 =
+
+== Universities, Teams, Groups ==
+  *[Universities]
+  *Teams
+  *Groups
+
+== Deadlines ==
+
+=== Requirements Teams (Brazil & Innopolis) ===
+
+  * Create Teams: September 16th
+  * Requirements document (first draft): October 7th, 2014
+  * Final document: October 14th, 2014
+  * Discussions and consolidation: October 21th, 2014 (tentative)
+
+=== Development Teams ===
+
+  * Create teams: October 14th, 2014 (tentative)
+  * Discussions and consolidation: October 21th, 2014 (tentative).
+  * API Design: November 4th
+  * Implementation & Testing: December 9th
