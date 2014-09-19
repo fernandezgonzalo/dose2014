@@ -1,4 +1,4 @@
-= Welcome to the DOSE 2014 =
+= Welcome to DOSE 2014 =
 
 == Universities, Teams, Groups ==
   * [Universities]
@@ -20,3 +20,5 @@
   * Discussions and consolidation: October 21th, 2014 (tentative).
   * API Design: November 4th
   * Implementation & Testing: December 9th
+
+([https://code.google.com/p/dose2014/w/list list of wiki pages])
