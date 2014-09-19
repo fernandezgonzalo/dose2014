@@ -1,0 +1,41 @@
+This page contains resources about Eiffel, EiffelStudio and SVN.
+
+== Installing EiffelStudio ==
+
+We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the installation instructions for Windows, Linux and Mac:
+
+  * [Installation instructions for EiffelStudio 7.3](./resources/eiffelstudio_installation.pdf)
+
+== EiffelStudio How-To ==
+
+  * [http://vimeo.com/74929806 Video Screen Cast about EiffelStudio (by Joe Kiniry, at ITU Copenhagen)]: A hands-on lecture by Joe Kiniry explaining how to use EiffelStudio.
+
+  * [http://docs.eiffel.com/book/eiffelstudio/eiffelstudio-how-tos EiffelStudio How To]'s from Eiffel Software; contains instructions for accomplishing some of the most commonly required tasks in EiffelStudio.
+
+  * [http://docs.eiffel.com/book/eiffelstudio/eiffelstudio-guided-tour EiffelStudio A Guided Tour] from Eiffel Software; a guided tour of Eiffel Software's EiffelStudio interactive software development environment
+
+  * [http://docs.eiffel.com/book/eiffelstudio/eiffelstudio-reference EiffelStudio Reference] from Eiffel Software; contains topics with information about many technical aspects of the EiffelStudio product.
+
+
+== Learning Eiffel ==
+
+  * [http://asdf.com Introduction to Eiffel]: Tutorial style Eiffel introduction that compares Eiffel and Java side-by-side and contains small coding exercises.
+
+  * [https://blog.itu.dk/SGSD-E2013/schedule Global Software Development course (by ITU Copenhagen)]: Eiffel introduction slides used by ITU Copenhagen in their global software development course.
+
+----
+
+  * [http://en.wikipedia.org/wiki/Eiffel_programming_language General introduction] from Wikipedia.
+
+  * [http://docs.eiffel.com/book/method/eiffel-tutorial-et Eiffel language tutorial] from Eiffel Software; it should provide you with a broad understanding of what Eiffel is all about.
+
+  * [http://docs.eiffel.com/book/method/invitation-eiffel-i2e Invitation to Eiffel] from Eiffel Software; a short set of pages that should provide you with the essence of the Eiffel way, without taking too much of your time.
+
+  * [http://se.inf.ethz.ch/courses/2011b_fall/eprog/additional_materials/eiffel_the_essentials.pdf Eiffel Essentials] is 24 page PDF which for people who are familiar with the object-oriented approach but do not know Eiffel very well. It introduces many concepts of Eiffel.
+
+  * [http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-367.pdf Eiffel ECMA Standard] is the official standard for the Eiffel language. It's no introductory material but in case you really want to know the details about a language construct, this is the place to look. 
+
+== Eiffel libraries ==
+
+  * [http://eiffelwebframework.github.io/EWF/index.html Eiffel Web Framework]
+
