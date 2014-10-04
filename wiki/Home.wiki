@@ -9,16 +9,16 @@
 
 === Requirements Teams (Brazil & Innopolis) ===
 
-  * Create Teams: September 16th
+  * Create Teams: September 20th
   * Requirements document (first draft): October 7th, 2014
-  * Final document: October 14th, 2014
-  * Discussions and consolidation: October 21th, 2014 (tentative)
+  * Final document: October 19th, 2014
+  * Discussions and consolidation: October 28th, 2014
 
 === Development Teams ===
 
-  * Create teams: October 14th, 2014 (tentative)
-  * Discussions and consolidation: October 21th, 2014 (tentative).
-  * API Design: November 4th
+  * Create teams: October 19th, 2014
+  * Discussions and consolidation: October 28th, 2014
+  * API Design: November 11th
   * Implementation & Testing: December 9th
 
 ([https://code.google.com/p/dose2014/w/list list of wiki pages])
