@@ -2,7 +2,7 @@
 
 == Universities, Teams, Groups ==
   * [Universities]
-  * Teams
+  * [Teams]
   * Groups
 
 == Deadlines ==
