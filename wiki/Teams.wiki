@@ -13,9 +13,9 @@
 
 = Kazan3 =
 
-  * Emil Melnikov: emilmelnikov@gmail.com / Skype: emilmelnikov / codeboard: ?
-  * Ruslan Mustafin: r.mustafin93@gmail.com / Skype: rmustafin / codeboard: ?
-  * Timur Shakirov: shakirovtr23@gmail.com / Skype: trshakirov / codeboard: ?
+  * Emil Melnikov: emilmelnikov@gmail.com / Skype: ? / codeboard: emilmelnikov 
+  * Ruslan Mustafin: r.mustafin93@gmail.com / Skype: ? / codeboard: rmustafin
+  * Timur Shakirov: shakirovtr23@gmail.com / Skype: ? / codeboard: trshakirov
 
 = Kazan4 =
 
