@@ -68,7 +68,10 @@
  * Joaquin	Heredia	joaquinheredia93@gmail.com	joaquinheredia93@gmail.com	joakonat	jheredia	Ezequiel	Zensich	ezensich@gmail.com	ezensich@gmail.com	ezensich	ezensich	Nicolás	Pereyra Orcasitas	nico.orcasitas@gmail.com	nico.orcasitas@gmail.com	npereyraorcasitas	norcasitas	Jacinto	Jaimez	jaimezjacinto@gmail.com	jaimezjacinto@gmail.com	jacintojaimez	jjaimez
 
 =Rio Cuarto 6=
-*Nicolas Ezequiel	Gomez	nico.neg88@gmail.com	nico.neg88@gmail.com	nico_neg88@hotmail.com	nico88	Guillermo	Morilla	g_morilla@hotmail.com	guillemorilla85@gmail.com	g_morilla@hotmail.com	guille85	Marcelo 	Felice	manefelide@gmail.com	manefelice@gmail.com	marcelo.felice6	manefelice	Matias	Bernal	quake_joker@yahoo.com.ar		matias-bernal	matiasbernal
+ * Nicolas Ezequiel	Gomez	nico.neg88@gmail.com	nico.neg88@gmail.com	nico_neg88@hotmail.com	nico88	
+ * Guillermo	Morilla	g_morilla@hotmail.com	guillemorilla85@gmail.com	g_morilla@hotmail.com	guille85	
+ * Marcelo 	Felice	manefelide@gmail.com	manefelice@gmail.com	marcelo.felice6	manefelice	 
+ * Matias	Bernal	quake_joker@yahoo.com.ar		matias-bernal	matiasbernal
 
 =ETH1=
  * Tijana	Zivic	zivic.tijana@gmail.com		tijana-zivic	tzivic	
