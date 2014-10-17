@@ -1,0 +1,21 @@
+#This page contains the list of teams.
+
+= Kazan1 =
+
+Innopolis, Russia	Dina	Gimadieva	dina.gimadieva@gmail.com		dina_from_kzn	dinagimadieva	Artur	Samigullin	samigullin.art@gmail.com		samigullin	samigullin	Galiya	Zainagtdinova	galia.mirland@gmail.com		galiamirland	galiamirland
+
+
+
+= Kazan2 =
+
+Innopolis, Russia	Oleg	Ponomarev	onponomarev@gmail.com		oleg.ponom	oponomarev	Mikhail	Usvyatsov	m.usvyatsov@gmail.com		usvyatsov	aelphy						
+
+= Kazan3 =
+
+Innopolis, Russia	Emil	Melnikov	emilmelnikov@gmail.com			emilmelnikov	Ruslan	Mustafin	r.mustafin93@gmail.com			rmustafin	Timur	Shakirov	shakirovtr23@gmail.com			trshakirov
+
+= Kazan4 =
+Innopolis, Russia	Andrew	Lapin	andrew.d.lapin@gmail.com		lunatik-210	lunatik210	Dmitriy	Kusterskiy	dimykus@gmail.com		dimykus@gmail.com	dimykus	Larisa	Markeeva	rerayne@gmail.com		selince1991	selince1991
+
+=PUCRS1 =
+PUCRS, Brazil	Gabriel	Oliveira	gabriel.pa.oliveira@gmail.com		gabriel.pa.oliveira													
