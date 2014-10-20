@@ -23,12 +23,11 @@
   * Dmitriy Kusterskiy: dimykus@gmail.com / Skype: dimykus@gmail.com / codeboard: dimykus
   * Larisa Markeeva: rerayne@gmail.com / Skype: selince1991 / codeboard: selince1991
 
-= Kazan5 (requirements)=
+= Kazan5 (requirements) =
 
-* Munir	Makhmutov: munir.makhmutov@gmail.com / Skype: slylighter / codeboard:munir
-* Maxim	Ibragimov: m.nightbird@gmail.com / Skype: nightb7 / codeboard: team2kazan	
-* Farida Makhmutova: farida.makhmutova07@gmail.com / Skype: farida / codeboard:
-
+  * Munir Makhmutov: munir.makhmutov@gmail.com / Skype: slylighter / codeboard:munir
+  * Maxim Ibragimov: m.nightbird@gmail.com / Skype: nightb7 / codeboard: team2kazan
+  * Farida Makhmutova: farida.makhmutova07@gmail.com / Skype: farida / codeboard:
 
 = PUCRS2 =
 
