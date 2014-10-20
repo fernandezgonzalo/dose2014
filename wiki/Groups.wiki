@@ -24,7 +24,7 @@
 
 = Group 3 =
 
-== PUCRS1 (requirements) ==
+== PUCRS5 (requirements) ==
 
 == Kazan2 (development) ==
  
@@ -86,5 +86,3 @@
  * Gabriele Maddalena gabriele.maddalena@mail.polimi.it
  * Federico Reghenzani federico1.reghenzani@mail.polimi.it
 * Filippo Pagano paganofilippo@gmail.com
-
-
