@@ -91,3 +91,14 @@ TODO
 
 =Madrid3=
 Joaquin	Tita	joaquintita@gmail.com	joaquintita@gmail.com	joaquin.tita	joaquintita	Jorge Isaac	Aviles Monroy	jorge.aviles.m@gmail.com	jorge.aviles.m@gmail.com	jorgeisaac	jorgeisaac.com 	Ke Li	Huang	kelihuang1991@gmail.com	kelihuang1991@gmail.com	kelihuang91@hotmail.com‍	kelihuang1991
+
+=Milan ALL=
+ * Mikel Vuka mikel.vuka@mail.polimi.it
+ * Filippo Pagano paganofilippo@gmail.com
+ * Gabriele Maddalena gabriele.maddalena@mail.polimi.it
+ * Federico Reghenzani federico1.reghenzani@mail.polimi.it
+ * Dmitrii Stebliuk. dsteblyuk@gmail.com
+ * Miguel Palacio 10445417@polimi.it, palaciodelgado@gmail.com
+ * Nicolò  Gallo Perozzi, nicolo.gallo@mail.polimi.it
+ * Marion Depuydt marion.depuydt@mail.polimi.it
+ * Anna Maria Nestorov annamaria.nestorov@mail.polimi.it
