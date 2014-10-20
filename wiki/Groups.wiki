@@ -1,7 +1,90 @@
 #summary The groups are the following.
 
-= Group1 =
+= Group 1 =
 
-Add your content here.
+== Kazan1 (requirements) ==
+
+== Rio Cuarto1 ==
+
+== Madrid1 ==
+
+
+
+= Group 2 =
+
+== Kazan3 (requirements) ==
+
+== Rio Cuarto2 ==
+
+== ETH1 ==
+
+
+
+
+
+= Group 3 =
+
+== PUCRS1 (requirements) ==
+
+== Kazan2 (development) ==
+ 
+ == Rio Cuarto3 ==
+
+
+
+
+
+= Group 4 =
+
+== PUCRS2 (requirements) ==
+
+== Kazan4 (development) ==
+
+== Rio Cuarto4 ==
+
+
+= Group 5 =
+
+== PUCRS3 (requirements) ==
+
+ == Rio Cuarto5 ==
+
+== Milan1 ==
+ * Dmitrii Stebliuk. dsteblyuk@gmail.com
+ * Miguel Palacio 10445417@polimi.it, palaciodelgado@gmail.com
+* Mikel Vuka mikel.vuka@mail.polimi.it
+
+
+= Group 6 =
+
+== PUCRS4 (requirements) ==
+
+ == Rio Cuarto6 ==  
+ 
+ == Milan2 ==
+ * Nicolò Gallo Perozzi, nicolo.gallo@mail.polimi.it
+ * Marion Depuydt marion.depuydt@mail.polimi.it
+ * Anna Maria Nestorov annamaria.nestorov@mail.polimi.it
+ 
+ 
+= Group 7 =
+
+== PUCRS5 (requirements) ==
+
+== ETH2 ==
+
+== Madrid3 ==
+
+= Group 8 =
+
+== Kazan5 ==
+
+== Madrid2 ==
+
+== Milano3 ==
+
+ * Gabriele Maddalena gabriele.maddalena@mail.polimi.it
+ * Federico Reghenzani federico1.reghenzani@mail.polimi.it
+* Filippo Pagano paganofilippo@gmail.com
 
 
