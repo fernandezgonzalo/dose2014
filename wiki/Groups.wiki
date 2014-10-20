@@ -69,7 +69,7 @@
  
 = Group 7 =
 
-== PUCRS5 (requirements) ==
+== PUCRS6 (requirements) ==
 
 == ETH2 ==
 
