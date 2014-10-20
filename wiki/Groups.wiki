@@ -77,7 +77,7 @@
 
 = Group 8 =
 
-== Kazan5 ==
+== Kazan5 (requirements) ==
 
 == Madrid2 ==
 
