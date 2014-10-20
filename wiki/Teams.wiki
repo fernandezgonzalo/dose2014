@@ -23,7 +23,7 @@
   * Dmitriy Kusterskiy: dimykus@gmail.com / Skype: dimykus@gmail.com / codeboard: dimykus
   * Larisa Markeeva: rerayne@gmail.com / Skype: selince1991 / codeboard: selince1991
 
-= Kazan5 =
+= Kazan5 (requirements)=
 Innopolis, Russia	Munir	Makhmutov	munir.makhmutov@gmail.com		slylighter	munir	Maxim	Ibragimov	m.nightbird@gmail.com		nightb7	team2kazan	Farida	Makhmutova	farida.makhmutova07@gmail.com			farida
 
 = PUCRS1 =
