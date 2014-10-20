@@ -26,9 +26,6 @@
 = Kazan5 (requirements)=
 Innopolis, Russia	Munir	Makhmutov	munir.makhmutov@gmail.com		slylighter	munir	Maxim	Ibragimov	m.nightbird@gmail.com		nightb7	team2kazan	Farida	Makhmutova	farida.makhmutova07@gmail.com			farida
 
-= PUCRS1 =
-
-  * Gabriel Oliveira: gabriel.pa.oliveira@gmail.com / Skype: gabriel.pa.oliveira / codeboard: ?
 
 = PUCRS2 =
 
@@ -51,10 +48,10 @@ Innopolis, Russia	Munir	Makhmutov	munir.makhmutov@gmail.com		slylighter	munir	Ma
 = PUCRS5 =
 
  * Leticia Machado: leticia.machado.001@acad.pucrs.br / Skype: Leticia.rs.br / codeboard: ?
-* Alexandre Zanatta: alexandre.zanatta@acad.pucrs.br / Skype: Alexandrezanatta / codeboard: ?
+ * Alexandre Zanatta: alexandre.zanatta@acad.pucrs.br / Skype: Alexandrezanatta / codeboard: ?
 
 = PUCRS6 = 
-* Caroline Queiroz: carol.qs@gmail.com / Skype: Carolqueiroz__ / codeboard: ?
+ * Caroline Queiroz: carol.qs@gmail.com / Skype: Carolqueiroz__ / codeboard: ?
  * Graziela Pereira: graziela.basilio@acad.pucrs.br / Skype: Grazibp / codeboard: ?
  
 =Rio Cuarto1=
