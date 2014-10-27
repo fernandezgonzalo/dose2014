@@ -70,12 +70,12 @@
  * *Leticia Machado*: leticia.machado.001@acad.pucrs.br / Skype: Leticia.rs.br / codeboard: ?
  * *Alexandre Zanatta*: alexandre.zanatta@acad.pucrs.br / Skype: Alexandrezanatta / codeboard: ?
 
-== Kazan2 (development) ==
+== Kazan2 (backend) ==
 
  * *Oleg Ponomarev*: onponomarev@gmail.com / Skype: oleg.ponom / codeboard: oponomarev
  * *Mikhail Usvyatsov*: m.usvyatsov@gmail.com / Skype: usvyatsov / codeboard: aelphy
 
-== Rio Cuarto3 ==
+== Rio Cuarto3 (frontend) ==
 
  * *Alan Gonzalez*: marioalangonzalez@gmail.com / Skype: mario_alan16@hotmail.com / codeboard: alangonzalez93
  * *Agustin Bauer*: agustinbauer1@gmail.com / Skype: agusbauer / codeboard: agusbauer
