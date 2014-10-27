@@ -6,7 +6,7 @@
 || Example || ABC1 || DEF2 || GHI3 ||
 || Group1 || Kazan1 || . || . ||
 || Group2 || Kazan3 || . || . ||
-|| Group3 || PUCRS5 || . || . ||
+|| Group3 || PUCRS5 || RioCuarto3 || Kazan2 ||
 || Group4 || PUCRS2 || . || . ||
 || Group5 || PUCRS3 || . || . ||
 || Group6 || PUCRS4 || . || . ||
