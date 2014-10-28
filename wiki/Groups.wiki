@@ -4,7 +4,7 @@
 
 || *Group* || *Requirements* || *Frontend* || *Backend* ||
 || Example || ABC1 || DEF2 || GHI3 ||
-|| Group1 || Kazan1 || . || . ||
+|| Group1 || Kazan1 || Madrid1 || Rio1 ||
 || Group2 || Kazan3 || . || . ||
 || Group3 || PUCRS5 || RioCuarto3 || Kazan2 ||
 || Group4 || PUCRS2 || Kazan4 || Rio Cuarto4 ||
