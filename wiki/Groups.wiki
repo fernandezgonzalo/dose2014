@@ -7,7 +7,7 @@
 || Group1 || Kazan1 || . || . ||
 || Group2 || Kazan3 || . || . ||
 || Group3 || PUCRS5 || RioCuarto3 || Kazan2 ||
-|| Group4 || PUCRS2 || . || . ||
+|| Group4 || PUCRS2 || Kazan4 || Rio Cuarto4 ||
 || Group5 || PUCRS3 || Milan1 || Rio Cuarto5 ||
 || Group6 || PUCRS4 || Rio Cuarto6 || Milan2 ||
 || Group7 || PUCRS6 || . || . ||
