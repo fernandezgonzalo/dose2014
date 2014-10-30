@@ -24,13 +24,13 @@
   * *Artur Samigullin*: samigullin.art@gmail.com / Skype: samigullin / codeboard: samigullin
   * *Galiya Zainagtdinova*: galia.mirland@gmail.com / Skype: galiamirland / codeboard: galiamirland
 
-== Rio Cuarto1 ==
+== Rio Cuarto1 (backend) ==
 
  * *Gonzalo Fernandez*: buurentriko@gmail.com / Skype: buurentriko / codeboard: buurentriko
  * *Bruno Isoardi*: brunoiso_2@hotmail.com | brunoiso23@gmail.com / Skype: eldelacarlota / codeboard: bisoardi
  * *Guido Giovannini*: g.guidogiovannini.g@gmail.com / Skype: guido_giovannini / codeboard: ggiovannini
 
-== Madrid1 ==
+== Madrid1 (frontend) ==
 
  * *Ludvig Stenstrom*: ludvig.stenstrom@gmail.com / Skype: lurre92 / codeboard: ludste
  * *Roxana Lorint*: roxxy.1210@gmail.com / Skype: roxana.lorint@student.upt.ro / codeboard: roxana
