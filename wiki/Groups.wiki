@@ -11,7 +11,7 @@
 || Group5 || PUCRS3 || Milan1 || Rio Cuarto5 ||
 || Group6 || PUCRS4 || Rio Cuarto6 || Milan2 ||
 || Group7 || PUCRS6 || . || . ||
-|| Group8 || Kazan5 || . || . ||
+|| Group8 || Kazan5 || Madrid2 || Milan3 ||
 
 
 ----
