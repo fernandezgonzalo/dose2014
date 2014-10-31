@@ -1,10 +1,10 @@
-This page contains resources about Eiffel, EiffelStudio and SVN.
+This page contains resources about Eiffel, EiffelStudio and AngularJS.
 
 == Installing EiffelStudio ==
 
 We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the installation instructions for Windows, Linux and Mac:
 
-  * [Installation instructions for EiffelStudio 7.3](./resources/eiffelstudio_installation.pdf)
+  * [https://code.google.com/p/dose2014/source/browse/trunk/resources/EiffelStudio_installation.pdf Installation instructions for EiffelStudio 14.05]
 
 == EiffelStudio How-To ==
 
@@ -19,11 +19,9 @@ We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the i
 
 == Learning Eiffel ==
 
-  * [http://asdf.com Introduction to Eiffel]: Tutorial style Eiffel introduction that compares Eiffel and Java side-by-side and contains small coding exercises.
+  * [https://code.google.com/p/dose2014/source/browse/trunk/resources/Eiffel_introduction.pdf Introduction to Eiffel]: Tutorial style Eiffel introduction that compares Eiffel and Java side-by-side and contains small coding exercises.
 
   * [https://blog.itu.dk/SGSD-E2013/schedule Global Software Development course (by ITU Copenhagen)]: Eiffel introduction slides used by ITU Copenhagen in their global software development course.
-
-----
 
   * [http://en.wikipedia.org/wiki/Eiffel_programming_language General introduction] from Wikipedia.
 
@@ -31,11 +29,14 @@ We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the i
 
   * [http://docs.eiffel.com/book/method/invitation-eiffel-i2e Invitation to Eiffel] from Eiffel Software; a short set of pages that should provide you with the essence of the Eiffel way, without taking too much of your time.
 
-  * [http://se.inf.ethz.ch/courses/2011b_fall/eprog/additional_materials/eiffel_the_essentials.pdf Eiffel Essentials] is 24 page PDF which for people who are familiar with the object-oriented approach but do not know Eiffel very well. It introduces many concepts of Eiffel.
-
-  * [http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-367.pdf Eiffel ECMA Standard] is the official standard for the Eiffel language. It's no introductory material but in case you really want to know the details about a language construct, this is the place to look. 
-
 == Eiffel libraries ==
 
   * [http://eiffelwebframework.github.io/EWF/index.html Eiffel Web Framework]
 
+== AngularJS ==
+
+ * [https://angularjs.org/ AngularJS website]
+
+ * [https://docs.angularjs.org/tutorial/ AngularJS tutorial]
+
+ * [https://docs.angularjs.org/guide AngularJS developer guide]
