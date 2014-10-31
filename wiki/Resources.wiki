@@ -4,7 +4,7 @@ This page contains resources about Eiffel, EiffelStudio and AngularJS.
 
 We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the installation instructions for Windows, Linux and Mac:
 
-  * [https://code.google.com/p/dose2014/source/browse/trunk/resources/EiffelStudio_installation.pdf Installation instructions for EiffelStudio 14.05]
+  * [https://dose2014.googlecode.com/svn/trunk/resources/EiffelStudio_installation.pdf Installation instructions for EiffelStudio 14.05]
 
 == EiffelStudio How-To ==
 
@@ -19,7 +19,7 @@ We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the i
 
 == Learning Eiffel ==
 
-  * [https://code.google.com/p/dose2014/source/browse/trunk/resources/Eiffel_introduction.pdf Introduction to Eiffel]: Tutorial style Eiffel introduction that compares Eiffel and Java side-by-side and contains small coding exercises.
+  * [https://dose2014.googlecode.com/svn/trunk/resources/Eiffel_introduction.pdf Introduction to Eiffel]: Tutorial style Eiffel introduction that compares Eiffel and Java side-by-side and contains small coding exercises.
 
   * [https://blog.itu.dk/SGSD-E2013/schedule Global Software Development course (by ITU Copenhagen)]: Eiffel introduction slides used by ITU Copenhagen in their global software development course.
 
