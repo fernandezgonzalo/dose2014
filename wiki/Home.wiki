@@ -21,4 +21,8 @@
   * API Design: November 11th
   * Implementation & Testing: December 9th
 
+== Other ==
+
+  * [Resources] on EiffelStudio, Eiffel, and AngularJS
+
 ([https://code.google.com/p/dose2014/w/list list of wiki pages])
