@@ -33,6 +33,10 @@ We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the i
 
   * [http://eiffelwebframework.github.io/EWF/index.html Eiffel Web Framework]
 
+  * EWF template engine [https://svn.eiffel.com/eiffelstudio/trunk/Src/contrib/library/text/template/smarty]
+
+  * EWF sessions (part of EWF) [https://github.com/Eiffel-World/Eiffel-Web-Framework/tree/master/library/server/wsf/session]
+
 == AngularJS ==
 
  * [https://angularjs.org/ AngularJS website]
