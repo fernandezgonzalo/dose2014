@@ -44,3 +44,11 @@ We are using EiffelStudio 14.05 (build 95417) in the DOSE course. Here are the i
  * [https://docs.angularjs.org/tutorial/ AngularJS tutorial]
 
  * [https://docs.angularjs.org/guide AngularJS developer guide]
+
+== SQLite ==
+
+[http://www.sqlite.org]
+
+== Bootstrap (CSS, Layout) ==
+
+[http://getbootstrap.com]
