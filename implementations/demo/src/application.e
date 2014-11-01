@@ -74,7 +74,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
-			create fhdl.make_hidden ("/home/hce/eth/repositories/dose2014/implementation/demo/www")
+			create fhdl.make_hidden (path_to_www_folder)
 			fhdl.set_directory_index (<<"index.html">>)
 			router.handle_with_request_methods ("", fhdl, router.methods_GET)
 		end
