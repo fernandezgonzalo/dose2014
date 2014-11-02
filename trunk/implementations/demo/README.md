@@ -12,7 +12,7 @@ All dependencies should come with the installtion of EiffelStudio.
 # How to setup
 1. Open the demo.ecf file.
 
-2. Adapt the two fixed path in application.e for access to the database file and the www folder.
+2. Compile the app.
 
 3. Run the Eiffel server.
 
