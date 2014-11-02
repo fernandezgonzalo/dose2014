@@ -25,11 +25,19 @@ create
 
 feature {NONE} -- Initialization
 
-	path_to_db_file: STRING = "/home/hce/eth/repositories/dose2014/implementation/demo/demo.db"
-		-- make sure this path is correct for your system
+	path_to_db_file: STRING
+		-- calculates the path to the demo.db file, based on the location of the .ecf file
+		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
+		once
+			Result := ".." + Operating_environment.directory_separator.out + "demo.db"
+		end
 
-	path_to_www_folder: STRING = "/home/hce/eth/repositories/dose2014/implementation/demo/www"
-		-- make sure this path is correct for your system
+	path_to_www_folder: STRING
+		-- calculates the path to the www folder, based on the location of the .ecf file
+		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
+		once
+			Result := ".." + Operating_environment.directory_separator.out + "www"
+		end
 
 
 	todo_ctrl: DEMO_TODO_CTRL
