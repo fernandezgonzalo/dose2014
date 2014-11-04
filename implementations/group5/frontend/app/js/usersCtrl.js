@@ -5,12 +5,12 @@ angular.module('Demo').controller('UsersCtrl', function ($scope, $http, $log, $t
   // the model that we bind to the input box
   $scope.newUser = {
     name: ''
-  }
+  };
 
   $scope.successMsgVisible = false;
 
   // the function to add the new users
-  $scope.addUser = function(userName) {
+  $scope.addUser = function() {
 
     // the payload is simple the json object that we used for binding to the input
     var payload = $scope.newUser;
@@ -24,6 +24,6 @@ angular.module('Demo').controller('UsersCtrl', function ($scope, $http, $log, $t
       $timeout(function() {$scope.successMsgVisible = false;}, 2000);
     };
     Users.create(payload, success);
-  }
+  };
 
 });

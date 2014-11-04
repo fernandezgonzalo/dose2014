@@ -11,18 +11,18 @@ angular.module('Demo')
     $scope.todoModel = {
       description: '',
       user: {}
-    }
+    };
 
     // declaration !AND! call (see parenthesis at end of function)
     // of a function that fetches the todos from the server
-    var init = function() {
+    (function() {
       $scope.todos = Todos.query();
       $scope.users = Users.query();
-    }();
+    })();
 
     // function to remove a todo with the given id
     $scope.removeTodo = function(todoId) {
-      $log.debug("Removing todo " + todoId);
+      $log.debug('Removing todo ' + todoId);
 
       // find the element in the data array and remove it
       var success = function() {
@@ -34,7 +34,7 @@ angular.module('Demo')
       };
 
       Todos.delete(todoId, success);
-    }
+    };
 
 
     // Function to add a new todo to the list.
@@ -47,9 +47,9 @@ angular.module('Demo')
       var payload = {
         description: todoDescription,
         userId: user.id
-      }
+      };
 
-      $log.debug("Sending payload: " + JSON.stringify(payload));
+      $log.debug('Sending payload: ' + JSON.stringify(payload));
 
       var success = function(data) {
         // the server should return a json object that represents the new todo item
@@ -61,5 +61,5 @@ angular.module('Demo')
         $scope.todoModel.description = '';
       };
       Todos.create(payload, success);
-    }
+    };
   });
