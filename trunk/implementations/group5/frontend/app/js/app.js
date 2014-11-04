@@ -10,8 +10,8 @@ app.config(['$logProvider', function($logProvider){
 }]);
 
 /** Define the routes for the application; This routing is done by Angular */
-app.config(['$routeProvider', '$locationProvider',
-  function($routeProvider, $locationProvider) {
+app.config(['$routeProvider',
+  function($routeProvider) {
     $routeProvider
       .when('/todos', {
         templateUrl: 'partials/todos.html',
