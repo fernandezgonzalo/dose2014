@@ -1,0 +1,18 @@
+{
+  "name": "dose-web-mgmt",
+  "description": "Dose web-project for distributed software development management",
+  "version": "0.0.1",
+  "repository": {
+    "type": "svn",
+    "url": "https://dose2014.googlecode.com/svn/trunk/implementations/group5/frontend"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Milan1",
+  "license": "ISC"
+}
