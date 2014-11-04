@@ -116,14 +116,14 @@
  * *Willian Tessaro Lunardi*: williantessarolunardi@gmail.com / Skype: ? / codeboard: Will
  * *Flavio Steffens*: flavio.steffens@acad.pucrs.br / Skype: flavio.steffens / codeboard: flavio
 
-== Rio Cuarto5 ==
+== Rio Cuarto5 (backend) ==
 
  * *Joaquin Heredia*: joaquinheredia93@gmail.com | joaquinheredia93@gmail.com / Skype: joakonat / codeboard: jheredia
  * *Ezequiel Zensich*: ezensich@gmail.com | ezensich@gmail.com / Skype: ezensich / codeboard: ezensich
  * *Nicolás Pereyra Orcasitas*: nico.orcasitas@gmail.com | nico.orcasitas@gmail.com / Skype: npereyraorcasitas / codeboard: norcasitas
  * *Jacinto Jaimez*: jaimezjacinto@gmail.com | jaimezjacinto@gmail.com / Skype: jacintojaimez / codeboard: jjaimez
 
-== Milan1 ==
+== Milan1 (frontend) ==
 
  * *Dmitrii Stebliuk*: dsteblyuk@gmail.com / Skype: n43jlkin / codeboard: n43jl
  * *Miguel Palacio*: 10445417@polimi.it | palaciodelgado@gmail.com / Skype: palaciodelgado / codeboard: miguelpalacio
