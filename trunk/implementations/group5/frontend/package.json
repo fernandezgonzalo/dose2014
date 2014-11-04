@@ -7,7 +7,10 @@
     "url": "https://dose2014.googlecode.com/svn/trunk/implementations/group5/frontend"
   },
   "devDependencies": {
-    "grunt": "^0.4.5"
+    "bower": "^1.3.12",
+    "grunt": "^0.4.5",
+    "grunt-wiredep": "^1.9.0",
+    "wiredep": "^2.0.0"
   },
   "main": "Gruntfile.js",
   "scripts": {

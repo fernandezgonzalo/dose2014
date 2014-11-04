@@ -17,7 +17,6 @@ angular.module('Demo')
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       var init = function() {
-        $log.debug("#1 /api/todos");
         $http.get('/api/todos')
           .success(function(data, status, header, config) {
             
@@ -28,7 +27,6 @@ angular.module('Demo')
             $log.debug('Error while fetching todos from server');
           });
 
-          $log.debug("#2 /api/todos");
         $http.get('/api/users')
           .success(function(data, status, header, config) {
             $scope.users = data;
