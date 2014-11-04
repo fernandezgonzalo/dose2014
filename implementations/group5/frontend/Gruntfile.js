@@ -20,10 +20,24 @@ module.exports = function(grunt) {
           // devDependencies: true, // default is false
         }
       }
+    },
+
+    connect: {
+      server: {
+        options: {
+          port: 9090,
+          base: 'app',
+          keepalive: true
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+
+
+  grunt.registerTask('server', ['wiredep', 'connect']);
 
   // this would be run by typing "grunt test" on the command line
   // grunt.registerTask('test', ['jshint', 'qunit']);
