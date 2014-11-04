@@ -30,18 +30,30 @@ module.exports = function(grunt) {
           keepalive: true
         }
       }
+    },
+
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      // define the files to lint
+      files: ['Gruntfile.js', 'app/js/*.js', 'test/**/*.js']  
+      // configure JSHint (documented at http://www.jshint.com/docs/)
+
     }
+
   });
 
-  grunt.loadNpmTasks('grunt-wiredep');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-wiredep');
 
-
-  grunt.registerTask('server', ['wiredep', 'connect']);
+  grunt.registerTask('server', ['jshint', 'wiredep', 'connect']);
 
   // this would be run by typing "grunt test" on the command line
   // grunt.registerTask('test', ['jshint', 'qunit']);
 
   // the default task can be run just by typing "grunt" on the command line
-  grunt.registerTask('default', ['wiredep']);
+  grunt.registerTask('default', ['jshint', 'wiredep']);
 };	
