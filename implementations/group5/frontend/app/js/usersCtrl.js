@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo').controller('UsersCtrl', function ($scope, $http, $log, $timeout, Users) {
+angular.module('Demo').controller('UsersCtrl', ['$scope', '$http', '$log', '$timeout', 'Users', function ($scope, $http, $log, $timeout, Users) {
 
   // the model that we bind to the input box
   $scope.newUser = {
@@ -26,4 +26,4 @@ angular.module('Demo').controller('UsersCtrl', function ($scope, $http, $log, $t
     Users.create(payload, success);
   };
 
-});
+}]);
