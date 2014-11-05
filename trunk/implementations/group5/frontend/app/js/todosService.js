@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo').service('Todos', function($log, Users) {
+angular.module('Demo').service('Todos', ['$log', 'Users', function($log, Users) {
   this.maxId = 5;
   this.query = function() {
     return [{
@@ -49,4 +49,4 @@ angular.module('Demo').service('Todos', function($log, Users) {
     success(data);
   };
 
-});
+}]);

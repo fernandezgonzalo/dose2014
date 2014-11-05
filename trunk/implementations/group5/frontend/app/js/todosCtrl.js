@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Demo')
-  .controller('TodosCtrl', function ($scope, $http, $log, Todos, Users) {
+  .controller('TodosCtrl', ['$scope', '$http', '$log', 'Todos', 'Users', function ($scope, $http, $log, Todos, Users) {
 
     // we store all data in the data array
     $scope.todos = [];
@@ -62,4 +62,4 @@ angular.module('Demo')
       };
       Todos.create(payload, success);
     };
-  });
+  }]);
