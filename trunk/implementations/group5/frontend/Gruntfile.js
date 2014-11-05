@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           // you may pass:
 
           // https://github.com/taptapship/wiredep#configuration
-          // devDependencies: true, // default is false
+          devDependencies: true, // default is false
         }
       }
     },
@@ -43,19 +43,32 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js', 'app/js/*.js', 'test/**/*.js']  
       // configure JSHint (documented at http://www.jshint.com/docs/)
 
+    },
+
+    less: {
+      production: {
+        options: {
+          paths: ['css'],
+          cleancss: true
+        },
+        files: {
+          'www/css/main.css': 'app/css/main.less'
+        }
+      }
     }
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-wiredep');
 
   grunt.registerTask('server', ['jshint', 'wiredep', 'connect']);
 
-  // this would be run by typing "grunt test" on the command line
+  // this would be run by typing 'grunt test' on the command line
   // grunt.registerTask('test', ['jshint', 'qunit']);
 
-  // the default task can be run just by typing "grunt" on the command line
+  // the default task can be run just by typing 'grunt' on the command line
   grunt.registerTask('default', ['jshint', 'wiredep']);
-};	
+};
