@@ -140,14 +140,14 @@
  * *Gabriel Oliveira*: gabriel.pa.oliveira@gmail.com / Skype: gabriel.pa.oliveira / codeboard: ?
  * *Adalto Sparremberger*: adalto.sparremberger@acad.pucrs.br | tec.adalto@gmail.com / Skype: adalto.ti	/ codeboard: ?
 
-== Rio Cuarto6 ==  
+== Rio Cuarto6 frontend) ==  
 
  * *Nicolas Ezequiel Gomez*: nico.neg88@gmail.com | nico.neg88@gmail.com / Skype: nico_neg88@hotmail.com / codeboard: nico88
  * *Guillermo Morilla*: g_morilla@hotmail.com | guillemorilla85@gmail.com / Skype: g_morilla@hotmail.com / codeboard: guille85
  * *Marcelo Felice*: manefelice@gmail.com | manefelice@gmail.com / Skype: marcelo.felice6 / codeboard: manefelice
  * *Matias Bernal*: quake_joker@yahoo.com.ar / Skype: matias-bernal / codeboard: matiasbernal
  
-== Milan2 ==
+== Milan2 (backend)==
 
  * *Nicolò  Gallo Perozzi*: nicolo.gallo@mail.polimi.it / Skype: nico.gallo89 / codeboard: nicologallo 
  * *Marion Depuydt*: marion.depuydt@mail.polimi.it / Skype: marion.depuydt / codeboard: mariondpdt
