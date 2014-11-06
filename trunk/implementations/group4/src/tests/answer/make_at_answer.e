@@ -20,7 +20,7 @@ feature -- Test routines
 			answer : ANSWER
 			user : USER
 		do
-			create user.make_existent_user ("nono@nono.com", "Nono Nono", "nono1234")
+			create user.make ("nono@nono.com", "Nono Nono", "nono1234")
 			create answer.make("Some answer",user)
 			assert ("Description ok", answer.description.is_equal("Some answer"))
 			assert ("User ok", answer.user.is_equal(user))
