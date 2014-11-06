@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         reporter: require('jshint-stylish')
       },
       // define the files to lint
-      files: ['Gruntfile.js', 'app/js/*.js', 'test/**/*.js']  
+      files: ['Gruntfile.js', 'app/js/*.js', 'app/js/**/*.js', 'test/**/*.js']  
       // configure JSHint (documented at http://www.jshint.com/docs/)
 
     },
