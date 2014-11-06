@@ -20,7 +20,7 @@ feature -- Test routines
 		local
 			task: TASK
 		do
-			create task.make (1, 1, 1, "title", "descr", "Feature", "Normal", "Backlog")
+			--create task.make (1, 1, 1, "title", "descr", "Feature", "Normal", "Backlog")
 			assert ("not_implemented", False)
 		end
 

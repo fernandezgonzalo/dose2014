@@ -1,6 +1,6 @@
 note
 	description: "A Task is what a project member must do. It has an associated sprint (and of course project)."
-	author: "Angelo Chaves"
+	author: "Rio Cuarto4 Team"
 	date: "$2014-11-06$"
 	revision: "$0.01$"
 
@@ -8,20 +8,20 @@ class
 	TASK
 
 create
-	make
+	make, make_sub_task
 
 feature -- Task data
 
 	id : INTEGER
 		-- ID to identify the task.
 
-	sprint_id : INTEGER
+	sprint : SPRINT
 		-- Sprint where the task belongs.
 
-	super_task_id : INTEGER
+	super_task : TASK
 		-- If the task is a sub-task, it has a super-task associated.
 
-	user_id : INTEGER
+	user : USER
 		-- Accountable of the task.
 
 	title : STRING
@@ -42,9 +42,11 @@ feature -- Task data
 
 feature -- Creation
 
-	make (an_id, a_sprint_id, a_user_id : INTEGER; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+	make (an_id : INTEGER; a_sprint: SPRINT; a_user: USER ; a_title, a_descr, a_type, a_priority, a_pos : STRING)
 		-- Default creation procedure
 		require
+			sprint_not_void: a_sprint /= Void
+			user_not_void: a_user /= Void
 			title_not_void: a_title /= Void
 			descr_not_void: a_descr /= Void
 			type_not_void: a_type /= Void
@@ -52,14 +54,38 @@ feature -- Creation
 			position_not_void: a_pos /= Void
 		do
 			id := an_id
-			sprint_id := a_sprint_id
-			user_id := a_user_id
+			sprint := a_sprint
+			user := a_user
 			title := a_title
 			description := a_descr
 			type := a_type
 			priority := a_priority
 			position := a_pos
-			-- super_task_id by default zero, meaning it is not a subtask.
+			-- super_task Void by default, this is not a subtask.
+
+		end
+
+	make_sub_task (an_id : INTEGER; a_sprint: SPRINT; a_user: USER; a_super_task: TASK; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+		-- Creation procedure for a sub task
+		require
+			super_task_not_void: a_super_task /= Void
+			sprint_not_void: a_sprint /= Void
+			user_not_void: a_user /= Void
+			title_not_void: a_title /= Void
+			descr_not_void: a_descr /= Void
+			type_not_void: a_type /= Void
+			priority_not_void: a_priority /= Void
+			position_not_void: a_pos /= Void
+		do
+			id := an_id
+			sprint := a_sprint
+			user := a_user
+			title := a_title
+			description := a_descr
+			type := a_type
+			priority := a_priority
+			position := a_pos
+			super_task := a_super_task -- Super task of this subtask
 
 		end
 
