@@ -1,8 +1,8 @@
 note
 	description: "Project class thats represents projects in CASD system"
-	author: "RioIVTeam"
-	date: "November 06, 2014"
-	revision: "0.01"
+	author: "$Rio Cuarto4 Team$"
+	date: "$2014-11-06$"
+	revision: "$0.01$"
 
 class
 	PROJECT
