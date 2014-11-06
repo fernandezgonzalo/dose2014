@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo').service('Todos', ['$log', 'Users', function($log, Users) {
+angular.module('Mgmt').service('Todos', ['$log', 'Users', function($log, Users) {
   this.maxId = 5;
   this.query = function() {
     return [{
