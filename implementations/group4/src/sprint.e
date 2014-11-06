@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {SPRINT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Sprint class thats represents sprints in CASD system"
+	author: "$Rio Cuarto4 Team$"
+	date: "$2014-11-06$"
+	revision: "$0.01$"
 
 class
 	SPRINT
