@@ -1,8 +1,8 @@
 note
 	description: "This class represents an answer of the application "
-	author: "Facundo Molina"
-	date: "$November 5, 2014$"
-	revision: "$0.1$"
+	author: "Rio Cuarto4 Team"
+	date: "$2014-11-06$"
+	revision: "$0.01$"
 
 class
 	ANSWER
@@ -17,11 +17,10 @@ feature -- Initialization
 		require
 			some_description: (new_description /= void)
 			active_user: answerer_user.is_active
-			-- active_topic: answered_topic.is_active
 		do
 			description := new_description
 			user := answerer_user
-			-- topic := answered_topic
+			--topic := answered_topic
 		end
 
 feature -- Answer data
@@ -30,5 +29,5 @@ feature -- Answer data
 
 	user : USER
 
-	-- topic : TOPIC
+	topic : TOPIC
 end
