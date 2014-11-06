@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo').service('Users', function() {
+angular.module('Mgmt').service('Users', function() {
   this.query = function() {
     return [{
         id: '1',

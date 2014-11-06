@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo')
+angular.module('Mgmt')
   .controller('TodosCtrl', ['$scope', '$http', '$log', 'Todos', 'Users', function ($scope, $http, $log, Todos, Users) {
 
     // we store all data in the data array
