@@ -1,0 +1,61 @@
+# Drop tables if they exist
+DROP TABLE Users;
+DROP TABLE Topics;
+DROP TABLE Projects;
+DROP TABLE Colaborators;
+
+# Make sure that foreign_key support is turned on
+PRAGMA foreign_keys = ON;
+
+# Create a table for users where a user has an id (primary key)
+CREATE TABLE Users (
+  id INTEGER PRIMARY KEY,
+  userName TEXT,
+  isActive BOOLEAN,
+  email TEXT,
+  password TEXT
+);
+
+
+# Create a table for projects where a project has an id (primary key)
+CREATE TABLE Projects (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  status TEXT,
+  description TEXT,
+  maxPointPerSprint INTEGER,
+  userId INTEGER,
+  FOREIGN KEY (userId) REFERENCES Users(id)
+);
+
+
+# Create a table for topics where a topic has an id (primary key)
+CREATE TABLE Topics (
+  id INTEGER PRIMARY KEY,
+  title TEXT,
+  description TEXT,
+  answered BOOLEAN,
+  userId INTEGER,
+  projectId INTEGER,
+  FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (projectId) REFERENCES Projects(id)
+);
+
+# Create a table for the todos where each todo references the primary key of a user
+CREATE TABLE Colaborators (
+  userId INTEGER,
+  projectId INTEGER
+);
+
+
+# Add some users to the users table
+INSERT INTO Users(userName,isActive,email,password) VALUES ('Angelo',1,'mail','pass');
+INSERT INTO Users(userName,isActive,email,password) VALUES ('Facundo',1,'mail','pass');
+INSERT INTO Users(userName,isActive,email,password) VALUES ('Adrian',0,'mail','pass');
+
+# Add some todos to the todos table
+#INSERT INTO Todos(description, userId) VALUES ('Buy milk', 1);
+#INSERT INTO Todos(description, userId) VALUES ('Make coffee', 1);
+#INSERT INTO Todos(description, userId) VALUES ('Learn Angular', 2);
+#INSERT INTO Todos(description, userId) VALUES ('Learn Eiffel', 3);
+
