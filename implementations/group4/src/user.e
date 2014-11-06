@@ -1,8 +1,8 @@
 note
 	description: "Class that represents a user of the application."
-	author: "Facundo Molina"
-	date: "$November 5, 2014$"
-	revision: "$0.1$"
+	author: "Rio Cuarto4 Team"
+	date: "$2014-11-06$"
+	revision: "$0.01$"
 
 class
 	USER

@@ -2,9 +2,9 @@ note
 	description: "[
 		Tests for routine make_new_user of class User
 	]"
-	author: "Facundo Molina"
-	date: "$November 6, 2014$"
-	revision: "$0.1$"
+	author: "Rio Cuarto4 Team"
+	date: "$2014-11-06$"
+	revision: "$0.01$"
 
 class
 	MAKE_AT_USER
