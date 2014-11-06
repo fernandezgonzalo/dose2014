@@ -40,14 +40,17 @@ feature {NONE} -- Initialization
 			Result := ".." + Operating_environment.directory_separator.out + "www"
 		end
 
-	-- Here we should add the features for controllers and database classes.
+	database: CASD_DB
+		-- access to the database and the functionality that comes with that class
+
+	-- Here we should add the features for controllers classes.
 
 	initialize
 			-- Initialize current service.
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
-			--create dao.make (path_to_db_file)
+			create database.make (path_to_db_file)
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
 
