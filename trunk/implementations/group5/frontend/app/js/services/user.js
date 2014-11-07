@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').service('Users', function() {
+angular.module('Mgmt').service('User', [function() {
   this.query = function() {
     return [{
         id: '1',
@@ -22,8 +22,4 @@ angular.module('Mgmt').service('Users', function() {
         name: 'another user'
     }];
   };
-
-  this.create = function(payload, success) {
-    success();
-  };
-});
+}]);
