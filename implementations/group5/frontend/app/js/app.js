@@ -13,20 +13,16 @@ app.config(['$logProvider', function($logProvider){
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider
-      .when('/todos', {
-        templateUrl: 'partials/todos.html',
-        controller: 'TodosCtrl'
-      })
-      .when('/users/new', {
-        templateUrl: 'partials/usersNew.html',
-        controller: 'UsersCtrl'
+      .when('/user', {
+        templateUrl: 'partials/user_list.html',
+        controller: 'UserController'
       })
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'
       })
       .otherwise({
-        redirectTo: '/todos'
+        redirectTo: '/user'
       });
     }
   ]);
