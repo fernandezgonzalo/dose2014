@@ -1,0 +1,102 @@
+/*
+ * Class TYPED_POINTER [NATURAL_32]
+ */
+
+#include "eif_macros.h"
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+static EIF_TYPE_INDEX gen_type0_694 [] = {695,693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type1_694 [] = {693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type2_694 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type3_694 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_694 [] = {693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type5_694 [] = {693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type6_694 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type7_694 [] = {693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type8_694 [] = {693,353,0xFFFF};
+static EIF_TYPE_INDEX gen_type9_694 [] = {0xFFF8,1,0xFFFF};
+
+
+static struct desc_info desc_694[] = {
+	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
+	{0, (BODY_INDEX)-1, 310, NULL},
+	{1, (BODY_INDEX)-1, 695, gen_type0_694},
+	{2, (BODY_INDEX)-1, 297, NULL},
+	{3, (BODY_INDEX)-1, 297, NULL},
+	{8318, (BODY_INDEX)-1, 297, NULL},
+	{5, (BODY_INDEX)-1, 297, NULL},
+	{6, (BODY_INDEX)-1, 297, NULL},
+	{7, (BODY_INDEX)-1, 297, NULL},
+	{8, (BODY_INDEX)-1, 297, NULL},
+	{9, (BODY_INDEX)-1, 297, NULL},
+	{10, (BODY_INDEX)-1, 693, gen_type1_694},
+	{11, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{12, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{13, (BODY_INDEX)-1, 0, gen_type2_694},
+	{14, (BODY_INDEX)-1, 0, gen_type3_694},
+	{15, (BODY_INDEX)-1, 693, gen_type4_694},
+	{16, (BODY_INDEX)-1, 693, gen_type5_694},
+	{17, (BODY_INDEX)-1, 0, gen_type6_694},
+	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{20, (BODY_INDEX)-1, 31, NULL},
+	{8333, (BODY_INDEX)-1, 310, NULL},
+	{22, (BODY_INDEX)-1, 310, NULL},
+	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{24, (BODY_INDEX)-1, 32, NULL},
+	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{28, (BODY_INDEX)-1, 693, gen_type7_694},
+	{29, (BODY_INDEX)-1, 300, NULL},
+	{30, (BODY_INDEX)-1, 693, gen_type8_694},
+	{3072, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3073, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3074, (BODY_INDEX)-1, 297, NULL},
+	{8316, (BODY_INDEX)-1, 341, NULL},
+	{8319, (BODY_INDEX)-1, 297, NULL},
+	{8315, 0, 300, NULL},
+	{8317, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8320, (BODY_INDEX)-1, 297, NULL},
+	{8321, (BODY_INDEX)-1, 300, NULL},
+	{8322, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8323, (BODY_INDEX)-1, 299, NULL},
+	{8324, (BODY_INDEX)-1, 341, NULL},
+	{8325, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8326, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8327, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8328, (BODY_INDEX)-1, 300, NULL},
+	{8329, (BODY_INDEX)-1, 300, NULL},
+	{8330, (BODY_INDEX)-1, 300, NULL},
+	{8331, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8332, (BODY_INDEX)-1, 297, NULL},
+	{8334, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8335, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8336, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{8337, (BODY_INDEX)-1, 341, NULL},
+	{8338, (BODY_INDEX)-1, 300, NULL},
+	{8339, (BODY_INDEX)-1, 300, NULL},
+	{8340, (BODY_INDEX)-1, 300, NULL},
+	{8341, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type9_694},
+};
+
+extern void Init694(void);
+void Init694(void)
+{
+	IDSC(desc_694, 0, 693);
+	IDSC(desc_694 + 1, 2, 693);
+	IDSC(desc_694 + 32, 174, 693);
+	IDSC(desc_694 + 35, 59, 693);
+	IDSC(desc_694 + 37, 49, 693);
+	IDSC(desc_694 + 60, 11, 693);
+}
+
+
+#ifdef __cplusplus
+}
+#endif
