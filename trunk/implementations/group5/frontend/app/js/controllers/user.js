@@ -8,8 +8,4 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     $location.path('/users/1');
   };
 
-  $scope.login = function() {
-
-  };
-
 }]);

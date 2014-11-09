@@ -5,10 +5,12 @@
   <legend class="">Create a new account</legend>
 </div>
 
-<div class="row">
-  <div class="col-md-10">
-    <form class="form-horizontal" action='' method="POST">
-      <fieldset>
+<form class="form-horizontal" action='' method="POST">
+  <fieldset>
+    <div class="row">
+      <div class="col-md-6">
+    
+      
         <div class="control-group">
           <!-- Username -->
           <label class="control-label" for="username">Username</label>
@@ -46,7 +48,7 @@
      
         <div class="control-group">
           <!-- Password -->
-          <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+          <label class="control-label" for="password_confirm">Password (Confirm)</label>
           <div class="controls">
             <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5">
             <p class="help-block">Please confirm password</p>
@@ -56,12 +58,23 @@
         <div class="control-group">
           <!-- Button -->
           <div class="controls">
-            <button class="btn btn-success" tabindex="6">Register</button>
+            <button class="btn btn-success" tabindex="7">Register</button>
           </div>
         </div>
 
-      </fieldset>
-    </form>
-    <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="7">Log in.</a> </p> 
-  </div>
-</div>
+
+        <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="8">Log in.</a> </p> 
+      </div>
+      <div class="col-md-6">
+        <div class="control-group">
+          <div class="controls">
+            <label class="control-label" for="password_confirm">Profile picture</label>
+            <p class="avatar big"></p>
+            <button class="btn btn-success" tabindex="6">Load</button>
+            <p class="help-block">An image should have equal width and height. Minimum dimension is 100x100. Maximum image size is 3Mb.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
