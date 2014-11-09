@@ -125,14 +125,14 @@ module.exports = function(grunt) {
             '.htaccess',
             '*.html',
             'partials/{,*/}*.html',
-            'images/{,*/}*.{webp}',
+            'img/{,*/}*.{webp}',
 
           ]
         }, {
           expand: true,
-          cwd: '.tmp/images',
-          dest: 'www/images',
-          src: ['generated/*']
+          cwd: 'app/img',
+          dest: 'www/img',
+          src: ['*']
         }, {
           cwd: 'app/bower_components/bootstrap/',
           expand: true,
