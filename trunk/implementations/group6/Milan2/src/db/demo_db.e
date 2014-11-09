@@ -183,6 +183,65 @@ feature -- Data access
 		end
 
 
+	--Data acces for Milan2 DB
+
+	work_item_info (work_item_id:INTEGER): JSON_OBJECT
+		-- returns a JSON_OBJECT that represents work_item with id work_item_id;
+		do
+
+		end
+
+	add_work_item (info_new_work_item: JSON_OBJECT)
+		-- adds a new work_item with the given informations
+		do
+
+		end
+
+	remove_work_item(work_item_id: INTEGER)
+		--removes an existing work_item which has the given identificator
+		do
+
+		end
+
+	modify_work_item(info_work_item: JSON_OBJECT)
+		--modifies an existing work_item which the given informations
+		do
+
+		end
+
+	add_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
+		--adds a new link between the work_idem with id work_item_id1 and one with id work_item_id2
+		do
+
+		end
+
+	remove_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
+		--removes an existing link between the work_idem with id work_item_id1 and one with id work_item_id2
+		do
+
+		end
+
+	work_item_links(work_item_id: INTEGER): JSON_ARRAY
+		--returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a link with another work_item
+		do
+
+		end
+
+	add_comment(info_comment: JSON_OBJECT)
+		 --adds a new comment with the given information
+		 do
+
+		 end
+
+	work_item_comments(work_item_id: INTEGER): JSON_ARRAY
+		--returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a comment
+		do
+
+		end
+
+
+
+
 feature {NONE}
 
 	db: SQLITE_DATABASE

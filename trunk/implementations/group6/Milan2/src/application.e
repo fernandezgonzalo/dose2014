@@ -47,8 +47,20 @@ feature {NONE} -- Initialization
 	todo_ctrl: DEMO_TODO_CTRL
 			-- a controller for handling todo requests
 
-	user_ctrl: DEMO_USER_CTRL
+	demo_user_ctrl: DEMO_USER_CTRL
 			-- a controller for handling user requests
+
+	iteration_ctrl: ITERATION_CTRL
+			-- a controller for handling user requests
+
+	project_ctrl: PROJECT_CTRL
+			-- a controller for handling user requests
+
+	user_ctrl: USER_CTRL
+			-- a controller for handling user requests
+
+	work_item_ctrl: WORK_ITEM_CTRL
+			-- a controller handling user requests
 
 	dao: DEMO_DB
 			-- access to the database and the functionality that comes with that class
@@ -66,7 +78,7 @@ feature {NONE} -- Initialization
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create todo_ctrl.make(dao, session_manager)
-			create user_ctrl.make(dao)
+			create demo_user_ctrl.make(dao)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -90,9 +102,22 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
-				-- handling of all ht routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+				-- handling of all the routes relating to "users"
+			map_uri_template_agent_with_request_methods ("/api/users", agent demo_user_ctrl.get_users, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users", agent demo_user_ctrl.add_user, router.methods_post)
+
+				--handling of all the routes relating to "work_items"
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/work_items", agent work_item_ctrl.create_work_item, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.update_work_item, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.add_comment, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.get_all_work_item_comments, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.add_comment, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links", agent work_item_ctrl.add_link, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id1,work_item_id2}", agent work_item_ctrl.remove_link, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id}", agent work_item_ctrl.get_all_work_item_links, router.methods_get)
+
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
