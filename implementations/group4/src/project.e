@@ -15,9 +15,9 @@ feature -- Initialization
 	make (new_name: STRING; new_description: STRING; new_mpps: INTEGER)
 			-- Creates a project with initial properties
 		require
-			not_void_or_empty (new_name)
-			not_void_or_empty (new_description)
-			not_void (new_mpps)
+			not_void (new_name)
+			not_void (new_description)
+			mpps_possitive: (new_mpps > 0)
 		do
 			name := new_name
 			description := new_description
@@ -46,20 +46,13 @@ feature -- Project relations
 
 feature -- Auxiliary routines
 
-	not_void_or_empty(control: STRING) : BOOLEAN
+	not_void(control: STRING) : BOOLEAN
 			-- Validate if isnt void or empty
 	do
-		if (control /= Void) and (not control.is_equal ("")) then
+		if (not control.is_equal ("")) then
 			Result := TRUE
 		end
 	end
 
-	not_void (control: INTEGER) : BOOLEAN
-		-- Validate integer isnt void
-	do
-		if (control /= Void) then
-			Result := TRUE
-		end
-	end
 
 end
