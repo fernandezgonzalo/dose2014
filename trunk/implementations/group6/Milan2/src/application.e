@@ -103,8 +103,13 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
 				-- handling of all the routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/users", agent demo_user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent demo_user_ctrl.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.remove_user, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.update_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_user_info, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.check_user_password, router.methods_get)
+
 
 				--handling of all the routes relating to "work_items"
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item, router.methods_get)

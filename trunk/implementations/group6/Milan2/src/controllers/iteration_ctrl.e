@@ -1,6 +1,6 @@
 note
-	description: "Summary description for {ITERATION_CTRL}."
-	author: ""
+	description: "Handlers for everything that concerns iterations"
+	author: "Nicolò Gallo peozzi"
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -21,7 +21,7 @@ feature --private attributes
 feature --handlers
 
 	get_all_project_iterations(req: WSF_REQUEST; res: WSF_RESPONSE)
-			--gets all the iterations f a specified project; project's name is expected to be part of the request payload
+			--gets all the iterations of a specified project; project's name is expected to be part of the request payload
 		do
 
 		end

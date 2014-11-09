@@ -21,6 +21,12 @@ feature --private attributes
 
 feature --handlers
 
+	get_users(req: WSF_REQUEST; res: WSF_RESPONSE)
+			--gets a list of all the users into the database;
+		do
+			
+		end
+
 	add_user(req: WSF_REQUEST; res: WSF_RESPONSE)
 			--adds a new user to the database; new user's information (name, surname, mail, password,
 			--gender, role, photo) are expected to be part of the request payload
