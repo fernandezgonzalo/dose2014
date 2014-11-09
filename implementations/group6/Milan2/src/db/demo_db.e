@@ -183,16 +183,53 @@ feature -- Data access
 		end
 
 
-	--Data acces for Milan2 DB
+feature --data access: USERS
+
+	get_all_users:JSON_OBJECT
+		--returns a JSON_OBJECT that contains the list of all users
+		do
+
+		end
+
+	add_user(name, surname, email, password, role, photo:STRING; male:BOOLEAN):BOOLEAN
+		--creates a new user in the database, with specified information. Returns true if the operation was successfully completed,
+		--false oherwise
+		do
+
+		end
+
+	remove_user(user_email:STRING):BOOLEAN
+		--removes a specified user from the database. Returns true if the operaton was successfully completed, false otherwise
+		do
+
+		end
+
+	update_user(name, surname, email, password, role, photo:STRING; male:BOOLEAN):BOOLEAN
+		--updates a user's information. Returns true if the operation was successfully completetd, false otherwise.
+		do
+
+		end
+
+	check_user_password(mail, pwd:STRING):BOOLEAN
+		--checks if a user with the specified email and password exists. Returns true if a match is found, false otherwise.
+		do
+
+		end
+
+	
+
+
+
+feature	--Data access: WORK ITEMS
 
 	work_item_info (work_item_id:INTEGER): JSON_OBJECT
-		-- returns a JSON_OBJECT that represents work_item with id work_item_id;
+		-- returns a JSON_OBJECT with all information about a specified work_item
 		do
 
 		end
 
 	add_work_item (info_new_work_item: JSON_OBJECT)
-		-- adds a new work_item with the given informations
+		-- adds a new work_item with the given information
 		do
 
 		end
@@ -208,6 +245,8 @@ feature -- Data access
 		do
 
 		end
+
+feature --data access: LINKS
 
 	add_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
 		--adds a new link between the work_idem with id work_item_id1 and one with id work_item_id2
@@ -227,6 +266,7 @@ feature -- Data access
 
 		end
 
+feature --data access: COMMENTS
 	add_comment(info_comment: JSON_OBJECT)
 		 --adds a new comment with the given information
 		 do
