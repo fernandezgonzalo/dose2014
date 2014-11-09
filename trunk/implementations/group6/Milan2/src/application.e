@@ -97,10 +97,6 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.login , router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.logout , router.methods_delete)
 
-				-- handling of all the routes relating to "todos"
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.get_todos, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
@@ -111,11 +107,18 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.check_user_password, router.methods_get)
 
 
+				-- handling of all the routes relating to "users"
+			map_uri_template_agent_with_request_methods ("/api/iterations/{project_name}", agent iteration_ctrl.get_all_project_iterations, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/iterations", agent iteration_ctrl.create_iteration, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/iterations/{project_name, iteration_number}", agent iteration_ctrl.delete_iteration, router.methods_delete)
+
+
 				--handling of all the routes relating to "work_items"
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item_info, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/work_items", agent work_item_ctrl.create_work_item, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.update_work_item, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_all_iteration_work_items, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.add_comment, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.get_all_work_item_comments, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.add_comment, router.methods_post)

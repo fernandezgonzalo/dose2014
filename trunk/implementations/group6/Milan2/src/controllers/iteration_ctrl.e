@@ -41,11 +41,4 @@ feature --handlers
 
 		end
 
-	get_all_iteration_work_items(req: WSF_REQUEST; res: WSF_RESPONSE)
-			--gets all the work items related to an iteration; project's name and iteration's number are expected to be
-			--part of the request paylod
-		do
-
-		end
-
 end
