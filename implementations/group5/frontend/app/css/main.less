@@ -1,6 +1,29 @@
+@color: #777;
+
+.table-row {
+    display: table-row;
+    & > * {
+        display: table-cell;
+    }
+}
+
+.header {
+    color: @color;
+    background-color: #fff; 
+    border-color: #fff;
+    margin-bottom: 0;
+    .table-row > * {
+        vertical-align: middle;
+        height: 50px;
+    }
+}
+
+// user-list
+
 .valign {
     line-height: 74px;
 ;}
+
 .row-link {
     margin-bottom: 20px;
 }
