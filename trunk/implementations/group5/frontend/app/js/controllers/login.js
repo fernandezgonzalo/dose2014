@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$log', function($scope, $location, $log) {
+angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$log', 'AuthService', function($scope, $location, $log, AuthService) {
   $scope.user = { email: '', password: '' };
   $scope.wrongCredentials = false;
 
   $scope.login = function() {
-    if (true) {
+    if (AuthService.login()) {
       success();
     } else {
       error();

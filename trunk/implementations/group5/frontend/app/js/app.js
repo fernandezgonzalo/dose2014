@@ -22,11 +22,11 @@ app.config(['$routeProvider',
         controller: 'UserController'
       })
       .when('/users/new', {
-        templateUrl: 'partials/user_new.html',
+        templateUrl: 'partials/user.html',
         controller: 'UserController'
       })
       .when('/register', {
-        templateUrl: 'partials/user_new.html',
+        templateUrl: 'partials/user.html',
         controller: 'UserController'
       })
       .when('/users/:id', {
