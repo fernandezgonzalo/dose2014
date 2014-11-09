@@ -13,7 +13,15 @@ app.config(['$logProvider', function($logProvider){
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider
-      .when('/user/new', {
+      .when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginController'
+      })
+      .when('/users', {
+        templateUrl: 'partials/user_list.html',
+        controller: 'UserController'
+      })
+      .when('/users/new', {
         templateUrl: 'partials/user_new.html',
         controller: 'UserController'
       })
@@ -21,20 +29,12 @@ app.config(['$routeProvider',
         templateUrl: 'partials/user_new.html',
         controller: 'UserController'
       })
-      .when('/user', {
-        templateUrl: 'partials/user_list.html',
-        controller: 'UserController'
-      })
-      .when('/login', {
-        templateUrl: 'partials/login.html',
-        controller: 'LoginController'
-      })
-      .when('/user/new', {
-        templateUrl: 'partials/user_new.html',
+      .when('/users/:id', {
+        templateUrl: 'partials/user.html',
         controller: 'UserController'
       })
       .otherwise({
-        redirectTo: '/user'
+        redirectTo: '/users'
       });
     }
   ]);
