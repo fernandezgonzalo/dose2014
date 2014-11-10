@@ -12,22 +12,21 @@ create
 
 feature -- Initialization
 
-	make(new_description : STRING; answerer_user : USER)
-			-- Create an answer with a given description and user.
+	make(new_description : STRING; answered_topic_id : NATURAL; answerer_user_id : NATURAL)
+			-- Create an answer with a given description, user id and topic id.
 		require
 			some_description: (new_description /= void)
-			active_user: answerer_user.is_active
 		do
 			description := new_description
-			user := answerer_user
-			--topic := answered_topic
+			topic_id := answered_topic_id
+			user_id := answerer_user_id
 		end
 
 feature -- Answer data
 
 	description : STRING
 
-	user : USER
+	topic_id : NATURAL
 
-	topic : TOPIC
+	user_id : NATURAL
 end
