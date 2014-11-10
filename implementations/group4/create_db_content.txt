@@ -13,8 +13,8 @@ PRAGMA foreign_keys = ON;
 -- Create a table for users where a user has an id (primary key)
 CREATE TABLE Users (
   id INTEGER PRIMARY KEY,
-  userName TEXT,
-  isActive BOOLEAN,
+  user_name TEXT,
+  is_active BOOLEAN,
   email TEXT,
   password TEXT
 );
@@ -26,9 +26,9 @@ CREATE TABLE Projects (
   name TEXT,
   status TEXT,
   description TEXT,
-  maxPointPerSprint INTEGER,
-  userId INTEGER,
-  FOREIGN KEY (userId) REFERENCES Users(id)
+  max_points_per_sprint INTEGER,
+  user_id INTEGER,
+  FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 
@@ -38,21 +38,21 @@ CREATE TABLE Topics (
   title TEXT,
   description TEXT,
   answered BOOLEAN,
-  userId INTEGER,
-  projectId INTEGER,
-   taskId INTEGER;
-  sprintId INTEGER;
-  FOREIGN KEY (sprintId) REFERENCES Sprints(id),
-  FOREIGN KEY (taskId) REFERENCES Tasks(id),
-  FOREIGN KEY (userId) REFERENCES Users(id),
-  FOREIGN KEY (projectId) REFERENCES Projects(id)
+  user_id INTEGER,
+  project_id INTEGER,
+  task_id INTEGER;
+  sprint_id INTEGER;
+  FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
+  FOREIGN KEY (task_id) REFERENCES Tasks(id),
+  FOREIGN KEY (user_id) REFERENCES Users(id),
+  FOREIGN KEY (project_id) REFERENCES Projects(id)
 );
 
 
 -- Create a table for the todos where each todo references the primary key of a user
 CREATE TABLE Colaborators (
-  userId INTEGER,
-  projectId INTEGER
+  user_id INTEGER,
+  project_id INTEGER
 );
 
 
@@ -64,10 +64,10 @@ CREATE TABLE Tasks (
   type TEXT,
   description TEXT,
   title TEXT,
-  subTaskId INTEGER;
-  sprintId INTEGER;
-  FOREIGN KEY (sprintId) REFERENCES Sprints(id),
-  FOREIGN KEY (subTaskId) REFERENCES Tasks(id),
+  subTask_id INTEGER;
+  sprint_id INTEGER;
+  FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
+  FOREIGN KEY (subTask_id) REFERENCES Tasks(id),
 );
 
 
@@ -76,24 +76,24 @@ CREATE TABLE Sprints (
   id INTEGER PRIMARY KEY,
   status TEXT,
   duration INTEGER,
-  projectId INTEGER;
-  FOREIGN KEY (projectId) REFERENCES Projects(id),
+  project_id INTEGER;
+  FOREIGN KEY (project_id) REFERENCES Projects(id),
 );
 
 -- Create a table for answers where a topic has an id (primary key)
 CREATE TABLE Answers (
   id INTEGER PRIMARY KEY,
   description TEXT,
-  topicId INTEGER;
-  userId INTEGER;
-  FOREIGN KEY (topicId) REFERENCES Topics(id),
-  FOREIGN KEY (userId) REFERENCES Users(id),
+  topic_id INTEGER;
+  user_id INTEGER;
+  FOREIGN KEY (topic_id) REFERENCES Topics(id),
+  FOREIGN KEY (user_id) REFERENCES Users(id),
 );
 
 -- Add some users to the users table
-INSERT INTO Users(userName,isActive,email,password) VALUES ('Angelo',1,'mail','pass');
-INSERT INTO Users(userName,isActive,email,password) VALUES ('Facundo',1,'mail','pass');
-INSERT INTO Users(userName,isActive,email,password) VALUES ('Adrian',0,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('Angelo',1,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('Facundo',1,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('Adrian',0,'mail','pass');
 
 -- Add some todos to the todos table
 --INSERT INTO Todos(description, userId) VALUES ('Buy milk', 1);
