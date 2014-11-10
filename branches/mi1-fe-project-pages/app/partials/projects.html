@@ -1,0 +1,54 @@
+<div ng-include="'partials/header.html'"></div>
+<div ng-include="'partials/navbar.html'"></div>
+
+<div id="legend">
+  <legend>All projects</legend>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-md-4">Projects in progress</th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="project in projects.inProgress">
+          <td>{{project.name}}</td>
+          <td>Client: {{project.client}}</td>
+          <td>Created by: {{project.author}}</td>
+          <td>{{project.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-md-4">Projects finished</th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="project in projects.finished">
+          <td>{{project.name}}</td>
+          <td>{{project.client}}</td>
+          <td>Created by: {{project.author}}</td>
+          <td>{{project.date}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

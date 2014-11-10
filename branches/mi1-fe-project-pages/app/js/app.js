@@ -33,6 +33,12 @@ app.config(['$routeProvider',
         templateUrl: 'partials/user.html',
         controller: 'UserController'
       })
+      .when('/projects', {
+        templateUrl: 'partials/projects.html',
+        controller: 'ProjectsController',
+        controllerAs: 'projects'
+        // controller: 'UserController'
+      })
       .otherwise({
         redirectTo: '/users'
       });
