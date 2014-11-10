@@ -21,6 +21,7 @@
     <body data-ng-app="Mgmt">
       <div class="container" data-ng-controller="ApplicationController"> 
             <div ng-include="'partials/header.html'"></div>
+            <div ng-if="isAuthenticated()" ng-include="'partials/navbar.html'"></div>
             <div data-ng-view ></div>
       </div>
 
