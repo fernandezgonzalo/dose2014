@@ -3,28 +3,19 @@
 angular.module('Mgmt').service('User', [function() {
 
   this.query = function() {
-    return [];
-  };
-  
-  this.query = function() {
     return [{
         id: '1',
-        name: 'John'
+        email: 'dsteblyuk@gmail.com',
+        username: 'n43jl',
+        name: 'Дмитрий Стеблюк',
+        lastLogin: 'December, 10 2014 00:35'
       }, {
         id: '2',
-        name: 'Mary'
-      }, {
-        id: '3',
-        name: 'Alice'
-      }, {
-        id: '4',
-        name: 'Bob'
-      }, {
-        id: '5',
-        name: 'qewrty'
-      }, {
-        id: '6',
-        name: 'another user'
-    }];
+        email: 'guest@gmail.com',
+        username: 'guest',
+        name: 'Guest guy',
+        lastLogin: 'December, 10 2014 00:35'
+      },
+      ];
   };
 }]);
