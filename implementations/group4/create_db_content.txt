@@ -3,6 +3,9 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Topics;
 DROP TABLE IF EXISTS Projects;
 DROP TABLE IF EXISTS Colaborators;
+DROP TABLE IF EXISTS Tasks;
+DROP TABLE IF EXISTS Sprints;
+DROP TABLE IF EXISTS Answers;
 
 -- Make sure that foreign_key support is turned on
 PRAGMA foreign_keys = ON;
@@ -37,9 +40,14 @@ CREATE TABLE Topics (
   answered BOOLEAN,
   userId INTEGER,
   projectId INTEGER,
+   taskId INTEGER;
+  sprintId INTEGER;
+  FOREIGN KEY (sprintId) REFERENCES Sprints(id),
+  FOREIGN KEY (taskId) REFERENCES Tasks(id),
   FOREIGN KEY (userId) REFERENCES Users(id),
   FOREIGN KEY (projectId) REFERENCES Projects(id)
 );
+
 
 -- Create a table for the todos where each todo references the primary key of a user
 CREATE TABLE Colaborators (
@@ -47,6 +55,40 @@ CREATE TABLE Colaborators (
   projectId INTEGER
 );
 
+
+-- Create a table for tasks where a tasks has an id (primary key)
+CREATE TABLE Tasks (
+  id INTEGER PRIMARY KEY,
+  priority TEXT,
+  position TEXT,
+  type TEXT,
+  description TEXT,
+  title TEXT,
+  subTaskId INTEGER;
+  sprintId INTEGER;
+  FOREIGN KEY (sprintId) REFERENCES Sprints(id),
+  FOREIGN KEY (subTaskId) REFERENCES Tasks(id),
+);
+
+
+-- Create a table for sprints where a topic has an id (primary key)
+CREATE TABLE Sprints (
+  id INTEGER PRIMARY KEY,
+  status TEXT,
+  duration INTEGER,
+  projectId INTEGER;
+  FOREIGN KEY (projectId) REFERENCES Projects(id),
+);
+
+-- Create a table for answers where a topic has an id (primary key)
+CREATE TABLE Answers (
+  id INTEGER PRIMARY KEY,
+  description TEXT,
+  topicId INTEGER;
+  userId INTEGER;
+  FOREIGN KEY (topicId) REFERENCES Topics(id),
+  FOREIGN KEY (userId) REFERENCES Users(id),
+);
 
 -- Add some users to the users table
 INSERT INTO Users(userName,isActive,email,password) VALUES ('Angelo',1,'mail','pass');
