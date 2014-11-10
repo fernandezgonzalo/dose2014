@@ -16,4 +16,9 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   };
 
+  $scope.create = function(user) {
+    $log.debug('UserController::', user);
+    User.add(user);
+  };
+
 }]);
