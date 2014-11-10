@@ -2,7 +2,7 @@
 
 angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', 'User', function ($scope, $log, $location, $routeParams, User) {
 
-  $log.debug($routeParams);
+  $log.debug('UserController::routeParams=', $routeParams);
 
   $scope.users = User.query();
 
