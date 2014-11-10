@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 	user_ctrl : USER_CONTROLLER
 	-- Here we should add the features for controllers classes.
-
+	
 	initialize
 			-- Initialize current service.
 		do
@@ -52,9 +52,8 @@ feature {NONE} -- Initialization
 			create user_ctrl.make(path_to_db_file)
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
-			--create user.make("mike@mail.com","mike","pass")
 
-			--user_database.remove(4)
+
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
 

@@ -67,7 +67,7 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("email") as email then
 					new_email := email.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("username") as password then
+				if attached {JSON_STRING} j_object.item ("password") as password then
 					new_password := password.unescaped_string_8
 				end
 
@@ -88,8 +88,56 @@ feature -- Handlers
 
 	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- update a user from the database
+		local
+			l_payload: STRING
+			l_user_id: STRING
+			user_username, user_email, user_password : STRING
+			user : USER
+			parser : JSON_PARSER
+			l_result: JSON_OBJECT
 		do
-			
+				-- create emtpy string objects
+			create l_payload.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- for the todo description and the userId
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+				-- we have to convert the json string into an eiffel string for each user attribute.
+				if attached {JSON_STRING} j_object.item ("username") as username then
+					user_username := username.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("email") as email then
+					user_email := email.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("password") as password then
+					user_password := password.unescaped_string_8
+				end
+
+			end
+
+				-- create the user
+			create user.make (user_username, user_email, user_password)
+
+				-- the user_id from the URL (as defined by the placeholder in the route)
+			l_user_id := req.path_parameter ("user_id").string_representation
+
+				-- update the user in the database
+			db_handler_user.update (l_user_id.to_natural,user)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Updated user "+ user.username), create {JSON_STRING}.make_json ("Message"))
+
+				-- set the result
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
 		end
 
 	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
