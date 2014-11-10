@@ -12,16 +12,13 @@ create
 
 feature -- Task data
 
-	id : INTEGER
-		-- ID to identify the task.
-
-	sprint : SPRINT
+	sprint_id : NATURAL
 		-- Sprint where the task belongs.
 
-	super_task : TASK
+	super_task_id : NATURAL
 		-- If the task is a sub-task, it has a super-task associated.
 
-	user : USER
+	user_id : NATURAL
 		-- Accountable of the task.
 
 	title : STRING
@@ -42,20 +39,17 @@ feature -- Task data
 
 feature -- Creation
 
-	make (an_id : INTEGER; a_sprint: SPRINT; a_user: USER ; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+	make (a_sprint_id, a_user_id: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
 		-- Default creation procedure
 		require
-			sprint_not_void: a_sprint /= Void
-			user_not_void: a_user /= Void
 			title_not_void: a_title /= Void
 			descr_not_void: a_descr /= Void
 			type_not_void: a_type /= Void
 			priority_not_void: a_priority /= Void
 			position_not_void: a_pos /= Void
 		do
-			id := an_id
-			sprint := a_sprint
-			user := a_user
+			sprint_id := a_sprint_id
+			user_id := a_user_id
 			title := a_title
 			description := a_descr
 			type := a_type
@@ -65,27 +59,23 @@ feature -- Creation
 
 		end
 
-	make_sub_task (an_id : INTEGER; a_sprint: SPRINT; a_user: USER; a_super_task: TASK; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+	make_sub_task (a_sprint_id, a_user_id, a_super_task_id: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
 		-- Creation procedure for a sub task
 		require
-			super_task_not_void: a_super_task /= Void
-			sprint_not_void: a_sprint /= Void
-			user_not_void: a_user /= Void
 			title_not_void: a_title /= Void
 			descr_not_void: a_descr /= Void
 			type_not_void: a_type /= Void
 			priority_not_void: a_priority /= Void
 			position_not_void: a_pos /= Void
 		do
-			id := an_id
-			sprint := a_sprint
-			user := a_user
+			sprint_id := a_sprint_id
+			user_id := a_user_id
 			title := a_title
 			description := a_descr
 			type := a_type
 			priority := a_priority
 			position := a_pos
-			super_task := a_super_task -- Super task of this subtask
+			super_task_id := a_super_task_id -- Super task of this subtask
 
 		end
 
