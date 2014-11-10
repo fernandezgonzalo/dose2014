@@ -6,8 +6,14 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.users = User.query();
 
-  $scope.openProfile = function() {
-    $location.path('/users/1');
+  $scope.openProfile = function(user) {
+    $location.path('/users/' + user.id);
+  };
+
+  $scope.delete = function($event, user) {
+    $log.debug('UserController::delete ', user);
+    $event.stopPropagation();
+
   };
 
 }]);

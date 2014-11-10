@@ -24,28 +24,12 @@
         <th>Email</th>
         <th> </ht>
       </tr>
-      <tr class="row-link" ng-click="openProfile()">
-        <td>Dmitrii Stebliuk</td>
-        <td>n43jl</td>
-        <td>dsteblyuk@gmail.com</td>
+      <tr ng-repeat="user in users" class="row-link" ng-click="openProfile(user)">
+        <td>{{ user.name }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
         <td>
-          <span class="glyphicon glyphicon-remove"></span>
-        </td>
-      </tr>
-      <tr class="row-link" ng-click="openProfile()">
-        <td>Miguel Palacio</td>
-        <td>MiguelPalacio</td>
-        <td>palaciodelgado@gmail.com</td>
-        <td>
-          <span class="glyphicon glyphicon-remove"></span>
-        </td>
-      </tr>
-      <tr class="row-link" ng-click="openProfile()">
-        <td>Gabriele Maddalena</td>
-        <td>GabrieleMaddalena</td>
-        <td>gabriele.madd@gmail.com</td>
-        <td>
-          <span class="glyphicon glyphicon-remove"></span>
+          <span class="glyphicon glyphicon-remove" ng-click="delete($event, user)"></span>
         </td>
       </tr>
     </table>
