@@ -1,4 +1,3 @@
-<div ng-include="'partials/header.html'"></div>
 <div ng-include="'partials/navbar.html'"></div>
 
 <div id="legend">
@@ -14,7 +13,7 @@
   </div>
   <div class="col-md-2">
     <div class="valign">
-      <a href="/#/users/new">Create new account</a>
+      <a href="/#/users/new">New account <span class="glyphicon glyphicon-plus"></span></a>
     </div>
   </div>
 </div>
@@ -22,18 +21,21 @@
   <div class="col-md-12">
     <table class="table">
       <tr>
+        <th>Name</th>
         <th>Username</th>
         <th>Email</th>
         <th> </ht>
       </tr>
       <tr class="row-link" ng-click="openProfile()">
-        <td>DmitriiStebliuk</td>
+        <td>Dmitrii Stebliuk</td>
+        <td>n43jl</td>
         <td>dsteblyuk@gmail.com</td>
         <td>
           <span class="glyphicon glyphicon-remove"></span>
         </td>
       </tr>
       <tr class="row-link" ng-click="openProfile()">
+        <td>Miguel Palacio</td>
         <td>MiguelPalacio</td>
         <td>palaciodelgado@gmail.com</td>
         <td>
@@ -41,6 +43,7 @@
         </td>
       </tr>
       <tr class="row-link" ng-click="openProfile()">
+        <td>Gabriele Maddalena</td>
         <td>GabrieleMaddalena</td>
         <td>gabriele.madd@gmail.com</td>
         <td>

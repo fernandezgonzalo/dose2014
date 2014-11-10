@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', 'User', function ($scope, $log, $location, User) {
+angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', 'User', function ($scope, $log, $location, $routeParams, User) {
+
+  $log.debug($routeParams);
 
   $scope.users = User.query();
 

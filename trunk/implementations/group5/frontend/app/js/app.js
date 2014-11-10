@@ -33,6 +33,10 @@ app.config(['$routeProvider',
         templateUrl: 'partials/user.html',
         controller: 'UserController'
       })
+      .when('/password_recovery', {
+        templateUrl: 'partials/password_recovery.html',
+        controller: 'PasswordRecoveryController'
+      })
       .otherwise({
         redirectTo: '/users'
       });
