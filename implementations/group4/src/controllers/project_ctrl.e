@@ -8,7 +8,7 @@ class
 	PROJECT_CTRL
 
 inherit
-	DEMO_HEADER_JSON_HELPER
+	HEADER_JSON_HELPER
 
 create
 	make
