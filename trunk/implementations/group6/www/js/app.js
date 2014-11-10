@@ -13,16 +13,36 @@ app.config(['$logProvider', function($logProvider){
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/todos', {
-        templateUrl: 'partials/todos.html',
-        controller: 'TodosCtrl'
+      .when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginCtrl'
       })
-      .when('/users/new', {
-        templateUrl: 'partials/usersNew.html',
-        controller: 'UsersCtrl'
+      .when('/home', {
+        templateUrl: 'partials/home.html',
+        controller: 'HomeCtrl'
+      })
+      .when('/projects', {
+        templateUrl: 'partials/projects.html',
+        controller: 'ProjectCtrl'
+      })
+      .when('projects/iterations', {
+        templateUrl: 'partials/iterations.html',
+        controller: 'IterationCtrl'
+      })
+      .when('projects/iterations/work_items', {
+        templateUrl: 'partials/work_items.html',
+        controller: 'WorkItemCtrl'
+      })
+      .when('projects/members', {
+        templateUrl: 'partials/memberss.html',
+        controller: 'MemberCtrl'
+      })
+      .when('/search', {
+        templateUrl: 'partials/search.html',
+        controller: 'SearchCtrl'
       })
       .otherwise({
-        redirectTo: '/todos'
+        redirectTo: '/login'
       });
     }
   ]);
