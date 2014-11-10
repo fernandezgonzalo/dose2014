@@ -37,6 +37,26 @@ app.config(['$routeProvider',
         templateUrl: 'partials/password_recovery.html',
         controller: 'PasswordRecoveryController'
       })
+      .when('/projects', {
+        templateUrl: 'partials/projects.html',
+        controller: 'ProjectsController',
+        controllerAs: 'projects'
+      })
+      .when('/projects/new', {
+        templateUrl: 'partials/projects_new.html',
+        controller: 'ProjectsController',
+        controllerAs: 'projects'
+      })
+      .when('/projects/:id/edit', {
+        templateUrl: 'partials/projects_edit.html',
+        controller: 'ProjectsController',
+        controllerAs: 'projects'
+      })
+      .when('/projects/:id/dashboard', {
+        templateUrl: 'partials/projects_dashboard.html',
+        controller: 'ProjectsController',
+        controllerAs: 'projects'
+      })
       .otherwise({
         redirectTo: '/users'
       });
