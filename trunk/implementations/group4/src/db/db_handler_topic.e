@@ -32,17 +32,18 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 		end
 
-	add(a_topic: TOPIC; a_user_id, a_project_id: NATURAL)
+	add(a_topic: TOPIC; a_user_id, a_project_id, a_task_id, a_sprint_id: NATURAL)
 			-- Adds a topic to the corresponding project, with the desired creator
 		do
-			create db_insert_statement.make ("INSERT INTO Topics(title,description,answered,user_id,project_id) VALUES ('" + a_topic.title + "," + a_topic.description + "," + a_topic.answered.to_integer.out + "," + a_user_id.out + "," + a_project_id.out + "');", db);
+			create db_insert_statement.make ("INSERT INTO Topics(title,description,answered,user_id,project_id,task_id,sprint_id) VALUES ('" + a_topic.title + "','" + a_topic.description + "','" + a_topic.answered.to_integer.out + "','" + a_user_id.out + "','" + a_project_id.out + "','" + a_task_id.out + "','" + a_sprint_id.out + "');", db);
+			io.put_string (db_insert_statement.string)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
-				print("Error while inserting a new user")
+				print("Error while inserting a new topic")
 			end
 		end
 
-	update (topic_id : INTEGER; topic: TOPIC)
+	update (topic: TOPIC; topic_id : INTEGER)
 			-- Update a topic
 		do
 			create db_modify_statement.make ("UPDATE Topics SET title = '"+ topic.title +"',"+

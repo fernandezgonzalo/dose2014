@@ -18,6 +18,9 @@ feature -- Topic data
 	task_id : NATURAL
 		-- Task referenced by the topic.
 
+	sprint_id : NATURAL
+		-- Sprint referenced by the topic.
+
 	user_id : NATURAL
 		-- Creator of the topic.
 
@@ -32,7 +35,7 @@ feature -- Topic data
 
 feature -- Creation
 
-	make (a_project_id, a_task_id, a_user_id : NATURAL; a_title, a_descr : STRING)
+	make (a_project_id, a_task_id, a_sprint_id, a_user_id : NATURAL; a_title, a_descr : STRING)
 		-- Default creation procedure
 		require
 			title_not_void: a_title /= Void
@@ -40,6 +43,7 @@ feature -- Creation
 		do
 			project_id := a_project_id
 			task_id := a_task_id
+			sprint_id := a_sprint_id
 			user_id := a_user_id
 			title := a_title
 			description := a_descr

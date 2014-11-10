@@ -42,7 +42,7 @@ feature -- Handlers
 			-- adds a new topic; the topic data is expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_title, new_descr, new_project_id, new_task_id, new_user_id : STRING
+			new_title, new_descr, new_project_id, new_task_id, new_user_id, new_sprint_id : STRING
 			new_topic : TOPIC
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -73,15 +73,18 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("task_id") as task_id then
 					new_task_id := task_id.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
+					new_sprint_id := sprint_id.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					new_user_id := user_id.unescaped_string_8
 				end
 
 			end
 
-			create new_topic.make(new_project_id.to_natural, new_task_id.to_natural, new_user_id.to_natural, new_title, new_descr)
+			create new_topic.make(new_project_id.to_natural, new_task_id.to_natural, new_sprint_id.to_natural , new_user_id.to_natural, new_title, new_descr)
 				-- create the topic in the database
-			db_handler_topic.add (new_topic, new_user_id.to_natural, new_project_id.to_natural)
+			db_handler_topic.add (new_topic, new_user_id.to_natural, new_project_id.to_natural, new_task_id.to_natural, new_sprint_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
