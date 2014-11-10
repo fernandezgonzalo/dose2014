@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C10_c.o 
 
-OLDOBJECTS =  po301.o po301d.o po302.o po302d.o st311.o st311d.o st310.o st310d.o \
-	bo298.o bo298d.o bo299.o bo299d.o ab322.o ab322d.o po300.o po300d.o \
-	bo297.o bo297d.o st309.o st309d.o re303.o re303d.o re307.o re307d.o \
-	re305.o re305d.o im308.o im308d.o de312.o de312d.o im306.o im306d.o \
-	ws319.o ws319d.o pa318.o pa318d.o ws323.o ws323d.o ht317.o ht317d.o \
-	ws328.o ws328d.o im304.o im304d.o ws329.o ws329d.o ht321.o ht321d.o \
-	ws326.o ws326d.o ws316.o ws316d.o ws324.o ws324d.o ws327.o ws327d.o \
-	ht320.o ht320d.o da315.o da315d.o ws325.o ws325d.o ur314.o ur314d.o \
-	fi313.o fi313d.o 
+OLDOBJECTS =  po305.o po305d.o po306.o po306d.o st315.o st315d.o st312.o st312d.o \
+	ch302.o ch302d.o ch303.o ch303d.o ch299.o ch299d.o ch300.o ch300d.o \
+	bo297.o bo297d.o ab326.o ab326d.o po304.o po304d.o ch301.o ch301d.o \
+	ch298.o ch298d.o re313.o re313d.o re310.o re310d.o im314.o im314d.o \
+	st309.o st309d.o re307.o re307d.o de316.o de316d.o im311.o im311d.o \
+	ws323.o ws323d.o pa322.o pa322d.o ht321.o ht321d.o ws327.o ws327d.o \
+	im308.o im308d.o ht325.o ht325d.o ws320.o ws320d.o ws328.o ws328d.o \
+	ht324.o ht324d.o da319.o da319d.o ws329.o ws329d.o ur318.o ur318d.o \
+	fi317.o fi317d.o 
 
 all: Cobj10.o
 

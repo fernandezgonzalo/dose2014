@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C16_c.o 
 
-OLDOBJECTS =  sp498.o sp498d.o sp509.o sp509d.o ar500.o ar500d.o ar516.o ar516d.o \
-	fu504.o fu504d.o ty506.o ty506d.o ty507.o ty507d.o ty515.o ty515d.o \
-	na499.o na499d.o na510.o na510d.o re511.o re511d.o ar524.o ar524d.o \
-	li518.o li518d.o re495.o re495d.o to497.o to497d.o it512.o it512d.o \
-	it513.o it513d.o in514.o in514d.o dy525.o dy525d.o cu520.o cu520d.o \
-	tr519.o tr519d.o bo496.o bo496d.o st508.o st508d.o ha501.o ha501d.o \
-	un527.o un527d.o ta503.o ta503d.o ta502.o ta502d.o co523.o co523d.o \
-	ac521.o ac521d.o dy526.o dy526d.o co517.o co517d.o ba522.o ba522d.o \
-	in505.o in505d.o 
+OLDOBJECTS =  sp508.o sp508d.o ar496.o ar496d.o ar515.o ar515d.o ty514.o ty514d.o \
+	na495.o na495d.o na509.o na509d.o re510.o re510d.o li518.o li518d.o \
+	ar525.o ar525d.o re526.o re526d.o in516.o in516d.o to497.o to497d.o \
+	it511.o it511d.o it512.o it512d.o li501.o li501d.o in513.o in513d.o \
+	cu519.o cu519d.o tr524.o tr524d.o se498.o se498d.o dy500.o dy500d.o \
+	bo527.o bo527d.o ta517.o ta517d.o ha504.o ha504d.o ta506.o ta506d.o \
+	ta505.o ta505d.o sq507.o sq507d.o ch502.o ch502d.o co523.o co523d.o \
+	ac521.o ac521d.o co520.o co520d.o bi499.o bi499d.o dy503.o dy503d.o \
+	ba522.o ba522d.o 
 
 all: Cobj16.o
 

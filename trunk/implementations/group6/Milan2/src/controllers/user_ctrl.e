@@ -24,7 +24,7 @@ feature --handlers
 	get_users(req: WSF_REQUEST; res: WSF_RESPONSE)
 			--gets a list of all the users into the database;
 		do
-			
+
 		end
 
 	add_user(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -52,7 +52,7 @@ feature --handlers
 
 		end
 
-	check_user_passwod(req: WSF_REQUEST; res: WSF_RESPONSE)
+	check_user_password(req: WSF_REQUEST; res: WSF_RESPONSE)
 			--checks if a given password corresponds to the one stored in the database; user's email and the
 			--given password are expected to be part of the request payload
 		do

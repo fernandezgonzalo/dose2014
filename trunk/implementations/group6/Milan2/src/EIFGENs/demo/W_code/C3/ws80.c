@@ -1,5 +1,5 @@
 /*
- * Code for class WSF_SESSION_MANAGER
+ * Code for class WSF_SELF_DOCUMENTED_HANDLER
  */
 
 #include "eif_eiffel.h"

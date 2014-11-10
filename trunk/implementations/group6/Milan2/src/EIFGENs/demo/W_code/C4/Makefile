@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C4_c.o 
 
-OLDOBJECTS =  ap112.o ap112d.o rt124.o rt124d.o ws111.o ws111d.o rt123.o rt123d.o \
-	st131.o st131d.o nu126.o nu126d.o st130.o st130d.o rt125.o rt125d.o \
-	rt122.o rt122d.o he129.o he129d.o ws119.o ws119d.o ws121.o ws121d.o \
-	ws120.o ws120d.o wg115.o wg115d.o wg118.o wg118d.o sq114.o sq114d.o \
-	da102.o da102d.o ws113.o ws113d.o ws106.o ws106d.o ws108.o ws108d.o \
-	ws110.o ws110d.o st128.o st128d.o in127.o in127d.o ws107.o ws107d.o \
-	ti99.o ti99d.o da100.o da100d.o da103.o da103d.o da101.o da101d.o \
-	pe105.o pe105d.o ws109.o ws109d.o me104.o me104d.o wg117.o wg117d.o \
-	wg116.o wg116d.o 
+OLDOBJECTS =  ap116.o ap116d.o rt128.o rt128d.o ws115.o ws115d.o rt127.o rt127d.o \
+	nu130.o nu130d.o rt129.o rt129d.o rt126.o rt126d.o ws123.o ws123d.o \
+	ws125.o ws125d.o ws124.o ws124d.o wg119.o wg119d.o wg122.o wg122d.o \
+	sq118.o sq118d.o da106.o da106d.o ws117.o ws117d.o ws110.o ws110d.o \
+	ws112.o ws112d.o ws114.o ws114d.o in131.o in131d.o ws111.o ws111d.o \
+	ti103.o ti103d.o da104.o da104d.o da107.o da107d.o ti102.o ti102d.o \
+	da105.o da105d.o pe109.o pe109d.o ws113.o ws113d.o me108.o me108d.o \
+	ti101.o ti101d.o ti100.o ti100d.o co99.o co99d.o wg121.o wg121d.o \
+	wg120.o wg120d.o 
 
 all: Cobj4.o
 

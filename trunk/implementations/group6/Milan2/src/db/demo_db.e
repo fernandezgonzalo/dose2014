@@ -152,9 +152,68 @@ feature -- Data access
 			end
 		end
 
+	add_project (a_project_name: STRING; a_user_name: STRING)
+		-- add a new project in tha database
+		do
+			-- add the name if the project table
+			-- add the name and the creator in the member table if boolean owner true
+		end
 
+	check_project_name (a_project_name: STRING) : BOOLEAN
+		-- check if a given name already exist in the database: return true if the name exists
+		do
+		end
 
+	is_project_empty (a_project_name: STRING) : BOOLEAN
+		-- check is a project is empty: return true if it is empty
+		do
+			-- check in the table iteration if some of them are related to the given name project
+		end
 
+	remove_project (a_project_name: STRING)
+		-- remove the project from table project and member.
+		do
+
+		end
+
+	rename_project (a_old_project_name: STRING; a_new_project_name: STRING)
+		-- rename the project in all tables: project, member, iteration, work_item
+		do
+
+		end
+
+	get_all_user_projects (a_user_email: STRING): JSON_ARRAY
+		-- get all the projects of a specific user
+		do
+			-- select from member table the project of the specific user
+		end
+
+	get_all_project_members (a_project_name: STRING): JSON_ARRAY
+		-- get all the members and owners of a specific project
+		do
+			-- select from member table the members and owners of the specific project and return them as JSON_ARRAY
+		end
+
+	get_all_project_owners (a_project_name: STRING): JSON_ARRAY
+		-- get all the owners of a specific project
+		do
+			-- call get_all_project_members and filter by owners only
+			-- return them as JSON_ARRAY
+		end
+
+	add_member_to_project (a_project_name: STRING; a_user_email: STRING; a_owner: BOOLEAN)
+		-- add a member or owner in the table member
+		do
+			-- if the user is an owner check if the tuple doesn't already exist:
+				-- no add a new tuple in the table
+
+				-- yes change the boolean owner into true
+		end
+
+	remove_member_from_project (a_project_name: STRING; a_user_email: STRING)
+		-- remove a member from a project in the table member
+		do
+		end
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
