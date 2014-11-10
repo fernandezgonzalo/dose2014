@@ -12,16 +12,13 @@ create
 
 feature -- Topic data
 
-	id : INTEGER
-		-- ID to identify the topic.
-
-	project : PROJECT
+	project_id : NATURAL
 		-- Project where the topic is in.
 
-	task : TASK
+	task_id : NATURAL
 		-- Task referenced by the topic.
 
-	user : USER
+	user_id : NATURAL
 		-- Creator of the topic.
 
 	title : STRING
@@ -35,19 +32,15 @@ feature -- Topic data
 
 feature -- Creation
 
-	make (an_id : INTEGER; a_project: PROJECT; a_task: TASK; a_user: USER; a_title, a_descr : STRING)
+	make (a_project_id, a_task_id, a_user_id : NATURAL; a_title, a_descr : STRING)
 		-- Default creation procedure
 		require
-			project_not_void: a_project /= Void
-			task_not_void: a_task /= Void
-			user_not_void: a_user /= Void
 			title_not_void: a_title /= Void
 			descr_not_void: a_descr /= Void
 		do
-			id := an_id
-			project := a_project
-			task := a_task
-			user := a_user
+			project_id := a_project_id
+			task_id := a_task_id
+			user_id := a_user_id
 			title := a_title
 			description := a_descr
 			-- answered by default is false
