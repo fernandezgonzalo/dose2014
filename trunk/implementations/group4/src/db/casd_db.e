@@ -6,11 +6,12 @@ note
 
 class
 	CASD_DB
+	
 create
 	make
 
 
-feature {NONE}
+feature {ANY}
 
 	make (a_path_to_db_file: STRING)
 			-- Creation procedure
