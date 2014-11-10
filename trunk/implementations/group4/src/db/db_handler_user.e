@@ -44,7 +44,7 @@ feature -- Data access
 			end
 		end
 
-	update (user_id : INTEGER;user: USER)
+	update (user_id : NATURAL;user: USER)
 			-- update a user
 		do
 			create db_modify_statement.make ("UPDATE Users SET userName = '"+ user.username +"',"+
