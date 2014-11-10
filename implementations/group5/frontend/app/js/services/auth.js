@@ -1,16 +1,22 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$http', '$log', function() {
+angular.module('Mgmt').factory('AuthService', ['$log', function($log) {
   var authService = {};
-  authService.loggedIn = true;
+  var key = 'loggedIn';
 
-  authService.login = function () {
-    // TODO  
+  authService.login = function(credentials) {
+    $log.debug('credentials are', credentials);
+    localStorage.setItem(key, true);
+    return true;
+  };
+
+  authService.logout = function() {
+    localStorage.removeItem(key);
     return true;
   };
  
   authService.isAuthenticated = function () {
-    return authService.loggedIn;
+    return localStorage.getItem(key);
   };
  
   authService.isAdmin = function () {
@@ -18,5 +24,4 @@ angular.module('Mgmt').factory('AuthService', ['$http', '$log', function() {
   };  
 
   return authService;
-
 }]);

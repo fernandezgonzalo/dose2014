@@ -64,7 +64,8 @@
 
         <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="8">Log in.</a> </p> 
       </div>
-      <div class="col-md-6">
+
+      <div class="col-md-6" ng-if="isAuthenticated()">
         <div class="control-group">
           <div class="controls">
             <label class="control-label" for="password_confirm">Profile picture</label>
