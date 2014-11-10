@@ -13,6 +13,8 @@ angular.module('Demo')
       $scope.successMsgVisible = false;
       $scope.errorMsgVisible = false;
 
+	  
+	  
       // the function to login
       $scope.login = function(username, password) {
 
