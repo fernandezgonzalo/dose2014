@@ -12,16 +12,20 @@ create
 
 feature -- Initialization
 
-	make (new_name: STRING; new_description: STRING; new_mpps: INTEGER)
+	make (new_name: STRING; new_status: STRING; new_description: STRING; new_mpps: INTEGER; new_user_id: INTEGER)
 			-- Creates a project with initial properties
 		require
 			not_void (new_name)
 			not_void (new_description)
+			not_void (new_status)
 			mpps_possitive: (new_mpps > 0)
+			user_id_possitive: (new_user_id >= 0)
 		do
 			name := new_name
+			status := new_status
 			description := new_description
 			max_points_per_sprint := new_mpps
+			user_id := new_user_id
 		end
 
 feature -- Project properties
@@ -33,6 +37,8 @@ feature -- Project properties
 	status : STRING
 
 	max_points_per_sprint : INTEGER
+
+	user_id : INTEGER
 
 feature -- Project relations
 
