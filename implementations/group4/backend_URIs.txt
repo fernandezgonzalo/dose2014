@@ -13,7 +13,7 @@ casd/projects
 
 casd/projects/add
 
-casd/projects/{projectId}/change
+casd/projects/{projectId}/update
 
 user login and management
 =========================
@@ -22,16 +22,16 @@ casd/login
 
 casd/users/add
 
-casd/users/{userId}/change (the userId is the id of the user logged in)
+casd/users/{userId}/update (the userId is the id of the user logged in)
 
 sprint management
 =================
 
 casd/sprints
 
-casd/sprints/new
+casd/sprints/add
 
-casd/sprints/{sprintId}/change
+casd/sprints/{sprintId}/update
 
 task management
 ===============
@@ -40,7 +40,7 @@ casd/tasks
 
 casd/tasks/add
 
-casd/tasks/{taskId}/change
+casd/tasks/{taskId}/update
 
 casd/tasks/{taskId}/add/subtask
 
@@ -67,11 +67,6 @@ casd/topics/add
 
 casd/topics/{topicId}
 
-casd/topics/{topiciD}/answers (just in case we need to pass objects separatedly when displaying a topic)
+casd/topics/{topicId}/answers (just in case we need to pass objects separatedly when displaying a topic)
 
 casd/topics/{topidId}/add/answer
-
-
-
-
-

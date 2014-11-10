@@ -76,7 +76,7 @@ feature -- Basic operations
 			--map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
 				-- handling of all ht routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/casd/users", agent user_ctrl.get_users, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
