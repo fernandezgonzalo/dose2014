@@ -40,11 +40,20 @@ feature {NONE} -- Initialization
 		end
 
 
-	todo_ctrl: DEMO_TODO_CTRL
-			-- a controller for handling todo requests
+	user_ctrl: COFFEE_USER_CTRL
+			-- controller for handling user requests
 
-	user_ctrl: DEMO_USER_CTRL
-			-- a controller for handling user requests
+	project_ctrl: COFFEE_PROJECT_CTRL
+			-- controller for handling project requests
+
+	req_ctrl: COFFEE_REQ_CTRL
+			-- controller for handling requirement requests
+
+	task_ctrl: COFFEE_TASK_CTRL
+			-- controller for handling task requests
+
+	sprint_ctrl: COFFEE_SPRINT_CTRL
+			-- controller for handling sprint requests		
 
 	dao: DEMO_DB
 			-- access to the database and the functionality that comes with that class
@@ -56,8 +65,10 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-			create todo_ctrl.make(dao)
-			create user_ctrl.make(dao)
+			create project_ctrl.make(dao)
+			create req_ctrl.make(dao)
+			create task_ctrl.make(dao)
+			create sprint_ctrl.make(dao)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -72,14 +83,36 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
-				-- handling of all the routes relating to "todos"
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.get_todos, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
+				-- handling of all the routes relating to "user"
+			map_uri_template_agent_with_request_methods("coffee/users", agent user_ctrl.get_users ,router.methods_get)
+			map_uri_template_agent_with_request_methods("coffee/users", agent user_ctrl.add_user ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/users", agent user_ctrl.delete_user ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("coffee/users/{user_id}/edit", agent user_ctrl.update_user ,router.methods_post)
 
-				-- handling of all ht routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+				-- handling of all the routes relating to "project"
+			map_uri_template_agent_with_request_methods("coffee/projects", agent project_ctrl.create_project ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/projects/{project_id}/edit", agent project_ctrl.update_project ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/projects", agent project_ctrl.get_projects ,router.methods_get)
+			map_uri_template_agent_with_request_methods("coffee/projects/{project_id}", agent project_ctrl.delete_project ,router.methods_delete)
+
+
+				-- handling of all the routes relating to "requirement"
+			map_uri_template_agent_with_request_methods("coffee/reqs/{project_id}", agent req_ctrl.create_req ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/reqs/{project_id}/edit", agent req_ctrl.update_req ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/reqs/{project_id}", agent req_ctrl.get_reqs ,router.methods_get)
+			map_uri_template_agent_with_request_methods("coffee/reqs/{project_id}", agent req_ctrl.delete_req ,router.methods_delete)
+
+
+				-- handling of all the routes relating to "task"
+			map_uri_template_agent_with_request_methods("coffee/taks", agent task_ctrl.create_task ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/tasks/{req_id}/edit", agent task_ctrl.update_task ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/tasks/{req_id}", agent task_ctrl.get_tasks ,router.methods_get)
+				map_uri_template_agent_with_request_methods("coffee/tasks/{req_id}", agent task_ctrl.delete_task ,router.methods_delete)
+
+				-- handling of all the routes relating to "sprint"
+			map_uri_template_agent_with_request_methods("coffee/sprints", agent sprint_ctrl.add_sprint ,router.methods_post)
+			map_uri_template_agent_with_request_methods("coffee/sprints/{project_id}", agent sprint_ctrl.get_sprint ,router.methods_get)
+			map_uri_template_agent_with_request_methods("coffee/sprints/{project_id}/close", agent sprint_ctrl.close_sprint ,router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
