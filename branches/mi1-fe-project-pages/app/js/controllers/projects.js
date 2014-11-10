@@ -12,8 +12,8 @@ angular.module('Mgmt').controller('ProjectsController',
 
   $scope.users = User.query();
 
-  $scope.openProfile = function() {
-    $location.path('/users/1');
+  $scope.openProject = function() {
+    $location.path('/projects/1/dashboard');
   };
 
   $scope.login = function() {

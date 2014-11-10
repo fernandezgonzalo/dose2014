@@ -22,9 +22,11 @@
       <tbody>
         <!-- <tr ng-repeat="project in projects.inProgress" class='clickableRow' -->
         <!--   href='#/projects/1'> -->
-        <tr ng-repeat="project in projects.inProgress">
+        <tr class="row-link" ng-repeat="project in projects.inProgress"
+          ng-click="openProject()">
           <!-- anchor element to be deleted -->
-          <td><a href="#/projects/1/edit">{{project.name}} </a></td>
+          <!-- <td><a href="#/projects/1/dashboard">{{project.name}} </a></td> -->
+          <td>{{project.name}}</td>
           <td>Client: {{project.client}}</td>
           <td>Created by: {{project.author}}</td>
           <td><span class="glyphicon glyphicon-calendar"></span>  {{project.date}}</td>
@@ -46,9 +48,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="project in projects.finished">
+        <tr class="row-link" ng-repeat="project in projects.finished"
+          ng-click="openProject()">
           <!-- anchor element to be deleted -->
-          <td><a href="#/projects/1/edit">{{project.name}} </a></td>
+          <!-- <td><a href="#/projects/1/edit">{{project.name}} </a></td> -->
+          <td>{{project.name}}</td>
           <td>{{project.client}}</td>
           <td>Created by: {{project.author}}</td>
           <td><span class="glyphicon glyphicon-calendar"></span>  {{project.date}}</td>
