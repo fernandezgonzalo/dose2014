@@ -18,14 +18,13 @@ feature -- Test routines
 			-- Test that create an answer with valid description and user.
 		local
 			answer : ANSWER
-			user : USER
-			topic : TOPIC
+			user_id : NATURAL
+			topic_id : NATURAL
 		do
-			create user.make ("nono@nono.com", "Nono Nono", "nono1234")
-			create answer.make("Some answer",user)
-			--create topic.make (a_project_id, a_task_id, a_user_id: INTEGER_32, a_title, a_descr: STRING_8)
+			user_id := 1
+			topic_id := 1
+			create answer.make("Some answer",user_id,topic_id)
 			assert ("Description ok", answer.description.is_equal("Some answer"))
-			assert ("User ok", answer.user.is_equal(user))
 		end
 
 end
