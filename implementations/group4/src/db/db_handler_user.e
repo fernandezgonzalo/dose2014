@@ -20,7 +20,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Users;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
 
 		end
 
@@ -29,13 +29,13 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Users WHERE id="+ user_id.out +";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
 		end
 
 	add (user : USER)
 			-- adds a new user
 		do
-			create db_insert_statement.make ("INSERT INTO Users(userName,isActive,email,password) "+
+			create db_insert_statement.make ("INSERT INTO Users(user_name,is_active,email,password) "+
 											"VALUES ('" + user.username + "','"+ user.is_active.to_integer.out +"',"+
 											"'"+ user.email +"','"+ user.password +"');", db);
 			db_insert_statement.execute
@@ -47,7 +47,7 @@ feature -- Data access
 	update (user_id : NATURAL;user: USER)
 			-- update a user
 		do
-			create db_modify_statement.make ("UPDATE Users SET userName = '"+ user.username +"',"+
+			create db_modify_statement.make ("UPDATE Users SET user_name = '"+ user.username +"',"+
 															  "email = '"+ user.email +"',"+
 															  "password = '"+ user.password +"'"+
 															  "WHERE id="+ user_id.out +";" , db)
@@ -60,7 +60,7 @@ feature -- Data access
 	remove (user_id: NATURAL)
 			-- removes the user with the given id
 		do
-			create db_modify_statement.make ("DELETE FROM Users WHERE id=" + user_id.out + ";", db)
+			create db_modify_statement.make ("UPDATE Users SET is_active = 0 WHERE id=" + user_id.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a User")
