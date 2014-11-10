@@ -75,7 +75,15 @@ define(
                         {
                             title : "Users",
                             action : "singular"
-                        }
+                        },
+                        {
+                            title : "Login",
+                            action : "singular"
+                        },
+                        {
+                            title : "Logout",
+                            action : "singular"
+                        },                        
                     ]; // end menus
                 }
             ]
