@@ -55,15 +55,15 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 OBJECTS = big_file_C18_c.o 
 
-OLDOBJECTS =  sp570.o sp570d.o sp579.o sp579d.o ar573.o ar573d.o ar586.o ar586d.o \
-	ty572.o ty572d.o ty585.o ty585d.o na571.o na571d.o na580.o na580d.o \
-	re581.o re581d.o li588.o li588d.o re567.o re567d.o in564.o in564d.o \
-	to569.o to569d.o it582.o it582d.o it583.o it583d.o ce577.o ce577d.o \
-	li566.o li566d.o in584.o in584d.o cu590.o cu590d.o tr589.o tr589d.o \
-	bo568.o bo568d.o ta565.o ta565d.o li574.o li574d.o un562.o un562d.o \
-	ch563.o ch563d.o co593.o co593d.o ac591.o ac591d.o dy561.o dy561d.o \
-	co587.o co587d.o ba592.o ba592d.o li578.o li578d.o li575.o li575d.o \
-	li576.o li576d.o 
+OLDOBJECTS =  sp582.o sp582d.o ar584.o ar584d.o ty579.o ty579d.o ty589.o ty589d.o \
+	ty590.o ty590d.o na583.o na583d.o re568.o re568d.o re592.o re592d.o \
+	ar578.o ar578d.o re580.o re580d.o in571.o in571d.o in591.o in591d.o \
+	to585.o to585d.o it566.o it566d.o it593.o it593d.o it567.o it567d.o \
+	ce576.o ce576d.o li569.o li569d.o in565.o in565d.o dy564.o dy564d.o \
+	bo581.o bo581d.o ta572.o ta572d.o un574.o un574d.o ch570.o ch570d.o \
+	bi563.o bi563d.o fi561.o fi561d.o dy573.o dy573d.o li577.o li577d.o \
+	li575.o li575d.o bo562.o bo562d.o st586.o st586d.o di587.o di587d.o \
+	ar588.o ar588d.o 
 
 all: Cobj18.o
 

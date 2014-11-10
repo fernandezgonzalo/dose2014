@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C13_c.o 
 
-OLDOBJECTS =  sp413.o sp413d.o ar426.o ar426d.o ro424.o ro424d.o pr423.o pr423d.o \
-	fu425.o fu425d.o ty420.o ty420d.o ty421.o ty421d.o ty415.o ty415d.o \
-	ty422.o ty422d.o na414.o na414d.o re416.o re416d.o li428.o li428d.o \
-	it417.o it417d.o it418.o it418d.o da405.o da405d.o in419.o in419d.o \
-	ti402.o ti402d.o da400.o da400d.o da398.o da398d.o da403.o da403d.o \
-	co427.o co427d.o sq406.o sq406d.o sq412.o sq412d.o sq411.o sq411d.o \
-	sq410.o sq410d.o sq409.o sq409d.o sq408.o sq408d.o sq407.o sq407d.o \
-	ti401.o ti401d.o da399.o da399d.o da404.o da404d.o fi397.o fi397d.o \
-	ur396.o ur396d.o 
+OLDOBJECTS =  sp417.o sp417d.o ro428.o ro428d.o pr427.o pr427d.o ty424.o ty424d.o \
+	ty425.o ty425d.o ty419.o ty419d.o ty426.o ty426d.o na418.o na418d.o \
+	re420.o re420d.o it421.o it421d.o it422.o it422d.o sq398.o sq398d.o \
+	sq399.o sq399d.o sq397.o sq397d.o da409.o da409d.o in423.o in423d.o \
+	sq396.o sq396d.o ti406.o ti406d.o da404.o da404d.o da402.o da402d.o \
+	da407.o da407d.o sq410.o sq410d.o sq416.o sq416d.o sq415.o sq415d.o \
+	sq414.o sq414d.o sq413.o sq413d.o sq412.o sq412d.o sq411.o sq411d.o \
+	ti405.o ti405d.o da408.o da408d.o fi403.o fi403d.o da401.o da401d.o \
+	ur400.o ur400d.o 
 
 all: Cobj13.o
 

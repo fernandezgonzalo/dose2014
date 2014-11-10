@@ -55,15 +55,15 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 OBJECTS = big_file_C9_c.o 
 
-OLDOBJECTS =  tu290.o tu290d.o ch295.o ch295d.o ch296.o ch296d.o ch292.o ch292d.o \
-	ch293.o ch293d.o mi272.o mi272d.o in285.o in285d.o ha288.o ha288d.o \
-	ch294.o ch294d.o ch291.o ch291d.o ra270.o ra270d.o ws284.o ws284d.o \
-	fi269.o fi269d.o ws278.o ws278d.o ht286.o ht286d.o ws277.o ws277d.o \
-	mi283.o mi283d.o pl271.o pl271d.o st276.o st276d.o ws280.o ws280d.o \
-	ht279.o ht279d.o ws287.o ws287d.o ws281.o ws281d.o ar275.o ar275d.o \
-	ar274.o ar274d.o da273.o da273d.o uu289.o uu289d.o ht282.o ht282d.o \
-	tc268.o tc268d.o ne267.o ne267d.o ne266.o ne266d.o st265.o st265d.o \
-	so264.o so264d.o 
+OLDOBJECTS =  tu294.o tu294d.o bo296.o bo296d.o mi276.o mi276d.o in289.o in289d.o \
+	ha292.o ha292d.o bo295.o bo295d.o ra274.o ra274d.o fi273.o fi273d.o \
+	ws288.o ws288d.o ht290.o ht290d.o ws282.o ws282d.o ws281.o ws281d.o \
+	mi287.o mi287d.o pl275.o pl275d.o st280.o st280d.o ht283.o ht283d.o \
+	ws284.o ws284d.o ws291.o ws291d.o io267.o io267d.o ws285.o ws285d.o \
+	ar279.o ar279d.o ar278.o ar278d.o uu293.o uu293d.o da277.o da277d.o \
+	ht286.o ht286d.o tc272.o tc272d.o ne271.o ne271d.o ad265.o ad265d.o \
+	ne270.o ne270d.o st269.o st269d.o ad266.o ad266d.o ex264.o ex264d.o \
+	so268.o so268d.o 
 
 all: Cobj9.o
 

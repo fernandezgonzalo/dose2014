@@ -1,5 +1,5 @@
 /*
- * Code for class SQLITE_EXPERIMENTAL_EXTERNALS
+ * Code for class SQLITE_THREADING_MODE
  */
 
 #include "eif_eiffel.h"
@@ -10,7 +10,10 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F8_92(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F8_88(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F8_89(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F8_90(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F8_91(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit8(void);
 
 #ifdef __cplusplus
@@ -23,14 +26,6 @@ extern void EIF_Minit8(void);
 extern "C" {
 #endif
 
-#ifndef INLINE_F8_92
-static EIF_INTEGER_32 inline_F8_92 (EIF_INTEGER_32 arg1)
-{
-	return (EIF_INTEGER)sqlite3_config((int)arg1);
-	;
-}
-#define INLINE_F8_92
-#endif
 
 #ifdef __cplusplus
 }
@@ -41,15 +36,124 @@ static EIF_INTEGER_32 inline_F8_92 (EIF_INTEGER_32 arg1)
 extern "C" {
 #endif
 
-/* {SQLITE_EXPERIMENTAL_EXTERNALS}.c_sqlite3_config */
-EIF_TYPED_VALUE F8_92 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+/* {SQLITE_THREADING_MODE}.single_threaded */
+EIF_TYPED_VALUE F8_88 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "c_sqlite3_config";
+	char *l_feature_name = "single_threaded";
 	RTEX;
-#define arg1 arg1x.it_i4
 	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
 	
+	RTSN;
+	RTDA;
+	RTLD;
+	
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_INT32, &Result);
+	RTLU (SK_REF, &Current);
+	
+	RTEAA(l_feature_name, 7, Current, 0, 0, 93);
+	RTSA(Dtype(Current));
+	RTSC;
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(7, Current, 93);
+	RTIV(Current, RTAL);
+	Result = (EIF_INTEGER_32) SQLITE_CONFIG_SINGLETHREAD;
+	RTVI(Current, RTAL);
+	RTRS;
+	RTHOOK(1);
+	RTDBGLE;
+	RTMD(1);
+	RTLE;
+	RTLO(2);
+	RTEE;
+	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+}
+
+/* {SQLITE_THREADING_MODE}.multi_threaded */
+EIF_TYPED_VALUE F8_89 (EIF_REFERENCE Current)
+{
+	GTCX
+	char *l_feature_name = "multi_threaded";
+	RTEX;
+	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
+	
+	RTSN;
+	RTDA;
+	RTLD;
+	
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_INT32, &Result);
+	RTLU (SK_REF, &Current);
+	
+	RTEAA(l_feature_name, 7, Current, 0, 0, 94);
+	RTSA(Dtype(Current));
+	RTSC;
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(7, Current, 94);
+	RTIV(Current, RTAL);
+	Result = (EIF_INTEGER_32) SQLITE_CONFIG_MULTITHREAD;
+	RTVI(Current, RTAL);
+	RTRS;
+	RTHOOK(1);
+	RTDBGLE;
+	RTMD(1);
+	RTLE;
+	RTLO(2);
+	RTEE;
+	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+}
+
+/* {SQLITE_THREADING_MODE}.multi_threaded_serialized */
+EIF_TYPED_VALUE F8_90 (EIF_REFERENCE Current)
+{
+	GTCX
+	char *l_feature_name = "multi_threaded_serialized";
+	RTEX;
+	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
+	
+	RTSN;
+	RTDA;
+	RTLD;
+	
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_INT32, &Result);
+	RTLU (SK_REF, &Current);
+	
+	RTEAA(l_feature_name, 7, Current, 0, 0, 95);
+	RTSA(Dtype(Current));
+	RTSC;
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(7, Current, 95);
+	RTIV(Current, RTAL);
+	Result = (EIF_INTEGER_32) SQLITE_CONFIG_SERIALIZED;
+	RTVI(Current, RTAL);
+	RTRS;
+	RTHOOK(1);
+	RTDBGLE;
+	RTMD(1);
+	RTLE;
+	RTLO(2);
+	RTEE;
+	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+}
+
+/* {SQLITE_THREADING_MODE}.is_valid_threading_mode */
+EIF_TYPED_VALUE F8_91 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+{
+	GTCX
+	char *l_feature_name = "is_valid_threading_mode";
+	RTEX;
+#define arg1 arg1x.it_i4
+	EIF_INTEGER_32 ti4_1;
+	EIF_BOOLEAN tb1;
+	EIF_BOOLEAN tb2;
+	EIF_BOOLEAN Result = ((EIF_BOOLEAN) 0);
+	
+	RTCDT;
 	RTSN;
 	RTDA;
 	RTLD;
@@ -58,26 +162,41 @@ EIF_TYPED_VALUE F8_92 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	
 	RTLI(1);
 	RTLR(0,Current);
-	RTLU (SK_INT32, &Result);
+	RTLU (SK_BOOL, &Result);
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 7, Current, 0, 1, 90);
-	RTSA(Dtype(Current));
+	RTEAA(l_feature_name, 7, Current, 0, 1, 96);
+	RTSA(dtype);
 	RTSC;
-	RTME(Dtype(Current), 1);
-	RTDBGEAA(7, Current, 90);
+	RTME(dtype, 0);
+	RTGC;
+	RTDBGEAA(7, Current, 96);
 	RTIV(Current, RTAL);
-	Result = inline_F8_92 ((EIF_INTEGER_32) arg1);
+	RTHOOK(1);
+	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
+	
+	tb1 = '\01';
+	tb2 = '\01';
+	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(89, dtype))(Current)).it_i4);
+	if (!(EIF_BOOLEAN)(arg1 == ti4_1)) {
+		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(90, dtype))(Current)).it_i4);
+		tb2 = (EIF_BOOLEAN)(arg1 == ti4_1);
+	}
+	if (!tb2) {
+		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(91, dtype))(Current)).it_i4);
+		tb1 = (EIF_BOOLEAN)(arg1 == ti4_1);
+	}
+	Result = (EIF_BOOLEAN) tb1;
 	RTVI(Current, RTAL);
 	RTRS;
-	RTHOOK(1);
+	RTHOOK(2);
 	RTDBGLE;
-	RTMD(1);
+	RTMD(0);
 	RTLE;
 	RTLO(3);
 	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+	{ EIF_TYPED_VALUE r; r.type = SK_BOOL; r.it_b = Result; return r; }
 #undef arg1
 }
 

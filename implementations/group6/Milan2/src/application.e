@@ -106,6 +106,15 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_user_info, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.check_user_password, router.methods_get)
 
+				-- handling of all the routes relating to "projects"
+			map_uri_template_agent_with_request_methods ("api/projects", agent project_ctrl.add_project, router.methods_post)
+			map_uri_template_agent_with_request_methods ("api/projects/{project_name_id}", agent project_ctrl.remove_project, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("api/project/{project_name_id}", agent project_ctrl.rename_project, router.methods_get_post)
+			map_uri_template_agent_with_request_methods ("api/project/{user_email_id}", agent project_ctrl.get_all_user_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("api/project/{project_name_id}", agent project_ctrl.get_all_project_members, router.methods_get)
+			map_uri_template_agent_with_request_methods ("api/project/{project_name_id)/{user_email_id}", agent project_ctrl.add_member_to_project, router.methods_post)
+			map_uri_template_agent_with_request_methods ("api/project/{project_name_id}/{user_email_id}", agent project_ctrl.remove_member_from_project, router.methods_delete)
+
 
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/iterations/{project_name}", agent iteration_ctrl.get_all_project_iterations, router.methods_get)
