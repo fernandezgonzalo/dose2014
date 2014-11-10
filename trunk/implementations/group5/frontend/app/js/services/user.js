@@ -2,8 +2,7 @@
 
 angular.module('Mgmt').service('User', [function() {
 
-  this.query = function() {
-    return [
+  this.users = [
       {
         id: '1',
         email: 'guest@gmail.com',
@@ -29,5 +28,14 @@ angular.module('Mgmt').service('User', [function() {
         name: 'Gabriele Maddalena',
         lastLogin: 'December, 10 2014 00:35'
       }];
+
+
+  this.query = function() {
+    return this.users;
   };
+
+  this.add = function(user) {
+    this.users.push(user);
+  };
+
 }]);
