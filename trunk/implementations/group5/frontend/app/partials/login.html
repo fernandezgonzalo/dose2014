@@ -3,14 +3,15 @@
         <div class="account-wall">
             <form class="form-signin" ng-submit="login()">
                 <h1>Welcome to Mgmt</h1>
-                <input type="text" class="form-control" placeholder="Email" required autofocus>
-                <input type="password" class="form-control last" placeholder="Password" required>
+                <input type="text" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus>
+                <input type="password" ng-model="credentials.password" class="form-control last" placeholder="Password" required>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">
                     Log in
                 </button>
                     <a href="/#/password_recovery" class="need-help pull-left">Forget your password? </a>
                     <a href="/#/register" class="new-account pull-right">Create an account</a>
                 <span class="clearfix"></span>
+                <p class="healp-block">Any login, any password now is accepted.</p>
             </form>
         </div>
         
