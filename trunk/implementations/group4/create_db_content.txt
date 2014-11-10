@@ -3,6 +3,9 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Topics;
 DROP TABLE IF EXISTS Projects;
 DROP TABLE IF EXISTS Colaborators;
+DROP TABLE IF EXISTS Tasks;
+DROP TABLE IF EXISTS Sprints;
+DROP TABLE IF EXISTS Answers;
 
 -- Make sure that foreign_key support is turned on
 PRAGMA foreign_keys = ON;
@@ -37,9 +40,14 @@ CREATE TABLE Topics (
   answered BOOLEAN,
   user_id INTEGER,
   project_id INTEGER,
+  task_id INTEGER;
+  sprint_id INTEGER;
+  FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
+  FOREIGN KEY (task_id) REFERENCES Tasks(id),
   FOREIGN KEY (user_id) REFERENCES Users(id),
   FOREIGN KEY (project_id) REFERENCES Projects(id)
 );
+
 
 -- Create a table for the todos where each todo references the primary key of a user
 CREATE TABLE Colaborators (
@@ -48,10 +56,45 @@ CREATE TABLE Colaborators (
 );
 
 
+-- Create a table for tasks where a tasks has an id (primary key)
+CREATE TABLE Tasks (
+  id INTEGER PRIMARY KEY,
+  priority TEXT,
+  position TEXT,
+  type TEXT,
+  description TEXT,
+  title TEXT,
+  subTask_id INTEGER;
+  sprint_id INTEGER;
+  FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
+  FOREIGN KEY (subTask_id) REFERENCES Tasks(id),
+);
+
+
+-- Create a table for sprints where a topic has an id (primary key)
+CREATE TABLE Sprints (
+  id INTEGER PRIMARY KEY,
+  status TEXT,
+  duration INTEGER,
+  project_id INTEGER;
+  FOREIGN KEY (project_id) REFERENCES Projects(id),
+);
+
+-- Create a table for answers where a topic has an id (primary key)
+CREATE TABLE Answers (
+  id INTEGER PRIMARY KEY,
+  description TEXT,
+  topic_id INTEGER;
+  user_id INTEGER;
+  FOREIGN KEY (topic_id) REFERENCES Topics(id),
+  FOREIGN KEY (user_id) REFERENCES Users(id),
+);
+
 -- Add some users to the users table
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('Angelo',1,'mail','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('Facundo',1,'mail','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('Adrian',0,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'mail','pass');
+
 
 -- Add some todos to the todos table
 --INSERT INTO Todos(description, userId) VALUES ('Buy milk', 1);

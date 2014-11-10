@@ -44,7 +44,8 @@ feature {NONE} -- Initialization
 		-- access to the database and the functionality that comes with that class
 
 	-- Here we should add the features for controllers classes.
-	
+	user_ctrl: USER_CONTROLLER
+
 	initialize
 			-- Initialize current service.
 		do
@@ -53,6 +54,7 @@ feature {NONE} -- Initialization
 	--		create database.make (path_to_db_file)
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
+			create user_ctrl.make (path_to_db_file)
 
 
 				-- set the prot of the web server to 9090
