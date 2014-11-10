@@ -40,8 +40,8 @@ CREATE TABLE Topics (
   answered BOOLEAN,
   user_id INTEGER,
   project_id INTEGER,
-  task_id INTEGER;
-  sprint_id INTEGER;
+  task_id INTEGER,
+  sprint_id INTEGER,
   FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
   FOREIGN KEY (task_id) REFERENCES Tasks(id),
   FOREIGN KEY (user_id) REFERENCES Users(id),
@@ -64,10 +64,10 @@ CREATE TABLE Tasks (
   type TEXT,
   description TEXT,
   title TEXT,
-  subTask_id INTEGER;
-  sprint_id INTEGER;
+  subTask_id INTEGER,
+  sprint_id INTEGER,
   FOREIGN KEY (sprint_id) REFERENCES Sprints(id),
-  FOREIGN KEY (subTask_id) REFERENCES Tasks(id),
+  FOREIGN KEY (subTask_id) REFERENCES Tasks(id)
 );
 
 
@@ -76,18 +76,18 @@ CREATE TABLE Sprints (
   id INTEGER PRIMARY KEY,
   status TEXT,
   duration INTEGER,
-  project_id INTEGER;
-  FOREIGN KEY (project_id) REFERENCES Projects(id),
+  project_id INTEGER,
+  FOREIGN KEY (project_id) REFERENCES Projects(id)
 );
 
 -- Create a table for answers where a topic has an id (primary key)
 CREATE TABLE Answers (
   id INTEGER PRIMARY KEY,
   description TEXT,
-  topic_id INTEGER;
-  user_id INTEGER;
+  topic_id INTEGER,
+  user_id INTEGER,
   FOREIGN KEY (topic_id) REFERENCES Topics(id),
-  FOREIGN KEY (user_id) REFERENCES Users(id),
+  FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 -- Add some users to the users table
