@@ -25,6 +25,18 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'partials/logout.html',
         controller: 'SessionCtrl'
       })
+	  .when('/home', {
+        templateUrl: 'partials/home.html',
+        controller: 'ProjectCtrl'
+      })
+	  .when('/cpanel', {
+        templateUrl: 'partials/cpanel.html',
+        controller: 'UserCtrl'
+      })
+	  .when('/ranking', {
+        templateUrl: 'partials/ranking.html',
+        controller: 'UserCtrl'
+      })
       .otherwise({
         redirectTo: '/todos'
       });
