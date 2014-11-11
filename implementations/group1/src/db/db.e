@@ -163,6 +163,15 @@ feature -- Data access Projects
 
 		end
 
+	add_project (info: STRING)
+			-- adds a new user with the given user name
+		do
+			create db_insert_statement.make ("INSERT INTO Project(info) VALUES ('" + info +"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new user")
+			end
+		end
 
 
 feature {NONE}
