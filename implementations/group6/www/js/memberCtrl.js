@@ -5,7 +5,7 @@ angular.module('Wbpms')
     function ($scope, $http, $log) {
         
         $scope.newMember{
-            mail:''
+            eMailMember:''
         
         }
         
@@ -39,7 +39,7 @@ angular.module('Wbpms')
         
         //function view project member
         
-        $scope.viewProjectMember = function (){
+        $scope.viewProjectMember = function (idMember){
         
         
         }
