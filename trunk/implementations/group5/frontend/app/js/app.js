@@ -72,6 +72,6 @@ app.config(['$routeProvider',
       })
       .otherwise({
         templateUrl: 'partials/404.html'
-      })
+      });
     }
   ]);
