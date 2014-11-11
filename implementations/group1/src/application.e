@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 		-- calculates the path to the demo.db file, based on the location of the .ecf file
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
-			Result := ".." + Operating_environment.directory_separator.out + "demo.db"
+			Result := ".." + Operating_environment.directory_separator.out + "database.db"
 		end
 
 	path_to_www_folder: STRING
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 	user_ctrl: DEMO_USER_CTRL
 			-- a controller for handling user requests
 
-	dao: DEMO_DB
+	dao: DB
 			-- access to the database and the functionality that comes with that class
 
 

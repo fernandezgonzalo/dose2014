@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 class
-	DEMO_DB
+	DB
 
 create
 	make
@@ -142,13 +142,24 @@ feature -- Data access
 		end
 
 
-	add_user (a_user_name: STRING)
+	add_user (name, last_name, email, password,rol, active: STRING)
 			-- adds a new user with the given user name
 		do
-			create db_insert_statement.make ("INSERT INTO Users(name) VALUES ('" + a_user_name + "');", db);
+			create db_insert_statement.make ("INSERT INTO User VALUES ('" +name+","+last_name+","+email+","+password+","+rol+","+active + "');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
+			end
+		end
+
+	remove_user (a_user_id: NATURAL)
+			-- removes the user with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM User WHERE id=" + a_user_id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Todo")
+					-- TODO: we probably want to return something if there's an error
 			end
 		end
 
