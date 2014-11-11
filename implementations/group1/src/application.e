@@ -43,9 +43,6 @@ feature {NONE} -- Initialization
 	todo_ctrl: DEMO_TODO_CTRL
 			-- a controller for handling todo requests
 
-	user_ctrl: DEMO_USER_CTRL
-			-- a controller for handling user requests
-
 	user: USER
 		-- a controller for handling user requests
 
@@ -66,7 +63,6 @@ feature {NONE} -- Initialization
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
 			create todo_ctrl.make(dao)
-			create user_ctrl.make(dao)
 			create user.make(dao)
 			create project.make(dao)
 			create rol_project.make(dao)
