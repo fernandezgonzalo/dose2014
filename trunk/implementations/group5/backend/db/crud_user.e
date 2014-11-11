@@ -77,7 +77,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM user;;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 
 		end
 
@@ -87,7 +87,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE email = " + email + ";", db)
-			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 
 		end
 
@@ -196,6 +196,15 @@ feature {NONE}--login
 				Result.password := l_query_result_cursor.item.value (3).out
 				Result.name := l_query_result_cursor.item.value (4).out
 			end
+		end
+
+	last_login(email:STRING): JSON_OBJECT
+	--returns the username and the last login of the user identified by email
+		do
+			create Result.make
+			create db_query_statement.make ("SELECT username,last_login FROM user WHERE email = " + email + ";", db)
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
+
 		end
 
 feature {NONE}
