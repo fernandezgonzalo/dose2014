@@ -5,27 +5,31 @@ angular.module('Wbpms')
     function ($scope, $http, $log) {
         
         
-        $scope.searchItem{
-            search: ''
+        $scope.searchUser{
         }
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       var init = function() {
-           $http.get('/api/search/'+keyword)
-          .success(function(data, status, header, config) {
-            
-            // the server should return a json array which contains all the todos
-            $scope.searchItem = data;
-          });
+      
+      }
           
           
         //search global other user. pre-condition: User is login  
-        $scope.searchGlobalOtherUser = function(){
-        
+        $scope.searchGlobalOtherUser = function(user,keyword){
+            
+           $http.get('/api/search/'+user+keyword)
+          .success(function(data, status, header, config) {
+            
+            // the server should return a json array which contains all the todos
+            $scope.searchUser = data;
+          });
+          .error(function(data, status) {
+            $log.debug('Error user not found');
+          });
         
         }
         
         
-        //leer bien la diferencia de los search 6.4, 6.5
+       
         
   ]);
