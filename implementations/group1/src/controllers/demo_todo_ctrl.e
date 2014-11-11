@@ -7,7 +7,7 @@ class
 	DEMO_TODO_CTRL
 
 inherit
-	DEMO_HEADER_JSON_HELPER
+	HEADER_JSON_HELPER
 		-- inherit this helper to get a procedure that simplifies setting
 		-- the HTTP response header correctly
 

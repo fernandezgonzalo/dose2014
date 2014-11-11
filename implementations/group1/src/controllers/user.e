@@ -1,9 +1,9 @@
 note
 	description: "Handlers for everything that concerns users."
-	author: "hce"
+	author: "Guido Giovannini"
 
 class
-	DEMO_USER_CTRL
+	USER
 
 inherit
 	HEADER_JSON_HELPER
