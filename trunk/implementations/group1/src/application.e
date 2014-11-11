@@ -40,9 +40,6 @@ feature {NONE} -- Initialization
 		end
 
 
-	todo_ctrl: DEMO_TODO_CTRL
-			-- a controller for handling todo requests
-
 	user: USER
 		-- a controller for handling user requests
 
@@ -62,7 +59,6 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-			create todo_ctrl.make(dao)
 			create user.make(dao)
 			create project.make(dao)
 			create rol_project.make(dao)
@@ -80,10 +76,6 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
-				-- handling of all the routes relating to "todos"
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.get_todos, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
 				-- handling of all ht routes relating to "user"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.get_users, router.methods_get)

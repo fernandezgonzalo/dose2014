@@ -70,75 +70,13 @@ feature {NONE} -- Format helpers
 
 feature -- Data access Users
 
-	todos: JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a todo
-
-		do
-			create Result.make_array
-
-			create db_query_statement.make ("SELECT t.id AS todoId, t.description, u.id AS userId, u.name FROM Todos As t, Users AS u WHERE t.userId = u.id;" , db)
-
-			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
-		end
-
-
-	users: JSON_ARRAY
+	search_all_users: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM User;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 
-		end
-
-
-	todos_for_user (a_user_id: NATURAL): JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a todo of user with id `a_user_id'
-		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT t.id AS todoId, t.description, u.id AS userId, u.name FROM Todos As t, Users AS u WHERE t.userId = u.id AND u.id = " + a_user_id.out + ";" , db)
-			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
-		end
-
-
-	add_todo_for_user (a_description: STRING; a_user_id: NATURAL): JSON_OBJECT
-			-- adds a new todo with the given description for the given userid
-			-- returns a json object that contains the properties "todoId, description, userId, name" for the newly added todo
-		local
-			l_new_id: INTEGER_64
-		do
-				-- create the result object, in this case an empty JSON_OBJECT
-			create Result.make
-
-				-- construct the insert statement based on the provided arguments
-			create db_insert_statement.make ("INSERT INTO Todos(description, userId) VALUES ('" + a_description + "', '" + a_user_id.out + "');", db)
-				-- execute the statement
-			db_insert_statement.execute
-
-			if db_insert_statement.has_error then
-				print("Error while inserting a new Todo")
-				-- TODO: should have more error handling here, e.g. have a return value set to false
-			else
-					-- get the id of the row that was added to the Todos table
-				l_new_id := db_insert_statement.last_row_id
-
-					-- fetch the entry from the database
-				create db_query_statement.make("SELECT t.id as todoId, t.description, t.userId, u.name FROM Todos as t, Users as u WHERE t.userId = u.id AND t.id = " + l_new_id.out + ";", db)
-				db_query_statement.execute (agent row_to_json_object(?, 4, Result))
-			end
-
-		end
-
-
-	remove_todo (a_todo_id: NATURAL)
-			-- removes the todo with the given id
-		do
-			create db_modify_statement.make ("DELETE FROM Todos WHERE id=" + a_todo_id.out + ";", db)
-			db_modify_statement.execute
-			if db_modify_statement.has_error then
-				print("Error while deleting a Todo")
-					-- TODO: we probably want to return something if there's an error
-			end
 		end
 
 
@@ -149,6 +87,18 @@ feature -- Data access Users
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
+			end
+		end
+
+
+	remove_user (a_todo_id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM Todos WHERE id=" + a_todo_id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Todo")
+					-- TODO: we probably want to return something if there's an error
 			end
 		end
 
@@ -164,7 +114,7 @@ feature -- Data access Projects
 		end
 
 	add_project (info: STRING)
-			-- adds a new user with the given user name
+
 		do
 			create db_insert_statement.make ("INSERT INTO Project(info) VALUES ('" + info +"');", db);
 			db_insert_statement.execute
@@ -185,7 +135,7 @@ feature -- Data access RolProjects
 		end
 
 	add_rol_project (type: STRING)
-			-- adds a new user with the given user name
+
 		do
 			create db_insert_statement.make ("INSERT INTO RolProject(type) VALUES ('" + type +"');", db);
 			db_insert_statement.execute
@@ -194,6 +144,26 @@ feature -- Data access RolProjects
 			end
 		end
 
+feature -- Data access UserProjects
+
+	user_projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a UserProject
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM UserProject;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+
+		end
+
+	add_user_project (id_user, id_project: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO RolProject(id_user, id_project) VALUES ('" + id_user +"','"+id_project+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new UserProject")
+			end
+		end
 
 feature {NONE}
 
