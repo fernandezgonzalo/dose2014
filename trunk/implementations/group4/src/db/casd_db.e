@@ -67,7 +67,7 @@ feature {NONE} -- Format helpers
 			Result := False
 		end
 
-feature {AT_DB_HANDLER_USER}
+feature {AT_DB_HANDLER_USER,DB_HANDLER_TEST}
 
 	db: SQLITE_DATABASE
 		-- the database
