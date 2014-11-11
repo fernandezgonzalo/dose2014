@@ -9,6 +9,30 @@ app.config(['$logProvider', function($logProvider){
   $logProvider.debugEnabled(false);
 }]);
 
+app.factory('myService', function() {
+  var savedProject = {};
+
+  var savedSprint = {};
+
+  function set(pjt,spr) {
+    savedProject = pjt,
+    savedSprint = spr;
+  }
+  function getSavedSprint() {
+    return savedSprint;
+  }
+
+  function getSavedProject() {
+    return savedProject;
+  }
+
+  return {
+    set: set,
+    getSavedProject: getSavedProject,
+    getSavedSprint: getSavedSprint
+  }
+}),
+
 /** Define the routes for the application; This routing is done by Angular */
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
@@ -37,9 +61,16 @@ app.config(['$routeProvider', '$locationProvider',
           templateUrl: 'partials/story.html',
           controller: 'StoryController'
         })
-
+      .when('/projectsSprints', {
+        templateUrl: 'partials/projects-sprints.html',
+        controller: 'projectsSprintsController'
+      })
+      .when('/storyTask', {
+          templateUrl: 'partials/story-task.html',
+          controller: 'storyTaskController'
+      })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/home'
       });
     }
   ]);
