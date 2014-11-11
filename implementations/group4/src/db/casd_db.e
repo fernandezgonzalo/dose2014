@@ -6,7 +6,7 @@ note
 
 class
 	CASD_DB
-	
+
 create
 	make
 
@@ -67,7 +67,7 @@ feature {NONE} -- Format helpers
 			Result := False
 		end
 
-feature {NONE}
+feature {AT_DB_HANDLER_USER}
 
 	db: SQLITE_DATABASE
 		-- the database
