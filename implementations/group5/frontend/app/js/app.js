@@ -67,7 +67,7 @@ app.config(['$routeProvider',
         controller: 'UserController',
       })
       .otherwise({
-        redirectTo: '/users'
+        redirectTo: '/projects'
       });
     }
   ]);
