@@ -1,6 +1,6 @@
 note
 	description: "This class connected provides features that query the database. Results are directly returned in JSON format."
-	author: ""
+	author: "Guido Giovannini"
 	date: "$Date$"
 	revision: "$Revision$"
 
