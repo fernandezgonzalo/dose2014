@@ -45,3 +45,15 @@ body {
 .ng-valid.ng-dirty {
   border-color: green;
 }
+
+.colorHover:hover{
+  background-color: beige;
+}
+
+.colorHover{
+  background-color:#ffffff;
+}
+
+.letsGo{
+  background-color:lightgray;
+}
