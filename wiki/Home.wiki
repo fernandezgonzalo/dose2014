@@ -19,7 +19,7 @@
   * Create teams: October 19th, 2014
   * Discussions and consolidation: October 31st, 2014
   * API Design: November 11th
-  * Implementation & Testing: December 9th
+  * Implementation & Testing: December 12th
 
 == Other ==
 
