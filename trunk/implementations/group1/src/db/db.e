@@ -75,10 +75,16 @@ feature -- Data access Users
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM User;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
-
+			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
 		end
 
+	search_a_user (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM User WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
+		end
 
 	add_user (name,lastname,email,password,rol,active: STRING)
 			-- adds a new user with the given user name
@@ -112,6 +118,14 @@ feature -- Data access Projects
 
 		end
 
+	search_a_project (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Project WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		end
+
 	add_project (info: STRING)
 
 		do
@@ -143,6 +157,14 @@ feature -- Data access RolProjects
 
 		end
 
+	search_a_rol_project (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM RolProject WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		end
+
 	add_rol_project (type: STRING)
 
 		do
@@ -172,6 +194,14 @@ feature -- Data access UserProjects
 			create db_query_statement.make ("SELECT * FROM UserProject;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 
+		end
+
+	search_a_user_project (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user project
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM UserProject WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 		end
 
 	add_user_project (id_user, id_project: STRING)
