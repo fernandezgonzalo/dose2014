@@ -26,10 +26,10 @@ feature {NONE} -- Private attributes
 
 	name: STRING
 	lastname: STRING
-	email STRING,
-	password STRING,
-	rol INTEGER,
-	active INTEGER
+	email: STRING
+	password: STRING
+	rol: INTEGER
+	active: INTEGER
 
 feature -- Handlers
 
