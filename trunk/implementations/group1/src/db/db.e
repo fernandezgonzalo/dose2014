@@ -86,7 +86,7 @@ feature -- Data access
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Users;", db)
+			create db_query_statement.make ("SELECT * FROM User;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 
 		end
