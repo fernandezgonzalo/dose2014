@@ -16,7 +16,7 @@ create
 feature -- Data access
 
 	find_by_id (answer_id : INTEGER) : JSON_OBJECT
-			-- returns a JSON_OBJECT that represents a user that corresponds to the given id
+			-- returns a JSON_OBJECT that represents an answer that corresponds to the given id
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Answers WHERE id="+ answer_id.out +";" ,db)
@@ -44,7 +44,7 @@ feature -- Data access
 															  "WHERE id="+ answer_id.out +";" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while updating a answer")
+				print("Error while updating an answer")
 			end
 		end
 
@@ -54,7 +54,7 @@ feature -- Data access
 			create db_modify_statement.make ("DELETE FROM Answers WHERE id=" + answer_id.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while deleting an Answer")
+				print("Error while deleting an answer")
 					-- TODO: we probably want to return something if there's an error
 			end
 		end

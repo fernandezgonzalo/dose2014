@@ -13,7 +13,7 @@ create
 feature -- Initialization
 
 	make(new_description : STRING; answered_topic_id : NATURAL; answerer_user_id : NATURAL)
-			-- Create an answer with a given description, user id and topic id.
+			-- Create an answer with a given description, user_id and topic_id.
 		require
 			some_description: (new_description /= void)
 		do
@@ -29,4 +29,5 @@ feature -- Answer data
 	topic_id : NATURAL
 
 	user_id : NATURAL
+
 end
