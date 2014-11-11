@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 
 	-- Here we should add the features for controllers classes.
 	user_ctrl: USER_CONTROLLER
-	answer_ctrl : ANSWER_CONTROLLER
+	project_ctrl: PROJECT_CONTROLLER
 
 	initialize
 			-- Initialize current service.
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
 			create user_ctrl.make (path_to_db_file)
-			create answer_ctrl.make (path_to_db_file)
+			create project_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -75,6 +75,7 @@ feature -- Basic operations
 
 				-- handling of all ht routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/casd/users", agent user_ctrl.get_users, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/casd/projects", agent project_ctrl.get_projects, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files

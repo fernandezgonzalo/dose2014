@@ -36,9 +36,8 @@ feature -- Data access
 			-- adds a new user
 		do
 			create db_insert_statement.make ("INSERT INTO Projects(name,status,description,max_points_per_sprint,user_id) "+
-											"VALUES ('" + project.name + "','"+ project.status +"',"+
-											"'"+ project.description +"','"+ "'" + project.max_points_per_sprint.out +
-											"','"+"'"+ project.user_id.out +"');", db);
+											"VALUES ('" + project.name + "','"+ project.status +"','"+ project.description +
+											"','" + project.max_points_per_sprint.out +"','"+ project.user_id.out +"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new project")
