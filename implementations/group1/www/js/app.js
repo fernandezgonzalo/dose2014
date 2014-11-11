@@ -1,7 +1,7 @@
 'use strict';
 
 var app = angular.module('Demo', [
-  'ngRoute'
+  'ngRoute', 'ngResource'
 ]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
@@ -17,15 +17,19 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'partials/login.html',
         controller: 'SessionCtrl'
       })
-      .when('/logout', {
+      .when('/user/:userID/logout', {
         templateUrl: 'partials/logout.html',
         controller: 'SessionCtrl'
       })
-	  .when('/home', {
+	  .when('/user/:userId/home', {
         templateUrl: 'partials/home.html',
         controller: 'ProjectCtrl'
       })
-	  .when('/cpanel', {
+	  	  .when('/user/:userId/home/:projectId', {
+        templateUrl: 'partials/home.html',
+        controller: 'ProjectCtrl'
+	})
+	  .when('/user/:userId//cpanel', {
         templateUrl: 'partials/cpanel.html',
         controller: 'UserCtrl'
       })

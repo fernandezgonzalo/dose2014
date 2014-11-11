@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('Demo')
-  .controller('RequirementCtrl', ['$scope', '$http', '$log',
-	function ($scope, $http, $log) {
+  .controller('RequirementCtrl', ['$scope', '$routeParams','$http', '$log',
+	function ($scope, $routeParams, $http, $log) {
 
       $scope.requirements = [];
 
