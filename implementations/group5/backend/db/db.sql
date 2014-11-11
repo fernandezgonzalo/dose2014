@@ -1,5 +1,10 @@
-# Make sure that foreign_key support is turned on
 PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS user;
+
 
 CREATE  TABLE user (
   email TEXT PRIMARY KEY ,
