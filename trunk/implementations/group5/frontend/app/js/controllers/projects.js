@@ -15,7 +15,7 @@ angular.module('Mgmt').controller('ProjectsController',
   $scope.openProject = function() {
     $location.path('/projects/1/dashboard');
   };
-
+  
   $scope.login = function() {
 
   };
