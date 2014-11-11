@@ -31,6 +31,7 @@ angular.module('Demo')
             $scope.successMsgVisible = true;
             // let the message dissapear after 2 secs
             $timeout(function() {$scope.successMsgVisible = false;}, 2000);
+			
           })
           .error(function(data, status) {
             $log.debug('Error while trying to login user.');
