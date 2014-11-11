@@ -57,7 +57,7 @@ app.config(['$routeProvider',
         controller: 'ProjectsController',
         controllerAs: 'projects'
       })
-      .when('/dashboard', {
+      .when('/usr/:id/dashboard', {
         templateUrl: 'partials/user_dashboard.html',
         controller: 'UserController',
       })
