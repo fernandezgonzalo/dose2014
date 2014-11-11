@@ -40,11 +40,9 @@ feature {NONE} -- Initialization
 			Result := ".." + Operating_environment.directory_separator.out + "www"
 		end
 
-	--database: CASD_DB
-		-- access to the database and the functionality that comes with that class
-
 	-- Here we should add the features for controllers classes.
 	user_ctrl: USER_CONTROLLER
+	answer_ctrl : ANSWER_CONTROLLER
 
 	initialize
 			-- Initialize current service.
@@ -55,7 +53,7 @@ feature {NONE} -- Initialization
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
 			create user_ctrl.make (path_to_db_file)
-
+			create answer_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
