@@ -42,8 +42,8 @@ feature -- Handlers
 			-- adds a new users; the user data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_username, new_email, new_password : STRING
-			new_user : USER
+			l_user_name, l_email, l_password : STRING
+			l_user : USER
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -61,25 +61,25 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each user attribute.
-				if attached {JSON_STRING} j_object.item ("username") as username then
-					new_username := username.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("user_name") as user_name then
+					l_user_name := user_name.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("email") as email then
-					new_email := email.unescaped_string_8
+					l_email := email.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("password") as password then
-					new_password := password.unescaped_string_8
+					l_password := password.unescaped_string_8
 				end
 
 			end
 
-			create new_user.make(new_username,new_email,new_password)
+			create l_user.make(l_user_name,l_email,l_password)
 				-- create the user in the database
-			db_handler_user.add (new_user)
+			db_handler_user.add (l_user)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added user " + new_user.username ), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Added user " + l_user.username ), create {JSON_STRING}.make_json ("Message"))
 
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
@@ -91,8 +91,8 @@ feature -- Handlers
 		local
 			l_payload: STRING
 			l_user_id: STRING
-			user_username, user_email, user_password : STRING
-			user : USER
+			l_user_name, l_email, l_password : STRING
+			l_user : USER
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -110,30 +110,30 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 				-- we have to convert the json string into an eiffel string for each user attribute.
-				if attached {JSON_STRING} j_object.item ("username") as username then
-					user_username := username.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("user_name") as user_name then
+					l_user_name := user_name.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("email") as email then
-					user_email := email.unescaped_string_8
+					l_email := email.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("password") as password then
-					user_password := password.unescaped_string_8
+					l_password := password.unescaped_string_8
 				end
 
 			end
 
 				-- create the user
-			create user.make (user_username, user_email, user_password)
+			create l_user.make (l_user_name, l_email, l_password)
 
 				-- the user_id from the URL (as defined by the placeholder in the route)
 			l_user_id := req.path_parameter ("user_id").string_representation
 
 				-- update the user in the database
-			db_handler_user.update (l_user_id.to_natural,user)
+			db_handler_user.update (l_user_id.to_natural,l_user)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated user "+ user.username), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Updated user "+ l_user.username), create {JSON_STRING}.make_json ("Message"))
 
 				-- set the result
 			set_json_header_ok (res, l_result.representation.count)

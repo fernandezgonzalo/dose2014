@@ -15,7 +15,7 @@ inherit
 feature -- Test routines
 
 	new_answer_with_valid_values_test
-			-- Test that create an answer with valid description and user.
+			-- Test that create an answer with valid description.
 		local
 			answer : ANSWER
 			user_id : NATURAL
