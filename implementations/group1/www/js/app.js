@@ -49,14 +49,6 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'partials/user.html',
         controller: 'UserCtrl'
 	})
-	.when('/sprint', {
-        templateUrl: 'partials/sprint.html',
-        controller: 'SprintCtrl'
-	})
-	.when('/task', {
-        templateUrl: 'partials/task.html',
-        controller: 'TaskCtrl'
-	})
       .otherwise({
         redirectTo: '/login'
       });
@@ -64,6 +56,7 @@ app.config(['$routeProvider', '$locationProvider',
 	
   ]);
  
+  
   
   
   
