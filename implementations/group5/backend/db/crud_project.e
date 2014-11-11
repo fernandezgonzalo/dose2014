@@ -158,5 +158,36 @@ feature -- Data access
 			end
 		end
 
+	number_of_tasks_in_project(id_project): JSON_OBJECT
+	--RETURNS total number of tasks in the project
+	do
+		create Result.make_array
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+"';", db)
+		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+	end
+
+	number_of_finshed_tasks(id_project): JSON_OBJECT
+	--RETURNS total number of finished tasks in the project identified by id_project
+	do
+		create Result.make_array
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'Finished';", db)
+		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+	end
+
+	number_of_stopped_tasks(id_project): JSON_OBJECT
+	--RETURNS total number of stopped tasks in the project identified by id_project
+	do
+		create Result.make_array
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'Stopped';", db)
+		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+	end
+
+	number_of_user_group_by_user(id_project): JSON_OBJECT
+	--RETURNS total number of tasks in the project identified by id_project
+	do
+		create Result.make_array
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+"' GROUP BY id_user_assigned;", db)
+		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+	end
 
 end

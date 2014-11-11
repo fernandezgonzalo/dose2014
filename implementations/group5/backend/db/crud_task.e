@@ -90,7 +90,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM task;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
 
 		end
 
@@ -100,7 +100,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM task WHERE id = " + id.out + ";", db)
-			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 10, Result))
 
 		end
 
@@ -110,7 +110,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM task WHERE id_project = " + id.out + ";", db)
-			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 10, Result))
 
 		end
 
@@ -211,5 +211,35 @@ feature -- Data access
 					-- TODO: we probably want to return something if there's an error
 			end
 		end
+
+	planned_task_of_the_user(email:STRING) :JSON_ARRAY
+	--showing the tasks that the user is assigned and are still in the doing swim lane of the projects
+	do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM task WHERE id_user = '" +email+"' AND status = 'Planned';", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
+
+		end
+
+	inprogress_task_of_the_user(email:STRING) :JSON_ARRAY
+	--showing the tasks that the user is assigned and are still in the todo swim lane of the projects.
+
+	do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM task WHERE id_user = '" +email+"' AND status = 'In progress';", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
+
+		end
+
+	tasks_by_status_and_id_project(status:STRING;id_project:NATURAL) :JSON_ARRAY
+	--showing the tasks that the user is assigned and are still in the todo swim lane of the projects.
+
+	do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM task WHERE id_project = '"+id_project.out+"' AND status = '"+status+"';", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
+
+		end
+
 
 end
