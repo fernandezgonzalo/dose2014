@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', 'User', function ($scope, $log, $location, $routeParams, User) {
-
   $log.debug('UserController::routeParams=', $routeParams);
+
 
   $scope.users = User.query();
 
@@ -14,6 +14,10 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     $log.debug('UserController::delete ', user);
     $event.stopPropagation();
 
+  };
+  $scope.openProjectDash = function($event) {
+    $location.path('/projects/1/dashboard');
+    $event.stopPropagation();
   };
 
   $scope.create = function(user) {

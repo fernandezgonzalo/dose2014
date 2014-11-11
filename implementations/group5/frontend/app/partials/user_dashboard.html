@@ -1,39 +1,47 @@
+<!-- Modal -->
+<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
 <div class="row">
 	<h1 class="title col-md-12">My dashboard</h1>
 	<h3 class="col-md-12">Tasks in progress</h3>
 	<table class="table">
-		<tr class="warning">
+		<tr class="warning row-link" onclick="input" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
 			<td class="col-md-6">[DOSE2014] Create frontend pages mockup</td>
 			<td class="col-md-2"><span class="badge">10</span> comments</td>
 			<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> 11 nov</td>
-			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block">view project</button></td>
+			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
 		</tr>
-		<tr class="danger">
+		<tr class="danger row-link" onclick="input" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
 			<td class="col-md-6">[Google] Requirement consolidation</td>
 			<td class="col-md-2"></td>
 			<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> 15 dec</td>
-			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block">view project</button></td>
+			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
 		</tr>
-		<tr class="success">
+		<tr class="success row-link" onclick="input" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
 			<td class="col-md-6">[Virgin] Meeting with developers</td>
 			<td class="col-md-2"><span class="badge">7</span> comments</td>
 			<td class="col-md-2"></td>
-			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block">view project</button></td>
+			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
 		</tr>
 	</table>
 	<h3 class="col-md-12">Tasks finished</h3>
 	<table class="table">
-		<tr class="danger">
+		<tr class="danger row-link" onclick="input" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
 			<td class="col-md-6">[DOSE2014] Requirement consolidation</td>
 			<td class="col-md-2"></td>
 			<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> 31 oct</td>
-			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block">view project</button></td>
+			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
 		</tr>
-		<tr class="warning">
+		<tr class="warning row-link" onclick="input" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
 			<td class="col-md-6">Virgin] Design mockups</td>
 			<td class="col-md-2"><span class="badge">7</span> comments</td>
 			<td class="col-md-2"></td>
-			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block">view project</button></td>
+			<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
 		</tr>
 	</table>
 </div>
