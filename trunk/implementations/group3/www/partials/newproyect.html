@@ -1,0 +1,72 @@
+
+    <div class="container" >
+        <div class="row show-grid">
+            <div class="col-md-6 col-md-offset-3">
+                <h2>Project</h2>
+                <form role="form">
+                    <div class="form-group">
+                        <label>Project name* </label>
+                        <input type="text" class="form-control" placeholder="Enter project name">
+                    </div>
+                    <div class="form-group">
+                        <label>Project description</label>
+                        <textarea class="form-control" placeholder="Enter project description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Start date</label>
+                        <input type="date" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label>Completion date</label>
+                        <input type="date" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control">
+                            <option>option1</option>
+                            <option>option2</option>
+                            <option>option3</option>
+                            <option>option4</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success">Create</button>
+                    <button class="btn btn-danger">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="container">
+        <div class="row show-grid">
+            <div class="col-md-6 col-md-offset-3">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#invite" data-toggle="tab">Invite</a></li>
+                    <li><a href="#people_with_access" data-toggle="tab">People with access</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="form-group">
+                            <label>Invite</label>
+                            <input type="text" class="form-control" placeholder="Mail from people who want to share the project.">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea class="form-control" placeholder="Add a message"></textarea>
+                        </div>
+                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-default">Clear</button>
+                        <button class="btn btn-danger">Cancel</button>
+                        <br />
+                        <br />
+                    </div>
+                    <div class="tab-pane" id="tab_b">
+                        <h4>tab</h4>
+                        <p>other tab</p>
+                    </div>
+
+                </div><!-- tab content -->
+            </div><!-- end of container -->
+        </div>
+    </div>
