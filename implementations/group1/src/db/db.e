@@ -169,7 +169,28 @@ feature -- Data access Projects
 			create db_insert_statement.make ("INSERT INTO Project(info) VALUES ('" + info +"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
-				print("Error while inserting a new user")
+				print("Error while inserting a new project")
+			end
+		end
+
+feature -- Data access RolProjects
+
+	rol_projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a RolProject
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM RolProject;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+
+		end
+
+	add_rol_project (type: STRING)
+			-- adds a new user with the given user name
+		do
+			create db_insert_statement.make ("INSERT INTO RolProject(type) VALUES ('" + type +"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Rol Project")
 			end
 		end
 
