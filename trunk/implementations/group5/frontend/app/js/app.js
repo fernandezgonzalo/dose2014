@@ -18,6 +18,10 @@ app.config(['$logProvider', function($logProvider) {
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider
+    .when('/', {
+        templateUrl: 'partials/user_dashboard.html',
+        controller: 'UserController',
+      })
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'
@@ -67,7 +71,7 @@ app.config(['$routeProvider',
         controller: 'UserController',
       })
       .otherwise({
-        redirectTo: '/projects'
-      });
+        templateUrl: 'partials/404.html'
+      })
     }
   ]);
