@@ -52,6 +52,9 @@ feature {NONE} -- Initialization
 	project: PROJECT
 		-- a controller for handling project requests
 
+	rol_project: ROL_PROJECT
+		-- a controller for handling project requests
+
 	dao: DB
 			-- access to the database and the functionality that comes with that class
 
@@ -66,6 +69,7 @@ feature {NONE} -- Initialization
 			create user_ctrl.make(dao)
 			create user.make(dao)
 			create project.make(dao)
+			create rol_project.make(dao)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -85,13 +89,17 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
-				-- handling of all ht routes relating to "users"
+				-- handling of all ht routes relating to "user"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.add_user, router.methods_post)
 
-				-- handling of all ht routes relating to "projects"
-			map_uri_template_agent_with_request_methods ("/api/users", agent project.get_projects, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent project.add_project, router.methods_post)
+				-- handling of all ht routes relating to "project"
+			map_uri_template_agent_with_request_methods ("/api/projects", agent project.get_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects", agent project.add_project, router.methods_post)
+
+				-- handling of all ht routes relating to "rolProjects"
+			map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.get_rol_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.add_rol_project, router.methods_post)
 
 
 				-- setting the path to the folder from where we serve static files
