@@ -17,6 +17,7 @@ feature {NONE} -- Creation
 	make (a_dao: DB)
 		do
 			my_db := a_dao
+			my_db.remove_user (1)
 		end
 
 

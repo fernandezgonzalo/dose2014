@@ -91,20 +91,19 @@ feature -- Data access Users
 		end
 
 
-	remove_user (a_todo_id: NATURAL)
+	remove_user (id: NATURAL)
 			-- removes the todo with the given id
 		do
-			create db_modify_statement.make ("DELETE FROM Todos WHERE id=" + a_todo_id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM User WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while deleting a Todo")
-					-- TODO: we probably want to return something if there's an error
+				print("Error while deleting a User")
 			end
 		end
 
 feature -- Data access Projects
 
-	projects: JSON_ARRAY
+	search_all_projects: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
 		do
 			create Result.make_array
@@ -123,9 +122,19 @@ feature -- Data access Projects
 			end
 		end
 
+		remove_project (id: NATURAL)
+				-- removes the todo with the given id
+			do
+				create db_modify_statement.make ("DELETE FROM Project WHERE id=" + id.out + ";", db)
+				db_modify_statement.execute
+				if db_modify_statement.has_error then
+					print("Error while deleting a Project")
+				end
+			end
+
 feature -- Data access RolProjects
 
-	rol_projects: JSON_ARRAY
+	search_all_rol_projects: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a RolProject
 		do
 			create Result.make_array
@@ -144,9 +153,19 @@ feature -- Data access RolProjects
 			end
 		end
 
+		remove_rol_project (id: NATURAL)
+				-- removes the todo with the given id
+			do
+				create db_modify_statement.make ("DELETE FROM RolProject WHERE id=" + id.out + ";", db)
+				db_modify_statement.execute
+				if db_modify_statement.has_error then
+					print("Error while deleting a Rol Project")
+				end
+			end
+
 feature -- Data access UserProjects
 
-	user_projects: JSON_ARRAY
+	search_all_user_projects: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a UserProject
 		do
 			create Result.make_array
@@ -162,6 +181,16 @@ feature -- Data access UserProjects
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new UserProject")
+			end
+		end
+
+	remove_user_project (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM UserProject WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a User Project")
 			end
 		end
 

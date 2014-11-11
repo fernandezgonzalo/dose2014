@@ -33,7 +33,7 @@ feature -- Handlers
 		local
 			l_result_payload: STRING
 		do
-			l_result_payload := my_db.projects.representation
+			l_result_payload := my_db.search_all_projects.representation
 
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
