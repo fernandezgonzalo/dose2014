@@ -19,14 +19,27 @@ app.config(['$routeProvider', '$locationProvider',
       })
       .when('/login', {
         templateUrl: 'partials/login.html',
-        controller: 'loginController'
+        controller: 'LoginController'
       })
       .when('/register', {
         templateUrl: 'partials/register.html',
         controller: 'registerController'
       })
+        .when('/sprint', {
+          templateUrl: 'partials/sprint.html',
+          controller: 'SprintController'
+        })
+        .when('/task', {
+          templateUrl: 'partials/task.html',
+          controller: 'TaskController'
+        })
+        .when('/story', {
+          templateUrl: 'partials/story.html',
+          controller: 'StoryController'
+        })
+
       .otherwise({
-        redirectTo: '/register'
+        redirectTo: '/login'
       });
     }
   ]);
