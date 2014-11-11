@@ -1,11 +1,16 @@
 'use strict';
 
 var app = angular.module('Mgmt', [
-  'ngRoute'
+  'ngRoute',
+  'xeditable'
 ]);
 
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});
+
 /** Turn on/off the angular debugging; should be off when deployed */
-app.config(['$logProvider', function($logProvider){
+app.config(['$logProvider', function($logProvider) {
   $logProvider.debugEnabled(true);
 }]);
 
