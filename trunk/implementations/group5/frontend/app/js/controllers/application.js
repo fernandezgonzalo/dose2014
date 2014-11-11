@@ -15,6 +15,21 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     location.href = '/';
   };
 
+  $scope.isActive = function(path) {
+    var link_path = path.split('/');
+    var location_path = $location.path().split('/');
+    if (link_path.length != location_path.length) {
+      return false;
+    }
+    for (var i = 0; i < link_path.length; ++i) {
+      if (link_path[i] !== '*' && link_path[i] !== location_path[i]) {
+        $log.debug('ApplicationController::isActive::', link_path[i], location_path[i]);
+        return false;
+      }
+    }
+    return true;
+  };
+
   if (!AuthService.isAuthenticated()) {
     $location.path('/login');
   } else {
