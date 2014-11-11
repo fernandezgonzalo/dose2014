@@ -73,3 +73,8 @@ priority INTEGER,
 id_project INTEGER,
 FOREIGN KEY (id_project) REFERENCES Project(id)
 );
+
+
+# Add some users to the users table
+INSERT INTO User VALUES ('Jimi', 'Hendrix', 'jimi@gmail.com','123',1,0);
+

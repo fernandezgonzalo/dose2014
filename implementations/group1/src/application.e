@@ -45,8 +45,10 @@ feature {NONE} -- Initialization
 
 	user_ctrl: DEMO_USER_CTRL
 			-- a controller for handling user requests
+			
+	user: USER
 
-	dao: DEMO_DB
+	dao: DB
 			-- access to the database and the functionality that comes with that class
 
 
