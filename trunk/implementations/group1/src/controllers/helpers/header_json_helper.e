@@ -1,9 +1,9 @@
 note
 	description: "Provides helper functions to set the HTTP header of a response that returns json."
-	author: "hce"
+	author: "Giovannini Guido"
 
 class
-	DEMO_HEADER_JSON_HELPER
+	HEADER_JSON_HELPER
 
 
 feature
