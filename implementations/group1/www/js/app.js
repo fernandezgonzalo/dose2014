@@ -13,7 +13,7 @@ app.config(['$logProvider', function($logProvider){
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/login', {
+      .when('/login', { 
         templateUrl: 'partials/login.html',
         controller: 'SessionCtrl'
       })
