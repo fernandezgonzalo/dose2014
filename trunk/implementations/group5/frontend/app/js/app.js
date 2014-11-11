@@ -57,6 +57,10 @@ app.config(['$routeProvider',
         controller: 'ProjectsController',
         controllerAs: 'projects'
       })
+      .when('/dashboard', {
+        templateUrl: 'partials/user_dashboard.html',
+        controller: 'UserController',
+      })
       .otherwise({
         redirectTo: '/users'
       });
