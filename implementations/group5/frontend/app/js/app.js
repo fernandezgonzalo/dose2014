@@ -5,9 +5,9 @@ var app = angular.module('Mgmt', [
   'xeditable'
 ]);
 
-app.run(function(editableOptions) {
+app.run(['editableOptions', function(editableOptions) {
   editableOptions.theme = 'bs3';
-});
+}]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
 app.config(['$logProvider', function($logProvider) {
