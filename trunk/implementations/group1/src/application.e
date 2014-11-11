@@ -47,6 +47,10 @@ feature {NONE} -- Initialization
 			-- a controller for handling user requests
 
 	user: USER
+		-- a controller for handling user requests
+
+	project: PROJECT
+		-- a controller for handling project requests
 
 	dao: DB
 			-- access to the database and the functionality that comes with that class
@@ -61,6 +65,7 @@ feature {NONE} -- Initialization
 			create todo_ctrl.make(dao)
 			create user_ctrl.make(dao)
 			create user.make(dao)
+			create project.make(dao)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -83,6 +88,10 @@ feature -- Basic operations
 				-- handling of all ht routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.add_user, router.methods_post)
+
+				-- handling of all ht routes relating to "projects"
+			map_uri_template_agent_with_request_methods ("/api/users", agent project.get_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users", agent project.add_project, router.methods_post)
 
 
 				-- setting the path to the folder from where we serve static files
