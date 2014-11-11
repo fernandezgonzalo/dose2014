@@ -69,7 +69,7 @@ feature -- Handlers
 			end
 
 				-- create the user in the database
-			my_db.add_user (l_name)
+			-- my_db.add_user (l_name)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
