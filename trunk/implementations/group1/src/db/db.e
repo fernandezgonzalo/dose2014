@@ -68,7 +68,7 @@ feature {NONE} -- Format helpers
 		end
 
 
-feature -- Data access
+feature -- Data access Users
 
 	todos: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a todo
@@ -142,15 +142,27 @@ feature -- Data access
 		end
 
 
-	add_user (a_user_name: STRING)
+	add_user (name,lastname,email,password,rol,active: STRING)
 			-- adds a new user with the given user name
 		do
-			create db_insert_statement.make ("INSERT INTO Users(name) VALUES ('" + a_user_name + "');", db);
+			create db_insert_statement.make ("INSERT INTO User(name,lastname,email,password,rol,active) VALUES ('" + name+"','"+lastname+"','"+email+"','"+password+"','"+rol+"','"+active+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
 			end
 		end
+
+feature -- Data access Projects
+
+	projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Project;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+
+		end
+
 
 
 feature {NONE}
