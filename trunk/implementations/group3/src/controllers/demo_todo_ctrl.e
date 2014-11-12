@@ -17,14 +17,14 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_dao: DEMO_DB)
+	make (a_dao: DB)
 		do
 			my_db := a_dao
 		end
 
 feature {NONE} -- Private attributes
 
-	my_db: DEMO_DB
+	my_db: DB
 
 
 feature -- Handlers
