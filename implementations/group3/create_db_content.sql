@@ -18,7 +18,8 @@ CREATE TABLE Users (
   id INTEGER PRIMARY KEY,
   login TEXT NOT NULL UNIQUE,
   password TEXT,
-  name TEXT
+  name TEXT,
+  email TEXT
 );
 
 CREATE TABLE Sprints(

@@ -5,7 +5,7 @@ note
 	revision: "$Revision$"
 
 class
-	DEMO_DB
+	DB
 
 create
 	make
