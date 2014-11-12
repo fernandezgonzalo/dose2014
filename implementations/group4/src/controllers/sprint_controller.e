@@ -1,11 +1,11 @@
 note
-	description: "Handlers for everything that concerns projects."
+	description: "Handlers for everything that concerns sprints."
 	author: "$Rio Cuarto4 Team$"
 	date: "$2014-11-11$"
 	revision: "$0.01$"
 
 class
-	PROJECT_CONTROLLER
+	SPRINT_CONTROLLER
 
 inherit
 	HEADER_JSON_HELPER
@@ -24,12 +24,12 @@ feature {NONE} -- Creation
 
 feature {NONE} -- Private attributes
 
-	db_handler_project : DB_HANDLER_PROJECT
+	db_handler_project : DB_HANDLER_SPRINT
 
 
 feature -- Handlers
 
-	get_projects (req: WSF_REQUEST; res: WSF_RESPONSE)
+	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all users
 		local
 			l_result_payload: STRING
