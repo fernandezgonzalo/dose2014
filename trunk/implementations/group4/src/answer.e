@@ -32,4 +32,14 @@ feature -- Answer data
 
 	user_id : NATURAL
 
+feature -- Operations
+
+	set_description (new_description : STRING)
+			-- update the answer description.
+		require
+			valid_description: (new_description/=void)
+		do
+			description := new_description
+		end
+	
 end
