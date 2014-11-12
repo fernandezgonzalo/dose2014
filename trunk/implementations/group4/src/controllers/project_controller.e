@@ -41,7 +41,7 @@ feature -- Handlers
 		end
 
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new users; the user data are expected to be part of the request's payload
+			-- adds a new project; the project data are expected to be part of the request's payload
 		local
 			l_payload : STRING
 			new_name, new_status, new_description, new_mpps, new_user_id : STRING
@@ -59,10 +59,10 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- for the project description
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-					-- we have to convert the json string into an eiffel string for each user attribute.
+					-- we have to convert the json string into an eiffel string for each project attribute.
 				if attached {JSON_STRING} j_object.item ("name") as name then
 					new_name := name.unescaped_string_8
 				end
@@ -82,7 +82,7 @@ feature -- Handlers
 			end
 
 			create new_project.make (new_name, new_status, new_description, new_mpps.to_integer_32, new_user_id.to_integer_32)
-				-- create the user in the database
+				-- create the project in the database
 			db_handler_project.add (new_project)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
@@ -95,7 +95,7 @@ feature -- Handlers
 		end
 
 	update_project (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a user from the database
+			-- update a project from the database
 		local
 			l_payload: STRING
 			l_project_id: STRING
@@ -114,10 +114,10 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- for the project description
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-				-- we have to convert the json string into an eiffel string for each user attribute.
+				-- we have to convert the json string into an eiffel string for each project attribute.
 				if attached {JSON_STRING} j_object.item ("name") as name then
 					project_name := name.unescaped_string_8
 				end
@@ -136,13 +136,13 @@ feature -- Handlers
 
 			end
 
-				-- create the user
+				-- create the project
 			create project.make (project_name, project_status, project_description, project_mpps.to_integer_32, project_user_id.to_integer_32)
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
+				-- the project_id from the URL (as defined by the placeholder in the route)
 			l_project_id := req.path_parameter ("project_id").string_representation
 
-				-- update the user in the database
+				-- update the project in the database
 			db_handler_project.update (l_project_id.to_natural,project)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
@@ -154,15 +154,15 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
-	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a user from the database
+	remove_project (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- remove a project from the database
 		local
 			l_project_id: STRING
 			l_result: JSON_OBJECT
 		do
-				-- the user_id from the URL (as defined by the placeholder in the route)
+				-- the project_id from the URL (as defined by the placeholder in the route)
 			l_project_id := req.path_parameter ("project_id").string_representation
-				-- remove the user
+				-- remove the project
 			db_handler_project.remove (l_project_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
