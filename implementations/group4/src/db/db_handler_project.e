@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {DB_HANDLER_PROJECT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "This class manages the database operations that concerns projects."
+	author: "Rio Cuarto4 Team"
+	date: "$2014-11-11$"
+	revision: "$0.01$"
 
 class
 	DB_HANDLER_PROJECT
@@ -16,7 +16,7 @@ create
 feature -- Data access
 
 	find_all : JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Projects;", db)
@@ -25,7 +25,7 @@ feature -- Data access
 		end
 
 	find_by_id (project_id : INTEGER) : JSON_OBJECT
-			-- returns a JSON_OBJECT that represents a user that corresponds to the given id
+			-- returns a JSON_OBJECT that represents a project that corresponds to the given id
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Projects WHERE id="+ project_id.out +";" ,db)
@@ -33,7 +33,7 @@ feature -- Data access
 		end
 
 	add (project: PROJECT)
-			-- adds a new user
+			-- adds a new project
 		do
 			create db_insert_statement.make ("INSERT INTO Projects(name,status,description,max_points_per_sprint,user_id) "+
 											"VALUES ('" + project.name + "','"+ project.status +"','"+ project.description +

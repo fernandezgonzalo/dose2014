@@ -24,28 +24,28 @@ feature {NONE} -- Creation
 
 feature {NONE} -- Private attributes
 
-	db_handler_project : DB_HANDLER_SPRINT
+	db_handler_sprint : DB_HANDLER_SPRINT
 
 
 feature -- Handlers
 
 	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
+			-- sends a reponse that contains a json array with all sprints
 		local
 			l_result_payload: STRING
 		do
-			l_result_payload := db_handler_project.find_all.representation
+			l_result_payload := db_handler_sprint.find_all.representation
 
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		end
 
-	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new users; the user data are expected to be part of the request's payload
+	add_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- adds a new sprint; the sprint data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_name, new_status, new_description, new_mpps, new_user_id : STRING
-			new_project : PROJECT
+			new_id, new_status, new_duration : STRING
+			new_sprint: SPRINT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -59,48 +59,42 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- for the sprint description
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-					-- we have to convert the json string into an eiffel string for each user attribute.
-				if attached {JSON_STRING} j_object.item ("name") as name then
-					new_name := name.unescaped_string_8
+					-- we have to convert the json string into an eiffel string for each sprint attribute.
+				if attached {JSON_STRING} j_object.item ("id") as id then
+					new_id := id.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("status") as status then
 					new_status := status.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("description") as description then
-					new_description := description.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("duration") as duration then
+					new_duration := duration.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
-					new_mpps := mpps.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
-					new_user_id := user_id.unescaped_string_8
-				end
-
 			end
 
-			create new_project.make (new_name, new_status, new_description, new_mpps.to_integer_32, new_user_id.to_integer_32)
-				-- create the user in the database
-			db_handler_project.add (new_project)
+			create new_sprint.make (new_id.to_integer_32, new_status, new_description.to_integer_32)
+
+				-- create the sprint in the database
+			db_handler_project.add (new_sprint)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added project " + new_project.name ), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Added sprint " + new_sprint.id.out ), create {JSON_STRING}.make_json ("Message"))
 
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		end
 
-	update_project (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a user from the database
+	update_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- update a sprint from the database
 		local
 			l_payload: STRING
-			l_project_id: STRING
-			project_name, project_status, project_description, project_mpps, project_user_id : STRING
-			project : PROJECT
+			l_sprint_id: STRING
+			sprint_id, sprint_status, sprint_duration : STRING
+			sprint: SPRINT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -117,53 +111,48 @@ feature -- Handlers
 				-- for the todo description and the userId
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-				-- we have to convert the json string into an eiffel string for each user attribute.
-				if attached {JSON_STRING} j_object.item ("name") as name then
-					project_name := name.unescaped_string_8
+				-- we have to convert the json string into an eiffel string for each sprint attribute.
+				if attached {JSON_STRING} j_object.item ("id") as id then
+					sprint_id := id.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("status") as status then
-					project_status := status.unescaped_string_8
+					sprint_status := status.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("description") as description then
-					project_description := description.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("duration") as duration then
+					sprint_duration := duration.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
-					project_mpps := mpps.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
-					project_user_id := user_id.unescaped_string_8
-				end
+
 
 			end
 
-				-- create the user
-			create project.make (project_name, project_status, project_description, project_mpps.to_integer_32, project_user_id.to_integer_32)
+				-- create the sprint
+			create sprint.make (sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32)
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_project_id := req.path_parameter ("project_id").string_representation
+				-- the sprint_id from the URL (as defined by the placeholder in the route)
+			l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
-				-- update the user in the database
-			db_handler_project.update (l_project_id.to_natural,project)
+				-- update the sprint in the database
+			db_handler_sprint.update (l_sprint_id.to_natural,project)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated project "+ project.name), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Updated sprint "+ sprint.id.out), create {JSON_STRING}.make_json ("Message"))
 
 				-- set the result
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		end
 
-	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a user from the database
+	remove_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- remove a sprint from the database
 		local
-			l_project_id: STRING
+			l_sprint_id: STRING
 			l_result: JSON_OBJECT
 		do
 				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_project_id := req.path_parameter ("project_id").string_representation
-				-- remove the user
-			db_handler_project.remove (l_project_id.to_natural)
+			l_sprint_id := req.path_parameter ("sprint_id").string_representation
+				-- remove the sprint
+			db_handler_sprint.remove (l_sprint_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
