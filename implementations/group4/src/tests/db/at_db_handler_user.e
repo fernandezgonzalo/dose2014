@@ -31,15 +31,14 @@ feature -- Test routines
 			assert("Correct password", json_result.item ("password").debug_output.is_equal("pass"))
 		end
 
-	find_by_id_unexistent_user_test
-			-- Test for routine find_by_id with unexistent user id
+	find_by_id_nonexistent_user_test
+			-- Test for routine find_by_id with nonexistent user id.
 		local
 			db_handler : DB_HANDLER_USER
 			json_result : JSON_OBJECT
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 			json_result := db_handler.find_by_id (100)
-
 			assert("User not found", json_result.is_empty)
 		end
 
@@ -54,10 +53,8 @@ feature -- Test routines
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(user)
-
 				-- assert when the user was successfully added.
 			assert ("User successfully added", not db_handler.db_insert_statement.has_error)
-
 				-- remove the user added for test
 			db_handler.db.rollback
 		end
