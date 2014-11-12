@@ -181,7 +181,7 @@ feature {NONE}--login
 			create Result
 
 			create db_query_statement.make ("SELECT * FROM user WHERE email=? AND password=?;", db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_user_name, a_password>>)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, a_password>>)
 
 
 			if l_query_result_cursor.after then
