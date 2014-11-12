@@ -12,11 +12,15 @@ create
 
 feature -- Initialization
 
-	make(new_email, new_username, new_password : STRING)
+	make(new_email, new_user_name, new_password : STRING)
 			-- Create a new user with all the attributes.
+		require
+			valid_email: (new_email /= void)
+			valid_user_name: (new_user_name /= void)
+			valid_password: (new_password /= void)
 		do
 			email := new_email
-			username := new_username
+			username := new_user_name
 			password := new_password
 			is_active := true
 		end
@@ -30,5 +34,31 @@ feature -- User data
 	password : STRING
 
 	is_active: BOOLEAN
+
+feature -- Operations
+
+	set_email (new_email : STRING)
+			-- update the user email.
+		require
+			valid_email: (new_email /= void)
+		do
+			email := new_email
+		end
+
+	set_user_name (new_user_name : STRING)
+			-- update the user name
+		require
+			valid_user_name: (new_user_name /= void)
+		do
+			username := new_user_name
+		end
+
+	set_password (new_password : STRING)
+			-- update the user password
+		require
+			valid_password: (new_password /= void)
+		do
+			password := new_password
+		end
 
 end
