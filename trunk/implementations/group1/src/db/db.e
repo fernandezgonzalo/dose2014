@@ -224,6 +224,201 @@ feature -- Data access UserProjects
 			end
 		end
 
+feature -- Data access RolProject_UserProjects
+
+	search_all_rol_projects_user_projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a RolProject_UserProject
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM RolProject_UserProject;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+
+		end
+
+	search_a_rol_priject_user_project (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user project
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM RolProject_UserProject WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+		end
+
+	add_rol_project_user_project (id_user, id_project, id_rolproject: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO RolProject_UserProject(id_user, id_project, id_rolproject) VALUES ('" + id_user +"','"+id_project+"','"+id_rolproject+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new RolProject_UserProject")
+			end
+		end
+
+	remove_rol_project_user_project (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM RolProject_UserProject WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a RolProject_UserProject")
+			end
+		end
+
+feature -- Data access Sprint
+
+	search_sprint: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a sprint
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Sprint;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+
+		end
+
+	search_a_sprint (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a sprint
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Sprint WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+		end
+
+	add_sprint (id, duration, id_project: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO Sprint(id, duration, id_project) VALUES ('" + id +"','"+duration+"','"+id_project+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Sprint")
+			end
+		end
+
+	remove_sprint (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM Sprint WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Sprint")
+			end
+		end
+
+feature -- Data access Task
+
+	search_tasks: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Task;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+
+		end
+
+	search_a_task (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Task WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+		end
+
+	add_task (id, desc, comment,priority, duration, points, finalized, id_user, id_requirement: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO Sprint(id, desc, comment,priority, duration, points, finalized, id_user, id_requirement) VALUES ('"+id+"','"+desc+"','"+comment+"','"+priority+"','"+points+"','"+finalized+"','"+id_user+"','"+id_requirement+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Task")
+			end
+		end
+
+	remove_task (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM Task WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Task")
+			end
+		end
+
+feature -- Data access TaskUser_Sprint
+
+	search_task_user_sprint: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a TaskUser_Sprint
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+
+		end
+
+	search_a_task_user_sprint (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a TaskUser_Sprint
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+		end
+
+	add_task_user_sprint (id_user, id_task, id_sprint: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO TaskUser_Sprint(id_user, id_task, id_sprint) VALUES ('"+id_user+"','"+id_task+"','"+id_sprint+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Task")
+			end
+		end
+
+	remove_task_user_sprint (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM TaskUser_Sprint WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a task_user_sprint")
+			end
+		end
+
+feature -- Data access Requirement
+
+	search_requirement: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Requirement;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+
+		end
+
+	search_a_requirement (id: INTEGER): JSON_ARRAY
+		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Requirement WHERE id="+id.out +";" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+		end
+
+	add_requirement (id, estim, desc,priority,id_project: STRING)
+
+		do
+			create db_insert_statement.make ("INSERT INTO Requirement(id, estim, desc,priority,id_project) VALUES ('"+id+"','"+estim+"','"+desc+"','"+priority+"','"+id_project+"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Requirement")
+			end
+		end
+
+	remove_requirement (id: NATURAL)
+			-- removes the todo with the given id
+		do
+			create db_modify_statement.make ("DELETE FROM Requirement WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Requirement")
+			end
+		end
+
 feature {NONE}
 
 	db: SQLITE_DATABASE
