@@ -24,7 +24,7 @@ feature -- Data access
 
 		end
 
-	find_by_id (user_id : INTEGER) : JSON_OBJECT
+	find_by_id (user_id : NATURAL) : JSON_OBJECT
 			-- returns a JSON_OBJECT that represents a user that corresponds to the given id
 		do
 			create Result.make
