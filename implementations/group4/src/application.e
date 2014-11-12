@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 	-- Here we should add the features for controllers classes.
 	user_ctrl: USER_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
+	answer_ctrl: ANSWER_CONTROLLER
 
 	initialize
 			-- Initialize current service.
@@ -54,6 +55,7 @@ feature {NONE} -- Initialization
 			--create user_ctrl.make(dao)
 			create user_ctrl.make (path_to_db_file)
 			create project_ctrl.make (path_to_db_file)
+			create answer_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
