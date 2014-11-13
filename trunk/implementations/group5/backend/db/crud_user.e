@@ -13,13 +13,12 @@ create
 	feature
 
 
-	make (a_path_to_db_file: STRING)
-			-- Creation procedure
-		require
-			valid_file: a_path_to_db_file /= Void and not a_path_to_db_file.is_empty
-		do
-			create db.make_open_read_write (a_path_to_db_file)
-		end
+	make (database:SQLITE_DATABASE)
+	-- Creation procedure
+	do
+		create db.make(database.source)
+		db.open_read_write
+	end
 
 
 
@@ -92,7 +91,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM user;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 
 		end
 
@@ -102,7 +101,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE id = '" + id.out + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 
 		end
 
@@ -120,10 +119,10 @@ feature -- Data access
 			end
 		end
 
-	add_user (email: STRING;username: STRING ;password: STRING; name: STRING ):BOOLEAN
+	add_user (email: STRING;username: STRING ;password: STRING; name: STRING; is_adminn: INTEGER ):BOOLEAN
 			-- adds a new user with the given user name, password,email, name
 		do
-			create db_insert_statement.make ("INSERT INTO user (email,username,password,name) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "');", db)
+			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', '" + is_adminn.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new user")
@@ -133,10 +132,10 @@ feature -- Data access
 			end
 		end
 
---	update_user_photo (email: STRING)
---			-- updates the picture of the user identified by email,
+--	update_user_photo (id: NATURAL)
+--			-- updates the picture of the user identified by id
 --		do
---			create db_modify_statement.make ("UPDATE user SET photo= foto nueva WHERE email=" + email + ";", db)
+--			create db_modify_statement.make ("UPDATE user SET photo= foto nueva WHERE id=" + id.out + ";", db)
 --			db_modify_statement.execute
 --			if db_modify_statement.has_error then
 --				print("Error while deleting an user")
@@ -145,7 +144,7 @@ feature -- Data access
 --		end
 
 	update_user_password (id: NATURAL; new_pass: STRING): BOOLEAN
-			-- updates the password of the user identified by id,
+			-- updates the password of the user identified by id
 		do
 			create db_modify_statement.make ("UPDATE user SET password= '"+ new_pass+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
@@ -159,7 +158,7 @@ feature -- Data access
 		end
 
 	update_user_name (id: NATURAL; new_name: STRING): BOOLEAN
-			-- updates the name of the user identified by id,
+			-- updates the name of the user identified by id
 		do
 			create db_modify_statement.make ("UPDATE user SET name= '"+ new_name+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
@@ -173,7 +172,7 @@ feature -- Data access
 		end
 
 	update_user_email (id: NATURAL; new_email: STRING): BOOLEAN
-			-- updates the email of the user identified by id,
+			-- updates the email of the user identified by id
 		do
 			create db_modify_statement.make ("UPDATE user SET email= '"+ new_email+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
@@ -187,7 +186,7 @@ feature -- Data access
 		end
 
 	update_user_username (id: NATURAL; new_username: STRING): BOOLEAN
-			-- updates the username of the user identified by id,
+			-- updates the username of the user identified by id
 		do
 			create db_modify_statement.make ("UPDATE user SET username= '"+ new_username+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
@@ -201,9 +200,23 @@ feature -- Data access
 		end
 
 		update_user_last_login (id: NATURAL; new_last_login: STRING): BOOLEAN
-				-- updates the last_lgon of the user identified by id,
+				-- updates the last_login of the user identified by id
 			do
-				create db_modify_statement.make ("UPDATE user SET last_login= '"+ new_last_login+ "' WHERE id= '" + id.out + "' ;", db)
+				create db_modify_statement.make ("UPDATE user SET last_login= '"+ new_last_login + "' WHERE id= '" + id.out + "' ;", db)
+				db_modify_statement.execute
+				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
+					print("Error while updating an user")
+						Result:=false
+							-- TODO: we probably want to return something if there's an error
+					else
+						Result:= true;
+				end
+			end
+
+	update_user_is_admin (id: NATURAL; new_is_admin: NATURAL): BOOLEAN
+				-- updates the is_admin of the user identified by id
+			do
+				create db_modify_statement.make ("UPDATE user SET is_admin= '"+ new_is_admin.out + "' WHERE id= '" + id.out + "' ;", db)
 				db_modify_statement.execute
 				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 					print("Error while updating an user")
@@ -217,9 +230,9 @@ feature -- Data access
 feature {NONE}--login
 
 
-	has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name:STRING]
+	has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name,last_login:STRING;is_admin: INTEGER]
 			-- checks if a user with given username and password exists
-			-- if yes, the result tuple value "has_user" will be true and "id" ,"email","username","password", and "name" will be set
+			-- if yes, the result tuple value "has_user" will be true and "id" ,"email","username","password", "name", "last_login" and "is_admin" will be set
 			-- otherwise, "has_user" will be false and "id" and "username" will not be set
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -243,18 +256,28 @@ feature {NONE}--login
 				Result.username := l_query_result_cursor.item.value (3).out
 				Result.password := l_query_result_cursor.item.value (4).out
 				Result.name := l_query_result_cursor.item.value (5).out
+				Result.last_login := l_query_result_cursor.item.value (7).out
+				Result.is_admin := l_query_result_cursor.item.integer_value (8)
 			end
 		end
 
-	last_login(id:NATURAL): JSON_OBJECT
-	--returns the username and the last login of the user identified by email
+	is_admin(id:INTEGER): JSON_OBJECT
+	--returns the username and is_admin of the user identified by id
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT username,last_login FROM user WHERE id = '" + id.out + "' ;", db)
-			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
+			create db_query_statement.make ("SELECT username,is_admin FROM user WHERE id = '" + id.out + "' ;", db)
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 
 		end
 
+	last_login(id:NATURAL): JSON_OBJECT
+	--returns the username and the last login of the user identified by id
+		do
+			create Result.make
+			create db_query_statement.make ("SELECT username,last_login FROM user WHERE id = '" + id.out + "' ;", db)
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+
+		end
 
 
 

@@ -13,13 +13,12 @@ create
 
 	feature {NONE}
 
-	make (a_path_to_db_file: STRING)
+	make (database:SQLITE_DATABASE)
 			-- Creation procedure
-		require
-			valid_file: a_path_to_db_file /= Void and not a_path_to_db_file.is_empty
-		do
-			create db.make_open_read_write (a_path_to_db_file)
-		end
+	do
+		create	 db.make(database.source)
+		db.open_read_write
+	end
 
 
 feature {NONE}
@@ -94,7 +93,7 @@ feature {NONE} -- Format helpers
 
 			Result := False
 		end
-		
+
 feature -- Data access
 
 
@@ -113,95 +112,111 @@ feature -- Data access
 
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT * FROM project WHERE id = " + id.out + ";", db)
+			create db_query_statement.make ("SELECT * FROM project WHERE id = '" + id.out + "' ;", db)
 			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
 
 		end
 
-	remove_project_by_id (id: NATURAL)
+	remove_project_by_id (id: NATURAL): BOOLEAN
 			-- removes the project identified by id
 		do
-			create db_modify_statement.make ("DELETE FROM project WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM project WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while deleting a poject")
+				Result := false
+
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:=true;
 			end
 		end
 
-	add_project (name:STRING; deadline:STRING; client_name:STRING;id_user:NATURAL )
+	add_project (name:STRING; deadline:STRING; client_name:STRING;id_user:NATURAL ): BOOLEAN
 			-- adds a new user with the given user name, password,email, name
 		do
 			create db_insert_statement.make ("INSERT INTO project(name,deadline,client_name,id_user) VALUES ('" + name +"', '" +deadline  +"', '" +  client_name  +"', '" + id_user.out + "');", db)
 			db_insert_statement.execute
-			if db_insert_statement.has_error then
+			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new project")
+				Result:= false;
+			else
+				Result:=true;
 			end
 		end
 
-	update_project_name (name:STRING; id: NATURAL)
+	update_project_name (name:STRING; id: NATURAL): BOOLEAN
 			-- updates the name of the project identified by id,
 		do
-			create db_modify_statement.make ("UPDATE project SET name='"+ name+"' WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("UPDATE project SET name='"+ name+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating a project")
+				Result:= false;
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:= true;
 			end
 		end
 
-	update_project_deadline (deadline: STRING; id: NATURAL)
+	update_project_deadline (deadline: STRING; id: NATURAL): BOOLEAN
 			-- updates the deadline of the project identified by id,
 		do
-			create db_modify_statement.make ("UPDATE project SET deadline= '"+ deadline+"' WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("UPDATE project SET deadline= '"+ deadline+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating a project")
+				Result:= false;
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:= true;
 			end
 		end
 
-	update_project_client_name (client_name: STRING; id: NATURAL)
+	update_project_client_name (client_name: STRING; id: NATURAL): BOOLEAN
 			-- updates the client_id of the project identified by id,
 		do
-			create db_modify_statement.make ("UPDATE project SET client_name= '"+ client_name+ "' WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("UPDATE project SET client_name= '"+ client_name+ "' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating a project")
+				Result:= false;
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:= true;
 			end
 		end
 
-	number_of_tasks_in_project(id_project): JSON_OBJECT
+	number_of_tasks_in_project(id_project: NATURAL): JSON_OBJECT
 	--RETURNS total number of tasks in the project
 	do
-		create Result.make_array
+		create Result.make
 		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+"';", db)
-		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		db_query_statement.execute (agent row_to_json_object (?, 2, Result))
 	end
 
-	number_of_finshed_tasks(id_project): JSON_OBJECT
+	number_of_finshed_tasks(id_project: NATURAL): JSON_OBJECT
 	--RETURNS total number of finished tasks in the project identified by id_project
 	do
-		create Result.make_array
+		create Result.make
 		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'Finished';", db)
-		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		db_query_statement.execute (agent row_to_json_object (?, 2, Result))
 	end
 
-	number_of_stopped_tasks(id_project): JSON_OBJECT
+	number_of_stopped_tasks(id_project: NATURAL): JSON_OBJECT
 	--RETURNS total number of stopped tasks in the project identified by id_project
 	do
-		create Result.make_array
-		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'Stopped';", db)
-		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		create Result.make
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" ' AND status = 'Stopped';", db)
+		db_query_statement.execute (agent row_to_json_object(?, 2, Result))
 	end
 
-	number_of_user_group_by_user(id_project): JSON_OBJECT
+--	number_of_tasks_group_by_user(id_project: NATURAL): JSON_ARRAY
 	--RETURNS total number of tasks in the project identified by id_project
-	do
-		create Result.make_array
-		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+"' GROUP BY id_user_assigned;", db)
-		db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
-	end
+--	do
+--		create Result.make_array
+--		create db_query_statement.make ("SELECT id_project,COUNT(*),id_user_assigned FROM task WHERE id_project = '"+id_project.out+"' GROUP BY id_user_assigned;", db)
+--		db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+--	end
 
 end
