@@ -43,30 +43,14 @@ feature -- Handlers
 	get_user_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 
 		local
-			l_payload, l_id: STRING
-			parser: JSON_PARSER
+			l_id: STRING
 			l_result: JSON_OBJECT
 
 		do
 			-- create emtpy string objects
 			create l_id.make_empty
-			create l_payload.make_empty
 
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the user info
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("id") as s then
-					l_id := s.unescaped_string_8
-				end
-			end
+			l_id := req.path_parameter ("id").string_representation
 			l_result := my_crud_user.user_by_id (l_id.to_natural)
 
 			set_json_header_ok (res, l_result.representation.count)
@@ -114,7 +98,7 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("is_andmin") as s then
+				if attached {JSON_STRING} j_object.item ("isAdmin") as s then
 					l_is_admin := s.unescaped_string_8
 				end
 
@@ -122,7 +106,7 @@ feature -- Handlers
 			create l_result.make
 				-- create the user in the database
 			if my_crud_user.add_user (l_email, l_username, l_password, l_name, l_is_admin.to_integer) then
-			--if the user was created,send the response
+			--if the user was created,set the response
 			set_json_header (res, 201, l_result.representation.count)
 			end
 
@@ -132,51 +116,83 @@ feature -- Handlers
 	delete_user_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 
 		local
-			l_payload, l_id: STRING
-			parser: JSON_PARSER
+			l_id: STRING
 			l_result: JSON_OBJECT
 
 		do
 			-- create emtpy string objects
 			create l_id.make_empty
-			create l_payload.make_empty
-
-
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the user info
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("id") as s then
-					l_id := s.unescaped_string_8
-				end
-			end
+			l_id := req.path_parameter ("id").string_representation
 			create l_result.make
 			if my_crud_user.remove_user_by_id (l_id.to_natural) then
-			--if the user was removed,send the response
+			--if the user was removed,set the response
 			set_json_header (res, 204, l_result.representation.count)
 
 			end
 			res.put_string (l_result.representation)
 		end
 
+		update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 
---	update_user_password
+			local
+			l_id, l_payload, l_email, l_username, l_last_login, l_name, l_is_admin: STRING
+			parser: JSON_PARSER
+			l_result: JSON_OBJECT
+
+		do
+			-- create emtpy string objects
+			create l_payload.make_empty
+			create l_name.make_empty
+			create l_email.make_empty
+			create l_username.make_empty
+			create l_last_login.make_empty
+			create l_is_admin.make_empty
+			l_id := req.path_parameter ("id").string_representation
 
 
---	update_user_name
+			-- read the payload from the request and store it in the string
+					req.read_input_data_into (l_payload)
+
+						-- now parse the json object that we got as part of the payload
+					create parser.make_parser (l_payload)
+
+						-- if the parsing was successful and we have a json object, we fetch the properties
+						-- for the todo description and the user info
+					if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+							-- we have to convert the json string into an eiffel string
+						if attached {JSON_STRING} j_object.item ("name") as s then
+							l_name := s.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("email") as s then
+							l_email := s.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("username") as s then
+							l_username := s.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("lastLogin") as s then
+							l_last_login := s.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("isAdmin") as s then
+							l_is_admin := s.unescaped_string_8
+						end
+
+					end
 
 
---	update_user_email
 
+			create l_result.make
+			if my_crud_user.update_user_email (l_id.to_natural, l_email) And
+				my_crud_user.update_user_is_admin (l_id.to_natural, l_is_admin.to_natural) And
+				my_crud_user.update_user_last_login (l_id.to_natural , l_last_login) And
+				my_crud_user.update_user_name (l_id.to_natural, l_name) And
+				my_crud_user.update_user_username (l_id.to_natural, l_username)	then
+			--if the user was updated,set the response
+			set_json_header_ok (res, l_result.representation.count)
 
---	update_user_username
+			end
+			res.put_string (l_result.representation)
+		end
 
 
 
