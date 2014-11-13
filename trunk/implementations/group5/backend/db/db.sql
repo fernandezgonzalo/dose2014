@@ -12,8 +12,9 @@ CREATE  TABLE user (
   username TEXT NOT NULL ,
   password TEXT NOT NULL ,
   name TEXT ,
-  photo BLOB ,
-  last_login DATE NULL);
+  photo BLOB,
+  last_login DATE NULL,
+  is_admin INTEGER NOT NULL);
 
 CREATE  TABLE project (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
