@@ -9,8 +9,10 @@ active INTEGER
 );
 ;
 CREATE TABLE sqlite_sequence(name,seq);
+
 CREATE TABLE Project (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT,
 info TEXT
 );
 CREATE TABLE UserProject (
@@ -49,7 +51,7 @@ comment TEXT,
 priority INTEGER,
 duration INTEGER,
 points INTEGER,
-finalized INTEGER,
+status TEXT,
 id_user INTEGER,
 id_requirement INTEGER,
 FOREIGN KEY (id_requirement ) REFERENCES Requirement (id),
@@ -67,9 +69,8 @@ FOREIGN KEY (id_sprint) REFERENCES Sprint(id)
 ;
 CREATE TABLE Requirement (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-estim INTEGER,
+estimation INTEGER,
 desc TEXT,
-priority INTEGER,
 id_project INTEGER,
 FOREIGN KEY (id_project) REFERENCES Project(id)
 );
