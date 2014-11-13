@@ -9,50 +9,34 @@ main page
 manage projects
 ===============
 
-api/projects
+api/projects (POST request to add one, GET to see them all)
 
-api/projects/add
-
-api/projects/{project_id}/update
-
-api/projects/{project_id}/remove
+api/projects/{project_id} (GET request to see it, DELETE to remove it)
 
 user login and management
 =========================
 
 api/login
 
-api/users/add
+api/users/ (POST request to add one, GET to see them all)
 
-api/users/{user_id}/update (the userId is the id of the user logged in)
-
-api/users/{user_id}/remove (this sets the user as inactive)
+api/users/{user_id}/ (GET request to see it, DELETE to remove it)
 
 sprint management
 =================
 
-api/sprints
+api/sprints (POST request to add one, GET to see them all)
 
-api/sprints/add
-
-api/sprints/{sprint_id}/update
-
-api/sprints/{sprint_id}/remove
+api/sprints/{sprint_id} (GET request to see it, DELETE to remove it)
 
 task management
 ===============
 
-api/tasks
+api/tasks (POST request to add one, GET to see them all)
 
-api/tasks/add
+api/task/{task_id} (GET request to see it, DELETE to remove it)
 
-api/task/{task_id}/remove
-
-api/tasks/{task_id}/update
-
-api/tasks/{task_id}/subtasks
-
-api/tasks/{task_id}/subtasks/add
+api/tasks/{task_id}/subtasks (POST request to add one, GET to see them all)
 
 report generation
 =================
@@ -66,21 +50,13 @@ issue tracking
 
 api/issues
 
-api/issues/add
+api/issues/{issue_id}
 
 topics managements
 ==================
 
-api/topics/
+api/topics/ (POST request to add one, GET to see them all)
 
-api/topics/add
-
-api/topics/{topic_id}
-
-api/topics/{topic_id}/update
-
-api/topics/{topic_id}/remove
+api/topics/{topic_id} (GET request to see it, DELETE to remove it)
 
 api/topics/{topic_id}/answers (just in case we need to pass objects separatedly when displaying a topic)
-
-api/topics/{topid_id}/answers/add
