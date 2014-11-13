@@ -48,7 +48,6 @@ CREATE TABLE Task (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 desc TEXT,
 comment TEXT,
-priority INTEGER,
 duration INTEGER,
 points INTEGER,
 status TEXT,
