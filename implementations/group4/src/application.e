@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 	user_ctrl: USER_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
 	answer_ctrl: ANSWER_CONTROLLER
+	topic_ctrl: TOPIC_CONTROLLER
 
 	initialize
 			-- Initialize current service.
@@ -56,6 +57,7 @@ feature {NONE} -- Initialization
 			create user_ctrl.make (path_to_db_file)
 			create project_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file)
+			create topic_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -76,9 +78,9 @@ feature -- Basic operations
 			--map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
 
 				-- handling of all ht routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/casd/users", agent user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/casd/projects", agent project_ctrl.get_projects, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/topics", agent topic_ctrl.get_topics, router.methods_get)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
