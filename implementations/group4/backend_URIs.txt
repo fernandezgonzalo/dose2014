@@ -13,7 +13,9 @@ api/projects
 
 api/projects/add
 
-api/projects/{projectId}/update
+api/projects/{project_id}/update
+
+api/projects/{project_id}/remove
 
 user login and management
 =========================
@@ -22,7 +24,9 @@ api/login
 
 api/users/add
 
-api/users/{userId}/update (the userId is the id of the user logged in)
+api/users/{user_id}/update (the userId is the id of the user logged in)
+
+api/users/{user_id}/remove (this sets the user as inactive)
 
 sprint management
 =================
@@ -31,7 +35,9 @@ api/sprints
 
 api/sprints/add
 
-api/sprints/{sprintId}/update
+api/sprints/{sprint_id}/update
+
+api/sprints/{sprint_id}/remove
 
 task management
 ===============
@@ -40,9 +46,13 @@ api/tasks
 
 api/tasks/add
 
-api/tasks/{taskId}/update
+api/task/{task_id}/remove
 
-api/tasks/{taskId}/add/subtask
+api/tasks/{task_id}/update
+
+api/tasks/{task_id}/subtasks
+
+api/tasks/{task_id}/subtasks/add
 
 report generation
 =================
@@ -65,8 +75,12 @@ api/topics/
 
 api/topics/add
 
-api/topics/{topicId}
+api/topics/{topic_id}
 
-api/topics/{topicId}/answers (just in case we need to pass objects separatedly when displaying a topic)
+api/topics/{topic_id}/update
 
-api/topics/{topidId}/add/answer
+api/topics/{topic_id}/remove
+
+api/topics/{topic_id}/answers (just in case we need to pass objects separatedly when displaying a topic)
+
+api/topics/{topid_id}/answers/add
