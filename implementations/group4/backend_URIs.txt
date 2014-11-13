@@ -4,69 +4,69 @@ URIs
 main page
 =========
 
-casd/ (actually it would be index.html, but in case we need a controller for this or something, we should use this route as a root)
+/
 
 manage projects
 ===============
 
-casd/projects
+api/projects
 
-casd/projects/add
+api/projects/add
 
-casd/projects/{projectId}/update
+api/projects/{projectId}/update
 
 user login and management
 =========================
 
-casd/login
+api/login
 
-casd/users/add
+api/users/add
 
-casd/users/{userId}/update (the userId is the id of the user logged in)
+api/users/{userId}/update (the userId is the id of the user logged in)
 
 sprint management
 =================
 
-casd/sprints
+api/sprints
 
-casd/sprints/add
+api/sprints/add
 
-casd/sprints/{sprintId}/update
+api/sprints/{sprintId}/update
 
 task management
 ===============
 
-casd/tasks
+api/tasks
 
-casd/tasks/add
+api/tasks/add
 
-casd/tasks/{taskId}/update
+api/tasks/{taskId}/update
 
-casd/tasks/{taskId}/add/subtask
+api/tasks/{taskId}/add/subtask
 
 report generation
 =================
 
-casd/reports
+api/reports
 
-casd/reports/generate
+api/reports/generate
 
 issue tracking
 ==============
 
-casd/issues
+api/issues
 
-casd/issues/add
+api/issues/add
 
 topics managements
 ==================
 
-casd/topics/
+api/topics/
 
-casd/topics/add
+api/topics/add
 
-casd/topics/{topicId}
+api/topics/{topicId}
 
-casd/topics/{topicId}/answers (just in case we need to pass objects separatedly when displaying a topic)
+api/topics/{topicId}/answers (just in case we need to pass objects separatedly when displaying a topic)
 
-casd/topics/{topidId}/add/answer
+api/topics/{topidId}/add/answer
