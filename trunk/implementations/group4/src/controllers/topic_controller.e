@@ -97,8 +97,68 @@ feature -- Handlers
 
 	update_topic (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- update a topic from the database
+		local
+			l_payload: STRING
+			l_topic_id: STRING
+			l_project_id, l_answered, l_descr, l_title, l_task_id, l_sprint_id, l_user_id : STRING
+			l_topic: TOPIC
+			parser : JSON_PARSER
+			l_result: JSON_OBJECT
 		do
+				-- create emtpy string objects
+			create l_payload.make_empty
 
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- for the todo description and the userId
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+				-- we have to convert the json string into an eiffel string for each task attribute.
+				if attached {JSON_STRING} j_object.item ("title") as title then
+					l_title := title.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("description") as descr then
+					l_descr := descr.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("answered") as answered then
+					l_answered := answered.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					l_project_id := project_id.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
+					l_sprint_id := sprint_id.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
+					l_user_id := user_id.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("task_id") as task_id then
+					l_task_id := task_id.unescaped_string_8
+				end
+
+			end
+
+				-- create the topic
+			create l_topic.make (l_project_id.to_natural, l_task_id.to_natural, l_sprint_id.to_natural, l_user_id.to_natural, l_title, l_descr)
+
+				-- the user_id from the URL (as defined by the placeholder in the route)
+			l_topic_id := req.path_parameter ("topic_id").string_representation
+
+				-- update the task in the database
+			db_handler_topic.update (l_topic,l_topic_id.to_natural)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Updated topic "+ l_topic.title), create {JSON_STRING}.make_json ("Message"))
+
+				-- set the result
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
 		end
 
 	remove_topic (req: WSF_REQUEST; res: WSF_RESPONSE)
