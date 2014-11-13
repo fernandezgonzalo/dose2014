@@ -53,7 +53,21 @@ feature -- Creation
 
 feature -- Operations
 
+	set_title (a_title : STRING)
+			-- Set a the topic title with `a_title'
+		require
+			title_not_void: a_title /= Void
+		do
+			title := a_title
+		end
 
+	set_description (a_descr : STRING)
+			-- Set a the topic desctiption with `a_descr'
+		require
+			description_not_void: a_descr /= Void
+		do
+			description := a_descr
+		end
 
 
 end

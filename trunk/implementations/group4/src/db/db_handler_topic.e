@@ -20,7 +20,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Topics;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 
 		end
 
@@ -29,7 +29,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Topics WHERE id="+ a_topic_id.out +";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 		end
 
 	add(a_topic: TOPIC; a_user_id, a_project_id, a_task_id, a_sprint_id: NATURAL)
@@ -43,7 +43,7 @@ feature -- Data access
 			end
 		end
 
-	update (topic: TOPIC; topic_id : INTEGER)
+	update (topic: TOPIC; topic_id : NATURAL)
 			-- Update a topic
 		do
 			create db_modify_statement.make ("UPDATE Topics SET title = '"+ topic.title +"',"+
