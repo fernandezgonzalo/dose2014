@@ -59,10 +59,31 @@ feature {NONE} -- Initialization
 
 	initialize
 			-- Initialize current service.
+		local
+			crud_user: CRUD_USER
+
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
+
+
 			create dao.make (path_to_db_file)
+			create crud_user.make(path_to_db_file)
+		--	print(crud_user.users.representation)
+		--	print(crud_user.add_user ("nico orcasitas", "pereyra", "asd", "das"))
+
+		--	print(crud_user.remove_user_by_id (6))
+		--	print(crud_user.remove_user_by_id (8))
+		--	print(crud_user.update_user_email (2, "mail2Nuevo"))
+		--	print(crud_user.update_user_email (8, "mail2Nuevo"))
+		--	print(crud_user.update_user_name (2, "nombre2Nuevo"))
+		--	print(crud_user.update_user_name (8, "nombre2Nuevo"))
+		--	print(crud_user.update_user_password (2, "password2Nuevo"))
+		--	print(crud_user.update_user_password (8, "password2Nuevo"))
+		--	print(crud_user.update_user_username (2, "username2Nuevo"))
+		--	print(crud_user.update_user_username (8, "username2Nuevo"))
+			print(crud_user.update_user_last_login (2, "15/12/1992"))
+			print(crud_user.update_user_last_login (8, "15/12/1992"))
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)

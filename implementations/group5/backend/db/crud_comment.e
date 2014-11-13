@@ -43,23 +43,31 @@ feature {NONE} -- Format helpers
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
 			j_obj: JSON_OBJECT
-			i: NATURAL
+					i: NATURAL
+					aux: STRING;
+
 		do
-				-- create a JSON object; it will hold the values "id", "description", "user" for ech eb table entry
-			create j_obj.make
+		-- create a JSON object; it will hold the values "id", "description", "user" for ech eb table entry
+				create j_obj.make
 
-			from
-				i := 1
-			until
-				i > a_num_columns
-			loop
-				j_obj.put (create {JSON_STRING}.make_json (a_row.string_value(i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
-				i := i + 1
-			end
+				from
+					i := 1
+				until
+					i > a_num_columns
+				loop
 
-			a_result_array.extend(j_obj)
+					if  a_row.is_null (i) then
+						aux:= "";
+					else
+						aux:=a_row.string_value (i)
+					end
+						j_obj.put (create {JSON_STRING}.make_json (aux), create{JSON_STRING}.make_json (a_row.column_name (i)))
+						i := i + 1
+				end
 
-			Result := False
+				a_result_array.extend(j_obj)
+
+				Result := False
 		end
 
 
@@ -68,14 +76,20 @@ feature {NONE} -- Format helpers
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
 			i: NATURAL
+			aux: STRING;
 		do
 			from
 				i := 1
 			until
 				i > a_num_columns
 			loop
-				a_result_object.put (create {JSON_STRING}.make_json (a_row.string_value(i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
-				i := i + 1
+				if  a_row.is_null (i) then
+						aux:= "";
+					else
+						aux:=a_row.string_value (i)
+					end
+						a_result_object.put (create {JSON_STRING}.make_json (aux), create{JSON_STRING}.make_json (a_row.column_name (i)))
+						i := i + 1
 			end
 
 			Result := False
