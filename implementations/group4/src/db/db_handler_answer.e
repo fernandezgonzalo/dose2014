@@ -15,12 +15,21 @@ create
 
 feature -- Data access
 
-	find_by_id (answer_id : INTEGER) : JSON_OBJECT
+	find_by_id (answer_id : NATURAL) : JSON_OBJECT
 			-- returns a JSON_OBJECT that represents an answer that corresponds to the given id
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Answers WHERE id="+ answer_id.out +";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+		end
+
+	find_by_topic_id (topic_id : NATURAL) : JSON_ARRAY
+			-- return a JSON_ARRAY where each element is a JSON_OBJECT that represents an answer
+			-- related with a topic with id = topic_id
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Answers WHERE topic_id="+ topic_id.out+";",db)
+			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		end
 
 	add (answer : ANSWER)
