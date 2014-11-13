@@ -55,7 +55,7 @@ topics managements
 
 api/topics/ (POST request to add one, GET to see them all)
 
-api/topics/{topic_id} (GET request to see it, DELETE to remove it)
+api/topics/{topic_id} (GET request to see it, DELETE to remove it, POST to update it)
 
 api/topics/{topic_id}/answers (GET request to see all the answers associated, POST to add one)
 
