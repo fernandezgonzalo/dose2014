@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 	project_ctrl: PROJECT_CONTROLLER
 	answer_ctrl: ANSWER_CONTROLLER
 	topic_ctrl: TOPIC_CONTROLLER
+	task_ctrl: TASK_CONTROLLER
 
 	initialize
 			-- Initialize current service.
@@ -58,6 +59,7 @@ feature {NONE} -- Initialization
 			create project_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file)
 			create topic_ctrl.make (path_to_db_file)
+			create task_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -80,7 +82,23 @@ feature -- Basic operations
 				-- handling of all ht routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get)
+
+				-- handling of all the routes relating to "topics"
 			map_uri_template_agent_with_request_methods ("/api/topics", agent topic_ctrl.get_topics, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/topics/add", agent topic_ctrl.add_topic, router.methods_post)
+			--map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}", agent topic_ctrl.get_topic, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/update", agent topic_ctrl.update_topic, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/remove", agent topic_ctrl.remove_topic, router.methods_delete)
+			--map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/answers", agent topic_ctrl.get_answers, router.methods_get)
+			--map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/answers/add", agent topic_ctrl.add_answers, router.methods_post)
+
+				-- handling of all the routes relating to "tasks"
+			map_uri_template_agent_with_request_methods ("/api/tasks", agent task_ctrl.get_tasks, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/tasks/add", agent task_ctrl.add_task, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/remove", agent task_ctrl.remove_task, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/update", agent task_ctrl.update_task, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks", agent task_ctrl.get_sub_tasks, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/add", agent task_ctrl.add_sub_task, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
