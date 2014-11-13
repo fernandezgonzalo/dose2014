@@ -56,25 +56,29 @@ feature {NONE} -- Initialization
 
 	session_manager: WSF_FS_SESSION_MANAGER
 
-
+	database : SQLITE_DATABASE
 	initialize
 			-- Initialize current service.
 		local
 			crud_user: CRUD_USER
+			crud_task: CRUD_TASK
+			crud_project: CRUD_PROJECT
 
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 
-
-			create dao.make (path_to_db_file)
-			create crud_user.make(path_to_db_file)
+			create database.make_open_read_write (path_to_db_file)
+		--	create dao.make (path_to_db_file)
+			create crud_user.make(database)
+		--	create crud_task.make (database)
+			create crud_project.make (database)
 		--	print(crud_user.users.representation)
 		--	print(crud_user.add_user ("nico orcasitas", "pereyra", "asd", "das"))
 
 		--	print(crud_user.remove_user_by_id (6))
 		--	print(crud_user.remove_user_by_id (8))
-		--	print(crud_user.update_user_email (2, "mail2Nuevo"))
+		--	print(crud_user.update_user_email (2, "mail2Nuevox2"))
 		--	print(crud_user.update_user_email (8, "mail2Nuevo"))
 		--	print(crud_user.update_user_name (2, "nombre2Nuevo"))
 		--	print(crud_user.update_user_name (8, "nombre2Nuevo"))
@@ -82,8 +86,35 @@ feature {NONE} -- Initialization
 		--	print(crud_user.update_user_password (8, "password2Nuevo"))
 		--	print(crud_user.update_user_username (2, "username2Nuevo"))
 		--	print(crud_user.update_user_username (8, "username2Nuevo"))
-			print(crud_user.update_user_last_login (2, "15/12/1992"))
-			print(crud_user.update_user_last_login (8, "15/12/1992"))
+		--	print(crud_user.update_user_last_login (2, "15/12/1992"))
+		--	print(crud_user.update_user_last_login (8, "15/12/1992"))
+		--	print(crud_task.remove_task_by_id (5));
+		--	print(crud_task.remove_task_by_id (7));
+		--	print(crud_task.tasks.representation);
+		--	print(crud_task.add_task ("nuevo", "nuevo", "nuevo", "nuevo", "nuevo", "nuevo", 2, 2, 1))
+		--	print(crud_task.task_by_id (2).representation)
+		--	print(crud_task.inprogress_task_of_the_user (2).representation)
+		--	print(crud_task.planned_task_of_the_user (2).representation)
+		--	print(crud_task.task_by_id_project (1).representation)
+		--	print(crud_task.tasks_by_status_and_id_project ("Planned", 1).representation)
+		--	print(crud_task.update_task_deadline ("deadMod",1))
+		--	print(crud_task.update_task_description ("descMod",1))
+		--	print(crud_task.update_task_estimation ("20 horas",1))
+		--	print(crud_task.update_task_id_user_assigned (3,1))
+		--	print(crud_task.update_task_priority ("prioridadMod",1))
+		--	print(crud_task.update_task_status ("PlannedMod",1))
+		--	print(crud_task.update_task_title ("tituloMod",1))
+		--	print(crud_project.add_project ("nuevo", "20/12/2014", "nombre", 3))
+		--	print(crud_project.number_of_finshed_tasks (1).representation)
+		--	print(crud_project.number_of_stopped_tasks (1).representation)
+		--	print(crud_project.number_of_tasks_in_project (1).representation)
+		--	print(crud_project.number_of_tasks_group_by_user (1).representation)
+		--	print(crud_project.projects.representation)
+		--	print(crud_project.remove_project_by_id (5));
+		--	print(crud_project.update_project_deadline ("deadmod",1))
+		--	print(crud_project.update_project_name ("nombreMod",1))
+		--	print(crud_project.update_project_client_name ("clientMod",1))
+
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
