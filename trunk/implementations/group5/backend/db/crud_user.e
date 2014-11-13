@@ -10,7 +10,8 @@ class
 create
 	make
 
-	feature {NONE}
+	feature
+
 
 	make (a_path_to_db_file: STRING)
 			-- Creation procedure
@@ -29,23 +30,31 @@ feature {NONE} -- Format helpers
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
 			j_obj: JSON_OBJECT
-			i: NATURAL
+					i: NATURAL
+					aux: STRING;
+
 		do
-				-- create a JSON object; it will hold the values "id", "description", "user" for ech eb table entry
-			create j_obj.make
+		-- create a JSON object; it will hold the values "id", "description", "user" for ech eb table entry
+				create j_obj.make
 
-			from
-				i := 1
-			until
-				i > a_num_columns
-			loop
-				j_obj.put (create {JSON_STRING}.make_json (a_row.string_value(i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
-				i := i + 1
-			end
+				from
+					i := 1
+				until
+					i > a_num_columns
+				loop
 
-			a_result_array.extend(j_obj)
+					if  a_row.is_null (i) then
+						aux:= "";
+					else
+						aux:=a_row.string_value (i)
+					end
+						j_obj.put (create {JSON_STRING}.make_json (aux), create{JSON_STRING}.make_json (a_row.column_name (i)))
+						i := i + 1
+				end
 
-			Result := False
+				a_result_array.extend(j_obj)
+
+				Result := False
 		end
 
 
@@ -54,14 +63,20 @@ feature {NONE} -- Format helpers
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
 			i: NATURAL
+			aux: STRING;
 		do
 			from
 				i := 1
 			until
 				i > a_num_columns
 			loop
-				a_result_object.put (create {JSON_STRING}.make_json (a_row.string_value(i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
-				i := i + 1
+				if  a_row.is_null (i) then
+						aux:= "";
+					else
+						aux:=a_row.string_value (i)
+					end
+						a_result_object.put (create {JSON_STRING}.make_json (aux), create{JSON_STRING}.make_json (a_row.column_name (i)))
+						i := i + 1
 			end
 
 			Result := False
@@ -76,39 +91,45 @@ feature -- Data access
 			--returns all users
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM user;;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
+			create db_query_statement.make ("SELECT * FROM user;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
 
 		end
 
-	user_by_email(email : STRING): JSON_OBJECT
-			-- returns a JSON_OBJECT  that represents a user identified by email
+	user_by_id(id : NATURAL): JSON_OBJECT
+			-- returns a JSON_OBJECT  that represents a user identified by id
 
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT * FROM user WHERE email = " + email + ";", db)
-			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
+			create db_query_statement.make ("SELECT * FROM user WHERE id = '" + id.out + "';", db)
+			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
 
 		end
 
-	remove_user_by_email (email: STRING)
-			-- removes the user identified by email
+	remove_user_by_id (id: NATURAL): BOOLEAN
+			-- removes the user identified by id
 		do
-			create db_modify_statement.make ("DELETE FROM user WHERE email=" + email + ";", db)
+			create db_modify_statement.make ("DELETE FROM user WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while deleting a Todo")
+				Result:= false;
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:=true;
 			end
 		end
 
-	add_user (email: STRING;username: STRING ;password: STRING; name: STRING )
+	add_user (email: STRING;username: STRING ;password: STRING; name: STRING ):BOOLEAN
 			-- adds a new user with the given user name, password,email, name
 		do
 			create db_insert_statement.make ("INSERT INTO user (email,username,password,name) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "');", db)
 			db_insert_statement.execute
-			if db_insert_statement.has_error then
+			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new user")
+				Result:= false;
+			else
+				Result:= true;
 			end
 		end
 
@@ -123,54 +144,80 @@ feature -- Data access
 --			end
 --		end
 
-	update_user_password (email: STRING; new_pass: STRING)
-			-- updates the password of the user identified by email,
+	update_user_password (id: NATURAL; new_pass: STRING): BOOLEAN
+			-- updates the password of the user identified by id,
 		do
-			create db_modify_statement.make ("UPDATE user SET password= '"+ new_pass+"' WHERE email=" + email + ";", db)
+			create db_modify_statement.make ("UPDATE user SET password= '"+ new_pass+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating an user")
+				Result:=false
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:= true;
 			end
 		end
 
-	update_user_name (email: STRING; new_name: STRING)
-			-- updates the name of the user identified by email,
+	update_user_name (id: NATURAL; new_name: STRING): BOOLEAN
+			-- updates the name of the user identified by id,
 		do
-			create db_modify_statement.make ("UPDATE user SET name= '"+ new_name+ "' WHERE email=" + email + ";", db)
+			create db_modify_statement.make ("UPDATE user SET name= '"+ new_name+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating an user")
+				Result:=false
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:= true;
 			end
 		end
 
-	update_user_email (email: STRING; new_email: STRING)
-			-- updates the email of the user identified by email,
+	update_user_email (id: NATURAL; new_email: STRING): BOOLEAN
+			-- updates the email of the user identified by id,
 		do
-			create db_modify_statement.make ("UPDATE user SET email= '"+ new_email+ "' WHERE email=" + email + ";", db)
+			create db_modify_statement.make ("UPDATE user SET email= '"+ new_email+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating an user")
-					-- TODO: we probably want to return something if there's an error
+					Result:=false
+						-- TODO: we probably want to return something if there's an error
+				else
+					Result:= true;
 			end
 		end
 
-	update_user_username (email: STRING; new_username: STRING)
-			-- updates the username of the user identified by email,
+	update_user_username (id: NATURAL; new_username: STRING): BOOLEAN
+			-- updates the username of the user identified by id,
 		do
-			create db_modify_statement.make ("UPDATE user SET username= '"+ new_username+ "' WHERE email=" + email + ";", db)
+			create db_modify_statement.make ("UPDATE user SET username= '"+ new_username+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating an user")
-					-- TODO: we probably want to return something if there's an error
+					Result:=false
+						-- TODO: we probably want to return something if there's an error
+				else
+					Result:= true;
 			end
 		end
+
+		update_user_last_login (id: NATURAL; new_last_login: STRING): BOOLEAN
+				-- updates the last_lgon of the user identified by id,
+			do
+				create db_modify_statement.make ("UPDATE user SET last_login= '"+ new_last_login+ "' WHERE id= '" + id.out + "' ;", db)
+				db_modify_statement.execute
+				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
+					print("Error while updating an user")
+						Result:=false
+							-- TODO: we probably want to return something if there's an error
+					else
+						Result:= true;
+				end
+			end
 
 feature {NONE}--login
 
 
-	has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; email,username,password,name:STRING]
+	has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name:STRING]
 			-- checks if a user with given username and password exists
 			-- if yes, the result tuple value "has_user" will be true and "id" ,"email","username","password", and "name" will be set
 			-- otherwise, "has_user" will be false and "id" and "username" will not be set
@@ -191,21 +238,25 @@ feature {NONE}--login
 			else
 				print("Found a user email '" + email + "' and password '" + a_password + "' in the database.%N")
 				Result.has_user := True
-				Result.email := l_query_result_cursor.item.value (1).out
-				Result.username := l_query_result_cursor.item.value (2).out
-				Result.password := l_query_result_cursor.item.value (3).out
-				Result.name := l_query_result_cursor.item.value (4).out
+				Result.id := l_query_result_cursor.item.integer_value (1)
+				Result.email := l_query_result_cursor.item.value (2).out
+				Result.username := l_query_result_cursor.item.value (3).out
+				Result.password := l_query_result_cursor.item.value (4).out
+				Result.name := l_query_result_cursor.item.value (5).out
 			end
 		end
 
-	last_login(email:STRING): JSON_OBJECT
+	last_login(id:NATURAL): JSON_OBJECT
 	--returns the username and the last login of the user identified by email
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT username,last_login FROM user WHERE email = " + email + ";", db)
-			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
+			create db_query_statement.make ("SELECT username,last_login FROM user WHERE id = '" + id.out + "' ;", db)
+			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
 
 		end
+
+
+
 
 feature {NONE}
 
