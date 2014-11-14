@@ -64,6 +64,9 @@ feature -- Handlers
 
 		local
 			l_payload, l_email, l_username, l_password, l_name, l_is_admin: STRING
+			was_crated : BOOLEAN
+			user_id : INTEGER
+			result_add_user : TUPLE[BOOLEAN,INTEGER]
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -105,8 +108,12 @@ feature -- Handlers
 			end
 			create l_result.make
 				-- create the user in the database
-			if my_crud_user.add_user (l_email, l_username, l_password, l_name, l_is_admin.to_integer) then
+			result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, l_is_admin.to_integer)
+			was_crated := result_add_user.boolean_item (1)
+			user_id := result_add_user.integer_32_item (2)
+			if was_crated then
 			--if the user was created,set the response
+			l_result.put (create {JSON_STRING}.make_json (user_id.out), create {JSON_STRING}.make_json ("id"))
 			set_json_header (res, 201, l_result.representation.count)
 			end
 
