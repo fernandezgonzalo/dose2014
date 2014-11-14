@@ -6,14 +6,10 @@ note
 
 class
 	DB
-
 create
 	make
-
-
-feature {NONE}
-
-	make (a_path_to_db_file: STRING)
+feature
+	make(a_path_to_db_file: STRING)
 			-- Creation procedure
 		require
 			valid_file: a_path_to_db_file /= Void and not a_path_to_db_file.is_empty
@@ -21,10 +17,8 @@ feature {NONE}
 			create db.make_open_read_write (a_path_to_db_file)
 		end
 
-
 feature {NONE} -- Format helpers
-
-	rows_to_json_array (a_row: SQLITE_RESULT_ROW; a_num_columns: NATURAL; a_result_array: JSON_ARRAY): BOOLEAN
+	rows_to_json_array(a_row: SQLITE_RESULT_ROW; a_num_columns: NATURAL; a_result_array: JSON_ARRAY): BOOLEAN
 			-- given the rows of a db query as input, this function turns the rows into an JSON array of JSON objects
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
@@ -48,7 +42,6 @@ feature {NONE} -- Format helpers
 			Result := False
 		end
 
-
 	row_to_json_object (a_row: SQLITE_RESULT_ROW; a_num_columns: NATURAL; a_result_object: JSON_OBJECT): BOOLEAN
 			-- given the row of a db query as input, this function turns the row into an JSON OBJECT
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
@@ -70,18 +63,6 @@ feature {NONE} -- Format helpers
 
 feature -- Data access
 
-	todos: JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a todo
-
-		do
-			create Result.make_array
-
-			create db_query_statement.make ("SELECT t.id AS todoId, t.description, u.id AS userId, u.name FROM Todos As t, Users AS u WHERE t.userId = u.id;" , db)
-
-			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
-		end
-
-
 	users: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
 		do
@@ -92,7 +73,7 @@ feature -- Data access
 		end
 
 
-	todos_for_user (a_user_id: NATURAL): JSON_ARRAY
+	todos_for_user(a_user_id: NATURAL): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a todo of user with id `a_user_id'
 		do
 			create Result.make_array
@@ -101,7 +82,7 @@ feature -- Data access
 		end
 
 
-	add_todo_for_user (a_description: STRING; a_user_id: NATURAL): JSON_OBJECT
+	add_todo_for_user(a_description: STRING; a_user_id: NATURAL): JSON_OBJECT
 			-- adds a new todo with the given description for the given userid
 			-- returns a json object that contains the properties "todoId, description, userId, name" for the newly added todo
 		local
@@ -126,11 +107,10 @@ feature -- Data access
 				create db_query_statement.make("SELECT t.id as todoId, t.description, t.userId, u.name FROM Todos as t, Users as u WHERE t.userId = u.id AND t.id = " + l_new_id.out + ";", db)
 				db_query_statement.execute (agent row_to_json_object(?, 4, Result))
 			end
-
 		end
 
 
-	remove_todo (a_todo_id: NATURAL)
+	remove_todo(a_todo_id: NATURAL)
 			-- removes the todo with the given id
 		do
 			create db_modify_statement.make ("DELETE FROM Todos WHERE id=" + a_todo_id.out + ";", db)
@@ -142,7 +122,7 @@ feature -- Data access
 		end
 
 
-	add_user (a_user_name: STRING)
+	add_user(a_user_name: STRING)
 			-- adds a new user with the given user name
 		do
 			create db_insert_statement.make ("INSERT INTO Users(name) VALUES ('" + a_user_name + "');", db);
@@ -152,9 +132,7 @@ feature -- Data access
 			end
 		end
 
-
 feature {NONE}
-
 	db: SQLITE_DATABASE
 		-- the database
 
@@ -166,5 +144,4 @@ feature {NONE}
 
 	db_modify_statement: SQLITE_MODIFY_STATEMENT
 		-- other sql modification statment for the db, e.g. DELETE
-
 end

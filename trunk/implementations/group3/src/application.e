@@ -40,24 +40,23 @@ feature {NONE} -- Initialization
 		end
 
 
-	todo_ctrl: DEMO_TODO_CTRL
-			-- a controller for handling todo requests
+	tasks_controller: TASKS_CONTROLLER
+	projects_controller: PROJECTS_CONTROLLER
+	users_controller: USERS_CONTROLLER
 
-	user_ctrl: DEMO_USER_CTRL
-			-- a controller for handling user requests
-
-	dao: DB
-			-- access to the database and the functionality that comes with that class
-
+	Project: PROJECT
+	Task: TASK
+	User: USER
 
 	initialize
 			-- Initialize current service.
 		do
-				-- create the dao object and the controllers
-				-- we reuse the same database connection so we don't open up too many connections at once
-			create dao.make (path_to_db_file)
-			create todo_ctrl.make(dao)
-			create user_ctrl.make(dao)
+			create Project.make(path_to_db_file)
+			create Task.make(path_to_db_file)
+			create User.make(path_to_db_file)
+			create tasks_controller.make(Task)
+			create projects_controller.make(Project)
+			create users_controller.make(User)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -72,19 +71,20 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
-				-- handling of all the routes relating to "todos"
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.get_todos, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/todos", agent todo_ctrl.add_todo, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/todos/{todo_id}", agent todo_ctrl.remove_todo, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/tasks", agent tasks_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/tasks", agent tasks_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/tasks/{task_id}", agent tasks_controller.remove, router.methods_delete)
 
-				-- handling of all ht routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/projects", agent projects_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/projects", agent projects_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/projects/{project_id}", agent projects_controller.remove, router.methods_delete)
+
+			map_uri_template_agent_with_request_methods ("/users", agent users_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/users", agent users_controller.add, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
 			fhdl.set_directory_index (<<"index.html">>)
 			router.handle_with_request_methods ("", fhdl, router.methods_GET)
 		end
-
 end
