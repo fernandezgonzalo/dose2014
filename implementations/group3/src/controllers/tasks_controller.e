@@ -94,4 +94,16 @@ feature
 			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
 		end
+
+	edit(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			task_id, result_payload: STRING
+		do
+			task_id := req.path_parameter("task_id").string_representation
+
+			result_payload := task.update(task_id.to_natural).representation
+
+			set_json_header_ok(res, result_payload.count)
+			res.put_string (result_payload)
+		end
 end

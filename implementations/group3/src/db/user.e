@@ -46,5 +46,13 @@ feature
 
 			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end
+
+	update(user_id: NATURAL login: STRING name: STRING): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make("SELECT * FROM users " + "SET" + "login =" + login.out + "name" + name.out + "WHERE id =" + user_id.out + ";" , db)
+
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
+		end
 end
 
