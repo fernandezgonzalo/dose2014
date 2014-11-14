@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', function ($scope, $log, $location, $routeParams, $resource) {
-  $log.debug('UserController::routeParams=', $routeParams);
+  $log.debug('UserController::init');
 
   var User = $resource('/api/users/:userId', {userId: '@id'});
 
@@ -13,6 +13,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.delete = function($event, user) {
     $log.debug('UserController::delete ', user);
+    user.$delete();
     $event.stopPropagation();
 
   };
