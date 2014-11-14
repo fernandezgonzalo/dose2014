@@ -2,6 +2,7 @@
 
 var app = angular.module('Mgmt', [
   'ngRoute',
+  'ngResource',
   'xeditable'
 ]);
 
