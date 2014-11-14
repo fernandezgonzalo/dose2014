@@ -48,6 +48,8 @@ feature {NONE} -- Initialization
 	topic_ctrl: TOPIC_CONTROLLER
 	task_ctrl: TASK_CONTROLLER
 
+	session_manager: WSF_FS_SESSION_MANAGER
+
 	initialize
 			-- Initialize current service.
 		do
@@ -56,7 +58,8 @@ feature {NONE} -- Initialization
 	--		create database.make (path_to_db_file)
 			--create todo_ctrl.make(dao)
 			--create user_ctrl.make(dao)
-			create user_ctrl.make (path_to_db_file)
+			create session_manager.make
+			create user_ctrl.make (path_to_db_file,session_manager)
 			create project_ctrl.make (path_to_db_file)
 			--create sprint_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file)
@@ -76,7 +79,10 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
-
+				-- handling of all the routes relating to "sessions"
+			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.login , router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.logout , router.methods_delete)
+			
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post )
