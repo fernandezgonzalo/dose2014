@@ -38,5 +38,13 @@ feature
 				print("Error while deleting a Project")
 			end
 		end
+
+	find(user_id: NATURAL): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make("SELECT * FROM users WHERE id =" + user_id.out + ";" , db)
+
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
+		end
 end
 

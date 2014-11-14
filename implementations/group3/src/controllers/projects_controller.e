@@ -74,4 +74,28 @@ feature -- Handlers
 			set_json_header_ok(res, payload.count)
 			res.put_string(payload)
 		end
+
+	show(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			project_id, result_payload: STRING
+		do
+			project_id := req.path_parameter ("project_id").string_representation
+
+			result_payload := project.find(project_id.to_natural).representation
+
+			set_json_header_ok(res, result_payload.count)
+			res.put_string (result_payload)
+		end
+
+	edit(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			project_id, result_payload: STRING
+		do
+			project_id := req.path_parameter("project_id").string_representation
+
+			result_payload := project.update(project_id.to_natural).representation
+
+			set_json_header_ok(res, result_payload.count)
+			res.put_string (result_payload)
+		end
 end
