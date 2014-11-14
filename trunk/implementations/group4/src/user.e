@@ -12,7 +12,7 @@ create
 
 feature -- Initialization
 
-	make(new_email, new_user_name, new_password : STRING)
+	make(new_user_name, new_email, new_password : STRING)
 			-- Create a new user with all the attributes.
 		require
 			valid_email: (new_email /= void)
