@@ -25,12 +25,8 @@ create
 
 feature {NONE} -- Initialization
 
-	path_to_db_file: STRING
-		-- calculates the path to the demo.db file, based on the location of the .ecf file
-		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
-		once
-			Result := ".." + Operating_environment.directory_separator.out + "dose_backend.db"
-		end
+
+
 
 	path_to_www_folder: STRING
 		-- calculates the path to the www folder, based on the location of the .ecf file
@@ -39,6 +35,7 @@ feature {NONE} -- Initialization
 			Result := ".." + Operating_environment.directory_separator.out + "www"
 		end
 
+	db: SQLITE_DATABASE
 
 	tasks_controller: TASKS_CONTROLLER
 	projects_controller: PROJECTS_CONTROLLER
@@ -51,9 +48,10 @@ feature {NONE} -- Initialization
 	initialize
 			-- Initialize current service.
 		do
-			create Project.make(path_to_db_file)
-			create Task.make(path_to_db_file)
-			create User.make(path_to_db_file)
+			create db.make_open_read_write (".." + Operating_environment.directory_separator.out + "dose_backend.db")
+			create Project.make(db)
+			create Task.make(db)
+			create User.make(db)
 			create tasks_controller.make(Task)
 			create projects_controller.make(Project)
 			create users_controller.make(User)
