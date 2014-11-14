@@ -62,4 +62,15 @@ feature
 			res.put_string (l_result.representation)
 		end
 
+	show(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			user_id, result_payload: STRING
+		do
+			user_id := req.path_parameter("user_id").string_representation
+
+			result_payload := user.find(user_id.to_natural).representation
+
+			set_json_header_ok(res, result_payload.count)
+			res.put_string(result_payload)
+		end
 end

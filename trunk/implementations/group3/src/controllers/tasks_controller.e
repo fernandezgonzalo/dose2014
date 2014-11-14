@@ -44,7 +44,6 @@ feature
 
 
 	remove(req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a todo from the database
 		local
 			task_id: STRING
 			l_result: JSON_OBJECT
@@ -62,32 +61,37 @@ feature
 
 
 	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- returns a json array with all the todos currently in the database
 		local
-
 			l_result_payload: STRING
 		do
-
 			l_result_payload := task.get_all.representation
 
-				-- set the response
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		end
 
 
-	by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+	by_user(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			user_id, result_payload: STRING
 		do
 			user_id := req.path_parameter ("user_id").string_representation
 
-				-- fetch data from to the database
 			result_payload := task.by_user(user_id.to_natural).representation
 
-				-- set the response
-			set_json_header_ok (res, result_payload.count)
+			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
 		end
 
+	show(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			task_id, result_payload: STRING
+		do
+			task_id := req.path_parameter ("task_id").string_representation
+
+			result_payload := task.find(task_id.to_natural).representation
+
+			set_json_header_ok(res, result_payload.count)
+			res.put_string (result_payload)
+		end
 end

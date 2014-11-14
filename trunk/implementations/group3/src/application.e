@@ -71,16 +71,21 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
-			map_uri_template_agent_with_request_methods ("/tasks", agent tasks_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/tasks", agent tasks_controller.add, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/tasks/{task_id}", agent tasks_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/tasks", agent tasks_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods("/tasks", agent tasks_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/tasks/{task_id}", agent tasks_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/tasks/{task_id}", agent tasks_controller.show, router.methods_get)
 
-			map_uri_template_agent_with_request_methods ("/projects", agent projects_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/projects", agent projects_controller.add, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/projects/{project_id}", agent projects_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/projects", agent projects_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods("/projects", agent projects_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/projects/{project_id}", agent projects_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/projects/{project_id}", agent projects_controller.show, router.methods_get)
 
-			map_uri_template_agent_with_request_methods ("/users", agent users_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/users", agent users_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/users", agent users_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods("/users", agent users_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/users/{user_id}", agent projects_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/users/{user_id}", agent projects_controller.show, router.methods_get)
+			map_uri_template_agent_with_request_methods("/users/{user_id}", agent projects_controller.edit, router.methods_put)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)

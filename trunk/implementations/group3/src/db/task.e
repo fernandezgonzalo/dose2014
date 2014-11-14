@@ -41,9 +41,17 @@ feature
 	by_user(user_id: NATURAL): JSON_ARRAY
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM tasks WHERE user_id =" + user_id.out + ";" , db)
+			create db_query_statement.make("SELECT * FROM tasks WHERE user_id =" + user_id.out + ";" , db)
 
-			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
+		end
+
+	find(task_id: NATURAL): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make("SELECT * FROM tasks WHERE id =" + task_id.out + ";" , db)
+
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end
 end
 
