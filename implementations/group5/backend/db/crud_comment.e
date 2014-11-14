@@ -13,13 +13,12 @@ create
 
 	feature {NONE}
 
-	make (a_path_to_db_file: STRING)
+	make (database:SQLITE_DATABASE)
 			-- Creation procedure
-		require
-			valid_file: a_path_to_db_file /= Void and not a_path_to_db_file.is_empty
-		do
-			create db.make_open_read_write (a_path_to_db_file)
-		end
+	do
+		create	 db.make(database.source)
+		db.open_read_write
+	end
 
 
 feature {NONE}
@@ -123,40 +122,55 @@ feature -- Data access
 
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT * FROM comment WHERE id_task = " + id.out + ";", db)
+			create db_query_statement.make ("SELECT * FROM comment WHERE id_task = '" + id.out + "';", db)
 			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
 
 		end
 
-	remove_project_by_id (id: NATURAL)
+	remove_project_by_id (id: NATURAL): BOOLEAN
 			-- removes the comment identified by id
 		do
-			create db_modify_statement.make ("DELETE FROM comment WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM comment WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0  then
 				print("Error while deleting a comment")
+				Result:= false;
 					-- TODO: we probably want to return something if there's an error
+			else
+				Result:=true;
 			end
 		end
 
-	add_comment (commentary:STRING;id_task:NATURAL;id_user:STRING )
+	add_comment (commentary:STRING;id_task:NATURAL;id_user:NATURAL ) : TUPLE [was_created:BOOLEAN; id: INTEGER]
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			-- adds a new comment with the given  commentary id_task id-user
 		do
-			create db_insert_statement.make ("INSERT INTO comment(commentary,id_task,id_user VALUES ('" + commentary +"','" +id_task.out  +"', '" +  id_user + "');", db)
+			create Result
+			create db_insert_statement.make ("INSERT INTO comment(commentary, id_task, id_user) VALUES ('" + commentary +"','" +id_task.out  +"', '" +  id_user.out + "');", db)
 			db_insert_statement.execute
-			if db_insert_statement.has_error then
+			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new comment")
+				Result.id:= -1 ;
+				Result.was_created:=false;
+			else
+				create db_query_statement.make ("SELECT * FROM comment WHERE commentary=? AND id_task=? AND id_user=? ;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<commentary, id_task,id_user>>)
+				Result.id:= l_query_result_cursor.item.integer_value (1)
+				Result.was_created:= true;
 			end
 		end
 
-	update_comment (commentary:STRING; id: NATURAL)
+	update_comment (commentary:STRING; id: NATURAL):BOOLEAN
 			-- updates the name of the project identified by id,
 		do
-			create db_modify_statement.make ("UPDATE comment SET commentary='"+ commentary+"' WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("UPDATE comment SET commentary= '"+ commentary+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error then
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 				print("Error while updating a comment")
-					-- TODO: we probably want to return something if there's an error
+				Result:=false;
+			else
+				Result:=true;
 			end
 		end
 

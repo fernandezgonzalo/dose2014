@@ -132,16 +132,23 @@ feature -- Data access
 			end
 		end
 
-	add_project (name:STRING; deadline:STRING; client_name:STRING;id_user:NATURAL ): BOOLEAN
+	add_project (name:STRING; deadline:STRING; client_name:STRING;id_user:NATURAL ):TUPLE [was_created:BOOLEAN; id: INTEGER]
+		local
+					l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			-- adds a new user with the given user name, password,email, name
 		do
+			create Result
 			create db_insert_statement.make ("INSERT INTO project(name,deadline,client_name,id_user) VALUES ('" + name +"', '" +deadline  +"', '" +  client_name  +"', '" + id_user.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new project")
-				Result:= false;
+				Result.id:= -1 ;
+				Result.was_created:=false;
 			else
-				Result:=true;
+				create db_query_statement.make ("SELECT * FROM project WHERE name=? AND deadline=? AND client_name=? AND id_user=?  ;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<name, deadline,client_name,id_user>>)
+				Result.id:= l_query_result_cursor.item.integer_value (1)
+				Result.was_created:= true;
 			end
 		end
 
@@ -210,6 +217,15 @@ feature -- Data access
 		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" ' AND status = 'Stopped';", db)
 		db_query_statement.execute (agent row_to_json_object(?, 2, Result))
 	end
+
+
+	projects_of_the_user(id: NATURAL): JSON_ARRAY
+	do
+		create Result.make_array
+		create db_query_statement.make ("SELECT * FROM project  WHERE id_user = '"+id.out+ "';", db)
+		db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+		end
+
 
 --	number_of_tasks_group_by_user(id_project: NATURAL): JSON_ARRAY
 	--RETURNS total number of tasks in the project identified by id_project
