@@ -1,8 +1,9 @@
 'use strict';
 
-angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', 'User', function ($scope, $log, $location, $routeParams, User) {
+angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', function ($scope, $log, $location, $routeParams, $resource) {
   $log.debug('UserController::routeParams=', $routeParams);
 
+  var User = $resource('/api/users/:userId', {userId: '@id'});
 
   $scope.users = User.query();
 
@@ -22,7 +23,8 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.create = function(user) {
     $log.debug('UserController::', user);
-    User.add(user);
+    var newUser = new User(user);
+    newUser.$save();
   };
 
 }]);
