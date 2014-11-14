@@ -7,7 +7,7 @@ note
 class
 	USER
 inherit
-	DB
+	DB_MAPPER_BASE
 create
 	make
 feature

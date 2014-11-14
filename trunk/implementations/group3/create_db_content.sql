@@ -22,11 +22,29 @@ CREATE TABLE Users (
   email TEXT
 );
 
+CREATE TABLE Projects(
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE ProjectComments(
+  id INTEGER PRIMARY KEY,
+  сontents TEXT NOT NULL UNIQUE,
+  date TEXT,
+  userId INTEGER NOT NULL,
+  projectId INTEGER NOT NULL,
+  FOREIGN KEY(userId) REFERENCES Users(id),
+  FOREIGN KEY(projectId) REFERENCES Projects(id)
+);
+
+
 CREATE TABLE Sprints(
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL UNIQUE,
+  projectId INTEGER NOT NULL,
   start_time TEXT,
-  end_time TEXT
+  end_time TEXT,
+  FOREIGN KEY(projectId) REFERENCES Projects(id)
 );
 
 CREATE TABLE SprintComments(
@@ -57,22 +75,6 @@ CREATE TABLE TasksComments(
   FOREIGN KEY(taskId) REFERENCES Tasks(id)
 );
 
-CREATE TABLE Projects(
-  id INTEGER PRIMARY KEY,
-  name TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE ProjectComments(
-  id INTEGER PRIMARY KEY,
-  сontents TEXT NOT NULL UNIQUE,
-  date TEXT,
-  userId INTEGER NOT NULL,
-  projectId INTEGER NOT NULL,
-  FOREIGN KEY(userId) REFERENCES Users(id),
-  FOREIGN KEY(projectId) REFERENCES Projects(id)
-);
-
-
 CREATE TABLE Stories(
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL UNIQUE
@@ -95,13 +97,6 @@ CREATE TABLE StoriesBelongToProjects(
   storyId INTEGER NOT NULL,
   FOREIGN KEY(projectId) REFERENCES Projects(id) ON DELETE CASCADE,
   FOREIGN KEY(storyId) REFERENCES Stories(id) ON DELETE CASCADE
-);
-
-CREATE TABLE SprintsBelongToProjects(
-  projectId INTEGER NOT NULL,
-  sprintId INTEGER NOT NULL,
-  FOREIGN KEY(projectId) REFERENCES Projects(id) ON DELETE CASCADE,
-  FOREIGN KEY(sprintId) REFERENCES Sprints(id) ON DELETE CASCADE
 );
 
 CREATE TABLE TasksBelongToStories(
