@@ -105,6 +105,16 @@ feature -- Data access
 
 		end
 
+	user_by_email(email : STRING): JSON_OBJECT
+			-- returns a JSON_OBJECT  that represents a user identified by id
+
+		do
+			create Result.make
+			create db_query_statement.make ("SELECT * FROM user WHERE email = '" + email + "';", db)
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+
+		end
+
 	remove_user_by_id (id: NATURAL): BOOLEAN
 			-- removes the user identified by id
 		do
@@ -119,16 +129,23 @@ feature -- Data access
 			end
 		end
 
-	add_user (email: STRING;username: STRING ;password: STRING; name: STRING; is_adminn: INTEGER ):BOOLEAN
-			-- adds a new user with the given user name, password,email, name
-		do
-			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', '" + is_adminn.out + "');", db)
+	add_user (email: STRING;username: STRING ;password: STRING; name: STRING; is_adminn: INTEGER ):TUPLE [was_created:BOOLEAN; id: INTEGER]
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do	-- adds a new user with the given user name, password,email, name
+			create Result
+
+			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', " + is_adminn.out + ");", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new user")
-				Result:= false;
+				Result.id:= -1 ;
+				Result.was_created:=false;
 			else
-				Result:= true;
+				create db_query_statement.make ("SELECT * FROM user WHERE email=? and password =? ;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, password>>)
+				Result.id:= l_query_result_cursor.item.integer_value (1)
+				Result.was_created:= true;
 			end
 		end
 
@@ -278,6 +295,8 @@ feature {NONE}--login
 			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 
 		end
+
+
 
 
 

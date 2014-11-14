@@ -141,16 +141,24 @@ feature -- Data access
 			end
 		end
 
-	add_task (title:STRING;description:STRING;status:STRING;priority:STRING;deadline:STRING;estimation:STRING;id_user_creator:NATURAL;id_user_assigned:NATURAL;id_project: NATURAL ): BOOLEAN
+	add_task (title:STRING;description:STRING;status:STRING;priority:STRING;deadline:STRING;estimation:STRING;id_user_creator:NATURAL;id_user_assigned:NATURAL;id_project: NATURAL ): TUPLE [was_created:BOOLEAN; id: INTEGER]
+		local
+				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			-- adds a new task with the given title, description,status, priority, deadline, estimation, id_user_creator, id_user assigned, id_project
 		do
+			create Result
 			create db_insert_statement.make (" INSERT INTO task (title,description,status,priority,deadline,estimation,id_user_creator,id_user_assigned,id_project) VALUES ('" + title+"','"+description+"','"+status+"','"+priority+"','"+deadline+"','"+estimation+"','"+id_user_creator.out+"','"+id_user_assigned.out+"','"+id_project.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new task")
-				Result:=false;
+				Result.id:= -1 ;
+				Result.was_created:=false;
 			else
-				Result:=true
+				create db_query_statement.make ("SELECT * FROM task  WHERE title =? AND description=? AND status=? AND priority=? AND deadline=? AND estimation=? AND id_user_creator=? AND id_user_assigned=? AND id_project=? ;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<title,description,status,priority,deadline,estimation,id_user_creator,id_user_assigned,id_project>>)
+				Result.id:= l_query_result_cursor.item.integer_value (1)
+				Result.was_created:= true;
+
 			end
 		end
 
@@ -281,6 +289,13 @@ feature -- Data access
 			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
 
 		end
+
+		tasks_of_the_user(id: NATURAL): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM task WHERE id_user_assigned = '"+id.out+ "';", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
+			end
 
 
 end
