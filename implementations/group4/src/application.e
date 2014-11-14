@@ -80,9 +80,9 @@ feature -- Basic operations
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post )
-			--map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.get_user, router.methods_get )
+			map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.get_user, router.methods_get )
 			map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.update_user, router.methods_post )
-			map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.remove_user, router.methods_post )
+			map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.remove_user, router.methods_delete )
 
 				-- handling of all the routes relating to "projects"
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get)
