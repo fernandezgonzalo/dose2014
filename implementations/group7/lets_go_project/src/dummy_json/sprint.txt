@@ -1,0 +1,8 @@
+{
+  "id":             1,
+  "name":           "my_project",
+  "start_date":     "2013-12-31",
+  "end_date":       "2013-12-31",
+  "status":         1,
+  "project_id":     1
+}

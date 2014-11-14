@@ -1,0 +1,9 @@
+{
+  "id":              1,
+  "email":           "a@b.c",
+  "firstname":       "Bertrand"
+  "lastname":        "Meier",
+  "is_stakeholder":  true,
+  "projects":        [1, 2],
+  "assigned_tasks":  [1, 2]
+}
