@@ -38,6 +38,21 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json object with a user with given id
+		local
+			l_result_payload: STRING
+			l_user_id : STRING
+		do
+			-- the user_id from the URL
+			l_user_id := req.path_parameter ("user_id").string_representation
+
+			l_result_payload := db_handler_user.find_by_id (l_user_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new users; the user data are expected to be part of the request's payload
 		local
