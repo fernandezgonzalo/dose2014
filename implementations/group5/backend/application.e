@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 	todo_ctrl: DEMO_TODO_CTRL
 			-- a controller for handling todo requests
 
-	user_ctrl: DEMO_USER_CTRL
+	user_ctrl: USER_CONTROLLER
 			-- a controller for handling user requests
 
 	dao: DEMO_DB
@@ -122,7 +122,7 @@ feature {NONE} -- Initialization
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create todo_ctrl.make(dao, session_manager)
-			create user_ctrl.make(dao)
+			create user_ctrl.make(crud_user)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9100)
@@ -148,7 +148,7 @@ feature -- Basic operations
 
 				-- handling of all ht routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
