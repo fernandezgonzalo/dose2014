@@ -115,7 +115,7 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- for the tpic data
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 				-- we have to convert the json string into an eiffel string for each task attribute.
