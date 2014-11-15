@@ -21,6 +21,12 @@ feature -- Task data
 	user_id : NATURAL
 		-- Accountable of the task.
 
+	project_id : NATURAL
+		-- Project where the task belongs.
+
+	points : NATURAL
+		-- Task number of points
+
 	title : STRING
 		-- Title.
 
@@ -37,9 +43,10 @@ feature -- Task data
 		-- Position can be: Backlog, Process, Done, Testing or Canceled.
 
 
+
 feature -- Creation
 
-	make (a_sprint_id, a_user_id: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+	make (a_sprint_id, a_user_id, a_project_id, some_points: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
 		-- Default creation procedure
 		require
 			title_not_void: a_title /= Void
@@ -50,16 +57,19 @@ feature -- Creation
 		do
 			sprint_id := a_sprint_id
 			user_id := a_user_id
+			project_id := a_project_id
+			points := some_points
 			title := a_title
 			description := a_descr
 			type := a_type
 			priority := a_priority
 			position := a_pos
-			-- super_task Void by default, this is not a subtask.
+			-- a super task has itself as a super, but in the object creation both values are zero
+			-- the database handler is going to insert this values correctly
 
 		end
 
-	make_sub_task (a_sprint_id, a_user_id, a_super_task_id: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
+	make_sub_task (a_sprint_id, a_user_id, a_super_task_id, a_project_id, some_points: NATURAL; a_title, a_descr, a_type, a_priority, a_pos : STRING)
 		-- Creation procedure for a sub task
 		require
 			title_not_void: a_title /= Void
@@ -70,6 +80,8 @@ feature -- Creation
 		do
 			sprint_id := a_sprint_id
 			user_id := a_user_id
+			project_id := a_project_id
+			points := some_points
 			title := a_title
 			description := a_descr
 			type := a_type
