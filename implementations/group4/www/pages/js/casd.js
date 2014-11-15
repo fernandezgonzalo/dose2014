@@ -17,7 +17,7 @@ define(
             "CasdModule",
             [
                 'ui.router',
-                "uiNavBar",
+                "uiNavbarModule",
             ]
         )
 
@@ -29,18 +29,62 @@ define(
                 function($stateProvider, $urlRouterProvider)
                 {
                     $urlRouterProvider.otherwise("/");
-                    /*
-                    $stateProvider.state
+
+                    $stateProvider
+                    .state
                     (
-                        "receipts",
+                        "main",
                         {
                             url: "/",
-                            templateUrl: "pages/html/<<template.html>>",
+                            templateUrl: "pages/html/main.html"
                             //resolve: { data: 'SomeDataProvider' },
-                            controller: "SomeController"
+                            //controller: "SomeController"
+                        }
+                    )
+
+                    .state
+                    (
+                        "project",
+                        {
+                            url: "/project",
+                            templateUrl: "pages/html/project.html"
+                            //resolve: { data: 'SomeDataProvider' },
+                            //controller: "SomeController"
+                        }
+                    )
+
+                    .state
+                    (
+                        "user",
+                        {
+                            url: "/user",
+                            templateUrl: "pages/html/user.html"
+                            //resolve: { data: 'SomeDataProvider' },
+                            //controller: "SomeController"
+                        }
+                    )
+
+                    .state
+                    (
+                        "task",
+                        {
+                            url: "/task",
+                            templateUrl: "pages/html/task.html"
+                            //resolve: { data: 'SomeDataProvider' },
+                            //controller: "SomeController"
+                        }
+                    )
+
+                    .state
+                    (
+                        "login",
+                        {
+                            url: "/login",
+                            templateUrl: "pages/html/login.html"
+                            //resolve: { data: 'SomeDataProvider' },
+                            //controller: "SomeController"
                         }
                     );
-                    */
                 }
             ]
         )
@@ -50,41 +94,8 @@ define(
             "CasdCtr",
             [
                 "$scope",
-                function($scope, vmapi)
+                function($scope)
                 {
-                    $scope.affixed = "top";
-                    $scope.brand = "<span class='glyphicon glyphicon-user'></span> User 1";
-
-                    $scope.menus = [
-                        {
-                            title : "Tasks",
-                            action : "singular"
-                        },
-                        {
-                            title : "Projects",
-                            action : "singular"
-                        },
-                        {
-                            title : "Sprints",
-                            action : "singular"
-                        },
-                        {
-                            title : "Topics",
-                            action : "singular"
-                        },
-                        {
-                            title : "Users",
-                            action : "singular"
-                        },
-                        {
-                            title : "Login",
-                            action : "singular"
-                        },
-                        {
-                            title : "Logout",
-                            action : "singular"
-                        },                        
-                    ]; // end menus
                 }
             ]
         );
