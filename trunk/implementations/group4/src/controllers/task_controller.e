@@ -59,7 +59,7 @@ feature -- Handlers
 			-- adds a new task; the task data is expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id : STRING
+			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_project_id, new_points : STRING
 			new_task : TASK
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -93,8 +93,14 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
 					new_sprint_id := sprint_id.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					new_project_id := project_id.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					new_user_id := user_id.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("points") as points then
+					new_points := points.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("type") as type then
 					new_type := type.unescaped_string_8
@@ -102,7 +108,7 @@ feature -- Handlers
 
 			end
 
-			create new_task.make (new_sprint_id.to_natural, new_user_id.to_natural, new_title, new_descr, new_type, new_priority, new_position)
+			create new_task.make (new_sprint_id.to_natural, new_user_id.to_natural, new_project_id.to_natural, new_points.to_natural, new_title, new_descr, new_type, new_priority, new_position)
 				-- create the topic in the database
 			db_handler_task.add_super (new_task)
 
@@ -119,7 +125,7 @@ feature -- Handlers
 			-- adds a new task; the task data is expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_super_task_id : STRING
+			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_project_id, new_super_task_id, new_points : STRING
 			new_task : TASK
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -153,11 +159,17 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
 					new_sprint_id := sprint_id.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					new_project_id := project_id.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					new_user_id := user_id.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("super_task_id") as super_task_id then
 					new_super_task_id := super_task_id.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("points") as points then
+					new_points := points.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("type") as type then
 					new_type := type.unescaped_string_8
@@ -165,7 +177,7 @@ feature -- Handlers
 
 			end
 
-			create new_task.make_sub_task (new_sprint_id.to_natural, new_user_id.to_natural, new_super_task_id.to_natural, new_title, new_descr, new_type, new_priority, new_position)
+			create new_task.make_sub_task (new_sprint_id.to_natural, new_user_id.to_natural, new_super_task_id.to_natural, new_project_id.to_natural, new_points.to_natural, new_title, new_descr, new_type, new_priority, new_position)
 				-- create the topic in the database
 			db_handler_task.add_super (new_task)
 
@@ -183,7 +195,7 @@ feature -- Handlers
 		local
 			l_payload: STRING
 			l_task_id: STRING
-			l_priority, l_position, l_type, l_descr, l_title, l_super_task_id, l_sprint_id, l_user_id : STRING
+			l_priority, l_position, l_type, l_descr, l_title, l_super_task_id, l_sprint_id, l_user_id, l_project_id, l_points : STRING
 			l_task: TASK
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -217,11 +229,14 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
 					l_sprint_id := sprint_id.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					l_project_id := project_id.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					l_user_id := user_id.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("super_task_id") as super_task_id then
-					l_super_task_id := super_task_id.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("points") as points then
+					l_points := points.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("type") as type then
 					l_type := type.unescaped_string_8
@@ -230,7 +245,8 @@ feature -- Handlers
 			end
 
 				-- create the task
-			create l_task.make (l_sprint_id.to_natural, l_user_id.to_natural, l_title, l_descr, l_type, l_priority, l_position)
+			l_super_task_id := "0" -- only for the creation procedure, this value is not updated in the database
+			create l_task.make (l_sprint_id.to_natural, l_user_id.to_natural, l_project_id.to_natural, l_points.to_natural, l_title, l_descr, l_type, l_priority, l_position)
 
 				-- the user_id from the URL (as defined by the placeholder in the route)
 			l_task_id := req.path_parameter ("task_id").string_representation

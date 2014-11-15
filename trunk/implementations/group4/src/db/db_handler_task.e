@@ -27,7 +27,8 @@ feature -- Data access
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a subtask of the desired task
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Tasks WHERE super_task_id=" + a_super_task_id.out + ";", db)
+			-- a super task has itself as a super task, so we exclude that value from the subtasks.
+			create db_query_statement.make ("SELECT * FROM Tasks WHERE super_task_id=" + a_super_task_id.out + " AND (NOT " + a_super_task_id.out + " = id) ;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
 		end
 
@@ -42,19 +43,33 @@ feature -- Data access
 	add_super(a_task: TASK)
 			-- Adds a task
 		do
-			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,sprint_id,user_id) VALUES ('" + a_task.priority + "','" + a_task.position + "','" + a_task.type + "','" + a_task.description + "','" + a_task.title + "','" + a_task.sprint_id.out + "','" + a_task.user_id.out + "');", db);
-			io.put_string (db_insert_statement.string)
+			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,sprint_id,project_id,user_id) VALUES ('" + a_task.priority + "','" + a_task.position + "','" + a_task.type + "','" + a_task.description + "','" + a_task.title + "','" + a_task.points.out + "','" + a_task.sprint_id.out + "','" + a_task.project_id.out + "','" + a_task.user_id.out + "');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new topic")
+			end
+			-- After creating a super task, the super_task_id value must be set properly.
+			-- Here we use the id of the task just created.
+			create db_modify_statement.make ("UPDATE Tasks SET super_task_id = " + db_insert_statement.last_row_id.out + " WHERE id = " + db_insert_statement.last_row_id.out + ";" , db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while inserting a new topic. (super_task_id not set)")
 			end
 		end
 
 	add_sub(a_task: TASK)
 			-- Adds a sub task
 		do
-			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,super_task_id,sprint_id) VALUES ('" + a_task.priority + "','" + a_task.position + "','" + a_task.type + "','" + a_task.description + "','" + a_task.title + "','" + a_task.super_task_id.out + "','" + a_task.sprint_id.out + "','" + a_task.user_id.out + "');", db);
-			io.put_string (db_insert_statement.string)
+			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,user_id) VALUES ('" + a_task.priority + "','" +
+																																						       a_task.position + "','" +
+																																						       a_task.type + "','" +
+																																						       a_task.description + "','" +
+																																						       a_task.title + "','" +
+																																						       a_task.points.out + "','" +
+																																						       a_task.super_task_id.out + "','" +
+																																						       a_task.sprint_id.out + "','" +
+																																						       a_task.project_id.out + "','" +
+																																						       a_task.user_id.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new topic")
@@ -69,7 +84,9 @@ feature -- Data access
 																  "type = '"+ task.type +"',"+
 																  "description = '"+ task.description +"',"+
 																  "title = '"+ task.title +"',"+
-																  "sprint_id = '"+ task.sprint_id.out +"'"+
+																  "points = '"+ task.points.out +"',"+
+																  "sprint_id = '"+ task.sprint_id.out +"',"+
+																  "project_id = '"+ task.project_id.out +"'"+
 																  "WHERE id="+ task_id.out +";" , db)
 				db_modify_statement.execute
 			if db_modify_statement.has_error then
