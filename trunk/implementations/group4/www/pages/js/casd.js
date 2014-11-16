@@ -6,7 +6,8 @@ define(
         "angularUIRoute",
 
         //Custom includes
-        "blocks/navbar/navbar"
+        "blocks/navbar/navbar",
+        "pages/js/login"
     ],
 
     function(angular)
@@ -18,6 +19,7 @@ define(
             [
                 'ui.router',
                 "uiNavbarModule",
+                "LoginModule"
             ]
         )
 
@@ -80,9 +82,9 @@ define(
                         "login",
                         {
                             url: "/login",
-                            templateUrl: "pages/html/login.html"
+                            templateUrl: "pages/html/login.html",
                             //resolve: { data: 'SomeDataProvider' },
-                            //controller: "SomeController"
+                            controller: "LoginCtr"
                         }
                     );
                 }
