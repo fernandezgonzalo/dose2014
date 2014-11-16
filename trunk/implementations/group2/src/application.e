@@ -73,7 +73,7 @@ feature {NONE} -- Initialization
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create user_ctrl.make(dao, session_manager)
-			create project_ctrl.make(dao)
+			create project_ctrl.make(dao, session_manager)
 			create req_ctrl.make(dao)
 			create task_ctrl.make(dao)
 			create sprint_ctrl.make(dao)
@@ -103,10 +103,10 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/edit", agent user_ctrl.update_user ,router.methods_post)
 
 --				-- handling of all the routes relating to "project"
---			map_uri_template_agent_with_request_methods("coffee/projects", agent project_ctrl.create_project ,router.methods_post)
---			map_uri_template_agent_with_request_methods("coffee/projects/{project_id}/edit", agent project_ctrl.update_project ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects", agent project_ctrl.create_project ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/edit", agent project_ctrl.update_project ,router.methods_post)
 --			map_uri_template_agent_with_request_methods("coffee/projects", agent project_ctrl.get_projects ,router.methods_get)
---			map_uri_template_agent_with_request_methods("coffee/projects/{project_id}", agent project_ctrl.delete_project ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.delete_project ,router.methods_delete)
 
 
 --				-- handling of all the routes relating to "requirement"
