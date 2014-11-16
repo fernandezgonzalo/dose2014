@@ -4,7 +4,10 @@ define(
         //System includes
         "angular",
         "bootstrapUi",
-        "angularUtils"
+        "angularUtils",
+
+        //Custom includes
+        "pages/js/restapi"
     ],
 
     function (angular)
@@ -13,6 +16,7 @@ define(
         (
             "uiRegistrationModule",
             [
+                "RestApiModule",
                 "ui.bootstrap",
                 "ui.validate"
             ]
@@ -46,7 +50,8 @@ define(
                 "$scope",
                 "$modal",
                 "$log",
-                function($scope, $modal, $log)
+                "restapi",
+                function($scope, $modal, $log, restapi)
                 {
                     $scope.register = function (size)
                     {
@@ -64,6 +69,7 @@ define(
                             function (form)
                             {
                                 $log.info(form);
+                                restapi.register(form.email, form.password);
                             }
                         );
                     };
