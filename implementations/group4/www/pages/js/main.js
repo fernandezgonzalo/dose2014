@@ -12,6 +12,7 @@ require.config
             angularSanitize: "libs/js/angular-sanitize",
             angularCookies: "libs/js/angular-cookies",
             angularResource: "libs/js/angular-resource",
+            angularUtils: 'libs/js/ui-utils',
             domReady: 'libs/js/domReady',
             jQuery: 'libs/js/jquery-2.1.1',
             bootstrap: 'libs/js/bootstrap',
@@ -29,6 +30,7 @@ require.config
             angularSanitize: { deps: ["angular"] },
             angularCookies: { deps: ["angular"] },
             angularResource: { deps: ["angular"] },
+            angularUtils: { deps: ["angular"] },
             bootstrap:  { deps: ["jQuery"] },
             bootstrapUi: { deps: ["bootstrap", "angular"] }
         }
