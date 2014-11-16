@@ -15,7 +15,7 @@ define(
         (
             "LoginModule",
             [
-                "uiRegistrationModule",
+                "uiRegistrationModule"
             ]
         )
 

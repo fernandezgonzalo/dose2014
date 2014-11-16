@@ -3,7 +3,8 @@ define(
     [
         //System includes
         "angular",
-        "bootstrapUi"
+        "bootstrapUi",
+        "angularUtils"
     ],
 
     function (angular)
@@ -12,7 +13,8 @@ define(
         (
             "uiRegistrationModule",
             [
-                "ui.bootstrap"
+                "ui.bootstrap",
+                "ui.validate"
             ]
         )
 
