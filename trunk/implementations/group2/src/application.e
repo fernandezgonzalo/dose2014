@@ -72,7 +72,7 @@ feature {NONE} -- Initialization
 			create dao.make (path_to_db_file)
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
-			create user_ctrl.make(dao)
+			create user_ctrl.make(dao, session_manager)
 			create project_ctrl.make(dao)
 			create req_ctrl.make(dao)
 			create task_ctrl.make(dao)
@@ -100,7 +100,7 @@ feature -- Basic operations
 --			map_uri_template_agent_with_request_methods("coffee/users", agent user_ctrl.get_users ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/users", agent user_ctrl.add_user ,router.methods_post)
 			map_uri_template_agent_with_request_methods("/coffee/users", agent user_ctrl.delete_user ,router.methods_delete)
---			map_uri_template_agent_with_request_methods("coffee/users/{user_id}/edit", agent user_ctrl.update_user ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/edit", agent user_ctrl.update_user ,router.methods_post)
 
 --				-- handling of all the routes relating to "project"
 --			map_uri_template_agent_with_request_methods("coffee/projects", agent project_ctrl.create_project ,router.methods_post)
