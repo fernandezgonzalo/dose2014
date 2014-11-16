@@ -40,15 +40,12 @@ feature -- Project properties
 
 	user_id : INTEGER
 
-feature -- Project relations
+feature -- Project seters
 
-	owner_user : USER
-
-	colaboator_users : LINKED_LIST [USER]
-
-	project_topics : LINKED_LIST [TOPIC]
-
-	project_sprints : LINKED_LIST [SPRINT]
+	set_project_name(new_name: STRING)
+	do
+		name := new_name
+	end
 
 feature -- Auxiliary routines
 
