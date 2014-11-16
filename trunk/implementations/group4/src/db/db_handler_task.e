@@ -1,5 +1,5 @@
 note
-	description: "This class manages the database operations that concerns topics."
+	description: "This class manages the database operations that concerns tasks."
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-08$"
 	revision: "$0.01$"
@@ -20,7 +20,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Tasks;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 11, Result))
 		end
 
 	find_all_sub_tasks (a_super_task_id: NATURAL) : JSON_ARRAY
@@ -29,7 +29,7 @@ feature -- Data access
 			create Result.make_array
 			-- a super task has itself as a super task, so we exclude that value from the subtasks.
 			create db_query_statement.make ("SELECT * FROM Tasks WHERE super_task_id=" + a_super_task_id.out + " AND (NOT " + a_super_task_id.out + " = id) ;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 11, Result))
 		end
 
 	find_by_id (a_task_id : NATURAL) : JSON_OBJECT
@@ -37,7 +37,15 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Tasks WHERE id=" + a_task_id.out + ";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 11, Result))
+		end
+
+	find_by_project_id (a_project_id : NATURAL) : JSON_OBJECT
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task of the given project
+		do
+			create Result.make
+			create db_query_statement.make("SELECT * FROM Tasks WHERE project_id=" + a_project_id.out + ";" ,db)
+			db_query_statement.execute (agent row_to_json_object (?, 11, Result))
 		end
 
 	add_super(a_task: TASK)
@@ -60,7 +68,7 @@ feature -- Data access
 	add_sub(a_task: TASK)
 			-- Adds a sub task
 		do
-			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,user_id) VALUES ('" + a_task.priority + "','" +
+			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,project_id,user_id) VALUES ('" + a_task.priority + "','" +
 																																						       a_task.position + "','" +
 																																						       a_task.type + "','" +
 																																						       a_task.description + "','" +
@@ -70,6 +78,7 @@ feature -- Data access
 																																						       a_task.sprint_id.out + "','" +
 																																						       a_task.project_id.out + "','" +
 																																						       a_task.user_id.out + "');", db)
+			io.put_string (db_insert_statement.string)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new topic")

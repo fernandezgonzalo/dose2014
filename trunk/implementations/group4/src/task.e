@@ -93,7 +93,51 @@ feature -- Creation
 
 feature -- Operations
 
+	set_title (a_title : STRING)
+			-- Set a the task title with `a_title'
+		require
+			title_not_void: a_title /= Void
+		do
+			title := a_title
+		end
 
+	set_description (a_descr : STRING)
+			-- Set a the task desctiption with `a_descr'
+		require
+			description_not_void: a_descr /= Void
+		do
+			description := a_descr
+		end
+
+	set_points (some_points : NATURAL)
+			-- Set a the task points with `some_points'
+		do
+			points := some_points
+		end
+
+	set_type (a_type : STRING)
+			-- Set a the task type with `a_type'
+		require
+			type_not_void: a_type /= Void
+		do
+			type := a_type
+		end
+
+	set_priority (a_priority : STRING)
+			-- Set a the task type with `a_priority'
+		require
+			piority_not_void: a_priority /= Void
+		do
+			priority := a_priority
+		end
+
+	set_position (a_pos : STRING)
+			-- Set a the task type with `a_pos'
+		require
+			position_not_void: a_pos /= Void
+		do
+			position := a_pos
+		end
 
 
 invariant -- Invariant for enumerated types
