@@ -22,7 +22,7 @@ api/projects/{project_id}/topics (GET request to see all the topics associated)
 user login and management
 =========================
 
-api/login
+api/sessions (for login)
 
 api/users/ (POST request to add one, GET to see them all)
 

@@ -82,7 +82,7 @@ feature -- Basic operations
 				-- handling of all the routes relating to "sessions"
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.login , router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.logout , router.methods_delete)
-			
+
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post )
@@ -114,10 +114,10 @@ feature -- Basic operations
 				-- handling of all the routes relating to "topics"
 			map_uri_template_agent_with_request_methods ("/api/topics", agent topic_ctrl.get_topics, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/topics", agent topic_ctrl.add_topic, router.methods_post)
-			--map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}", agent topic_ctrl.get_topic, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}", agent topic_ctrl.get_topic, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}", agent topic_ctrl.update_topic, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}", agent topic_ctrl.remove_topic, router.methods_delete)
-			--map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/answers", agent topic_ctrl.get_answers, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/answers", agent topic_ctrl.get_answers, router.methods_get)
 
 				-- handling of all the routes relating to "answers"
 			map_uri_template_agent_with_request_methods ("/api/topics/{topic_id}/answers", agent answer_ctrl.add_answer, router.methods_post)
@@ -126,7 +126,7 @@ feature -- Basic operations
 
 				-- handling of all the routes relating to "tasks"
 			map_uri_template_agent_with_request_methods ("/api/tasks", agent task_ctrl.get_tasks, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks/{task_id}", agent task_ctrl.get_task, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks/{task_id}", agent task_ctrl.get_task, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks/{task_id}", agent task_ctrl.update_task, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks/{task_id}", agent task_ctrl.remove_task, router.methods_delete)
 
