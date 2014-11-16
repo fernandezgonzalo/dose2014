@@ -38,6 +38,23 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_task (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a reponse that contains a json array with all subtasks out of a task
+		local
+			l_task_id: STRING
+			l_result_payload: STRING
+		do
+			-- First we have to obtain the super task id
+			-- from the URL (as defined by the placeholder in the route)
+			l_task_id := req.path_parameter ("task_id").string_representation
+
+			-- Then, we return the corresponding result
+			l_result_payload := db_handler_task.find_by_id(l_task_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 	get_sub_tasks (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all subtasks out of a task
 		local
@@ -165,9 +182,6 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					new_user_id := user_id.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("super_task_id") as super_task_id then
-					new_super_task_id := super_task_id.unescaped_string_8
-				end
 				if attached {JSON_STRING} j_object.item ("points") as points then
 					new_points := points.unescaped_string_8
 				end
@@ -177,9 +191,11 @@ feature -- Handlers
 
 			end
 
+			new_super_task_id := req.path_parameter ("task_id").string_representation
+
 			create new_task.make_sub_task (new_sprint_id.to_natural, new_user_id.to_natural, new_super_task_id.to_natural, new_project_id.to_natural, new_points.to_natural, new_title, new_descr, new_type, new_priority, new_position)
 				-- create the topic in the database
-			db_handler_task.add_super (new_task)
+			db_handler_task.add_sub (new_task)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
