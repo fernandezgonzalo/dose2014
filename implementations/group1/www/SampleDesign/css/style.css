@@ -1,0 +1,138 @@
+html {
+	height: 100%;
+}
+body {
+	background-image: url('../images/pattern.png');
+	margin: 0px;
+	padding: 0px;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	height: 100%;
+}
+a:hover, a:link, a:visited, a:active {
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+}
+img {
+	border: none;
+}
+
+.float-left {
+	float: left;
+}
+.float-right {
+	float: right;
+}
+.clear {
+	clear: both;
+}
+a.underline {
+	text-decoration: underline;
+}
+
+#wrapper {
+	min-height:100%;
+	position: relative;
+}
+#header {
+	width: 100%;
+	background-image: url('../images/line.png');
+	background-color: #000000;
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	color: #ffffff;
+}
+#content {
+	width: 100%;
+	padding-bottom: 50px;
+}
+#inner-content{
+	padding: 10px;
+}
+#footer {
+	width: 100%;
+	height: 40px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: #000000;
+	border-top: 1px solid #8e8e8e;
+	padding-top: 10px;
+}
+#footer p {
+	text-align: center;
+	font-size: 12px;
+	color: #ffffff;
+	line-height: 15px;
+	margin: 0px;
+	padding: 0px;
+}
+#navigation {
+	background-image: url('../images/button.png');
+	background-repeat: repeat-x;
+	border-bottom: solid #474745 1px;
+	border-top: solid #474745 1px;
+	border-right: solid #474745 1px;
+	height: 42px;
+	vertical-align: middle;
+	margin-top: 80px;
+}
+#navigation ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+#navigation ul li{
+	float: left;
+	width: 149px;
+	height: 42px;
+	border: none;
+	border-left: solid #474745 1px;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	line-height: 42px;
+	vertical-align: middle;
+}
+#navigation ul li a:hover {
+	background-color: #b6b6b6;
+	width: 149px;
+	height: 42px;
+}
+#navigation  ul li a {
+	width: 149px;
+	height: 42px;
+	display: block;
+	color: #ffffff;
+}
+#user {
+	text-align: right;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+img.logo {
+	margin: 10px;
+	width: 555px;
+	height: 120px;
+}
+div.block {
+	background-color: #ffffff;
+	color: #000000;
+	border: 1px solid #8e8e8e;
+	padding: 30px 10px;
+}
+div.page {
+	margin: auto;
+}
+
+/* Dashboard*/
+
+#dashboard .projects-column {
+	float: left;
+	margin-right: 10px;
+	width: 70%;
+}
+#dashboard .users-column {
+	float: left;
+	width: 25%;
+}
