@@ -65,7 +65,7 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("username") as s then
+				if attached {JSON_STRING} j_object.item ("email") as s then
 					l_username := s.unescaped_string_8
 				end
 
@@ -87,7 +87,7 @@ feature -- Handlers
 					-- so next, we create a session
 
 					-- create the session; choose a name for the cookie that we'll send back
-				create l_session.make_new ("_demo_session_", session_manager)
+				create l_session.make_new ("_coffee_session_", session_manager)
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
 					-- we store the username and the key "username"
@@ -104,8 +104,10 @@ feature -- Handlers
 
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
 
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("OK"), create {JSON_STRING}.make_json ("Message"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.id), create {JSON_STRING}.make_json ("id"))
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
 			else
@@ -139,7 +141,7 @@ feature -- Handlers
 		do
 
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
-			create l_session.make (req, "_demo_session_", session_manager)
+			create l_session.make (req, "_coffee_session_", session_manager)
 			l_session.destroy
 
 

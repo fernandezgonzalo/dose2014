@@ -92,6 +92,35 @@ feature -- Data access
 
 		end
 
+	update_user(a_id: INTEGER a_email: STRING a_password: STRING a_first_name: STRING a_last_name: STRING) : BOOLEAN
+
+	do
+		create db_modify_statement.make ("UPDATE User SET email= + '" + a_email + "', password= + '" + a_password + "', first_name= + '" + a_first_name + "', last_name= + '" + a_last_name + "' WHERE id=" + a_id.out + ";", db)
+		db_modify_statement.execute
+		if db_modify_statement.has_error then
+			print("Error while updating a user")
+			RESULT := false
+		end
+		RESULT := true
+
+	end
+
+	get_user_id(a_email: STRING) : INTEGER
+
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+
+	do
+			create db_query_statement.make ("SELECT id FROM User WHERE email=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_email>>)
+
+			if l_query_result_cursor.after then
+				Result := -1
+			else
+				Result := l_query_result_cursor.item.value(1).out.to_integer
+			end
+	end
+
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
