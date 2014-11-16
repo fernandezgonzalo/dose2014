@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 			create user_ctrl.make (path_to_db_file,session_manager)
 			create project_ctrl.make (path_to_db_file)
 			--create sprint_ctrl.make (path_to_db_file)
-			create answer_ctrl.make (path_to_db_file)
+			create answer_ctrl.make (path_to_db_file,session_manager)
 			create topic_ctrl.make (path_to_db_file)
 			create task_ctrl.make (path_to_db_file)
 

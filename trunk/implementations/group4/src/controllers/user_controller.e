@@ -57,7 +57,7 @@ feature -- Handlers
 		end
 
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new users; the user data are expected to be part of the request's payload
+			-- add a new user; the user data are expected to be part of the request's payload
 		local
 			l_payload : STRING
 			l_user_name, l_email, l_password : STRING
@@ -95,7 +95,7 @@ feature -- Handlers
 				-- create the user in the database
 			db_handler_user.add (l_user)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+				-- create a json object that as a "Message" property that states what happend
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Added user " + l_user.username ), create {JSON_STRING}.make_json ("Message"))
 
@@ -105,7 +105,7 @@ feature -- Handlers
 		end
 
 	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a user from the database
+			-- update a existent user
 		local
 			l_payload: STRING
 			l_user_id: STRING
@@ -193,8 +193,9 @@ feature -- Handlers
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 		do
-				-- create emtpy string object
+				-- create emtpy string objects
 			create l_payload.make_empty
+			create l_result.make
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -206,19 +207,16 @@ feature -- Handlers
 				-- in this case the username and password
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-					-- we have to convert the json string into an eiffel string
+					-- we have to convert the json string into an eiffel string for each propertie.
 				if attached {JSON_STRING} j_object.item ("user_name") as s then
 					l_username := s.unescaped_string_8
 				end
-
-					-- we have to convert the json string into an eiffel string
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
 				end
 
 			end
 
-				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
 			l_user_data := db_handler_user.has_user_with_password(l_username, l_password)
 
@@ -245,7 +243,6 @@ feature -- Handlers
 
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
 				--l_result.put (create {JSON_STRING}.make_json ("User logged in"), create {JSON_STRING}.make_json ("Message"))
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
@@ -255,9 +252,7 @@ feature -- Handlers
 				-- so we don't create a session
 				-- but return an error message
 
-					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
 				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("Message"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
