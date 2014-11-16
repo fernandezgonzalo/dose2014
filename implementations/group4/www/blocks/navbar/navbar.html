@@ -1,11 +1,15 @@
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <a class="navbar-brand" ng-click="state.go('main')">CASD</a>
         <ul class="nav navbar-nav">
-            <li><a ng-click="state.go('user')">Me</a></li>
+            <li ng-class="{ 'active': state.$current.name == 'user' }">
+                <a ng-click="state.go('user')">Me</a>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a ng-click="state.go('login')">Login/Logout</a></li>
+            <li ng-class="{ 'active': state.$current.name == 'login' }" >
+                <a ng-click="state.go('login')">Login/Logout</a>
+            </li>
         </ul>
     </div>
 </nav>
