@@ -121,6 +121,63 @@ feature -- Data access
 			end
 	end
 
+	create_project(a_name: STRING a_description: STRING a_manager_id: STRING) : BOOLEAN
+	do
+		create db_insert_statement.make ("INSERT INTO Project(name,description,manager_id) VALUES ('" + a_name + "', '" + a_description + "', " + a_manager_id + ");", db)
+		db_insert_statement.execute
+		if db_insert_statement.has_error then
+			print("Error while creating a project")
+			RESULT := false
+		end
+		RESULT := true
+
+	end
+
+	delete_project(a_id: STRING) : BOOLEAN
+	do
+			create db_modify_statement.make ("DELETE FROM Project WHERE id=" + a_id + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a project")
+				RESULT := false
+			end
+			RESULT := true
+
+	end
+
+	update_project(a_id: STRING a_name: STRING a_description: STRING a_manager_id: STRING) : BOOLEAN
+	do
+		create db_modify_statement.make ("UPDATE Project SET name= + '" + a_name + "', description = + '" + a_description + "', manager_id= + " + a_manager_id + " WHERE id=" + a_id + ";", db)
+		db_modify_statement.execute
+		if db_modify_statement.has_error then
+			print("Error while updating a project")
+			RESULT := false
+		end
+		RESULT := true
+
+	end
+
+	get_project(a_id: STRING) : TUPLE[id: INTEGER; name: STRING; description: STRING; manager_id: INTEGER]
+
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+ 			create Result
+			create db_query_statement.make ("SELECT * FROM Project WHERE id=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_id>>)
+
+			if l_query_result_cursor.after then
+					-- there are no rows in the result of the query, thus no user with that password exits
+				print("No project found.%N")
+			else
+				Result.id := l_query_result_cursor.item.value (1).out.to_integer
+				Result.name := l_query_result_cursor.item.value (2).out
+				Result.description := l_query_result_cursor.item.value (3).out
+				Result.manager_id := l_query_result_cursor.item.value (4).out.to_integer
+			end
+
+	end
+
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
