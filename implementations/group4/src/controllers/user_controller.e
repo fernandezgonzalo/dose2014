@@ -229,9 +229,9 @@ feature -- Handlers
 				create l_session.make_new ("_casd_session_", session_manager)
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
-					-- we store the username and the key "username"
+					-- we store the username and the key "user_name"
 				l_session.remember (l_user_data.user_name, "user_name")
-					-- we store the user id and use the key "id"
+					-- we store the user id and use the key "user_id"
 				l_session.remember (l_user_data.user_id, "user_id")
 
 					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
@@ -240,10 +240,8 @@ feature -- Handlers
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
-
-					-- create the response
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				--l_result.put (create {JSON_STRING}.make_json ("User logged in"), create {JSON_STRING}.make_json ("Message"))
+					-- put in a json object a "Message" property that states what happend
+				l_result.put (create {JSON_STRING}.make_json ("User logged in"), create {JSON_STRING}.make_json ("Message"))
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
 			else
@@ -252,7 +250,7 @@ feature -- Handlers
 				-- so we don't create a session
 				-- but return an error message
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+					-- put in a json object a "Message" property that states what happend 
 				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("Message"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
