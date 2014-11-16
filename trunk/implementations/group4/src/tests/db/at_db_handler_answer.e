@@ -24,12 +24,12 @@ feature -- Test routines
 			json_result := db_handler.find_by_id (1)
 
 				-- correct attributes
-			assert ("Correct description", json_result.item ("description").debug_output.is_equal("Some answer"))
-			assert ("Correct topic_id", json_result.item ("topic_id").debug_output.is_equal("1"))
-			assert ("Correct user_id", json_result.item ("user_id").debug_output.is_equal("1"))
+			assert ("Correct description", json_result.item ("description").debug_output.is_equal("answer1"))
+			assert ("Correct topic_id", json_result.item ("topic_id").debug_output.is_equal("3"))
+			assert ("Correct user_id", json_result.item ("user_id").debug_output.is_equal("3"))
 		end
 
-	find_by_id_nonexistent_user_test
+	find_by_id_nonexistent_answer_test
 			-- Test for routine find_by_id with nonexistent answer id.
 		local
 			db_handler : DB_HANDLER_ANSWER

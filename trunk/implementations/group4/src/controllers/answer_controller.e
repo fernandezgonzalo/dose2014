@@ -52,7 +52,7 @@ feature -- Handlers
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
-					-- thus, the user is logged in and we can get the user name through the session data
+					-- thus, the user is logged in and we can get the user id through the session data
 
 					-- get the id of the user from the session store
 				l_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
@@ -63,8 +63,8 @@ feature -- Handlers
 					-- now parse the json object that we got as part of the payload
 				create parser.make_parser (l_payload)
 
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the answer description, the user_id and the topic_id
+					-- if the parsing was successful and we have a json object, we fetch the properties
+					-- for the answer description.
 				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 						-- we have to convert the json string into an eiffel string for the description attribute.
@@ -73,6 +73,7 @@ feature -- Handlers
 					end
 				end
 
+					-- the topic_id from the URL
 				l_topic_id := req.path_parameter ("topic_id").string_representation
 				create l_answer.make (l_description, l_topic_id.to_natural, l_user_id.to_natural)
 					-- create the answer in the database
@@ -86,7 +87,7 @@ feature -- Handlers
 				res.put_string (l_result.representation)
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to add todos
+					-- we return an error stating that the user is not authorized to add an answer
 				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
 					-- set the header to status code 401-unauthorized
 				set_json_header (res, 401, l_result.representation.count)
@@ -114,7 +115,7 @@ feature -- Handlers
 			if req_has_cookie (req, "_casd_session_") then
 
 					-- the request has a cookie of name "_casd_session_"
-					-- thus, the user is logged in and we can get the user name through the session data
+					-- thus, the user is logged in and we can get the user id through the session data
 
 					-- get the id of the user from the session store
 				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
@@ -159,7 +160,7 @@ feature -- Handlers
 					set_json_header_ok (res, l_result.representation.count)
 					res.put_string (l_result.representation)
 				else
-					-- put in a json object a "Message" property that states what happend
+						-- put in a json object a "Message" property that states what happend
 					l_result.put (create {JSON_STRING}.make_json ("The user logged is incorrect "), create {JSON_STRING}.make_json ("Message"))
 
 						-- set the result
