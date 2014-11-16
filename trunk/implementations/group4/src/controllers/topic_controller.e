@@ -38,6 +38,36 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_topic (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a reponse that contains a json with a topic
+		local
+			topic_id : STRING
+			l_result_payload: STRING
+		do
+			-- obtain the topic id via the URL
+			topic_id := req.path_parameter ("topic_id").string_representation
+			l_result_payload := db_handler_topic.find_by_id (topic_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
+	get_answers (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json array with all answers of a topic
+		local
+			db_handler_answer: DB_HANDLER_ANSWER
+			topic_id: STRING
+			l_result_payload: STRING
+		do
+			-- obtain the topic id via the URL
+			topic_id := req.path_parameter ("topic_id").string_representation
+			-- and use the answer handler to obtain all its answers
+			l_result_payload := db_handler_answer.find_by_topic_id (topic_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 	add_topic (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new topic; the topic data is expected to be part of the request's payload
 		local
