@@ -3,7 +3,7 @@ note
 	author: "hce"
 
 class
-	DEMO_HEADER_JSON_HELPER
+	HEADER_JSON_HELPER
 
 
 feature
