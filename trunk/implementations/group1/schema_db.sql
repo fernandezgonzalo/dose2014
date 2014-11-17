@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Project;
+DROP TABLE IF EXISTS UserProject;
+DROP TABLE IF EXISTS RolProject;
+DROP TABLE IF EXISTS RolProject_UserProject;
+DROP TABLE IF EXISTS Sprint;
+DROP TABLE IF EXISTS Task;
+DROP TABLE IF EXISTS TaskUser_Sprint;
+DROP TABLE IF EXISTS Requirement;
+
 CREATE TABLE User (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 name TEXT,
@@ -7,8 +17,7 @@ password TEXT,
 rol INTEGER,
 active INTEGER
 );
-;
-CREATE TABLE sqlite_sequence(name,seq);
+
 
 CREATE TABLE Project (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,12 +31,12 @@ PRIMARY KEY (id_user, id_project),
 FOREIGN KEY (id_user) REFERENCES User(id),
 FOREIGN KEY (id_project) REFERENCES Project(id)
 );
-;
+
 CREATE TABLE RolProject (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 type TEXT UNIQUE
 );
-;
+
 CREATE TABLE RolProject_UserProject (
 id_user INTEGER,
 id_project INTEGER,
@@ -37,7 +46,7 @@ FOREIGN KEY (id_user) REFERENCES User(id),
 FOREIGN KEY (id_project) REFERENCES Project(id),
 FOREIGN KEY (id_rolproject) REFERENCES RolProject(id)
 );
-;
+
 CREATE TABLE Sprint (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 duration INTEGER,
@@ -65,7 +74,7 @@ FOREIGN KEY (id_user) REFERENCES User(id),
 FOREIGN KEY (id_task) REFERENCES Task(id),
 FOREIGN KEY (id_sprint) REFERENCES Sprint(id)
 );
-;
+
 CREATE TABLE Requirement (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 estimation INTEGER,
