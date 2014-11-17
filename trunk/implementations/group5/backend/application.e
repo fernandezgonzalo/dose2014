@@ -30,6 +30,7 @@ feature {NONE} -- Initialization
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
 			print(Operating_environment.current_directory_name_representation)
+			-- sed replace db
 			Result := "."+ Operating_environment.directory_separator.out + "db"+ Operating_environment.directory_separator.out +"test.db"
 		end
 
@@ -37,6 +38,7 @@ feature {NONE} -- Initialization
 		-- calculates the path to the www folder, based on the location of the .ecf file
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
+			-- sed replace db
 			Result := ".." + Operating_environment.directory_separator.out + "frontend"+Operating_environment.directory_separator.out+"app"
 		end
 
@@ -116,7 +118,7 @@ feature {NONE} -- Initialization
 		--	print(crud_project.update_project_deadline ("deadmod",1))
 		--	print(crud_project.update_project_name ("nombreMod",1))
 		--	print(crud_project.update_project_client_name ("clientMod",1))
-			print(crud_comment.add_comment ("el comentario", 1, 1).id.out)
+		--	print(crud_comment.add_comment ("el comentario", 1, 1).id.out)
 
 
 			create session_manager.make
