@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_path_to_db_file: STRING)
 		do
-			create db_handler_project.make (a_path_to_db_file)
+			create db_handler_sprint.make (a_path_to_db_file)
 		end
 
 
@@ -44,7 +44,7 @@ feature -- Handlers
 			-- adds a new sprint; the sprint data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_id, new_status, new_duration : STRING
+			new_id, new_status, new_duration, new_project_id : STRING
 			new_sprint: SPRINT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -72,12 +72,15 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("duration") as duration then
 					new_duration := duration.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					new_project_id := project_id.unescaped_string_8
+				end
 			end
 
-			create new_sprint.make (new_id.to_integer_32, new_status, new_description.to_integer_32)
+			create new_sprint.make (new_id.to_integer_32, new_status, new_duration.to_integer_32, new_project_id.to_integer_32)
 
 				-- create the sprint in the database
-			db_handler_project.add (new_sprint)
+			db_handler_sprint.add (new_sprint)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
@@ -93,7 +96,7 @@ feature -- Handlers
 		local
 			l_payload: STRING
 			l_sprint_id: STRING
-			sprint_id, sprint_status, sprint_duration : STRING
+			sprint_id, sprint_status, sprint_duration, sprint_project_id : STRING
 			sprint: SPRINT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -121,18 +124,21 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("duration") as duration then
 					sprint_duration := duration.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
+					sprint_project_id := project_id.unescaped_string_8
+				end
 
 
 			end
 
 				-- create the sprint
-			create sprint.make (sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32)
+			create sprint.make (sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32, sprint_project_id.to_integer_32)
 
 				-- the sprint_id from the URL (as defined by the placeholder in the route)
 			l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 				-- update the sprint in the database
-			db_handler_sprint.update (l_sprint_id.to_natural,project)
+			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make

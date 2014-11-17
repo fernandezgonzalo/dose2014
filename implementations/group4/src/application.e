@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	-- Here we should add the features for controllers classes.
 	user_ctrl: USER_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
-	--sprint_ctrl: SPRINT_CONTROLLER
+	sprint_ctrl: SPRINT_CONTROLLER
 	answer_ctrl: ANSWER_CONTROLLER
 	topic_ctrl: TOPIC_CONTROLLER
 	task_ctrl: TASK_CONTROLLER
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			create session_manager.make
 			create user_ctrl.make (path_to_db_file,session_manager)
 			create project_ctrl.make (path_to_db_file)
-			--create sprint_ctrl.make (path_to_db_file)
+			create sprint_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file,session_manager)
 			create topic_ctrl.make (path_to_db_file)
 			create task_ctrl.make (path_to_db_file)
@@ -99,12 +99,12 @@ feature -- Basic operations
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/collaborators", agent project_ctrl.get_users, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/collaborators", agent project_ctrl.add_user, router.methods_post)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/collaborators/{user_id}", agent project_ctrl.remove_user, router.methods_delete)
-			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints", agent project_ctrl.get_sprints, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints", agent project_ctrl.get_sprints, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks", agent project_ctrl.get_tasks, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks", agent project_ctrl.add_task, router.methods_post)
 
 				-- handling of all the routes relating to "sprints"
-			--map_uri_template_agent_with_request_methods ("/api/sprints", agent sprint_ctrl.get_sprints, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/sprints", agent sprint_ctrl.get_sprints, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("api/projects/{project_id}/sprints/", agent sprint_ctrl.add_sprint, router.methods_post)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.get_sprint, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.update_sprint, router.methods_post)
