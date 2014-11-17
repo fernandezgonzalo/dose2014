@@ -23,7 +23,6 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     }
     for (var i = 0; i < linkPath.length; ++i) {
       if (linkPath[i] !== '*' && linkPath[i] !== locationPath[i]) {
-        $log.debug('ApplicationController::isActive::', linkPath[i], locationPath[i]);
         return false;
       }
     }

@@ -12,10 +12,12 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   $scope.delete = function($event, user) {
-    $log.debug('UserController::delete ', user);
-    user.$delete();
+    var row = $(event.currentTarget).closest('tr');
+    user.$delete(function() {
+      row.remove();
+    });
+    
     $event.stopPropagation();
-
   };
   $scope.openProjectDash = function($event) {
     $location.path('/projects/1/dashboard');
