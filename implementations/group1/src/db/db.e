@@ -114,7 +114,7 @@ feature -- Data access Projects
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Project;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 
 		end
 
@@ -123,13 +123,13 @@ feature -- Data access Projects
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Project WHERE id="+id.out +";" , db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 
-	add_project (info: STRING)
+	add_project (info, name: STRING)
 
 		do
-			create db_insert_statement.make ("INSERT INTO Project(info) VALUES ('" + info +"');", db);
+			create db_insert_statement.make ("INSERT INTO Project(info, name) VALUES ('" + info +"','"+name+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new project")
@@ -321,10 +321,10 @@ feature -- Data access Task
 			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
 		end
 
-	add_task (id, desc, comment,priority, duration, points, finalized, id_user, id_requirement: STRING)
+	add_task (desc, comment, duration, points, status, id_user, id_requirement: STRING)
 
 		do
-			create db_insert_statement.make ("INSERT INTO Sprint(id, desc, comment,priority, duration, points, finalized, id_user, id_requirement) VALUES ('"+id+"','"+desc+"','"+comment+"','"+priority+"','"+points+"','"+finalized+"','"+id_user+"','"+id_requirement+"');", db);
+			create db_insert_statement.make ("INSERT INTO Sprint(id, desc, comment, duration, points, status, id_user, id_requirement) VALUES ('"+id+"','"+desc+"','"+comment+"','"+points+"','"+status+"','"+id_user+"','"+id_requirement+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Task")
@@ -399,10 +399,10 @@ feature -- Data access Requirement
 			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
 		end
 
-	add_requirement (id, estim, desc,priority,id_project: STRING)
+	add_requirement (id, estim, desc,id_project: STRING)
 
 		do
-			create db_insert_statement.make ("INSERT INTO Requirement(id, estim, desc,priority,id_project) VALUES ('"+id+"','"+estim+"','"+desc+"','"+priority+"','"+id_project+"');", db);
+			create db_insert_statement.make ("INSERT INTO Requirement(id, estim, desc,id_project) VALUES ('"+id+"','"+estim+"','"+desc+"','"+id_project+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Requirement")
