@@ -17,10 +17,11 @@ feature -- Test routines
 		local
 			sprint: SPRINT
 		do
-			create sprint.make (0, "Complete", 20)
+			create sprint.make (0, "Complete", 20,1)
 			assert ("Correct id", sprint.id.is_equal (0))
 			assert ("Correct status", sprint.status.is_equal ("Complete"))
 			assert ("Correct duration", sprint.duration.is_equal (20))
+			assert ("Correct project_id", sprint.project_id.is_equal (1))
 		end
 
 
@@ -32,7 +33,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create sprint.make (-1, "new_status", 1) -- Must throw an exception
+          		create sprint.make (-1, "new_status", 1,1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -51,7 +52,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create sprint.make (1, "", 1) -- Must throw an exception
+          		create sprint.make (1, "", 1,1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -70,7 +71,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create sprint.make (0, "new_status", 0) -- Must throw an exception
+          		create sprint.make (0, "new_status", 0,1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -90,7 +91,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create sprint.make (0, "new_status", -8) -- Must throw an exception
+          		create sprint.make (0, "new_status", -8,1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)

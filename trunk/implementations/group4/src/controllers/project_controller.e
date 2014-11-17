@@ -19,12 +19,14 @@ feature {NONE} -- Creation
 	make (a_path_to_db_file: STRING)
 		do
 			create db_handler_project.make (a_path_to_db_file)
+			create db_handler_sprint.make (a_path_to_db_file)
 		end
 
 
 feature {NONE} -- Private attributes
 
 	db_handler_project : DB_HANDLER_PROJECT
+	db_handler_sprint: DB_HANDLER_SPRINT
 
 
 feature -- Handlers
@@ -74,6 +76,21 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+
+	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json array with all answers of a topic
+		local
+			project_id: STRING
+			l_result_payload: STRING
+		do
+			-- obtain the project id via the URL
+			project_id := req.path_parameter ("project_id").string_representation
+			-- and use the sprint handler to obtain all its sprints
+			l_result_payload := db_handler_sprint.find_by_project_id (project_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
 
 
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
