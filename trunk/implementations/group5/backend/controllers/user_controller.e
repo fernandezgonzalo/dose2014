@@ -101,7 +101,7 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("isAdmin") as s then
+				if attached {JSON_STRING} j_object.item ("is_admin") as s then
 					l_is_admin := s.unescaped_string_8
 				end
 
@@ -180,7 +180,7 @@ feature -- Handlers
 						if attached {JSON_STRING} j_object.item ("lastLogin") as s then
 							l_last_login := s.unescaped_string_8
 						end
-						if attached {JSON_STRING} j_object.item ("isAdmin") as s then
+						if attached {JSON_STRING} j_object.item ("is_admin") as s then
 							l_is_admin := s.unescaped_string_8
 						end
 
