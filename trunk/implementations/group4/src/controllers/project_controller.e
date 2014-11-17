@@ -40,6 +40,42 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+
+	get_project (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json object with a project with given id
+		local
+			l_result_payload: STRING
+			l_project_id : STRING
+		do
+			-- the project_id from the URL
+			l_project_id := req.path_parameter ("project_id").string_representation
+
+			l_result_payload := db_handler_project.find_by_id (l_project_id.to_integer).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
+
+	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json array with all users of a project
+		local
+			db_handler_user: DB_HANDLER_USER
+			project_id: STRING
+			l_result_payload: STRING
+		do
+			-- obtain the project id via the URL
+			project_id := req.path_parameter ("project_id").string_representation
+			-- and use the user handler to obtain all its users
+			--l_result_payload := db_handler_user.find_by_project_id (project_id.to_natural).representation
+
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
+
+
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project; the project data are expected to be part of the request's payload
 		local
