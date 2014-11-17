@@ -20,7 +20,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Projects;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 
 		end
 
@@ -29,7 +29,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Projects WHERE id="+ project_id.out +";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 		end
 
 	add (project: PROJECT)
@@ -51,7 +51,7 @@ feature -- Data access
 															  "status = '"+ project.status +"',"+
 															  "description = '"+ project.description +"',"+
 															  "max_points_per_sprint = '"+ project.max_points_per_sprint.out +"',"+
-															  "user_id = '"+ project.user_id.out +"',"+
+															  "user_id = '"+ project.user_id.out +"'"+
 															  "WHERE id="+ project_id.out +";" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
