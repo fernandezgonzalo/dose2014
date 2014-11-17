@@ -24,6 +24,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.create = function(user) {
     $log.debug('UserController::', user);
+    user['is_admin'] = '0';
     var newUser = new User(user);
     newUser.$save();
   };
