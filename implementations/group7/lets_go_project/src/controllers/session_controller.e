@@ -1,14 +1,13 @@
 note
-	description: "Summary description for {DEMO_SESSION_CTRL}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Controls user sessions (login/logout)."
+	author: "ar"
+	date: "14.11.2014"
 
 class
-	DEMO_SESSION_CTRL
+	SESSION_CONTROLLER
 
 inherit
-	DEMO_HEADER_JSON_HELPER
+	HEADER_JSON_HELPER
 
 create
 	make
@@ -16,18 +15,16 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_dao: DEMO_DB; a_session_manager: WSF_SESSION_MANAGER)
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
 		do
-			my_db := a_dao
-
-				-- create a session manager
+			db := a_db
 			session_manager := a_session_manager
 		end
 
 
 feature {NONE} -- Private attributes
 
-	my_db: DEMO_DB
+	db: DATABASE
 
 	session_manager: WSF_SESSION_MANAGER
 
@@ -36,7 +33,7 @@ feature -- Handlers
 
 
 	login (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- login a user if the username and password provided with the request are correct
+			-- login a user if the email and password provided with the request are correct
 			-- "login" is done via attaching a session cookie to the response. The browser will
 			-- then send this session cookie on all subsequent request, allowing us to lookup the
 			-- session data for that user based on the cookie
@@ -82,7 +79,7 @@ feature -- Handlers
 
 				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
-			l_user_data := my_db.has_user_with_password(l_username, l_password)
+			l_user_data := db.has_user_with_password(l_username, l_password)
 
 
 			if l_user_data.has_user then

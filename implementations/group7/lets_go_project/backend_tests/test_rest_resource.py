@@ -8,7 +8,7 @@ class TestRestResource(unittest.TestCase):
 
     def setUp(self):
         self.root_uri = 'http://%s:%d/' % (config.HOST, config.PORT)
-        cookie = requests.post(self.root_uri + 'sessions', data='{"username": "Mary", "password": "secret"}').cookies['lets_go_session']
+        cookie = requests.post(self.root_uri + 'sessions', data='{"username": "asdf", "password": "asdf"}').cookies['lets_go_session']
         self.cookies = dict(lets_go_session=cookie)
 
     def test_get_all(self):
@@ -19,7 +19,7 @@ class TestRestResource(unittest.TestCase):
     def test_create_new(self):
         method = requests.post
         uri = self.resources_uri
-        data = 'asdf'
+        data = self.example_resource.get_json_with_database_fields_without_id()
         self.ensure_unauthorized_fails_authorized_passes(method, uri, data=data)
 
     def test_get(self):
@@ -30,7 +30,7 @@ class TestRestResource(unittest.TestCase):
     def test_update(self):
         method = requests.put
         uri = self.single_resource_uri
-        data = 'asdf'
+        data = self.example_resource.get_json_with_database_fields_with_id()
         self.ensure_unauthorized_fails_authorized_passes(method, uri, data=data)
 
     def test_delete(self):
@@ -60,8 +60,8 @@ class TestRestResource(unittest.TestCase):
         self.assertEqual(response.text, expected_result)
 
     def ensure_unauthorized_fails_authorized_passes(self, method, uri, data=None):
-        self.ensure_unauthorized_fails(method, uri)
-        self.ensure_authorized_passes(method, uri)
+        self.ensure_unauthorized_fails(method, uri, data)
+        self.ensure_authorized_passes(method, uri, data)
 
     def get_dummy_json(self):
         filename = os.path.dirname(os.path.dirname(__file__)) + '/src/dummy_json/%s.txt' % self.resource_name

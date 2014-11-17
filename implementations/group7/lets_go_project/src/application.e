@@ -1,6 +1,7 @@
 note
-	description : "The main class of the demo. Sets up the router and instanciates the controllers and database."
-	author		: "hce"
+	description : "The main class of the let's go application. Sets up the router and instanciates the controllers and database."
+	author		: "ar"
+	date		: "14.11.14"
 
 class
 	APPLICATION
@@ -29,7 +30,7 @@ feature {NONE} -- Initialization
 		-- calculates the path to the demo.db file, based on the location of the .ecf file
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
-			Result := ".." + Operating_environment.directory_separator.out + "demo.db"
+			Result := ".." + Operating_environment.directory_separator.out + "letsgo.db"
 		end
 
 	path_to_www_folder: STRING
@@ -41,14 +42,14 @@ feature {NONE} -- Initialization
 
 
 		-- Handlers for all request and resource types
-	session_ctrl: DEMO_SESSION_CTRL
+	session_ctrl: SESSION_CONTROLLER
 	task_ctrl: TASK_CONTROLLER
 	story_ctrl: STORY_CONTROLLER
 	sprint_ctrl: SPRINT_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
 	user_ctrl: USER_CONTROLLER
 
-	db: DEMO_DB
+	db: DATABASE
 		-- access to the database and the functionality that comes with that class
 
 	session_manager: WSF_FS_SESSION_MANAGER
@@ -63,11 +64,11 @@ feature {NONE} -- Initialization
 
 			create session_manager.make
 			create session_ctrl.make(db, session_manager)
-			create task_ctrl.make(db, session_manager, "task")
-			create story_ctrl.make(db, session_manager, "story")
-			create sprint_ctrl.make(db, session_manager, "sprint")
-			create project_ctrl.make(db, session_manager, "project")
-			create user_ctrl.make(db, session_manager, "user")
+			create task_ctrl.make(db, session_manager, "task", "tasks", "task_id")
+			create story_ctrl.make(db, session_manager, "story", "stories", "story_id")
+			create sprint_ctrl.make(db, session_manager, "sprint", "sprints", "sprint_id")
+			create project_ctrl.make(db, session_manager, "project", "projects", "project_id")
+			create user_ctrl.make(db, session_manager, "user", "users", "user_id")
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)

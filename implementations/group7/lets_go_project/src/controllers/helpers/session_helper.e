@@ -1,12 +1,9 @@
 note
-	description: "[
-		Helper functions checking request for session cookies.
-		 Inherit this class in the a controller that access to the session manager
-		 ]"
-	author: "hce"
+	description: "Inherit this class in the a controller that access to the session manager"
+	author: "ar"
 
 deferred class
-	DEMO_SESSION_HELPER
+	SESSION_HELPER
 
 feature
 	session_manager: WSF_SESSION_MANAGER
