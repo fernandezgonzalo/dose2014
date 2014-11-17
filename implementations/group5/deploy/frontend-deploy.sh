@@ -10,5 +10,7 @@ pushd frontend
 npm install
 bower install
 grunt
+rm -Rf /var/www/html/*
+mv www/* /var/www/html/
 popd
 popd
