@@ -29,13 +29,21 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     return true;
   };
 
+  // Frontend authentication :)
   if (!AuthService.isAuthenticated()) {
     $location.path('/login');
   } else {
     if ($scope.currentUser === null) {
       var email = localStorage.getItem('email');
-      var user = AuthService.login({email: email});
-      $scope.setCurrentUser(user);
+      var password = localStorage.getItem('password');
+      var promise = AuthService.login({email: email, password: password});
+      promise.then(function(user) {
+        if (user) {
+          $scope.setCurrentUser(user);
+        } else {
+          $location.path('/login');
+        }
+      });
     }
   }
 

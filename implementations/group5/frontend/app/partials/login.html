@@ -1,17 +1,25 @@
 <div class="row">
     <div class="col-sm-6 col-md-6 col-md-offset-3">
         <div class="account-wall">
-            <form class="form-signin" ng-submit="login(credentials)">
+            <form class="form form-signin" ng-submit="login()" name="loginForm">
                 <h1>Welcome to Mgmt</h1>
-                <input type="text" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus>
-                <input type="password" ng-model="credentials.password" class="form-control last" placeholder="Password" required>
+                <div class="alert alert-danger" ng-show="wrongCredentials">
+                  Wrong Credentials.
+                </div>
+                <div class="form-group" ng-class="{'has-error' : loginForm.email.$invalid && loginForm.email.$dirty, 'has-success' : loginForm.email.$valid && loginForm.email.$dirty }">
+                    <input type="email" ng-change="clearWrongCredentials()" name="email" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus>
+                </div>
+                
+                <div class="form-group" ng-class="{'has-error' : loginForm.password.$invalid && loginForm.password.$dirty, 'has-success' : loginForm.password.$valid && loginForm.password.$dirty }">
+                    <input type="password" name="password" ng-change="clearWrongCredentials()" ng-model="credentials.password" class="form-control last" placeholder="Password" required>
+                    
+                </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">
                     Log in
                 </button>
                     <a href="/#/password_recovery" class="need-help pull-left">Forget your password? </a>
                     <a href="/#/register" class="new-account pull-right">Create an account</a>
                 <span class="clearfix"></span>
-                <p class="healp-block">Any login, any password now is accepted.</p>
             </form>
         </div>
         

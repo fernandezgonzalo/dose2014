@@ -1,26 +1,38 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', function($log, User) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$q', function($log, User, Utility, $q) {
+  var TAG = 'AuthService::';
+  $log.debug(TAG, 'init');
+
   var authService = {};
   var key = 'email';
+  var passKey = 'password';
 
   authService.login = function(credentials) {
-    $log.debug('AuthService::credentials are', credentials);
-    var users = User.query();
-    var result = users[users.length - 1];
-    for (var i in users) {
-      if (users[i].email === credentials.email) {
-        result = users[i];
-        break;
-      }
-    }
-    $log.debug('AuthService::result=', result);
-    localStorage.setItem(key, result.email);
-    return result;
+    return $q(function(resolve) {
+      User.query(function(users) {
+        // frontend authentication :)
+        var result = null;
+        for (var i in users) {
+          if (users[i].email === credentials.email && users[i].password === credentials.password) {
+            Utility.toCamel(users[i]);
+            result = users[i];
+            break;
+          }
+        }
+        if (result) {
+          authService.currentUser = result;
+          localStorage.setItem(key, result.email);
+          localStorage.setItem(passKey, result.password);
+        }
+        resolve(result);
+      });
+    });
   };
 
   authService.logout = function() {
     localStorage.removeItem(key);
+    localStorage.removeItem(passKey);
     return true;
   };
  
@@ -29,7 +41,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', function($log, Us
   };
  
   authService.isAdmin = function () {
-    return authService.isAuthenticated();
+    return authService.currentUser.isAdmin;
   };  
 
   return authService;

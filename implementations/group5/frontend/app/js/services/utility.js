@@ -2,9 +2,9 @@
 
 angular.module('Mgmt').service('Utility', ['$log', function($log) {
   
-  var TAG = 'UtilityService';
+  var TAG = 'UtilityService::';
 
-  $log.debug(TAG, '::init');
+  $log.debug(TAG, 'init');
 
   var toCamel = function(s) {
     return s.replace(/(\-[a-z])/g, function($1) {
