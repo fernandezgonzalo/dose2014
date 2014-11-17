@@ -22,11 +22,19 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     $event.stopPropagation();
   };
 
-  $scope.create = function(user) {
+  $scope.create = function() {
+    var user = $scope.user;
+    if (!user) {
+      user = {};
+    }
     $log.debug('UserController::', user);
     user.isAdmin = '0';
     Utility.toUnderscore(user);
     var newUser = new User(user);
-    newUser.$save();
+    newUser.$save(function() {
+      $location.path('/login');
+    }, function() {
+      $scope.createUserError = true;
+    });
   };
 }]);
