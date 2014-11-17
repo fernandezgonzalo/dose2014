@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 	session_ctrl: DEMO_SESSION_CTRL
 			-- a controller for handling sessions
 
-	todo_ctrl: DEMO_TODO_CTRL
+	task_ctrl: TASK_CONTROLLER
 			-- a controller for handling todo requests
 
 	user_ctrl: USER_CONTROLLER
@@ -86,6 +86,7 @@ feature {NONE} -- Initialization
 			create session_ctrl.make(dao, session_manager)
 			create user_ctrl.make(crud_user)
 			create project_ctrl.make(crud_project)
+			create task_ctrl.make (crud_task)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9100)
@@ -103,8 +104,8 @@ feature -- Basic operations
 
 			--SESSION RELATED URIs
 				-- handling the routes related to "sessions"
-			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.login , router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.logout , router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/login", agent session_ctrl.login , router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_delete)
 
 
 			--USER RELATED URIs
@@ -114,7 +115,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			--Creating one user.
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
-			
+
 				--handling of the routes relating to "single users"
 			--Retrieving an user
 			map_uri_template_agent_with_request_methods ("/api/users/{id}", agent user_ctrl.get_user_by_id, router.methods_get)
@@ -134,16 +135,16 @@ feature -- Basic operations
 
 				--handling of the routes relating to tasks.
 			--Create a task
-		--	map_uri_template_agent_with_request_methods ("/api/tasks", agent task_ctrl.get_tasks, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/tasks", agent task_ctrl.create_task, router.methods_post)
 
 			--Retrieve a task
-		--	map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.get_task_by_id, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.task_by_id, router.methods_get)
 
 			--Edit a task
-		--	map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.update_task_by_id, router.methods_put)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.update_task, router.methods_put)
 
 			--Remove a task
-		--	map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.remove_task_by_id, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.delete_task_by_id, router.methods_delete)
 
 
 			--PROJECT RELATED URIs
