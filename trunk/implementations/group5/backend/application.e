@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		-- calculates the path to the www folder, based on the location of the .ecf file
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
-			-- sed replace db
+			-- sed replace www
 			Result := ".." + Operating_environment.directory_separator.out + "frontend"+Operating_environment.directory_separator.out+"app"
 		end
 
