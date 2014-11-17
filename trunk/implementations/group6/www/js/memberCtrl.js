@@ -4,14 +4,12 @@ angular.module('Wbpms')
   .controller('MemberCtrl', ['$scope', '$http', '$log',
     function ($scope, $http, $log) {
         
-        $scope.newMember{
-            eMailMember:''
-        
+        $scope.newMember = {
+            eMailMember :''
         }
         
-        $scope.members[]; //members of the project
-        
-        
+        $scope.members = []; //members of the project
+    
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       var init = function(idProject) {
