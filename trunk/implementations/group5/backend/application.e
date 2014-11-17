@@ -151,6 +151,7 @@ feature -- Basic operations
 				-- handling of all ht routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id}", agent user_ctrl.delete_user_by_id, router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
