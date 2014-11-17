@@ -1,8 +1,10 @@
 <div id="legend">
   <legend class="">Create a new account</legend>
 </div>
-
-<form class="form-horizontal" ng-submit="create(user)">
+<div class="alert alert-danger" ng-show="createUserError">
+  Error creating user.
+</div>
+<form class="form-horizontal" ng-submit="create()">
   <fieldset>
     <div class="row">
       <div class="col-md-6">
