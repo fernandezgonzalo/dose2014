@@ -20,7 +20,6 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
 
   this.toUnderscore = function(obj) {
     for (var prop in obj) {
-      $log.debug(TAG, prop);
       if (prop.toLowerCase() !== prop) {
         obj[toUnderscore(prop)] = obj[prop];
         delete obj[prop];
