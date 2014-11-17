@@ -20,14 +20,14 @@ def test_add_user(email, password, first_name, last_name):
         print "test_add_user: " + j_response["Message"]
         
 def test_update_user(user_id, email, password, first_name, last_name, cookie):
-    url = 'http://localhost:9090/coffee/users/%s/edit' % str(user_id)
+    url = 'http://localhost:9090/coffee/users/%s' % str(user_id)
     raw_data = {}
     raw_data["email"] = email
     raw_data["password"] = password
     raw_data["first_name"] = first_name
     raw_data["last_name"] = last_name
     data = json.dumps(raw_data)
-    req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = cookie)
+    req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = cookie)
     response = req.text
     j_response = json.loads(response)
     if j_response["Message"] == "OK":
@@ -81,12 +81,12 @@ def test_create_project(project_name, description, cookie):
         print "test_create_project: " + j_response["Message"]
         
 def test_update_project(project_id,project_name, description, cookie):
-    url = 'http://localhost:9090/coffee/projects/%s/edit' % project_id
+    url = 'http://localhost:9090/coffee/projects/%s' % project_id
     raw_data = {}
     raw_data["name"] = project_name
     raw_data["description"] = description
     data = json.dumps(raw_data)
-    req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = cookie)
+    req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = cookie)
     response = req.text
     j_response = json.loads(response)
     if j_response["Message"] == "OK":
