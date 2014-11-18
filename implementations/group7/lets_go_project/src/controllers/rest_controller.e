@@ -2,7 +2,6 @@ note
 	description: "Handler for restful requests and resources."
 	author: "ar"
 	date: "13.11.2014"
-	revision: "1"
 
 deferred class
 	REST_CONTROLLER
@@ -45,32 +44,13 @@ feature -- Handlers
 			json_array: JSON_ARRAY
 		do
 			json_array := db.query_rows("SELECT * FROM " + table_name)
-			reply_with_data(req, res, json_array.representation)
+			reply_with_200_with_data(res, json_array.representation)
 		end
 
 
 	create_new (req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
-			fields_str: STRING
-			values_str: STRING
-			id: INTEGER_64
-			j_object: JSON_OBJECT
 		do
-			j_object := parse_json(req)
-			if j_object /= Void then
-				fields_and_values := get_fields_and_values_from_json(j_object)
-				fields_str := get_comma_separated_string_without_quotes_from_array (fields_and_values.fields)
-				values_str := get_comma_separated_string_from_array (fields_and_values.values)
-				id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
-				if id >= 0 then
-					reply_with_data(req, res, id.out)
-				else
-					reply_with_data(req, res, "ERROR: Could not insert the new record")
-				end
-			else
-				reply_with_data(req, res, "ERROR: Invalid json")
-			end
+			create_new_from_json(req, res, parse_json (req))
 		end
 
 
@@ -79,42 +59,103 @@ feature -- Handlers
 			json_object: JSON_OBJECT
 		do
 			json_object := db.query_single_row("SELECT * FROM " + table_name + " WHERE id=" + get_id(req))
-			reply_with_data(req, res, json_object.representation)
+			if json_object.is_empty then
+				reply_with_404(res)
+			else
+				reply_with_200_with_data(res, json_object.representation)
+			end
 		end
 
 
 	update (req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			resource_id: STRING
-			j_object: JSON_OBJECT
-			id_key: JSON_STRING
-			success: BOOLEAN
 		do
-			j_object := parse_json(req)
-			if j_object /= Void then
-				create id_key.make_json ("id")
-				resource_id := j_object.item(id_key).representation
-				j_object.remove (id_key)
-				success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_and_values_from_json(j_object)) + " WHERE id = " + resource_id)
-				if success then
-					reply_with_ack(req, res)
-				else
-					reply_with_data(req, res, "ERROR: Could not update the record")
-				end
-			else
-				reply_with_data(req, res, "ERROR: Invalid json")
-			end
+			update_from_json(req, res, parse_json (req))
 		end
 
 
 	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
 			db.delete(get_id(req), table_name)
-			reply_with_ack(req, res)
+			reply_with_204(res)
+		end
+
+
+feature -- Error checking handlers (authentication, authorization, input validation)
+
+	get_all_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authenticated (req, res, agent get_all(req , res))
+		end
+
+
+	get_all_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent get_all(req , res))
+		end
+
+
+	create_new_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), parse_json(req)))
+		end
+
+
+	get_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent get(req , res))
+		end
+
+
+	update_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), parse_json(req)))
+		end
+
+
+	delete_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent delete(req , res))
 		end
 
 
 feature {NONE} -- Internal helpers	
+
+
+	create_new_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+		local
+			fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
+			fields_str: STRING
+			values_str: STRING
+			id: INTEGER_64
+		do
+			fields_and_values := get_fields_and_values_from_json(input)
+			fields_str := get_comma_separated_string_without_quotes_from_array (fields_and_values.fields)
+			values_str := get_comma_separated_string_from_array (fields_and_values.values)
+			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
+			if id >= 0 then
+				reply_with_201_with_data(res, id.out)
+			else
+				reply_with_500(res)
+			end
+		end
+
+
+	update_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+		local
+			resource_id: STRING
+			id_key: JSON_STRING
+			success: BOOLEAN
+		do
+			create id_key.make_json ("id")
+			resource_id := input.item(id_key).representation
+			input.remove (id_key)
+			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_and_values_from_json(input)) + " WHERE id = " + resource_id)
+			if success then
+				reply_with_204(res)
+			else
+				reply_with_500(res)
+			end
+		end
 
 	parse_json(req: WSF_REQUEST): JSON_OBJECT
 		local
@@ -125,7 +166,7 @@ feature {NONE} -- Internal helpers
 			req.read_input_data_into (l_payload)
 			print("Received json to parse: " + l_payload)
 			create parser.make_parser (l_payload)
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+			if attached {JSON_OBJECT} parser.parse as j_object then
 				Result := j_object
 			end
 		end
@@ -208,29 +249,89 @@ feature {NONE} -- Internal helpers
 		end
 
 
-	reply_with_dummy_id (req: WSF_REQUEST; res: WSF_RESPONSE)
+feature {NONE} -- Request preprocessors (validators, etc.)
+
+	ensure_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
 		do
-			reply_with_data (req, res, "1")
-		end
-
-
-	reply_with_ack (req: WSF_REQUEST; res: WSF_RESPONSE)
-		do
-			reply_with_data (req, res, "ACK")
-		end
-
-
-	reply_with_data (req: WSF_REQUEST; res: WSF_RESPONSE; data: STRING)
-		local
-			answer: STRING
-		do
-			if req_has_cookie (req, "lets_go_session") then
-				answer := data
-				set_json_header_ok (res, answer.count)
-			else
-				answer := "Error"
-				set_json_header (res, 401, answer.count)
+			if res.status_code = {HTTP_STATUS_CODE}.ok then
+				if req_has_cookie (req) then
+					implementation.call ([])
+				else
+					reply_with_401 (res)
+				end
 			end
-			res.put_string(answer)
+		end
+
+	ensure_authorized (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
+		do
+			if res.status_code = {HTTP_STATUS_CODE}.ok then
+				if req_has_cookie (req) then
+					implementation.call ([])
+				else
+					reply_with_401 (res)
+				end
+			end
+		end
+
+	ensure_input_validated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE]; input: JSON_OBJECT)
+		do
+			if res.status_code = {HTTP_STATUS_CODE}.ok then
+				if input /= Void then
+					implementation.call ([input])
+				else
+					reply_with_400 (res)
+				end
+			end
+		end
+
+
+feature {NONE} -- Http responses
+
+	reply_with_200_with_data (res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data(res, {HTTP_STATUS_CODE}.ok, data)
+		end
+
+
+	reply_with_201_with_data (res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data(res, {HTTP_STATUS_CODE}.created, data)
+		end
+
+
+	reply_with_204 (res: WSF_RESPONSE)
+		do
+			res.set_status_code({HTTP_STATUS_CODE}.no_content)
+		end
+
+
+	reply_with_statuscode_with_data (res: WSF_RESPONSE; statuscode: INTEGER; data: STRING)
+		do
+			set_json_header (res, statuscode, data.count)
+			res.put_string(data)
+		end
+
+
+	reply_with_400 (res: WSF_RESPONSE)
+		do
+			res.set_status_code({HTTP_STATUS_CODE}.bad_request)
+		end
+
+
+	reply_with_401 (res: WSF_RESPONSE)
+		do
+			res.set_status_code({HTTP_STATUS_CODE}.unauthorized)
+		end
+
+
+	reply_with_404 (res: WSF_RESPONSE)
+		do
+			res.set_status_code({HTTP_STATUS_CODE}.not_found)
+		end
+
+
+	reply_with_500 (res: WSF_RESPONSE)
+		do
+			res.set_status_code({HTTP_STATUS_CODE}.internal_server_error)
 		end
 end

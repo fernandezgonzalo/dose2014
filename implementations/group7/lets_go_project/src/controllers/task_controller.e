@@ -39,22 +39,36 @@ feature -- Handlers
 			Precursor(req, res)
 		end
 
-	assign_developers (req: WSF_REQUEST; res: WSF_RESPONSE)
+	assign_developers (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
 		do
 			-- TODO @ Vimal: Store the assigned developers in the database table "task_assignments"
 			--				 Insert-call can be done in a similar way like REST_CONTROLLER.create_new()
 
-			-- Currently, we just send back ACK without storing anything in the databse. Do not remove the following call:
-			reply_with_ack(req, res)
+			-- Currently, we just send back a success statuscode without storing anything in the databse. Do not remove the following call:
+			reply_with_204(res)
 		end
 
 
-	unassign_developers (req: WSF_REQUEST; res: WSF_RESPONSE)
+	unassign_developers (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
 		do
 			-- TODO @ Vimal: Delete the unassigned developers in the database table "task_assignments"
 			--				 Delete-call can be done in a similar way like REST_CONTROLLER.delete()
 
-			-- Currently, we just send back ACK without removing anything in the databse. Do not remove the following call:
-			reply_with_ack(req, res)
+			-- Currently, we just send back a success statuscode without removing anything in the databse. Do not remove the following call:
+			reply_with_204(res)
+		end
+
+
+feature -- Error checking handlers (authentication, authorization, input validation)
+
+	assign_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent assign_developers(req, res, ?), parse_json(req)))
+		end
+
+
+	unassign_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent unassign_developers(req, res, ?), parse_json(req)))
 		end
 end

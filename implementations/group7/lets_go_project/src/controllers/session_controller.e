@@ -41,7 +41,6 @@ feature -- Handlers
 		local
 			l_payload, l_username, l_password: STRING
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 
 
 				-- if true the username and password match
@@ -65,7 +64,7 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("username") as s then
+				if attached {JSON_STRING} j_object.item ("email") as s then
 					l_username := s.unescaped_string_8
 				end
 
@@ -91,7 +90,7 @@ feature -- Handlers
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
 					-- we store the username and the key "username"
-				l_session.remember (l_user_data.username, "username")
+				l_session.remember (l_user_data.username, "email")
 					-- we store the user id and use the key "id"
 				l_session.remember (l_user_data.id, "id")
 
@@ -101,30 +100,14 @@ feature -- Handlers
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
-
-					-- create the response
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-
-					-- set the repsone header, indicating that everything went ok by statuscode 200
-				set_json_header (res, 200, l_result.representation.count)
+				res.set_status_code (204)
 			else
 
 				-- the username & password combination was wrong
 				-- so we don't create a session
-				-- but return an error message
 
-					-- create the response
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the repsone header, indicating that no session in created because the client was not authorized
-				set_json_header (res, 401, l_result.representation.count)
+				res.set_status_code (401)
 			end
-
-				-- add the message to the response response
-			res.put_string (l_result.representation)
 		end
 
 
@@ -148,7 +131,7 @@ feature -- Handlers
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
 				-- set the repsone header, indicating that everything went ok by statuscode 200
-			set_json_header_ok (res, l_result.representation.count)
+			set_json_header (res, 204, l_result.representation.count)
 				-- add the message to the response response
 			res.put_string (l_result.representation)
 		end
