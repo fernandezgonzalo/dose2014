@@ -20,7 +20,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Projects;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
 
 		end
 
@@ -29,15 +29,16 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Projects WHERE id="+ project_id.out +";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
 		end
 
 	add (project: PROJECT)
 			-- adds a new project
 		do
-			create db_insert_statement.make ("INSERT INTO Projects(name,status,description,max_points_per_sprint,user_id) "+
+			create db_insert_statement.make ("INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) "+
 											"VALUES ('" + project.name + "','"+ project.status +"','"+ project.description +
-											"','" + project.max_points_per_sprint.out +"','"+ project.user_id.out +"');", db);
+											"','" + project.max_points_per_sprint.out +"','"+ project.number_of_sprints.out +
+											"','" + project.user_id.out +"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new project")
@@ -51,6 +52,7 @@ feature -- Data access
 															  "status = '"+ project.status +"',"+
 															  "description = '"+ project.description +"',"+
 															  "max_points_per_sprint = '"+ project.max_points_per_sprint.out +"',"+
+															  "number_of_sprints = '"+ project.number_of_sprints.out +"',"+
 															  "user_id = '"+ project.user_id.out +"'"+
 															  "WHERE id="+ project_id.out +";" , db)
 			db_modify_statement.execute

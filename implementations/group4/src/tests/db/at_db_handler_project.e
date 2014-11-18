@@ -47,7 +47,7 @@ feature -- Test routines
 			project : PROJECT
 			db_handler : DB_HANDLER_PROJECT
 		do
-			create project.make ("test_name", "test_status", "test_descrption", 100, 4)
+			create project.make ("test_name", "test_status", "test_descrption", 100, 0, 4)
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
 			db_handler.db.begin_transaction (true)
@@ -64,7 +64,7 @@ feature -- Test routines
 			project: PROJECT
 			db_handler : DB_HANDLER_PROJECT
 		do
-			create project.make ("test_name", "test_status", "test_descrption", 100, 4)
+			create project.make ("test_name", "test_status", "test_descrption", 100, 0, 4)
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
 			db_handler.db.begin_transaction (true)
@@ -87,7 +87,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_PROJECT
 			json_result : JSON_OBJECT
 		do
-			create project.make ("new_name", "new_status", "new_description", 100, 1)
+			create project.make ("new_name", "new_status", "new_description", 100, 0, 1)
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
 			db_handler.db.begin_transaction (true)

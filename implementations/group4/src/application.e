@@ -100,16 +100,16 @@ feature -- Basic operations
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/collaborators", agent project_ctrl.add_user, router.methods_post)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/collaborators/{user_id}", agent project_ctrl.remove_user, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints", agent project_ctrl.get_sprints, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks", agent project_ctrl.get_tasks, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks", agent project_ctrl.get_tasks, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/tasks", agent project_ctrl.add_task, router.methods_post)
 
 				-- handling of all the routes relating to "sprints"
 			map_uri_template_agent_with_request_methods ("/api/sprints", agent sprint_ctrl.get_sprints, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("api/projects/{project_id}/sprints/", agent sprint_ctrl.add_sprint, router.methods_post)
-			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.get_sprint, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.update_sprint, router.methods_post)
-			--map_uri_template_agent_with_request_methods ("api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.remove_sprint, router.methods_delete)
-			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}/tasks", agent sprint_ctrl.remove_task, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/", agent sprint_ctrl.add_sprint, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.get_sprint, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.update_sprint, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}", agent sprint_ctrl.remove_sprint, router.methods_delete)
+			--map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/sprints/{sprint_id}/tasks/{task_id}", agent sprint_ctrl.remove_task, router.methods_delete)
 
 				-- handling of all the routes relating to "topics"
 			map_uri_template_agent_with_request_methods ("/api/topics", agent topic_ctrl.get_topics, router.methods_get)

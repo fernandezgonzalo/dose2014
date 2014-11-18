@@ -20,6 +20,7 @@ feature {NONE} -- Creation
 		do
 			create db_handler_project.make (a_path_to_db_file)
 			create db_handler_sprint.make (a_path_to_db_file)
+			create db_handler_task.make (a_path_to_db_file)
 		end
 
 
@@ -27,6 +28,7 @@ feature {NONE} -- Private attributes
 
 	db_handler_project : DB_HANDLER_PROJECT
 	db_handler_sprint: DB_HANDLER_SPRINT
+	db_handler_task: DB_HANDLER_TASK
 
 
 feature -- Handlers
@@ -78,7 +80,7 @@ feature -- Handlers
 
 
 	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a response that contains a json array with all answers of a topic
+			-- sends a response that contains a json array with all sprints of a project
 		local
 			project_id: STRING
 			l_result_payload: STRING
@@ -92,12 +94,27 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_tasks (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json array with all tasks of a project
+		local
+			project_id: STRING
+			l_result_payload: STRING
+		do
+			-- obtain the project id via the URL
+			project_id := req.path_parameter ("project_id").string_representation
+			-- and use the sprint handler to obtain all its sprints
+			l_result_payload := db_handler_task.find_by_project_id (project_id.to_natural).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project; the project data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_name, new_status, new_description, new_mpps, new_user_id : STRING
+			new_name, new_status, new_description, new_mpps, new_number_of_sprints, new_user_id : STRING
 			new_project : PROJECT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -128,13 +145,16 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
 					new_mpps := mpps.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
+					new_number_of_sprints := number_of_sprints.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					new_user_id := user_id.unescaped_string_8
 				end
 
 			end
 
-			create new_project.make (new_name, new_status, new_description, new_mpps.to_integer_32, new_user_id.to_integer_32)
+			create new_project.make (new_name, new_status, new_description, new_mpps.to_integer_32, new_number_of_sprints.to_integer_32, new_user_id.to_integer_32)
 				-- create the project in the database
 			db_handler_project.add (new_project)
 
@@ -152,7 +172,7 @@ feature -- Handlers
 		local
 			l_payload: STRING
 			l_project_id: STRING
-			project_name, project_status, project_description, project_mpps, project_user_id : STRING
+			project_name, project_status, project_description, project_mpps, project_user_id, project_number_of_sprints : STRING
 			project : PROJECT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -183,6 +203,9 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
 					project_mpps := mpps.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
+					project_number_of_sprints := number_of_sprints.unescaped_string_8
+				end
 				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 					project_user_id := user_id.unescaped_string_8
 				end
@@ -190,7 +213,7 @@ feature -- Handlers
 			end
 
 				-- create the project
-			create project.make (project_name, project_status, project_description, project_mpps.to_integer_32, project_user_id.to_integer_32)
+			create project.make (project_name, project_status, project_description, project_mpps.to_integer_32, project_number_of_sprints.to_integer,project_user_id.to_integer_32)
 
 				-- the project_id from the URL (as defined by the placeholder in the route)
 			l_project_id := req.path_parameter ("project_id").string_representation
