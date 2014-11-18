@@ -12,13 +12,12 @@ feature
 
 feature
 
-	req_has_cookie (req: WSF_REQUEST; a_cookie_name: STRING): BOOLEAN
-			-- checks if the request has a cookie with the given name
-			-- returns true if it has, otherwise false
+	req_has_cookie (req: WSF_REQUEST): BOOLEAN
+			-- checks if the request has a cookie with the right name
 		do
 			Result := False
 
-			if attached {WSF_STRING} req.cookie (a_cookie_name) as c_id then
+			if attached {WSF_STRING} req.cookie ("lets_go_session") as c_id then
 				Result := session_manager.session_exists (c_id.value)
 			end
 		end

@@ -97,24 +97,24 @@ feature -- Basic operations
 			setup_restful_routing_for(user_ctrl, users_base_uri, "user_id")
 
 				-- handling of all the routes relating to "projects"
-			projects_base_uri := "/users/{user_id}/projects"
+			projects_base_uri := "/projects"
 			setup_restful_routing_for(project_ctrl, projects_base_uri, "project_id")
-			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_devs", agent project_ctrl.invite_developers, router.methods_put)
-			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/remove_devs", agent project_ctrl.remove_developers, router.methods_put)
+			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_devs", agent project_ctrl.invite_developers_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/remove_devs", agent project_ctrl.remove_developers_authorized_validated, router.methods_put)
 
 				-- handling of all the routes relating to "sprints"
-			sprints_base_uri := "/users/{user_id}/projects/{project_id}/sprints"
+			sprints_base_uri := "/projects/{project_id}/sprints"
 			setup_restful_routing_for(sprint_ctrl, sprints_base_uri, "sprint_id")
 
 				-- handling of all the routes relating to "stories"
-			stories_base_uri := "/users/{user_id}/projects/{project_id}/sprints/{sprint_id}/stories"
+			stories_base_uri := "/projects/{project_id}/sprints/{sprint_id}/stories"
 			setup_restful_routing_for(story_ctrl, stories_base_uri, "story_id")
 
 				-- handling of all the routes relating to "tasks"
-			tasks_base_uri := "/users/{user_id}/projects/{project_id}/sprints/{sprint_id}/stories/{story_id}/tasks"
+			tasks_base_uri := "/projects/{project_id}/sprints/{sprint_id}/stories/{story_id}/tasks"
 			setup_restful_routing_for(task_ctrl, tasks_base_uri, "task_id")
-			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/assign_devs", agent task_ctrl.assign_developers, router.methods_put)
-			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/unassign_devs", agent task_ctrl.unassign_developers, router.methods_put)
+			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/assign_devs", agent task_ctrl.assign_developers_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/unassign_devs", agent task_ctrl.unassign_developers_authorized_validated, router.methods_put)
 
 
 				-- setting the path to the folder from where we serve static files
@@ -128,11 +128,11 @@ feature {NONE} -- Internal helpers
 
 	setup_restful_routing_for(controller: REST_CONTROLLER; base_uri: STRING; id_name: STRING)
 		do
-			map_uri_template_agent_with_request_methods (base_uri, agent controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods (base_uri, agent controller.create_new, router.methods_post)
-			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.get, router.methods_get)
-			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.update, router.methods_put)
-			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.delete, router.methods_delete)
+			map_uri_template_agent_with_request_methods (base_uri, agent controller.get_all_authorized, router.methods_get)
+			map_uri_template_agent_with_request_methods (base_uri, agent controller.create_new_authorized_validated, router.methods_post)
+			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.get_authorized, router.methods_get)
+			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.update_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.delete_authorized, router.methods_delete)
 		end
 
 end

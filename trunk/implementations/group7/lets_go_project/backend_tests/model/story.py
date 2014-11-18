@@ -1,5 +1,6 @@
 from database_item import DatabaseItem, get_random_id_list, get_random_string, get_random_date_in_year
 import random
+import json
 
 
 def get_random_story(sprint_id, id_=None):
@@ -8,6 +9,18 @@ def get_random_story(sprint_id, id_=None):
     points = random.randint(1, 20)
     notes = get_random_string(20)
     return Story(title, description, points, notes, sprint_id, id_)
+
+
+def get_story_from_json(json_str):
+    json_dict = json.loads(json_str)
+    return Story(
+        title=json_dict['title'],
+        description=json_dict['description'],
+        points=json_dict['points'],
+        notes=json_dict['notes'],
+        sprint_id=json_dict['sprint_id'],
+        id_=json_dict['id']
+        )
 
 
 class Story(DatabaseItem):

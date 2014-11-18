@@ -43,15 +43,14 @@ feature -- Handlers
 		do
 			user_id := req.path_parameter ("user_id").string_representation
 			user := db.query_single_row("SELECT id, email, firstname, lastname FROM users WHERE id=" + user_id)
-			assigned_tasks := db.query_id_list("SELECT task_id FROM task_assignments WHERE user_id=" + user_id)
-			projects := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id=" + user_id)
-			user.put (assigned_tasks, "assigned_tasks")
-			user.put (projects, "projects")
-			reply_with_data(req, res, user.representation)
+			if user.is_empty then
+				reply_with_404(res)
+			else
+				assigned_tasks := db.query_id_list("SELECT task_id FROM task_assignments WHERE user_id=" + user_id)
+				projects := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id=" + user_id)
+				user.put (assigned_tasks, "assigned_tasks")
+				user.put (projects, "projects")
+				reply_with_200_with_data(res, user.representation)
+			end
 		end
-
-
-feature {None}
-	db_query_statement: SQLITE_QUERY_STATEMENT
-
 end
