@@ -32,6 +32,15 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
 		end
 
+	find_collabs_user_id_by_id (project_id : INTEGER) : JSON_ARRAY
+			-- returns a JSON_JSON_ARRAY where each element is a JSON_OBJECT that represents a collaborator
+		do
+			create Result.make_array
+			--create db_query_statement.make("SELECT Collaborators.user_id FROM Collaborators WHERE project_id="+ project_id.out +";" ,db)
+			create db_query_statement.make("SELECT * FROM Collaborators WHERE project_id="+ project_id.out +";" ,db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		end
+
 	add (project: PROJECT)
 			-- adds a new project
 		do
@@ -68,6 +77,17 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a Project")
+					-- TODO: we probably want to return something if there's an error
+			end
+		end
+
+	remove_collaborator (user_id, project_id: NATURAL)
+			-- removes the collaborator with the given user_id and project_id
+		do
+			create db_modify_statement.make ("DELETE FROM Colalborators WHERE user_id=" + project_id.out + " AND project_id="+project_id.out+";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting a Collaborator")
 					-- TODO: we probably want to return something if there's an error
 			end
 		end
