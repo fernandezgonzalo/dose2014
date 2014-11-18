@@ -17,11 +17,12 @@ feature -- Test routines
 		local
 			project: PROJECT
 		do
-			create project.make ("name","status", "description", 1, 1)
+			create project.make ("name","status", "description", 1, 0, 1)
 			assert ("Correct name", project.name.is_equal ("name"))
 			assert ("Correct status", project.status.is_equal ("status"))
 			assert ("Correct description", project.description.is_equal ("description"))
 			assert ("Correct mpps", project.max_points_per_sprint.is_equal (1))
+			assert ("Correct number_of_sprints", project.number_of_sprints.is_equal (0))
 			assert ("Correct user_id", project.user_id.is_equal (1))
 		end
 
@@ -34,7 +35,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create project.make ("", "new_status", "new_description", 1, 1) -- Must throw an exception
+          		create project.make ("", "new_status", "new_description", 1, 0, 1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -53,7 +54,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create project.make ("new_name", "new_status", "", 1, 1) -- Must throw an exception
+          		create project.make ("new_name", "new_status", "", 1, 0, 1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -72,7 +73,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create project.make ("new_name", "new_status", "new_description", 0, 1) -- Must throw an exception
+          		create project.make ("new_name", "new_status", "new_description", 0,0, 1) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)
@@ -92,7 +93,7 @@ feature -- Test routines
 		do
     		if not second_time then
           		ok := True
-          		create project.make ("new_name", "new_status", "new_description", -8, 0) -- Must throw an exception
+          		create project.make ("new_name", "new_status", "new_description", -8,0, 0) -- Must throw an exception
           		ok := False
     		end
     		assert ("The rutine has to fail", ok)

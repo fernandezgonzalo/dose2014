@@ -24,11 +24,11 @@ feature -- Data access
 
 		end
 
-	find_by_id (sprint_id : INTEGER) : JSON_OBJECT
+	find_by_id_and_project_id (sprint_id : INTEGER; project_id: INTEGER) : JSON_OBJECT
 			-- returns a JSON_OBJECT that represents a sprint that corresponds to the given id
 		do
 			create Result.make
-			create db_query_statement.make("SELECT * FROM Sprints WHERE id="+ sprint_id.out +";" ,db)
+			create db_query_statement.make("SELECT * FROM Sprints WHERE id="+ sprint_id.out +" AND project_id="+project_id.out+";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
 		end
 
@@ -43,7 +43,7 @@ feature -- Data access
 	add (sprint: SPRINT)
 			-- adds a new sprint
 		do
-			create db_insert_statement.make ("INSERT INTO Sprints(id,status,duration) "+
+			create db_insert_statement.make ("INSERT INTO Sprints(id,status,duration,project_id) "+
 											"VALUES ('" + sprint.id.out + "','"+ sprint.status +
 											 "','"+ sprint.duration.out +"','"+ sprint.project_id.out+"');", db);
 			db_insert_statement.execute
@@ -58,7 +58,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE Sprints SET id = '"+ sprint.id.out +"',"+
 															  "status = '"+ sprint.status +"',"+
 															  "duration = '"+ sprint.duration.out +"',"+
-															  "status = '"+ sprint.project_id.out +"'"+
+															  "project_id = '"+ sprint.project_id.out +"'"+
 															  "WHERE id="+ sprint_id.out +";" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
@@ -66,10 +66,10 @@ feature -- Data access
 			end
 		end
 
-	remove (sprint_id: NATURAL)
-			-- removes the sprint with the given id
+	remove (sprint_id: NATURAL; project_id: NATURAL)
+			-- removes the sprint with the given id and project id
 		do
-			create db_modify_statement.make ("DELETE FROM Sprints WHERE id=" + sprint_id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM Sprints WHERE id=" + sprint_id.out + " AND project_id=" + project_id.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a sprint")

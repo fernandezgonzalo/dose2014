@@ -19,12 +19,14 @@ feature {NONE} -- Creation
 	make (a_path_to_db_file: STRING)
 		do
 			create db_handler_sprint.make (a_path_to_db_file)
+			create db_handler_project.make (a_path_to_db_file)
 		end
 
 
 feature {NONE} -- Private attributes
 
 	db_handler_sprint : DB_HANDLER_SPRINT
+	db_handler_project: DB_HANDLER_PROJECT
 
 
 feature -- Handlers
@@ -40,11 +42,34 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+
+	get_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json object with a project with given id
+		local
+			l_result_payload: STRING
+			l_sprint_id: STRING;
+			l_project_id : STRING
+		do
+
+			-- the project_id from the URL
+			l_project_id := req.path_parameter ("project_id").string_representation
+
+			-- the project_id from the URL
+			l_sprint_id := req.path_parameter ("sprint_id").string_representation
+
+			l_result_payload := db_handler_sprint.find_by_id_and_project_id (l_sprint_id.to_integer, l_project_id.to_integer).representation
+
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
+
 	add_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new sprint; the sprint data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_id, new_status, new_duration, new_project_id : STRING
+			new_id, new_status, new_duration: STRING
+			project_id: STRING
 			new_sprint: SPRINT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -72,12 +97,12 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("duration") as duration then
 					new_duration := duration.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
-					new_project_id := project_id.unescaped_string_8
-				end
 			end
 
-			create new_sprint.make (new_id.to_integer_32, new_status, new_duration.to_integer_32, new_project_id.to_integer_32)
+			-- obtain the project id via the URL
+			project_id := req.path_parameter ("project_id").string_representation
+
+			create new_sprint.make (new_id.to_integer_32, new_status, new_duration.to_integer_32, project_id.to_integer_32)
 
 				-- create the sprint in the database
 			db_handler_sprint.add (new_sprint)
@@ -95,8 +120,8 @@ feature -- Handlers
 			-- update a sprint from the database
 		local
 			l_payload: STRING
-			l_sprint_id: STRING
-			sprint_id, sprint_status, sprint_duration, sprint_project_id : STRING
+			l_sprint_id, l_sprint_project_id: STRING
+			sprint_status, sprint_duration : STRING
 			sprint: SPRINT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -115,27 +140,24 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 				-- we have to convert the json string into an eiffel string for each sprint attribute.
-				if attached {JSON_STRING} j_object.item ("id") as id then
-					sprint_id := id.unescaped_string_8
-				end
 				if attached {JSON_STRING} j_object.item ("status") as status then
 					sprint_status := status.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("duration") as duration then
 					sprint_duration := duration.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("project_id") as project_id then
-					sprint_project_id := project_id.unescaped_string_8
-				end
-
 
 			end
 
-				-- create the sprint
-			create sprint.make (sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32, sprint_project_id.to_integer_32)
+			-- the sprint_id from the URL (as defined by the placeholder in the route)
+				l_sprint_project_id := req.path_parameter ("project_id").string_representation
 
-				-- the sprint_id from the URL (as defined by the placeholder in the route)
-			l_sprint_id := req.path_parameter ("sprint_id").string_representation
+
+			-- the sprint_id from the URL (as defined by the placeholder in the route)
+				l_sprint_id := req.path_parameter ("sprint_id").string_representation
+
+				-- create the sprint
+			create sprint.make (l_sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32, l_sprint_project_id.to_integer_32)
 
 				-- update the sprint in the database
 			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
@@ -152,13 +174,17 @@ feature -- Handlers
 	remove_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a sprint from the database
 		local
-			l_sprint_id: STRING
+			l_sprint_id, l_sprint_project_id: STRING
 			l_result: JSON_OBJECT
 		do
 				-- the user_id from the URL (as defined by the placeholder in the route)
+			l_sprint_project_id := req.path_parameter ("project_id").string_representation
+
+				-- the user_id from the URL (as defined by the placeholder in the route)
 			l_sprint_id := req.path_parameter ("sprint_id").string_representation
+
 				-- remove the sprint
-			db_handler_sprint.remove (l_sprint_id.to_natural)
+			db_handler_sprint.remove (l_sprint_id.to_natural, l_sprint_project_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
