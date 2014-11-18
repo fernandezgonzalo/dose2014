@@ -54,6 +54,18 @@ feature -- Data access
 			end
 		end
 
+
+	add_collaborator (user_id, project_id: NATURAL)
+			-- adds a new collaborator
+		do
+			create db_insert_statement.make ("INSERT INTO Collaborators(user_id,project_id) "+
+											"VALUES ('" + user_id.out + "','"+ project_id.out +"');", db);
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting a new collaborator")
+			end
+		end
+
 	update (project_id : NATURAL; project: PROJECT)
 			-- update a project
 		do
