@@ -14,6 +14,19 @@ inherit
 
 feature -- Test routines
 
+	find_all_test
+			-- Test for routine find_all
+		local
+			db_handler : DB_HANDLER_USER
+			json_array_result : JSON_ARRAY
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+
+			json_array_result := db_handler.find_all
+
+			assert("Users obtained.", json_array_result.count>0 )
+		end
+
 	find_by_id_existent_user_test
 			-- Test for routine find_by_id with existent user id.
 		local
@@ -42,6 +55,28 @@ feature -- Test routines
 			assert("User not found", json_result.is_empty)
 		end
 
+	find_by_project_id_project_with_collaborators_test
+			-- Test for routine find_by_project_id with a project that have collaborators.
+		local
+			db_handler : DB_HANDLER_USER
+			json_array_result : JSON_ARRAY
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			json_array_result := db_handler.find_by_project_id (1)
+			assert("Users obtained", json_array_result.count>0)
+		end
+
+	find_by_project_id_project_without_collaborators_test
+		-- Test for routine find_by_project_id with a project without collaborators.
+		local
+			db_handler : DB_HANDLER_USER
+			json_array_result : JSON_ARRAY
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			json_array_result := db_handler.find_by_project_id (100)
+			assert("There are no users ", json_array_result.count=0)
+		end
+		
 	add_user_test
 			-- Test for routine add
 		local

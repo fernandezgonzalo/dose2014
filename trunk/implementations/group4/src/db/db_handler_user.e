@@ -32,6 +32,16 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
 		end
 
+	find_by_project_id (project_id : NATURAL): JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user that
+			-- is collaborator of the project.
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT u.id,u.user_name,u.email FROM Collaborators c NATURAL JOIN Users u "+
+											"WHERE c.user_id=u.id AND c.project_id="+ project_id.out + " AND u.is_active=1;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
+		end
+
 	add (user : USER)
 			-- adds a new user
 		do
