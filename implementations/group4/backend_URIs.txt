@@ -13,9 +13,9 @@ api/projects (POST request to add one, GET to see them all)
 
 api/projects/{project_id} (GET request to see it, DELETE to remove it, POST to update it)
 
-api/projects/{project_id}/collaborators (GET request to see the all the users associated,POST to add one)
+api/projects/{project_id}/collaborators (GET request to see the all the users associated)
 
-api/projects/{project_id}/collaborators/{user_id} (DELETE request to remove the user from the project)
+api/projects/{project_id}/collaborators/{user_id} (DELETE request to remove the user from the project,POST to add one)
 
 api/projects/{project_id}/topics (GET request to see all the topics associated)
 
