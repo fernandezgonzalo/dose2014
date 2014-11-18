@@ -12,23 +12,19 @@ create
 
 feature -- Initialization
 
-	make (new_id: INTEGER; new_status: STRING; new_duration: INTEGER; new_project_id: INTEGER)
+	make (new_status: STRING; new_duration: INTEGER; new_project_id: INTEGER)
 			-- Creates a project with initial properties
 		require
 			not_empty (new_status)
-			possitive_id: (new_id >= 0)
 			possitive_project_id: (new_project_id >= 0)
 			greater_zero: (new_duration > 0)
 		do
-			id := new_id
 			status := new_status
 			duration := new_duration
 			project_id := new_project_id
 		end
 
 feature -- Sprint properties
-
-	id : INTEGER
 
 	duration : INTEGER
 

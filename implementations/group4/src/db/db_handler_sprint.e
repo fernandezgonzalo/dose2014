@@ -44,8 +44,8 @@ feature -- Data access
 			-- adds a new sprint
 		do
 			create db_insert_statement.make ("INSERT INTO Sprints(id,status,duration,project_id) "+
-											"VALUES ('" + sprint.id.out + "','"+ sprint.status +
-											 "','"+ sprint.duration.out +"','"+ sprint.project_id.out+"');", db);
+											"VALUES ('-1','"+ sprint.status +"','"+ sprint.duration.out +"','"+
+											sprint.project_id.out+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new project")
@@ -55,8 +55,7 @@ feature -- Data access
 	update (sprint_id : NATURAL; sprint: SPRINT)
 			-- update a sprint
 		do
-			create db_modify_statement.make ("UPDATE Sprints SET id = '"+ sprint.id.out +"',"+
-															  "status = '"+ sprint.status +"',"+
+			create db_modify_statement.make ("UPDATE Sprints SET status = '"+ sprint.status +"',"+
 															  "duration = '"+ sprint.duration.out +"',"+
 															  "project_id = '"+ sprint.project_id.out +"'"+
 															  "WHERE id="+ sprint_id.out +";" , db)

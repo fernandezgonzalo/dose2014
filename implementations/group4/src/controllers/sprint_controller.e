@@ -20,6 +20,7 @@ feature {NONE} -- Creation
 		do
 			create db_handler_sprint.make (a_path_to_db_file)
 			create db_handler_project.make (a_path_to_db_file)
+			create db_handler_task.make (a_path_to_db_file)
 		end
 
 
@@ -27,6 +28,7 @@ feature {NONE} -- Private attributes
 
 	db_handler_sprint : DB_HANDLER_SPRINT
 	db_handler_project: DB_HANDLER_PROJECT
+	db_handler_task: DB_HANDLER_TASK
 
 
 feature -- Handlers
@@ -88,9 +90,6 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each sprint attribute.
-				if attached {JSON_STRING} j_object.item ("id") as id then
-					new_id := id.unescaped_string_8
-				end
 				if attached {JSON_STRING} j_object.item ("status") as status then
 					new_status := status.unescaped_string_8
 				end
@@ -102,14 +101,14 @@ feature -- Handlers
 			-- obtain the project id via the URL
 			project_id := req.path_parameter ("project_id").string_representation
 
-			create new_sprint.make (new_id.to_integer_32, new_status, new_duration.to_integer_32, project_id.to_integer_32)
+			create new_sprint.make (new_status, new_duration.to_integer_32, project_id.to_integer_32)
 
 				-- create the sprint in the database
 			db_handler_sprint.add (new_sprint)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added sprint " + new_sprint.id.out ), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Added sprint "), create {JSON_STRING}.make_json ("Message"))
 
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
@@ -157,14 +156,14 @@ feature -- Handlers
 				l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 				-- create the sprint
-			create sprint.make (l_sprint_id.to_integer_32, sprint_status, sprint_duration.to_integer_32, l_sprint_project_id.to_integer_32)
+			create sprint.make (sprint_status, sprint_duration.to_integer_32, l_sprint_project_id.to_integer_32)
 
 				-- update the sprint in the database
 			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated sprint "+ sprint.id.out), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Updated sprint "+ l_sprint_id.out), create {JSON_STRING}.make_json ("Message"))
 
 				-- set the result
 			set_json_header_ok (res, l_result.representation.count)
@@ -185,6 +184,29 @@ feature -- Handlers
 
 				-- remove the sprint
 			db_handler_sprint.remove (l_sprint_id.to_natural, l_sprint_project_id.to_natural)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
+
+				-- set the result
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
+		end
+
+
+	remove_task (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- remove a task from the database
+		local
+			l_task_id: STRING
+			l_result: JSON_OBJECT
+		do
+
+				-- the user_id from the URL (as defined by the placeholder in the route)
+			l_task_id := req.path_parameter ("task_id").string_representation
+
+				-- remove the sprint
+			db_handler_task.remove (l_task_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
