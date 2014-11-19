@@ -3,7 +3,15 @@
 		<meta charset="utf-8">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Demo</title>
+		<title>DOSEMS</title>
+		
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<!--[if lt IE 10]>
+			<style type="text/css">
+				#wrapper { height:100%; }
+			</style>
+		<![endif]-->
+		</head>
 
 		<!-- css and js files that are from frameworks, here Bootstrap and Angualr -->
         <link rel="stylesheet" href="css/vendor/bootstrap.css">
@@ -23,6 +31,17 @@
 		<script src="js/userCtrl.js"></script>
     </head>
     <body ng-app="Demo">
-		<div ng-view></div>
+		<div id="wrapper">
+			<div ng-include="'partials/header.html'"></div>
+			<div id="content">
+				<div id="inner-content">
+					<div ng-view></div> 
+				</div>
+			</div>
+			<div id="footer">
+				<p>DOSE 2014</p>
+				<p>Group1</p>
+			</div>
+		</div>
     </body>
 </html>

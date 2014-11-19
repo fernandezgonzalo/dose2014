@@ -71,7 +71,7 @@ feature -- Handlers
 			end
 
 				-- create the user in the database
-			my_db.add_project (info)
+			-- my_db.add_project (info)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
