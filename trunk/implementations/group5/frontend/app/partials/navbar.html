@@ -3,7 +3,7 @@
       <ul class="nav navbar-nav">
         <li ng-class="{active: isActive('/usr/*/dashboard') || isActive('/')}"><a href="/#/usr/1/dashboard">My dashboard</a></li>
         <li ng-class="{active:isActive('/projects')}"><a href="/#/projects">Projects</a></li>
-        <li ng-class="{active:isActive('/users')}"><a href="/#/users">Users management</a></li>
+        <li ng-show="isAdmin()" ng-class="{active:isActive('/users')}"><a href="/#/users">Users management</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/#/users/{{ currentUser.id }}" class="navbar-link">Edit profile</a></li>

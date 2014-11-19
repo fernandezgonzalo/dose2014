@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', function ($scope, $log, $location, $routeParams, $resource, Utility, User) {
-  $log.debug('UserController::init');
+  var TAG = 'UserController::';
+
+  $log.debug(TAG, 'init', $routeParams);
+  if ($routeParams.id) {
+    $scope.isEdit = true;
+    User.get({userId  : $routeParams.id}, function(user) {
+      $scope.user = user;
+      user.password = '';
+    });
+  }
 
   $scope.users = User.query();
 
@@ -27,7 +36,6 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     if (!user) {
       user = {};
     }
-    $log.debug('UserController::', user);
     user.isAdmin = '0';
     Utility.toUnderscore(user);
     var newUser = new User(user);

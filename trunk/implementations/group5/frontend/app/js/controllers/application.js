@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
-  $log.debug('ApplicationController::init main controller');
+  var TAG = 'ApplicationController::';
+  $log.debug(TAG, 'init main controller');
   $scope.currentUser = null;
   $scope.isAuthenticated = AuthService.isAuthenticated;
   $scope.isAdmin = AuthService.isAdmin;
@@ -27,6 +28,10 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
       }
     }
     return true;
+  };
+
+  $scope.isAdmin = function() {
+    return AuthService.isAdmin();
   };
 
   // Frontend authentication :)

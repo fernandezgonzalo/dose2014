@@ -7,8 +7,8 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
   $log.debug(TAG, 'init');
 
   var toCamel = function(s) {
-    return s.replace(/(\-[a-z])/g, function($1) {
-      return $1.toUpperCase().replace('-','');
+    return s.replace(/([\-_][a-z])/g, function($1) {
+      return $1.toUpperCase().replace('-','').replace('_','');
     });
   };
 
@@ -22,7 +22,6 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
     for (var prop in obj) {
       if (prop.toLowerCase() !== prop) {
         obj[toUnderscore(prop)] = obj[prop];
-        delete obj[prop];
       }
     }
   };
