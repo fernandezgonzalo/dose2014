@@ -142,46 +142,91 @@ feature -- Data access
 		end
 
 
+feature -- Data access : project
+
 	add_project (a_project_name: STRING; a_user_name: STRING)
 		-- add a new project in tha database
 		do
-			-- add the name if the project table
+			-- add the name in the project table
+			create db_insert_statement.make ("INSERT INTO project VALUES ('" + a_project_name + "');", db)
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting new project")
+			end
 			-- add the name and the creator in the member table if boolean owner true
+			create db_insert_statement.make ("INSERT INTO member VALUES ('" + a_user_name + "','" + a_project_name + "',1);", db)
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print("Error while inserting the owner of the project")
+			end
 		end
 
+	--- TODO: Fix bug
 	check_project_name (a_project_name: STRING) : BOOLEAN
 		-- check if a given name already exist in the database: return true if the name exists
+		local
+			l_list: JSON_OBJECT
 		do
+			create db_query_statement.make ("SELECT * from project WHERE name='" + a_project_name + "';", db)
+			db_query_statement.execute (agent row_to_json_object(?, 1, l_list))
+			if  l_list.is_empty
+				then Result := False
+				else Result := True
+			end
 		end
 
+	--- TODO: Fig bug
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
+		local
+			l_list: JSON_ARRAY
 		do
 			-- check in the table iteration if some of them are related to the given name project
+			create db_query_statement.make ("SELECT number, name FROM iteration WHERE project='" + a_project_name + "';", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 2, l_list))
+			if l_list.count = 0 then
+				Result := true
+			else
+				Result := False
+			end
 		end
 
 	remove_project (a_project_name: STRING)
 		-- remove the project from table project and member.
+		-- delete on cascade in the db.
 		do
-
+			create db_modify_statement.make ("DELETE FROM project WHERE name ='"+ a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting the project")
+			end
 		end
 
 	rename_project (a_old_project_name: STRING; a_new_project_name: STRING)
 		-- rename the project in all tables: project, member, iteration, work_item
 		do
-
+			create db_modify_statement.make ("UPDATE project SET name='" + a_new_project_name + "' WHERE name='" + a_old_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while changing project name")
+			end
 		end
 
 	get_all_user_projects (a_user_email: STRING): JSON_ARRAY
 		-- get all the projects of a specific user
 		do
 			-- select from member table the project of the specific user
+			create Result.make_array
+			create db_query_statement.make ("SELECT project FROM member WHERE user='" + a_user_email + "';", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		end
 
 	get_all_project_members (a_project_name: STRING): JSON_ARRAY
 		-- get all the members and owners of a specific project
 		do
-			-- select from member table the members and owners of the specific project and return them as JSON_ARRAY
+			create Result.make_array
+			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "';", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		end
 
 	get_all_project_owners (a_project_name: STRING): JSON_ARRAY
@@ -189,12 +234,19 @@ feature -- Data access
 		do
 			-- call get_all_project_members and filter by owners only
 			-- return them as JSON_ARRAY
+			create Result.make_array
+			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "'AND owner=1;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		end
 
 	add_member_to_project (a_project_name: STRING; a_user_email: STRING; a_owner: BOOLEAN)
 		-- add a member or owner in the table member
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			-- if the user is an owner check if the tuple doesn't already exist:
+			create db_insert_statement.make ("INSERT INTO member(user, project, owner) VALUES(?,?,?);", db)
+			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<a_user_email, a_project_name, a_owner>>)
 				-- no add a new tuple in the table
 
 				-- yes change the boolean owner into true
@@ -203,6 +255,11 @@ feature -- Data access
 	remove_member_from_project (a_project_name: STRING; a_user_email: STRING)
 		-- remove a member from a project in the table member
 		do
+			create db_modify_statement.make ("DELETE FROM member WHERE user='" + a_user_email + "' AND project='" + a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting member")
+			end
 		end
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
