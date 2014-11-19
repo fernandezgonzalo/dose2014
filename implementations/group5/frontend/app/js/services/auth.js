@@ -17,6 +17,11 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$q', 
           if (users[i].email === credentials.email && users[i].password === credentials.password) {
             Utility.toCamel(users[i]);
             result = users[i];
+            if (result.isAdmin === '0') {
+              result.isAdmin = false;
+            } else {
+              result.isAdmin = true;
+            }
             break;
           }
         }
@@ -41,7 +46,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$q', 
   };
  
   authService.isAdmin = function () {
-    return authService.currentUser.isAdmin;
+    return !!authService.currentUser && authService.currentUser.isAdmin;
   };  
 
   return authService;

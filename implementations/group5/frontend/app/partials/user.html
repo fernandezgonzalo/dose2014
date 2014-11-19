@@ -1,5 +1,6 @@
 <div id="legend">
-  <legend class="">Create a new account</legend>
+  <legend ng-show="!isEdit">Create a new account</legend>
+  <legend ng-show="isEdit">Edit user profile</legend>
 </div>
 <div class="alert alert-danger" ng-show="createUserError">
   Error creating user.
@@ -35,21 +36,32 @@
             <p class="help-block">Please provide your E-mail</p>
           </div>
         </div>
-     
+
+        <div ng-show="isEdit && !isAdmin()" class="control-group">
+          <!-- Password-->
+          <label class="control-label" for="old_password">Old password</label>
+          <div class="controls">
+            <input type="password" id="old_password" name="old_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.oldPassword">
+            <p class="help-block">You must confirm operation by your password</p>
+          </div>
+        </div>
+
         <div class="control-group">
           <!-- Password-->
-          <label class="control-label" for="password">Password</label>
+          <label ng-show="!isEdit" class="control-label" for="new_password">Password</label>
+          <label ng-show="isEdit" class="control-label" for="new_password">New password</label>
           <div class="controls">
-            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password">
+            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
             <p class="help-block">Password should be at least 4 characters</p>
           </div>
         </div>
      
-        <div class="control-group">
+        <div ng-showclass="control-group">
           <!-- Password -->
-          <label class="control-label" for="password_confirm">Password (Confirm)</label>
+          <label ng-show="!isEdit" class="control-label" for="password_confirmed">Password (Confirm)</label>
+          <label ng-show="isEdit" class="control-label" for="password_confirmed">New password (Confirm)</label>
           <div class="controls">
-            <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
+            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
             <p class="help-block">Please confirm password</p>
           </div>
         </div>
@@ -57,7 +69,8 @@
         <div class="control-group">
           <!-- Button -->
           <div class="controls">
-            <button class="btn btn-success" tabindex="7">Register</button>
+            <button class="btn btn-success" tabindex="7" ng-show="!isEdit">Register</button>
+            <button class="btn btn-success disabled" disabled tabindex="7" ng-show="isEdit">Save</button>
           </div>
         </div>
 
