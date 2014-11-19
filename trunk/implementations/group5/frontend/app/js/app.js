@@ -4,6 +4,7 @@ var app = angular.module('Mgmt', [
   'ngRoute',
   'ngResource',
   'xeditable'
+  // 'ui.bootstrap'
 ]);
 
 app.run(['editableOptions', function(editableOptions) {

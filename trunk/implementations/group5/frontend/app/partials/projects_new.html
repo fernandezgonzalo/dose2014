@@ -1,10 +1,22 @@
-<!-- <div id="legend"> -->
-<!--   <legend>Create a new project</legend> -->
-<!-- </div> -->
+<!-- <form novalidate class="simple-form"> -->
+<!--   Name: <input type="text" ng-model="project.name" /><br /> -->
+<!--   Client: <input type="text" ng-model="project.client_name" /><br /> -->
+<!--   Author: <input type="text" ng-model="project.id_user" /><br /> -->
+<!--   Date: <input type="text" ng-model="project.deadline" /><br /> -->
+<!--   <button ng-click="createProject(project)">Create project</button> -->
+<!-- </form> -->
 
-<div class="row">
-  <div class="col-md-10">
-    <form class="form-horizontal" action='' method="POST">
+<!-- /modal-header -->
+<div class="modal-header">
+  <span class="modal-title h4">New project</span><span class="pull-right">
+    <span class="glyphicon glyphicon-plus">
+</div>	
+
+    
+<!-- /modal-body -->
+<div class="modal-body row">
+  <form nonvalidate class="simple-form">
+    <div class="col-md-6">
       <fieldset>
 
         <br>
@@ -13,39 +25,49 @@
           <!-- Username -->
           <label class="control-label" for="projectName">Project name</label>
           <div class="controls">
-            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1">
-            <!-- <p class="help-block">Username can contain any letters or numbers, without spaces</p> -->
+            <input type="text" id="projectName" name="projectName"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="1" ng-model="project.name">
           </div>
         </div>
-     
-        <div class="control-group">
-          <!-- E-mail -->
-          <label class="control-label" for="email">Client</label>
-          <div class="controls">
-            <input type="text" id="email" name="email" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="2">
-            <!-- <p class="help-block">Client</p> -->
-          </div>
-        </div>
-     
-        <div class="control-group">
-          <!-- Password-->
-          <label class="control-label" for="password"><span class="glyphicon glyphicon-calendar"></span>   Due date</label>
-          <div class="controls">
-            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="3">
-            <!-- <p class="help-block">Password should be at least 4 characters</p> -->
-          </div>
-        </div> 
-     
-        <br>
 
         <div class="control-group">
-          <!-- Button -->
+          <label class="control-label" for="client">Client</label>
           <div class="controls">
-            <button class="btn btn-success" tabindex="4">Create project</button>
+            <input type="text" id="client" name="client"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="2" ng-model="project.client_name">
           </div>
         </div>
+
+        <!-- To be deleted!, user ID will be set according to logged user. -->
+        <div class="control-group">
+          <label class="control-label" for="client">Author</label>
+          <div class="controls">
+            <input type="text" id="userId" name="userId"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="3" ng-model="project.id_user">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="dueDate">
+            <span class="glyphicon glyphicon-calendar"></span>   Deadline</label>
+          <div class="controls">
+            <input type="text" id="deadline" name="deadline"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="4" ng-model="project.deadline">
+          </div>
+        </div> 
+
       </fieldset>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
+
+<!-- /modal-footer -->
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button ng-click="createProject(project)" type="button" class="btn btn-primary">Create project</button>
+</div>	
 
