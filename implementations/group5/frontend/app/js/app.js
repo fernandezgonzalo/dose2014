@@ -49,23 +49,20 @@ app.config(['$routeProvider',
       })
       .when('/projects', {
         templateUrl: 'partials/projects.html',
-        controller: 'ProjectsController',
-        controllerAs: 'projects'
+        controller: 'ProjectsController'
+        // controllerAs: 'projects'
       })
       .when('/projects/new', {
         templateUrl: 'partials/projects_new.html',
-        controller: 'ProjectsController',
-        controllerAs: 'projects'
+        controller: 'ProjectsController'
       })
       .when('/projects/:id/edit', {
         templateUrl: 'partials/projects_edit.html',
-        controller: 'ProjectsController',
-        controllerAs: 'projects'
+        controller: 'ProjectsController'
       })
       .when('/projects/:id/dashboard', {
         templateUrl: 'partials/projects_dashboard.html',
-        controller: 'ProjectsController',
-        controllerAs: 'projects'
+        controller: 'ProjectsController'
       })
       .when('/usr/:id/dashboard', {
         templateUrl: 'partials/user_dashboard.html',

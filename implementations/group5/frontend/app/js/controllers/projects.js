@@ -1,27 +1,30 @@
 'use strict';
 
-// var app = angular.module('Mgmt').controller('ProjectsController', ['Project', function(project) {}]);
-
-// angular.module('Mgmt').controller('ProjectsController',
-//                                   ['$scope', '$log', '$location', 'project',
-//                                     function ($scope, $log, $location, project) {
+// angular.module('Mgmt')
+//        .controller('ProjectsController', ['$scope', '$log', '$location',
+//                    '$routeParams', '$resource', 'Project',
+//                    function ($scope, $log, $location, $routeParams, $resource, Project) {
                                       
-angular.module('Mgmt').controller('ProjectsController',
-                                  ['$scope', '$log', '$location', 'User',
-                                    function ($scope, $log, $location, User) {
+// angular.module('Mgmt')
+//        .controller('ProjectsController', ['$scope', '$log',
+//                    '$location', '$routeParams', 'Project',
+//                    function ($scope, $log, $location, $routeParams, Project) {
 
-  $scope.users = User.query();
+angular.module('Mgmt')
+       .controller('ProjectsController', ['$scope', '$log',
+                   '$location', '$routeParams',
+                   function ($scope, $log, $location, $routeParams) {
 
-  $scope.openProject = function() {
-    $location.path('/projects/1/dashboard');
+  $log.debug('ProjectsController::init');
+
+  // $scope.projects = Project.query();
+  
+  $scope.openProject = function(project) {
+    $location.path('/projects/' + project.id + '/dashboard');
   };
   
-  $scope.login = function() {
-
-  };
-
   // JavaScript object in order to ilustrate the template of /projects.html
-  this.inProgress = [
+  $scope.inProgress = [
     {
       name: 'Distributed software development system',
       client: 'DOSE 2014',
@@ -41,14 +44,23 @@ angular.module('Mgmt').controller('ProjectsController',
       date: 'Feb 22'
     }];
 
-  this.finished = [
+  $scope.finished = [
     {
+      id: 1,
       name: 'Grammar recognizer',
       client: 'Science Imp.',
       author: 'Alan',
       date: 'Oct 31'
     },
     {
+      id: 2,
+      name: 'Grammar recognizer',
+      client: 'Science Imp.',
+      author: 'Alan',
+      date: 'Oct 31'
+    },
+    {
+      id: 3,
       name: 'Shopping mobile app development',
       client: 'Amazon',
       author: 'Jeff',
