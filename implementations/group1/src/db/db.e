@@ -324,7 +324,7 @@ feature -- Data access Task
 	add_task (desc, comment, duration, points, status, id_user, id_requirement: STRING)
 
 		do
-			create db_insert_statement.make ("INSERT INTO Sprint(id, desc, comment, duration, points, status, id_user, id_requirement) VALUES ('"+id+"','"+desc+"','"+comment+"','"+points+"','"+status+"','"+id_user+"','"+id_requirement+"');", db);
+			-- create db_insert_statement.make ("INSERT INTO Sprint(id, desc, comment, duration, points, status, id_user, id_requirement) VALUES ('"+id+"','"+desc+"','"+comment+"','"+points+"','"+status+"','"+id_user+"','"+id_requirement+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Task")

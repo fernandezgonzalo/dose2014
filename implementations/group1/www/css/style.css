@@ -2,7 +2,7 @@ html {
 	height: 100%;
 }
 body {
-	background-image: url('../images/pattern.png');
+	background-image: url('../img/pattern.png');
 	margin: 0px;
 	padding: 0px;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -36,7 +36,7 @@ a.underline {
 }
 #header {
 	width: 100%;
-	background-image: url('../images/line.png');
+	background-image: url('../img/line.png');
 	background-color: #000000;
 	background-repeat: repeat-x;
 	background-position: bottom left;
@@ -68,7 +68,7 @@ a.underline {
 	padding: 0px;
 }
 #navigation {
-	background-image: url('../images/button.png');
+	background-image: url('../img/button.png');
 	background-repeat: repeat-x;
 	border-bottom: solid #474745 1px;
 	border-top: solid #474745 1px;
@@ -81,9 +81,10 @@ a.underline {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
+	white-space: nowrap;
 }
 #navigation ul li{
-	float: left;
+	display: inline-block;
 	width: 149px;
 	height: 42px;
 	border: none;
@@ -126,7 +127,6 @@ div.page {
 }
 
 /* Dashboard*/
-
 #dashboard .projects-column {
 	float: left;
 	margin-right: 10px;
