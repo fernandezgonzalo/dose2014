@@ -1,7 +1,7 @@
 note
-	description: "Summary description for {TASK_CONTROLLER}."
-	author: ""
-	date: "$Date$"
+	description: "Handlers for everything that concerns tasks.."
+	author: "Zensich Ezequiel"
+	date: "$11/13/2014$"
 	revision: "$Revision$"
 
 class
@@ -103,7 +103,7 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
-		task_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
+		get_task_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- returns a json object with the task from a specific Id
 			local
 				l_task_id, l_result_payload: STRING
@@ -205,5 +205,33 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+	get_tasks_of_the_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 
+		local
+			l_user_id, l_result_payload: STRING
+
+		do
+			-- extract the user_id from the url path of the request
+				l_user_id := req.path_parameter ("id").string_representation
+			-- fetch data from to the database
+				l_result_payload := my_crud_task.tasks_of_the_user (l_user_id.to_natural).representation
+			-- set the response
+					set_json_header_ok (res, l_result_payload.count)
+					res.put_string (l_result_payload)
+		end
+
+	get_task_by_id_project(req: WSF_REQUEST; res: WSF_RESPONSE)
+
+		local
+			l_project_id, l_result_payload: STRING
+
+		do
+			-- extract the project_id from the url path of the request
+				l_project_id := req.path_parameter ("id").string_representation
+			-- fetch data from to the database
+				l_result_payload := my_crud_task.task_by_id_project (l_project_id.to_natural).representation
+			-- set the response
+					set_json_header_ok (res, l_result_payload.count)
+					res.put_string (l_result_payload)
+		end
 end
