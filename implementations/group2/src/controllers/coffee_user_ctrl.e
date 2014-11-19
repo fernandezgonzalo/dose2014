@@ -8,33 +8,31 @@ class
 	COFFEE_USER_CTRL
 
 	inherit
-	COFFEE_HEADER_JSON_HELPER
-		-- inherit this helper to get a procedure that simplifies setting
-		-- the HTTP response header correctly
-
-	COFFEE_SESSION_HELPER
+	COFFEE_BASE_CONTROLLER
+	redefine
+		add_data_to_map_update, add
+	end
 
 create
 	make
 
 
-feature {NONE} -- Creation
-
-	make (a_dao: COFFEE_DB a_session_manager: WSF_SESSION_MANAGER)
-		do
-			my_db := a_dao
-			session_manager := a_session_manager
-		end
-
-feature {NONE} -- Private attributes
-
-	my_db: COFFEE_DB
-	session_manager: WSF_SESSION_MANAGER
-
 
 feature -- Handlers
 
-	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+	add_data_to_map_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+		local
+			l_manager_id: STRING
+			l_user_id: STRING
+		do
+			create l_manager_id.make_empty
+			create l_user_id.make_empty
+			l_user_id := req.path_parameter("user_id").string_representation
+			a_map.keys.put_front("id")
+			a_map.values.put_front(l_user_id)
+		end
+
+	add (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new users; the user_name is expected to be part of the request's payload
 		local
 			l_payload, l_email, l_password, l_first_name, l_last_name, l_message: STRING
