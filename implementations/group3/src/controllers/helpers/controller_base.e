@@ -3,11 +3,20 @@ note
 	author: "hce"
 
 class
-	DEMO_HEADER_JSON_HELPER
-
+	CONTROLLER_BASE
 
 feature
+	update(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_result_payload: STRING
+		do
+--			l_result_payload := task.get_all.representation
 
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
+feature {NONE}
 	set_json_header_ok (res: WSF_RESPONSE; a_content_length: INTEGER)
 			-- sets the header of the given repsonse to status code 200
 			-- sets the content type to json

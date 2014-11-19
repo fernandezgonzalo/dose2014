@@ -7,7 +7,7 @@ class
 	PROJECTS_CONTROLLER
 
 	inherit
-	HEADER_JSON_HELPER
+	CONTROLLER_BASE
 create
 	make
 feature {NONE} -- Creation
@@ -54,7 +54,7 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 		do
 			project_id := req.path_parameter("project_id").string_representation
-			Project.delete(project_id.to_natural)
+			Project.delete_by_id(project_id.to_natural)
 
 			create l_result.make
 			l_result.put(create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
@@ -81,7 +81,7 @@ feature -- Handlers
 		do
 			project_id := req.path_parameter ("project_id").string_representation
 
-			result_payload := project.find(project_id.to_natural).representation
+			result_payload := project.get_by_id(project_id.to_natural).representation
 
 			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
@@ -89,13 +89,18 @@ feature -- Handlers
 
 	edit(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			project_id, result_payload: STRING
+			payload: STRING
+			parser: JSON_PARSER
+			j_obj: JSON_OBJECT
 		do
-			project_id := req.path_parameter("project_id").string_representation
+			create payload.make_empty
+			req.read_input_data_into(payload)
+			create parser.make_parser(payload)
 
-			result_payload := project.update(project_id.to_natural).representation
-
-			set_json_header_ok(res, result_payload.count)
-			res.put_string (result_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				j_obj := j_object
+				project.update_fields(j_obj)
+			end
 		end
+
 end
