@@ -55,15 +55,15 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 OBJECTS = big_file_C25_c.o 
 
-OLDOBJECTS =  sp811.o sp811d.o ar813.o ar813d.o ty797.o ty797d.o ty798.o ty798d.o \
-	ty795.o ty795d.o ty796.o ty796d.o ty799.o ty799d.o ty800.o ty800d.o \
-	ty803.o ty803d.o ty807.o ty807d.o ty808.o ty808d.o ty809.o ty809d.o \
-	ty810.o ty810d.o na812.o na812d.o ar814.o ar814d.o re815.o re815d.o \
-	to819.o to819d.o li823.o li823d.o se820.o se820d.o dy822.o dy822d.o \
-	bo816.o bo816d.o un793.o un793d.o sq805.o sq805d.o ch824.o ch824d.o \
-	bi821.o bi821d.o fi817.o fi817d.o dy792.o dy792d.o rt801.o rt801d.o \
-	rt794.o rt794d.o rt802.o rt802d.o rt804.o rt804d.o rt806.o rt806d.o \
-	bo818.o bo818d.o 
+OLDOBJECTS =  sp814.o sp814d.o ar816.o ar816d.o ty801.o ty801d.o ty802.o ty802d.o \
+	ty799.o ty799d.o ty800.o ty800d.o ty803.o ty803d.o ty804.o ty804d.o \
+	ty805.o ty805d.o ty810.o ty810d.o ty811.o ty811d.o ty812.o ty812d.o \
+	ty813.o ty813d.o na815.o na815d.o ar817.o ar817d.o re818.o re818d.o \
+	to822.o to822d.o li795.o li795d.o se792.o se792d.o se823.o se823d.o \
+	dy794.o dy794d.o bo819.o bo819d.o un798.o un798d.o sq806.o sq806d.o \
+	ch796.o ch796d.o bi793.o bi793d.o bi824.o bi824d.o fi820.o fi820d.o \
+	dy797.o dy797d.o rt807.o rt807d.o rt808.o rt808d.o rt809.o rt809d.o \
+	bo821.o bo821d.o 
 
 all: Cobj25.o
 

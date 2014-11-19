@@ -1,5 +1,5 @@
 /*
- * Code for class WSF_REQUEST_EXPORTER
+ * Code for class WSF_META_NAMES
  */
 
 #include "eif_eiffel.h"

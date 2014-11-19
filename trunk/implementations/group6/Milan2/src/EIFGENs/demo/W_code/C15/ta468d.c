@@ -1,5 +1,5 @@
 /*
- * Class TABLE [G#1, G#2]
+ * Class TABLE_ITERATION_CURSOR [G#1, G#2]
  */
 
 #include "eif_macros.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_468 [] = {418,467,0xFFF8,1,0xFFF8,2,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_468 [] = {417,467,0xFFF8,1,0xFFF8,2,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_468 [] = {467,0xFFF8,1,0xFFF8,2,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_468 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_468 [] = {0,0xFFFF};
@@ -18,25 +18,24 @@ static EIF_TYPE_INDEX gen_type5_468 [] = {467,0xFFF8,1,0xFFF8,2,0xFFFF};
 static EIF_TYPE_INDEX gen_type6_468 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type7_468 [] = {467,0xFFF8,1,0xFFF8,2,0xFFFF};
 static EIF_TYPE_INDEX gen_type8_468 [] = {467,0xFFF8,1,0xFFF8,2,0xFFFF};
-static EIF_TYPE_INDEX gen_type9_468 [] = {432,0xFFF8,1,0xFFFF};
-static EIF_TYPE_INDEX gen_type10_468 [] = {0xFFF8,1,0xFFFF};
+static EIF_TYPE_INDEX gen_type9_468 [] = {0xFFF8,2,0xFFFF};
+static EIF_TYPE_INDEX gen_type10_468 [] = {0xFFF8,2,0xFFFF};
 static EIF_TYPE_INDEX gen_type11_468 [] = {0xFFF8,1,0xFFFF};
 static EIF_TYPE_INDEX gen_type12_468 [] = {0xFFF8,1,0xFFFF};
-static EIF_TYPE_INDEX gen_type13_468 [] = {0xFFF8,2,0xFFFF};
 
 
 static struct desc_info desc_468[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 418, gen_type0_468},
-	{2, (BODY_INDEX)-1, 295, NULL},
-	{3, (BODY_INDEX)-1, 295, NULL},
-	{4, (BODY_INDEX)-1, 295, NULL},
-	{5, (BODY_INDEX)-1, 295, NULL},
-	{6, (BODY_INDEX)-1, 295, NULL},
-	{7, (BODY_INDEX)-1, 295, NULL},
-	{8, (BODY_INDEX)-1, 295, NULL},
-	{9, (BODY_INDEX)-1, 295, NULL},
+	{1, (BODY_INDEX)-1, 417, gen_type0_468},
+	{2, (BODY_INDEX)-1, 301, NULL},
+	{3, (BODY_INDEX)-1, 301, NULL},
+	{4, (BODY_INDEX)-1, 301, NULL},
+	{5, (BODY_INDEX)-1, 301, NULL},
+	{6, (BODY_INDEX)-1, 301, NULL},
+	{7, (BODY_INDEX)-1, 301, NULL},
+	{8, (BODY_INDEX)-1, 301, NULL},
+	{9, (BODY_INDEX)-1, 301, NULL},
 	{10, (BODY_INDEX)-1, 467, gen_type1_468},
 	{11, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{12, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -47,42 +46,23 @@ static struct desc_info desc_468[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type6_468},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 32, NULL},
+	{20, (BODY_INDEX)-1, 31, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 33, NULL},
+	{24, (BODY_INDEX)-1, 32, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 467, gen_type7_468},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 467, gen_type8_468},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 295, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 295, NULL},
-	{2409, (BODY_INDEX)-1, 295, NULL},
-	{2410, 0, 295, NULL},
-	{2411, (BODY_INDEX)-1, 295, NULL},
-	{2412, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{2413, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 432, gen_type9_468},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type9_468},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type10_468},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 295, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 295, NULL},
-	{2844, (BODY_INDEX)-1, 295, NULL},
-	{2882, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{2845, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{2846, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type11_468},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type12_468},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 295, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type13_468},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 351, NULL},
 };
 
 extern void Init468(void);
@@ -90,10 +70,8 @@ void Init468(void)
 {
 	IDSC(desc_468, 0, 467);
 	IDSC(desc_468 + 1, 2, 467);
-	IDSC(desc_468 + 32, 323, 467);
-	IDSC(desc_468 + 41, 320, 467);
-	IDSC(desc_468 + 50, 186, 467);
-	IDSC(desc_468 + 56, 327, 467);
+	IDSC(desc_468 + 32, 258, 467);
+	IDSC(desc_468 + 34, 73, 467);
 }
 
 

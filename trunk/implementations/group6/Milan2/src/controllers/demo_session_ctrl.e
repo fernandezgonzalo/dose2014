@@ -42,13 +42,13 @@ feature -- Handlers
 			-- session data for that user based on the cookie
 
 		local
-			l_payload, l_username, l_password: STRING
+			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 
 
 				-- if true the username and password match
-			l_user_data: TUPLE [has_user: BOOLEAN; id: STRING; username: STRING]
+			l_user_data: TUPLE [check_result: BOOLEAN; user_email: STRING; user_name: STRING; user_surname: STRING]
 
 				-- a session
 			l_session: WSF_COOKIE_SESSION
@@ -68,8 +68,8 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("username") as s then
-					l_username := s.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("email") as s then
+					l_email := s.unescaped_string_8
 				end
 
 					-- we have to convert the json string into an eiffel string
@@ -82,21 +82,24 @@ feature -- Handlers
 
 				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
-			l_user_data := my_db.has_user_with_password(l_username, l_password)
+			l_user_data := my_db.check_user_password(l_email, l_password)
 
 
-			if l_user_data.has_user then
+			if l_user_data.check_result then
 					-- yes, the username & password combo was correct
 					-- so next, we create a session
 
 					-- create the session; choose a name for the cookie that we'll send back
-				create l_session.make_new ("_demo_session_", session_manager)
+				create l_session.make_new ("_session_", session_manager)
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
-					-- we store the username and the key "username"
-				l_session.remember (l_user_data.username, "username")
-					-- we store the user id and use the key "id"
-				l_session.remember (l_user_data.id, "id")
+
+					-- we store the user email and the key "email"
+				l_session.remember (l_user_data.user_email, "email")
+					-- we store the user name and the key "name"
+				l_session.remember (l_user_data.user_name, "name")
+					-- we store the user surname and use the key "surname"
+				l_session.remember (l_user_data.user_surname, "surname")
 
 					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
 				l_session.commit
@@ -142,7 +145,7 @@ feature -- Handlers
 		do
 
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
-			create l_session.make (req, "_demo_session_", session_manager)
+			create l_session.make (req, "_session_", session_manager)
 			l_session.destroy
 
 

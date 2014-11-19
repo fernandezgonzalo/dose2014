@@ -138,7 +138,7 @@ void F25_355 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTCC(arg1, 24, l_feature_name, 1, RTWCT(354, dtype, Dftype(Current)));
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, dtype, 354, 0xF80000C5, 0); /* dispatched_handler */
+	RTDBGAA(Current, dtype, 354, 0xF80000C8, 0); /* dispatched_handler */
 	
 	RTAR(Current, arg1);
 	*(EIF_REFERENCE *)(Current + RTWA(354, dtype)) = (EIF_REFERENCE) RTCCL(arg1);

@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F308_5600(EIF_REFERENCE);
-extern void F308_8252(EIF_REFERENCE, int);
+extern EIF_TYPED_VALUE F308_5613(EIF_REFERENCE);
+extern void F308_8265(EIF_REFERENCE, int);
 extern void EIF_Minit308(void);
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /* {IMMUTABLE_STRING_GENERAL}.is_immutable */
-EIF_TYPED_VALUE F308_5600 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F308_5613 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_BOOL;
@@ -43,7 +43,7 @@ EIF_TYPED_VALUE F308_5600 (EIF_REFERENCE Current)
 }
 
 /* {IMMUTABLE_STRING_GENERAL}._invariant */
-void F308_8252 (EIF_REFERENCE Current, int where)
+void F308_8265 (EIF_REFERENCE Current, int where)
 {
 	GTCX
 	char *l_feature_name = "_invariant";
@@ -57,11 +57,11 @@ void F308_8252 (EIF_REFERENCE Current, int where)
 	RTLR(0,Current);
 	RTLU (SK_VOID, NULL);
 	RTLU (SK_REF, &Current);
-	RTEAINV(l_feature_name, 307, Current, 0, 8251);
+	RTEAINV(l_feature_name, 307, Current, 0, 8264);
 	RTSA(dtype);
 	RTME(dtype, 0);
 	RTIT("immutable", Current);
-	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(4539, dtype))(Current)).it_b);
+	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(4552, dtype))(Current)).it_b);
 	if (tb1) {
 		RTCK;
 	} else {

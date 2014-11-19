@@ -142,16 +142,6 @@ feature -- Data access
 		end
 
 
-	add_user (a_user_name: STRING)
-			-- adds a new user with the given user name
-		do
-			create db_insert_statement.make ("INSERT INTO Users(name) VALUES ('" + a_user_name + "');", db)
-			db_insert_statement.execute
-			if db_insert_statement.has_error then
-				print("Error while inserting a new user")
-			end
-		end
-
 	add_project (a_project_name: STRING; a_user_name: STRING)
 		-- add a new project in tha database
 		do
@@ -244,38 +234,319 @@ feature -- Data access
 
 feature --data access: USERS
 
-	get_all_users:JSON_OBJECT
-		--returns a JSON_OBJECT that contains the list of all users
+	get_all_users: JSON_ARRAY
+		--returns a JSON_ARRAY where each element is a JSON_OBJECT representing a user of the database.
+		--every user is associated to:
+		--	an EMAIL (primary key)
+		--	a PASSWORD (hash value)
+		--	a NAME
+		--	a SURNAME
+		--	a GENDER (true ---> MALE ; false ---> FEMALE)
+		--	a ROLE
+		--	a PHOTO (path to the picture or an avatar)
+
 		do
+			create Result.make_array
+
+			create db_query_statement.make("SELECT * FROM users;" , db)
+
+			db_query_statement.execute(agent rows_to_json_array (?, 7, Result))
 
 		end
 
-	add_user(name, surname, email, password, role, photo:STRING; male:BOOLEAN):BOOLEAN
-		--creates a new user in the database, with specified information. Returns true if the operation was successfully completed,
-		--false oherwise
+	check_if_mail_already_present(an_email: STRING): BOOLEAN
+		--checks if there already exists a user with the given email into the database
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
+			create db_query_statement.make ("SELECT * FROM users WHERE email = ?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email>>)
+
+			if l_query_result_cursor.after then
+					-- there are no rows in the result of the query, thus the email is not present into the database
+				Result := False
+			else
+				Result := True
+			end
 
 		end
 
-	remove_user(user_email:STRING):BOOLEAN
-		--removes a specified user from the database. Returns true if the operaton was successfully completed, false otherwise
+	add_user(an_email, a_password, a_name, a_surname, a_role, a_path_to_a_photo:STRING; is_male:BOOLEAN)
+		--creates a new user with the specified infomation into the database.
+		--requires:
+		--	an EMAIL of the user, which must be a valid email address, and not already present into the database
+		--	a PASSWORD of the user, that must be 8 characters (letters and numbers) long; an hash value of it will be stored into the database
+		--	a NAME and a SURNAME of the user, that cannot be null
+		--	a boolean value stating the gender of the user (true ---> MALE , false ---> FEMALE), that cannot be null
+		--	a ROLE of the user, that can be possibly null
+		--	a PHOTO of the user, which must be a valid path to a picture or to an avatar
+
+		require
+			-- an_email must be a valid email address
+
+			a_password.count = 8
+			a_name /= VOID
+			not a_name.is_empty
+			a_surname /= VOID
+			not a_surname.is_empty
+
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
+
+			create db_insert_statement.make ("INSERT INTO users(email,password,name,surname,male,role,photo) VALUES (?,?,?,?,?,?,?);", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo>>)
+
+
+			if db_insert_statement.has_error then
+				print("Error while inserting a new user.")
+			end
 
 		end
 
-	update_user(name, surname, email, password, role, photo:STRING; male:BOOLEAN):BOOLEAN
-		--updates a user's information. Returns true if the operation was successfully completetd, false otherwise.
+	remove_user(an_email:STRING)
+		--removes a specified user from the database.
+		--requires the EMAIL address of the user who will be removed.
+
+		require
+			-- an_email must be a valid email address
 		do
+			create db_modify_statement.make ("DELETE FROM users WHERE email= '" + an_email + "';", db)
+
+			db_modify_statement.execute
+
+			if db_modify_statement.has_error then
+				print("Error while removing a user.")
+			end
 
 		end
 
-	check_user_password(mail, pwd:STRING):BOOLEAN
-		--checks if a user with the specified email and password exists. Returns true if a match is found, false otherwise.
+	change_user_password(user_email, new_password: STRING)
+		--changes a specified user's password.
+		--requires an 8 characters (letters and numbers) long PASSWORD, which cannot be null.
+
+		require
+			-- an_email must be a valid email address
+			new_password.count = 8
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
+			--create db_modify_statement.make ("UPDATE users SET password = '" + new_password.hash_code.out + "' WHERE email = '" + user_email + "';" , db)
+			--db_modify_statement.execute
+
+			create db_modify_statement.make ("UPDATE users SET password = ? WHERE email = '" + user_email + "';", db)
+			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<new_password.hash_code>>)
+
+
+			if db_modify_statement.has_error then
+				print("Error while changing the user's password.")
+			end
 
 		end
 
-	
+	update_user_name(user_email, new_name: STRING)
+		--changes a specified user's name.
+		--requires a not null value of NAME.
+
+		require
+			-- an_email must be a valid email address
+			new_name /= VOID
+			not new_name.is_empty
+		do
+			create db_modify_statement.make ("UPDATE users SET name = '" + new_name + "' WHERE email = '" + user_email + "';" , db)
+
+			db_modify_statement.execute
+
+			if db_modify_statement.has_error then
+				print("Error while changing the user's name.")
+			end
+
+		end
+
+	update_user_surname(user_email, new_surname: STRING)
+		--changes a specified user's surname.
+		--requires a not null value of SURNAME.
+
+		require
+			-- an_email must be a valid email address
+			new_surname /= VOID
+			not new_surname.is_empty
+		do
+			create db_modify_statement.make ("UPDATE users SET surname = '" + new_surname + "' WHERE email = '" + user_email + "';" , db)
+
+			db_modify_statement.execute
+
+			if db_modify_statement.has_error then
+				print("Error while changing the user's surname.")
+			end
+
+		end
+
+	update_user_role(user_email, new_role: STRING)
+		--changes a specified user's role.
+
+		require
+			-- an_email must be a valid email address
+		do
+			create db_modify_statement.make ("UPDATE users SET role = '" + new_role + "' WHERE email = '" + user_email + "';" , db)
+
+			db_modify_statement.execute
+
+			if db_modify_statement.has_error then
+				print("Error while changing the user's role.")
+			end
+
+		end
+
+	update_user_photo(user_email, path_to_new_photo: STRING)
+		--changes a specified user's photo.
+
+		require
+			-- an_email must be a valid email address
+		do
+			create db_modify_statement.make ("UPDATE users SET photo = '" + path_to_new_photo + "' WHERE email = '" + user_email + "';" , db)
+
+			db_modify_statement.execute
+
+			if db_modify_statement.has_error then
+				print("Error while changing the user's photo.")
+			end
+
+		end
+
+	get_user_info(user_email: STRING): JSON_OBJECT
+		--returns a JSON_OBJECT representing the specified user's information
+		--the user is associated to:
+		--	an EMAIL (primary key)
+		--	a PASSWORD (hash value)
+		--	a NAME
+		--	a SURNAME
+		--	a GENDER (true ---> MALE ; false ---> FEMALE)
+		--	a ROLE
+		--	a PHOTO (path to the picture or an avatar)
+
+		require
+			-- an_email must be a valid email address
+		do
+			create Result.make
+
+			create db_query_statement.make("SELECT * FROM users WHERE email = '" + user_email + "';" , db)
+
+			db_query_statement.execute(agent row_to_json_object (?, 7, Result))
+		end
+
+	check_user_password (an_email, a_password: STRING): TUPLE[check_result: BOOLEAN; user_email: STRING; user_name: STRING; user_surname: STRING]
+			-- checks if a user with the given username and password exists into the database
+			-- it returns true if and only if the check was positive, false otherwise
+
+		require
+			-- an_email must be a valid email address
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+
+		do
+
+			create Result
+
+			create db_query_statement.make ("SELECT * FROM Users WHERE name=? AND password=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email, a_password.hash_code>>)
+
+
+			if l_query_result_cursor.after then
+					-- there are no rows in the result of the query, thus no user with that password exits
+				print("Could not find a user with the given name and password into the database.%N")
+				Result.check_result := False
+			else
+				print("A user with the given name and password was successfully found into the database.%N")
+				Result.check_result := True
+				Result.user_email := l_query_result_cursor.item.value (1).out
+				Result.user_name := l_query_result_cursor.item.value (3).out
+				Result.user_surname := l_query_result_cursor.item.value (4).out
+			end
+		end
+
+
+feature --Data access: ITERATIONS
+
+	get_all_project_iterations(a_project:STRING): JSON_ARRAY
+		--returns a JSON_ARRAY where each element is a JSON_OBJECT representing an iteration of the specified project
+		--every iteration is associated to:
+		--	a NUMBER identifying it (in the contest of the project it belongs to)
+		--	a PROJECT which it belongs to
+		--	a NAME of the iteration
+		--	a boolean value BACKLOG which is true iff this iteration is the special backlog iteration of a project
+		--requires a valid project name
+
+		require
+			a_project /= VOID
+			not a_project.is_empty
+			a_project.count <= 40
+
+		do
+			create Result.make_array
+
+			create db_query_statement.make("SELECT * FROM iterations WHERE project = '" + a_project + "';" , db)
+
+			db_query_statement.execute(agent rows_to_json_array (?, 4, Result))
+
+		end
+
+	add_iteration(a_project, a_name: STRING; a_number: INTEGER; is_backlog: BOOLEAN)
+		--creates a new iteration with the specified information into the database
+		--requires:
+		--a valid PROJECT name, which the iteration belongs to
+		--a valid iteration NAME
+		--a NUMBER, which should be increasing with respect to the project the iteration belongs to
+		--a boolean value BACKLOG telling if the iteration is the special backlog iteration of the project
+
+		require
+			a_number >= 0
+			a_project /= VOID
+			not a_project.is_empty
+			a_project.count <= 40
+
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			--create db_insert_statement.make ("INSERT INTO users(email,password,name,surname,male,role,photo) VALUES ('" + an_email + "', '" + a_password.hash_code + "', '" + a_name + "', '" + a_surname + "', '" + is_male.out + "', '" + a_role + "', '" + a_path_to_a_photo + "');", db)
+			--db_insert_statement.execute
+
+			create db_insert_statement.make ("INSERT INTO iterations(numbers, project, name, backlog) VALUES (?,?,?,?);", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_number, a_project, a_name, is_backlog>>)
+
+
+			if db_insert_statement.has_error then
+				print("Error while inserting the new iteration.")
+			end
+
+		end
+
+
+	remove_iteration(a_project:STRING; a_number: INTEGER)
+		--removes a specified iteration from the database.
+		--requires the number of the iteration and the project it belongs to
+
+		require
+			a_number >= 0
+			a_project /= VOID
+			not a_project.is_empty
+			a_project.count <= 40
+
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_modify_statement.make ("DELETE FROM iterations WHERE number=? AND project= '" + a_project + "';", db)
+			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<a_number, a_project>>)
+
+			if db_modify_statement.has_error then
+				print("Error while removing the iteration.")
+			end
+
+		end
+
+
+
+
 
 
 

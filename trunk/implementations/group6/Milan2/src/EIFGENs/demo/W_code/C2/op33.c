@@ -23,8 +23,8 @@ extern void EIF_Minit33(void);
 }
 #endif
 
-#include "eif_dir.h"
 #include "eif_path_name.h"
+#include "eif_dir.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -114,7 +114,7 @@ EIF_TYPED_VALUE F33_621 (EIF_REFERENCE Current)
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
 	
 	Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(627, Dtype(Current)))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTVI(Current, RTAL);

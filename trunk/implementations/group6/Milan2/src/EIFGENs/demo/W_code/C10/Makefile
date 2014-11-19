@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -41,11 +41,11 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 OBJECTS = big_file_C10_c.o 
 
 OLDOBJECTS =  po305.o po305d.o po306.o po306d.o st315.o st315d.o st312.o st312d.o \
-	ch302.o ch302d.o ch303.o ch303d.o ch299.o ch299d.o ch300.o ch300d.o \
-	bo297.o bo297d.o ab326.o ab326d.o po304.o po304d.o ch301.o ch301d.o \
-	ch298.o ch298d.o re313.o re313d.o re310.o re310d.o im314.o im314d.o \
-	st309.o st309d.o re307.o re307d.o de316.o de316d.o im311.o im311d.o \
-	ws323.o ws323d.o pa322.o pa322d.o ht321.o ht321d.o ws327.o ws327d.o \
+	ch299.o ch299d.o ch300.o ch300d.o ch297.o ch297d.o bo302.o bo302d.o \
+	bo303.o bo303d.o ab326.o ab326d.o po304.o po304d.o bo301.o bo301d.o \
+	ch298.o ch298d.o re307.o re307d.o re313.o re313d.o re310.o re310d.o \
+	im314.o im314d.o st309.o st309d.o de316.o de316d.o im311.o im311d.o \
+	ws323.o ws323d.o pa322.o pa322d.o ws327.o ws327d.o ht321.o ht321d.o \
 	im308.o im308d.o ht325.o ht325d.o ws320.o ws320d.o ws328.o ws328d.o \
 	ht324.o ht324d.o da319.o da319d.o ws329.o ws329d.o ur318.o ur318d.o \
 	fi317.o fi317d.o 

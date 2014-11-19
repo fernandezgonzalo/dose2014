@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C28_c.o 
 
-OLDOBJECTS =  ar893.o ar893d.o ty916.o ty916d.o ty917.o ty917d.o ty918.o ty918d.o \
-	ty922.o ty922d.o li896.o li896d.o ar903.o ar903d.o re904.o re904d.o \
-	in894.o in894d.o to908.o to908d.o it891.o it891d.o ha923.o ha923d.o \
-	li912.o li912d.o in892.o in892d.o cu897.o cu897d.o tr902.o tr902d.o \
-	se909.o se909d.o dy911.o dy911d.o bo905.o bo905d.o ta895.o ta895d.o \
-	un915.o un915d.o ch913.o ch913d.o co901.o co901d.o ac899.o ac899d.o \
-	co898.o co898d.o bi910.o bi910d.o fi906.o fi906d.o dy914.o dy914d.o \
-	ba900.o ba900d.o rt919.o rt919d.o rt920.o rt920d.o rt921.o rt921d.o \
-	bo907.o bo907d.o 
+OLDOBJECTS =  ar891.o ar891d.o ty914.o ty914d.o ty915.o ty915d.o ty916.o ty916d.o \
+	ty921.o ty921d.o li894.o li894d.o ar901.o ar901d.o re902.o re902d.o \
+	in892.o in892d.o to906.o to906d.o ha922.o ha922d.o li910.o li910d.o \
+	cu895.o cu895d.o tr900.o tr900d.o se907.o se907d.o dy909.o dy909d.o \
+	bo903.o bo903d.o ta893.o ta893d.o ha923.o ha923d.o un913.o un913d.o \
+	ch911.o ch911d.o co899.o co899d.o ac897.o ac897d.o co896.o co896d.o \
+	bi908.o bi908d.o fi904.o fi904d.o dy912.o dy912d.o ba898.o ba898d.o \
+	rt918.o rt918d.o rt917.o rt917d.o rt919.o rt919d.o rt920.o rt920d.o \
+	bo905.o bo905d.o 
 
 all: Cobj28.o
 
