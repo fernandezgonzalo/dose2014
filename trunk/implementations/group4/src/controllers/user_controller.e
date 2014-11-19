@@ -179,17 +179,17 @@ feature -- Handlers
 		end
 
 	login (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- login a user if the username and password provided with the request are correct
+			-- login a user if the email and password provided with the request are correct
 			-- "login" is done via attaching a session cookie to the response. The browser will
 			-- then send this session cookie on all subsequent request, allowing us to lookup the
 			-- session data for that user based on the cookie
 
 		local
-			l_payload, l_username, l_password: STRING
+			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
-				-- if true the username and password match
-			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; user_name: STRING]
+				-- if true the email and password match
+			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING]
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 		do
@@ -204,12 +204,12 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- in this case the username and password
+				-- in this case the email and password
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each propertie.
-				if attached {JSON_STRING} j_object.item ("user_name") as s then
-					l_username := s.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("email") as s then
+					l_email := s.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
@@ -217,20 +217,20 @@ feature -- Handlers
 
 			end
 
-				-- check if the database has this particular username & password combination
-			l_user_data := db_handler_user.has_user_with_password(l_username, l_password)
+				-- check if the database has this particular email & password combination
+			l_user_data := db_handler_user.has_user_with_password(l_email, l_password)
 
 
 			if l_user_data.has_user then
-					-- yes, the username & password combo was correct
+					-- yes, the email & password combo was correct
 					-- so next, we create a session
 
 					-- create the session; choose a name for the cookie that we'll send back
 				create l_session.make_new ("_casd_session_", session_manager)
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
-					-- we store the username and the key "user_name"
-				l_session.remember (l_user_data.user_name, "user_name")
+					-- we store the email and the key "email"
+				l_session.remember (l_user_data.email, "email")
 					-- we store the user id and use the key "user_id"
 				l_session.remember (l_user_data.user_id, "user_id")
 
@@ -246,12 +246,12 @@ feature -- Handlers
 				set_json_header (res, 200, l_result.representation.count)
 			else
 
-				-- the username & password combination was wrong
+				-- the email & password combination was wrong
 				-- so we don't create a session
 				-- but return an error message
 
-					-- put in a json object a "Message" property that states what happend 
-				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("Message"))
+					-- put in a json object a "Message" property that states what happend
+				l_result.put (create {JSON_STRING}.make_json ("Email or password incorrect"), create {JSON_STRING}.make_json ("Message"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
