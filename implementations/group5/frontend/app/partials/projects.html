@@ -13,14 +13,18 @@
           <th class="col-md-4">Projects in progress</th>
           <th class="col-md-3"></th>
           <th class="col-md-3"></th>
-          <th class="col-md-3"><a href="#/projects/new"> New project   
-                                  <span class="glyphicon glyphicon-plus"></a></th>
+          <th class="col-md-2">
+            <!-- <a href="partials/projects_new.html" data-toggle="modal" -->
+            <a href="#projects/new" data-toggle="modal"
+              data-target="#newProjectModal">New project 
+              <span class="glyphicon glyphicon-plus"></a></th>
+            <!-- <a href="#projects/new">New project  -->
+            <!--   <span class="glyphicon glyphicon-plus"></a></th> -->
         </tr>
       </thead>
       <tbody>
-        <tr class="row-link" ng-repeat="project in inProgess"
+        <tr class="row-link" ng-repeat="project in projects"
           ng-click="openProject(project)">
-        <!-- <tr class="row-link" ng-repeat="project in projects.p" ng-click="openProject()"> -->
           <td>{{project.name}}</td>
           <td>Client: {{project.client}}</td>
           <td>Created by: {{project.author}}</td>
@@ -39,14 +43,12 @@
           <th class="col-md-4">Projects finished</th>
           <th class="col-md-3"></th>
           <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
+          <th class="col-md-2"></th>
         </tr>
       </thead>
       <tbody>
-        <!-- <tr class="row-link" ng-repeat="project in projects2" -->
         <tr class="row-link" ng-repeat="project in finished"
           ng-click="openProject(project)">
-        <!-- <tr class="row-link" ng-repeat="project in projects.p" ng-click="openProject()"> -->
           <td>{{project.name}}</td>
           <td>{{project.client}}</td>
           <td>Created by: {{project.author}}</td>
@@ -55,4 +57,13 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<!-- New project modal popup -->
+<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
 </div>
