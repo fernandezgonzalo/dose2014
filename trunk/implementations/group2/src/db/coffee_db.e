@@ -66,6 +66,110 @@ feature {NONE} -- Format helpers
 
 feature -- Data access
 
+	add(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+	local
+		l_query: STRING
+		i: INTEGER
+	do
+		l_query := "INSERT INTO " + a_table_name + "("
+		from
+        	i := 1
+        until
+ 	         i > a_map.keys.count
+            loop
+            	if i = a_map.keys.count then
+            		l_query := l_query + a_map.keys.at (i)
+            	else
+            		l_query := l_query + a_map.keys.at (i) + ","
+            	end
+                i := i + 1
+            end
+        l_query := l_query + ") VALUES("
+       	from
+        	i := 1
+        until
+ 	         i > a_map.keys.count
+            loop
+            	if i = a_map.keys.count then
+            		l_query := l_query + "?);"
+            	else
+            	   	l_query := l_query + "?,"
+            	end
+                i := i + 1
+            end
+
+		create db_insert_statement.make(l_query, db)
+		db_insert_statement.execute_with_arguments (a_map.values)
+		Result:= true
+		if db_insert_statement.has_error then
+			print("Error while inserting into table " + a_table_name)
+			Result:= false
+		end
+	end
+
+	update(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+
+	local
+		l_query: STRING
+		i: INTEGER
+		l_values: ARRAYED_LIST[STRING]
+		l_id: STRING
+		l_value_index: INTEGER
+	do
+		create l_values.make_filled (a_map.keys.count)
+		l_query := "UPDATE " + a_table_name + " SET "
+		create l_id.make_empty
+		l_value_index:=1
+		from
+        	i := 1
+        until
+ 	         i > a_map.keys.count
+            loop
+            	if not equal(a_map.keys.at (i),"id")  then
+            		if i = a_map.keys.count then
+            			l_query := l_query + a_map.keys.at (i) + "=?"
+            		else
+            			l_query := l_query + a_map.keys.at (i) + "=?,"
+            		end
+            		l_values.put_i_th(a_map.values.at (i), l_value_index)
+            		l_value_index:= l_value_index+1
+            	else
+            		l_id := a_map.values.at (i)
+            	end
+                i := i + 1
+            end
+        l_query := l_query + " WHERE id=?;"
+
+		create db_modify_statement.make(l_query, db)
+		l_values.put_i_th (l_id, l_value_index)
+		db_modify_statement.execute_with_arguments (l_values)
+		Result:= true
+		if db_modify_statement.has_error then
+			print("Error while updating table " + a_table_name)
+			RESULT:= false
+		end
+	end
+
+	delete (a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+	local
+		l_id: STRING
+		l_counter: INTEGER
+	do
+		l_counter:=1
+		across a_map.keys as k  loop
+			if equal(k.item, "id")  then
+				l_id:= a_map.values.at(l_counter)
+			end
+			l_counter:= l_counter+1
+		end
+		create db_modify_statement.make ("DELETE FROM " + a_table_name + " WHERE id=?;", db)
+		db_modify_statement.execute_with_arguments (<<l_id>>)
+		Result:= true
+		if db_modify_statement.has_error then
+			print("Error while deleting from table " + a_table_name)
+			RESULT:= false
+		end
+	end
 
 	add_user (a_email: STRING a_password: STRING a_first_name: STRING a_last_name: STRING) : BOOLEAN
 			-- adds a new user with the given user name
@@ -167,7 +271,6 @@ feature -- Data access
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_id>>)
 
 			if l_query_result_cursor.after then
-					-- there are no rows in the result of the query, thus no user with that password exits
 				print("No project found.%N")
 			else
 				Result.id := l_query_result_cursor.item.value (1).out.to_integer
