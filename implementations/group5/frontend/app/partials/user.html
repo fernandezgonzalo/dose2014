@@ -2,10 +2,16 @@
   <legend ng-show="!isEdit">Create a new account</legend>
   <legend ng-show="isEdit">Edit user profile</legend>
 </div>
+<div class="alert alert-success" role="alert" ng-class="{'visible': saveSucceed, 'hiding': hiding, 'hide': !saveSucceed}">
+  Profile was updated!
+</div>
 <div class="alert alert-danger" ng-show="createUserError">
   Error creating user.
 </div>
-<form class="form-horizontal" ng-submit="create()">
+<div class="alert alert-danger" ng-show="saveUserError">
+  Error saving user.
+</div>
+<form class="form-horizontal" ng-submit="submit()">
   <fieldset>
     <div class="row">
       <div class="col-md-6">
@@ -51,7 +57,7 @@
           <label ng-show="!isEdit" class="control-label" for="new_password">Password</label>
           <label ng-show="isEdit" class="control-label" for="new_password">New password</label>
           <div class="controls">
-            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
+            <input disabled type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
             <p class="help-block">Password should be at least 4 characters</p>
           </div>
         </div>
@@ -61,7 +67,7 @@
           <label ng-show="!isEdit" class="control-label" for="password_confirmed">Password (Confirm)</label>
           <label ng-show="isEdit" class="control-label" for="password_confirmed">New password (Confirm)</label>
           <div class="controls">
-            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
+            <input disabled type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
             <p class="help-block">Please confirm password</p>
           </div>
         </div>
@@ -70,7 +76,7 @@
           <!-- Button -->
           <div class="controls">
             <button class="btn btn-success" tabindex="7" ng-show="!isEdit">Register</button>
-            <button class="btn btn-success disabled" disabled tabindex="7" ng-show="isEdit">Save</button>
+            <button class="btn btn-success" tabindex="7" ng-show="isEdit">Save</button>
           </div>
         </div>
 
