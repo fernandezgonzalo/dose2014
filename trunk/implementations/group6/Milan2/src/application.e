@@ -70,15 +70,31 @@ feature {NONE} -- Initialization
 
 	initialize
 			-- Initialize current service.
+		local
+			l_result: JSON_ARRAY
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
+			--dao.add_project ("R2D2", "jimmy@yahoo.com")
+			--dao.remove_project ("R2D2")
+			--dao.rename_project ("Project 1", "Chewbacca")
+			--dao.add_member_to_project ("jimmy@yahoo.com", "Chewbacca", TRUE)
+			--dao.remove_member_from_project ("jimmy@yahoo.com", "Chewbacca")
+			--l_result := dao.get_all_project_owners ("bidon")
+			l_result := dao.get_all_user_projects ("jimmy@yahoo.com")
+			print(l_result.debug_output)
+			if dao.is_project_empty ("bidon") then
+				print("true")
+			end
+			--print(dao.check_project_name ("R2D2").out)
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
-			create todo_ctrl.make(dao, session_manager)
-			create demo_user_ctrl.make(dao)
+			create project_ctrl.make (dao, session_manager)
+			--create todo_ctrl.make(dao, session_manager)
+			--create demo_user_ctrl.make(dao)
+			--create user_ctrl.make
 			create user_ctrl.make (dao)
 			create iteration_ctrl.make
 

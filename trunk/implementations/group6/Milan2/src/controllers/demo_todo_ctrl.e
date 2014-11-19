@@ -107,7 +107,6 @@ feature -- Handlers
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
 				-- set the result
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
