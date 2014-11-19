@@ -6,9 +6,12 @@
 
 <h4>Client: Client's name</h4>
 <div class="row">
-  <a href="#/projects/1/edit" class="col-md-10">Edit project info</a>
+  <!-- <a href="/projects/1/edit" class="col-md-10" data-toggle="modal" -->
+  <a href="partials/projects_edit.html" class="col-md-10" data-toggle="modal"
+    data-target="#editProjectModal">Edit project info</a>
   <!-- <p class="col-md-2"><span class="glyphicon glyphicon-plus">New task</p> -->
-  <a href="#" class="col-md-2">New task   <span class="glyphicon
+  <a href="partials/projects_new.html" class="col-md-2" data-toggle="modal"
+    data-target="#newProjectModal">New task   <span class="glyphicon
       glyphicon-plus"></a>
 </div>
 
@@ -86,3 +89,18 @@
   </table>
 </div>
       
+<!-- Modals -->
+
+<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->

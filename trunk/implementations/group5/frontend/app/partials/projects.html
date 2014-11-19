@@ -1,5 +1,6 @@
 <div id="legend">
   <legend>All projects</legend>
+  {{projects}}
 </div>
 
 <br>
@@ -17,12 +18,9 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr ng-repeat="project in projects.inProgress" class='clickableRow' -->
-        <!--   href='#/projects/1'> -->
-        <tr class="row-link" ng-repeat="project in projects.inProgress"
-          ng-click="openProject()">
-          <!-- anchor element to be deleted -->
-          <!-- <td><a href="#/projects/1/dashboard">{{project.name}} </a></td> -->
+        <tr class="row-link" ng-repeat="project in inProgess"
+          ng-click="openProject(project)">
+        <!-- <tr class="row-link" ng-repeat="project in projects.p" ng-click="openProject()"> -->
           <td>{{project.name}}</td>
           <td>Client: {{project.client}}</td>
           <td>Created by: {{project.author}}</td>
@@ -45,10 +43,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="row-link" ng-repeat="project in projects.finished"
-          ng-click="openProject()">
-          <!-- anchor element to be deleted -->
-          <!-- <td><a href="#/projects/1/edit">{{project.name}} </a></td> -->
+        <!-- <tr class="row-link" ng-repeat="project in projects2" -->
+        <tr class="row-link" ng-repeat="project in finished"
+          ng-click="openProject(project)">
+        <!-- <tr class="row-link" ng-repeat="project in projects.p" ng-click="openProject()"> -->
           <td>{{project.name}}</td>
           <td>{{project.client}}</td>
           <td>Created by: {{project.author}}</td>
