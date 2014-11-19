@@ -4,7 +4,7 @@ note
 class
 	TASKS_CONTROLLER
 inherit
-	HEADER_JSON_HELPER
+	CONTROLLER_BASE
 create
 	make
 feature {NONE}
@@ -50,7 +50,7 @@ feature
 		do
 			task_id := req.path_parameter ("task_id").string_representation
 
-			task.delete(task_id.to_natural)
+			task.delete_by_id(task_id.to_natural)
 
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json("Message"))
@@ -89,7 +89,7 @@ feature
 		do
 			task_id := req.path_parameter ("task_id").string_representation
 
-			result_payload := task.find(task_id.to_natural).representation
+			result_payload := task.get_by_id(task_id.to_natural).representation
 
 			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
@@ -97,13 +97,17 @@ feature
 
 	edit(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			task_id, result_payload: STRING
+			payload: STRING
+			parser: JSON_PARSER
+			j_obj: JSON_OBJECT
 		do
-			task_id := req.path_parameter("task_id").string_representation
+			create payload.make_empty
+			req.read_input_data_into(payload)
+			create parser.make_parser(payload)
 
-			result_payload := task.update(task_id.to_natural).representation
-
-			set_json_header_ok(res, result_payload.count)
-			res.put_string (result_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				j_obj := j_object
+				task.update_fields(j_obj)
+			end
 		end
 end

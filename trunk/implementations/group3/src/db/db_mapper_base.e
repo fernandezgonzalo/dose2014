@@ -11,11 +11,13 @@ create
 
 feature {NONE}
 
-	make (a_db: SQLITE_DATABASE)
+	make (a_db: SQLITE_DATABASE; a_table_name: STRING)
 		require
 			is_accessible: a_db /= Void AND a_db.is_accessible AND a_db.is_readable AND a_db.is_writable
+			is_table_name_correct: a_table_name /= Void
 		do
 			db := a_db
+			table_name := a_table_name
 		end
 
 feature {NONE} -- Format helpers
@@ -64,32 +66,79 @@ feature {NONE} -- Format helpers
 
 feature -- Data access
 
-	get_all_object_ids (a_table_name: STRING): JSON_ARRAY
-			-- returns a JSON_ARRAY contains each element id
-		require
-			is_table_name_correct: a_table_name /= Void
+	list_all_object_ids: JSON_ARRAY
 		do
 			create Result.make_array
 
-			create db_query_statement.make ("SELECT t.id FROM " + a_table_name + " As t;" , db)
+			create db_query_statement.make ("SELECT t.id FROM " + table_name + " As t;" , db)
 
 			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
-	list_all_object_ids (a_table_name: STRING): JSON_ARRAY
-			-- returns a JSON_ARRAY contains each element id
-		require
-			is_table_name_correct: a_table_name /= Void
+	get_all: JSON_ARRAY
+			do
+				create Result.make_array
+				create db_query_statement.make ("SELECT * FROM " + table_name + ";" , db)
+
+				db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
+			end
+
+	delete_by_id(id: NATURAL)
+		do
+			create db_modify_statement.make ("DELETE FROM " + table_name + " WHERE id=" + id.out + ";", db)
+			db_modify_statement.execute
+		ensure
+			without_errors: not db_modify_statement.has_error
+		end
+
+	get_by_id(id: NATURAL): JSON_ARRAY
 		do
 			create Result.make_array
+			create db_query_statement.make("SELECT * FROM " + table_name + " WHERE id =" + id.out + ";" , db)
 
-			create db_query_statement.make ("SELECT t.id FROM " + a_table_name + " As t;" , db)
-
-			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end
+
+
+	update_fields(an_update: JSON_OBJECT)
+		require
+			has_json: not attached {JSON_OBJECT} an_update
+			has_id: an_update.has_key("id")
+		local
+			keys : ARRAY [JSON_STRING]
+			index: INTEGER
+			query: STRING
+
+		do
+			keys := an_update.current_keys
+			query.make_from_string("UPDATE " + table_name + " SET")
+
+			from index := keys.lower - 1
+			until index = keys.upper - 1
+			loop
+				index := index + 1
+				query.append_string(keys.at(index).representation + " = " + an_update.item (keys.at (index)).representation + ", ")
+			end
+			query.append_string(keys.at(keys.upper - 1).representation + " = " + an_update.item(keys.at(keys.upper - 1)).representation)
+			query.append_string(" WHERE id = " + an_update.item("id").representation + ";")
+
+			create db_modify_statement.make(query, db)
+			db_modify_statement.execute
+
+		end
+
+	create_by_fields(a_params: JSON_OBJECT): JSON_ARRAY
+		require
+			has_json: not attached {JSON_OBJECT} a_params
+		do
+			--TODO if needed
+		end
+
 
 
 feature {NONE}
+	table_name: STRING
+
 	db: SQLITE_DATABASE
 		-- the database
 

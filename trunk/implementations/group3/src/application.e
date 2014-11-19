@@ -30,9 +30,9 @@ feature {NONE}
 	initialize
 		do
 			create db.make_open_read_write (".." + Operating_environment.directory_separator.out + "dose_backend.db")
-			create Project.make(db)
-			create Task.make(db)
-			create User.make(db)
+			create Project.make(db, "projects")
+			create Task.make(db, "tasks")
+			create User.make(db, "users")
 			create tasks_controller.make(Task)
 			create projects_controller.make(Project)
 			create users_controller.make(User)

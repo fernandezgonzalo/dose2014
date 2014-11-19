@@ -4,7 +4,7 @@ note
 class
 	USERS_CONTROLLER
 inherit
-	HEADER_JSON_HELPER
+	CONTROLLER_BASE
 
 create
 	make
@@ -68,7 +68,7 @@ feature
 		do
 			user_id := req.path_parameter("user_id").string_representation
 
-			result_payload := user.find(user_id.to_natural).representation
+			result_payload := user.get_by_id(user_id.to_natural).representation
 
 			set_json_header_ok(res, result_payload.count)
 			res.put_string(result_payload)
