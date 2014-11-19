@@ -1,5 +1,5 @@
 /*
- * Code for class SQLITE_OPEN_MODE
+ * Code for class SQLITE_UPDATE_ACTION
  */
 
 #include "eif_eiffel.h"
@@ -10,10 +10,10 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F18_207(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F18_208(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F18_209(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F18_210(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F18_213(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F18_214(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F18_215(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F18_216(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit18(void);
 
 #ifdef __cplusplus
@@ -26,30 +26,6 @@ extern void EIF_Minit18(void);
 extern "C" {
 #endif
 
-#ifndef INLINE_F18_207
-static EIF_INTEGER_32 inline_F18_207 (void)
-{
-	return SQLITE_OPEN_READONLY
-	;
-}
-#define INLINE_F18_207
-#endif
-#ifndef INLINE_F18_208
-static EIF_INTEGER_32 inline_F18_208 (void)
-{
-	return SQLITE_OPEN_READWRITE
-	;
-}
-#define INLINE_F18_208
-#endif
-#ifndef INLINE_F18_209
-static EIF_INTEGER_32 inline_F18_209 (void)
-{
-	return SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE
-	;
-}
-#define INLINE_F18_209
-#endif
 
 #ifdef __cplusplus
 }
@@ -60,11 +36,46 @@ static EIF_INTEGER_32 inline_F18_209 (void)
 extern "C" {
 #endif
 
-/* {SQLITE_OPEN_MODE}.read_only */
-EIF_TYPED_VALUE F18_207 (EIF_REFERENCE Current)
+/* {SQLITE_UPDATE_ACTION}.delete */
+EIF_TYPED_VALUE F18_213 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "read_only";
+	char *l_feature_name = "delete";
+	RTEX;
+	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
+	
+	RTSN;
+	RTDA;
+	RTLD;
+	
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_INT32, &Result);
+	RTLU (SK_REF, &Current);
+	
+	RTEAA(l_feature_name, 17, Current, 0, 0, 220);
+	RTSA(Dtype(Current));
+	RTSC;
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(17, Current, 220);
+	RTIV(Current, RTAL);
+	Result = (EIF_INTEGER_32) SQLITE_DELETE;
+	RTVI(Current, RTAL);
+	RTRS;
+	RTHOOK(1);
+	RTDBGLE;
+	RTMD(1);
+	RTLE;
+	RTLO(2);
+	RTEE;
+	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+}
+
+/* {SQLITE_UPDATE_ACTION}.insert */
+EIF_TYPED_VALUE F18_214 (EIF_REFERENCE Current)
+{
+	GTCX
+	char *l_feature_name = "insert";
 	RTEX;
 	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
 	
@@ -83,7 +94,7 @@ EIF_TYPED_VALUE F18_207 (EIF_REFERENCE Current)
 	RTME(Dtype(Current), 1);
 	RTDBGEAA(17, Current, 221);
 	RTIV(Current, RTAL);
-	Result = inline_F18_207 ();
+	Result = (EIF_INTEGER_32) SQLITE_INSERT;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(1);
@@ -95,11 +106,11 @@ EIF_TYPED_VALUE F18_207 (EIF_REFERENCE Current)
 	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
 }
 
-/* {SQLITE_OPEN_MODE}.read_write */
-EIF_TYPED_VALUE F18_208 (EIF_REFERENCE Current)
+/* {SQLITE_UPDATE_ACTION}.update */
+EIF_TYPED_VALUE F18_215 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "read_write";
+	char *l_feature_name = "update";
 	RTEX;
 	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
 	
@@ -118,7 +129,7 @@ EIF_TYPED_VALUE F18_208 (EIF_REFERENCE Current)
 	RTME(Dtype(Current), 1);
 	RTDBGEAA(17, Current, 222);
 	RTIV(Current, RTAL);
-	Result = inline_F18_208 ();
+	Result = (EIF_INTEGER_32) SQLITE_UPDATE;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(1);
@@ -130,46 +141,11 @@ EIF_TYPED_VALUE F18_208 (EIF_REFERENCE Current)
 	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
 }
 
-/* {SQLITE_OPEN_MODE}.create_read_write */
-EIF_TYPED_VALUE F18_209 (EIF_REFERENCE Current)
+/* {SQLITE_UPDATE_ACTION}.is_valid_update_action */
+EIF_TYPED_VALUE F18_216 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
-	char *l_feature_name = "create_read_write";
-	RTEX;
-	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
-	
-	RTSN;
-	RTDA;
-	RTLD;
-	
-	RTLI(1);
-	RTLR(0,Current);
-	RTLU (SK_INT32, &Result);
-	RTLU (SK_REF, &Current);
-	
-	RTEAA(l_feature_name, 17, Current, 0, 0, 223);
-	RTSA(Dtype(Current));
-	RTSC;
-	RTME(Dtype(Current), 1);
-	RTDBGEAA(17, Current, 223);
-	RTIV(Current, RTAL);
-	Result = inline_F18_209 ();
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(1);
-	RTDBGLE;
-	RTMD(1);
-	RTLE;
-	RTLO(2);
-	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
-}
-
-/* {SQLITE_OPEN_MODE}.is_valid_open_mode */
-EIF_TYPED_VALUE F18_210 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
-{
-	GTCX
-	char *l_feature_name = "is_valid_open_mode";
+	char *l_feature_name = "is_valid_update_action";
 	RTEX;
 #define arg1 arg1x.it_i4
 	EIF_INTEGER_32 ti4_1;
@@ -190,25 +166,25 @@ EIF_TYPED_VALUE F18_210 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 17, Current, 0, 1, 224);
+	RTEAA(l_feature_name, 17, Current, 0, 1, 223);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(17, Current, 224);
+	RTDBGEAA(17, Current, 223);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
 	
 	tb1 = '\01';
 	tb2 = '\01';
-	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(207, dtype))(Current)).it_i4);
+	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(213, dtype))(Current)).it_i4);
 	if (!(EIF_BOOLEAN)(arg1 == ti4_1)) {
-		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(208, dtype))(Current)).it_i4);
+		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(214, dtype))(Current)).it_i4);
 		tb2 = (EIF_BOOLEAN)(arg1 == ti4_1);
 	}
 	if (!tb2) {
-		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(209, dtype))(Current)).it_i4);
+		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(215, dtype))(Current)).it_i4);
 		tb1 = (EIF_BOOLEAN)(arg1 == ti4_1);
 	}
 	Result = (EIF_BOOLEAN) tb1;

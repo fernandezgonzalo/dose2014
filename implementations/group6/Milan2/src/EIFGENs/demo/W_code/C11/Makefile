@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -40,13 +40,13 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C11_c.o 
 
-OLDOBJECTS =  na349.o na349d.o na350.o na350d.o na361.o na361d.o na362.o na362d.o \
-	in358.o in358d.o in359.o in359d.o in355.o in355d.o in356.o in356d.o \
-	in352.o in352d.o in353.o in353d.o in346.o in346d.o in347.o in347d.o \
-	na360.o na360d.o in357.o in357d.o in354.o in354d.o in351.o in351d.o \
-	na348.o na348d.o in345.o in345d.o js343.o js343d.o ws332.o ws332d.o \
-	nu344.o nu344d.o js339.o js339d.o ws338.o ws338d.o ws333.o ws333d.o \
-	ws337.o ws337d.o ws336.o ws336d.o ws335.o ws335d.o js342.o js342d.o \
+OLDOBJECTS =  na361.o na361d.o na362.o na362d.o na358.o na358d.o na359.o na359d.o \
+	na355.o na355d.o na356.o na356d.o in352.o in352d.o in353.o in353d.o \
+	in349.o in349d.o in350.o in350d.o in346.o in346d.o in347.o in347d.o \
+	na360.o na360d.o na357.o na357d.o na354.o na354d.o in351.o in351d.o \
+	in348.o in348d.o in345.o in345d.o js343.o js343d.o ws332.o ws332d.o \
+	nu344.o nu344d.o js339.o js339d.o ws338.o ws338d.o ws337.o ws337d.o \
+	ws336.o ws336d.o ws335.o ws335d.o ws333.o ws333d.o js342.o js342d.o \
 	js341.o js341d.o js340.o js340d.o ws330.o ws330d.o ws331.o ws331d.o \
 	ws334.o ws334d.o 
 

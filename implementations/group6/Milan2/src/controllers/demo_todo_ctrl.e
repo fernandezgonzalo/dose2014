@@ -99,7 +99,7 @@ feature -- Handlers
 			l_todo_id: STRING
 			l_result: JSON_OBJECT
 		do
-				-- the the todo_id from the URL (as defined by the placeholder in the route)
+				-- the todo_id from the URL (as defined by the placeholder in the route)
 			l_todo_id := req.path_parameter ("todo_id").string_representation
 				-- remove the todo
 			my_db.remove_todo (l_todo_id.to_natural)

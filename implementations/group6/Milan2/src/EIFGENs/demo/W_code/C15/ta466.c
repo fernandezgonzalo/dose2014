@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-extern void F466_2488(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F466_2546(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit466(void);
 
 #ifdef __cplusplus
@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 /* {TABLE}.bag_put */
-void F466_2488 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F466_2546 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "bag_put";
@@ -56,18 +56,18 @@ void F466_2488 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 465, Current, 0, 1, 2829);
+	RTEAA(l_feature_name, 465, Current, 0, 1, 2887);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(465, Current, 2829);
-	RTCC(arg1, 465, l_feature_name, 1, RTWCT(2169, dtype, Dftype(Current)));
+	RTDBGEAA(465, Current, 2887);
+	RTCC(arg1, 465, l_feature_name, 1, RTWCT(2227, dtype, Dftype(Current)));
 	RTIV(Current, RTAL);
 	if ((RTAL & CK_REQUIRE) || RTAC) {
 		RTHOOK(1);
 		RTCT("extendible", EX_PRE);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2200, dtype))(Current)).it_b);
+		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2258, dtype))(Current)).it_b);
 		RTTE(tb1, label_1);
 		RTCK;
 		RTJB;
@@ -79,7 +79,7 @@ body:;
 		RTHOOK(2);
 		RTCT("item_inserted", EX_POST);
 		ur1 = RTCCL(arg1);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2202, dtype))(Current, ur1x)).it_b);
+		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2260, dtype))(Current, ur1x)).it_b);
 		if (tb1) {
 			RTCK;
 		} else {

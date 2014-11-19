@@ -41,5 +41,6 @@
 		<cluster name="demo" location=".\" recursive="true"/>
 	</target>
 	<target name="demo" extends="demo_nino">
+		<library name="net" location="\Applications\MacPorts\Eiffel_14.05\library\net\net.ecf"/>
 	</target>
 </system>

@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C5_c.o 
 
-OLDOBJECTS =  ex147.o ex147d.o ex146.o ex146d.o ei164.o ei164d.o re161.o re161d.o \
-	ex160.o ex160d.o op157.o op157d.o de148.o de148d.o re159.o re159d.o \
-	co156.o co156d.o ol163.o ol163d.o fl153.o fl153d.o op155.o op155d.o \
-	ex145.o ex145d.o ht141.o ht141d.o ht140.o ht140d.o ht139.o ht139d.o \
-	st138.o st138d.o st137.o st137d.o st136.o st136d.o st135.o st135d.o \
-	st134.o st134d.o sy162.o sy162d.o ob158.o ob158d.o op154.o op154d.o \
-	ha152.o ha152d.o he133.o he133d.o ht142.o ht142d.o sq149.o sq149d.o \
-	st132.o st132d.o ma151.o ma151d.o ht143.o ht143d.o sq150.o sq150d.o \
-	wg144.o wg144d.o 
+OLDOBJECTS =  ex146.o ex146d.o ex145.o ex145d.o op156.o op156d.o ei163.o ei163d.o \
+	re160.o re160d.o ex159.o ex159d.o op155.o op155d.o de147.o de147d.o \
+	re158.o re158d.o co154.o co154d.o ol162.o ol162d.o fl152.o fl152d.o \
+	ex144.o ex144d.o ht142.o ht142d.o ht139.o ht139d.o ht138.o ht138d.o \
+	nu132.o nu132d.o st137.o st137d.o st136.o st136d.o op153.o op153d.o \
+	sy161.o sy161d.o ob157.o ob157d.o ha151.o ha151d.o he135.o he135d.o \
+	ht143.o ht143d.o sq148.o sq148d.o st134.o st134d.o in133.o in133d.o \
+	ma150.o ma150d.o ei164.o ei164d.o ht140.o ht140d.o sq149.o sq149d.o \
+	wg141.o wg141d.o 
 
 all: Cobj5.o
 

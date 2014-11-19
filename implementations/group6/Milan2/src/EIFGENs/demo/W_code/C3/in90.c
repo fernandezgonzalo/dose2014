@@ -1,5 +1,5 @@
 /*
- * Code for class INET_ADDRESS_IMPL_V6
+ * Code for class INET_PROPERTIES
  */
 
 #include "eif_eiffel.h"
@@ -10,11 +10,13 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F90_1391(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F90_1392(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F90_1393(EIF_REFERENCE);
-extern void F90_1394(EIF_REFERENCE, EIF_TYPED_VALUE);extern void en_local_host_name(EIF_POINTER);
+extern EIF_TYPED_VALUE F90_1435(EIF_REFERENCE);extern EIF_BOOLEAN en_ipv6_available();
 
+extern EIF_TYPED_VALUE F90_1436(EIF_REFERENCE);extern EIF_BOOLEAN en_get_prefer_ipv4();
+
+extern void F90_1437(EIF_REFERENCE, EIF_TYPED_VALUE);extern void en_set_prefer_ipv4(EIF_BOOLEAN);
+
+extern void F90_8213(EIF_REFERENCE, int);
 extern void EIF_Minit90(void);
 
 #ifdef __cplusplus
@@ -36,324 +38,101 @@ extern "C" {
 extern "C" {
 #endif
 
-/* {INET_ADDRESS_IMPL_V6}.local_host_name */
-EIF_TYPED_VALUE F90_1391 (EIF_REFERENCE Current)
+/* {INET_PROPERTIES}.is_ipv6_available */
+EIF_TYPED_VALUE F90_1435 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "local_host_name";
+	char *l_feature_name = "is_ipv6_available";
 	RTEX;
-	EIF_REFERENCE loc1 = (EIF_REFERENCE) 0;
-	EIF_TYPED_VALUE up1x = {{0}, SK_POINTER};
-#define up1 up1x.it_p
-	EIF_TYPED_VALUE ui4_1x = {{0}, SK_INT32};
-#define ui4_1 ui4_1x.it_i4
-	EIF_POINTER tp1;
-	EIF_REFERENCE tr1 = NULL;
-	EIF_REFERENCE Result = ((EIF_REFERENCE) 0);
+	EIF_BOOLEAN Result = ((EIF_BOOLEAN) 0);
 	
 	RTSN;
 	RTDA;
 	RTLD;
 	
-	RTLI(4);
-	RTLR(0,loc1);
-	RTLR(1,tr1);
-	RTLR(2,Result);
-	RTLR(3,Current);
-	RTLU (SK_REF, &Result);
-	RTLU (SK_REF, &Current);
-	RTLU(SK_REF, &loc1);
-	
-	RTEAA(l_feature_name, 89, Current, 1, 0, 1392);
-	RTSA(Dtype(Current));
-	RTSC;
-	RTME(Dtype(Current), 0);
-	RTGC;
-	RTDBGEAA(89, Current, 1392);
-	RTIV(Current, RTAL);
-	RTHOOK(1);
-	RTDBGAL(Current, 1, 0xF8000101, 0, 0); /* loc1 */
-	
-	tr1 = RTLN(257);
-	ui4_1 = ((EIF_INTEGER_32) 256L);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(3015, Dtype(tr1)))(tr1, ui4_1x);
-	RTNHOOK(1,1);
-	loc1 = (EIF_REFERENCE) RTCCL(tr1);
-	RTHOOK(2);
-	tp1 = *(EIF_POINTER *)(loc1 + RTVA(3021, "item", loc1));
-	up1 = tp1;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(1316, Dtype(Current)))(Current, up1x);
-	RTHOOK(3);
-	RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
-	
-	tr1 = RTLN(310);
-	tp1 = *(EIF_POINTER *)(loc1 + RTVA(3021, "item", loc1));
-	up1 = tp1;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(4607, Dtype(tr1)))(tr1, up1x);
-	RTNHOOK(3,1);
-	Result = (EIF_REFERENCE) RTCCL(tr1);
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(4);
-	RTDBGLE;
-	RTMD(0);
-	RTLE;
-	RTLO(3);
-	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_REF; r.it_r = Result; return r; }
-#undef up1
-#undef ui4_1
-}
-
-/* {INET_ADDRESS_IMPL_V6}.any_local_address */
-RTOID (F90_1392)
-EIF_TYPED_VALUE F90_1392 (EIF_REFERENCE Current)
-{
-	GTCX
-	char *l_feature_name = "any_local_address";
-	RTEX;
-	EIF_TYPED_VALUE ur1x = {{0}, SK_REF};
-#define ur1 ur1x.it_r
-	EIF_TYPED_VALUE ur2x = {{0}, SK_REF};
-#define ur2 ur2x.it_r
-	EIF_TYPED_VALUE ui4_1x = {{0}, SK_INT32};
-#define ui4_1 ui4_1x.it_i4
-	EIF_REFERENCE tr1 = NULL;
-	EIF_REFERENCE tr2 = NULL;
-	EIF_REFERENCE tr3 = NULL;
-	EIF_REFERENCE tr4 = NULL;
-	EIF_NATURAL_8 tu1_1;
-	RTSN;
-	RTDA;
-	RTLD;
-	
-#define Result RTOTRR
-	RTOTDR(F90_1392);
-
-	RTLI(7);
-	RTLR(0,tr1);
-	RTLR(1,tr2);
-	RTLR(2,ur1);
-	RTLR(3,Current);
-	RTLR(4,tr3);
-	RTLR(5,tr4);
-	RTLR(6,ur2);
-	RTLU (SK_REF, &Result);
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 89, Current, 0, 0, 1393);
+	RTEAA(l_feature_name, 89, Current, 0, 0, 1438);
 	RTSA(Dtype(Current));
 	RTSC;
-	RTME(Dtype(Current), 0);
-	RTGC;
-	RTDBGEAA(89, Current, 1393);
-	RTIV(Current, RTAL);
-	RTOTP;
-	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF800005B, 0,0); /* Result */
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(89, Current, 1438);
+	RTIV(Current, RTAL);Result = (EIF_BOOLEAN) EIF_TEST(en_ipv6_available());
 	
-	tr1 = RTLN(92);
-	tr2 = RTMS_EX_H("::",2,14906);
-	ur1 = tr2;
-	ui4_1 = ((EIF_INTEGER_32) 16L);
-	{
-		static EIF_TYPE_INDEX typarr0[] = {763,359,0xFFFF};
-		EIF_TYPE_INDEX typres0;
-		static EIF_TYPE_INDEX typcache0 = INVALID_DTYPE;
-		
-		typres0 = (typcache0 != INVALID_DTYPE ? typcache0 : (typcache0 = eif_compound_id(Dftype(Current), typarr0)));
-		tr4 = RTLNSP2(eif_non_attached_type(typres0),0,ui4_1,sizeof(EIF_NATURAL_8), EIF_TRUE);
-		RT_SPECIAL_COUNT(tr4) = 16L;
-		memset(tr4, 0, RT_SPECIAL_VISIBLE_SIZE(tr4));
-	}
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+0) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+1) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+2) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+3) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+4) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+5) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+6) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+7) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+8) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+9) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+10) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+11) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+12) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+13) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+14) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+15) = (EIF_NATURAL_8) tu1_1;
-	tr3 = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE))  RTWF(5115, Dtype(tr4)))(tr4).it_r;
-	ur2 = RTCCL(tr3);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWC(1349, Dtype(tr1)))(tr1, ur1x, ur2x);
-	RTNHOOK(1,1);
-	Result = (EIF_REFERENCE) RTCCL(tr1);
 	RTVI(Current, RTAL);
 	RTRS;
-	RTOTE;
-	RTHOOK(2);
+	RTHOOK(1);
 	RTDBGLE;
-	RTMD(0);
+	RTMD(1);
 	RTLE;
 	RTLO(2);
 	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_REF; r.it_r = Result; return r; }
-#undef ur1
-#undef ur2
-#undef ui4_1
-#undef Result
+	{ EIF_TYPED_VALUE r; r.type = SK_BOOL; r.it_b = Result; return r; }
 }
 
-/* {INET_ADDRESS_IMPL_V6}.loopback_address */
-EIF_TYPED_VALUE F90_1393 (EIF_REFERENCE Current)
+/* {INET_PROPERTIES}.is_ipv4_stack_preferred */
+EIF_TYPED_VALUE F90_1436 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "loopback_address";
+	char *l_feature_name = "is_ipv4_stack_preferred";
 	RTEX;
-	EIF_TYPED_VALUE ur1x = {{0}, SK_REF};
-#define ur1 ur1x.it_r
-	EIF_TYPED_VALUE ur2x = {{0}, SK_REF};
-#define ur2 ur2x.it_r
-	EIF_TYPED_VALUE ui4_1x = {{0}, SK_INT32};
-#define ui4_1 ui4_1x.it_i4
-	EIF_REFERENCE tr1 = NULL;
-	EIF_REFERENCE tr2 = NULL;
-	EIF_REFERENCE tr3 = NULL;
-	EIF_REFERENCE tr4 = NULL;
-	EIF_NATURAL_8 tu1_1;
-	EIF_REFERENCE Result = ((EIF_REFERENCE) 0);
+	EIF_BOOLEAN Result = ((EIF_BOOLEAN) 0);
 	
 	RTSN;
 	RTDA;
 	RTLD;
 	
-	RTLI(8);
-	RTLR(0,tr1);
-	RTLR(1,tr2);
-	RTLR(2,ur1);
-	RTLR(3,Current);
-	RTLR(4,tr3);
-	RTLR(5,tr4);
-	RTLR(6,ur2);
-	RTLR(7,Result);
-	RTLU (SK_REF, &Result);
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 89, Current, 0, 0, 1394);
+	RTEAA(l_feature_name, 89, Current, 0, 0, 1439);
 	RTSA(Dtype(Current));
 	RTSC;
-	RTME(Dtype(Current), 0);
-	RTGC;
-	RTDBGEAA(89, Current, 1394);
-	RTIV(Current, RTAL);
-	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF800005B, 0,0); /* Result */
+	RTME(Dtype(Current), 1);
+	RTDBGEAA(89, Current, 1439);
+	RTIV(Current, RTAL);Result = (EIF_BOOLEAN) EIF_TEST(en_get_prefer_ipv4());
 	
-	tr1 = RTLN(92);
-	tr2 = RTMS_EX_H("::1",3,3815985);
-	ur1 = tr2;
-	ui4_1 = ((EIF_INTEGER_32) 16L);
-	{
-		static EIF_TYPE_INDEX typarr0[] = {763,359,0xFFFF};
-		EIF_TYPE_INDEX typres0;
-		static EIF_TYPE_INDEX typcache0 = INVALID_DTYPE;
-		
-		typres0 = (typcache0 != INVALID_DTYPE ? typcache0 : (typcache0 = eif_compound_id(Dftype(Current), typarr0)));
-		tr4 = RTLNSP2(eif_non_attached_type(typres0),0,ui4_1,sizeof(EIF_NATURAL_8), EIF_TRUE);
-		RT_SPECIAL_COUNT(tr4) = 16L;
-		memset(tr4, 0, RT_SPECIAL_VISIBLE_SIZE(tr4));
-	}
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+0) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+1) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+2) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+3) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+4) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+5) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+6) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+7) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+8) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+9) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+10) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+11) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+12) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+13) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 0L);
-	*((EIF_NATURAL_8 *)tr4+14) = (EIF_NATURAL_8) tu1_1;
-	tu1_1 = (EIF_NATURAL_8) ((EIF_INTEGER_32) 1L);
-	*((EIF_NATURAL_8 *)tr4+15) = (EIF_NATURAL_8) tu1_1;
-	tr3 = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE))  RTWF(5115, Dtype(tr4)))(tr4).it_r;
-	ur2 = RTCCL(tr3);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWC(1349, Dtype(tr1)))(tr1, ur1x, ur2x);
-	RTNHOOK(1,1);
-	Result = (EIF_REFERENCE) RTCCL(tr1);
 	RTVI(Current, RTAL);
 	RTRS;
-	RTHOOK(2);
+	RTHOOK(1);
 	RTDBGLE;
-	RTMD(0);
+	RTMD(1);
 	RTLE;
 	RTLO(2);
 	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_REF; r.it_r = Result; return r; }
-#undef ur1
-#undef ur2
-#undef ui4_1
+	{ EIF_TYPED_VALUE r; r.type = SK_BOOL; r.it_b = Result; return r; }
 }
 
-/* {INET_ADDRESS_IMPL_V6}.get_local_host_name */
-void F90_1394 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+/* {INET_PROPERTIES}.set_ipv4_stack_preferred */
+void F90_1437 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
-	char *l_feature_name = "get_local_host_name";
+	char *l_feature_name = "set_ipv4_stack_preferred";
 	RTEX;
-#define arg1 arg1x.it_p
+#define arg1 arg1x.it_b
 	RTSN;
 	RTDA;
 	RTLD;
 	
-	if ((arg1x.type & SK_HEAD) == SK_REF) arg1x.it_p = * (EIF_POINTER *) arg1x.it_r;
+	if ((arg1x.type & SK_HEAD) == SK_REF) arg1x.it_b = * (EIF_BOOLEAN *) arg1x.it_r;
 	
 	RTLI(1);
 	RTLR(0,Current);
 	RTLU (SK_VOID, NULL);
-	RTLU(SK_POINTER,&arg1);
+	RTLU(SK_BOOL,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 89, Current, 0, 1, 1395);
+	RTEAA(l_feature_name, 89, Current, 0, 1, 1440);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(89, Current, 1395);
-	RTIV(Current, RTAL);en_local_host_name(arg1);
+	RTDBGEAA(89, Current, 1440);
+	RTIV(Current, RTAL);en_set_prefer_ipv4(arg1);
 	
 	RTVI(Current, RTAL);
 	RTRS;
@@ -366,10 +145,46 @@ void F90_1394 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 #undef arg1
 }
 
+/* {INET_PROPERTIES}._invariant */
+void F90_8213 (EIF_REFERENCE Current, int where)
+{
+	GTCX
+	char *l_feature_name = "_invariant";
+	RTEX;
+	EIF_BOOLEAN tb1;
+	EIF_BOOLEAN tb2;
+	RTCDT;
+	RTLD;
+	RTDA;
+	
+	RTLI(1);
+	RTLR(0,Current);
+	RTLU (SK_VOID, NULL);
+	RTLU (SK_REF, &Current);
+	RTEAINV(l_feature_name, 89, Current, 0, 8212);
+	RTSA(dtype);
+	RTME(dtype, 0);
+	RTIT("exclusive", Current);
+	tb1 = '\01';
+	tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1364, dtype))(Current)).it_b);
+	if (tb2) {
+		tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1363, dtype))(Current)).it_b);
+		tb1 = (EIF_BOOLEAN) !tb2;
+	}
+	if (tb1) {
+		RTCK;
+	} else {
+		RTCF;
+	}
+	RTLO(2);
+	RTMD(0);
+	RTLE;
+	RTEE;
+}
+
 void EIF_Minit90 (void)
 {
 	GTCX
-	RTOTS (1392,F90_1392)
 }
 
 
