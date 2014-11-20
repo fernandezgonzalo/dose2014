@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0px;
   padding: 0px; }
@@ -42,3 +43,18 @@ body {
 
 .navbar a {
   cursor: pointer; }
+
+.b-project-card {
+  height: 350px;
+  width: 350px;
+  border: 1px solid #CCC;
+  margin: 8px;
+  display: inline-block;
+  background: url(/blocks/projectcard/img/button-add.svg) no-repeat;
+  background-size: 70%;
+  /* Масштабируем фон */
+  background-position: center;
+  opacity: 0.2; }
+
+.b-project-card:hover {
+  opacity: 0.8; }
