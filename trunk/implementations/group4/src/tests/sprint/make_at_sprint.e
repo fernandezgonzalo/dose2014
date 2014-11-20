@@ -65,24 +65,5 @@ feature -- Test routines
 		end
 
 
-	creation_negative_test_with_negative_duration
-			-- Creation test with negative duration
-		local
-  			ok, second_time: BOOLEAN
-  			sprint: SPRINT
-		do
-    		if not second_time then
-          		ok := True
-          		create sprint.make ("new_status", -8,1) -- Must throw an exception
-          		ok := False
-    		end
-    		assert ("The rutine has to fail", ok)
-		rescue
-     		second_time := True
-     		if ok then   -- ok = true means that the rutine failed
-           		retry
-    		end
-		end
-
 
 end

@@ -46,7 +46,7 @@ feature -- Handlers
 
 
 	get_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a response that contains a json object with a project with given id
+			-- sends a response that contains a json object with a sprint with given id
 		local
 			l_result_payload: STRING
 			l_sprint_id: STRING;
@@ -56,7 +56,7 @@ feature -- Handlers
 			-- the project_id from the URL
 			l_project_id := req.path_parameter ("project_id").string_representation
 
-			-- the project_id from the URL
+			-- the sprint_id from the URL
 			l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 			l_result_payload := db_handler_sprint.find_by_id_and_project_id (l_sprint_id.to_integer, l_project_id.to_integer).representation
@@ -101,7 +101,7 @@ feature -- Handlers
 			-- obtain the project id via the URL
 			project_id := req.path_parameter ("project_id").string_representation
 
-			create new_sprint.make (new_status, new_duration.to_integer_32, project_id.to_integer_32)
+			create new_sprint.make (new_status, new_duration.to_natural, project_id.to_natural)
 
 				-- create the sprint in the database
 			db_handler_sprint.add (new_sprint)
@@ -135,7 +135,7 @@ feature -- Handlers
 			create parser.make_parser (l_payload)
 
 				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- for the sprint description
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 				-- we have to convert the json string into an eiffel string for each sprint attribute.
@@ -148,7 +148,7 @@ feature -- Handlers
 
 			end
 
-			-- the sprint_id from the URL (as defined by the placeholder in the route)
+			-- the project_id from the URL (as defined by the placeholder in the route)
 				l_sprint_project_id := req.path_parameter ("project_id").string_representation
 
 
@@ -156,7 +156,7 @@ feature -- Handlers
 				l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 				-- create the sprint
-			create sprint.make (sprint_status, sprint_duration.to_integer_32, l_sprint_project_id.to_integer_32)
+			create sprint.make (sprint_status, sprint_duration.to_natural, l_sprint_project_id.to_natural)
 
 				-- update the sprint in the database
 			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
@@ -170,16 +170,17 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+
 	remove_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a sprint from the database
 		local
 			l_sprint_id, l_sprint_project_id: STRING
 			l_result: JSON_OBJECT
 		do
-				-- the user_id from the URL (as defined by the placeholder in the route)
+				-- the project_id from the URL (as defined by the placeholder in the route)
 			l_sprint_project_id := req.path_parameter ("project_id").string_representation
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
+				-- the sprint_id from the URL (as defined by the placeholder in the route)
 			l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 				-- remove the sprint
@@ -202,10 +203,10 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 		do
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
+				-- the task_id from the URL (as defined by the placeholder in the route)
 			l_task_id := req.path_parameter ("task_id").string_representation
 
-				-- remove the sprint
+				-- remove the task
 			db_handler_task.remove (l_task_id.to_natural)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
