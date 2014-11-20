@@ -7,6 +7,7 @@ define(
 
         //Custom includes
         "blocks/navbar/navbar",
+        "pages/js/projects",
         "pages/js/login"
     ],
 
@@ -19,7 +20,8 @@ define(
             [
                 'ui.router',
                 "uiNavbarModule",
-                "LoginModule"
+                "LoginModule",
+                "ProjectsModule"
             ]
         )
 
@@ -38,9 +40,9 @@ define(
                         "main",
                         {
                             url: "/",
-                            templateUrl: "pages/html/main.html"
-                            //resolve: { data: 'SomeDataProvider' },
-                            //controller: "SomeController"
+                            templateUrl: "pages/html/projects.html",
+                            //resolve: { projects: 'ProjectsDataProvider' },
+                            controller: "ProjectsCtr"
                         }
                     )
 
