@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			create project_ctrl.make (path_to_db_file,session_manager)
 			create sprint_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file,session_manager)
-			create topic_ctrl.make (path_to_db_file)
+			create topic_ctrl.make (path_to_db_file,session_manager)
 			create task_ctrl.make (path_to_db_file)
 
 				-- set the prot of the web server to 9090
