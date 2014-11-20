@@ -22,12 +22,14 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_path_to_db_file: STRING)
+	make (a_path_to_db_file: STRING; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			create db_handler_project.make (a_path_to_db_file)
 			create db_handler_sprint.make (a_path_to_db_file)
 			create db_handler_task.make (a_path_to_db_file)
 			create db_handler_user.make (a_path_to_db_file)
+
+			session_manager := a_session_manager
 		end
 
 
@@ -328,7 +330,7 @@ feature -- Handlers
 			-- update a project from the database
 		local
 			l_payload: STRING
-			l_project_id, l_user_id,: STRING
+			l_project_id, l_user_id: STRING
 			project_name, project_status, project_description, project_mpps, project_number_of_sprints : STRING
 			project : PROJECT
 			parser : JSON_PARSER
