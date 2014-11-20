@@ -49,8 +49,8 @@ define(
                     module.login = function(email, password)
                     {
                         var data = {
-                            user_name: 'Foo',
-                            //email: email,
+                            //user_name: 'Foo',
+                            email: email,
                             password: password
                         };
 
