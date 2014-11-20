@@ -1,7 +1,7 @@
 
-<div class="modal-header">
+<div class="modal-header" ng-controller="TaskController">
 	<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> //close button in header-->
-	<span class="modal-title h4">Implement logic</span><span class="pull-right"><span class="glyphicon glyphicon-star"></span> 100</span>
+	<a href="#" class="modal-title h4" editable-text="user.name"> {{ user.name || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> 100</span>
 </div>	<!-- /modal-header -->
 
 <div class="modal-body row">
