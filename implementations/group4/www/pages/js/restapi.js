@@ -128,7 +128,7 @@ define(
                             password: password
                         };
 
-                        return $http.post('/api/projects', data)
+                        return $http.get('/api/projects', data)
                         .success
                         (
                             function(data, status, header, config)
