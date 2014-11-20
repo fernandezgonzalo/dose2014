@@ -36,6 +36,11 @@ define(
                         $log.info(form);
                         restapi.login(form.email, form.password);
                     };
+
+                    $scope.click = function ()
+                    {
+                        $log.info("info");
+                    };
                 }
             ]
         )
@@ -70,6 +75,22 @@ define(
                                 "id":"3",
                                 "name":"project3",
                                 "status":"Active",
+                                "description":"project3 descr",
+                                "max_points_per_sprint":"16",
+                                "number_of_sprints":"1"
+                            },
+                            {
+                                "id":"3",
+                                "name":"project3",
+                                "status":"Complete",
+                                "description":"project3 descr",
+                                "max_points_per_sprint":"16",
+                                "number_of_sprints":"1"
+                            },
+                            {
+                                "id":"3",
+                                "name":"project3",
+                                "status":"Canceled",
                                 "description":"project3 descr",
                                 "max_points_per_sprint":"16",
                                 "number_of_sprints":"1"
