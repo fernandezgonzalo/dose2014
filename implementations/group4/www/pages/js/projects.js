@@ -37,9 +37,21 @@ define(
                         restapi.login(form.email, form.password);
                     };
 
-                    $scope.click = function ()
+                    $scope.edit = function (project)
                     {
-                        $log.info("info");
+                        $log.info("EDIT");
+                        $log.info(project);
+                    };
+
+                    $scope.go = function (project)
+                    {
+                        $log.info("GO");
+                        $log.info(project);
+                    };
+
+                    $scope.createProject = function ()
+                    {
+                        $log.info("CREATE");
                     };
                 }
             ]
