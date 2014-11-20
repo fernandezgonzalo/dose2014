@@ -114,9 +114,9 @@ CREATE TABLE Answers (
 
 
 -- Add some users to the users table
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'name1@mail.com','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'name2@mail.com','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'name3@mail.com','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'name1@mail.com','$2a$04$AmZSLRJRZAv5.LYR0YfsYuJfIg2LyTe8E2PaKbQyUpZOTMCeXEXnK');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'name2@mail.com','$2a$04$py7lS7hLvBhC1Q7LtR4Hg.LKuejj7QIjWnstxoLkIsL7kO2Cxox16');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'name3@mail.com','$2a$04$Cp5cmvyI2sLLV3vxvN61Pu0m4qh3tDQ7XwbxT7ikJ1Nn1jz0FbfuS');
 
 INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project1','Active','project1 descr',10,-1,1);
 INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project2','Active','project2 descr',15,-1,2);
