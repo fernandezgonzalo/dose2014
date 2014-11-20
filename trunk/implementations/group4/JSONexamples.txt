@@ -79,20 +79,22 @@ GET:
 
 /api/projects/{project_id}/collaborators
 
-{ FIX
-    "id":"2",
-    "user_name":"name1",
-    "is_active":"1",
-    "email":"mail",
-    "password":"pass"
-}
-{
-    "id":"3",
-    "user_name":"name2",
-    "is_active":"0",
-    "email":"mail",
-    "password":"pass"
-}
+[
+    {
+        "id":"2",
+        "user_name":"name1",
+        "is_active":"1",
+        "email":"mail",
+        "password":"pass"
+    },
+    {
+        "id":"3",
+        "user_name":"name2",
+        "is_active":"0",
+        "email":"mail",
+        "password":"pass"
+    }
+]
 
 /api/projects/{project_id}/sprints
 
