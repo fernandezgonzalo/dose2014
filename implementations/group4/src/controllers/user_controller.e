@@ -18,6 +18,7 @@ feature {NONE} -- Initialization
 	make (a_path_to_db_file: STRING; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			create db_handler_user.make(a_path_to_db_file)
+			create bcrypt.make
 			session_manager := a_session_manager
 		end
 
@@ -27,6 +28,9 @@ feature {NONE} -- Private attributes
 	db_handler_user : DB_HANDLER_USER
 
 	session_manager : WSF_SESSION_MANAGER
+
+	bcrypt: BCRYPT
+		-- Encryption
 
 feature -- Handlers
 
@@ -61,6 +65,7 @@ feature -- Handlers
 		local
 			l_payload : STRING
 			l_user_name, l_email, l_password : STRING
+			l_hashed_password: STRING
 			l_user : USER
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -91,7 +96,11 @@ feature -- Handlers
 
 			end
 
-			create l_user.make(l_user_name,l_email,l_password)
+				-- here we hash the password with salt for database storing
+			l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
+
+
+			create l_user.make(l_user_name,l_email,l_hashed_password)
 				-- create the user in the database
 			db_handler_user.add (l_user)
 
@@ -110,6 +119,7 @@ feature -- Handlers
 			l_payload: STRING
 			l_user_id: STRING
 			l_user_name, l_email, l_password : STRING
+			l_hashed_password: STRING
 			l_user : USER
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -140,8 +150,11 @@ feature -- Handlers
 
 			end
 
+				-- here we hash the password with salt for database storing
+			l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
+
 				-- create the user
-			create l_user.make (l_user_name, l_email, l_password)
+			create l_user.make (l_user_name, l_email, l_hashed_password)
 
 				-- the user_id from the URL (as defined by the placeholder in the route)
 			l_user_id := req.path_parameter ("user_id").string_representation
@@ -189,7 +202,7 @@ feature -- Handlers
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 				-- if true the email and password match
-			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING]
+			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 		do
@@ -217,8 +230,11 @@ feature -- Handlers
 
 			end
 
-				-- check if the database has this particular email & password combination
-			l_user_data := db_handler_user.has_user_with_password(l_email, l_password)
+				-- check if the database has this particular email
+			l_user_data := db_handler_user.has_user(l_email)
+
+				-- check if the password is correct
+			l_user_data.has_user := (bcrypt.is_valid_password (l_password, l_user_data.hashed_pass))
 
 
 			if l_user_data.has_user then
@@ -286,4 +302,5 @@ feature -- Handlers
 				-- add the message to the response response
 			res.put_string (l_result.representation)
 		end
+
 end
