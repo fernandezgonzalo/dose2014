@@ -52,19 +52,17 @@
           </div>
         </div>
 
-        <div class="control-group">
+        <div ng-show="isEdit" class="control-group">
           <!-- Password-->
-          <label ng-show="!isEdit" class="control-label" for="new_password">Password</label>
-          <label ng-show="isEdit" class="control-label" for="new_password">New password</label>
+          <label class="control-label" for="new_password">New password</label>
           <div class="controls">
             <input disabled type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
             <p class="help-block">Password should be at least 4 characters</p>
           </div>
         </div>
      
-        <div ng-showclass="control-group">
+        <div ng-show="isEdit" ng-showclass="control-group">
           <!-- Password -->
-          <label ng-show="!isEdit" class="control-label" for="password_confirmed">Password (Confirm)</label>
           <label ng-show="isEdit" class="control-label" for="password_confirmed">New password (Confirm)</label>
           <div class="controls">
             <input disabled type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
@@ -72,6 +70,24 @@
           </div>
         </div>
      
+        <div ng-show="!isEdit" class="control-group">
+          <!-- Password-->
+          <label class="control-label" for="password">Password</label>
+          <div class="controls">
+            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password">
+            <p class="help-block">Password should be at least 4 characters</p>
+          </div>
+        </div>
+     
+        <div ng-show="!isEdit" ng-showclass="control-group">
+          <!-- Password -->
+          <label class="control-label" for="password_confirmed">Password (Confirm)</label>
+          <div class="controls">
+            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirmed">
+            <p class="help-block">Please confirm password</p>
+          </div>
+        </div>
+
         <div class="control-group">
           <!-- Button -->
           <div class="controls">
