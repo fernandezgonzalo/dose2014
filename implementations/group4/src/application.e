@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 			--create user_ctrl.make(dao)
 			create session_manager.make
 			create user_ctrl.make (path_to_db_file,session_manager)
-			create project_ctrl.make (path_to_db_file)
+			create project_ctrl.make (path_to_db_file,session_manager)
 			create sprint_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file,session_manager)
 			create topic_ctrl.make (path_to_db_file)
