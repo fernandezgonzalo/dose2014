@@ -102,23 +102,23 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("deadline") as s then
 					l_deadline := s.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("client") as s then
+				if attached {JSON_STRING} j_object.item ("client_name") as s then
 					l_client := s.unescaped_string_8
 				end
-
+				if attached {JSON_STRING} j_object.item ("id_user") as s then
+					l_user_id := s.unescaped_string_8
+				end
 			end
-
-			l_user_id := req.path_parameter ("id").string_representation
-
 			create l_result.make
 				-- create the project in the database
+			print(l_user_id.out)
 			result_add_project := my_crud_project.add_project (l_name, l_deadline, l_client, l_user_id.to_natural)
 			was_created := result_add_project.boolean_item (1)
 			project_id := result_add_project.integer_32_item (2)
 			if was_created then
-			--if the user was created,set the response
-			l_result.put (create {JSON_STRING}.make_json (project_id.out), create {JSON_STRING}.make_json ("id"))
-			set_json_header (res, 201, l_result.representation.count)
+			--if the project was created,set the response
+				l_result.put (create {JSON_STRING}.make_json (project_id.out), create {JSON_STRING}.make_json ("id"))
+				set_json_header (res, 200, l_result.representation.count)
 			end
 
 			res.put_string (l_result.representation)
