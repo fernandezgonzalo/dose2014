@@ -127,7 +127,7 @@ feature -- Basic operations
 
 				--handling all the tasks of a single user.
 			--List all tasks by user id
-			map_uri_template_agent_with_request_methods ("/api/users/{id}/tasks", agent user_ctrl.get_user_by_id, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{id}/tasks", agent task_ctrl.get_tasks_of_the_user, router.methods_get)
 
 
 			--TASKS RELATED URIs
@@ -138,7 +138,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/tasks", agent task_ctrl.create_task, router.methods_post)
 
 			--Retrieve a task
-			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.task_by_id, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.get_task_by_id, router.methods_get)
 
 			--Edit a task
 			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.update_task, router.methods_put)
@@ -154,7 +154,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get)
 
 			--Creating a project
-			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.create_project, router.methods_post)
 
 			--Retrieving a single project
 			map_uri_template_agent_with_request_methods ("/api/projects/{id}", agent project_ctrl.get_project_by_id, router.methods_get)
@@ -166,7 +166,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/projects/{id}", agent project_ctrl.delete_project_by_id, router.methods_delete)
 
 			--Retrieve all the tasks related to a project
-			--map_uri_template_agent_with_request_methods ("/api/projects/{id}/tasks", agent task_ctrl.get_project_tasks, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/{id}/tasks", agent task_ctrl.get_task_by_id_project, router.methods_get)
 
 			--Retrieve all the projects related to a user?
 
