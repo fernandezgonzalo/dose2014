@@ -15,7 +15,7 @@ CREATE TABLE Users (
   id INTEGER PRIMARY KEY,
   user_name TEXT,
   is_active BOOLEAN,
-  email TEXT,
+  email TEXT UNIQUE,
   password TEXT
 );
 
@@ -114,9 +114,9 @@ CREATE TABLE Answers (
 
 
 -- Add some users to the users table
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'mail','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'mail','pass');
-INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'mail','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'name1@mail.com','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'name2@mail.com','pass');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'name3@mail.com','pass');
 
 INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project1','Active','project1 descr',10,-1,1);
 INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project2','Active','project2 descr',15,-1,2);
