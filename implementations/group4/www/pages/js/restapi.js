@@ -49,7 +49,8 @@ define(
                     module.login = function(email, password)
                     {
                         var data = {
-                            user_name: email,
+                            user_name: 'Foo',
+                            //email: email,
                             password: password
                         };
 
@@ -93,10 +94,10 @@ define(
                         );
                     };
 
-                    module.register = function(email, password)
+                    module.register = function(name, email, password)
                     {
                         var data = {
-                            user_name: email,
+                            user_name: name,
                             email: email,
                             password: password
                         };
@@ -107,6 +108,33 @@ define(
                             function(data, status, header, config)
                             {
                                 $log.debug(data);
+                            }
+                        )
+                        .error
+                        (
+                            function(data, status)
+                            {
+                                $log.debug("error");
+                                $log.debug(data);
+                            }
+                        );
+                    };
+
+                    module.projects = function()
+                    {
+                        var data = {
+                            user_name: name,
+                            email: email,
+                            password: password
+                        };
+
+                        return $http.post('/api/projects', data)
+                        .success
+                        (
+                            function(data, status, header, config)
+                            {
+                                $log.debug(data);
+                                return data;
                             }
                         )
                         .error
