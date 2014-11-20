@@ -13,7 +13,6 @@ define(
 
     function(angular)
     {
-
         return angular.module
         (
             "CasdModule",
@@ -41,8 +40,13 @@ define(
                         {
                             url: "/",
                             templateUrl: "pages/html/projects.html",
-                            //resolve: { projects: 'ProjectsDataProvider' },
-                            controller: "ProjectsCtr"
+                            controller: "ProjectsCtr",
+                            resolve: {
+                                projectsProvider: "ProjectsProvider",
+                                projects: function (projectsProvider) {
+                                    return projectsProvider.resolver();
+                                }
+                            }
                         }
                     )
 
