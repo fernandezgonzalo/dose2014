@@ -138,29 +138,29 @@ feature -- Test routines
 			db_handler.db.rollback
 		end
 
-	has_user_with_password_with_correct_user_data_test
-		-- Test for routine has_user_with_password
+	has_user_with_correct_user_data_test
+		-- Test for routine has_user
 		local
 			db_handler : DB_HANDLER_USER
-			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING]
+			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
-			l_user_data := db_handler.has_user_with_password ("mail", "pass")
+			l_user_data := db_handler.has_user ("mail")
 
 			assert("User found", l_user_data.has_user)
 			assert("Correct user_id", l_user_data.user_id.is_equal ("1"))
 		end
 
-	has_user_with_password_with_incorrect_user_data_test
-		-- Test for routine has_user_with_password
+	has_user_with_incorrect_user_data_test
+		-- Test for routine has_user
 		local
 			db_handler : DB_HANDLER_USER
-			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING]
+			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
-			l_user_data := db_handler.has_user_with_password ("mail", "otherpass")
+			l_user_data := db_handler.has_user ("no mail")
 
 			assert("User not found", not l_user_data.has_user)
 		end

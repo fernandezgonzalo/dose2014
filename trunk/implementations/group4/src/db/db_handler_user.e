@@ -78,29 +78,32 @@ feature -- Data access
 			end
 		end
 
-	has_user_with_password (a_email, a_password: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; email: STRING]
-			-- checks if a user with given email and password exists
-			-- if yes, the result tuple value "has_user" will be true and "user_id" and "email" will be set
-			-- otherwise, "has_user" will be false and "id" and "email" will not be set
+	has_user (a_email: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
+			-- checks if a user with given email exists
+			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
+			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 				-- create a result object
 			create Result
 
-			create db_query_statement.make ("SELECT * FROM Users WHERE email=? AND password=?;", db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_email, a_password>>)
+			create db_query_statement.make ("SELECT * FROM Users WHERE email=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_email>>)
 
 
 			if l_query_result_cursor.after then
 					-- there are no rows in the result of the query, thus no user with that password exits
-				print("Did not find a user with email '" + a_email  + "' and password '" + a_password + "' in the database.%N")
+				print("Did not find a user with email '" + a_email + "' in the database.%N")
 				Result.has_user := False
 			else
-				print("Found a user with email '" + a_email + "' and password '" + a_password + "' in the database.%N")
+				print("Found a user with email '" + a_email + "' in the database.%N")
 				Result.has_user := True
 				Result.user_id := l_query_result_cursor.item.value (1).out
-				Result.email := l_query_result_cursor.item.value (2).out
+				Result.email := l_query_result_cursor.item.value (4).out
+				Result.hashed_pass := l_query_result_cursor.item.value (5).out
+				--debug
+				print(Result.hashed_pass)
 			end
 		end
 
