@@ -9,6 +9,12 @@ class
 
 inherit
 	HEADER_JSON_HELPER
+		-- inherit this helper to get a procedure that simplifies setting
+		-- the HTTP response header correctly
+
+	SESSION_HELPER
+		-- inherit this helper to get functions to check for a session cookie
+		-- if a session cookie exists, we can get the data of that session
 
 create
 	make
@@ -32,18 +38,41 @@ feature {NONE} -- Private attributes
 	db_handler_task: DB_HANDLER_TASK
 	db_handler_user: DB_HANDLER_USER
 
+	session_manager: WSF_SESSION_MANAGER
+
 
 feature -- Handlers
 
 	get_projects (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
+			-- sends a reponse that contains a json array with all projects
 		local
 			l_result_payload: STRING
+			l_user_id: STRING
+			l_result: JSON_OBJECT
 		do
-			l_result_payload := db_handler_project.find_all.representation
+			create l_result.make
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in and we can get the user id through the session data
+
+					-- get the id of the user from the session store
+				l_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+					-- get all project where the user is owner or collaborator
+				l_result_payload := db_handler_project.find_by_user_loged (l_user_id.to_integer).representation
+
+				set_json_header_ok (res, l_result_payload.count)
+				res.put_string (l_result_payload)
+
+			else
+					-- the request has no session cookie and thus the user is not logged in
+					-- we return an error stating that the user is not authorized to show projects
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 
@@ -64,48 +93,19 @@ feature -- Handlers
 
 
 	get_collaborators (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a response that contains a json array with all users of a project
+			-- sends a response that contains a json array with all users (collaborators) of a project
 		local
 			project_id: STRING
-			l_result_payload, other_payload: STRING
-			parser: JSON_PARSER
-			result_array: JSON_ARRAY
-			new_user_id: STRING
-			i: INTEGER
+			l_result_payload: STRING
 		do
 			-- obtain the project id via the URL
 			project_id := req.path_parameter ("project_id").string_representation
 
-			-- and use the project handler to obtain all its collaborators
-			l_result_payload := db_handler_project.find_collabs_user_id_by_id (project_id.to_integer).representation
+			-- and use the user handler to obtain all its collaborators
+			l_result_payload := db_handler_user.find_by_project_id (project_id.to_natural).representation
 
-
-
-			-- now parse the json array that we got as part of the l_result_payload
-					create parser.make_parser (l_result_payload)
-
-			create result_array.make_array
-
-			if attached {JSON_ARRAY} parser.parse as j_array and parser.is_parsed then
-				from
-					i:=1
-				until
-					i > j_array.count
-				loop
-					if attached {JSON_OBJECT} j_array.i_th (i) as j_object then
-						if attached {JSON_STRING} j_object.item ("user_id") as user_id then
-							new_user_id := user_id.unescaped_string_8
-						end
-						result_array.add (db_handler_user.find_by_id (new_user_id.to_natural))
-					end
-					i:=i+1
-				end
-			end
-
-			other_payload := result_array.representation
-
-			set_json_header_ok (res, other_payload.count)
-			res.put_string (other_payload)
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
 		end
 
 
@@ -117,6 +117,7 @@ feature -- Handlers
 		do
 			-- obtain the project id via the URL
 			project_id := req.path_parameter ("project_id").string_representation
+
 			-- and use the sprint handler to obtain all its sprints
 			l_result_payload := db_handler_sprint.find_by_project_id (project_id.to_natural).representation
 
@@ -144,8 +145,8 @@ feature -- Handlers
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project; the project data are expected to be part of the request's payload
 		local
-			l_payload : STRING
-			new_name, new_status, new_description, new_mpps, new_number_of_sprints, new_user_id : STRING
+			l_payload, l_user_id : STRING
+			new_name, new_status, new_description, new_mpps, new_number_of_sprints : STRING
 			new_project : PROJECT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -153,53 +154,72 @@ feature -- Handlers
 				-- create emtpy string objects
 			create l_payload.make_empty
 
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
+				-- create json object
+			create l_result.make
 
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
 
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the project description
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in and we can get the user id through the session data
 
-					-- we have to convert the json string into an eiffel string for each project attribute.
-				if attached {JSON_STRING} j_object.item ("name") as name then
-					new_name := name.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("status") as status then
-					new_status := status.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("description") as description then
-					new_description := description.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
-					new_mpps := mpps.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
-					new_number_of_sprints := number_of_sprints.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
-					new_user_id := user_id.unescaped_string_8
+					-- get the id of the user from the session store
+				l_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+					-- read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+
+					-- now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+
+					-- if the parsing was successful and we have a json object, we fetch the properties
+					-- for the project description
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+						-- we have to convert the json string into an eiffel string for each project attribute.
+					if attached {JSON_STRING} j_object.item ("name") as name then
+						new_name := name.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("status") as status then
+						new_status := status.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("description") as description then
+						new_description := description.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("mpps") as mpps then
+						new_mpps := mpps.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
+						new_number_of_sprints := number_of_sprints.unescaped_string_8
+					end
 				end
 
+
+				create new_project.make (new_name, new_status, new_description, new_mpps.to_natural, new_number_of_sprints.to_natural, l_user_id.to_natural)
+
+					-- create the project in the database
+				db_handler_project.add (new_project)
+
+					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Added project " + new_project.name ), create {JSON_STRING}.make_json ("Message"))
+
+					-- send the response
+				set_json_header_ok (res, l_result.representation.count)
+				res.put_string (l_result.representation)
+
+			else
+					-- the request has no session cookie and thus the user is not logged in
+					-- we return an error stating that the user is not authorized to show projects
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
 			end
 
-			create new_project.make (new_name, new_status, new_description, new_mpps.to_integer_32, new_number_of_sprints.to_integer_32, new_user_id.to_integer_32)
-				-- create the project in the database
-			db_handler_project.add (new_project)
-
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added project " + new_project.name ), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
 		end
 
 	add_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new project; the project data are expected to be part of the request's payload
+			-- adds a new task; the task data are expected to be part of the request's payload
 		local
 			l_payload : STRING
 			new_id, new_priority, new_position, new_type, new_description, new_title, new_points : STRING
@@ -277,9 +297,7 @@ feature -- Handlers
 	add_collaborator (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project; the project data are expected to be part of the request's payload
 		local
-			l_payload : STRING
 			l_user_id_to_add, l_project_id: STRING
-			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
 
@@ -289,7 +307,7 @@ feature -- Handlers
 			l_project_id := req.path_parameter ("project_id").string_representation
 
 
-				-- obtain the project id via the URL
+				-- obtain the user id via the URL
 			l_user_id_to_add := req.path_parameter ("user_id").string_representation
 
 
@@ -310,8 +328,8 @@ feature -- Handlers
 			-- update a project from the database
 		local
 			l_payload: STRING
-			l_project_id: STRING
-			project_name, project_status, project_description, project_mpps, project_user_id, project_number_of_sprints : STRING
+			l_project_id, l_user_id,: STRING
+			project_name, project_status, project_description, project_mpps, project_number_of_sprints : STRING
 			project : PROJECT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -319,54 +337,70 @@ feature -- Handlers
 				-- create emtpy string objects
 			create l_payload.make_empty
 
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the project description
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-				-- we have to convert the json string into an eiffel string for each project attribute.
-				if attached {JSON_STRING} j_object.item ("name") as name then
-					project_name := name.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("status") as status then
-					project_status := status.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("description") as description then
-					project_description := description.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("mpps") as mpps then
-					project_mpps := mpps.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
-					project_number_of_sprints := number_of_sprints.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("user_id") as user_id then
-					project_user_id := user_id.unescaped_string_8
-				end
-
-			end
-
-				-- create the project
-			create project.make (project_name, project_status, project_description, project_mpps.to_integer_32, project_number_of_sprints.to_integer,project_user_id.to_integer_32)
-
-				-- the project_id from the URL (as defined by the placeholder in the route)
-			l_project_id := req.path_parameter ("project_id").string_representation
-
-				-- update the project in the database
-			db_handler_project.update (l_project_id.to_natural,project)
-
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+				-- create json object
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated project "+ project.name), create {JSON_STRING}.make_json ("Message"))
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in and we can get the user id through the session data
+
+					-- get the id of the user from the session store
+				l_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+					-- read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+
+					-- now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+
+					-- if the parsing was successful and we have a json object, we fetch the properties
+					-- for the project description
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+					-- we have to convert the json string into an eiffel string for each project attribute.
+					if attached {JSON_STRING} j_object.item ("name") as name then
+						project_name := name.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("status") as status then
+						project_status := status.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("description") as description then
+						project_description := description.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("mpps") as mpps then
+						project_mpps := mpps.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
+						project_number_of_sprints := number_of_sprints.unescaped_string_8
+					end
+				end
+
+					-- create the project
+				create project.make (project_name, project_status, project_description, project_mpps.to_natural, project_number_of_sprints.to_natural,l_user_id.to_natural)
+
+					-- the project_id from the URL (as defined by the placeholder in the route)
+				l_project_id := req.path_parameter ("project_id").string_representation
+
+					-- update the project in the database
+				db_handler_project.update (l_project_id.to_natural,project)
+
+					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Updated project "+ project.name), create {JSON_STRING}.make_json ("Message"))
+
+					-- set the result
+				set_json_header_ok (res, l_result.representation.count)
+				res.put_string (l_result.representation)
+
+			else
+					-- the request has no session cookie and thus the user is not logged in
+					-- we return an error stating that the user is not authorized to show projects
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 	remove_project (req: WSF_REQUEST; res: WSF_RESPONSE)

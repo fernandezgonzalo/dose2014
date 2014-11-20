@@ -24,6 +24,17 @@ feature -- Data access
 
 		end
 
+	find_by_user_loged(user_id: INTEGER) : JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents
+			-- a project where the user is collaborator or owner	
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT p.name,p.status,p.description,p.max_point_per_sprint FROM Projects p NATURAL JOIN"+
+											"Collaborators c WHERE (p.id =c.project_id AND c.user_id="+user_id.out+") OR p.user_id="+user_id.out+";", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
+
+		end
+
 	find_by_id (project_id : INTEGER) : JSON_OBJECT
 			-- returns a JSON_OBJECT that represents a project that corresponds to the given id
 		do
@@ -32,11 +43,11 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
 		end
 
-	find_collabs_user_id_by_id (project_id : INTEGER) : JSON_ARRAY
-			-- returns a JSON_JSON_ARRAY where each element is a JSON_OBJECT that represents a collaborator
+	find_collabs_by_project_id (project_id : INTEGER) : JSON_ARRAY
+			-- returns a JSON_JSON_ARRAY where each element is a JSON_OBJECT that
+			-- represents a collaborator to the given project
 		do
 			create Result.make_array
-			--create db_query_statement.make("SELECT Collaborators.user_id FROM Collaborators WHERE project_id="+ project_id.out +";" ,db)
 			create db_query_statement.make("SELECT * FROM Collaborators WHERE project_id="+ project_id.out +";" ,db)
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 		end

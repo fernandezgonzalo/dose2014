@@ -25,7 +25,8 @@ feature -- Data access
 		end
 
 	find_by_id_and_project_id (sprint_id : INTEGER; project_id: INTEGER) : JSON_OBJECT
-			-- returns a JSON_OBJECT that represents a sprint that corresponds to the given id
+			-- returns a JSON_OBJECT that represents a sprint that
+			-- corresponds to the given sprint_id and project_id
 		do
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Sprints WHERE id="+ sprint_id.out +" AND project_id="+project_id.out+";" ,db)
@@ -34,6 +35,7 @@ feature -- Data access
 
 	find_by_project_id (project_id : NATURAL) : JSON_ARRAY
 			-- return a JSON_ARRAY where each element is a JSON_OBJECT that represents a Sprint
+			-- thats correspond to the given project_id
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Sprints WHERE project_id="+ project_id.out+";",db)
@@ -48,7 +50,7 @@ feature -- Data access
 											sprint.project_id.out+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
-				print("Error while inserting a new project")
+				print("Error while inserting a new sprint")
 			end
 		end
 
