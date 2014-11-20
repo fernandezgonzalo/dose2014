@@ -14,8 +14,8 @@ app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider
       .when('/login', {
-        templateUrl: 'partials/login.html',
-        controller: 'LoginCtrl'
+        templateUrl: '/partials/login.html',
+        controller: 'SessionCtrl'
       })
       .when('/home', {
         templateUrl: 'partials/home.html',
@@ -25,16 +25,16 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'partials/projects.html',
         controller: 'ProjectCtrl'
       })
-      .when('projects/iterations', {
+      .when('/projects/iterations', {
         templateUrl: 'partials/iterations.html',
         controller: 'IterationCtrl'
       })
-      .when('projects/iterations/work_items', {
+      .when('/projects/iterations/work_items', {
         templateUrl: 'partials/work_items.html',
         controller: 'WorkItemCtrl'
       })
-      .when('projects/members', {
-        templateUrl: 'partials/memberss.html',
+      .when('/projects/members', {
+        templateUrl: 'partials/members.html',
         controller: 'MemberCtrl'
       })
       .when('/search', {
