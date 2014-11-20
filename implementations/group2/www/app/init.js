@@ -8,7 +8,7 @@ angular.element(document).ready(function() {
     angular.bootstrap(document, ['coffee']);
 });
 //modules
-var modules = ['restangular', 'ui.bootstrap', 'ui.router', 'coffee.core'];
+var modules = ['restangular', 'ui.bootstrap', 'ui.router', 'coffee.core', 'coffee.users'];
 angular.module('coffee.core').config(['$locationProvider',
     function($locationProvider) {
         $locationProvider.hashPrefix('!');
