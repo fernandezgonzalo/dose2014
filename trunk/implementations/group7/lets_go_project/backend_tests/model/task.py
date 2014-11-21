@@ -26,14 +26,16 @@ def get_task_from_json(json_str):
 
 class Task(DatabaseItem):
 
-    def __init__(self, nr, description, owner, story_id, id_=None):
+    def __init__(self, nr, description, owner, story_id, assigned_devs, id_=None):
         super(Task, self).__init__()
         self.nr = nr
         self.description = description
         self.owner = owner
         self.story_id = story_id
+        self.assigned_devs = assigned_devs
         self.id = id_
         self.database_fields = ['nr', 'description', 'owner', 'story_id']
+        self.non_database_fields = ['assigned_devs']
         self.table_name = 'tasks'
 
 

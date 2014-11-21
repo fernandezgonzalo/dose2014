@@ -38,4 +38,10 @@ feature
 			end
 		end
 
+
+	get_user_id_from_req(req: WSF_REQUEST): STRING
+		do
+			Result := get_session_from_req(req, "lets_go_session").at("id").out
+		end
+
 end

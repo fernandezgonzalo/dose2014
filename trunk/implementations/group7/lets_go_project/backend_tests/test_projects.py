@@ -19,7 +19,8 @@ class TestProjects(test_rest_resource.TestRestResource):
             end_date=date(2014, 12, 31),
             status=1,
             owner=1,
-            invited_devs=[1, 2],
+            invited_devs=[],
+            sprints=[],
             id_=2
         )
 
@@ -30,7 +31,8 @@ class TestProjects(test_rest_resource.TestRestResource):
             end_date=date(2014, 12, 2),
             status=2,
             owner=2,
-            invited_devs=[1, 2],
+            invited_devs=[],
+            sprints=[],
             id_=2
         )
 

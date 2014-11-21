@@ -63,10 +63,18 @@ feature -- Data access
 			Result := not db_modify_statement.has_error
 		end
 
-	delete (id: STRING; table_name: STRING)
+	delete_with_primary_key (id: STRING; table_name: STRING): BOOLEAN
 		do
 			create db_modify_statement.make ("DELETE FROM " + table_name + " WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
+			Result := not db_modify_statement.has_error
+		end
+
+	delete (a_statement: STRING): BOOLEAN
+		do
+			create db_modify_statement.make(a_statement + ";", db)
+			db_modify_statement.execute
+			Result := not db_modify_statement.has_error
 		end
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]

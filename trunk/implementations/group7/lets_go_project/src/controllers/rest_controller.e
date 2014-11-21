@@ -15,6 +15,9 @@ inherit
 		-- inherit this helper to get functions to check for a session cookie
 		-- if a session cookie exists, we can get the data of that session
 
+	JSON_PARSING_HELPER
+		-- helper functionality for json parsing.
+
 
 feature {NONE} -- Creation
 
@@ -50,7 +53,7 @@ feature -- Handlers
 
 	create_new (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			create_new_from_json(req, res, parse_json (req))
+			create_new_from_json(req, res, get_json_object_from_request (req))
 		end
 
 
@@ -69,14 +72,20 @@ feature -- Handlers
 
 	update (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			update_from_json(req, res, parse_json (req))
+			update_from_json(req, res, get_json_object_from_request (req))
 		end
 
 
 	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			success: BOOLEAN
 		do
-			db.delete(get_id(req), table_name)
-			reply_with_204(res)
+			success := db.delete_with_primary_key(get_id(req), table_name)
+			if success then
+				reply_with_204(res)
+			else
+				reply_with_500(res)
+			end
 		end
 
 
@@ -96,7 +105,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	create_new_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), parse_json(req)))
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req)))
 		end
 
 
@@ -108,7 +117,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	update_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), parse_json(req)))
+			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), get_json_object_from_request(req)))
 		end
 
 
@@ -157,19 +166,6 @@ feature {NONE} -- Internal helpers
 			end
 		end
 
-	parse_json(req: WSF_REQUEST): JSON_OBJECT
-		local
-			l_payload: STRING
-			parser: JSON_PARSER
-		do
-			create l_payload.make_empty
-			req.read_input_data_into (l_payload)
-			print("Received json to parse: " + l_payload)
-			create parser.make_parser (l_payload)
-			if attached {JSON_OBJECT} parser.parse as j_object then
-				Result := j_object
-			end
-		end
 
 	get_update_assignments(fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]): STRING
 		local
@@ -192,6 +188,7 @@ feature {NONE} -- Internal helpers
                 i := i + 1
             end
 		end
+
 
 	get_fields_and_values_from_json(json_object: JSON_OBJECT): TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
 		local
