@@ -105,6 +105,8 @@ class TestDataGenerator(object):
         story_id = 1
         for project in self.projects:
             for sprint_id in project.sprints:
+                print sprint_id
+                print self.sprint_mapping
                 sprint = self.sprint_mapping[sprint_id]
                 story_count = random.randint(0, self.max_story_count)
                 story_ids = [i for i in xrange(story_id, story_id + story_count)]

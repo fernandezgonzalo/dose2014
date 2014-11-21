@@ -10,14 +10,15 @@ inherit
 	REST_CONTROLLER
 redefine
 	get_all,
-	get
+	get,
+	create_new_from_json
 end
 
 create
 	make
 
-feature -- Handlers
 
+feature -- Handlers
 
 	get_all (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
@@ -57,6 +58,24 @@ feature -- Handlers
 			end
 		end
 
+	create_new_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+		local
+			fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
+			fields_str: STRING
+			values_str: STRING
+			id: INTEGER_64
+		do
+			fields_and_values := get_fields_and_values_from_json(input)
+			fields_str := get_comma_separated_string_without_quotes_from_array (fields_and_values.fields)
+			values_str := get_comma_separated_string_from_array (fields_and_values.values)
+			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
+			if id >= 0 then
+				invite_developer_transaction(id.out, get_user_id_from_req(req))
+				reply_with_201_with_data(res, id.out)
+			else
+				reply_with_500(res)
+			end
+		end
 
 	invite_developers (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
 		do
@@ -74,13 +93,13 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	invite_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent invite_developers(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent invite_developers(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	remove_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent remove_developers(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent remove_developers(req, res, ?), get_json_object_from_request(req))))
 		end
 
 

@@ -24,7 +24,7 @@ class TestStories(test_rest_resource.TestRestResource):
             description="some updated description",
             points=1,
             notes='some updated notes',
-            sprint_id=2,
+            sprint_id=1,
             id_=2
         )
 

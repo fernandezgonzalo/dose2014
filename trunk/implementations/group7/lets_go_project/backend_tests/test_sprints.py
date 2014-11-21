@@ -17,6 +17,7 @@ class TestSprints(test_rest_resource.TestRestResource):
             end_date=date(2014, 12, 31),
             status=1,
             project_id=1,
+            stories=[],
             id_=2
         )
 
@@ -25,7 +26,8 @@ class TestSprints(test_rest_resource.TestRestResource):
             start_date=date(2013, 1, 2),
             end_date=date(2014, 12, 2),
             status=2,
-            project_id=2,
+            project_id=1,
+            stories=[],
             id_=2
         )
 
