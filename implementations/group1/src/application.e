@@ -94,14 +94,17 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.get_users_by_id, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent user.get_projects_by_user, router.methods_get)
+
+
 
 				-- handling of all ht routes relating to "project"
-			map_uri_template_agent_with_request_methods ("/api/projects", agent project.get_projects, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/projects", agent project.add_project, router.methods_post)
+			--map_uri_template_agent_with_request_methods ("/api/projects", agent project.get_projects, router.methods_get)
+			--map_uri_template_agent_with_request_methods ("/api/projects", agent project.add_project, router.methods_post)
 
 				-- handling of all ht routes relating to "rolProjects"
-			map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.get_rol_projects, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.add_rol_project, router.methods_post)
+			--map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.get_rol_projects, router.methods_get)
+			--map_uri_template_agent_with_request_methods ("/api/rolProjects", agent rol_project.add_rol_project, router.methods_post)
 
 
 				-- setting the path to the folder from where we serve static files
