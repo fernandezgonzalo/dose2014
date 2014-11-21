@@ -9,6 +9,7 @@ class
 
 inherit
 	HEADER_JSON_HELPER
+	SESSION_HELPER
 
 create
 	make
@@ -117,15 +118,11 @@ feature
 		local
 			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
+
+
 		do
-
-				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
-			create l_session.make (req, "_demo_session_", session_manager)
+			create l_session.make (req, "_session_", session_manager)
 			l_session.destroy
-
-
-				-- create the response
-				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
 				-- set the repsone header, indicating that everything went ok by statuscode 200
