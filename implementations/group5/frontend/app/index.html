@@ -21,7 +21,6 @@
     </head>
     <body data-ng-app="Mgmt">
       <div class="container" data-ng-controller="ApplicationController"> 
-            <a href="#" editable-text="user.name">{{ user.name || "empty" }}</a>
             <div ng-include="'partials/header.html'"></div>
             <div ng-if="isAuthenticated()" ng-include="'partials/navbar.html'"></div>
             <div data-ng-view ></div>
