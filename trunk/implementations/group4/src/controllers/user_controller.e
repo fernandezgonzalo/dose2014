@@ -8,8 +8,14 @@ class
 	USER_CONTROLLER
 
 inherit
-	HEADER_JSON_HELPER
 
+	HEADER_JSON_HELPER
+		-- inherit this helper to get a procedure that simplifies setting
+		-- the HTTP response header correctly
+
+	SESSION_HELPER
+		-- inherit this helper to get functions to check for a session cookie
+		-- if a session cookie exists, we can get the data of that session
 create
 	make
 
@@ -35,29 +41,57 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
+			-- sends a reponse that contains a json array with all users if some user is logged in.
 		local
 			l_result_payload: STRING
+			l_result : JSON_OBJECT
 		do
-			l_result_payload := db_handler_user.find_all.representation
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, a user is logged in.
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+				l_result_payload := db_handler_user.find_all.representation
+
+				set_json_header_ok (res, l_result_payload.count)
+				res.put_string (l_result_payload)
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				create l_result.make
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 	get_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a response that contains a json object with a user with given id
+			-- sends a response that contains a json object with a user with given id if some user is logged in.
 		local
 			l_result_payload: STRING
 			l_user_id : STRING
+			l_result : JSON_OBJECT
 		do
-			-- the user_id from the URL
-			l_user_id := req.path_parameter ("user_id").string_representation
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, a user is logged in.
 
-			l_result_payload := db_handler_user.find_by_id (l_user_id.to_natural).representation
+					-- the user_id from the URL
+				l_user_id := req.path_parameter ("user_id").string_representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+				l_result_payload := db_handler_user.find_by_id (l_user_id.to_natural).representation
+
+				set_json_header_ok (res, l_result_payload.count)
+				res.put_string (l_result_payload)
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the user.
+				create l_result.make
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -117,78 +151,141 @@ feature -- Handlers
 			-- update a existent user
 		local
 			l_payload: STRING
-			l_user_id: STRING
+			l_user_session_id, l_user_id: STRING
 			l_user_name, l_email, l_password : STRING
 			l_hashed_password: STRING
 			l_user : USER
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
 		do
-				-- create emtpy string objects
+				-- create empty objects
 			create l_payload.make_empty
-
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-				-- we have to convert the json string into an eiffel string for each user attribute.
-				if attached {JSON_STRING} j_object.item ("user_name") as user_name then
-					l_user_name := user_name.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("email") as email then
-					l_email := email.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("password") as password then
-					l_password := password.unescaped_string_8
-				end
-
-			end
-
-				-- here we hash the password with salt for database storing
-			l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
-
-				-- create the user
-			create l_user.make (l_user_name, l_email, l_hashed_password)
-
-				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_user_id := req.path_parameter ("user_id").string_representation
-
-				-- update the user in the database
-			db_handler_user.update (l_user_id.to_natural,l_user)
-
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated user "+ l_user.username), create {JSON_STRING}.make_json ("Message"))
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, a user is logged in.
+
+					-- get the id of the user logged in from the session store
+				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+					-- the user_id from the URL (as defined by the placeholder in the route)
+				l_user_id := req.path_parameter ("user_id").string_representation
+
+				if (l_user_session_id.is_equal(l_user_id)) then
+						-- the user logged is the same as the user that is being updated.
+
+						-- read the payload from the request and store it in the string
+					req.read_input_data_into (l_payload)
+
+						-- now parse the json object that we got as part of the payload
+					create parser.make_parser (l_payload)
+
+						-- if the parsing was successful and we have a json object, we fetch the properties
+						-- for the todo description and the userId
+					if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+						-- we have to convert the json string into an eiffel string for each user attribute.
+						if attached {JSON_STRING} j_object.item ("user_name") as user_name then
+							l_user_name := user_name.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("email") as email then
+							l_email := email.unescaped_string_8
+						end
+						if attached {JSON_STRING} j_object.item ("password") as password then
+							l_password := password.unescaped_string_8
+						end
+
+					end
+
+						-- here we hash the password with salt for database storing
+					l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
+
+						-- create the user
+					create l_user.make (l_user_name, l_email, l_hashed_password)
+
+						-- update the user in the database
+					db_handler_user.update (l_user_id.to_natural,l_user)
+
+						-- put in a json object a "Message" property that states what happend
+					l_result.put (create {JSON_STRING}.make_json ("Updated user "+ l_user.username), create {JSON_STRING}.make_json ("Message"))
+
+						-- set the result
+					set_json_header_ok (res, l_result.representation.count)
+					res.put_string (l_result.representation)
+
+				else
+						-- the user logged is not the same as the user that is being updated.
+						-- we return an error stating that the user is not authorized to update another user.
+
+						-- put in a json object a "Message" property that states what happend
+					l_result.put_string ("The user logged is unauthorized for update another user.", create {JSON_STRING}.make_json ("Message"))
+						-- set the header to status code 401-unauthorized
+					set_json_header (res, 401, l_result.representation.count)
+					res.put_string (l_result.representation)
+				end
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to update another user.
+
+					-- put in a json object a "Message" property that states what happend
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a user from the database
 		local
-			l_user_id: STRING
+			l_user_session_id, l_user_id: STRING
 			l_result: JSON_OBJECT
 		do
-				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_user_id := req.path_parameter ("user_id").string_representation
-				-- remove the user
-			db_handler_user.remove (l_user_id.to_natural)
-
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, a user is logged in.
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+					-- get the id of the user logged in from the session store
+				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+					-- the user_id from the URL (as defined by the placeholder in the route)
+				l_user_id := req.path_parameter ("user_id").string_representation
+
+				if (l_user_session_id.is_equal(l_user_id)) then
+						-- the user logged is the same as the user that is being removed.
+
+						-- remove the user
+					db_handler_user.remove (l_user_id.to_natural)
+
+						-- put in a json object a "Message" property that states what happend
+					l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
+
+						-- set the result
+					set_json_header_ok (res, l_result.representation.count)
+					res.put_string (l_result.representation)
+
+				else
+						-- the user logged is not the same as the user that is being remoed.
+						-- we return an error stating that the user is not authorized to remove another the user.
+
+						-- put in a json object a "Message" property that states what happend
+					l_result.put_string ("The user logged is unauthorized for remove another user.", create {JSON_STRING}.make_json ("Message"))
+						-- set the header to status code 401-unauthorized
+					set_json_header (res, 401, l_result.representation.count)
+					res.put_string (l_result.representation)
+				end
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to remove another the user.
+
+					-- put in a json object a "Message" property that states what happend
+				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+					-- set the header to status code 401-unauthorized
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
 		end
 
 	login (req: WSF_REQUEST; res: WSF_RESPONSE)
