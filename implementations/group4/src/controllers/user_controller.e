@@ -84,6 +84,30 @@ feature -- Handlers
 			end
 		end
 
+	get_logged_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a json object with the user logged data.
+		local
+			l_result_payload: STRING
+			l_user_session_id : STRING
+		do
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, a user is logged in.
+
+					-- get the id of the user logged in from the session store
+				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+
+				l_result_payload := db_handler_user.find_by_id (l_user_session_id.to_natural).representation
+
+				set_json_header_ok (res, l_result_payload.count)
+				res.put_string (l_result_payload)
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error.
+				prepare_response("User is not logged in",401,res)
+			end
+		end
+
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- add a new user; the user data are expected to be part of the request's payload
 		local
