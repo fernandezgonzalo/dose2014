@@ -419,6 +419,32 @@ feature -- Data access Requirement
 			end
 		end
 
+	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
+			-- checks if a user with given username and password exists
+			-- if yes, the result tuple value "has_user" will be true and "id" and "username" will be set
+			-- otherwise, "has_user" will be false and "id" and "username" will not be set
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+				-- create a result object
+			create Result
+
+			create db_query_statement.make ("SELECT * FROM User WHERE email=? AND password=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_user_name, a_password>>)
+
+			if l_query_result_cursor.after then
+					-- there are no rows in the result of the query, thus no user with that password exits
+				print("Did not find a user with name '" + a_user_name  + "' and password '" + a_password + "' in the database.%N")
+				Result.has_user := False
+			else
+				print("Found a user name '" + a_user_name + "' and password '" + a_password + "' in the database.%N")
+				Result.has_user := True
+				Result.id := l_query_result_cursor.item.value (1).out
+				Result.username := l_query_result_cursor.item.value (4).out
+			end
+		end
+
+
 feature {NONE}
 
 	db: SQLITE_DATABASE
