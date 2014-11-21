@@ -7,7 +7,7 @@ require.config
         {
             angular: "libs/js/angular",
             angularAnimate: "libs/js/angular-animate",
-            storeJson2: "libs/js/store+json2",
+            storeJson2: "libs/js/store_json2",
             angularUIRoute: "libs/js/angular-ui-router",
             angularSanitize: "libs/js/angular-sanitize",
             angularCookies: "libs/js/angular-cookies",

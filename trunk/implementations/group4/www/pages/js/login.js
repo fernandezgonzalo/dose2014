@@ -28,17 +28,23 @@ define(
                 "$scope",
                 "$log",
                 "restapi",
-                function($scope, $log, restapi)
+                "$state",
+                function($scope, $log, restapi, $state)
                 {
                     $scope.login = function(form)
                     {
                         $log.info(form);
-                        restapi.login(form.email, form.password);
+                        restapi.login(form.email, form.password).then
+                        (
+                            function () {
+                                $state.go("projects");
+                            }
+                        )
                     };
 
                     $scope.logout = function(form)
                     {
-                        $log.info(form);
+                        $log.info(restapi.user());
                         restapi.logout();
                     };
                 }

@@ -6,11 +6,11 @@ define(
     [
         //System includes
         "angular",
-        "angularCookies"
+        "storeJson2"
     ],
 
-    function (angular) {
-        return angular.module("RestApiModule", ["ngCookies"])
+    function (angular, store) {
+        return angular.module("RestApiModule", [])
 
         /*
         .config
@@ -31,8 +31,7 @@ define(
             [
                 "$http",
                 "$log",
-                "$cookies",
-                function($http, $log, $cookies)
+                function($http, $log)
                 {
 
                     //////////////////////////////////////////////////////////////
@@ -46,21 +45,29 @@ define(
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PUBLIC METHODS
 
+                    module.user = function ()
+                    {
+                        return store.get("user");
+                    };
+
+                    module.is_logged = function ()
+                    {
+                        return !(module.user()===undefined);
+                    };
+
                     module.login = function(email, password)
                     {
                         var data = {
-                            //user_name: 'Foo',
                             email: email,
                             password: password
                         };
 
-                        $http.post('/api/sessions', data)
+                        return $http.post('/api/sessions', data)
                         .success
                         (
-                            function(data, status, header, config)
+                            function()
                             {
-                                $log.debug(data);
-                                $log.debug($cookies);
+                                store.set("user", data.email);
                             }
                         )
                         .error
@@ -80,8 +87,8 @@ define(
                         (
                             function(data, status, header, config)
                             {
+                                store.remove("user");
                                 $log.debug(data);
-                                $log.debug($cookies);
                             }
                         )
                         .error

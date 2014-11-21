@@ -2,7 +2,10 @@
 define(
     [
         //System includes
-        "angular"
+        "angular",
+
+        //Custom includes
+        "pages/js/restapi"
     ],
 
     function (angular)
@@ -11,6 +14,7 @@ define(
         (
             "uiNavbarModule",
             [
+                "RestApiModule"
             ]
         )
 
@@ -29,9 +33,11 @@ define(
                         [
                             "$scope",
                             "$state",
-                            function($scope, $state)
+                            "restapi",
+                            function($scope, $state, restapi)
                             {
                                 $scope.state = $state;
+                                $scope.restapi = restapi;
                             }
                         ]
                     };
