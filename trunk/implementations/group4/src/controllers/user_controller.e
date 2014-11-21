@@ -44,7 +44,6 @@ feature -- Handlers
 			-- sends a reponse that contains a json array with all users if some user is logged in.
 		local
 			l_result_payload: STRING
-			l_result : JSON_OBJECT
 		do
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -57,11 +56,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				create l_result.make
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
@@ -70,7 +65,6 @@ feature -- Handlers
 		local
 			l_result_payload: STRING
 			l_user_id : STRING
-			l_result : JSON_OBJECT
 		do
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -86,11 +80,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the user.
-				create l_result.make
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
@@ -102,7 +92,6 @@ feature -- Handlers
 			l_hashed_password: STRING
 			l_user : USER
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -138,13 +127,8 @@ feature -- Handlers
 				-- create the user in the database
 			db_handler_user.add (l_user)
 
-				-- create a json object that as a "Message" property that states what happend
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added user " + l_user.username ), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				-- prepare the response
+			prepare_response("Added user " + l_user.username,200,res)
 		end
 
 	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -156,11 +140,9 @@ feature -- Handlers
 			l_hashed_password: STRING
 			l_user : USER
 			parser : JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create empty objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -207,42 +189,26 @@ feature -- Handlers
 						-- update the user in the database
 					db_handler_user.update (l_user_id.to_natural,l_user)
 
-						-- put in a json object a "Message" property that states what happend
-					l_result.put (create {JSON_STRING}.make_json ("Updated user "+ l_user.username), create {JSON_STRING}.make_json ("Message"))
-
-						-- set the result
-					set_json_header_ok (res, l_result.representation.count)
-					res.put_string (l_result.representation)
+						-- prepare the response
+					prepare_response("Updated user " + l_user.username,200,res)
 
 				else
 						-- the user logged is not the same as the user that is being updated.
 						-- we return an error stating that the user is not authorized to update another user.
-
-						-- put in a json object a "Message" property that states what happend
-					l_result.put_string ("The user logged is unauthorized for update another user.", create {JSON_STRING}.make_json ("Message"))
-						-- set the header to status code 401-unauthorized
-					set_json_header (res, 401, l_result.representation.count)
-					res.put_string (l_result.representation)
+					prepare_response("The user logged is unauthorized for update another user.",401,res)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to update another user.
-
-					-- put in a json object a "Message" property that states what happend
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
 	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a user from the database
 		local
-			l_user_session_id, l_user_id: STRING
-			l_result: JSON_OBJECT
+			l_user_session_id,l_user_id: STRING
 		do
-			create l_result.make
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
 					-- thus, a user is logged in.
@@ -259,32 +225,17 @@ feature -- Handlers
 						-- remove the user
 					db_handler_user.remove (l_user_id.to_natural)
 
-						-- put in a json object a "Message" property that states what happend
-					l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-						-- set the result
-					set_json_header_ok (res, l_result.representation.count)
-					res.put_string (l_result.representation)
-
+						-- prepare the reponse
+					prepare_response("Removed item",200,res)
 				else
 						-- the user logged is not the same as the user that is being remoed.
 						-- we return an error stating that the user is not authorized to remove another the user.
-
-						-- put in a json object a "Message" property that states what happend
-					l_result.put_string ("The user logged is unauthorized for remove another user.", create {JSON_STRING}.make_json ("Message"))
-						-- set the header to status code 401-unauthorized
-					set_json_header (res, 401, l_result.representation.count)
-					res.put_string (l_result.representation)
+					prepare_response("The user logged is unauthorized for remove another user.",401,res)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to remove another the user.
-
-					-- put in a json object a "Message" property that states what happend
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User is not logged in.",401,res)
 			end
 		end
 
@@ -297,7 +248,6 @@ feature -- Handlers
 		local
 			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 				-- if true the email and password match
 			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 				-- a session
@@ -305,7 +255,6 @@ feature -- Handlers
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -353,25 +302,15 @@ feature -- Handlers
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
-					-- put in a json object a "Message" property that states what happend
-				l_result.put (create {JSON_STRING}.make_json ("User logged in"), create {JSON_STRING}.make_json ("Message"))
-					-- set the repsone header, indicating that everything went ok by statuscode 200
-				set_json_header (res, 200, l_result.representation.count)
+					-- preapae the respons
+				prepare_response("User logged in",200,res)
+
 			else
-
-				-- the email & password combination was wrong
-				-- so we don't create a session
-				-- but return an error message
-
-					-- put in a json object a "Message" property that states what happend
-				l_result.put (create {JSON_STRING}.make_json ("Email or password incorrect"), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the repsone header, indicating that no session in created because the client was not authorized
-				set_json_header (res, 401, l_result.representation.count)
+					-- the email & password combination was wrong
+					-- so we don't create a session
+					-- but return an error message
+				prepare_response("Email or password incorrect",401,res)
 			end
-
-				-- add the message to the response response
-			res.put_string (l_result.representation)
 		end
 
 
@@ -379,25 +318,14 @@ feature -- Handlers
 	logout (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- logout a user
 			-- that means we destroy the user's session (if one exists)
-
 		local
-			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
 		do
-
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
 			create l_session.make (req, "_casd_session_", session_manager)
 			l_session.destroy
-
-
-				-- create the response
-				-- create a json object that has a "Message" property that states what happend
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
-				-- set the repsone header, indicating that everything went ok by statuscode 200
-			set_json_header_ok (res, l_result.representation.count)
-				-- add the message to the response response
-			res.put_string (l_result.representation)
+				-- prepare the response
+			prepare_response("User logged out",200,res)
 		end
 
 end
