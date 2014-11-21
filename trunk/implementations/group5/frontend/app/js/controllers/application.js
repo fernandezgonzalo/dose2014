@@ -3,10 +3,7 @@
 angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
   var TAG = 'ApplicationController::';
   $log.debug(TAG, 'init main controller');
-  $scope.task = {name: 'Implement logic'};
-  $scope.user = {
-    name: 'awesome user'
-  };    
+
   $scope.currentUser = null;
   $scope.isAuthenticated = AuthService.isAuthenticated;
   $scope.isAdmin = AuthService.isAdmin;
