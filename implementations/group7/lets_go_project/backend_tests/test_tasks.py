@@ -16,6 +16,7 @@ class TestTasks(test_rest_resource.TestRestResource):
             description='some description',
             owner=1,
             story_id=1,
+            assigned_devs=[],
             id_=2
         )
 
@@ -24,6 +25,7 @@ class TestTasks(test_rest_resource.TestRestResource):
             description='some updated description',
             owner=2,
             story_id=2,
+            assigned_devs=[],
             id_=2
         )
 

@@ -13,7 +13,7 @@ def get_random_project(owner, id_=None):
     start_date = get_random_date_in_year(2013)
     end_date = get_random_date_in_year(2014)
     status = random.choice(STATI)
-    return Project(name, description, start_date, end_date, status, owner, [], id_)
+    return Project(name, description, start_date, end_date, status, owner, [], [], id_)
 
 
 def get_project_from_json(json_str):
@@ -26,13 +26,14 @@ def get_project_from_json(json_str):
         status=json_dict['status'],
         owner=json_dict['owner'],
         invited_devs=json_dict['invited_devs'],
+        sprints=json_dict['sprints'],
         id_=json_dict['id']
         )
 
 
 class Project(DatabaseItem):
 
-    def __init__(self, name, description, start_date, end_date, status, owner, invited_devs, id_=None):
+    def __init__(self, name, description, start_date, end_date, status, owner, invited_devs, sprints, id_=None):
         super(Project, self).__init__()
         self.name = name
         self.description = description
@@ -42,7 +43,7 @@ class Project(DatabaseItem):
         self.owner = owner
         self.id = id_
         self.invited_devs = invited_devs
-        self.sprints = []
+        self.sprints = sprints
         self.database_fields = ['name', 'description', 'start_date', 'end_date', 'status', 'owner']
         self.non_database_fields = ['invited_devs', 'sprints']
         self.table_name = 'projects'
