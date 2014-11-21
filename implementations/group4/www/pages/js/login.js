@@ -31,6 +31,8 @@ define(
                 "$state",
                 function($scope, $log, restapi, $state)
                 {
+                    $scope.restapi = restapi;
+
                     $scope.login = function(form)
                     {
                         $log.info(form);

@@ -30,7 +30,7 @@
                     Register
                 </button>
 
-                <button ng-click="logout()" class="btn btn-default">
+                <button ng-click="logout()" class="btn btn-default" ng-class="{ 'disabled': !restapi.is_logged() }">
                     Logout
                 </button>
             </form>
