@@ -40,6 +40,17 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_result_payload: STRING
+			l_user_id: STRING
+		do
+			l_user_id := req.path_parameter ("id_user").string_representation
+			l_result_payload := my_db.search_all_project_by_user (l_user_id.to_integer).representation
+			set_json_header_ok(res, l_result_payload.count)
+			res.put_string(l_result_payload)
+		end
+
 	get_users_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			l_result_payload: STRING
