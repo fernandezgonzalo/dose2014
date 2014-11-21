@@ -7,6 +7,7 @@ class
 
 inherit
 	HEADER_JSON_HELPER
+	SESSION_HELPER
 
 create
 	make
@@ -14,9 +15,10 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_dao: DB)
+	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			my_db := a_dao
+			session_manager := a_session_manager
 			my_db.remove_user (1)
 		end
 
@@ -24,6 +26,7 @@ feature {NONE} -- Creation
 feature {NONE} -- Private attributes
 
 	my_db: DB
+	session_manager: WSF_SESSION_MANAGER
 
 
 feature -- Handlers
@@ -32,12 +35,21 @@ feature -- Handlers
 	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all users
 		local
-			l_result_payload: STRING
+			l_result_payload: JSON_ARRAY
+			l_result_payload_json: JSON_OBJECT
 		do
-			l_result_payload := my_db.search_all_users.representation
-
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			create l_result_payload.make_array
+			create l_result_payload_json.make
+			if req_has_cookie(req, "_session_") then
+				print("entro por session%N")
+				l_result_payload := my_db.search_all_users
+				set_json_header_ok (res, l_result_payload.count)
+			else
+				print("no entro%N")
+				l_result_payload_json.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			end
+			res.put_string (l_result_payload.representation)
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)

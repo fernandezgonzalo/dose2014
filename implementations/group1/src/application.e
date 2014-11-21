@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 			create dao.make (path_to_db_file)
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
-			create user.make(dao)
+			create user.make(dao, session_manager)
 			create project.make(dao)
 			create rol_project.make(dao)
 

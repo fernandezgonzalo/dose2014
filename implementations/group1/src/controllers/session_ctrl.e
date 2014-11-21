@@ -70,7 +70,7 @@ feature
 					-- so next, we create a session
 
 					-- create the session; choose a name for the cookie that we'll send back
-				create l_session.make_new ("_demo_session_", session_manager)
+				create l_session.make_new ("_session_", session_manager)
 
 					-- add all the data we need to the session (format here is [value, key] pairs)
 					-- we store the username and the key "username"
