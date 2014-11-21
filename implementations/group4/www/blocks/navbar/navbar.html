@@ -13,7 +13,8 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li ng-class="{ 'active': state.$current.name == 'login' }" >
-                <a ng-click="state.go('login')">Login/Logout</a>
+                <a ng-if="restapi.is_logged()" ng-click="state.go('login')">{{restapi.user()}}</a>
+                <a ng-if="!restapi.is_logged()" ng-click="state.go('login')">Login</a>
             </li>
         </ul>
     </div>
