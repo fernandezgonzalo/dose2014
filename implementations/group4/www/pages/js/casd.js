@@ -31,14 +31,14 @@ define(
                 "$urlRouterProvider",
                 function($stateProvider, $urlRouterProvider)
                 {
-                    $urlRouterProvider.otherwise("/");
+                    $urlRouterProvider.otherwise("/projects");
 
                     $stateProvider
                     .state
                     (
                         "main",
                         {
-                            url: "/",
+                            url: "/projects",
                             templateUrl: "pages/html/projects.html",
                             controller: "ProjectsCtr",
                             resolve: {
@@ -54,7 +54,7 @@ define(
                     (
                         "project",
                         {
-                            url: "/project",
+                            url: "/projects/:id",
                             templateUrl: "pages/html/project.html"
                             //resolve: { data: 'SomeDataProvider' },
                             //controller: "SomeController"

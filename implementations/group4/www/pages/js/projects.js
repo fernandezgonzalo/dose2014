@@ -5,6 +5,8 @@ define(
         "angular",
 
         //Custom includes
+        "blocks/createproject/createproject",
+        "blocks/editproject/editproject",
         "pages/js/restapi"
     ],
 
@@ -15,7 +17,9 @@ define(
             "ProjectsModule",
             [
                 "RestApiModule",
-                "uiRegistrationModule"
+                "uiRegistrationModule",
+                "uiCreateProjectModule",
+                "uiEditProjectModule"
             ]
         )
 
@@ -47,11 +51,6 @@ define(
                     {
                         $log.info("GO");
                         $log.info(project);
-                    };
-
-                    $scope.createProject = function ()
-                    {
-                        $log.info("CREATE");
                     };
                 }
             ]
@@ -92,7 +91,7 @@ define(
                                 "number_of_sprints":"1"
                             },
                             {
-                                "id":"3",
+                                "id":"4",
                                 "name":"project3",
                                 "status":"Complete",
                                 "description":"project3 descr",
@@ -100,7 +99,7 @@ define(
                                 "number_of_sprints":"1"
                             },
                             {
-                                "id":"3",
+                                "id":"5",
                                 "name":"project3",
                                 "status":"Canceled",
                                 "description":"project3 descr",
