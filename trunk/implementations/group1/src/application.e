@@ -84,9 +84,9 @@ feature -- Basic operations
 		do
 
 			-- Handing login and logout
-			
+
 			map_uri_template_agent_with_request_methods ("/api/login", agent session_ctrl.login , router.methods_post)
-			--map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_get)
 
 
 				-- handling of all ht routes relating to "user"
