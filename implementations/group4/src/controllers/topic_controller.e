@@ -41,9 +41,7 @@ feature -- Handlers
 			-- sends a reponse that contains a json array with all topics
 		local
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
-			create l_result.make
 			create l_result_payload.make_empty
 
 			if req_has_cookie (req, "_casd_session_") then
@@ -57,10 +55,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the topics
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -69,10 +64,8 @@ feature -- Handlers
 		local
 			topic_id : STRING
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
 			create l_result_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -88,10 +81,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the topic
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -100,10 +90,8 @@ feature -- Handlers
 		local
 			topic_id: STRING
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
 			create l_result_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -119,10 +107,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the answers
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -133,11 +118,9 @@ feature -- Handlers
 			new_title, new_descr, new_project_id, new_task_id, new_user_id, new_sprint_id : STRING
 			new_topic : TOPIC
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 			-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -180,20 +163,12 @@ feature -- Handlers
 				db_handler_topic.add (new_topic, new_user_id.to_natural, new_project_id.to_natural, new_task_id.to_natural, new_sprint_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added topic " + new_topic.title ), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Added topic "+new_topic.title,200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to add a topic
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 
 		end
@@ -206,11 +181,9 @@ feature -- Handlers
 			l_project_id, l_answered, l_descr, l_title, l_task_id, l_sprint_id, l_user_id : STRING
 			l_topic: TOPIC
 			parser : JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -263,28 +236,17 @@ feature -- Handlers
 					db_handler_topic.update (l_topic,l_topic_id.to_natural)
 
 						-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-					create l_result.make
-					l_result.put (create {JSON_STRING}.make_json ("Updated topic "+ l_topic.title), create {JSON_STRING}.make_json ("Message"))
-
-						-- set the result
-					set_json_header_ok (res, l_result.representation.count)
-					res.put_string (l_result.representation)
+					prepare_response("Updated topic "+l_topic.title,200,res)
 				else
 						-- the user_id does not match
 						-- we return an error stating that the user is not authorized to update the topic
-					l_result.put_string ("User is not topic owner.", create {JSON_STRING}.make_json ("Message"))
-						-- set the header to status code 401-unauthorized
-					set_json_header (res, 401, l_result.representation.count)
-					res.put_string (l_result.representation)
+					prepare_response("User is not topic owner",401,res)
 				end
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to update the topic
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -306,20 +268,12 @@ feature -- Handlers
 				db_handler_topic.remove (l_topic_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the result
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Removed topic",200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to update the topic
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 

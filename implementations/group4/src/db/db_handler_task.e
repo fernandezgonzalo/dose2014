@@ -95,7 +95,8 @@ feature -- Data access
 																  "title = '"+ task.title +"',"+
 																  "points = '"+ task.points.out +"',"+
 																  "sprint_id = '"+ task.sprint_id.out +"',"+
-																  "project_id = '"+ task.project_id.out +"'"+
+																  "project_id = '"+ task.project_id.out +"',"+
+																  "user_id = '"+ task.user_id.out +"'"+
 																  "WHERE id="+ task_id.out +";" , db)
 				db_modify_statement.execute
 			if db_modify_statement.has_error then

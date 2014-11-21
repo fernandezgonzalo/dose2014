@@ -133,7 +133,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks", agent task_ctrl.get_sub_tasks, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks", agent task_ctrl.add_sub_task, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.update_sub_task, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.remove_task, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.remove_sub_task, router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
