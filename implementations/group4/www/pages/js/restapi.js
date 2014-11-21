@@ -12,7 +12,7 @@ define(
     function (angular, store) {
         return angular.module("RestApiModule", [])
 
-        /*
+
         .config
         (
             [
@@ -23,7 +23,6 @@ define(
                 }
             ]
         )
-        */
 
         .factory
         (
@@ -82,7 +81,13 @@ define(
 
                     module.logout = function()
                     {
-                        $http.delete('/api/sessions');
+                        $http.delete('/api/sessions').then
+                        (
+                            function()
+                            {
+                                store.remove("user");
+                            }
+                        )
                     };
 
                     module.register = function(name, email, password)
@@ -136,8 +141,8 @@ define(
                     return module;
                 }
             ]
-        );
-        /*
+        )
+
         .factory
         (
             "errorHttpInterceptor",
@@ -167,6 +172,5 @@ define(
                 }
             ]
         );
-        */
     }
 );
