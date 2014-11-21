@@ -1,6 +1,11 @@
 <nav class="b-navbar navbar navbar-default">
     <div class="container">
-        <a class="navbar-brand" ng-click="state.go('main')">CASD</a>
+        <a class="navbar-brand" ng-click="state.go('projects')">CASD</a>
+        <ul class="nav navbar-nav">
+            <li ng-class="{ 'active': state.$current.name == 'projects' }">
+                <a ng-click="state.go('projects')">Projects</a>
+            </li>
+        </ul>
         <ul class="nav navbar-nav">
             <li ng-class="{ 'active': state.$current.name == 'user' }">
                 <a ng-click="state.go('user')">Me</a>

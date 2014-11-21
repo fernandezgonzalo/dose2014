@@ -36,7 +36,7 @@ define(
                     $stateProvider
                     .state
                     (
-                        "main",
+                        "projects",
                         {
                             url: "/projects",
                             templateUrl: "pages/html/projects.html",

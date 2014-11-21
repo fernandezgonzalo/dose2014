@@ -31,7 +31,8 @@ define(
                 "$log",
                 "restapi",
                 "projects",
-                function($scope, $log, restapi, projects)
+                "$state",
+                function($scope, $log, restapi, projects, $state)
                 {
                     $scope.projects = projects;
 
@@ -49,6 +50,7 @@ define(
 
                     $scope.go = function (project)
                     {
+                        $state.go("project", {id:project.id});
                         $log.info("GO");
                         $log.info(project);
                     };
