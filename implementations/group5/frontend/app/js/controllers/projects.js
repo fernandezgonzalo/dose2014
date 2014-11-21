@@ -2,8 +2,8 @@
 
 angular.module('Mgmt')
        .controller('ProjectsController', ['$scope', '$log',
-                   '$location', '$routeParams', 'Project',
-                   function ($scope, $log, $location, $routeParams, Project) {
+                   '$location', '$routeParams', 'Utility', 'Project',
+                   function ($scope, $log, $location, $routeParams, Utility, Project) {
 
   $log.debug('ProjectsController::init');
 
@@ -21,6 +21,8 @@ angular.module('Mgmt')
     var newProject = new Project(project);
     // Asign user_id property to the project to be created.
     newProject.idUser = $scope.currentUser.id;
+    // Change from camelCase to underscore case to send to backend DB.
+    Utility.toUnderscore(newProject);
     $log.info(newProject);
     newProject.$save(function() {
       $log.log('Project created successfully.');
