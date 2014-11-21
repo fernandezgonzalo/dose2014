@@ -256,7 +256,7 @@ feature -- Handlers
 						-- create the topic
 					create l_topic.make (l_project_id.to_natural, l_task_id.to_natural, l_sprint_id.to_natural, l_user_id.to_natural, l_title, l_descr)
 
-						-- the user_id from the URL (as defined by the placeholder in the route)
+						-- the topic_id from the URL (as defined by the placeholder in the route)
 					l_topic_id := req.path_parameter ("topic_id").string_representation
 
 						-- update the task in the database
