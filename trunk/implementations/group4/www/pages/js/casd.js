@@ -129,8 +129,22 @@ define(
             "CasdCtr",
             [
                 "$scope",
-                function($scope)
+                "restapi",
+                "$state",
+                function($scope, restapi, $state)
                 {
+                    $scope.$on
+                    (
+                        'event:loginRequired',
+                        function()
+                        {
+                            if(restapi.is_logged())
+                            {
+                                restapi.logout();
+                            }
+                            $state.go("login");
+                        }
+                    );
                 }
             ]
         );
