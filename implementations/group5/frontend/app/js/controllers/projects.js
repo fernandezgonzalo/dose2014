@@ -14,22 +14,21 @@ angular.module('Mgmt')
   };
   
   $scope.createProject = function(project) {
-    $log.log('createProject is being called');
-    $log.info(project);
     if(!project) {
-      $log.log('Not even trying to save project.');
+      $log.error('"project" object does not exist.');
       return;
     }
     var newProject = new Project(project);
-    // newProject.$save(function() {
-    //   $log.log('Project created successfully.');
-    //   $location.path('/projects');
-    // }, function() {
-    //   $log.log('Project couldn\'t be created.');
-    //   $scope.createProjectError = true;
-    // });
+    // Asign user_id property to the project to be created.
+    newProject.idUser = $scope.currentUser.id;
     $log.info(newProject);
-    newProject.$save();
+    newProject.$save(function() {
+      $log.log('Project created successfully.');
+      $location.path('/projects');
+    }, function() {
+      $log.log('There was an error upon project creation.');
+      $scope.createProjectError = true;
+    });
   };
 
 
