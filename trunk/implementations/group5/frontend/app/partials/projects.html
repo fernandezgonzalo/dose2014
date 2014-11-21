@@ -1,6 +1,6 @@
 <div id="legend">
   <legend>All projects</legend>
-  {{projects}}
+  <!-- {{projects}} -->
 </div>
 
 <br>
@@ -26,9 +26,10 @@
         <tr class="row-link" ng-repeat="project in projects"
           ng-click="openProject(project)">
           <td>{{project.name}}</td>
-          <td>Client: {{project.client}}</td>
-          <td>Created by: {{project.author}}</td>
-          <td><span class="glyphicon glyphicon-calendar"></span>  {{project.date}}</td>
+          <td>Client: {{project.client_name}}</td>
+          <td>Created by: {{project.id_user}}</td>
+          <td><span class="glyphicon glyphicon-calendar"></span>
+            {{project.deadline}}</td>
         </tr>
       </tbody>
     </table>
