@@ -93,41 +93,38 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	get_all_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authenticated (req, res, agent get_all(req , res))
+			ensure_authorized (req, res, agent get_all(req , res))
 		end
 
 
 	get_all_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent get_all(req , res))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent get_all(req , res)))
 		end
 
 
 	create_new_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	get_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent get(req , res))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent get(req , res)))
 		end
 
 
 	update_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	delete_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent delete(req , res))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent delete(req , res)))
 		end
-
-
-feature {NONE} -- Internal helpers	
 
 
 	create_new_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
@@ -166,6 +163,8 @@ feature {NONE} -- Internal helpers
 			end
 		end
 
+
+feature {NONE} -- Internal helpers	
 
 	get_update_assignments(fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]): STRING
 		local
@@ -245,21 +244,50 @@ feature {NONE} -- Internal helpers
 			Result := req.path_parameter (uri_id_name).string_representation
 		end
 
-
-feature {NONE} -- Request preprocessors (validators, etc.)
-
-	ensure_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
+	ensure_belongs_to_parent(req: WSF_REQUEST; res: WSF_RESPONSE; item_singular_name: STRING; item_plural_name: STRING; parent_item_singular_name: STRING)
+		local
+			item_id, requested_parent_id, true_parent_id: STRING
+			query_result: JSON_OBJECT
 		do
-			if res.status_code = {HTTP_STATUS_CODE}.ok then
-				if req_has_cookie (req) then
-					implementation.call ([])
-				else
-					reply_with_401 (res)
+			if req.path_info.has_substring(item_plural_name) and req.path_parameter(item_singular_name + "_id") /= Void then
+				item_id := req.path_parameter(item_singular_name + "_id").string_representation
+				if item_id /= Void then
+					requested_parent_id := req.path_parameter(parent_item_singular_name + "_id").string_representation
+					query_result := db.query_single_row ("SELECT " + parent_item_singular_name + "_id FROM " + item_plural_name + " WHERE id = " + item_id)
+					if query_result.is_empty then
+						reply_with_404 (res)
+					else
+						true_parent_id := query_result.item (create {JSON_STRING}.make_json (parent_item_singular_name + "_id")).representation
+						if not requested_parent_id.is_equal(true_parent_id) then
+							reply_with_404 (res)
+						end
+					end
+
 				end
 			end
 		end
 
-	ensure_authorized (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
+	ensure_user_can_access_project(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			user_id, project_id: STRING
+			project_share: JSON_VALUE
+		do
+			if req.path_info.has_substring("projects") and req.path_parameter("project_id") /= Void then
+				user_id := get_user_id_from_req(req)
+				project_id := req.path_parameter("project_id").string_representation
+				if project_id /= Void and user_id /= Void then
+					project_share := db.query_single_row ("SELECT user_id FROM project_shares WHERE user_id = " + user_id + " AND project_id = " + project_id).item (create {JSON_STRING}.make_json ("user_id"))
+					if project_share = Void then
+						reply_with_401 (res)
+					end
+				end
+			end
+		end
+
+
+feature {NONE} -- Request preprocessors (validators, etc.)
+
+	ensure_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
 		do
 			if res.status_code = {HTTP_STATUS_CODE}.ok then
 				if req_has_cookie (req) then
@@ -277,6 +305,19 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 					implementation.call ([input])
 				else
 					reply_with_400 (res)
+				end
+			end
+		end
+
+	ensure_authorized (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
+		do
+			if res.status_code = {HTTP_STATUS_CODE}.ok then
+				ensure_belongs_to_parent(req, res, "task", "tasks", "story")
+				ensure_belongs_to_parent(req, res, "story", "stories", "sprint")
+				ensure_belongs_to_parent(req, res, "sprint", "sprints", "project")
+				ensure_user_can_access_project(req, res)
+				if res.status_code = {HTTP_STATUS_CODE}.ok then
+					implementation.call ([])
 				end
 			end
 		end

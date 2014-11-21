@@ -11,7 +11,7 @@ class TestProjects(test_rest_resource.TestRestResource):
         super(TestProjects, self).setUp()
         self.resource_name = 'project'
         self.resources_uri = self.root_uri + 'projects'
-        self.single_resource_uri = self.resources_uri + '/2'
+        self.single_resource_uri = self.resources_uri + '/1'
         self.example_resource = Project(
             name="Test Project",
             description="some description",
@@ -31,10 +31,11 @@ class TestProjects(test_rest_resource.TestRestResource):
             end_date=date(2014, 12, 2),
             status=2,
             owner=2,
-            invited_devs=[],
+            invited_devs=[1],
             sprints=[],
             id_=2
         )
+        # requests.put(self.single_resource_uri + '/invite_devs', data='{"devs":[1]}', cookies=self.cookies)
 
     def test_invite_developers(self):
         method = requests.put

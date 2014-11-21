@@ -24,7 +24,7 @@ class TestTasks(test_rest_resource.TestRestResource):
             nr=7,
             description='some updated description',
             owner=2,
-            story_id=2,
+            story_id=1,
             assigned_devs=[],
             id_=2
         )

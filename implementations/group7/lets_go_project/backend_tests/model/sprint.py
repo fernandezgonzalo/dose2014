@@ -12,7 +12,7 @@ def get_random_sprint(project_id, id_=None):
     start_date = get_random_date_in_year(2013)
     end_date = get_random_date_in_year(2014)
     status = random.choice(STATI)
-    return Sprint(name, start_date, end_date, status, project_id, id_)
+    return Sprint(name, start_date, end_date, status, project_id, [], id_)
 
 
 def get_sprint_from_json(json_str):
@@ -23,13 +23,14 @@ def get_sprint_from_json(json_str):
         end_date=datetime.datetime.strptime(json_dict['end_date'], "%Y-%m-%d").date(),
         status=json_dict['status'],
         project_id=json_dict['project_id'],
+        stories=json_dict['stories'],
         id_=json_dict['id']
         )
 
 
 class Sprint(DatabaseItem):
 
-    def __init__(self, name, start_date, end_date, status, project_id, id_=None):
+    def __init__(self, name, start_date, end_date, status, project_id, stories, id_=None):
         super(Sprint, self).__init__()
         self.name = name
         self.start_date = start_date
@@ -37,7 +38,7 @@ class Sprint(DatabaseItem):
         self.status = status
         self.project_id = project_id
         self.id = id_
-        self.stories = []
+        self.stories = stories
         self.database_fields = ['name', 'start_date', 'end_date', 'status', 'project_id']
         self.non_database_fields = ['stories']
         self.table_name = 'sprints'

@@ -40,8 +40,14 @@ feature
 
 
 	get_user_id_from_req(req: WSF_REQUEST): STRING
+		local
+			session: WSF_SESSION_DATA
+			id: ANY
 		do
-			Result := get_session_from_req(req, "lets_go_session").at("id").out
+			session := get_session_from_req(req, "lets_go_session")
+			if session /= Void and then session.at("id") /= Void then
+				Result := session.at("id").out
+			end
 		end
 
 end

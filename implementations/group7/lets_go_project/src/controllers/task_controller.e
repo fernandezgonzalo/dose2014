@@ -42,7 +42,6 @@ feature -- Handlers
 			reply_with_200_with_data(res, results.representation)
 		end
 
-
 	get (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			task: JSON_OBJECT
@@ -74,13 +73,13 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	assign_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent assign_developers(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent assign_developers(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	unassign_developers_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
-			ensure_authorized (req, res, agent ensure_input_validated (req, res, agent unassign_developers(req, res, ?), get_json_object_from_request(req)))
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent unassign_developers(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
