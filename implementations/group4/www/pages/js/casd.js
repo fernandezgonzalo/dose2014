@@ -8,7 +8,8 @@ define(
         //Custom includes
         "blocks/navbar/navbar",
         "pages/js/projects",
-        "pages/js/login"
+        "pages/js/login",
+        "pages/js/user"
     ],
 
     function(angular)
@@ -20,7 +21,8 @@ define(
                 'ui.router',
                 "uiNavbarModule",
                 "LoginModule",
-                "ProjectsModule"
+                "ProjectsModule",
+                "UserModule"
             ]
         )
 
@@ -66,9 +68,16 @@ define(
                         "user",
                         {
                             url: "/user",
-                            templateUrl: "pages/html/user.html"
-                            //resolve: { data: 'SomeDataProvider' },
-                            //controller: "SomeController"
+                            templateUrl: "pages/html/user.html",
+                            controller: "UserCtr",
+                            resolve:
+                            {
+                                userProvider: "UserProvider",
+                                user: function (userProvider)
+                                {
+                                    return userProvider.resolver();
+                                }
+                            }
                         }
                     )
 
@@ -78,8 +87,6 @@ define(
                         {
                             url: "/task",
                             templateUrl: "pages/html/task.html"
-                            //resolve: { data: 'SomeDataProvider' },
-                            //controller: "SomeController"
                         }
                     )
 
@@ -91,6 +98,26 @@ define(
                             templateUrl: "pages/html/login.html",
                             //resolve: { data: 'SomeDataProvider' },
                             controller: "LoginCtr"
+                        }
+                    )
+
+                    .state
+                    (
+                        "sprints",
+                        {
+                            url: "/sprints",
+                            templateUrl: "pages/html/sprints.html"
+                            //resolve: { data: 'SomeDataProvider' },
+                        }
+                    )
+
+                    .state
+                    (
+                        "tasks",
+                        {
+                            url: "/tasks",
+                            templateUrl: "pages/html/tasks.html"
+                            //resolve: { data: 'SomeDataProvider' },
                         }
                     );
                 }

@@ -82,23 +82,7 @@ define(
 
                     module.logout = function()
                     {
-                        $http.delete('/api/sessions')
-                        .success
-                        (
-                            function(data, status, header, config)
-                            {
-                                store.remove("user");
-                                $log.debug(data);
-                            }
-                        )
-                        .error
-                        (
-                            function(data, status)
-                            {
-                                $log.debug("error");
-                                $log.debug(data);
-                            }
-                        );
+                        $http.delete('/api/sessions');
                     };
 
                     module.register = function(name, email, password)
@@ -109,49 +93,41 @@ define(
                             password: password
                         };
 
-                        $http.post('/api/users', data)
-                        .success
-                        (
-                            function(data, status, header, config)
-                            {
-                                $log.debug(data);
-                            }
-                        )
-                        .error
-                        (
-                            function(data, status)
-                            {
-                                $log.debug("error");
-                                $log.debug(data);
-                            }
-                        );
+                        return $http.post('/api/users', data);
                     };
 
                     module.projects = function()
                     {
-                        var data = {
-                            user_name: name,
-                            email: email,
-                            password: password
-                        };
-
-                        return $http.get('/api/projects', data)
-                        .success
+                        return $http.get('/api/projects')
+                        .then
                         (
-                            function(data, status, header, config)
+                            function(data)
                             {
-                                $log.debug(data);
-                                return data;
-                            }
-                        )
-                        .error
-                        (
-                            function(data, status)
+                                return data.data;
+                            },
+                            function(data)
                             {
                                 $log.debug("error");
                                 $log.debug(data);
                             }
-                        );
+                        )
+                    };
+
+                    module.current_user = function()
+                    {
+                        return $http.get('/api/user')
+                        .then
+                        (
+                            function(data)
+                            {
+                                return data.data;
+                            },
+                            function(data)
+                            {
+                                $log.debug("error");
+                                $log.debug(data);
+                            }
+                        )
                     };
 
                     //////////////////////////////////////////////////////////////
