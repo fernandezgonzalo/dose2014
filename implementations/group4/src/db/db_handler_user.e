@@ -21,7 +21,6 @@ feature -- Data access
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Users;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
-
 		end
 
 	find_by_id (user_id : NATURAL) : JSON_OBJECT
@@ -102,8 +101,6 @@ feature -- Data access
 				Result.user_id := l_query_result_cursor.item.value (1).out
 				Result.email := l_query_result_cursor.item.value (4).out
 				Result.hashed_pass := l_query_result_cursor.item.value (5).out
-				--debug
-				print(Result.hashed_pass)
 			end
 		end
 
