@@ -32,24 +32,44 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 
+--	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
+--			-- sends a reponse that contains a json array with all users
+--		local
+--			l_result_payload: JSON_ARRAY
+--			l_result_payload_json: JSON_OBJECT
+--		do
+--			create l_result_payload.make_array
+--			create l_result_payload_json.make
+--			if req_has_cookie(req, "_session_") then
+--				print("entro por session%N")
+--				l_result_payload := my_db.search_all_users
+--				set_json_header_ok (res, l_result_payload.count)
+--			else
+--				print("no entro%N")
+--				l_result_payload_json.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
+--				set_json_header (res, 401, l_result_payload.representation.count)
+--			end
+--			res.put_string (l_result_payload.representation)
+--		end
+
 	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
+	-- sends a reponse that contains a json array with all users
 		local
-			l_result_payload: JSON_ARRAY
-			l_result_payload_json: JSON_OBJECT
+			l_result_payload: STRING
+			l_result: JSON_OBJECT
 		do
-			create l_result_payload.make_array
-			create l_result_payload_json.make
 			if req_has_cookie(req, "_session_") then
-				print("entro por session%N")
-				l_result_payload := my_db.search_all_users
+				l_result_payload := my_db.search_all_users.representation
 				set_json_header_ok (res, l_result_payload.count)
+				res.put_string (l_result_payload)
 			else
-				print("no entro%N")
-				l_result_payload_json.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-				set_json_header (res, 401, l_result_payload.representation.count)
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("User is not logged in."), create {JSON_STRING}.make_json ("Message"))
+
+				-- send the response
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
 			end
-			res.put_string (l_result_payload.representation)
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
