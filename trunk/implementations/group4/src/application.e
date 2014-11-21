@@ -47,7 +47,6 @@ feature {NONE} -- Initialization
 	answer_ctrl: ANSWER_CONTROLLER
 	topic_ctrl: TOPIC_CONTROLLER
 	task_ctrl: TASK_CONTROLLER
-
 	session_manager: WSF_FS_SESSION_MANAGER
 
 	initialize
@@ -65,7 +64,6 @@ feature {NONE} -- Initialization
 			create answer_ctrl.make (path_to_db_file,session_manager)
 			create topic_ctrl.make (path_to_db_file,session_manager)
 			create task_ctrl.make (path_to_db_file,session_manager)
-
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
 
@@ -79,11 +77,13 @@ feature -- Basic operations
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
+
 				-- handling of all the routes relating to "sessions"
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.login , router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent user_ctrl.logout , router.methods_delete)
 
 				-- handling of all the routes relating to "users"
+			map_uri_template_agent_with_request_methods ("/api/user", agent user_ctrl.get_logged_user, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.add_user, router.methods_post )
 			map_uri_template_agent_with_request_methods ("/api/users/{user_id}", agent user_ctrl.get_user, router.methods_get )
