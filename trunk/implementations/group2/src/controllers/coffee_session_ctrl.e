@@ -8,6 +8,7 @@ class
 	COFFEE_SESSION_CTRL
 inherit
 	COFFEE_HEADER_JSON_HELPER
+	COFFEE_SESSION_HELPER
 create
 	make
 
@@ -154,5 +155,23 @@ feature -- Handlers
 				-- add the message to the response response
 			res.put_string (l_result.representation)
 		end
+
+	is_logged_in(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_id: STRING
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_id :=	get_session_from_req (req, "_coffee_session_").item("id").out
+			l_result.put (my_db.get_from_id ("user", l_id), "user")
+			l_result.put (create {JSON_STRING}.make_json ("OK"), create {JSON_STRING}.make_json ("Message"))
+			set_json_header_ok (res, l_result.representation.count)
+		else
+			l_result.put (create {JSON_STRING}.make_json ("User not logged in"), create {JSON_STRING}.make_json ("Message"))
+			set_json_header (res,401, l_result.representation.count)
+		end
+		res.put_string (l_result.representation)
+	end
 
 end

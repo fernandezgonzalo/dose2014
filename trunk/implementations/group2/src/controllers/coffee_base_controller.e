@@ -33,18 +33,24 @@ feature
 	add (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
-			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			l_add_result: TUPLE[success: BOOLEAN; id: STRING]
 		do
 			create l_result.make
 
 			if req_has_cookie (req, "_coffee_session_" ) then
 				l_map := parse_request (req)
 				add_data_to_map_add (req, l_map)
-				if my_db.add (table_name,l_map)then
-					return_success (l_result, res)
+				if is_authorized_add(req, l_map) then
+					l_add_result:= my_db.add (table_name,l_map)
+					if l_add_result.success then
+						l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+						return_success (l_result, res)
+					else
+						return_error(l_result, res,"Could not add to" + table_name, 501)
+					end
 				else
-					return_error(l_result, res,"Could not add " + table_name, 501)
+					return_error (l_result, res, "Not authorized", 403)
 				end
 
 			else
@@ -56,17 +62,20 @@ feature
 	update(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
-			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
 			create l_result.make
 			if req_has_cookie (req, "_coffee_session_" ) then
 				l_map := parse_request (req)
 				add_data_to_map_update (req, l_map)
-				if my_db.update (table_name,l_map)then
-					return_success (l_result, res)
+				if is_authorized_update(req, l_map) then
+					if my_db.update (table_name,l_map)then
+						return_success (l_result, res)
+					else
+						return_error(l_result, res,"Could not update " + table_name, 501)
+					end
 				else
-					return_error(l_result, res,"Could not update " + table_name, 501)
+					return_error (l_result, res, "Not authorized", 403)
 				end
 
 			else
@@ -78,16 +87,73 @@ feature
 	local
 		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
-		l_id: STRING
 	do
 		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_map := parse_request (req)
 			add_data_to_map_delete (req, l_map)
-			if my_db.delete(table_name,l_map) then
-				return_success (l_result, res)
+			if is_authorized_delete(req, l_map) then
+				if my_db.delete(table_name,l_map) then
+					return_success (l_result, res)
+				else
+					return_error(l_result, res,"Could not delete from" + table_name, 501)
+				end
 			else
-				return_error(l_result, res,"Could not delete " + table_name, 501)
+				return_error (l_result, res, "Not authorized", 403)
+			end
+
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
+	get(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_get (req, l_map)
+			if is_authorized_get(req,l_map) then
+				l_result := my_db.get(table_name,l_map)
+				if l_result /= Void then
+					return_success (l_result, res)
+				else
+					create l_result.make
+					return_error(l_result, res,"Could not get from " + table_name, 501)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
+	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_get_all (req, l_map)
+			if is_authorized_get_all(req,l_map) then
+				l_result_array := my_db.get_all(table_name,l_map)
+				if l_result /= Void then
+					l_result.put_string (l_result_array.representation, table_name + "s")
+					return_success (l_result, res)
+				else
+					create l_result.make
+					return_error(l_result, res,"Could not get from " + table_name, 501)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
 			end
 
 		else
@@ -96,8 +162,25 @@ feature
 	end
 
 feature
-	is_authorized: BOOLEAN
+	is_authorized_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do
+		Result:= true
+	end
+	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result:= true
+	end
+	is_authorized_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result:= true
+	end
+	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result:= true
+	end
+	is_authorized_get_all(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result:= true
 	end
 
 	add_data_to_map_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
@@ -110,6 +193,9 @@ feature
 		do
 		end
 	add_data_to_map_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+		do
+		end
+	add_data_to_map_get_all(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		do
 		end
 
@@ -129,6 +215,24 @@ feature {NONE} -- helpers
 		res.put_string (l_result.representation)
 	end
 
+	get_value_from_map(a_key: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): STRING
+	local
+		i: INTEGER
+	do
+		create Result.make_empty
+		from
+			i:= 1
+		until
+			i>a_map.keys.count
+		loop
+			if equal(a_key, a_map.keys.at (i)) then
+				Result := a_map.values.at (i)
+			end
+			i:= i+1
+		end
+
+	end
+
 	parse_request(req: WSF_REQUEST) : TUPLE [key: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 
 	local
@@ -137,6 +241,8 @@ feature {NONE} -- helpers
 		l_counter: INTEGER
 		keys: ARRAYED_LIST[STRING]
 		values: ARRAYED_LIST[STRING]
+		l_value: STRING
+		l_key: STRING
 
 	do
 		create l_payload.make_empty
@@ -149,14 +255,18 @@ feature {NONE} -- helpers
 				create values.make_filled (j_object.count)
 					across j_object.current_keys as key
 					loop
-					keys.put_i_th(key.item.representation,l_counter)
-					values.put_i_th (j_object.item(key.item).representation, l_counter)
+					l_value := j_object.item(key.item).representation
+					l_value.replace_substring_all ("%"","")
+					l_key := key.item.representation
+					l_key.replace_substring_all ("%"","")
+					keys.put_i_th(l_key,l_counter)
+					values.put_i_th (l_value, l_counter)
 					l_counter := l_counter + 1
 					end
 				end
 			else
-			create keys.make_filled (1)
-			create values.make_filled (1)
+			create keys.make (0)
+			create values.make(0)
 		end
 		Result := [keys,values]
 	end

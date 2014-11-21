@@ -10,7 +10,7 @@ class
 	inherit
 		COFFEE_BASE_CONTROLLER
 		redefine
-			add_data_to_map_add, add_data_to_map_update, add_data_to_map_delete
+			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_delete, is_authorized_update
 		end
 
 create
@@ -18,15 +18,52 @@ create
 
 feature -- Handlers
 
-	add_data_to_map_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-		local
-			l_manager_id: STRING
-		do
-			create l_manager_id.make_empty
-			l_manager_id := get_session_from_req (req, "_coffee_session_").item("id").out
-			a_map.keys.put_front("manager_id")
-			a_map.values.put_front(l_manager_id)
-		end
+	add(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		keys: ARRAYED_LIST[STRING]
+		values: ARRAYED_LIST[STRING]
+		l_project_id: STRING
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_add_result: TUPLE[success: BOOLEAN; id: STRING]
+		l_manager_id: STRING
+	do
+			create l_result.make
+
+			if req_has_cookie (req, "_coffee_session_" ) then
+				l_map := parse_request (req)
+				create l_manager_id.make_empty
+				create keys.make_filled (3)
+				create values.make_filled (3)
+				l_manager_id := get_session_from_req (req, "_coffee_session_").item("id").out
+				l_map.keys.put_front("manager_id")
+				l_map.values.put_front(l_manager_id)
+				l_add_result:= my_db.add (table_name,l_map)
+				if l_add_result.success then
+					l_project_id:= l_add_result.id
+					keys.put_i_th ("user_id", 1)
+					keys.put_i_th ("project_id", 2)
+					keys.put_i_th ("points", 3)
+					values.put_i_th (l_manager_id, 1)
+					values.put_i_th (l_project_id ,2)
+					values.put_i_th ("0", 3)
+					l_add_result := my_db.add ("developer_mapping", [keys,values])
+					if l_add_result.success then
+						l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+						return_success (l_result, res)
+					else
+						return_error(l_result, res,"Could not add to developer_mapping", 501)
+					end
+				else
+					return_error(l_result, res,"Could not add to" + table_name, 501)
+				end
+
+			else
+				return_error(l_result, res, "User not logged in", 404)
+
+			end
+	end
+
 
 	add_data_to_map_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
@@ -37,10 +74,10 @@ feature -- Handlers
 			create l_project_id.make_empty
 			l_manager_id := get_session_from_req (req, "_coffee_session_").item("id").out
 			l_project_id := req.path_parameter("project_id").string_representation
-			a_map.keys.put_front("id")
-			a_map.values.put_front(l_project_id)
-			a_map.keys.put_front("manager_id")
-			a_map.values.put_front(l_manager_id)
+			a_map.keys.extend("id")
+			a_map.values.extend(l_project_id)
+			a_map.keys.extend("manager_id")
+			a_map.values.extend(l_manager_id)
 		end
 
 	add_data_to_map_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
@@ -48,12 +85,36 @@ feature -- Handlers
 			add_data_to_map_update (req, a_map)
 		end
 
-	get_projects (req: WSF_REQUEST; res: WSF_RESPONSE)
-
+	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
-
+		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+		l_user_id: STRING
 	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_user_id := req.path_parameter("user_id").string_representation
+			l_result_array := my_db.get_all_from_project(l_user_id)
+			if l_result /= Void then
+				l_result.put_string (l_result_array.representation,"projects")
+				return_success (l_result, res)
+			else
+				create l_result.make
+				return_error(l_result, res,"Could not get from " + table_name, 501)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
+	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
+	end
+
+	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
 	end
 
 feature {NONE} -- helpers

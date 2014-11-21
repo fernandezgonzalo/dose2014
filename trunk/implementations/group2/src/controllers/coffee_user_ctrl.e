@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_update, add
+		add_data_to_map_update, add, add_data_to_map_get, is_authorized_delete, is_authorized_update, get_all
 	end
 
 create
@@ -20,206 +20,77 @@ create
 
 feature -- Handlers
 
+	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
+	end
+
+	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	do
+		Result :=  equal(req.path_parameter("user_id").string_representation.out, get_session_from_req (req, "_coffee_session_").item("id").out)
+	end
+
 	add_data_to_map_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
-			l_manager_id: STRING
 			l_user_id: STRING
 		do
-			create l_manager_id.make_empty
 			create l_user_id.make_empty
 			l_user_id := req.path_parameter("user_id").string_representation
-			a_map.keys.put_front("id")
-			a_map.values.put_front(l_user_id)
+			a_map.keys.extend("id")
+			a_map.values.extend(l_user_id)
+		end
+
+	add_data_to_map_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+		do
+			add_data_to_map_update (req, a_map)
 		end
 
 	add (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new users; the user_name is expected to be part of the request's payload
-		local
-			l_payload, l_email, l_password, l_first_name, l_last_name, l_message: STRING
-			parser: JSON_PARSER
-			l_result: JSON_OBJECT
-		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
-			create l_password.make_empty
-			create l_first_name.make_empty
-			create l_last_name.make_empty
-			create l_message.make_empty
-
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("password") as s then
-					l_password := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("first_name") as s then
-					l_first_name := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("last_name") as s then
-					l_last_name := s.unescaped_string_8
-				end
-
-			end
-				-- create the user in the database
-			if my_db.add_user (l_email,l_password, l_first_name, l_last_name) then
-				l_message := "OK"
-			else
-				l_message := "Could not create user " + l_email
-			end
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json (l_message), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
-		end
-
-	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
-
 	local
-
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_add_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
-
-	end
-
-	delete_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-		-- adds a new users; the user_name is expected to be part of the request's payload
-		local
-			l_payload,l_id, l_email, l_message: STRING
-			parser: JSON_PARSER
-			l_result: JSON_OBJECT
-		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
-			create l_message.make_empty
-			create l_result.make
-
-			if req_has_cookie (req, "_coffee_session_" ) then
-
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-				if attached {JSON_STRING} j_object.item ("id") as s then
-					l_id := s.unescaped_string_8
-				end
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
-			end
-				-- deletes the user in the database
-			if equal(l_id, get_session_from_req (req, "_coffee_session_").item ("id").out) then
-				if my_db.delete_user (l_email) then
-					l_message := "OK"
-				else
-					l_message := "Could not delete user " + l_email
-				end
+		create l_result.make
+			l_map := parse_request (req)
+			l_add_result:= my_db.add (table_name,l_map)
+			if l_add_result.success then
+				l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+				return_success (l_result, res)
 			else
-				l_message := "User can only delete himself"
+				return_error(l_result, res,"Could not add to " + table_name, 501)
 			end
 
-			l_result.put (create {JSON_STRING}.make_json (l_message), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
-
-			else
-				reject(l_result, res)
-
-			end
 		end
 
-	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			l_payload, l_email, l_message, l_first_name, l_last_name, l_password, l_string_id: STRING
-			l_id : INTEGER
-			parser: JSON_PARSER
-			l_result: JSON_OBJECT
-		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
-			create l_first_name.make_empty
-			create l_last_name.make_empty
-			create l_password.make_empty
-			create l_message.make_empty
-			create l_result.make
-
-			if req_has_cookie (req, "_coffee_session_" ) then
-
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				l_string_id := req.path_parameter("user_id").string_representation
-				l_id := l_string_id.to_integer
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("password") as s then
-					l_password := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("first_name") as s then
-					l_first_name := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("last_name") as s then
-					l_last_name := s.unescaped_string_8
-				end
-			end
-				-- create the user in the database
-			if l_id = get_session_from_req (req, "_coffee_session_").item ("id").out.to_integer then
-				if my_db.update_user (l_id, l_email, l_password, l_first_name, l_last_name)then
-					l_message := "OK"
+	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_get_all (req, l_map)
+			if is_authorized_get_all(req,l_map) then
+				l_result_array := my_db.get_all_users
+				if l_result /= Void then
+					l_result.put_string (l_result_array.representation, table_name + "s")
+					return_success (l_result, res)
 				else
-					l_message := "Could not update user " + l_email
+					create l_result.make
+					return_error(l_result, res,"Could not get from " + table_name, 501)
 				end
 			else
-				l_message := "User can only update himself"
-			end
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-
-			l_result.put (create {JSON_STRING}.make_json (l_message), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
-
-			else
-				reject(l_result, res)
-
+				return_error (l_result, res, "Not authorized", 403)
 			end
 
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
 	end
+
 
 
 feature {NONE} -- helpers
