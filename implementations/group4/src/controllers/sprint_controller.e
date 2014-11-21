@@ -16,11 +16,13 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_path_to_db_file: STRING)
+	make (a_path_to_db_file: STRING; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			create db_handler_sprint.make (a_path_to_db_file)
 			create db_handler_project.make (a_path_to_db_file)
 			create db_handler_task.make (a_path_to_db_file)
+
+			session_manager := a_session_manager
 		end
 
 
@@ -30,6 +32,7 @@ feature {NONE} -- Private attributes
 	db_handler_project: DB_HANDLER_PROJECT
 	db_handler_task: DB_HANDLER_TASK
 
+	session_manager: WSF_SESSION_MANAGER
 
 feature -- Handlers
 

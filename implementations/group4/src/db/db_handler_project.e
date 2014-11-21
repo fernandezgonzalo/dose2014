@@ -29,8 +29,9 @@ feature -- Data access
 			-- a project where the user is collaborator or owner	
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT p.name,p.status,p.description,p.max_points_per_sprint FROM Projects p NATURAL JOIN"+
-											" Collaborators c WHERE (p.id =c.project_id AND c.user_id="+user_id.out+") OR p.user_id="+user_id.out+" ;", db)
+			create db_query_statement.make ("select p.name,p.status,p.description,p.max_points_per_sprint from projects p where p.user_id="
+										+user_id.out+" union select p.name,p.status,p.description,p.max_points_per_sprint from projects p,"
+										 +"collaborators c where c.user_id="+user_id.out+" and c.project_id = p.id;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
 
 		end
