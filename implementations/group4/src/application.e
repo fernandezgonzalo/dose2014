@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 			create sprint_ctrl.make (path_to_db_file)
 			create answer_ctrl.make (path_to_db_file,session_manager)
 			create topic_ctrl.make (path_to_db_file,session_manager)
-			create task_ctrl.make (path_to_db_file)
+			create task_ctrl.make (path_to_db_file,session_manager)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -132,7 +132,7 @@ feature -- Basic operations
 
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks", agent task_ctrl.get_sub_tasks, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks", agent task_ctrl.add_sub_task, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.update_task, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.update_sub_task, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.remove_task, router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
