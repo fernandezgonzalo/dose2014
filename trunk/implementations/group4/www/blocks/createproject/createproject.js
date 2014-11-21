@@ -21,7 +21,7 @@ define(
 
         .controller
         (
-            'ModalCtr',
+            'CreateProjectModalCtr',
             [
                 "$scope",
                 "$modalInstance",
@@ -55,7 +55,7 @@ define(
                         (
                             {
                                 templateUrl: 'blocks/createproject/modal.html',
-                                controller: 'ModalCtr',
+                                controller: 'CreateProjectModalCtr',
                                 size: size
                             }
                         );
