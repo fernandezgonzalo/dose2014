@@ -35,7 +35,6 @@ define(
 
                     $scope.login = function(form)
                     {
-                        $log.info(form);
                         restapi.login(form.email, form.password).then
                         (
                             function () {
@@ -44,9 +43,8 @@ define(
                         )
                     };
 
-                    $scope.logout = function(form)
+                    $scope.logout = function()
                     {
-                        $log.info(restapi.user());
                         restapi.logout();
                     };
                 }
