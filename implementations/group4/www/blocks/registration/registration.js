@@ -24,7 +24,7 @@ define(
 
         .controller
         (
-            'ModalCtr',
+            'RegistrationModalCtr',
             [
                 "$scope",
                 "$modalInstance",
@@ -59,7 +59,7 @@ define(
                         (
                             {
                                 templateUrl: 'blocks/registration/modal.html',
-                                controller: 'ModalCtr',
+                                controller: 'RegistrationModalCtr',
                                 size: size
                             }
                         );
