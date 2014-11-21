@@ -40,10 +40,8 @@ feature -- Handlers
 			-- sends a reponse that contains a json array with all tasks
 		local
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
 			create l_result_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -57,10 +55,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -69,10 +64,8 @@ feature -- Handlers
 		local
 			l_task_id: STRING
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
 			create l_result_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -90,10 +83,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -102,10 +92,8 @@ feature -- Handlers
 		local
 			l_super_task_id: STRING
 			l_result_payload: STRING
-			l_result: JSON_OBJECT
 		do
 			create l_result_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -123,10 +111,7 @@ feature -- Handlers
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -137,11 +122,9 @@ feature -- Handlers
 			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_project_id, new_points : STRING
 			new_task : TASK
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -191,20 +174,12 @@ feature -- Handlers
 				db_handler_task.add_super (new_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added task " + new_task.title ), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Added Task "+ new_task.title,200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -215,11 +190,9 @@ feature -- Handlers
 			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_project_id, new_super_task_id, new_points : STRING
 			new_task : TASK
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -272,20 +245,12 @@ feature -- Handlers
 				db_handler_task.add_sub (new_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added subtask " + new_task.title ), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Added subtask "+ new_task.title,200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -297,11 +262,9 @@ feature -- Handlers
 			l_priority, l_position, l_type, l_descr, l_title, l_super_task_id, l_sprint_id, l_user_id, l_project_id, l_points : STRING
 			l_task: TASK
 			parser : JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -357,20 +320,12 @@ feature -- Handlers
 				db_handler_task.update (l_task_id.to_natural,l_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Updated task "+ l_task.title), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the result
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Updated task "+ l_task.title,200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -383,11 +338,9 @@ feature -- Handlers
 			l_priority, l_position, l_type, l_descr, l_title, l_super_task_id, l_sprint_id, l_user_id, l_project_id, l_points : STRING
 			l_task: TASK
 			parser : JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -437,27 +390,19 @@ feature -- Handlers
 				create l_task.make (l_sprint_id.to_natural, l_user_id.to_natural, l_project_id.to_natural, l_points.to_natural, l_title, l_descr, l_type, l_priority, l_position)
 
 					-- get the task_id from the URL (as defined by the placeholder in the route)
-				l_task_id := req.path_parameter ("task_id").string_representation
+				l_task_id := req.path_parameter ("subtask_id").string_representation
 
 
 					-- and update the task in the database
 				db_handler_task.update (l_task_id.to_natural,l_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Updated task "+ l_task.title), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the result
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Updated subtask "+l_task.title,200,res)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
@@ -465,9 +410,7 @@ feature -- Handlers
 			-- remove a task from the database
 		local
 			l_task_id: STRING
-			l_result: JSON_OBJECT
 		do
-			create l_result.make
 
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -479,19 +422,35 @@ feature -- Handlers
 				db_handler_task.remove (l_task_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the result
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Removed task",200,res)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("User not logged in.",401,res)
+			end
+		end
+
+	remove_sub_task (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- remove a subtask from the database
+		local
+			l_task_id: STRING
+		do
+
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in
+
+					-- the task_id from the URL (as defined by the placeholder in the route)
+				l_task_id := req.path_parameter ("subtask_id").string_representation
+					-- remove the topic
+				db_handler_task.remove (l_task_id.to_natural)
+
+					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+				prepare_response("Removed subtask",200,res)
+			else
+					-- the request has no session cookie and thus the user is not logged in
+					-- we return an error stating that the user is not authorized to get the tasks
+				prepare_response("User not logged in.",401,res)
 			end
 		end
 
