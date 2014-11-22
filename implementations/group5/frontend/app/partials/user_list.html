@@ -17,7 +17,7 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <table class="table">
+    <table class="table user-table">
       <tr>
         <th>Name</th>
         <th>Username</th>
@@ -28,8 +28,8 @@
         <td>{{ user.name }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
-        <td>
-          <span class="glyphicon glyphicon-remove" ng-click="delete($event, user)"></span>
+        <td class="remove-column">
+          <span class="glyphicon glyphicon-remove user-remove" ng-click="delete($event, user)"></span>
         </td>
       </tr>
     </table>
