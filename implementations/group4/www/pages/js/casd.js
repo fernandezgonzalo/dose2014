@@ -45,7 +45,8 @@ define(
                             controller: "ProjectsCtr",
                             resolve: {
                                 projectsProvider: "ProjectsProvider",
-                                projects: function (projectsProvider) {
+                                projects: function (projectsProvider)
+                                {
                                     return projectsProvider.resolver();
                                 }
                             }
