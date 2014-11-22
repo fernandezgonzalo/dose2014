@@ -92,7 +92,8 @@ define(
 
                     module.register = function(name, email, password)
                     {
-                        var data = {
+                        var data =
+                        {
                             user_name: name,
                             email: email,
                             password: password
@@ -112,8 +113,8 @@ define(
                             },
                             function(data)
                             {
-                                $log.debug("error");
-                                $log.debug(data);
+                                $log.info("error");
+                                $log.info(data);
                             }
                         )
                     };
@@ -133,6 +134,36 @@ define(
                                 $log.debug(data);
                             }
                         )
+                    };
+
+                    module.create_project = function(name, description, mpps)
+                    {
+                        var request =
+                        {
+                            name: name,
+                            status: "Active",
+                            description: description,
+                            mpps: mpps.toString(),
+                            user_id: undefined,
+                            number_of_sprints: "10"
+                        };
+
+                        return module.current_user().then
+                        (
+                            function (data)
+                            {
+                                console.log(data);
+                                request.user_id = data.id;
+                                return $http.post("/api/projects", request).then
+                                (
+                                    function(data)
+                                    {
+                                        console.log(data.data);
+                                        return data.data;
+                                    }
+                                );
+                            }
+                        );
                     };
 
                     //////////////////////////////////////////////////////////////

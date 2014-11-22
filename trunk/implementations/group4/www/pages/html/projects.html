@@ -13,12 +13,12 @@
 
         <tbody>
             <tr ng-repeat="project in projects"
-                ng-class="{ 'warning': project.status == 'Active', 'success': project.status == 'Complete', 'info': project.status == 'Canceled' }">
+                ng-class="{ 'warning': project['p.status'] == 'Active', 'success': project['p.status'] == 'Complete', 'info': project['p.status'] == 'Canceled' }">
                 <td><img ng-controller="EditProjectCtr" ng-click="editProject()" src="/pages/images/edit.png" style="width: 20px; height: 20px"/></td>
-                <td ng-click="go(project)">{{project.name}}</td>
-                <td ng-click="go(project)">{{project.description}}</td>
-                <td ng-click="go(project)">{{project.status}}</td>
-                <td ng-click="go(project)">{{project.max_points_per_sprint}}</td>
+                <td ng-click="go(project)">{{project['p.name']}}</td>
+                <td ng-click="go(project)">{{project['p.description']}}</td>
+                <td ng-click="go(project)">{{project['p.status']}}</td>
+                <td ng-click="go(project)">{{project['p.max_points_per_sprint']}}</td>
             </tr>
         </tbody>
     </table>

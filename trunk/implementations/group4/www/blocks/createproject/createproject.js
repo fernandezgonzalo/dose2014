@@ -13,7 +13,6 @@ define(
         (
             "uiCreateProjectModule",
             [
-                "RestApiModule",
                 "ui.bootstrap",
                 "ui.validate"
             ]
@@ -65,6 +64,7 @@ define(
                             function (form)
                             {
                                 $log.info(form);
+                                $scope.$emit("create_project", form);
                             }
                         );
                     };
