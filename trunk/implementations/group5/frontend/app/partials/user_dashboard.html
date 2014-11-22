@@ -9,9 +9,48 @@
 <div class="row">
 	<h1 class="title col-md-12">My dashboard</h1>
 </div>
+
+<div class="row" ng-show = "tasksInProgress.length">
+	<h3 class="col-md-12">Tasks in progress</h3>
+</div>
+
+<div class="row" ng-show = "tasksInProgress.length">
+	<div class="col-md-12">
+		<table class="table">
+			<tr ng-repeat="task in tasksInProgress" class="warning row-link" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
+				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
+				<td class="col-md-2"><span class="badge">10</span> comments</td>
+				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
+				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="row" ng-show = "tasksFinished.length">
+	<h3 class="col-md-12">Tasks finished</h3>
+</div>
+
+<div class="row" ng-show = "tasksFinished.length">
+	<div class="col-md-12">
+		<table class="table">
+			<tr ng-repeat="task in tasksFinished" class="warning row-link" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
+				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
+				<td class="col-md-2"><span class="badge">10</span> comments</td>
+				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
+				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event)">view project</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--
+<div class="row">
+	<h1 class="title col-md-12">My dashboard</h1>
+</div>
 <div class="row">
 	<h3 class="col-md-12">Tasks in progress</h3>
 </div>
+
 <div class="row">
 	<div class="col-md-12">
 		<table class="table">
@@ -57,3 +96,4 @@
 		</table>
 	</div>
 </div>
+-->

@@ -2,12 +2,11 @@
 
 angular.module('Mgmt').factory('Task', ['$resource', '$log', function($resource, $log) {  
 
-  var TAG = 'TaskService::';
+  var TAG = 'Task::';
+  var Task = $resource('/api/tasks/:taskId', {taskId: '@id'});
 
   $log.debug(TAG, 'init');
 
-  var TasksByUserId = $resource('/api/users/:userId/tasks', {userId: '@id'});
-
-  return TasksByUserId;
+  return Task;
 
 }]);
