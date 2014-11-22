@@ -44,7 +44,15 @@ feature -- Test routines
 			end
 		end
 
-
+	set_description_test
+			-- Test for routine set_description
+		local
+			answer : ANSWER
+		do
+			create answer.make ("Some answer",1,1)
+			answer.set_description ("Edited answer")
+			assert("Correct description",answer.description.is_equal ("Edited answer"))
+		end
 end
 
 

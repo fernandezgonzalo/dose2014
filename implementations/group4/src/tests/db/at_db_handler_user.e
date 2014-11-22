@@ -39,9 +39,8 @@ feature -- Test routines
 
 				-- correct attributes
 			assert("Correct user_name ",json_result.item ("user_name").debug_output.is_equal("name"))
-			assert("Correct email ", json_result.item ("email").debug_output.is_equal("mail"))
+			assert("Correct email ", json_result.item ("email").debug_output.is_equal("name1@mail.com"))
 			assert("Correct is_active ", json_result.item("is_active").debug_output.is_equal("1"))
-			assert("Correct password", json_result.item ("password").debug_output.is_equal("pass"))
 		end
 
 	find_by_id_nonexistent_user_test
@@ -146,7 +145,7 @@ feature -- Test routines
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
 
-			l_user_data := db_handler.has_user ("mail")
+			l_user_data := db_handler.has_user ("name1@mail.com")
 
 			assert("User found", l_user_data.has_user)
 			assert("Correct user_id", l_user_data.user_id.is_equal ("1"))
