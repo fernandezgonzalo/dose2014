@@ -69,16 +69,15 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   function create() {
     var user = $scope.user;
-    if (!user) {
-      user = {};
+    if ($scope.form.$valid) {
+      user.isAdmin = '0';
+      Utility.toUnderscore(user);
+      var newUser = new User(user);
+      newUser.$save(function() {
+        $location.path('/login');
+      }, function() {
+        $scope.createUserError = true;
+      });
     }
-    user.isAdmin = '0';
-    Utility.toUnderscore(user);
-    var newUser = new User(user);
-    newUser.$save(function() {
-      $location.path('/login');
-    }, function() {
-      $scope.createUserError = true;
-    });
   }
 }]);

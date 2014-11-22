@@ -1,6 +1,6 @@
 <div id="legend">
-  <legend ng-show="!isEdit">Create a new account</legend>
-  <legend ng-show="isEdit">Edit user profile</legend>
+  <legend ng-if="!isEdit">Create a new account</legend>
+  <legend ng-if="isEdit">Edit user profile</legend>
 </div>
 <div class="alert alert-success" role="alert" ng-class="{'visible': saveSucceed, 'hiding': hiding, 'hide': !saveSucceed}">
   Profile was updated!
@@ -11,22 +11,22 @@
 <div class="alert alert-danger" ng-show="saveUserError">
   Error saving user.
 </div>
-<form class="form-horizontal" ng-submit="submit()">
+<form class="form-horizontal" ng-submit="submit()" name="form">
   <fieldset>
     <div class="row">
       <div class="col-md-6">
     
       
-        <div class="control-group">
+        <div class="form-group" ng-class="{'has-error' : form.username.$invalid && form.username.$dirty, 'has-success' : form.username.$valid && form.username.$dirty }">
           <!-- Username -->
           <label class="control-label" for="username">Username</label>
           <div class="controls">
-            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1" ng-model="user.username" required autofocus maxlength="15" pattern="[a-z0-9_-]{1,15}">
+            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[a-z0-9_-]{1,15}$">
             <p class="help-block">Username can contain any letters, numbers, underscores and hyphens, without spaces.</p>
           </div>
         </div>
      
-        <div class="control-group">
+        <div class="form-group" ng-class="{'has-error' : form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$valid && form.name.$dirty }">
           <label class="control-label" for="name">Name</label>
           <div class="controls">
               <input type="text" id="name" name="name" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="2" ng-model="user.name" maxlength="64" required>
@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group" ng-class="{'has-error' : form.email.$invalid && form.email.$dirty, 'has-success' : form.email.$valid && form.email.$dirty }">
           <!-- E-mail -->
           <label class="control-label" for="email">E-mail</label>
           <div class="controls">
@@ -43,8 +43,7 @@
           </div>
         </div>
 
-        <div ng-show="isEdit && !isAdmin()" class="control-group">
-          <!-- Password-->
+        <div ng-if="isEdit && !isAdmin()" class="control-group">
           <label class="control-label" for="old_password">Old password</label>
           <div class="controls">
             <input type="password" id="old_password" name="old_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.oldPassword">
@@ -52,8 +51,7 @@
           </div>
         </div>
 
-        <div ng-show="isEdit" class="control-group">
-          <!-- Password-->
+        <div ng-if="isEdit" class="control-group">
           <label class="control-label" for="new_password">New password</label>
           <div class="controls">
             <input disabled type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
@@ -61,29 +59,26 @@
           </div>
         </div>
      
-        <div ng-show="isEdit" ng-showclass="control-group">
-          <!-- Password -->
-          <label ng-show="isEdit" class="control-label" for="password_confirmed">New password (Confirm)</label>
+        <div ng-if="isEdit" ng-showclass="control-group">
+          <label  class="control-label" for="password_confirmed">New password (Confirm)</label>
           <div class="controls">
             <input disabled type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
             <p class="help-block">Please confirm password</p>
           </div>
         </div>
      
-        <div ng-show="!isEdit" class="control-group">
-          <!-- Password-->
+        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password.$invalid && form.password.$dirty, 'has-success' : form.password.$valid && form.password.$dirty }">
           <label class="control-label" for="password">Password</label>
           <div class="controls">
-            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required minlength="6" pattern=".{6,}">
+            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern=".{6,}">
             <p class="help-block">Password should be at least 6 characters</p>
           </div>
         </div>
      
-        <div ng-show="!isEdit" ng-showclass="control-group">
-          <!-- Password -->
+        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password_confirmed.$invalid && form.password_confirmed.$dirty, 'has-success' : form.password_confirmed.$valid && form.password_confirmed.$dirty }">
           <label class="control-label" for="password_confirmed">Password (Confirm)</label>
           <div class="controls">
-            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirmed">
+            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirmed" compare-to="password" required>
             <p class="help-block">Please confirm password</p>
           </div>
         </div>
@@ -91,14 +86,16 @@
         <div class="control-group">
           <!-- Button -->
           <div class="controls">
-            <button class="btn btn-success" tabindex="7" ng-show="!isEdit">Register</button>
-            <button class="btn btn-success" tabindex="7" ng-show="isEdit">Save</button>
+            <input type="submit" class="btn btn-success" tabindex="7" ng-if="!isEdit" value="Register"></input>
+            <input type="submit" class="btn btn-success" tabindex="7" ng-if="isEdit" value="Save"></input>
           </div>
         </div>
 
 
         <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="8">Log in.</a> </p> 
       </div>
+
+
 
       <div class="col-md-6">
         <div class="control-group">
