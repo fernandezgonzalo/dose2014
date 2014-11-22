@@ -23,9 +23,9 @@ app.config(['$routeProvider', '$locationProvider',
         templateUrl: 'partials/logout.html',
         controller: 'SessionCtrl'
       })
-      .when('/users/', {
+      .when('/user', {
         templateUrl: 'partials/user.html',
-        controller: 'UsersCtrl'
+        controller: 'UserCtrl'
       })
       .when('/project/create', {
         templateUrl: 'partials/create_project.html',
@@ -58,13 +58,16 @@ app.config(['$routeProvider', '$locationProvider',
     }
   ]);
 
-app.run(function ($rootScope, $location, $http, $timeout, AuthService, RESTService) {
+app.run(function ($rootScope, $location, $http, $timeout, AuthService, RESTService, $cookieStore) {
 
 
   $rootScope.authService = AuthService;
   $rootScope.restService = RESTService;
 
   $rootScope.$watch('authService.authorized()', function () {
+
+
+    $rootScope.authService.setLoggedIn($cookieStore.get('lets_go_session2'));
 
     // if never logged in, do nothing (otherwise bookmarks fail)
     if ($rootScope.authService.initialState()) {

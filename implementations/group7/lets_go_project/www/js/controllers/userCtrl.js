@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('RequirementsCtrl', ['$scope', '$http', '$log',
+  .controller('UserCtrl', ['$scope', '$http', '$log',
     function ($scope, $http, $log) {
-    
 
-
+      
     }
   ]);
