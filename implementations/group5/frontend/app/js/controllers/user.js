@@ -15,7 +15,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   }
 
   $scope.users = User.query();
-
+  
   $scope.openProfile = function(user) {
     $location.path('/users/' + user.id);
   };
@@ -26,10 +26,6 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       row.remove();
     });
     
-    $event.stopPropagation();
-  };
-  $scope.openProjectDash = function($event) {
-    $location.path('/projects/1/dashboard');
     $event.stopPropagation();
   };
 

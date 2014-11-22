@@ -11,6 +11,9 @@ angular.module('Mgmt').factory('User', ['$resource', '$http', '$log', function($
   User.prototype.$update = function(success, error) {
     $http.put('/api/users/' + this.id, this).then(success, error);
   };
+  User.prototype.$getTasks = function(success) {
+  	$http.get('/api/users/' + this.id + '/tasks').then(success);
+  };
 
   return User;
 

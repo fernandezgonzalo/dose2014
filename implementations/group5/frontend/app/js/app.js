@@ -22,7 +22,7 @@ app.config(['$routeProvider',
     $routeProvider
     .when('/', {
         templateUrl: 'partials/user_dashboard.html',
-        controller: 'UserController',
+        controller: 'TaskController',
       })
       .when('/login', {
         templateUrl: 'partials/login.html',
@@ -39,6 +39,10 @@ app.config(['$routeProvider',
       .when('/register', {
         templateUrl: 'partials/user.html',
         controller: 'UserController'
+      })
+      .when('/user/:id/dashboard', {
+        templateUrl: 'partials/user_dashboard.html',
+        controller: 'TaskController',
       })
       .when('/users/:id', {
         templateUrl: 'partials/user.html',
@@ -64,10 +68,6 @@ app.config(['$routeProvider',
       .when('/projects/:id/dashboard', {
         templateUrl: 'partials/projects_dashboard.html',
         controller: 'ProjectsController'
-      })
-      .when('/usr/:id/dashboard', {
-        templateUrl: 'partials/user_dashboard.html',
-        controller: 'UserController',
       })
       .otherwise({
         templateUrl: 'partials/404.html'
