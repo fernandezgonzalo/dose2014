@@ -1,0 +1,57 @@
+	<div id="wrapper">
+		<div id="header">
+			<div class="float-left">
+				<a href=""><img class="logo" src="images/logo.png" /></a>
+			</div>
+			<div id="user" class="float-right">
+				<a class="underline">Name</a>
+				<span>(<a class="underline">Logout</a>)</span>
+			</div>
+			<div class="float-left">
+				<div id="navigation">
+					<ul>
+						<li><a href="/ProjDashboard.html">Dashboard</a></li>
+						<li><a href="">My Tasks</a></li>
+						<li><a href="">Ranking</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="content">
+			<div id="inner-content">
+				<div id="dashboard">
+					<div class="block projects-column" >
+						<b>Manage users</b>
+						<table ng-repeat="user in users">
+						<p>User: ----
+							Role: 
+							<select name="rols">
+							<option value="d">Developer</option>
+							<option value="pm">Project Manager</option>
+							<option value="tl">Team Leader</option>
+							</select>
+							<button>Add</button>
+						</p>
+						
+						<tr>
+							<td>{{user.username}}</td>
+							<td><button>x</button></td>
+						</tr>
+						</table>
+						<p>
+							<button>Done</button>
+							<button>Cancel</button>
+						</p>
+					</div>
+					
+				
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<p>DOSE 2014</p>
+			<p>Group1</p>
+		</div>
+	</div>

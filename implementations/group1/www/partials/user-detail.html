@@ -1,0 +1,41 @@
+	<div id="wrapper">
+		<div id="header">
+			<div class="float-left">
+				<a href=""><img class="logo" src="images/logo.png" /></a>
+			</div>
+			<div id="user" class="float-right">
+				<a class="underline">Name</a>
+				<span>(<a class="underline">Logout</a>)</span>
+			</div>
+			<div class="float-left">
+				<div id="navigation">
+					<ul>
+						<li><a href="/ProjDashboard.html">Dashboard</a></li>
+						<li><a href="">My Tasks</a></li>
+						<li><a href="">Ranking</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="content">
+			<div id="inner-content">
+				<div id="dashboard">
+					<div class="block projects-column" ng-controller="UserDetailCtrl as userDetail">
+						
+						<p>Id user:		{{userDetail.user.id}}</p>
+						<p>First Name:	{{userDetail.user.firstname}}</p>
+						<p>Last Name:	{{userDetail.user.lastname}}</p>
+						<p>Email:		{{userDetail.user.email}}</p>
+					</div>
+					
+				
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<p>DOSE 2014</p>
+			<p>Group1</p>
+		</div>
+	</div>
