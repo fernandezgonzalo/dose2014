@@ -24,9 +24,29 @@ define(
             [
                 "$scope",
                 "user",
-                function($scope, user)
+                "restapi",
+                "$state",
+                function($scope, user, restapi, $state)
                 {
                     $scope.user = user;
+                    $scope.change = function(form)
+                    {
+                        restapi.change(form.user_name, form.email, form.password).then
+                        (
+                            function () {
+                                $state.go("user");
+                            }
+                        )
+                    };
+                    $scope.delete = function()
+                    {
+                        restapi.delete_user(user.id).then
+                        (
+                            function () {
+                                $state.go("login");
+                            }
+                        )
+                    };
                 }
             ]
         )
