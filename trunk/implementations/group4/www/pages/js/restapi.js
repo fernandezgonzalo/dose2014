@@ -44,6 +44,19 @@ define(
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PUBLIC METHODS
 
+                    module.change = function(name, email, password, id) {
+                        var data = {
+                            user_name: name,
+                            email: email,
+                            password: password
+                        };
+
+                        return $http.post('/api/users/'+id, data);
+                    };
+                    module.delete_user = function(id) {
+                        return $http.delete('/api/users/'+id);
+                    };
+
                     module.user = function ()
                     {
                         return store.get("user");
