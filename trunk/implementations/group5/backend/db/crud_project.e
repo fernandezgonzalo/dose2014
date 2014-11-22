@@ -16,8 +16,7 @@ create
 	make (database:SQLITE_DATABASE)
 			-- Creation procedure
 	do
-		create	 db.make(database.source)
-		db.open_read_write
+		db:=database
 	end
 
 
