@@ -64,11 +64,11 @@ feature {NONE} -- Initialization
 
 			create session_manager.make
 			create session_ctrl.make(db, session_manager)
-			create task_ctrl.make(db, session_manager, "task", "tasks", "task_id")
-			create story_ctrl.make(db, session_manager, "story", "stories", "story_id")
-			create sprint_ctrl.make(db, session_manager, "sprint", "sprints", "sprint_id")
-			create project_ctrl.make(db, session_manager, "project", "projects", "project_id")
-			create user_ctrl.make(db, session_manager, "user", "users", "user_id")
+			create task_ctrl.make(db, session_manager, "task", "tasks", "task_id", "story_id")
+			create story_ctrl.make(db, session_manager, "story", "stories", "story_id", "sprint_id")
+			create sprint_ctrl.make(db, session_manager, "sprint", "sprints", "sprint_id", "project_id")
+			create project_ctrl.make(db, session_manager, "project", "projects", "project_id", Void)
+			create user_ctrl.make(db, session_manager, "user", "users", "user_id", Void)
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
@@ -99,8 +99,8 @@ feature -- Basic operations
 				-- handling of all the routes relating to "projects"
 			projects_base_uri := "/projects"
 			setup_restful_routing_for(project_ctrl, projects_base_uri, "project_id")
-			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_devs", agent project_ctrl.invite_developers_authorized_validated, router.methods_put)
-			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/remove_devs", agent project_ctrl.remove_developers_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_devs", agent project_ctrl.add_users_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/remove_devs", agent project_ctrl.remove_users_authorized_validated, router.methods_put)
 
 				-- handling of all the routes relating to "sprints"
 			sprints_base_uri := "/projects/{project_id}/sprints"
@@ -113,8 +113,8 @@ feature -- Basic operations
 				-- handling of all the routes relating to "tasks"
 			tasks_base_uri := "/projects/{project_id}/sprints/{sprint_id}/stories/{story_id}/tasks"
 			setup_restful_routing_for(task_ctrl, tasks_base_uri, "task_id")
-			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/assign_devs", agent task_ctrl.assign_developers_authorized_validated, router.methods_put)
-			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/unassign_devs", agent task_ctrl.unassign_developers_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/assign_devs", agent task_ctrl.add_users_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/unassign_devs", agent task_ctrl.remove_users_authorized_validated, router.methods_put)
 
 
 				-- setting the path to the folder from where we serve static files
