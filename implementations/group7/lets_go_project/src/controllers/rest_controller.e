@@ -21,13 +21,14 @@ inherit
 
 feature {NONE} -- Creation
 
-	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER; a_resource_name, a_table_name, a_uri_id_name: STRING)
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER; a_resource_name, a_table_name, a_uri_id_name, a_parent_uri_id_name: STRING)
 		do
 			db := a_db
 			session_manager := a_session_manager
 			resource_name := a_resource_name
 			table_name := a_table_name
 			uri_id_name := a_uri_id_name
+			parent_uri_id_name := a_parent_uri_id_name
 		end
 
 
@@ -38,16 +39,31 @@ feature {NONE} -- Private attributes
 	resource_name: STRING
 	table_name: STRING
 	uri_id_name: STRING
+	parent_uri_id_name: STRING
 
 
 feature -- Handlers
 
 	get_all (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			json_array: JSON_ARRAY
+			results: JSON_ARRAY
+			resources: JSON_ARRAY
+			i: INTEGER
+			resource: JSON_OBJECT
 		do
-			json_array := db.query_rows("SELECT * FROM " + table_name)
-			reply_with_200_with_data(res, json_array.representation)
+			create results.make_array
+			resources := db.query_rows (get_get_all_query_statement(req))
+			from
+				i := 1
+			until
+				i > resources.count
+			loop
+				resource := get_json_object_from_string(resources.i_th(i).representation)
+				modify_json(resource)
+		    	results.extend (resource)
+				i := i + 1
+			end
+			reply_with_200_with_data(res, results.representation)
 		end
 
 
@@ -59,13 +75,16 @@ feature -- Handlers
 
 	get (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			json_object: JSON_OBJECT
+			resource: JSON_OBJECT
+			id: STRING
 		do
-			json_object := db.query_single_row("SELECT * FROM " + table_name + " WHERE id=" + get_id(req))
-			if json_object.is_empty then
+			id := req.path_parameter (uri_id_name).string_representation
+			resource := db.query_single_row("SELECT * FROM " + table_name + " WHERE id = " + id)
+			if resource.is_empty then
 				reply_with_404(res)
 			else
-				reply_with_200_with_data(res, json_object.representation)
+				modify_json(resource)
+				reply_with_200_with_data(res, resource.representation)
 			end
 		end
 
@@ -139,6 +158,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			values_str := get_comma_separated_string_from_array (fields_and_values.values)
 			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
 			if id >= 0 then
+				post_insert_action(req, res, id)
 				reply_with_201_with_data(res, id.out)
 			else
 				reply_with_500(res)
@@ -165,6 +185,24 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 
 feature {NONE} -- Internal helpers	
+
+	get_get_all_query_statement(req: WSF_REQUEST): STRING
+		do
+			if parent_uri_id_name /= Void then
+				Result := "SELECT * FROM " + table_name + " WHERE " + parent_uri_id_name + " = " + req.path_parameter (parent_uri_id_name).string_representation
+			else
+				Result := "SELECT * FROM " + table_name
+			end
+			print(Result)
+		end
+
+	modify_json(resource: JSON_OBJECT)
+		do
+		end
+
+	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64)
+		do
+		end
 
 	get_update_assignments(fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]): STRING
 		local
