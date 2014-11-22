@@ -44,8 +44,10 @@ define(
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PUBLIC METHODS
 
-                    module.change = function(name, email, password, id) {
-                        var data = {
+                    module.change = function(name, email, password, id)
+                    {
+                        var data =
+                        {
                             user_name: name,
                             email: email,
                             password: password
@@ -53,7 +55,9 @@ define(
 
                         return $http.post('/api/users/'+id, data);
                     };
-                    module.delete_user = function(id) {
+
+                    module.delete_user = function(id)
+                    {
                         return $http.delete('/api/users/'+id);
                     };
 
