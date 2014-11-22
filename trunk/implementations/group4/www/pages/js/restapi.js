@@ -119,6 +119,11 @@ define(
                         )
                     };
 
+                    module.remove_project = function(id)
+                    {
+                        return $http.delete('/api/projects/' + id);
+                    };
+
                     module.current_user = function()
                     {
                         return $http.get('/api/user')

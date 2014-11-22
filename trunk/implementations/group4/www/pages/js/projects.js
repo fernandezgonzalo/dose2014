@@ -36,16 +36,15 @@ define(
                 {
                     $scope.projects = projects;
 
-                    $scope.login = function(form)
+                    $scope.remove = function(project)
                     {
-                        $log.info(form);
-                        restapi.login(form.email, form.password);
-                    };
-
-                    $scope.edit = function (project)
-                    {
-                        $log.info("EDIT");
-                        $log.info(project);
+                        restapi.remove_project(project["p.id"]).then
+                        (
+                            function()
+                            {
+                                $scope.projects = restapi.projects();
+                            }
+                        )
                     };
 
                     $scope.go = function (project)

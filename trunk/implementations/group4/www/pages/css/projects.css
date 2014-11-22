@@ -3,3 +3,6 @@
 
 .p-projects td {
   cursor: default; }
+
+.inline {
+  display: inline; }
