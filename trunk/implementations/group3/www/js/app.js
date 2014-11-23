@@ -1,13 +1,15 @@
 'use strict';
 
 var app = angular.module('LetsGoTeam', [
-  'ngRoute'
+  'ngRoute', 'facebook','googleplus'
 ]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
 app.config(['$logProvider', function($logProvider){
   $logProvider.debugEnabled(false);
 }]);
+
+
 
 app.factory('myService', function() {
   var savedProject = {};
@@ -39,7 +41,7 @@ app.config(['$routeProvider', '$locationProvider',
     $routeProvider
       .when('/home', {
         templateUrl: 'partials/home.html',
-        controller: 'homeController'
+        controller: 'HomeController'
       })
       .when('/login', {
         templateUrl: 'partials/login.html',
