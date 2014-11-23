@@ -42,14 +42,14 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     if ($scope.currentUser === null) {
       var email = localStorage.getItem('email');
       var password = localStorage.getItem('password');
-      var promise = AuthService.login({email: email, password: password});
-      promise.then(function(user) {
+      var callback = function(user) {
         if (user) {
           $scope.setCurrentUser(user);
         } else {
           $location.path('/login');
         }
-      });
+      };
+      AuthService.login({email: email, password: password}, callback);
     }
   }
 

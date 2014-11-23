@@ -14,15 +14,16 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
 
   $scope.login = function() {
     if ($scope.loginForm.$valid) {
-      var promise = AuthService.login($scope.credentials);
-      promise.then(function(user) {
+      var callback = function(user) {
         if (!user) {
           $scope.wrongCredentials = true;
         } else {
           $scope.setCurrentUser(user);
           $location.path('/');
         }
-      });
+      };
+      AuthService.login($scope.credentials, callback);
+
     }
   };
 
