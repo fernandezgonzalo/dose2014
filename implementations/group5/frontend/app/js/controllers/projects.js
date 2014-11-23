@@ -30,8 +30,16 @@ angular.module('Mgmt')
 
   // Retrieve data for current project (/projects/{id}/dashboard).
   if($routeParams.id) {
-    Project.get({projectId: $routeParams.id}, function(project) {
+    var id = $routeParams.id;
+    // Retrieve project information.
+    Project.get({projectId: id}, function(project) {
       $scope.project = project;
+    });
+    // Retrieve tasks belonging to the project.
+    Project.getTasks({projectId: id}, function(tasks) {
+      $scope.tasks = tasks;
+      $log.log('Array of tasks of the project:');
+      $log.log(tasks);
     });
   }
 
