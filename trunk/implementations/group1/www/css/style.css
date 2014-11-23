@@ -1,8 +1,9 @@
+/* General */
 html {
 	height: 100%;
 }
 body {
-	background-image: url('../images/pattern.png');
+	background-image: url('../img/pattern.png');
 	margin: 0px;
 	padding: 0px;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -36,7 +37,7 @@ a.underline {
 }
 #header {
 	width: 100%;
-	background-image: url('../images/line.png');
+	background-image: url('../img/line.png');
 	background-color: #000000;
 	background-repeat: repeat-x;
 	background-position: bottom left;
@@ -68,7 +69,7 @@ a.underline {
 	padding: 0px;
 }
 #navigation {
-	background-image: url('../images/button.png');
+	background-image: url('../img/button.png');
 	background-repeat: repeat-x;
 	border-bottom: solid #474745 1px;
 	border-top: solid #474745 1px;
@@ -81,9 +82,10 @@ a.underline {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
+	white-space: nowrap;
 }
 #navigation ul li{
-	float: left;
+	display: inline-block;
 	width: 149px;
 	height: 42px;
 	border: none;
@@ -125,8 +127,84 @@ div.page {
 	margin: auto;
 }
 
-/* Dashboard*/
+/* Forms */
+form {
+	padding: 5px;
+}
+fieldset {
+	border: none;
+	margin: 5px;
+}
+legend {
+	font-weight: bold;
+	font-size: 18px;
+	text-align: center;
+}
+div.label-div {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 20px 0px 5px 0px;
+}
+input[type="text"] {
+	display: block;
+	margin: 0px;
+	min-width: 150px;
+}
+textarea {
+	display: block;
+	margin: 0px;
+	width: 50em;
+	height: 5em;
+}
+select {
+	min-width: 150px;
+}
+label {
+	font-size: 14px;
+}
+input[type="radio"] {
+	margin: 2px 15px 2px 2px;
+}
+button {
+	background-color: #333333;
+	color: #ffffff;
+	min-width: 100px;
+	height: 35px;
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+	padding: 0px 8px;
+}
+a.link-button {
+	cursor: pointer;
+}
+a.link-button span {
+	text-align: center;
+	display: block;
+	min-width: 100px;
+	height: 35px;
+	line-height: 35px;
+	background-color: #333333;
+	color: #ffffff;
+	font-size: 14px;
+	padding: 0px 8px;
+}
+table {
+    border-collapse: collapse;
+}
+table, td, th {
+    border: 1px solid black;
+}
+th {
+	background-color: #333333;
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
 
+/* Dashboard */
 #dashboard .projects-column {
 	float: left;
 	margin-right: 10px;
