@@ -68,12 +68,9 @@ feature -- Handlers
 				res.put_string (l_result_payload)
 
 			else
-					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to show projects
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
@@ -207,12 +204,9 @@ feature -- Handlers
 				res.put_string (l_result.representation)
 
 			else
-					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to show projects
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
 			end
 
 		end
@@ -291,12 +285,9 @@ feature -- Handlers
 				set_json_header_ok (res, l_result.representation.count)
 				res.put_string (l_result.representation)
 			else
-					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to show projects
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
@@ -348,20 +339,14 @@ feature -- Handlers
 					set_json_header_ok (res, l_result.representation.count)
 					res.put_string (l_result.representation)
 				else
-						-- the loged user isnt the project owner and then
-						-- he cant add collaborators to the project
-					l_result.put_string ("The user loged isnt the project owner.", create {JSON_STRING}.make_json ("Message"))
-						-- set the header to status code 401-unauthorized
-					set_json_header (res, 401, l_result.representation.count)
-					res.put_string (l_result.representation)
+						-- the request has no session cookie and thus no user is logged in
+						-- we return an error stating that the user is not authorized to get the users.
+					prepare_response("The user loged isnt the project owner",401,res)
 				end
 			else
-					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to show projects
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
@@ -436,12 +421,9 @@ feature -- Handlers
 				res.put_string (l_result.representation)
 
 			else
-					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to show projects
-				l_result.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
-					-- set the header to status code 401-unauthorized
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
 			end
 		end
 
