@@ -55,7 +55,6 @@ app.config(['$routeProvider',
       .when('/projects', {
         templateUrl: 'partials/projects.html',
         controller: 'ProjectsController'
-        // controllerAs: 'projects'
       })
       .when('/projects/new', {
         templateUrl: 'partials/projects_new.html',

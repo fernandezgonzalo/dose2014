@@ -1,11 +1,3 @@
-<!-- <form novalidate class="simple-form"> -->
-<!--   Name: <input type="text" ng-model="project.name" /><br /> -->
-<!--   Client: <input type="text" ng-model="project.client_name" /><br /> -->
-<!--   Author: <input type="text" ng-model="project.id_user" /><br /> -->
-<!--   Date: <input type="text" ng-model="project.deadline" /><br /> -->
-<!--   <button ng-click="createProject(project)">Create project</button> -->
-<!-- </form> -->
-
 <!-- /modal-header -->
 <div class="modal-header">
   <span class="modal-title h4">New project</span><span class="pull-right">
@@ -21,8 +13,8 @@
 
         <br>
 
+        <!-- Project name -->
         <div class="control-group">
-          <!-- Username -->
           <label class="control-label" for="projectName">Project name</label>
           <div class="controls">
             <input type="text" id="projectName" name="projectName"
@@ -31,6 +23,7 @@
           </div>
         </div>
 
+        <!-- Client name -->
         <div class="control-group">
           <label class="control-label" for="client">Client</label>
           <div class="controls">
@@ -40,16 +33,7 @@
           </div>
         </div>
 
-        <!-- To be deleted!, user ID will be set according to logged user. -->
-        <!-- <div class="control-group"> -->
-        <!--   <label class="control-label" for="client">Author</label> -->
-        <!--   <div class="controls"> -->
-        <!--     <input type="text" id="userId" name="userId" -->
-        <!--     placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" -->
-        <!--     autocapitalize="off" tabindex="3" ng-model="project.id_user"> -->
-        <!--   </div> -->
-        <!-- </div> -->
-
+        <!-- Deadline -->
         <div class="control-group">
           <label class="control-label" for="dueDate">
             <span class="glyphicon glyphicon-calendar"></span>   Deadline</label>
