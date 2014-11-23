@@ -182,7 +182,7 @@ feature -- Handlers
 						if attached {JSON_STRING} j_object.item ("deadline") as s then
 							l_deadline := s.unescaped_string_8
 						end
-						if attached {JSON_STRING} j_object.item ("client") as s then
+						if attached {JSON_STRING} j_object.item ("client_name") as s then
 							l_client := s.unescaped_string_8
 						end
 
@@ -195,7 +195,8 @@ feature -- Handlers
 				my_crud_project.update_project_deadline (l_deadline, l_id.to_natural) and
 				my_crud_project.update_project_name (l_name, l_id.to_natural) then
 			--if the project was updated,set the response
-			set_json_header_ok (res, l_result.representation.count)
+				l_result := my_crud_project.project_by_id (l_id.to_natural)
+				set_json_header_ok (res, l_result.representation.count)
 
 			end
 			res.put_string (l_result.representation)

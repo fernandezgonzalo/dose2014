@@ -142,7 +142,7 @@ feature -- Handlers
 		update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 
 			local
-			l_id, l_payload, l_email, l_username, l_last_login, l_name, l_is_admin: STRING
+			l_id, l_payload, l_email, l_username, l_last_login, l_name, l_password, l_is_admin: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 
@@ -154,6 +154,7 @@ feature -- Handlers
 			create l_username.make_empty
 			create l_last_login.make_empty
 			create l_is_admin.make_empty
+			create l_password.make_empty
 			l_id := req.path_parameter ("id").string_representation
 
 
@@ -180,6 +181,9 @@ feature -- Handlers
 						if attached {JSON_STRING} j_object.item ("lastLogin") as s then
 							l_last_login := s.unescaped_string_8
 						end
+						if attached {JSON_STRING} j_object.item ("new_password") as s then
+							l_password := s.unescaped_string_8
+						end
 						if attached {JSON_STRING} j_object.item ("is_admin") as s then
 							l_is_admin := s.unescaped_string_8
 						end
@@ -195,7 +199,8 @@ feature -- Handlers
 				my_crud_user.update_user_name (l_id.to_natural, l_name) And
 				my_crud_user.update_user_username (l_id.to_natural, l_username)	then
 			--if the user was updated,set the response
-			set_json_header_ok (res, l_result.representation.count)
+				l_result := my_crud_user.user_by_id (l_id.to_natural)
+				set_json_header_ok (res, l_result.representation.count)
 
 			end
 			res.put_string (l_result.representation)
