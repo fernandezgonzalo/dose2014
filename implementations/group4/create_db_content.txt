@@ -130,9 +130,6 @@ INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_spr
 INSERT INTO Collaborators(user_id,project_id) VALUES (2,1);
 INSERT INTO Collaborators(user_id,project_id) VALUES (3,1);
 
---INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Backlog',0,1);
---INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Backlog',0,2);
---INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Backlog',0,3);
 INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',2,1);
 INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',1,2);
 INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',1,3);
