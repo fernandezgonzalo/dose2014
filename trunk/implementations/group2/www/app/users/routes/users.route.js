@@ -7,7 +7,7 @@ angular.module('coffee.core').config(['$stateProvider',
             var deferred = $q.defer();
             $http.get('/coffee/sessions').success(function(response) {
                 // Authenticated
-                if (!response.user) {
+                if (response.user) {
                     $timeout(deferred.reject);
                     $location.url('/');
                 } else { // Not Authenticated
