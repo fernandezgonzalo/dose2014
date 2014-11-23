@@ -176,6 +176,7 @@ feature -- Handlers
 			my_crud_task.update_task_status (l_status, l_task_id.to_natural) And
 			my_crud_task.update_task_title (l_title, l_task_id.to_natural) then
 			--if the task was updated,set the response
+			l_result := my_crud_task.task_by_id (l_task_id.to_natural)
 			set_json_header_ok (res, l_result.representation.count)
 
 		end
