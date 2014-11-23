@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>DOSEMS</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<!--[if lt IE 10]>
+	<style type="text/css">
+		#wrapper { height:100%; }
+	</style>
+<![endif]-->
+</head>
+<body>
+	<div id="wrapper">legent
+		<div id="header">
+			<div class="float-left">
+				<a href=""><img class="logo" src="img/logo.png" /></a>
+			</div>
+			<div id="user" class="float-right">
+				<a class="underline">Name</a>
+				<span>(<a class="underline">Logout</a>)</span>
+			</div>
+			<div class="float-left">
+				<div id="navigation">
+					<ul>
+						<li>
+							<a href="">Dashboard</a>
+						</li><li>
+							<a href="">My Tasks</a>
+						</li><li>
+							<a href="">Ranking</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div id="content">
+			<div id="inner-content">
+				<div id="dashboard">
+					<div class="block">
+						<form>
+							<fieldset>
+								<legend>Task</legend>
+									<div class="label-div">Name:</div>
+									<input type="text" name="projectname">
+									<div class="label-div">Description:</div>
+									<textarea name="description"></textarea>
+									<div class="label-div">Status:</div>
+									<select name="status">
+										<option value="new" selected>New</option>
+										<option value="active">Active</option>
+										<option value="closed">Closed</option>
+										<option value="accepted">Accepted</option>
+									</select><br />
+									<div class="label-div">Type:</div>
+									<label for="type1">Sample Type 1</label>
+									<input type="radio" name="type" id="type1" value="type1">
+									<label for="type1">Sample Type 2</label>
+									<input type="radio" name="type" id="type2" value="type2">
+							</fieldset>
+							<button type="button">Save</button>
+							<br /><br />
+							<div>
+								<a class="link-button" href=""><span>Link Button</span></a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<p>DOSE 2014</p>
+			<p>Group1</p>
+		</div>
+	</div>
+</body>
+</html>
