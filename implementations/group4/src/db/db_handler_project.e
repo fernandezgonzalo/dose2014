@@ -53,6 +53,15 @@ feature -- Data access
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 		end
 
+	find_owner(project_id: INTEGER) : JSON_OBJECT
+			-- Return the user_id of the owner of the given project
+		do
+			create Result.make
+			create db_query_statement.make("SELECT user_id FROM Projects WHERE id="+project_id.out+";" ,db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
+		end
+
+
 	add (project: PROJECT)
 			-- adds a new project
 		do
