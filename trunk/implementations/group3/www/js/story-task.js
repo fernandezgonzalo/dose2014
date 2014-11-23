@@ -9,13 +9,14 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
          $scope.project = myService.getSavedProject();
         $scope.sprint = myService.getSavedSprint();
-        $scope.stories = []
+        $scope.actualSprint = {};
+        $scope.stories = [];
+        $scope.tasks = []
 
         var init = function() {
-            $http.get('/api/stories')
+            $http.get('/sprint-stories/{sprint.id}')
                 .success(function(data, status, header, config) {
 
-                    // the server should return a json array which contains all the stories
                     $scope.stories = data;
                 })
                 .error(function(data, status) {
@@ -23,7 +24,16 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
                 });
         }();
 
+        $scope.setTasks = function(){
+            $http.get('/projects-sprints/{actualProject.id}')
+                .success(function(data, status, header, config) {
 
+                    $scope.tasks = data;
+                })
+                .error(function(data, status) {
+                    $log.debug('Error while fetching proyects from server');
+                });
+        }
 
 
         /*$scope.stories = [ {id:0,
@@ -47,6 +57,7 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
         $scope.setStorySelected = function(id){
             $scope.storySelected = id;
+            $scope.actualStory = $scope.stories[id];
         }
 
     }]);
