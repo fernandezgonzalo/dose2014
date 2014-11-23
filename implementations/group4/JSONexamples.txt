@@ -387,7 +387,6 @@ Doesn't ask any JSON, just adds the user (taken from the user_id) as a collabora
     "description":"task descr",
     "priority":"Low",
     "position":"Backlog",
-    "sprint_id":"1",
     "points":"10",
     "type":"Bug"
 }
@@ -479,7 +478,6 @@ Doesn't ask any JSON, just adds the user (taken from the user_id) as a collabora
     "description":"subtask descr",
     "priority":"Low",
     "position":"Done",
-    "sprint_id":"1",
     "project_id":"1",    
     "points":"10",
     "type":"Bug"
