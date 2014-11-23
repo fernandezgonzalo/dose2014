@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_add, add_data_to_map_update, add_data_to_map_get_all, add_data_to_map_delete, is_authorized_add, is_authorized_delete, is_authorized_update, is_authorized_get_all
+		add_data_to_map_add, add_data_to_map_update, add_data_to_map_get_all, add_data_to_map_delete, is_authorized_add, is_authorized_delete, is_authorized_update, is_authorized_get_all, delete
 	end
 
 create
@@ -19,6 +19,36 @@ create
 
 
 feature -- Handlers
+
+	delete(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_req_id: STRING
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_delete (req, l_map)
+			if is_authorized_delete(req, l_map) then
+				l_req_id:= get_value_from_map ("id", l_map)
+				if not my_db.is_task_from_req_in_sprint (l_req_id) then
+					if my_db.delete(table_name,l_map) then
+						return_success (l_result, res)
+					else
+						return_error(l_result, res,"Could not delete from" + table_name, 500)
+					end
+				else
+					return_error(l_result, res, "Could not delete because task of requirement is in sprint",406)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
 	add_data_to_map_add (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
