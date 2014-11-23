@@ -12,7 +12,7 @@ create
 
 feature -- Initialization
 
-	make (new_name: STRING; new_status: STRING; new_description: STRING; new_mpps: NATURAL; new_number_of_sprints: NATURAL; new_user_id: NATURAL)
+	make (new_name: STRING; new_status: STRING; new_description: STRING; new_mpps: NATURAL; new_user_id: NATURAL)
 			-- Creates a project with initial properties
 		require
 			not_void (new_name)
@@ -24,7 +24,7 @@ feature -- Initialization
 			description := new_description
 			max_points_per_sprint := new_mpps
 			user_id := new_user_id
-			number_of_sprints := new_number_of_sprints
+			number_of_sprints := -1
 		end
 
 feature -- Project properties
@@ -37,7 +37,7 @@ feature -- Project properties
 
 	max_points_per_sprint : NATURAL
 
-	number_of_sprints: NATURAL
+	number_of_sprints: INTEGER
 
 	user_id : NATURAL
 
