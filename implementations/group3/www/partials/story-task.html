@@ -30,7 +30,7 @@
                     </a>
                 </h3>
                 <div class="list-group">
-                    <div class="list-group-item colorHover" ng-repeat = "story in stories" ng-click="setStorySelected(story.id)" >
+                    <div class="list-group-item colorHover" ng-repeat = "story in stories" ng-click="setStorySelected(story.id); setTasks()" >
                         <div class="row  ">
                             <div class="col-md-6">
                                 <h4> <strong>{{story.name}}</strong></h4>
@@ -49,7 +49,7 @@
             <div class="col-md-2">
                 <h3   align="center"><strong> Not Started</strong></h3>
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="task in stories[storySelected].tasks" ng-show="task.status === 1">
+                    <div class="list-group-item" ng-repeat="task in tasks" ng-show="task.status === 1">
                         <h4>{{task.name}}
                         <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
                     </div>
