@@ -404,6 +404,38 @@ feature -- Data access
 		end
 	end
 
+	is_task_from_req_in_sprint(a_req_id: STRING): BOOLEAN
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i: INTEGER
+		l_sprint_id: STRING
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT * FROM task WHERE requirement_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_req_id>>)
+		Result:=False
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("sprint_id") then
+					l_sprint_id:= l_json_object.item ("sprint_id").representation
+					l_sprint_id.replace_substring_all ("%"","")
+					if l_sprint_id.to_integer > 0 then
+						Result:=True
+					end
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
 			-- if yes, the result tuple value "has_user" will be true and "id" and "username" will be set
