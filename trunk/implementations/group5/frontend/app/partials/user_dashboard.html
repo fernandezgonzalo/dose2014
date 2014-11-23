@@ -1,13 +1,47 @@
+
 <!-- Modal -->
 <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+		<div class="modal-header">
+			<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> //close button in header-->
+			<a href="#" class="modal-title h4" editable-text="task.title"> {{ task.title || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> 100</span>
+		</div>	<!-- /modal-header -->
+
+		<div class="modal-body row">
+			<div class="col-md-6">
+				<p>Status: {{currentTask.status}}</p>
+				<p>User: Alan</p>
+				<p>Priority: Critical</p>
+				<p>Description: This is a description of a task. Every user can add a description when creating or editing task. I know this is obvious, I just need a long text for format checking!</p>
+				<p>Comments: Here will be comments</p>
+			</div>
+			<div class="col-md-6">
+				<p><span class="glyphicon glyphicon-time"></span> 30 jan</td></p>
+				<p><span class="glyphicon glyphicon-plus"></span> add deadline</td></p>
+				<p><span class="glyphicon glyphicon-plus"></span> add user</td></p>
+				<p><span class="glyphicon glyphicon-plus"></span> add description</td></p>
+				<p><span class="glyphicon glyphicon-remove"></span> delete task</td></p>
+				<p><span class="glyphicon glyphicon-comment"></span> add a comment</td></p>
+			</div>
+		</div>	<!-- /modal-body -->
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Save changes</button>
+		</div>	<!-- /modal-footer -->
+    </div>
+  </div>
+</div>
+
 
 <div class="row">
 	<h1 class="title col-md-12">My dashboard</h1>
+</div>
+
+<div class="row" ng-show = "!tasksInProgress.length">
+	<h3 class="col-md-12">It seems like you have no tasks in progress..</h3>
 </div>
 
 <div class="row" ng-show = "tasksInProgress.length">
@@ -17,7 +51,7 @@
 <div class="row" ng-show = "tasksInProgress.length">
 	<div class="col-md-12">
 		<table class="table">
-			<tr ng-repeat="task in tasksInProgress" class="warning row-link" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
+			<tr ng-repeat="task in tasksInProgress" class="warning row-link {{task.id}}" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
@@ -25,6 +59,10 @@
 			</tr>
 		</table>
 	</div>
+</div>
+
+<div class="row" ng-show = "!tasksFinished.length">
+	<h3 class="col-md-12">It seems like you have no finished tasks..</h3>
 </div>
 
 <div class="row" ng-show = "tasksFinished.length">
@@ -34,7 +72,7 @@
 <div class="row" ng-show = "tasksFinished.length">
 	<div class="col-md-12">
 		<table class="table">
-			<tr ng-repeat="task in tasksFinished" class="warning row-link" data-toggle="modal" href="partials/task.html" data-target="#taskModal">
+			<tr ng-repeat="task in tasksFinished" class="warning row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
@@ -43,6 +81,9 @@
 		</table>
 	</div>
 </div>
+
+
+
 <!--
 <div class="row">
 	<h1 class="title col-md-12">My dashboard</h1>

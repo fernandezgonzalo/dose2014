@@ -22,10 +22,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 		$log.debug($scope.tasksInProgress, 'Tasks in Progress');
 	});
 
-
-
-	$scope.openProjectDash = function($event, project_id) {
-    $location.path('/projects/'+ project_id +'/dashboard');
+	$scope.openProjectDash = function($event, projectId) {
+    $location.path('/projects/'+ projectId +'/dashboard');
     $event.stopPropagation();
   	};
 
