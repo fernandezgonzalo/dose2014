@@ -77,8 +77,8 @@ feature {NONE} -- Initialization
 			create project_ctrl.make(dao, session_manager, "project")
 			create dev_map_ctrl.make(dao, session_manager, "developer_mapping")
 			create req_ctrl.make(dao, session_manager, "requirement")
-			create task_ctrl.make(dao)
-			create sprint_ctrl.make(dao)
+			create task_ctrl.make(dao, session_manager, "task")
+			create sprint_ctrl.make(dao, session_manager, "sprint")
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -107,31 +107,32 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}", agent user_ctrl.update ,router.methods_put)
 
 --				-- handling of all the routes relating to "project"
-			map_uri_template_agent_with_request_methods("/coffee/projects/user/{user_id}", agent dev_map_ctrl.add ,router.methods_post)
-			map_uri_template_agent_with_request_methods("/coffee/projects/user/{user_id}", agent dev_map_ctrl.delete ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent dev_map_ctrl.add ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent dev_map_ctrl.delete ,router.methods_delete)
 			map_uri_template_agent_with_request_methods("/coffee/projects", agent project_ctrl.add ,router.methods_post)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.update ,router.methods_put)
-			map_uri_template_agent_with_request_methods("/coffee/projects/{user_id}", agent project_ctrl.get_all ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent project_ctrl.get_all ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.delete ,router.methods_delete)
 
 
 --				-- handling of all the routes relating to "requirement"
-			map_uri_template_agent_with_request_methods("/coffee/reqs/{project_id}", agent req_ctrl.add ,router.methods_post)
---			map_uri_template_agent_with_request_methods("/coffee/reqs/{project_id}/edit", agent req_ctrl.update_req ,router.methods_post)
---			map_uri_template_agent_with_request_methods("/coffee/reqs/{project_id}", agent req_ctrl.get_reqs ,router.methods_get)
---			map_uri_template_agent_with_request_methods("/coffee/reqs/{project_id}", agent req_ctrl.delete_req ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/reqs", agent req_ctrl.add ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/reqs", agent req_ctrl.update ,router.methods_put)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/reqs", agent req_ctrl.get_all ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/reqs", agent req_ctrl.delete ,router.methods_delete)
 
 
 --				-- handling of all the routes relating to "task"
---			map_uri_template_agent_with_request_methods("/coffee/taks", agent task_ctrl.create_task ,router.methods_post)
---			map_uri_template_agent_with_request_methods("/coffee/tasks/{req_id}/edit", agent task_ctrl.update_task ,router.methods_post)
---			map_uri_template_agent_with_request_methods("/coffee/tasks/{req_id}", agent task_ctrl.get_tasks ,router.methods_get)
---				map_uri_template_agent_with_request_methods("/coffee/tasks/{req_id}", agent task_ctrl.delete_task ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.add ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.update ,router.methods_put)
+			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.get_all ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.delete ,router.methods_delete)
 
 --				-- handling of all the routes relating to "sprint"
---			map_uri_template_agent_with_request_methods("/coffee/sprints", agent sprint_ctrl.add_sprint ,router.methods_post)
---			map_uri_template_agent_with_request_methods("/coffee/sprints/{project_id}", agent sprint_ctrl.get_sprint ,router.methods_get)
---			map_uri_template_agent_with_request_methods("/coffee/sprints/{project_id}/close", agent sprint_ctrl.close_sprint ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.add ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.get_all ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.update ,router.methods_put)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.delete ,router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)

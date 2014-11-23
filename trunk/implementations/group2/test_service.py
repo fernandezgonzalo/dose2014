@@ -19,6 +19,16 @@ class test_service():
         self.req_priority = "1"
         self.req_risk = "12"
         self.req_completed = "false"
+        self.req_id = "1"
+        self.task_title = "my task"
+        self.task_desc = "a good task"
+        self.task_points = "12"
+        self.task_estimate = "8"
+        self.task_spent = "0"
+        self.task_progress = "New"
+        self.task_last_modified = "2014-12-01 15:00:00"
+        self.sprint_id = "1"
+        self.task_id = "1"
 
     def test_add_user(self):
         url = 'http://localhost:9090/coffee/users'
@@ -132,11 +142,10 @@ class test_service():
             print "test_delete_project: " + j_response["Message"]
     
     def test_get_all_projects_for_user(self):
-        url = 'http://localhost:9090/coffee/projects/%s' % self.user_id
+        url = 'http://localhost:9090/coffee/projects/users/%s' % self.user_id
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        print(j_response)
         if j_response["Message"] == "OK":
             print "test_get_all_projects: OK"
         else:
@@ -147,42 +156,39 @@ class test_service():
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        print(j_response)
         if j_response["Message"] == "OK":
-            print "test_get_all_projects: OK"
+            print "test_get_all_users: OK"
         else:
-            print "test_get_all_projects: " + j_response["Message"]
+            print "test_get_all_users: " + j_response["Message"]
             
     def test_add_dev_to_projects(self):
-        url = 'http://localhost:9090/coffee/projects/user/2'
+        url = 'http://localhost:9090/coffee/projects/users/2'
         raw_data = {}
         raw_data["project_id"] = self.project_id
         data = json.dumps(raw_data)
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        print(j_response)
         if j_response["Message"] == "OK":
             print "test_add_dev_projects: OK"
         else:
             print "test_add_dev_projects: " + j_response["Message"]
             
     def test_remove_dev_to_projects(self):
-        url = 'http://localhost:9090/coffee/projects/user/2'
+        url = 'http://localhost:9090/coffee/projects/users/2'
         raw_data = {}
         raw_data["project_id"] = self.project_id
         data = json.dumps(raw_data)
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        print(j_response)
         if j_response["Message"] == "OK":
             print "test_remove_dev_projects: OK"
         else:
             print "test_remove_dev_projects: " + j_response["Message"]
             
-    def test_add_req(self):
-        url = 'http://localhost:9090/coffee/reqs/%s' % self.project_id
+    def test_add_req(self, project_id):
+        url = 'http://localhost:9090/coffee/projects/%s/reqs' % project_id
         raw_data = {}
         raw_data["project_id"] = self.project_id
         raw_data["title"] = self.req_title
@@ -194,28 +200,211 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        print(j_response)
         if j_response["Message"] == "OK" and j_response["requirement"]:
             print "test_add_req: OK"
         else:
             print "test_add_req: " + j_response["Message"]
+            
+    def test_update_req(self):
+        url = 'http://localhost:9090/coffee/projects/%s/reqs' % self.project_id
+        raw_data = {}
+        raw_data["project_id"] = self.project_id
+        raw_data["id"] = self.req_id
+        raw_data["title"] = self.req_title
+        raw_data["description"] = self.req_desc
+        raw_data["priority"] = self.req_priority
+        raw_data["risk"] = "10"
+        raw_data["completed"] = self.req_completed
+        data = json.dumps(raw_data)
+        req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_update_req: OK"
+        else:
+            print "test_update_req: " + j_response["Message"]
+            
+    def test_delete_req(self):
+        url = 'http://localhost:9090/coffee/projects/%s/reqs' % self.project_id
+        raw_data = {}
+        raw_data["id"] = self.req_id
+        data = json.dumps(raw_data)
+        req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_delete_req: OK"
+        else:
+            print "test_delete_req: " + j_response["Message"]
+            
+    def test_get_all_req(self):
+        url = 'http://localhost:9090/coffee/projects/%s/reqs' % self.project_id
+        req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["requirements"]:
+            print "test_get_all_req: OK"
+        else:
+            print "test_get_all_req: " + j_response["Message"]
+    
+    def test_is_logged_in(self):
+        url = "http://localhost:9090/coffee/sessions"
+        req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["user"]:
+            print "Is Logged in: OK"
+        else:
+            print "Is Logged in: " + j_response["Message"]
+            
+    def test_add_task(self):
+        url = 'http://localhost:9090/coffee/reqs/%s/tasks' % self.req_id
+        raw_data = {}
+        raw_data["title"] = self.task_title
+        raw_data["points"] = self.task_points
+        raw_data["description"] = self.task_desc
+        raw_data["hours_estimated"] = self.task_estimate
+        raw_data["hours_spent"] = self.task_spent
+        raw_data["progress"] = self.task_progress
+        raw_data["last_modified"] = self.task_last_modified
+        raw_data["sprint_id"] = self.sprint_id
+        data = json.dumps(raw_data)
+        req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["task"]:
+            print "test_add_task: OK"
+        else:
+            print "test_add_task: " + j_response["Message"]
+            
+    def test_update_task(self):
+        url = 'http://localhost:9090/coffee/reqs/%s/tasks' % self.req_id
+        raw_data = {}
+        raw_data["id"] = self.task_id
+        raw_data["title"] = self.task_title
+        raw_data["points"] = self.task_points
+        raw_data["description"] = self.task_desc
+        raw_data["hours_estimated"] = self.task_estimate
+        raw_data["hours_spent"] = "2"
+        raw_data["progress"] = self.task_progress
+        raw_data["last_modified"] = self.task_last_modified
+        raw_data["sprint_id"] = self.sprint_id
+        data = json.dumps(raw_data)
+        req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_update_task: OK"
+        else:
+            print "test_update_task: " + j_response["Message"]
+            
+    def test_delete_task(self):
+        url = 'http://localhost:9090/coffee/reqs/%s/tasks' % self.req_id
+        raw_data = {}
+        raw_data["id"] = self.task_id
+        data = json.dumps(raw_data)
+        req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_delete_task: OK"
+        else:
+            print "test_delete_task: " + j_response["Message"]  
+            
+    def test_get_all_task(self):
+        url = 'http://localhost:9090/coffee/reqs/%s/tasks' % self.req_id
+        req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["tasks"]:
+            print "test_get_all_task: OK"
+        else:
+            print "test_get_all_task: " + j_response["Message"]    
+      
+    def test_add_sprint(self):
+        url = 'http://localhost:9090/coffee/projects/%s/sprints' % self.project_id
+        raw_data = {}
+        raw_data["number"] = "1"
+        raw_data["start_date"] = "2014-12-01"
+        raw_data["end_date"] = "2014-12-15"
+        data = json.dumps(raw_data)
+        req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["sprint"]:
+            print "test_add_sprint: OK"
+        else:
+            print "test_add_sprint: " + j_response["Message"]   
+            
+    def test_update_sprint(self):
+        url = 'http://localhost:9090/coffee/projects/%s/sprints' % self.project_id
+        raw_data = {}
+        raw_data["id"] = "1"
+        raw_data["number"] = "2"
+        raw_data["start_date"] = "01.12.2014"
+        raw_data["end_date"] = "15.12.2014"
+        data = json.dumps(raw_data)
+        req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_update_sprint: OK"
+        else:
+            print "test_update_sprint: " + j_response["Message"] 
+            
+    def test_delete_sprint(self):
+        url = 'http://localhost:9090/coffee/projects/%s/sprints' % self.project_id
+        raw_data = {}
+        raw_data["id"] = "1"
+        data = json.dumps(raw_data)
+        req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK":
+            print "test_delete_sprint: OK"
+        else:
+            print "test_delete_sprint: " + j_response["Message"]           
+            
+    def test_get_all_sprint(self):
+        url = 'http://localhost:9090/coffee/projects/%s/sprints' % self.project_id
+        req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["Message"] == "OK" and j_response["sprints"]:
+            print "test_get_all_sprint: OK"
+        else:
+            print "test_get_all_sprint: " + j_response["Message"]   
+    
 
 if __name__ == "__main__":
-    #delete_db.delete_data_in_db()
     service = test_service()
     service.test_add_user()
     service.test_add_user()
     service.login()
     if service.cookie:
+        service.test_is_logged_in()
         service.test_get_user()
         service.test_update_user()
+        service.test_create_project()
         service.test_create_project()
         service.test_update_project()
         service.test_add_dev_to_projects()
         service.test_get_all_projects_for_user()
         service.test_remove_dev_to_projects()
-        service.test_add_req()
+        service.test_add_req("1")
+        service.test_add_req("2")
+        service.test_update_req()
+        service.test_get_all_req()
+        service.test_add_sprint()
+        service.test_update_sprint()
+        service.test_get_all_sprint()
+        service.test_add_task()
+        service.test_update_task()
+        service.test_get_all_task()
+        service.test_delete_task()
+        service.test_delete_sprint()
+        service.test_delete_req()
         service.test_delete_project()
-        service.test_delete_user()
         service.test_get_all_users()
+        service.test_delete_user()
         

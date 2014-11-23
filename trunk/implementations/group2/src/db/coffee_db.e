@@ -56,16 +56,84 @@ feature {NONE} -- Format helpers
 			from
 				i := 1
 			until
-				i > a_num_columns
+				i > a_row.count
 			loop
 				l_key := a_row.column_name (i)
 				l_key.to_lower
-				a_result_object.put (create {JSON_STRING}.make_json (a_row.string_value (i)), create{JSON_STRING}.make_json (l_key))
+				if a_row.value (i) /= Void then
+					a_result_object.put (create {JSON_STRING}.make_json (a_row.string_value (i)), create{JSON_STRING}.make_json (l_key))
+				end
 				i := i + 1
 			end
 		end
 
 feature -- Data access
+
+	add_to_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE[success: BOOLEAN; id: STRING]
+	local
+		l_values: ARRAYED_LIST[STRING]
+	do
+		create l_values.make (9)
+		l_values.extend(get_value_from_map ("requirement_id", a_map))
+		l_values.extend(get_value_from_map ("title", a_map))
+		l_values.extend(get_value_from_map ("points", a_map))
+		l_values.extend(get_value_from_map ("hours_estimated", a_map))
+		l_values.extend(get_value_from_map ("description", a_map))
+		l_values.extend(get_value_from_map ("progress", a_map))
+		l_values.extend(get_value_from_map ("last_modified", a_map))
+		l_values.extend(get_value_from_map ("sprint_id", a_map))
+		l_values.extend(get_value_from_map ("user_id", a_map))
+		create Result.default_create
+		create db_insert_statement.make("Insert into task(requirement_id,title,points,hours_estimated,description,progress,last_modified,sprint_id,user_id) values(?,?,?,?,?,?,?,?,?);", db)
+		db_insert_statement.execute_with_arguments (l_values)
+		Result.success:= true
+		Result.id := db_insert_statement.last_row_id.out
+		if db_insert_statement.has_error then
+			print("Error while inserting into table ")
+			Result.success:= false
+			Result.id:="-1"
+		else
+			create db_modify_statement.make ("Update task SET hours_spent=? WHERE id=?;", db)
+			db_modify_statement.execute_with_arguments (<<0,Result.id>>)
+			if db_modify_statement.has_error then
+				print("Error while inserting into table ")
+				Result.success:= false
+				Result.id:="-1"
+			end
+		end
+	end
+
+	update_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	local
+		l_values: ARRAYED_LIST[STRING]
+	do
+		create l_values.make (9)
+		l_values.extend(get_value_from_map ("requirement_id", a_map))
+		l_values.extend(get_value_from_map ("title", a_map))
+		l_values.extend(get_value_from_map ("points", a_map))
+		l_values.extend(get_value_from_map ("hours_estimated", a_map))
+		l_values.extend(get_value_from_map ("description", a_map))
+		l_values.extend(get_value_from_map ("progress", a_map))
+		l_values.extend(get_value_from_map ("last_modified", a_map))
+		l_values.extend(get_value_from_map ("sprint_id", a_map))
+		l_values.extend(get_value_from_map ("id", a_map))
+		create db_modify_statement.make("Update task Set requirement_id=?,title=?,points=?,hours_estimated=?,description=?,progress=?,last_modified=?,sprint_id=? WHERE id=?;", db)
+		db_modify_statement.execute_with_arguments (l_values)
+		Result:= true
+		if db_modify_statement.has_error then
+			print("Error while updateing table task")
+			Result:= false
+		else
+			create db_modify_statement.make ("Update task SET hours_spent=?, user_id=? WHERE id=?;", db)
+			l_values.extend(get_value_from_map ("user_id", a_map))
+			db_modify_statement.execute_with_arguments (<<get_value_from_map ("hours_spent", a_map),get_value_from_map ("user_id", a_map),get_value_from_map ("id", a_map)>>)
+			if db_modify_statement.has_error then
+				print("Error while updating table task")
+				Result:= false
+			end
+		end
+	end
+
 
 	add(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : TUPLE[success: BOOLEAN; id: STRING]
 	local
@@ -206,7 +274,7 @@ feature -- Data access
 			print("Error while quering table " + a_table_name)
 			RESULT:= VOID
 		else
-			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
 		end
 	end
 
@@ -321,6 +389,21 @@ feature -- Data access
 			Result := true
 		end
 
+	is_dev_in_project(a_user_id: STRING a_project_id: STRING): BOOLEAN
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+			-- create a result object
+ 		create Result
+		create db_query_statement.make ("SELECT * FROM developer_mapping WHERE user_id=? AND project_id=?;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_user_id, a_project_id>>)
+		if l_query_result_cursor.after then
+			Result := False
+		else
+			Result := True
+		end
+	end
+
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
 			-- if yes, the result tuple value "has_user" will be true and "id" and "username" will be set
@@ -346,6 +429,7 @@ feature -- Data access
 		end
 
 
+
 feature {NONE}
 
 	db: SQLITE_DATABASE
@@ -359,5 +443,23 @@ feature {NONE}
 
 	db_modify_statement: SQLITE_MODIFY_STATEMENT
 		-- other sql modification statment for the db, e.g. DELETE
+
+	get_value_from_map(a_key: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): STRING
+	local
+		i: INTEGER
+	do
+		create Result.make_empty
+		from
+			i:= 1
+		until
+			i>a_map.keys.count
+		loop
+			if equal(a_key, a_map.keys.at (i)) then
+				Result := a_map.values.at (i)
+			end
+			i:= i+1
+		end
+
+	end
 
 end
