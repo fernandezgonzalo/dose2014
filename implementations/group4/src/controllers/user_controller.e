@@ -143,16 +143,26 @@ feature -- Handlers
 
 			end
 
-				-- here we hash the password with salt for database storing
-			l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
+			if db_handler_user.has_user (l_email).has_user then
+					-- Already exists a user with email l_email, thus we return an error stating that
+					-- the user is already registered.
+					prepare_response("Already exists an account with this email",401,res)
+
+			else
+					-- The email is available
+
+					-- here we hash the password with salt for database storing
+				l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
 
 
-			create l_user.make(l_user_name,l_email,l_hashed_password)
-				-- create the user in the database
-			db_handler_user.add (l_user)
+				create l_user.make(l_user_name,l_email,l_hashed_password)
+					-- create the user in the database
+				db_handler_user.add (l_user)
 
-				-- prepare the response
-			prepare_response("Added user " + l_user.username,200,res)
+					-- prepare the response
+				prepare_response("Added user " + l_user.username,200,res)
+
+			end
 		end
 
 	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
