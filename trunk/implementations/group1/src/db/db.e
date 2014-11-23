@@ -129,7 +129,7 @@ feature -- Data access Projects
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT id_user FROM UserProject WHERE id_project=" + id_project.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
 	search_a_project (id: INTEGER): JSON_ARRAY
