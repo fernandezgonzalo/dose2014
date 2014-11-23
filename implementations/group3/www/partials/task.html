@@ -17,6 +17,13 @@
 		    <input type="text" class="form-control" ng-model="task.description" placeholder="description"> <br>
 			<label>Number:</label>
 			<input type="text" class="form-control" ng-model="task.number"  placeholder="number"> <br>
+			  <label>Available users:</label>:</label> <br>
+			  <div class="list-group">
+				  <div class="list-group-item" ng-repeat="user in users">
+					  <h4> {{user.name}}
+						  <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
+				  </div>
+			  </div>
 			<label>Assignees:</label> <br>
 
 		  </div>
