@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$q', function($log, User, Utility, $q) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', function($log, User, Utility) {
   var TAG = 'AuthService::';
   $log.debug(TAG, 'init');
 
@@ -8,30 +8,28 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$q', 
   var key = 'email';
   var passKey = 'password';
 
-  authService.login = function(credentials) {
-    return $q(function(resolve) {
-      User.query(function(users) {
-        // frontend authentication :)
-        var result = null;
-        for (var i in users) {
-          if (users[i].email === credentials.email && users[i].password === credentials.password) {
-            Utility.toCamel(users[i]);
-            result = users[i];
-            if (result.isAdmin === '0') {
-              result.isAdmin = false;
-            } else {
-              result.isAdmin = true;
-            }
-            break;
+  authService.login = function(credentials, callback) {
+    User.query(function(users) {
+      // frontend authentication :)
+      var result = null;
+      for (var i in users) {
+        if (users[i].email === credentials.email && users[i].password === credentials.password) {
+          Utility.toCamel(users[i]);
+          result = users[i];
+          if (result.isAdmin === '0') {
+            result.isAdmin = false;
+          } else {
+            result.isAdmin = true;
           }
+          break;
         }
-        if (result) {
-          authService.currentUser = result;
-          localStorage.setItem(key, result.email);
-          localStorage.setItem(passKey, result.password);
-        }
-        resolve(result);
-      });
+      }
+      if (result) {
+        authService.currentUser = result;
+        localStorage.setItem(key, result.email);
+        localStorage.setItem(passKey, result.password);
+      }
+      callback(result);
     });
   };
 
