@@ -153,9 +153,6 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("position") as position then
 						new_position := position.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
-						new_sprint_id := sprint_id.unescaped_string_8
-					end
 					if attached {JSON_STRING} j_object.item ("points") as points then
 						new_points := points.unescaped_string_8
 					end
@@ -168,6 +165,8 @@ feature -- Handlers
 				new_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
 					-- the project_id from the URL (as defined by the placeholder in the route)
 			 	new_project_id := req.path_parameter ("project_id").string_representation
+			 		-- and the sprint_id is setted to zero, so the task is on the project backlog by default.
+			 	new_sprint_id := "0"
 
 				create new_task.make (new_sprint_id.to_natural, new_user_id.to_natural, new_project_id.to_natural, new_points.to_natural, new_title, new_descr, new_type, new_priority, new_position)
 					-- create the topic in the database
@@ -221,9 +220,6 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("position") as position then
 						new_position := position.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("sprint_id") as sprint_id then
-						new_sprint_id := sprint_id.unescaped_string_8
-					end
 					if attached {JSON_STRING} j_object.item ("project_id") as project_id then
 						new_project_id := project_id.unescaped_string_8
 					end
@@ -239,6 +235,9 @@ feature -- Handlers
 				new_super_task_id := req.path_parameter ("task_id").string_representation
 					-- get the id of the user from the session store
 				new_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
+					-- and the sprint_id is setted to zero, so the task is on the project backlog by default.
+			 	new_sprint_id := "0"
+
 
 				create new_task.make_sub_task (new_sprint_id.to_natural, new_user_id.to_natural, new_super_task_id.to_natural, new_project_id.to_natural, new_points.to_natural, new_title, new_descr, new_type, new_priority, new_position)
 					-- create the topic in the database
