@@ -125,6 +125,13 @@ feature -- Data access Projects
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 		end
 
+	search_all_users_by_project (id_project: INTEGER): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT id_user FROM UserProject WHERE id_project=" + id_project.out + ";", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+		end
+
 	search_a_project (id: INTEGER): JSON_ARRAY
 		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
 		do
