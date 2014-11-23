@@ -303,37 +303,43 @@ feature -- Handlers
 				-- check if the database has this particular email
 			l_user_data := db_handler_user.has_user(l_email)
 
-				-- check if the password is correct
-			l_user_data.has_user := (bcrypt.is_valid_password (l_password, l_user_data.hashed_pass))
-
-
 			if l_user_data.has_user then
-					-- yes, the email & password combo was correct
-					-- so next, we create a session
+					-- yes, the email was correct
+					-- so next, we check for the password
+				if (bcrypt.is_valid_password (l_password, l_user_data.hashed_pass)) then
+						-- the password is correct
+						-- so next, we create a session
 
-					-- create the session; choose a name for the cookie that we'll send back
-				create l_session.make_new ("_casd_session_", session_manager)
+						-- create the session; choose a name for the cookie that we'll send back
+					create l_session.make_new ("_casd_session_", session_manager)
 
-					-- add all the data we need to the session (format here is [value, key] pairs)
-					-- we store the email and the key "email"
-				l_session.remember (l_user_data.email, "email")
-					-- we store the user id and use the key "user_id"
-				l_session.remember (l_user_data.user_id, "user_id")
+						-- add all the data we need to the session (format here is [value, key] pairs)
+						-- we store the email and the key "email"
+					l_session.remember (l_user_data.email, "email")
+						-- we store the user id and use the key "user_id"
+					l_session.remember (l_user_data.user_id, "user_id")
 
-					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
-				l_session.commit
+						-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
+					l_session.commit
 
-					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
-				l_session.apply (req, res, "/")
+						-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
+					l_session.apply (req, res, "/")
 
-					-- preapae the respons
-				prepare_response("User logged in",200,res)
+						-- preapare the response
+					prepare_response("User logged in",200,res)
+
+				else
+						-- the password was wrong
+						-- so we don't create a session
+						-- but return an error message
+					prepare_response("Password incorrect",401,res)
+				end
 
 			else
-					-- the email & password combination was wrong
+					-- the email was wrong
 					-- so we don't create a session
 					-- but return an error message
-				prepare_response("Email or password incorrect",401,res)
+				prepare_response("Email incorrect",401,res)
 			end
 		end
 
