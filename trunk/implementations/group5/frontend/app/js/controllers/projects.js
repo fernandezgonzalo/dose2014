@@ -7,32 +7,67 @@ angular.module('Mgmt')
 
   $log.debug('ProjectsController::init');
 
-  $scope.projects = Project.query();
-  
-  $scope.openProject = function(project) {
-    $location.path('/projects/' + project.id + '/dashboard');
-  };
-  
+  // CREATE
   $scope.createProject = function(project) {
-    if(!project) {
-      $log.error('"project" object does not exist.');
-      return;
-    }
     var newProject = new Project(project);
-    // Asign user_id property to the project to be created.
+    // Asign user ID property to the project to be created.
     newProject.idUser = $scope.currentUser.id;
-    // Change from camelCase to underscore case to send to backend DB.
+    // Change attribute names from camelCase to underscore case to send to backend DB.
     Utility.toUnderscore(newProject);
-    $log.info(newProject);
     newProject.$save(function() {
       $log.log('Project created successfully.');
       $location.path('/projects');
     }, function() {
-      $log.log('There was an error upon project creation.');
+      $log.error('There was an error upon project creation.');
       $scope.createProjectError = true;
     });
   };
 
+  // READ
+
+  // Retrieve all the projects (/projects).
+  $scope.projects = Project.query();
+
+  // Retrieve data for current project (/projects/{id}/dashboard).
+  if($routeParams.id) {
+    Project.get({projectId: $routeParams.id}, function(project) {
+      $scope.project = project;
+    });
+  }
+
+  // UPDATE
+  $scope.updateProject = function(project) {
+    var updatedProject = new Project(project);
+    updatedProject.$update(function() {
+      $log.log('Project updated successfully.');
+      $location.path('/projects/' + project.id + '/dashboard');
+    }, function() {
+      $log.error('There was an error upon project update.');
+      $scope.updateProjectError = true;
+    });
+  };
+  
+  // DELETE
+  $scope.deleteProject = function(project) {
+    project.$delete(function() {
+      $log.log('Project deleted successfully.');
+      $location.path('/projects');
+    }, function() {
+      $log.error('There was an error upon project deletion.');
+      $scope.deleteProjectError = true;
+    });
+  };
+  
+  // Methods
+
+  $scope.openProject = function(project) {
+    $location.path('/projects/' + project.id + '/dashboard');
+  };
+
+  $scope.editProject = function(project) {
+    $location.path('/projects/' + project.id + '/edit');
+  };
+  
 
 
 
@@ -43,27 +78,6 @@ angular.module('Mgmt')
 
 
 
-
-  // JavaScript object in order to ilustrate the template of /projects.html
-  $scope.inProgress = [
-    {
-      name: 'Distributed software development system',
-      client: 'DOSE 2014',
-      author: 'Martin',
-      date: 'Dec 15'
-    },
-    {
-      name: 'New webmail application',
-      client: 'Google',
-      author: 'Larry',
-      date: 'Jan 15'
-    },
-    {
-      name: 'Control software for spaceships',
-      client: 'Science Imp.',
-      author: 'Richard',
-      date: 'Feb 22'
-    }];
 
   $scope.finished = [
     {

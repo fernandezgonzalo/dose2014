@@ -1,60 +1,67 @@
 <!-- /modal-header -->
 <div class="modal-header">
   <span class="modal-title h4">Edit project</span><span class="pull-right">
-  <span class="glyphicon glyphicon-pencil">
+    <span class="glyphicon glyphicon-pencil">
 </div>	
 
+    
 <!-- /modal-body -->
 <div class="modal-body row">
+  <form nonvalidate class="simple-form">
     <div class="col-md-6">
-      <form class="form-horizontal" action='' method="POST">
-        <fieldset>
+      <fieldset>
 
-          <br>
+        <br>
 
-          <div class="control-group">
-            <!-- Username -->
-            <label class="control-label" for="projectName">Project name</label>
-            <div class="controls">
-              <input type="text" id="projectName" name="projectName" placeholder=""
-              class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1">
-            </div>
+        <!-- Project name -->
+        <div class="control-group">
+          <label class="control-label" for="projectName">Project name</label>
+          <div class="controls">
+            <input type="text" id="projectName" name="projectName"
+            class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="1" ng-model="project.name">
           </div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label" for="client">Client</label>
-            <div class="controls">
-              <input type="text" id="client" name="client" placeholder=""
-              class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="2">
-            </div>
+        <!-- Client name -->
+        <div class="control-group">
+          <label class="control-label" for="client">Client</label>
+          <div class="controls">
+            <input type="text" id="client" name="client"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="2" ng-model="project.client_name">
           </div>
+        </div>
 
-          <div class="control-group">
-            <label class="control-label" for="dueDate">
-              <span class="glyphicon glyphicon-calendar"></span>   Due date</label>
-            <div class="controls">
-              <input type="text" id="dueDate" name="dueDate" placeholder=""
-              class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="3">
-            </div>
-          </div> 
-
-          <div class="control-group">
-            <label class="control-label" for="deleteProject"></label>
-            <div class="controls">
-              <a href="#"><span class="glyphicon glyphicon-remove">
-                </span>   Delete project</label></a>
-            </div>
+        <!-- Deadline -->
+        <div class="control-group">
+          <label class="control-label" for="dueDate">
+            <span class="glyphicon glyphicon-calendar"></span>   Deadline</label>
+          <div class="controls">
+            <input type="text" id="deadline" name="deadline"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="3" ng-model="project.deadline">
           </div>
+        </div> 
+
+        <!-- Delete -->
+        <div class="control-group">
+          <label class="control-label" for="deleteProject"></label>
+          <div class="controls">
+            <a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-remove">
+          </span>   Delete project</label></a>
+        </div>
+
       </fieldset>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
 
 
-</div>	
-
 <!-- /modal-footer -->
 <div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-<button type="button" class="btn btn-primary">Save changes</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button ng-click="updateProject(project)" type="button" class="btn
+    btn-primary">Save changes</button>
 </div>	
+
