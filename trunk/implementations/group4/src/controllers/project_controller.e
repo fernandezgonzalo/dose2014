@@ -148,7 +148,7 @@ feature -- Handlers
 			-- adds a new project; the project data are expected to be part of the request's payload
 		local
 			l_payload, l_user_id : STRING
-			new_name, new_status, new_description, new_mpps, new_number_of_sprints : STRING
+			new_name, new_status, new_description, new_mpps: STRING
 			new_project : PROJECT
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
@@ -190,13 +190,10 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("mpps") as mpps then
 						new_mpps := mpps.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
-						new_number_of_sprints := number_of_sprints.unescaped_string_8
-					end
 				end
 
 
-				create new_project.make (new_name, new_status, new_description, new_mpps.to_natural, new_number_of_sprints.to_natural, l_user_id.to_natural)
+				create new_project.make (new_name, new_status, new_description, new_mpps.to_natural, l_user_id.to_natural)
 
 					-- create the project in the database
 				db_handler_project.add (new_project)
@@ -379,7 +376,7 @@ feature -- Handlers
 				end
 
 					-- create the project
-				create project.make (project_name, project_status, project_description, project_mpps.to_natural, project_number_of_sprints.to_natural,l_user_id.to_natural)
+				create project.make (project_name, project_status, project_description, project_mpps.to_natural,l_user_id.to_natural)
 
 					-- the project_id from the URL (as defined by the placeholder in the route)
 				l_project_id := req.path_parameter ("project_id").string_representation
