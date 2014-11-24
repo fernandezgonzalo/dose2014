@@ -1,6 +1,18 @@
-<section data-ng-controller="ProjectController" data-ng-init="findOne()">
+<section data-ng-controller="RequirementController" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1 data-ng-bind="project.name"></h1>
+		<h1 data-ng-bind="requirement.title"></h1>
 	</div>
-	<p class="lead" data-ng-bind="project.description"></p>
+	<p class="lead" data-ng-bind="requirement.description"></p>
+	<div>
+		<h2>Tasks</h2>
+		<ul>
+			<li data-ng-repeat='task in requirement.tasks'>
+				Task. {{$index + 1}} => {{task.title}}
+			</li>
+		</ul>
+	</div>
+	<a data-ng-href='#!/requirements/{{requirement.id}}/tasks/create'> Add Task </a>
+	<a data-ng-href="#!/requirements/{{requirement.id}}/edit" class="list-group-item">
+		Edit Project<h4 class="list-group-item-heading" data-ng-bind="req.title"></h4>
+	</a>
 </section>
