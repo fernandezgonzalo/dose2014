@@ -6,7 +6,7 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
 
         $scope.find = function() {
             var user_id = $scope.global.user.id;
-            
+
             Users.one(user_id).getList('projects').then(function(projects) {
                 $scope.projects = projects;
             }, function error(err) {
@@ -16,9 +16,9 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
 
         $scope.findOne = function() {
             var id = $stateParams.projectId;
-            //Projects.one(id).get().then(function(project) {
-            //    $scope.project = project;
-            //});
+            Projects.one(id).get().then(function(project) {
+                $scope.project = project;
+            });
         };
 
         $scope.create = function() {
