@@ -1,12 +1,13 @@
 <div ng-include="'partials/header.html'"></div>
-<div ng-include="'partials/pestanas.html'"></div> 
-<article>       
-   <div> 
+<div ng-include="'partials/pestanas.html'"></div>
+    
+<article>    
+   <div > 
         <div ng-include="'partials/search.html'"></div>    
         <div class="container">
             <div class="row">
               <div class="col-md-10 col-md-offset-1">
-                <h2>Projects - Project name</h2>
+                <h2>Members - Project name</h2>
               </div>
             </div>
 
@@ -14,17 +15,21 @@
               <div class="col-md-10 col-md-offset-1">
                 <table class="table">
                   <tr>
-                    <th>Project</th>
+                    <th>Tilde</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Points</th>
                   </tr>
-                  <tr ng-repeat="project in projects" >
-                    <td>{{project.description}}</td>
-                    <td>{{project.point}}</td>
+                  <tr ng-repeat="member in members" >
+                    <td>{{member.owner}}</td>
+                    <td>{{member.name}}</td>
+                    <td>{{member.eMailMember}}</td>
+                    <td>{{member.point}}</td>
                   </tr>
                 </table>
               </div>
               </div>
         </div> <!-- end of container --> 
     </div>
-</article>
+</article>    
 <div ng-include="'partials/footer.html'"></div>
