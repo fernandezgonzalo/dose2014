@@ -25,7 +25,7 @@ feature -- Handlers
 			results, sprints: JSON_ARRAY
 			i: INTEGER
 			sprint: JSON_OBJECT
-			project_id, task_id, story_id, true_story_id: STRING
+			project_id: STRING
 
 		do
 			project_id := req.path_parameter("project_id").string_representation

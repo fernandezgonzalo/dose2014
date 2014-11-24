@@ -22,7 +22,7 @@ create
 
 feature {None} -- Internal helpers
 
-	post_insert_action (req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64)
+	post_insert_action (req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
 		do
 			add_user_transaction(new_id.out, get_user_id_from_req(req))
 		end

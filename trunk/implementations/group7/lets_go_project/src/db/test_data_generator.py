@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'backend_tests'))
 
-from model.user import get_random_user
+from model.user import get_random_user, HASHED_EXAMPLE_PASSWORD
 from model.project import get_random_project
 from model.sprint import get_random_sprint
 from model.story import get_random_story
@@ -72,7 +72,7 @@ class TestDataGenerator(object):
 
         # One of the users should have always the same credentials for testing.
         self.users[0].email = 'asdf'
-        self.users[0].password = 'asdf'
+        self.users[0].password = HASHED_EXAMPLE_PASSWORD
 
     def generate_projects(self):
         self.project_ids = [i for i in xrange(1, self.project_count + 1)]
@@ -105,8 +105,6 @@ class TestDataGenerator(object):
         story_id = 1
         for project in self.projects:
             for sprint_id in project.sprints:
-                print sprint_id
-                print self.sprint_mapping
                 sprint = self.sprint_mapping[sprint_id]
                 story_count = random.randint(0, self.max_story_count)
                 story_ids = [i for i in xrange(story_id, story_id + story_count)]
