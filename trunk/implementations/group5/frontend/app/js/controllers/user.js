@@ -67,8 +67,17 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
         $scope.saveUserError = true;
       });
     }
-
   }
+
+  var emptyUser = {
+    id: '',
+    name: '',
+    username: '',
+    email: '',
+    isAdmin: '',
+    password: '',
+    passwordConfirm: ''
+  };
 
   function create() {
     var user = $scope.user;
@@ -77,7 +86,16 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       Utility.toUnderscore(user);
       var newUser = new User(user);
       newUser.$save(function() {
-        $location.path('/login');
+        if (!$scope.currentUser) {
+          $location.path('/login');
+        } else {
+          Utility.toUnderscore(emptyUser);
+          angular.extend($scope.user, emptyUser);
+          $scope.form.$setPristine(true);
+          $('#username').focus();
+          $log.debug(TAG, 'user was created');
+        }
+        
       }, function() {
         $scope.createUserError = true;
       });

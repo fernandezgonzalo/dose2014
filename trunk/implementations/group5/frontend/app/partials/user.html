@@ -21,7 +21,7 @@
           <!-- Username -->
           <label class="control-label" for="username">Username</label>
           <div class="controls">
-            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$">
+            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$" ng-pattern="/^[A-Za-z0-9_-]{1,15}$/">
             <p class="help-block">Username can contain any letters, numbers, underscores and hyphens, without spaces.</p>
           </div>
         </div>
@@ -54,7 +54,7 @@
         <div ng-if="isEdit" class="control-group" ng-class="{'has-error' : form.new_password.$invalid && form.new_password.$dirty, 'has-success' : form.new_password.$valid && form.new_password.$dirty }">
           <label class="control-label" for="new_password">New password</label>
           <div class="controls">
-            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="^$)|(^\d{10}$">
+            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="(^$)|(^.{6,}$)" ng-pattern="/(^$)|(^.{6,}$)/">
             <p class="help-block">Password should be at least 6 characters</p>
           </div>
         </div>
@@ -70,7 +70,7 @@
         <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password.$invalid && form.password.$dirty, 'has-success' : form.password.$valid && form.password.$dirty }">
           <label class="control-label" for="password">Password</label>
           <div class="controls">
-            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern=".{6,}">
+            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern="^.{6,}$" pattern="^.{6,}$" ng-pattern="/^.{6,}$/">
             <p class="help-block">Password should be at least 6 characters</p>
           </div>
         </div>
