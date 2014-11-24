@@ -9,10 +9,10 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
           var deferred = $q.defer();
 
           // Make an AJAX call to check if the user is logged in
-          $http.get('/coffee/sessions').success(function(response) {
+          $http.get('/coffee/sessions').success(function(user) {
             // Authenticated
-            if (response.user) {
-                Global.user = response.user;
+            if (user) {
+                Global.user = user;
                 $timeout(deferred.resolve);
             }
             // Not Authenticated
