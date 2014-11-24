@@ -6,15 +6,16 @@ DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS user;
 
 
-CREATE  TABLE user (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-  email TEXT,
-  username TEXT NOT NULL ,
-  password TEXT NOT NULL ,
-  name TEXT ,
-  photo BLOB,
-  last_login DATE NULL,
-  is_admin INTEGER NOT NULL);
+CREATE TABLE `user` (
+	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`email`	TEXT UNIQUE,
+	`username`	TEXT NOT NULL UNIQUE,
+	`password`	TEXT NOT NULL,
+	`name`	TEXT,
+	`photo`	BLOB,
+	`last_login` DATE NULL,
+	` is_admin`	INTEGER NOT NULL
+);
 
 CREATE  TABLE project (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
