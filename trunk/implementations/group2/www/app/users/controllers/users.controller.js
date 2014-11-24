@@ -13,12 +13,11 @@ angular.module('coffee.users').controller('LoginCtrl', ['$scope', '$rootScope', 
             });
         };
     }
-]).controller('RegisterCtrl', ['$scope', '$rootScope', '$http', '$location', 'Users',
-    function($scope, $rootScope, $http, $location, Users) {
+]).controller('RegisterCtrl', ['$scope', '$rootScope', '$http', '$location', 'Users', 'Global',
+    function($scope, $rootScope, $http, $location, Users, Global) {
         $scope.user = {};
         $scope.register = function() {
             Users.post($scope.user).then(function(user) {
-                Global.user = user;
                 $location.url('/');
             }, function(err) {
                 $scope.error = response.Message;
