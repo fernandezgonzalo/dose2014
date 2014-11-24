@@ -165,25 +165,15 @@ define(
                             name: name,
                             status: "Active",
                             description: description,
-                            mpps: mpps.toString(),
-                            user_id: undefined,
-                            number_of_sprints: "10"
+                            mpps: mpps.toString()
                         };
 
-                        return module.current_user().then
+                        return $http.post("/api/projects", request).then
                         (
-                            function (data)
+                            function(data)
                             {
-                                console.log(data);
-                                request.user_id = data.id;
-                                return $http.post("/api/projects", request).then
-                                (
-                                    function(data)
-                                    {
-                                        console.log(data.data);
-                                        return data.data;
-                                    }
-                                );
+                                console.log(data.data);
+                                return data.data;
                             }
                         );
                     };
