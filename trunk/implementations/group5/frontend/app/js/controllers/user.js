@@ -38,24 +38,8 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     }
   };
 
-  function animate() {
-    $scope.saveSucceed = true;
-    setTimeout(function() {
-      $scope.hiding = true;
-      $scope.$apply();
-      setTimeout(function() {
-        $scope.saveSucceed = false;
-        $scope.hiding = false;
-        $scope.$apply();
-      }, 3000);
-    }, 7000);
-  }
-
-  $scope.hide = function() {
-    $scope.showSuccess = false;
-  };
-
   function save() {
+    $('#save_button').button('loading');
     if ($scope.form.$valid) {
       var user = $scope.user;
       if (!user.newPassword) {
@@ -63,9 +47,17 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       }
       Utility.toUnderscore(user);
       user.$update(function() {
-        animate();
+        $('#save_button').button('reset');
+        ngToast.create({
+          content: 'User was updated!',
+          class: 'success'
+        });
       }, function() {
-        $scope.saveUserError = true;
+        $('#save_button').button('reset');
+        ngToast.create({
+          content: 'Error updating the user!',
+          class: 'danger'
+        });
       });
     }
   }
@@ -81,12 +73,14 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   function create() {
+    $('#create_button').button('loading');
     var user = $scope.user;
     if ($scope.form.$valid) {
       user.isAdmin = '0';
       Utility.toUnderscore(user);
       var newUser = new User(user);
       newUser.$save(function() {
+        $('#create_button').button('reset');
         ngToast.create({
           content: 'User was created!',
           class: 'success'
@@ -101,6 +95,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
         }
         
       }, function() {
+        $('#create_button').button('reset');
         ngToast.create({
           content: 'Create user error!',
           class: 'danger'
