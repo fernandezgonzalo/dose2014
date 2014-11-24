@@ -83,7 +83,7 @@ feature -- Test routines
 		-- create same user.
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		was_created := result_add_user.boolean_item (1)
-		assert ("The result must be true", was_created) --CAMBIAR A NOT
+		assert ("The result must be true", not was_created)
 
 		-- updates user password and confirm that the information is correct.
 		res := crud_user.update_user_email(user_id,"midifyemail@mail.com")
