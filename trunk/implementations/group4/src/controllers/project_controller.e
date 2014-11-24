@@ -195,13 +195,8 @@ feature -- Handlers
 					-- create the project in the database
 				db_handler_project.add (new_project)
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added project " + new_project.name ), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+					-- prepare the response
+				prepare_response("Added project " + new_project.name,200,res)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
@@ -210,6 +205,7 @@ feature -- Handlers
 			end
 
 		end
+
 
 	add_task (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new task; the task data are expected to be part of the request's payload
@@ -220,7 +216,6 @@ feature -- Handlers
 			l_project_id,l_user_id: STRING
 			new_task : TASK
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -269,21 +264,16 @@ feature -- Handlers
 					end
 				end
 
-				-- obtain the project id via the URL
-						l_project_id := req.path_parameter ("project_id").string_representation
+					-- obtain the project id via the URL
+				l_project_id := req.path_parameter ("project_id").string_representation
 
 				create new_task.make (new_sprint_id.to_natural, l_user_id.to_natural, l_project_id.to_natural, new_points.to_natural, new_title, new_description, new_type, new_priority, new_position)
 
 					-- create the task in the database
 				db_handler_task.add_super (new_task)
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added task " + new_task.super_task_id.out ), create {JSON_STRING}.make_json ("Message"))
+				prepare_response("Added task " + new_task.super_task_id.out,200,res)
 
-					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
@@ -329,17 +319,13 @@ feature -- Handlers
 
 
 				if l_owner_user_id.is_equal (obtained_id) then
+
 						-- create the collaborator in the database
 					db_handler_project.add_collaborator (l_user_id_to_add.to_natural, l_project_id.to_natural)
 
-						-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-					l_result.put (create {JSON_STRING}.make_json ("Added collaborator "), create {JSON_STRING}.make_json ("Message"))
-
-						-- send the response
-					set_json_header_ok (res, l_result.representation.count)
-					res.put_string (l_result.representation)
+					prepare_response("Added collaborator",200,res)
 				else
-						-- the request has no session cookie and thus no user is logged in
+						-- the user logged isnt the project owner
 						-- we return an error stating that the user is not authorized to get the users.
 					prepare_response("The user loged isnt the project owner",401,res)
 				end
@@ -356,7 +342,7 @@ feature -- Handlers
 		local
 			l_payload: STRING
 			l_project_id, l_user_id: STRING
-			project_name, project_status, project_description, project_mpps, project_number_of_sprints : STRING
+			project_name, project_status, project_description, project_mpps: STRING
 			project : PROJECT
 			parser : JSON_PARSER
 			l_result: JSON_OBJECT
@@ -406,16 +392,11 @@ feature -- Handlers
 					-- the project_id from the URL (as defined by the placeholder in the route)
 				l_project_id := req.path_parameter ("project_id").string_representation
 
+
 					-- update the project in the database
 				db_handler_project.update (l_project_id.to_natural,project)
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Updated project "+ project.name), create {JSON_STRING}.make_json ("Message"))
-
-					-- set the result
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+				prepare_response("Updated project "+ project.name,200,res)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
@@ -424,52 +405,105 @@ feature -- Handlers
 			end
 		end
 
+
 	remove_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a project from the database
 		local
-			l_project_id: STRING
-			l_result: JSON_OBJECT
+			l_project_id, l_owner_user_id, obtained_id: STRING
+			l_aux: JSON_OBJECT
 		do
-				-- the project_id from the URL (as defined by the placeholder in the route)
-			l_project_id := req.path_parameter ("project_id").string_representation
-				-- remove the project
-			db_handler_project.remove (l_project_id.to_natural)
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in and we can get the user id through the session data
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
+					-- get the id of the user from the session store
+				l_owner_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+					-- the project_id from the URL (as defined by the placeholder in the route)
+				l_project_id := req.path_parameter ("project_id").string_representation
+
+					-- find project owner from the database
+				l_aux := db_handler_project.find_owner (l_project_id.to_integer)
+
+				if attached {JSON_OBJECT} l_aux as j_object then
+
+						-- we have to convert the json string into an eiffel string for each project attribute.
+					if attached {JSON_STRING} j_object.item ("user_id") as id then
+						obtained_id := id.unescaped_string_8
+					end
+				end
+
+				if l_owner_user_id.is_equal (obtained_id) then
+
+						-- remove the project
+					db_handler_project.remove (l_project_id.to_natural)
+
+						-- prepare response
+					prepare_response("Removed item",200,res)
+				else
+						-- the user logged isnt the project owner
+						-- we return an error stating that the user is not authorized to get the users.
+					prepare_response("The user loged isnt the project owner",401,res)
+				end
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
+			end
 		end
 
 
 	remove_collaborator (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- remove a project from the database
 		local
-			l_user_id, l_project_id: STRING
-			l_result: JSON_OBJECT
+			l_user_id, l_project_id, l_owner_user_id, obtained_id: STRING
+			l_aux: JSON_OBJECT
 		do
 
-			-- FALTA COMPROBAR SI SESSION ES EL OWNER
+			if req_has_cookie (req, "_casd_session_") then
+					-- the request has a cookie of name "_casd_session_"
+					-- thus, the user is logged in and we can get the user id through the session data
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_user_id := req.path_parameter ("user_id").string_representation
+					-- get the id of the user from the session store
+				l_owner_user_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
 
-				-- the user_id from the URL (as defined by the placeholder in the route)
-			l_project_id := req.path_parameter ("project_id").string_representation
+					-- the project_id from the URL (as defined by the placeholder in the route)
+				l_project_id := req.path_parameter ("project_id").string_representation
 
-				-- remove the collaborator
-			db_handler_project.remove_collaborator (l_user_id.to_natural, l_project_id.to_natural)
+					-- find project owner from the database
+				l_aux := db_handler_project.find_owner (l_project_id.to_integer)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Removed items"), create {JSON_STRING}.make_json ("Message"))
+				if attached {JSON_OBJECT} l_aux as j_object then
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+						-- we have to convert the json string into an eiffel string for each project attribute.
+					if attached {JSON_STRING} j_object.item ("user_id") as id then
+						obtained_id := id.unescaped_string_8
+					end
+				end
+
+
+				if l_owner_user_id.is_equal (obtained_id) then
+
+						-- the user_id from the URL (as defined by the placeholder in the route)
+					l_user_id := req.path_parameter ("user_id").string_representation
+
+						-- remove the collaborator
+					db_handler_project.remove_collaborator (l_user_id.to_natural, l_project_id.to_natural)
+
+						-- prepare response
+					prepare_response("Removed item",200,res)
+
+				else
+						-- the user logged isnt the project owner
+						-- we return an error stating that the user is not authorized to get the users.
+					prepare_response("The user loged isnt the project owner",401,res)
+				end
+			else
+					-- the request has no session cookie and thus no user is logged in
+					-- we return an error stating that the user is not authorized to get the users.
+				prepare_response("User is not logged in",401,res)
+			end
 		end
+
 
 end
