@@ -1,15 +1,14 @@
 'use strict';
-angular.module('coffee.core').controller('ProjectController', ['$scope', '$stateParams', '$location', 'Global', 'Projects', 'Users',
-    function($scope, $stateParams, $location, Global, Projects, Users) {
+angular.module('coffee.core').controller('SprintController', ['$scope', '$stateParams', '$location', 'Global', 'Projects', 'Users','Sprints',
+    function($scope, $stateParams, $location, Global, Projects, Users, Sprints) {
 
         $scope.global = Global;
 
         $scope.find = function() {
-            console.log("hglobal:",$scope.global);
-            var user_id = $scope.global.user.id;
+            var project_id = $stateParams.projectId;
 
-            Users.one(user_id).getList('projects').then(function(projects) {
-                $scope.projects = projects;
+            Projects.one(project_id).getList('sprints').then(function(sprints) {
+                $scope.sprints = sprints;
             }, function error(err) {
                 console.log('err',err);
             } );
@@ -19,15 +18,14 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
             var id = $stateParams.projectId;
             Projects.one(id).get().then(function(project) {
                 $scope.project = project;
-                project.getList('reqs').then(function(reqs){
-                    $scope.project.reqs = reqs;
-                });
             });
         };
 
         $scope.create = function() {
-            Projects.post($scope.project).then(function(project) {
-                $location.path('listProjects');
+             var project_id = $stateParams.projectId;
+
+            Projects.one(project_id).all('sprints').post($scope.sprint).then(function(project) {
+                $location.path('listSprints');
             });
         };
 
