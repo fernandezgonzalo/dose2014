@@ -6,22 +6,31 @@
 
 		<div class="modal-header">
 			<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> //close button in header-->
-			<a href="#" class="modal-title h4" editable-text="task.title"> {{ currentTask.title || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> {{currentTask.estimation}}</span>
+			<a href="#" class="modal-title h4" editable-text="currentTask.title"> {{ currentTask.title || "Add title.." }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> {{ currentTask.estimation || "Add points.." }}</span>
 		</div>	<!-- /modal-header -->
 
 		<div class="modal-body row">
 			<div class="col-md-6">
-				<p>Status: {{currentTask.status}}</p>
-				<p>User: {{currentTask.id_user_assigned}}</p>
-				<p>Priority: {{currentTask.priority}}</p>
-				<p>Description: {{currentTask.description}}</p>
+				<p>Status: <a href="#" editable-select="currentTask.status" e-ng-options="s.value as s.text for s in statuses"> {{ showStatus() }}</a></p>
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.id_user_assigned"></span>
+					<span ng-show = "currentTask.id_user_assigned">User:</span>
+					<span editable-text="currentTask.id_user_assigned"> {{ currentTask.id_user_assigned || "Add a user.." }}</span> 
+				</p>
+				<p>Priority: <a href="#" editable-select="currentTask.priority" e-ng-options="p.value as p.text for p in priorities"> {{ showPriority() }}</a></p>
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.description"></span>
+					<span ng-show = "currentTask.description">Description:</span>
+					<span editable-text="currentTask.description"> {{ currentTask.description || "Add description.." }}</span>
+				</p>
 				<p>Comments: Here will be comments</p>
 			</div>
 			<div class="col-md-6">
-				<p><span class="glyphicon glyphicon-time"></span> {{currentTask.deadline}}</td></p>
-				<p><span class="glyphicon glyphicon-plus"></span> add deadline</td></p>
-				<p><span class="glyphicon glyphicon-plus"></span> add user</td></p>
-				<p><span class="glyphicon glyphicon-plus"></span> add description</td></p>
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.deadline"></span>
+					<span class="glyphicon glyphicon-time"></span>
+					<span editable-text="currentTask.deadline"> {{ currentTask.deadline || "Add a deadline" }}</span>
+				</p>
 				<p><span class="glyphicon glyphicon-remove"></span> delete task</td></p>
 				<p><span class="glyphicon glyphicon-comment"></span> add a comment</td></p>
 			</div>
