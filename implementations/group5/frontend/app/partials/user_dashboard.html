@@ -1,6 +1,6 @@
 
 <!-- Modal -->
-<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="taskModal" ng-if="currentTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -31,14 +31,14 @@
 					<span class="glyphicon glyphicon-time"></span>
 					<span editable-text="currentTask.deadline"> {{ currentTask.deadline || "Add a deadline" }}</span>
 				</p>
-				<p><span class="glyphicon glyphicon-remove"></span> delete task</td></p>
-				<p><span class="glyphicon glyphicon-comment"></span> add a comment</td></p>
+				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
+				<p><span class="glyphicon glyphicon-comment"></span> add a comment</p>
 			</div>
 		</div>	<!-- /modal-body -->
 
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary">Save changes</button>
+			<button type="button" class="btn btn-primary" ng-click = "updateTask()">Save changes</button>
 		</div>	<!-- /modal-footer -->
     </div>
   </div>
@@ -48,6 +48,9 @@
 <div class="row">
 	<h1 class="title col-md-12">My dashboard</h1>
 </div>
+<p
+	<a href="#" class="col-md-2" ng-click = "createTask('1')" data-toggle="modal" data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
+</p>
 
 <div class="row" ng-show = "!tasksInProgress.length">
 	<h3 class="col-md-12">It seems like you have no tasks in progress..</h3>

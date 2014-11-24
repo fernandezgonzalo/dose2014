@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task',
-	function ($scope, $log, $location, $routeParams, $filter, Task) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'Utility',
+	function ($scope, $log, $location, $routeParams, $filter, Task, Utility) {
 	var TAG = 'TaskController::';
-
+	$scope.isNew = false;
 	$scope.tasksFinished = [];
   	$scope.tasksInProgress = [];
   	$scope.statuses = [
@@ -36,28 +36,46 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 				$scope.tasksInProgress.push($scope.userTasks.data[task]);
 			}
 		}
-		$log.debug($scope.tasksFinished, 'Tasks Finished');
-		$log.debug($scope.tasksInProgress, 'Tasks in Progress');
 	});
 
+	$scope.createTask = function(projectId) {
+		$scope.currentTask = new Task();
+		$scope.currentTask.idUserCreator = $scope.currentUser.id;
+		$scope.currentTask.idProject = projectId;
+		$scope.currentTask.status = 'created';
+		$scope.currentTask.priority = 'low';
+		Utility.toUnderscore($scope.currentTask);
+		$scope.isNew = true;
 
-	/* create TBD
-	$scope.createTask = function(task) { //add project arg
-		var newTask = new Task(task);
-		newTask.idUserCreator = $scope.currentUser.id;
-		Utility.toUnderscore(newTask);
-		newTask.$save(function() {
-	  		$log.debug('Task created');
-	  		$location.path('/'); //to be done
-		}, function() {
-	  		$log.debug('error creating task');
-	  		$scope.createProjectError = true;
-		});
+		$log.debug('new task content', $scope.currentTask);
+		//$scope.currentTask.$save(function() {
+	  	//	$log.debug('Task created');
+		//}, function() {
+	  	//	$log.debug('Error creating task');
+		//});
 	};
-	*/
 
 	$scope.openTask = function(task) {
     	$location.path('/tasks/' + task.id);
+	};
+
+	$scope.updateTask = function(){
+		$log.debug($scope.currentTask);
+		if ($scope.isNew){
+			$scope.currentTask.$save(function(){
+				$scope.isNew = false;
+				$log.debug('current task pushing', $scope.currentTask);
+				$scope.tasksInProgress.push($scope.currentTask);
+				$('#taskModal').modal('hide');
+			});
+		} else {
+			$scope.currentTask.$update();
+		}
+		
+	};
+
+	$scope.deleteTask = function(){
+		$scope.currentTask.$delete();
 	};
 
 	$scope.openProjectDash = function($event, projectId) {
