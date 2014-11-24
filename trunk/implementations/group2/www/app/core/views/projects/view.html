@@ -3,6 +3,9 @@
 		<h1 data-ng-bind="project.name"></h1>
 	</div>
 	<p class="lead" data-ng-bind="project.description"></p>
+	<a data-ng-href='#!/projects/{{project.id}}/users' data-ng-show="project.manager_id == global.user.id">
+		Manage users
+	</a>
 	<div>
 		<h2>Requirements</h2>
 	<div class="list-group">
