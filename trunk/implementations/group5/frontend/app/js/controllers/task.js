@@ -1,11 +1,22 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams', 'Task',
-	function ($scope, $log, $location, $routeParams, Task) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task',
+	function ($scope, $log, $location, $routeParams, $filter, Task) {
 	var TAG = 'TaskController::';
 
 	$scope.tasksFinished = [];
   	$scope.tasksInProgress = [];
+  	$scope.statuses = [
+    	{value: 'created', text: 'Created'},
+    	{value: 'in_progress', text: 'In progress'},
+    	{value: 'stopped', text: 'Stopped'},
+    	{value: 'finished', text: 'Finished'}
+	];
+  	$scope.priorities = [
+    	{value: 'low', text: 'Low'},
+    	{value: 'high', text: 'High'},
+    	{value: 'critical', text: 'Critical'}
+	];  	
 
   	if($routeParams.id) {
     	var id = $routeParams.id;
@@ -53,6 +64,17 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $location.path('/projects/'+ projectId +'/dashboard');
     $event.stopPropagation();
   	};
+
+	$scope.showStatus = function() {
+    	var selected = $filter('filter')($scope.statuses, {value: $scope.currentTask.status});
+    	return ($scope.currentTask.status && selected.length) ? selected[0].text : 'Not set';
+  	};
+	
+	$scope.showPriority = function() {
+    	var selected = $filter('filter')($scope.priorities, {value: $scope.currentTask.priority});
+    	return ($scope.currentTask.priority && selected.length) ? selected[0].text : 'Not set';
+  	};
+
 
   	$log.debug(TAG, 'init', $routeParams, $scope.userTasks);
   	
