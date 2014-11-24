@@ -120,17 +120,15 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
 		do
-
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
 			create l_session.make (req, "lets_go_session", session_manager)
 			l_session.destroy
-
 
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
-				-- set the repsone header, indicating that everything went ok by statuscode 200
+				-- set the repsone header, indicating that everything went ok by statuscode 204
 			set_json_header (res, 204, l_result.representation.count)
 				-- add the message to the response response
 			res.put_string (l_result.representation)
