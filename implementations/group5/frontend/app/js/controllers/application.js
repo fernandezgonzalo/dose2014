@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', 'ngToast', function($scope, $log, $location, AuthService, ngToast) {
+angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
   var TAG = 'ApplicationController::';
   $log.debug(TAG, 'init main controller');
 

@@ -21,7 +21,7 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
           ngToast.create({
             content: 'Wrong credentials',
             class: 'danger'
-          })
+          });
         } else {
           $scope.setCurrentUser(user);
           $location.path('/');
