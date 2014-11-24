@@ -1,11 +1,17 @@
 'use strict';
-angular.module('coffee.core').controller('ProjectController', ['$scope', '$stateParams', '$location', 'Global', 'Projects',
-    function($scope, $stateParams, $location, Global, Projects) {
+angular.module('coffee.core').controller('ProjectController', ['$scope', '$stateParams', '$location', 'Global', 'Projects', 'Users',
+    function($scope, $stateParams, $location, Global, Projects, Users) {
+
+        $scope.global = Global;
 
         $scope.find = function() {
-            Projects.getList().then(function(projects) {
+            var user_id = $scope.global.user.id;
+
+            Users.one(user_id).getList('projects').then(function(projects) {
                 $scope.projects = projects;
-            });
+            }, function error(err) {
+                console.log('err',err);
+            } );
         };
 
         $scope.findOne = function() {
