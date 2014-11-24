@@ -51,18 +51,18 @@
           </div>
         </div>
 
-        <div ng-if="isEdit" class="control-group">
+        <div ng-if="isEdit" class="control-group" ng-class="{'has-error' : form.new_password.$invalid && form.new_password.$dirty, 'has-success' : form.new_password.$valid && form.new_password.$dirty }">
           <label class="control-label" for="new_password">New password</label>
           <div class="controls">
-            <input disabled type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword">
-            <p class="help-block">Password should be at least 4 characters</p>
+            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="^$)|(^\d{10}$">
+            <p class="help-block">Password should be at least 6 characters</p>
           </div>
         </div>
      
-        <div ng-if="isEdit" ng-showclass="control-group">
-          <label  class="control-label" for="password_confirmed">New password (Confirm)</label>
+        <div ng-if="isEdit" ng-showclass="control-group" ng-class="{'has-error' : form.new_password_confirm.$invalid, 'has-success' : form.new_password_confirm.$valid && form.new_password_confirm.$dirty }">
+          <label  class="control-label" for="new_password_confirm">New password (Confirm)</label>
           <div class="controls">
-            <input disabled type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.password_confirmed">
+            <input type="password" id="new_password_confirm" name="new_password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.newPasswordConfirm" compare-to="new_password">
             <p class="help-block">Please confirm password</p>
           </div>
         </div>
@@ -75,10 +75,10 @@
           </div>
         </div>
      
-        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password_confirmed.$invalid && form.password_confirmed.$dirty, 'has-success' : form.password_confirmed.$valid && form.password_confirmed.$dirty }">
+        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password_confirm.$invalid && (form.password_confirm.$dirty || form.password.$dirty), 'has-success' : form.password_confirm.$valid && form.password_confirm.$dirty }">
           <label class="control-label" for="password_confirmed">Password (Confirm)</label>
           <div class="controls">
-            <input type="password" id="password_confirmed" name="password_confirmed" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirmed" compare-to="password" required>
+            <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirm" compare-to="password" required>
             <p class="help-block">Please confirm password</p>
           </div>
         </div>

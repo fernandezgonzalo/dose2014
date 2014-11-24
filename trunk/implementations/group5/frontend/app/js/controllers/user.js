@@ -55,12 +55,19 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   function save() {
-    var user = $scope.user;
-    user.$update(function() {
-      animate();
-    }, function() {
-      $scope.saveUserError = true;
-    });
+    if ($scope.form.$valid) {
+      var user = $scope.user;
+      if (!user.newPassword) {
+        user.newPassword = '';
+      }
+      Utility.toUnderscore(user);
+      user.$update(function() {
+        animate();
+      }, function() {
+        $scope.saveUserError = true;
+      });
+    }
+
   }
 
   function create() {
