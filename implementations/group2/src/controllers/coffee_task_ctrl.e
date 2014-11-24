@@ -96,8 +96,9 @@ feature -- Handlers
 				if is_authorized_add(req, l_map) then
 					l_add_result:= my_db.add_to_task (l_map)
 					if l_add_result.success then
-						l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
-						return_success (l_result, res)
+						--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+						l_result:= my_db.get_from_id (table_name, l_add_result.id)
+						return_success_without_message (l_result, res)
 					else
 						return_error(l_result, res,"Could not add to" + table_name, 501)
 					end

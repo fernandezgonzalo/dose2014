@@ -113,6 +113,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.update ,router.methods_put)
 			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/projects", agent project_ctrl.get_all ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.delete ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.get ,router.methods_get)
 
 
 --				-- handling of all the routes relating to "requirement"

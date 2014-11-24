@@ -41,7 +41,7 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'})
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["user"]:
+        if j_response["first_name"]:
             print "test_add_user: OK"
         else:
             print "test_add_user: " + j_response["Message"]
@@ -51,7 +51,7 @@ class test_service():
         req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["email"] == self.email:
+        if j_response["email"] == self.email:
             print "test_get_user: OK"
         else:
             print "test_get_user: " + j_response["Message"]
@@ -112,7 +112,7 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["project"]:
+        if j_response["name"]==self.project_name:
             print "test_create_project: OK"
         else:
             print "test_create_project: " + j_response["Message"]
@@ -146,17 +146,27 @@ class test_service():
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if len(j_response) == 2:
             print "test_get_all_projects: OK"
         else:
             print "test_get_all_projects: " + j_response["Message"]
+            
+    def test_get_project(self):
+        url = 'http://localhost:9090/coffee/projects/%s' % self.user_id
+        req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
+        response = req.text
+        j_response = json.loads(response)
+        if j_response["id"] == self.project_id:
+            print "test_get_projects: OK"
+        else:
+            print "test_get_projects: " + j_response["Message"]    
             
     def test_get_all_users(self):
         url = 'http://localhost:9090/coffee/users'
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if len(j_response)==2:
             print "test_get_all_users: OK"
         else:
             print "test_get_all_users: " + j_response["Message"]
@@ -169,7 +179,7 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["project_id"] == self.project_id:
             print "test_add_dev_projects: OK"
         else:
             print "test_add_dev_projects: " + j_response["Message"]
@@ -200,7 +210,7 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["requirement"]:
+        if j_response["title"] == self.req_title:
             print "test_add_req: OK"
         else:
             print "test_add_req: " + j_response["Message"]
@@ -242,7 +252,7 @@ class test_service():
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["requirements"]:
+        if len(j_response) == 1:
             print "test_get_all_req: OK"
         else:
             print "test_get_all_req: " + j_response["Message"]
@@ -252,7 +262,7 @@ class test_service():
         req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["user"]:
+        if j_response["first_name"] == self.first_name:
             print "Is Logged in: OK"
         else:
             print "Is Logged in: " + j_response["Message"]
@@ -272,7 +282,8 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["task"]:
+        print(j_response)
+        if j_response["title"] == self.task_title:
             print "test_add_task: OK"
         else:
             print "test_add_task: " + j_response["Message"]
@@ -316,7 +327,7 @@ class test_service():
         req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["tasks"]:
+        if len(j_response) == 1:
             print "test_get_all_task: OK"
         else:
             print "test_get_all_task: " + j_response["Message"]    
@@ -331,7 +342,7 @@ class test_service():
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["sprint"]:
+        if j_response["number"] == "1":
             print "test_add_sprint: OK"
         else:
             print "test_add_sprint: " + j_response["Message"]   
@@ -370,7 +381,7 @@ class test_service():
         req = requests.get(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK" and j_response["sprints"]:
+        if len(j_response) == 1:
             print "test_get_all_sprint: OK"
         else:
             print "test_get_all_sprint: " + j_response["Message"]   
@@ -388,6 +399,7 @@ if __name__ == "__main__":
         service.test_create_project()
         service.test_create_project()
         service.test_update_project()
+        service.test_get_project()
         service.test_add_dev_to_projects()
         service.test_get_all_projects_for_user()
         service.test_remove_dev_to_projects()

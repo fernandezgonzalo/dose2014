@@ -10,7 +10,7 @@ class
 	inherit
 		COFFEE_BASE_CONTROLLER
 		redefine
-			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_delete, is_authorized_update
+			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_delete, is_authorized_update, add_data_to_map_get, is_authorized_get
 		end
 
 create
@@ -49,8 +49,9 @@ feature -- Handlers
 					values.put_i_th ("0", 3)
 					l_add_result := my_db.add ("developer_mapping", [keys,values])
 					if l_add_result.success then
-						l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
-						return_success (l_result, res)
+						--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+						l_result:= my_db.get_from_id (table_name, l_add_result.id)
+						return_success_without_message (l_result, res)
 					else
 						return_error(l_result, res,"Could not add to developer_mapping", 501)
 					end
@@ -85,6 +86,11 @@ feature -- Handlers
 			add_data_to_map_update (req, a_map)
 		end
 
+	add_data_to_map_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+		do
+			add_data_to_map_update (req, a_map)
+		end
+
 	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
 		l_result: JSON_OBJECT
@@ -96,8 +102,8 @@ feature -- Handlers
 			l_user_id := req.path_parameter("user_id").string_representation
 			l_result_array := my_db.get_all_from_project(l_user_id)
 			if l_result /= Void then
-				l_result.put_string (l_result_array.representation,"projects")
-				return_success (l_result, res)
+				--l_result.put_string (l_result_array.representation,"projects")
+				return_success_array (l_result_array, res)
 			else
 				create l_result.make
 				return_error(l_result, res,"Could not get from " + table_name, 501)
@@ -109,12 +115,25 @@ feature -- Handlers
 
 	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do
-		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
+		Result :=  is_authorized_update (req, a_map)
 	end
 
 	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	local
+		l_manager_id: STRING
 	do
-		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
+		l_manager_id:= my_db.get_from_id("project",get_value_from_map ("id", a_map)).item("manager_id").representation
+		l_manager_id.replace_substring_all ("%"", "")
+		Result :=  equal(l_manager_id, get_session_from_req (req, "_coffee_session_").item("id").out)
+	end
+
+	is_authorized_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	local
+		l_user_id: STRING
+	do
+		l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
+		l_user_id.replace_substring_all ("%"", "")
+		Result:= my_db.is_dev_in_project (l_user_id, get_value_from_map ("id", a_map))
 	end
 
 feature {NONE} -- helpers
