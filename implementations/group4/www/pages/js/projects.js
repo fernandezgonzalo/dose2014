@@ -34,17 +34,22 @@ define(
                 "$state",
                 function($scope, $log, restapi, projects, $state)
                 {
+                    function update_projects()
+                    {
+                        return restapi.projects().then
+                        (
+                            function(data)
+                            {
+                                $scope.projects = data;
+                            }
+                        )
+                    }
+
                     $scope.projects = projects;
 
                     $scope.remove = function(project)
                     {
-                        restapi.remove_project(project["p.id"]).then
-                        (
-                            function()
-                            {
-                                $scope.projects = restapi.projects();
-                            }
-                        )
+                        restapi.remove_project(project.id).then(update_projects);
                     };
 
                     $scope.go = function (project)
@@ -61,7 +66,7 @@ define(
                         {
                             $log.info("CREATE_PROJECT");
                             event.stopPropagation();
-                            restapi.create_project(data.project_name, data.description, data.max_points_per_sprint);
+                            restapi.create_project(data.project_name, data.description, data.max_points_per_sprint).then(update_projects);
                         }
                     );
                 }
