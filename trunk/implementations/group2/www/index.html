@@ -16,6 +16,8 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+    <nav class="navbar navbar-default" data-ng-include="'/app/core/views/header.html'" data-role="navigation" role="navigation">
+    </nav>
     <div class="container">
       <section data-ui-view>
       </section>
@@ -37,6 +39,7 @@
     <script src="app/core/services/global.service.js"></script>
     <script src="app/core/services/projects.service.js"></script>
     <script src="app/core/controllers/projects.controller.js"></script>
+    <script src="app/core/controllers/header.controller.js"></script>
 
 
 
