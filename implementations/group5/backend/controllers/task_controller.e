@@ -122,7 +122,7 @@ feature -- Handlers
 	update_task (req: WSF_REQUEST; res: WSF_RESPONSE)
 
 	local
-		l_payload, l_title, l_description, l_status, l_priority, l_deadline, l_estimation, l_id_user_assigned, l_task_id: STRING
+		l_payload, l_title, l_description, l_status, l_priority, l_deadline, l_estimation, l_id_user_assigned, l_task_id, l_id_user_creator, l_id_project: STRING
 		parser: JSON_PARSER
 		l_result: JSON_OBJECT
 	do
@@ -132,9 +132,12 @@ feature -- Handlers
 			create l_deadline.make_empty
 			create l_description.make_empty
 			create l_estimation.make_empty
+			create l_status.make_empty
 			create l_id_user_assigned.make_empty
 			create l_priority.make_empty
-			l_task_id := req.path_parameter ("id").string_representation
+			create l_id_user_creator.make_empty
+			create l_id_project.make_empty
+			create l_task_id.make_empty
 			-- read the payload from the request and store it in the string
 							req.read_input_data_into (l_payload)
 
@@ -145,6 +148,9 @@ feature -- Handlers
 								-- for the task info
 							if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 								-- we have to convert the json string into an eiffel string
+											if attached {JSON_STRING} j_object.item ("id") as s then
+												l_task_id := s.unescaped_string_8
+											end
 											if attached {JSON_STRING} j_object.item ("title") as s then
 												l_title := s.unescaped_string_8
 											end
