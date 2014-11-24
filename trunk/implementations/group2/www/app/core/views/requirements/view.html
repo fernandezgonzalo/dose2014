@@ -3,12 +3,4 @@
 		<h1 data-ng-bind="project.name"></h1>
 	</div>
 	<p class="lead" data-ng-bind="project.description"></p>
-	<div>
-		<ul>
-			<li data-ng-repeat='req in project.reqs'>
-				Req. {{$index + 1}} => {{req.title}}
-			</li>
-		</ul>
-	</div>
-	<a data-ng-href='#!/project/{{project.id}}/requirements/create'> Add Requirement </a>
 </section>

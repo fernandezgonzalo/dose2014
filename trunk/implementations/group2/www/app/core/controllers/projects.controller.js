@@ -18,6 +18,9 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
             var id = $stateParams.projectId;
             Projects.one(id).get().then(function(project) {
                 $scope.project = project;
+                project.getList('reqs').then(function(reqs){
+                    $scope.project.reqs = reqs;
+                });
             });
         };
 
