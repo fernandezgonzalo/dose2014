@@ -22,6 +22,10 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
                 project.getList('reqs').then(function(reqs){
                     $scope.project.reqs = reqs;
                 });
+
+                project.getList('sprints').then(function(sprints){
+                    $scope.sprints = sprints;
+                });
             });
         };
 
