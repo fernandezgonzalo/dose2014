@@ -11,7 +11,7 @@
 			</li>
 		</ul>
 	</div>
-	<a data-ng-href='#!/project/{{project.id}}/requirements/create'> Add Requirement </a>
+	<a data-ng-href='#!/projects/{{project.id}}/requirements/create'> Add Requirement </a>
 
 	<div>
 		<h2>Current Sprints</h2>
@@ -20,6 +20,8 @@
 				Sprint number: {{sprint.number}}. Start Date: {{sprint.start_date | date:'yyyy-MM-dd'}}. End Date: {{sprint.end_date |  date:'yyyy-MM-dd'}}
 			</li>
 		</ul>
+	<a data-ng-href='#!/projects/{{project.id}}/sprints/create'> Add Sprint </a>
+
 	</div>
 
 
