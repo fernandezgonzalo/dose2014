@@ -53,22 +53,6 @@ feature -- Test routines
 			json_result := db_handler.find_by_id (100)
 			assert("User not found", json_result.is_empty)
 		end
-	find_logged_user_by_id_test
-			-- Test for routine find_logged_user_by_id.
-		local
-			db_handler : DB_HANDLER_USER
-			json_result : JSON_OBJECT
-		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
-
-				-- we suppose that the user with id 1 is logged in in this moment.
-			json_result := db_handler.find_logged_user_by_id (1)
-
-				-- correct attributes
-			assert("Correct user_name ",json_result.item ("user_name").debug_output.is_equal("name"))
-			assert("Correct email ", json_result.item ("email").debug_output.is_equal("name1@mail.com"))
-			assert("Correct is_active ", json_result.item("is_active").debug_output.is_equal("1"))
-		end
 
 	find_by_project_id_project_with_collaborators_test
 			-- Test for routine find_by_project_id with a project that have collaborators.
