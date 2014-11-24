@@ -7,7 +7,7 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
         $scope.find = function() {
             var user_id = $scope.global.user.id;
 
-            Users.one(user_id).getList('requirements').then(function(requirements) {
+            Projects.one(project_id).getList('users').then(function(requirements) {
                 $scope.requirements = requirements;
             }, function error(err) {
                 console.log('err',err);

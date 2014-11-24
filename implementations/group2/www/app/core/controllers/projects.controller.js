@@ -5,7 +5,6 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
         $scope.global = Global;
 
         $scope.find = function() {
-            console.log("hglobal:",$scope.global);
             var user_id = $scope.global.user.id;
 
             Users.one(user_id).getList('projects').then(function(projects) {

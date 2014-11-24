@@ -59,6 +59,13 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
                 loggedin: checkLoggedin
             }
         }).
+        state('usersProject', {
+            url: '/projects/:projectId/users',
+            templateUrl: '/app/core/views/projects/users.html',
+            resolve: {
+                loggedin: checkLoggedin
+            }
+        }).
         state('editProject', {
             url: '/projects/:projectId/edit',
             templateUrl: '/app/core/views/projects/edit.html',
