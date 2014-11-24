@@ -316,6 +316,15 @@ feature -- Data access Sprint
 			end
 		end
 
+	search_project_sprints (id_project:INTEGER): JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a list of sprints of a selected project
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Sprint WHERE (id_project = "+id_project.out+");" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+		end
+
+
 feature -- Data access Task
 
 	search_tasks: JSON_ARRAY
@@ -474,3 +483,4 @@ feature {NONE}
 		-- other sql modification statment for the db, e.g. DELETE
 
 end
+

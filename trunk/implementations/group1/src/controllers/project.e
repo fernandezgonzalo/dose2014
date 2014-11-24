@@ -93,4 +93,17 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+	get_project_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a reponse that contains a json array with all sprints of a selected project
+		local
+			l_result_payload: STRING
+			l_project_id: STRING
+		do
+			l_project_id := req.path_parameter ("id_project").string_representation
+			l_result_payload := my_db.search_project_sprints (l_project_id.to_integer).representation
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 end
+
