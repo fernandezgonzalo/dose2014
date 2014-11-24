@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', function ($scope, $log, $location, $routeParams, $resource, Utility, User) {
+angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', 'ngToast',
+      function ($scope, $log, $location, $routeParams, $resource, Utility, User, ngToast) {
   var TAG = 'UserController::';
 
   $scope.userSaved = false;
@@ -86,6 +87,10 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       Utility.toUnderscore(user);
       var newUser = new User(user);
       newUser.$save(function() {
+        ngToast.create({
+          content: 'User was created!',
+          class: 'success'
+        });
         if (!$scope.currentUser) {
           $location.path('/login');
         } else {
@@ -93,11 +98,13 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
           angular.extend($scope.user, emptyUser);
           $scope.form.$setPristine(true);
           $('#username').focus();
-          $log.debug(TAG, 'user was created');
         }
         
       }, function() {
-        $scope.createUserError = true;
+        ngToast.create({
+          content: 'Create user error!',
+          class: 'danger'
+        });
       });
     }
   }

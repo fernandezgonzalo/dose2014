@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$log', 'AuthService', 
-    function($scope, $location, $log, AuthService) {
+angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$log', 'AuthService', 'ngToast', 
+    function($scope, $location, $log, AuthService, ngToast) {
 
   var TAG = 'LoginController::';
 
@@ -16,7 +16,10 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
     if ($scope.loginForm.$valid) {
       var callback = function(user) {
         if (!user) {
-          $scope.wrongCredentials = true;
+          ngToast.create({
+            content: 'Wrong credentials',
+            class: 'danger'
+          })
         } else {
           $scope.setCurrentUser(user);
           $location.path('/');
@@ -25,10 +28,6 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
       AuthService.login($scope.credentials, callback);
 
     }
-  };
-
-  $scope.clearWrongCredentials = function() {
-    $scope.wrongCredentials = false;
   };
 
 }]);

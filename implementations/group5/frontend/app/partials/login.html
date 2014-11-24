@@ -3,15 +3,13 @@
         <div class="account-wall">
             <form class="form form-signin" ng-submit="login()" name="loginForm">
                 <h1>Welcome to Mgmt</h1>
-                <div class="alert alert-danger" ng-show="wrongCredentials">
-                  Wrong Credentials.
-                </div>
+
                 <div class="form-group" ng-class="{'has-error' : loginForm.email.$invalid && loginForm.email.$dirty, 'has-success' : loginForm.email.$valid && loginForm.email.$dirty }">
-                    <input type="email" ng-change="clearWrongCredentials()" name="email" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus tabindex="1">
+                    <input type="email" name="email" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus tabindex="1">
                 </div>
                 
                 <div class="form-group" ng-class="{'has-error' : loginForm.password.$invalid && loginForm.password.$dirty, 'has-success' : loginForm.password.$valid && loginForm.password.$dirty }">
-                    <input type="password" name="password" ng-change="clearWrongCredentials()" ng-model="credentials.password" class="form-control last" placeholder="Password" required tabindex="2">
+                    <input type="password" name="password" ng-model="credentials.password" class="form-control last" placeholder="Password" required tabindex="2">
                     
                 </div>
                 <button class="btn btn-lg btn-primary btn-block" type="submit" tabindex="3">
