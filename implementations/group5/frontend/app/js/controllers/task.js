@@ -47,10 +47,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 	};
 
 	$scope.openTask = function(task) {
-    	var id = task.id;
-    	Task.get({taskId: id}, function(task) {
-      		$scope.currentTask = task;
-    	});
+      	$scope.currentTask = new Task(task);
 	};
 
 	$scope.updateTask = function(){

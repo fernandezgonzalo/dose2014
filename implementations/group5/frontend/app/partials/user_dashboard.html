@@ -5,8 +5,8 @@
     <div class="modal-content">
 
 		<div class="modal-header">
-			<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> //close button in header-->
-			<a href="#" class="modal-title h4" editable-text="currentTask.title"> {{ currentTask.title || "Add title.." }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> {{ currentTask.estimation || "Add points.." }}</span>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<a href="#" class="modal-title h4" editable-text="currentTask.title"> {{ currentTask.title || "Add title.." }} </a>
 		</div>	<!-- /modal-header -->
 
 		<div class="modal-body row">
@@ -26,6 +26,11 @@
 				<p>Comments: Here will be comments</p>
 			</div>
 			<div class="col-md-6">
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.estimation"></span>
+					<span class="glyphicon glyphicon-star"></span>
+					<span editable-text="currentTask.estimation"> {{ currentTask.estimation || "Add points.." }}</span>
+				</p>
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.deadline"></span>
 					<span class="glyphicon glyphicon-time"></span>
