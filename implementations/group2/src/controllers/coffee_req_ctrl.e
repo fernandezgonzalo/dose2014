@@ -25,6 +25,7 @@ feature -- Handlers
 		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
 		l_req_id: STRING
+		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
@@ -32,9 +33,11 @@ feature -- Handlers
 			add_data_to_map_delete (req, l_map)
 			if is_authorized_delete(req, l_map) then
 				l_req_id:= get_value_from_map ("id", l_map)
+				l_result := my_db.get_from_id (table_name, l_req_id)
 				if not my_db.is_task_from_req_in_sprint (l_req_id) then
-					if my_db.delete(table_name,l_map) then
-						return_success (l_result, res)
+					l_delete_result:= my_db.delete(table_name,l_map)
+					if l_delete_result.success then
+						return_success_without_message (l_result, res)
 					else
 						return_error(l_result, res,"Could not delete from" + table_name, 500)
 					end

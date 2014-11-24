@@ -103,10 +103,11 @@ feature -- Data access
 		end
 	end
 
-	update_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	update_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_values: ARRAYED_LIST[STRING]
 	do
+		create Result.default_create
 		create l_values.make (9)
 		l_values.extend(get_value_from_map ("requirement_id", a_map))
 		l_values.extend(get_value_from_map ("title", a_map))
@@ -119,17 +120,20 @@ feature -- Data access
 		l_values.extend(get_value_from_map ("id", a_map))
 		create db_modify_statement.make("Update task Set requirement_id=?,title=?,points=?,hours_estimated=?,description=?,progress=?,last_modified=?,sprint_id=? WHERE id=?;", db)
 		db_modify_statement.execute_with_arguments (l_values)
-		Result:= true
+		Result.success:= true
+		Result.id := db_insert_statement.last_row_id.out
 		if db_modify_statement.has_error then
 			print("Error while updateing table task")
-			Result:= false
+				Result.success:= false
+				Result.id:="-1"
 		else
 			create db_modify_statement.make ("Update task SET hours_spent=?, user_id=? WHERE id=?;", db)
 			l_values.extend(get_value_from_map ("user_id", a_map))
 			db_modify_statement.execute_with_arguments (<<get_value_from_map ("hours_spent", a_map),get_value_from_map ("user_id", a_map),get_value_from_map ("id", a_map)>>)
 			if db_modify_statement.has_error then
 				print("Error while updating table task")
-				Result:= false
+				Result.success:= false
+				Result.id:="-1"
 			end
 		end
 	end
@@ -179,13 +183,14 @@ feature -- Data access
 		end
 	end
 
-	update(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+	update(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_query: STRING
 		i: INTEGER
 		l_values: ARRAYED_LIST[STRING]
 		l_id: STRING
 	do
+		create Result.default_create
 		create l_values.make (0)
 		l_query := "UPDATE " + a_table_name + " SET "
 		create l_id.make_empty
@@ -211,18 +216,21 @@ feature -- Data access
 		create db_modify_statement.make(l_query, db)
 		l_values.extend (l_id)
 		db_modify_statement.execute_with_arguments (l_values)
-		Result:= true
+		Result.success:= true
+		Result.id := l_id
 		if db_modify_statement.has_error then
 			print("Error while updating table " + a_table_name)
-			RESULT:= false
+			Result.success:= false
+			Result.id:="-1"
 		end
 	end
 
-	delete (a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+	delete (a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_id: STRING
 		l_counter: INTEGER
 	do
+		create Result.default_create
 		l_counter:=1
 		across a_map.keys as k  loop
 			if equal(k.item, "id")  then
@@ -232,10 +240,12 @@ feature -- Data access
 		end
 		create db_modify_statement.make ("DELETE FROM " + a_table_name + " WHERE id=?;", db)
 		db_modify_statement.execute_with_arguments (<<l_id>>)
-		Result:= true
+		Result.success:= true
+		Result.id := l_id
 		if db_modify_statement.has_error then
 			print("Error while deleting from table " + a_table_name)
-			RESULT:= false
+			Result.success:= false
+			Result.id:="-1"
 		end
 	end
 
@@ -365,14 +375,17 @@ feature -- Data access
 		end
 	end
 
-	delete_user_from_project(a_user_id: STRING a_project_id: STRING): BOOLEAN
+	delete_user_from_project(a_user_id: STRING a_project_id: STRING): TUPLE[success: BOOLEAN; id: STRING]
 	do
+		create Result.default_create
 		create db_modify_statement.make ("DELETE FROM developer_mapping WHERE user_id=? and project_id=?;", db)
 		db_modify_statement.execute_with_arguments (<<a_user_id, a_project_id>>)
-		Result:= true
+		Result.success:= true
+		Result.id := a_user_id
 		if db_modify_statement.has_error then
 			print("Error while deleting from table developer_mapping")
-			RESULT:= false
+			Result.success:= false
+			Result.id:="-1"
 		end
 
 	end
