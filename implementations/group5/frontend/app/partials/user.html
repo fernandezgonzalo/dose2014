@@ -2,15 +2,6 @@
   <legend ng-if="!isEdit">Create a new account</legend>
   <legend ng-if="isEdit">Edit user profile</legend>
 </div>
-<div class="alert alert-success" role="alert" ng-class="{'visible': saveSucceed, 'hiding': hiding, 'hide': !saveSucceed}">
-  Profile was updated!
-</div>
-<div class="alert alert-danger" ng-show="createUserError">
-  Error creating user.
-</div>
-<div class="alert alert-danger" ng-show="saveUserError">
-  Error saving user.
-</div>
 <form class="form-horizontal" ng-submit="submit()" name="form">
   <fieldset>
     <div class="row">
@@ -86,8 +77,8 @@
         <div class="control-group">
           <!-- Button -->
           <div class="controls">
-            <input type="submit" class="btn btn-success" tabindex="7" ng-if="!isEdit" value="Register"></input>
-            <input type="submit" class="btn btn-success" tabindex="7" ng-if="isEdit" value="Save"></input>
+            <input type="submit" id="create_button" name="createButton" data-loading-text="Loading..." class="btn btn-success" tabindex="7" ng-if="!isEdit" value="Register"></input>
+            <input type="submit" id="save_button" data-loading-text="Loading..."  name="saveButton" class="btn btn-success" tabindex="7" ng-if="isEdit" value="Save"></input>
           </div>
         </div>
 

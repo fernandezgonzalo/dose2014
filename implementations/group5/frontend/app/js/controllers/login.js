@@ -13,8 +13,10 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
   };
 
   $scope.login = function() {
+    $('#login_button').button('loading');
     if ($scope.loginForm.$valid) {
       var callback = function(user) {
+        $('#login_button').button('reset');
         if (!user) {
           ngToast.create({
             content: 'Wrong credentials',
