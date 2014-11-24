@@ -123,7 +123,7 @@ feature -- Handlers
 			create l_id.make_empty
 			l_id := req.path_parameter ("comment_id").string_representation
 			create l_result.make
-			if my_crud_comment.remove_project_by_id (l_id.to_natural) then
+			if my_crud_comment.remove_comment_by_id (l_id.to_natural) then
 			--if the comment was removed,set the response
 			set_json_header (res, 204, l_result.representation.count)
 
