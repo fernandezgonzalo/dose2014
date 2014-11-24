@@ -3,6 +3,7 @@
 angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'Utility',
 	function ($scope, $log, $location, $routeParams, $filter, Task, Utility) {
 	var TAG = 'TaskController::';
+	$scope.currentTask = {};
 	$scope.isNew = false;
 	$scope.tasksFinished = [];
   	$scope.tasksInProgress = [];
@@ -16,15 +17,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     	{value: 'low', text: 'Low'},
     	{value: 'high', text: 'High'},
     	{value: 'critical', text: 'Critical'}
-	];  	
-
-  	if($routeParams.id) {
-    	var id = $routeParams.id;
-    	// Get task info
-    	Task.get({taskId: id}, function(task) {
-      		$scope.currentTask = task;
-    	});
-    }	
+	];	
 
 	$scope.currentUser.$getTasks(function(data){
 		$scope.userTasks = data;
@@ -48,15 +41,13 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 		$scope.isNew = true;
 
 		$log.debug('new task content', $scope.currentTask);
-		//$scope.currentTask.$save(function() {
-	  	//	$log.debug('Task created');
-		//}, function() {
-	  	//	$log.debug('Error creating task');
-		//});
 	};
 
 	$scope.openTask = function(task) {
-    	$location.path('/tasks/' + task.id);
+    	var id = task.id;
+    	Task.get({taskId: id}, function(task) {
+      		$scope.currentTask = task;
+    	});
 	};
 
 	$scope.updateTask = function(){
