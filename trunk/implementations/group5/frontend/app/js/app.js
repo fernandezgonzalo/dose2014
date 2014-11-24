@@ -3,7 +3,8 @@
 var app = angular.module('Mgmt', [
   'ngRoute',
   'ngResource',
-  'xeditable'
+  'xeditable',
+  'ngToast' 
   // 'ui.bootstrap'
 ]);
 
