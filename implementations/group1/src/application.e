@@ -101,7 +101,7 @@ feature -- Basic operations
 
 				-- handling of all ht routes relating to "project"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/developers", agent project.get_users_by_id_project, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprint", agent project.get_project_sprints, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/project/{id_project}/sprint", agent project.get_project_sprints, router.methods_get)
 
 				-- handling of all ht routes relating to "sprint"
 			map_uri_template_agent_with_request_methods ("/api/users/projects/sprints/{id_sprint}", agent sprint.get_a_sprint, router.methods_get)
