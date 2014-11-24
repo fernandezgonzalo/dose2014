@@ -2,7 +2,10 @@
 
 angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'Utility',
 	function ($scope, $log, $location, $routeParams, $filter, Task, Utility) {
+
 	var TAG = 'TaskController::';
+	$log.debug(TAG, 'init', $routeParams, $scope.userTasks);
+
 	$scope.currentTask = {};
 	$scope.isNew = false;
 	$scope.tasksFinished = [];
@@ -85,6 +88,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   	};
 
 
-  	$log.debug(TAG, 'init', $routeParams, $scope.userTasks);
+  	
   	
  }]);
