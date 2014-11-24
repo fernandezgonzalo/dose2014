@@ -19,7 +19,6 @@ feature {NONE} -- Creation
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
-			my_db.remove_user (1)
 		end
 
 

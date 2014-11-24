@@ -49,6 +49,9 @@ feature {NONE} -- Initialization
 	rol_project: ROL_PROJECT
 		-- a controller for handling project requests
 
+	sprint: SPRINT
+		-- a controller for handling sprint requests
+
 	dao: DB
 			-- access to the database and the functionality that comes with that class
 
@@ -97,11 +100,12 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent user.get_projects_by_user, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}", agent user.get_project_by_id, router.methods_get)
 
-
 				-- handling of all ht routes relating to "project"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/developers", agent project.get_users_by_id_project, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprint", agent project.get_project_sprints , router.methods_get)
-		
+
+				-- handling of all ht routes relating to "sprint"
+			map_uri_template_agent_with_request_methods ("/api/users/projects/sprints/{id_sprint}", agent sprint.get_a_sprint , router.methods_get)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
