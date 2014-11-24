@@ -6,7 +6,7 @@ var app = angular.module('Demo', [
 
 /** Turn on/off the angular debugging; should be off when deployed */
 app.config(['$logProvider', function($logProvider){
-	$logProvider.debugEnabled(false);
+	$logProvider.debugEnabled(true);
 	}]);
 
 	/** Define the routes for the application; This routing is done by Angular */
