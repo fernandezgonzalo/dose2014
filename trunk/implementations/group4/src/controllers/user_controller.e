@@ -97,8 +97,7 @@ feature -- Handlers
 					-- get the id of the user logged in from the session store
 				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
 
-				l_result_payload := db_handler_user.find_by_id (l_user_session_id.to_natural).representation
-
+				l_result_payload := db_handler_user.find_logged_user_by_id (l_user_session_id.to_natural).representation
 				set_json_header_ok (res, l_result_payload.count)
 				res.put_string (l_result_payload)
 			else
