@@ -6,11 +6,10 @@ angular.module('Mgmt').factory('User', ['$resource', '$http', '$log', function($
 
   $log.debug(TAG, 'init');
 
-  var User = $resource('/api/users/:userId', {userId: '@id'});
+  var User = $resource('/api/users/:userId', {userId: '@id'}, {
+                         'update':   {method: 'PUT'},
+  });
 
-  User.prototype.$update = function(success, error) {
-    $http.put('/api/users/' + this.id, this).then(success, error);
-  };
   User.prototype.$getTasks = function(success) {
   	$http.get('/api/users/' + this.id + '/tasks').then(success);
   };
