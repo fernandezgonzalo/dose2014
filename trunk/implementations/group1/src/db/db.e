@@ -298,7 +298,9 @@ feature -- Data access Sprint
 
 	search_tasks_by_sprint (id_user, id_sprint: INTEGER): JSON_ARRAY
 		do
-
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM task cross join (select id_task from taskuser_sprint where id_user="+id_user.out +" and id_sprint= "+id_sprint.out+");" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 		end
 
 	add_sprint (duration, id_project: STRING)
