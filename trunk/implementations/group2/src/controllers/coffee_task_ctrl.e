@@ -116,14 +116,17 @@ feature -- Handlers
 		local
 			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 			l_result: JSON_OBJECT
+			l_update_result: TUPLE[success: BOOLEAN; id: STRING]
 		do
 			create l_result.make
 			if req_has_cookie (req, "_coffee_session_" ) then
 				l_map := parse_request (req)
 				add_data_to_map_update (req, l_map)
 				if is_authorized_update(req, l_map) then
-					if my_db.update_task (l_map)then
-						return_success (l_result, res)
+					l_update_result:= my_db.update_task (l_map)
+					if l_update_result.success then
+						l_result:= my_db.get_from_id (table_name, l_update_result.id)
+						return_success_without_message (l_result, res)
 					else
 						return_error(l_result, res,"Could not update " + table_name, 501)
 					end

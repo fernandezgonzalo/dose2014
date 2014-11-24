@@ -67,7 +67,8 @@ class test_service():
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        print(j_response)
+        if j_response["id"] == self.user_id:
             print "test_update_user: OK"
         else:
             print "test_update_user: " + j_response["Message"]
@@ -98,7 +99,7 @@ class test_service():
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.user_id:
             print "test_delete_user: OK"
         else:
             print "test_delete_user: " + j_response["Message"]
@@ -126,7 +127,7 @@ class test_service():
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.project_id:
             print "test_update_project: OK"
         else:
             print "test_update_project: " + j_response["Message"]
@@ -136,7 +137,7 @@ class test_service():
         req = requests.delete(url, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.project_id:
             print "test_delete_project: OK"
         else:
             print "test_delete_project: " + j_response["Message"]
@@ -192,7 +193,7 @@ class test_service():
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == "2":
             print "test_remove_dev_projects: OK"
         else:
             print "test_remove_dev_projects: " + j_response["Message"]
@@ -229,7 +230,7 @@ class test_service():
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.req_id:
             print "test_update_req: OK"
         else:
             print "test_update_req: " + j_response["Message"]
@@ -242,7 +243,7 @@ class test_service():
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.req_id:
             print "test_delete_req: OK"
         else:
             print "test_delete_req: " + j_response["Message"]
@@ -304,7 +305,7 @@ class test_service():
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.task_id:
             print "test_update_task: OK"
         else:
             print "test_update_task: " + j_response["Message"]
@@ -317,7 +318,7 @@ class test_service():
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.task_id:
             print "test_delete_task: OK"
         else:
             print "test_delete_task: " + j_response["Message"]  
@@ -358,7 +359,7 @@ class test_service():
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.sprint_id:
             print "test_update_sprint: OK"
         else:
             print "test_update_sprint: " + j_response["Message"] 
@@ -371,7 +372,7 @@ class test_service():
         req = requests.delete(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
-        if j_response["Message"] == "OK":
+        if j_response["id"] == self.sprint_id:
             print "test_delete_sprint: OK"
         else:
             print "test_delete_sprint: " + j_response["Message"]           
