@@ -199,9 +199,15 @@ feature -- Handlers
 				my_crud_user.update_user_name (l_id.to_natural, l_name) And
 				my_crud_user.update_user_username (l_id.to_natural, l_username)	then
 			--if the user was updated,set the response
-				l_result := my_crud_user.user_by_id (l_id.to_natural)
-				set_json_header_ok (res, l_result.representation.count)
-
+				if not l_password.is_empty then
+					if my_crud_user.update_user_password (l_id.to_natural, l_password) then
+						l_result := my_crud_user.user_by_id (l_id.to_natural)
+						set_json_header_ok (res, l_result.representation.count)
+					end
+				else
+					l_result := my_crud_user.user_by_id (l_id.to_natural)
+					set_json_header_ok (res, l_result.representation.count)
+				end
 			end
 			res.put_string (l_result.representation)
 		end
