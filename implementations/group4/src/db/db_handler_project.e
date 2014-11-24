@@ -32,7 +32,7 @@ feature -- Data access
 			create db_query_statement.make ("select id,name,status,description,max_points_per_sprint from projects p where p.user_id="
 										+user_id.out+" union select id,name,status,description,max_points_per_sprint from projects p,"
 										 +"collaborators c where c.user_id="+user_id.out+" and c.project_id = p.id;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
 
 		end
 
