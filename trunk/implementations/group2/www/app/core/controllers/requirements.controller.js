@@ -15,9 +15,14 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
         };
 
         $scope.findOne = function() {
+            console.log('dwd');
             var id = $stateParams.requirementId;
+            console.log(id)
+            
             Requirements.one(id).get().then(function(requirement) {
                 $scope.requirement = requirement;
+            },function(err){
+                console.log('Error ',err);
             });
         };
 
