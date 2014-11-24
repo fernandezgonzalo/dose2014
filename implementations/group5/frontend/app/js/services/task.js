@@ -7,7 +7,7 @@ angular.module('Mgmt').factory('Task', ['$resource', '$log', '$http', function($
 
   Task.prototype.$update = function(success, error) {
   	$http.put('/api/tasks/' + this.id, this).then(success, error);
-  }
+  };
 
   $log.debug(TAG, 'init');
 
