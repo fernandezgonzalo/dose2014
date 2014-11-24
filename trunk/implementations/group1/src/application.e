@@ -106,6 +106,8 @@ feature -- Basic operations
 
 				-- handling of all ht routes relating to "sprint"
 			map_uri_template_agent_with_request_methods ("/api/users/projects/sprints/{id_sprint}", agent sprint.get_a_sprint , router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/sprints/{id_sprint}/tasks", agent sprint.get_tasks_by_sprint , router.methods_get)
+
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
