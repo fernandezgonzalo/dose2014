@@ -55,6 +55,8 @@ feature {NONE} -- Initialization
 	project_ctrl: PROJECT_CONTROLLER
 			-- a controller for handling project requests
 
+	comment_ctrl: COMMENT_CONTROLLER
+			-- a controller for handling comment requests
 
 	dao: DEMO_DB
 			-- access to the database and the functionality that comes with that class
@@ -80,6 +82,7 @@ feature {NONE} -- Initialization
 			create crud_user.make(database)
 			create crud_task.make (database)
 			create crud_project.make (database)
+			create crud_comment.make (database)
 		--
 
 			create session_manager.make
@@ -87,6 +90,7 @@ feature {NONE} -- Initialization
 			create user_ctrl.make(crud_user)
 			create project_ctrl.make(crud_project)
 			create task_ctrl.make (crud_task)
+			create comment_ctrl.make (crud_comment)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9100)
@@ -145,6 +149,26 @@ feature -- Basic operations
 
 			--Remove a task
 			map_uri_template_agent_with_request_methods ("/api/tasks/{id}", agent task_ctrl.delete_task_by_id, router.methods_delete)
+
+			--COMMENT RELATED URIs
+
+			--handling of the routes relating to comments
+
+					--List all comments for a task
+					map_uri_template_agent_with_request_methods ("/api/tasks/{id}/comments", agent comment_ctrl.get_comment_by_task_id, router.methods_get)
+
+					--Create a comment
+					map_uri_template_agent_with_request_methods ("/api/tasks/{id}/comments", agent comment_ctrl.create_comment, router.methods_post)
+
+			--handling of the routes relating to a single comment
+					--Retrieve a comment
+					map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/comments/{comment_id}", agent comment_ctrl.get_comment_by_id, router.methods_get)
+
+					--Edit a comment
+					map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/comments/{comment_id}", agent comment_ctrl.update_comment, router.methods_put)
+
+					--Remove a comment
+					map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/comments/{comment_id}", agent comment_ctrl.delete_comment_by_id, router.methods_delete)
 
 
 			--PROJECT RELATED URIs
