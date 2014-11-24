@@ -8,6 +8,7 @@ define(
         //Custom includes
         "blocks/navbar/navbar",
         "pages/js/projects",
+        "pages/js/project",
         "pages/js/login",
         "pages/js/user"
     ],
@@ -22,6 +23,7 @@ define(
                 "uiNavbarModule",
                 "LoginModule",
                 "ProjectsModule",
+                "ProjectModule",
                 "UserModule"
             ]
         )
@@ -58,9 +60,42 @@ define(
                         "project",
                         {
                             url: "/projects/:id",
-                            templateUrl: "pages/html/project.html"
+                            templateUrl: "pages/html/project.html",
                             //resolve: { data: 'SomeDataProvider' },
-                            //controller: "SomeController"
+                            controller: "ProjectCtr"
+                        }
+                    )
+
+                    .state
+                    (
+                        "project.tasks",
+                        {
+                            url: "/tasks",
+                            templateUrl: "pages/html/project/tasks.html",
+                            //resolve: { data: 'SomeDataProvider' },
+                            controller: "ProjectTasksCtr"
+                        }
+                    )
+
+                    .state
+                    (
+                        "project.sprints",
+                        {
+                            url: "/sprints",
+                            templateUrl: "pages/html/project/sprints.html",
+                            //resolve: { data: 'SomeDataProvider' },
+                            controller: "ProjectSprintsCtr"
+                        }
+                    )
+
+                    .state
+                    (
+                        "project.users",
+                        {
+                            url: "/users",
+                            templateUrl: "pages/html/project/users.html",
+                            //resolve: { data: 'SomeDataProvider' },
+                            controller: "ProjectUsersCtr"
                         }
                     )
 

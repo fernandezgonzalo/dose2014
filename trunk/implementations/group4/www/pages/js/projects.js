@@ -54,7 +54,7 @@ define(
 
                     $scope.go = function (project)
                     {
-                        $state.go("project", {id:project.id});
+                        $state.go("project.tasks", {id:project.id});
                     };
 
                     $scope.$on
