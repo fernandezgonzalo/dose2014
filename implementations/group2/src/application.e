@@ -130,12 +130,14 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.update ,router.methods_put)
 			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.get_all ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/reqs/{req_id}/tasks", agent task_ctrl.delete ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/tasks/{task_id}", agent task_ctrl.get ,router.methods_get)
 
 --				-- handling of all the routes relating to "sprint"
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.add ,router.methods_post)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.get_all ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.update ,router.methods_put)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/sprints", agent sprint_ctrl.delete ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/sprints/{sprint_id}", agent sprint_ctrl.get ,router.methods_get)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)

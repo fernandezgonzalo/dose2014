@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-	add_data_to_map_add, add_data_to_map_get_all, add_data_to_map_update, add_data_to_map_delete, is_authorized_add, is_authorized_delete, is_authorized_get_all, is_authorized_update
+	add_data_to_map_add, add_data_to_map_get_all, add_data_to_map_update, add_data_to_map_delete, is_authorized_add, is_authorized_delete, is_authorized_get_all, is_authorized_update, is_authorized_get, add_data_to_map_get
 	end
 
 create
@@ -42,6 +42,16 @@ feature -- Handlers
 	add_data_to_map_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 	do
 		add_data_to_map_add (req, a_map)
+	end
+
+	add_data_to_map_get (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+	local
+		l_sprint_id: STRING
+	do
+		create l_sprint_id.make_empty
+		l_sprint_id := req.path_parameter("sprint_id").string_representation
+		a_map.keys.put_front("id")
+		a_map.values.put_front(l_sprint_id)
 	end
 
 
@@ -76,4 +86,16 @@ feature -- Handlers
 		Result:= my_db.is_dev_in_project (l_user_id, l_project_id)
 	end
 
+	is_authorized_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	local
+	l_sprint_id: STRING
+	l_project_id: STRING
+	l_user_id: STRING
+	do
+		l_sprint_id := req.path_parameter("sprint_id").string_representation
+		l_project_id := my_db.get_from_id ("sprint",l_sprint_id).item ("project_id").representation
+		l_project_id.replace_substring_all ("%"", "")
+		l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
+		Result:= my_db.is_dev_in_project (l_user_id, l_project_id)
+	end
 end
