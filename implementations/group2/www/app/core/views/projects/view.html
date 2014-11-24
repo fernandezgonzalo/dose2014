@@ -4,6 +4,7 @@
 	</div>
 	<p class="lead" data-ng-bind="project.description"></p>
 	<div>
+		<h2>Requirements</h2>
 		<ul>
 			<li data-ng-repeat='req in project.reqs'>
 				Req. {{$index + 1}} => {{req.title}}
@@ -11,4 +12,15 @@
 		</ul>
 	</div>
 	<a data-ng-href='#!/project/{{project.id}}/requirements/create'> Add Requirement </a>
+
+	<div>
+		<h2>Current Sprints</h2>
+		<ul>
+			<li data-ng-repeat='sprint in sprints'>
+				Sprint number: {{sprint.number}}. Start Date: {{sprint.start_date | date:'yyyy-MM-dd'}}. End Date: {{sprint.end_date |  date:'yyyy-MM-dd'}}
+			</li>
+		</ul>
+	</div>
+
+
 </section>
