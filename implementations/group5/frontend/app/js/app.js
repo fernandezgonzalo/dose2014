@@ -68,6 +68,10 @@ app.config(['$routeProvider',
         templateUrl: 'partials/projects_dashboard.html',
         controller: 'ProjectsController'
       })
+      .when('/tasks/:id', {
+        templateUrl: 'partials/user_dashboard.html',
+        controller: 'TaskController'
+      })
       .otherwise({
         templateUrl: 'partials/404.html'
       });

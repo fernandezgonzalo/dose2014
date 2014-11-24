@@ -6,19 +6,19 @@
 
 		<div class="modal-header">
 			<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> //close button in header-->
-			<a href="#" class="modal-title h4" editable-text="task.title"> {{ task.title || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> 100</span>
+			<a href="#" class="modal-title h4" editable-text="task.title"> {{ currentTask.title || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> {{currentTask.estimation}}</span>
 		</div>	<!-- /modal-header -->
 
 		<div class="modal-body row">
 			<div class="col-md-6">
 				<p>Status: {{currentTask.status}}</p>
-				<p>User: Alan</p>
-				<p>Priority: Critical</p>
-				<p>Description: This is a description of a task. Every user can add a description when creating or editing task. I know this is obvious, I just need a long text for format checking!</p>
+				<p>User: {{currentTask.id_user_assigned}}</p>
+				<p>Priority: {{currentTask.priority}}</p>
+				<p>Description: {{currentTask.description}}</p>
 				<p>Comments: Here will be comments</p>
 			</div>
 			<div class="col-md-6">
-				<p><span class="glyphicon glyphicon-time"></span> 30 jan</td></p>
+				<p><span class="glyphicon glyphicon-time"></span> {{currentTask.deadline}}</td></p>
 				<p><span class="glyphicon glyphicon-plus"></span> add deadline</td></p>
 				<p><span class="glyphicon glyphicon-plus"></span> add user</td></p>
 				<p><span class="glyphicon glyphicon-plus"></span> add description</td></p>
@@ -51,7 +51,7 @@
 <div class="row" ng-show = "tasksInProgress.length">
 	<div class="col-md-12">
 		<table class="table">
-			<tr ng-repeat="task in tasksInProgress" class="warning row-link {{task.id}}" data-toggle="modal" data-target="#taskModal">
+			<tr ng-repeat="task in tasksInProgress" ng-click="openTask(task)" class="warning row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
@@ -72,7 +72,7 @@
 <div class="row" ng-show = "tasksFinished.length">
 	<div class="col-md-12">
 		<table class="table">
-			<tr ng-repeat="task in tasksFinished" class="warning row-link" data-toggle="modal" data-target="#taskModal">
+			<tr ng-repeat="task in tasksFinished" ng-click="openTask(task)" class="warning row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
