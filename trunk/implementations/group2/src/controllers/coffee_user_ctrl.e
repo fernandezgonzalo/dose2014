@@ -55,8 +55,9 @@ feature -- Handlers
 			l_map := parse_request (req)
 			l_add_result:= my_db.add (table_name,l_map)
 			if l_add_result.success then
-				l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
-				return_success (l_result, res)
+				l_result := my_db.get_from_id (table_name, l_add_result.id)
+				--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
+				return_success_without_message (l_result, res)
 			else
 				return_error(l_result, res,"Could not add to " + table_name, 501)
 			end
@@ -76,8 +77,8 @@ feature -- Handlers
 			if is_authorized_get_all(req,l_map) then
 				l_result_array := my_db.get_all_users
 				if l_result /= Void then
-					l_result.put_string (l_result_array.representation, table_name + "s")
-					return_success (l_result, res)
+					--l_result.put_string (l_result_array.representation, table_name + "s")
+					return_success_array (l_result_array, res)
 				else
 					create l_result.make
 					return_error(l_result, res,"Could not get from " + table_name, 501)
