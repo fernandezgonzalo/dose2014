@@ -107,11 +107,11 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}", agent user_ctrl.update ,router.methods_put)
 
 --				-- handling of all the routes relating to "project"
-			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent dev_map_ctrl.add ,router.methods_post)
-			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent dev_map_ctrl.delete ,router.methods_delete)
+			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/projects", agent dev_map_ctrl.add ,router.methods_post)
+			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/projects", agent dev_map_ctrl.delete ,router.methods_delete)
 			map_uri_template_agent_with_request_methods("/coffee/projects", agent project_ctrl.add ,router.methods_post)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.update ,router.methods_put)
-			map_uri_template_agent_with_request_methods("/coffee/projects/users/{user_id}", agent project_ctrl.get_all ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/users/{user_id}/projects", agent project_ctrl.get_all ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}", agent project_ctrl.delete ,router.methods_delete)
 
 

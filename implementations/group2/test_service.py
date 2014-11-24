@@ -142,7 +142,7 @@ class test_service():
             print "test_delete_project: " + j_response["Message"]
     
     def test_get_all_projects_for_user(self):
-        url = 'http://localhost:9090/coffee/projects/users/%s' % self.user_id
+        url = 'http://localhost:9090/coffee/users/%s/projects' % self.user_id
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
@@ -162,7 +162,7 @@ class test_service():
             print "test_get_all_users: " + j_response["Message"]
             
     def test_add_dev_to_projects(self):
-        url = 'http://localhost:9090/coffee/projects/users/2'
+        url = 'http://localhost:9090/coffee/users/2/projects'
         raw_data = {}
         raw_data["project_id"] = self.project_id
         data = json.dumps(raw_data)
@@ -175,7 +175,7 @@ class test_service():
             print "test_add_dev_projects: " + j_response["Message"]
             
     def test_remove_dev_to_projects(self):
-        url = 'http://localhost:9090/coffee/projects/users/2'
+        url = 'http://localhost:9090/coffee/users/2/projects'
         raw_data = {}
         raw_data["project_id"] = self.project_id
         data = json.dumps(raw_data)
