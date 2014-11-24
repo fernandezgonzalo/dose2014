@@ -10,7 +10,8 @@ inherit
 	REST_CONTROLLER
 redefine
 	modify_json,
-	post_insert_action
+	post_insert_action,
+	post_update_action
 end
 
 create
@@ -27,17 +28,36 @@ feature {None} -- Internal helpers
 			password_key: JSON_STRING
 			dummy: ANY
 		do
-			--
+			hash_and_store_password_from_json(new_id.out, input)
+		end
+
+
+	post_update_action(req: WSF_REQUEST; res: WSF_RESPONSE; user_id: STRING; input: JSON_OBJECT)
+		do
+			if input.has_key (create {JSON_STRING}.make_json("password")) then
+				hash_and_store_password_from_json(user_id, input)
+			end
+		end
+
+	hash_and_store_password_from_json(user_id: STRING; input: JSON_OBJECT)
+		local
+	        hashed_password: STRING
+			password: STRING
+			password_key: JSON_STRING
+			dummy: ANY
+		do
+			-- Extract the password from the given json input
 			password_key := create {JSON_STRING}.make_json("password")
 			password := input.item(password_key).representation
 			password := password.substring (2, password.count - 1)
 
 			-- Salt it with the user id and hash it
-	        hashed_password := get_salted_and_hashed_password(password, new_id.out)
+	        hashed_password := get_salted_and_hashed_password(password, user_id)
 
 	        -- Replace the original password by the salted-hashed version
-			dummy := db.update("UPDATE users SET password = %"" + hashed_password + "%" WHERE id = " + new_id.out)
+			dummy := db.update("UPDATE users SET password = %"" + hashed_password + "%" WHERE id = " + user_id)
 		end
+
 
 
 	modify_json(user: JSON_OBJECT)
