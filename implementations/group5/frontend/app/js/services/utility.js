@@ -22,7 +22,7 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
     for (var prop in obj) {
       if (prop.toLowerCase() !== prop) {
         obj[toUnderscore(prop)] = obj[prop];
-        delete obj[prop];
+        // delete obj[prop]; 
       }
     }
   };
@@ -31,7 +31,7 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
     for (var prop in obj) {
       if (prop.indexOf('_') !== -1) {
         obj[toCamel(prop)] = obj[prop];
-        delete obj[prop];
+        delete obj[prop]; 
       }
     }
   };

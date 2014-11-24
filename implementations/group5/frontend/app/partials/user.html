@@ -34,6 +34,11 @@
           </div>
         </div>
 
+        <div class="form-group" ng-if="isEdit && isAdmin()">
+          <label class="control-label" for="is_admin">Is admin?</label>&nbsp;&nbsp;<input type="checkbox" id="is_admin" name="isAdmin" ng-model="user.isAdmin" ng-true-value="1" ng-false-value="0"/>
+          <p class="help-block">Makes the user an admin</p>
+        </div>
+
         <div ng-if="isEdit && !isAdmin()" class="control-group">
           <label class="control-label" for="old_password">Old password</label>
           <div class="controls">
