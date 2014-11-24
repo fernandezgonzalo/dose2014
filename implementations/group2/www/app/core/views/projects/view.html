@@ -5,21 +5,25 @@
 	<p class="lead" data-ng-bind="project.description"></p>
 	<div>
 		<h2>Requirements</h2>
-		<ul>
-			<li data-ng-repeat='req in project.reqs'>
-				Req. {{$index + 1}} => {{req.title}}
-			</li>
-		</ul>
+	<div class="list-group">
+		<a data-ng-repeat="req in project.reqs" data-ng-href="#!/requirements/{{req.id}}/edit" class="list-group-item">
+			<h4 class="list-group-item-heading" data-ng-bind="req.title"></h4>
+		</a>
 	</div>
 	<a data-ng-href='#!/projects/{{project.id}}/requirements/create'> Add Requirement </a>
 
+
+
+	
 	<div>
 		<h2>Current Sprints</h2>
-		<ul>
-			<li data-ng-repeat='sprint in sprints'>
-				Sprint number: {{sprint.number}}. Start Date: {{sprint.start_date | date:'yyyy-MM-dd'}}. End Date: {{sprint.end_date |  date:'yyyy-MM-dd'}}
-			</li>
-		</ul>
+
+		<div class="list-group">
+		<a data-ng-repeat="sprint in sprints" data-ng-href="#!/sprints/{{sprint.id}}/edit" class="list-group-item">
+			<h4 class="list-group-item-heading"> Sprint number: {{sprint.number}}. Start Date: {{sprint.start_date | date:'yyyy-MM-dd'}}. End Date: {{sprint.end_date |  date:'yyyy-MM-dd'}} </h4>
+		</a>
+	</div>
+
 	<a data-ng-href='#!/projects/{{project.id}}/sprints/create'> Add Sprint </a>
 
 	</div>
