@@ -89,6 +89,7 @@ feature -- Handlers
 		local
 			l_result_payload: STRING
 			l_user_session_id : STRING
+			json_result : JSON_OBJECT
 		do
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -97,7 +98,10 @@ feature -- Handlers
 					-- get the id of the user logged in from the session store
 				l_user_session_id := get_session_from_req (req, "_casd_session_").at ("user_id").out
 
-				l_result_payload := db_handler_user.find_logged_user_by_id (l_user_session_id.to_natural).representation
+				json_result := db_handler_user.find_by_id(l_user_session_id.to_natural)
+				json_result.remove ("password")
+				
+				l_result_payload := json_result.representation
 				set_json_header_ok (res, l_result_payload.count)
 				res.put_string (l_result_payload)
 			else

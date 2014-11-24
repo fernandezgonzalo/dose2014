@@ -31,14 +31,6 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
 		end
 
-	find_logged_user_by_id(user_id : NATURAL) : JSON_OBJECT
-		-- returns a JSON_OBJECT that represents the user logged that corresponds to the given id
-		do
-			create Result.make
-			create db_query_statement.make("SELECT * FROM Users WHERE id="+ user_id.out +";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
-		end
-
 	find_by_project_id (project_id : NATURAL): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user that
 			-- is collaborator of the project.
