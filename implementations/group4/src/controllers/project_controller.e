@@ -184,7 +184,7 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("description") as description then
 						new_description := description.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("mpps") as mpps then
+					if attached {JSON_STRING} j_object.item ("max_points_per_sprint") as mpps then
 						new_mpps := mpps.unescaped_string_8
 					end
 				end
@@ -395,11 +395,8 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("description") as description then
 						project_description := description.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("mpps") as mpps then
+					if attached {JSON_STRING} j_object.item ("max_points_per_sprint") as mpps then
 						project_mpps := mpps.unescaped_string_8
-					end
-					if attached {JSON_STRING} j_object.item ("number_of_sprints") as number_of_sprints then
-						project_number_of_sprints := number_of_sprints.unescaped_string_8
 					end
 				end
 
