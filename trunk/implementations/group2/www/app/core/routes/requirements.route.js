@@ -28,8 +28,6 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
           return deferred.promise;
         };
 
-        $urlRouterProvider.otherwise('/');
-
         $stateProvider.
         state('homeRequirements', {
             url: '/',
@@ -46,7 +44,7 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
             }
         }).
         state('createRequirement', {
-            url: '/project/:projectId/requirements/create',
+            url: '/projects/:projectId/requirements/create',
             templateUrl: '/app/core/views/requirements/create.html',
             resolve: {
                 loggedin: checkLoggedin

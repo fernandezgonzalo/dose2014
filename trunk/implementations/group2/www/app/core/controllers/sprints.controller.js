@@ -15,39 +15,38 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$stateP
         };
 
         $scope.findOne = function() {
-            var id = $stateParams.projectId;
-            Projects.one(id).get().then(function(project) {
-                $scope.project = project;
+            var id = $stateParams.sprintId;
+            Sprints.one(id).get().then(function(sprint) {
+                $scope.sprint = sprint;
             });
         };
 
         $scope.create = function() {
-             var project_id = $stateParams.projectId;
-
+            var project_id = $stateParams.projectId;
             Projects.one(project_id).all('sprints').post($scope.sprint).then(function(project) {
-                $location.path('listSprints');
+                $location.path('/projects/'+ project_id);
             });
         };
 
-        $scope.remove = function(project) {
+        $scope.remove = function(sprint) {
             if (project) {
-                project.remove().then(function() {
+                sprint.remove().then(function() {
                     //TODO: display a flash message
                 });
-                for (var i in $scope.projects) {
-                    if ($scope.projects[i] === project) {
-                        $scope.projects.splice(i, 1);
+                for (var i in $scope.sprints) {
+                    if ($scope.sprints[i] === sprint) {
+                        $scope.sprints.splice(i, 1);
                     }
                 }
             } else {
-                $scope.project.remove().then(function() {
+                $scope.sprint.remove().then(function() {
                     $location.path('listProjects');
                 });
             }
         };
 
         $scope.update = function() {
-            $scope.project.put().then(function() {
+            $scope.sprint.put().then(function() {
                 $location.path('listProjects');
             });
         };
