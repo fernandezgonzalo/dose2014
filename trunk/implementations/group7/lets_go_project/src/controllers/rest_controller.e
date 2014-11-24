@@ -7,16 +7,16 @@ deferred class
 	REST_CONTROLLER
 
 inherit
-	HEADER_JSON_HELPER
-		-- inherit this helper to get a procedure that simplifies setting
-		-- the HTTP response header correctly
 
 	SESSION_HELPER
 		-- inherit this helper to get functions to check for a session cookie
 		-- if a session cookie exists, we can get the data of that session
 
 	JSON_PARSING_HELPER
-		-- helper functionality for json parsing.
+		-- helper functionality for json parsing
+
+	HTTP_RESPONSE_HELPER
+		-- Convenience functions for http responses
 
 
 feature {NONE} -- Creation
@@ -363,56 +363,5 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 					implementation.call ([])
 				end
 			end
-		end
-
-
-feature {NONE} -- Http responses
-
-	reply_with_200_with_data (res: WSF_RESPONSE; data: STRING)
-		do
-			reply_with_statuscode_with_data(res, {HTTP_STATUS_CODE}.ok, data)
-		end
-
-
-	reply_with_201_with_data (res: WSF_RESPONSE; data: STRING)
-		do
-			reply_with_statuscode_with_data(res, {HTTP_STATUS_CODE}.created, data)
-		end
-
-
-	reply_with_204 (res: WSF_RESPONSE)
-		do
-			res.set_status_code({HTTP_STATUS_CODE}.no_content)
-		end
-
-
-	reply_with_statuscode_with_data (res: WSF_RESPONSE; statuscode: INTEGER; data: STRING)
-		do
-			set_json_header (res, statuscode, data.count)
-			res.put_string(data)
-		end
-
-
-	reply_with_400 (res: WSF_RESPONSE)
-		do
-			res.set_status_code({HTTP_STATUS_CODE}.bad_request)
-		end
-
-
-	reply_with_401 (res: WSF_RESPONSE)
-		do
-			res.set_status_code({HTTP_STATUS_CODE}.unauthorized)
-		end
-
-
-	reply_with_404 (res: WSF_RESPONSE)
-		do
-			res.set_status_code({HTTP_STATUS_CODE}.not_found)
-		end
-
-
-	reply_with_500 (res: WSF_RESPONSE)
-		do
-			res.set_status_code({HTTP_STATUS_CODE}.internal_server_error)
 		end
 end

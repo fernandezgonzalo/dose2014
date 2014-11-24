@@ -9,6 +9,7 @@ class
 inherit
 	HEADER_JSON_HELPER
 	SESSION_HELPER
+	HTTP_RESPONSE_HELPER
 
 create
 	make
@@ -103,7 +104,8 @@ feature -- Handlers
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
-				res.set_status_code (204)
+				reply_with_200_with_data(res, l_user_data.id.out)
+
 			else
 
 				-- the username & password combination was wrong

@@ -22,11 +22,6 @@ feature {None} -- Internal helpers
 
 
 	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
-		local
-	        hashed_password: STRING
-			password: STRING
-			password_key: JSON_STRING
-			dummy: ANY
 		do
 			hash_and_store_password_from_json(new_id.out, input)
 		end
