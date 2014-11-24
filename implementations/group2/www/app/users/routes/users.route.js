@@ -5,10 +5,10 @@ angular.module('coffee.core').config(['$stateProvider',
 
         var checkLoggedOut = function($q, $timeout, $http, $location, Global) {
             var deferred = $q.defer();
-            $http.get('/coffee/sessions').success(function(response) {
+            $http.get('/coffee/sessions').success(function(user) {
                 // Authenticated
-                if (response.user) {
-                    Global.user = response.user;
+                if (user) {
+                    Global.user = user;
                     $timeout(deferred.reject);
                     $location.url('/');
                 } else { // Not Authenticated
