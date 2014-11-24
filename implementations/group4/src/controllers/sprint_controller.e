@@ -9,6 +9,12 @@ class
 
 inherit
 	HEADER_JSON_HELPER
+		-- inherit this helper to get a procedure that simplifies setting
+		-- the HTTP response header correctly
+
+	SESSION_HELPER
+		-- inherit this helper to get functions to check for a session cookie
+		-- if a session cookie exists, we can get the data of that session
 
 create
 	make
@@ -73,11 +79,10 @@ feature -- Handlers
 			-- adds a new sprint; the sprint data are expected to be part of the request's payload
 		local
 			l_payload : STRING
-			new_id, new_status, new_duration: STRING
+			new_status, new_duration: STRING
 			project_id: STRING
 			new_sprint: SPRINT
 			parser: JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -109,13 +114,8 @@ feature -- Handlers
 				-- create the sprint in the database
 			db_handler_sprint.add (new_sprint)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added sprint "), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				-- prepare the reponse
+			prepare_response("Added sprint",200,res)
 		end
 
 	update_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -126,7 +126,6 @@ feature -- Handlers
 			sprint_status, sprint_duration : STRING
 			sprint: SPRINT
 			parser : JSON_PARSER
-			l_result: JSON_OBJECT
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -151,12 +150,12 @@ feature -- Handlers
 
 			end
 
-			-- the project_id from the URL (as defined by the placeholder in the route)
-				l_sprint_project_id := req.path_parameter ("project_id").string_representation
+				-- the project_id from the URL (as defined by the placeholder in the route)
+			l_sprint_project_id := req.path_parameter ("project_id").string_representation
 
 
-			-- the sprint_id from the URL (as defined by the placeholder in the route)
-				l_sprint_id := req.path_parameter ("sprint_id").string_representation
+				-- the sprint_id from the URL (as defined by the placeholder in the route)
+			l_sprint_id := req.path_parameter ("sprint_id").string_representation
 
 				-- create the sprint
 			create sprint.make (sprint_status, sprint_duration.to_natural, l_sprint_project_id.to_natural)
@@ -164,13 +163,8 @@ feature -- Handlers
 				-- update the sprint in the database
 			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Updated sprint "+ l_sprint_id.out), create {JSON_STRING}.make_json ("Message"))
-
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				-- prepare the reponse
+			prepare_response("Updated sprint "+ l_sprint_id.out,200,res)
 		end
 
 
@@ -178,7 +172,6 @@ feature -- Handlers
 			-- remove a sprint from the database
 		local
 			l_sprint_id, l_sprint_project_id: STRING
-			l_result: JSON_OBJECT
 		do
 				-- the project_id from the URL (as defined by the placeholder in the route)
 			l_sprint_project_id := req.path_parameter ("project_id").string_representation
@@ -189,13 +182,9 @@ feature -- Handlers
 				-- remove the sprint
 			db_handler_sprint.remove (l_sprint_id.to_natural, l_sprint_project_id.to_natural)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
+				-- prepare the reponse
+			prepare_response("Removed item",200,res)
 
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
 		end
 
 
@@ -203,7 +192,6 @@ feature -- Handlers
 			-- remove a task from the database
 		local
 			l_task_id: STRING
-			l_result: JSON_OBJECT
 		do
 
 				-- the task_id from the URL (as defined by the placeholder in the route)
@@ -212,13 +200,8 @@ feature -- Handlers
 				-- remove the task
 			db_handler_task.remove (l_task_id.to_natural)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-				-- set the result
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				-- prepare the reponse
+			prepare_response("Removed item",200,res)
 		end
 
 
