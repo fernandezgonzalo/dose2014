@@ -158,24 +158,35 @@ define(
                         )
                     };
 
-                    module.create_project = function(name, description, mpps)
+                    module.create_project = function(name, description, max_points_per_sprint)
                     {
                         var request =
                         {
                             name: name,
                             status: "Active",
                             description: description,
-                            mpps: mpps.toString()
+                            max_points_per_sprint: max_points_per_sprint.toString()
                         };
 
                         return $http.post("/api/projects", request).then
                         (
                             function(data)
                             {
-                                console.log(data.data);
                                 return data.data;
                             }
                         );
+                    };
+
+                    module.edit_project = function (form, project_id)
+                    {
+                        var request =
+                        {
+                            name: form.name,
+                            status: form.status,
+                            description: form.description,
+                            max_points_per_sprint: form.max_points_per_sprint.toString()
+                        };
+                        return $http.post("/api/projects/"+project_id, request);
                     };
 
                     //////////////////////////////////////////////////////////////

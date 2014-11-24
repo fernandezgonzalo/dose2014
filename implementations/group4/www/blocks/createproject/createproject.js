@@ -3,8 +3,7 @@ define(
     [
         //System includes
         "angular",
-        "bootstrapUi",
-        "angularUtils",
+        "bootstrapUi"
     ],
 
     function (angular)
@@ -13,8 +12,7 @@ define(
         (
             "uiCreateProjectModule",
             [
-                "ui.bootstrap",
-                "ui.validate"
+                "ui.bootstrap"
             ]
         )
 
@@ -45,8 +43,7 @@ define(
             [
                 "$scope",
                 "$modal",
-                "$log",
-                function($scope, $modal, $log)
+                function($scope, $modal)
                 {
                     $scope.createProject = function (size)
                     {
@@ -63,7 +60,6 @@ define(
                         (
                             function (form)
                             {
-                                $log.info(form);
                                 $scope.$emit("create_project", form);
                             }
                         );
