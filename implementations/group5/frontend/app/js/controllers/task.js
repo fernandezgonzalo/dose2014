@@ -84,7 +84,10 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     	return ($scope.currentTask.priority && selected.length) ? selected[0].text : 'Not set';
   	};
 
+  	$scope.setPriorityClass = function(task) {
+  		if (task.priority === 'low') {return 'success';}
+  		if (task.priority === 'high') {return 'warning';}
+  		if (task.priority === 'critical') {return 'danger';}
+  	};
 
-  	
-  	
  }]);
