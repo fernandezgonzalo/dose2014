@@ -10,7 +10,9 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   if ($routeParams.id) {
     $scope.isEdit = true;
     User.get({userId  : $routeParams.id}, function(user) {
+      Utility.toCamel(user);
       $scope.user = user;
+      $log.debug(TAG, user);
       user.password = '';
     });
   }
@@ -52,6 +54,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
           content: 'User was updated!',
           class: 'success'
         });
+        Utility.toCamel($scope.user);
       }, function() {
         $('#save_button').button('reset');
         ngToast.create({
