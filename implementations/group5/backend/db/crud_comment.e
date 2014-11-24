@@ -116,17 +116,17 @@ feature -- Data access
 
 		end
 
-	comment_by_id_task(id : NATURAL): JSON_OBJECT
-			-- returns a JSON_OBJECT  that represents a comment identified by id_task
+	comment_by_id_task(id : NATURAL): JSON_ARRAY
+			-- returns a JSON_ARRAY  that represents a comment identified by id_task
 
 		do
-			create Result.make
+			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM comment WHERE id_task = '" + id.out + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 4, Result))
 
 		end
 
-	remove_project_by_id (id: NATURAL): BOOLEAN
+	remove_comment_by_id (id: NATURAL): BOOLEAN
 			-- removes the comment identified by id
 		do
 			create db_modify_statement.make ("DELETE FROM comment WHERE id= '" + id.out + "';", db)
