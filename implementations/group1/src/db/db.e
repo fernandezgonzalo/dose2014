@@ -296,6 +296,11 @@ feature -- Data access Sprint
 			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 
+	search_tasks_by_sprint (id_user, id_sprint: INTEGER): JSON_ARRAY
+		do
+			
+		end
+
 	add_sprint (id, duration, id_project: STRING)
 
 		do

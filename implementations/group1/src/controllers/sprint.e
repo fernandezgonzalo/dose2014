@@ -51,5 +51,19 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	get_tasks_by_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a reponse that contains a json array with all tasks of a sprint
+		local
+			l_result_payload: STRING
+			l_sprint_id: STRING
+			l_user_id: STRING
+		do
+			l_sprint_id := req.path_parameter ("id_sprint").string_representation
+			l_user_id := req.path_parameter ("id_user").string_representation
+			l_result_payload := my_db.search_tasks_by_sprint (l_user_id.to_integer, l_sprint_id.to_integer).representation
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		end
+
 
 end
