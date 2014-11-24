@@ -16,7 +16,7 @@
                 ng-class="{ 'warning': project.status == 'Active', 'success': project.status == 'Complete', 'info': project.status == 'Canceled' }">
                 <td>
                     <img class="inline" ng-click="remove(project)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
-                    <img class="inline" ng-controller="EditProjectCtr" ng-click="editProject()" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
+                    <img class="inline" ng-controller="EditProjectCtr" ng-click="editProject(project)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
                 </td>
                 <td ng-click="go(project)">{{project.name}}</td>
                 <td ng-click="go(project)">{{project.description}}</td>

@@ -9,7 +9,7 @@
             <input type="text"
                    name="name"
                    class="form-control"
-                   ng-model="form.project_name"
+                   ng-model="form.name"
                    id="name"
                    placeholder="Enter project name" required>
         </div>
@@ -18,10 +18,8 @@
             <select name="status"
                     class="form-control"
                     ng-model="form.status"
-                    id="status" required>
-                <option value="active" >Active</option>
-                <option value="complete">Complete</option>
-                <option value="canceled">Canceled</option>
+                    id="status"
+                    ng-options="option.id as option.name for option in options" required>
             </select>
         </div>
 
