@@ -301,7 +301,7 @@ feature -- Data access Sprint
 
 		end
 
-	add_sprint (id, duration, id_project: STRING)
+	add_sprint (duration, id_project: STRING)
 
 		do
 			create db_insert_statement.make ("INSERT INTO Sprint(duration, id_project) VALUES ('"+duration+"','"+id_project+"');", db);
