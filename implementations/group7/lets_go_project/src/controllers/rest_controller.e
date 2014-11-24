@@ -158,7 +158,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			values_str := get_comma_separated_string_from_array (fields_and_values.values)
 			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
 			if id >= 0 then
-				post_insert_action(req, res, id)
+				post_insert_action(req, res, id, input)
 				reply_with_201_with_data(res, id.out)
 			else
 				reply_with_500(res)
@@ -177,6 +177,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			input.remove (id_key)
 			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_and_values_from_json(input)) + " WHERE id = " + resource_id)
 			if success then
+				post_update_action(req, res, resource_id, input)
 				reply_with_204(res)
 			else
 				reply_with_500(res)
@@ -200,7 +201,11 @@ feature {NONE} -- Internal helpers
 		do
 		end
 
-	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64)
+	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
+		do
+		end
+
+	post_update_action(req: WSF_REQUEST; res: WSF_RESPONSE; resource_id: STRING; input: JSON_OBJECT)
 		do
 		end
 

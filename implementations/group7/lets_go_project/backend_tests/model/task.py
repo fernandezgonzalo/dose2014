@@ -9,7 +9,7 @@ STATI = xrange(3)
 def get_random_task(story_id, owner, id_=None):
     nr = random.randint(1, 20)
     description = get_random_string(20)
-    return Task(nr, description, owner, story_id, id_)
+    return Task(nr, description, owner, story_id, [], id_)
 
 
 def get_task_from_json(json_str):

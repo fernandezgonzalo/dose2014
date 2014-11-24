@@ -50,4 +50,14 @@ feature
 			end
 		end
 
+
+	get_salted_and_hashed_password(password, id: STRING): STRING
+		local
+	        hash: SHA256
+		do
+			create hash.make
+	        hash.update_from_string(password + id)
+	        Result := hash.digest_as_string
+		end
+
 end

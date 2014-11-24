@@ -8,6 +8,7 @@ class
 
 inherit
 	HEADER_JSON_HELPER
+	SESSION_HELPER
 
 create
 	make
@@ -48,6 +49,7 @@ feature -- Handlers
 
 				-- a session
 			l_session: WSF_COOKIE_SESSION
+			l_user_id: STRING
 
 		do
 				-- create emtpy string object
@@ -75,10 +77,11 @@ feature -- Handlers
 
 			end
 
+			l_user_id := db.query_single_row("SELECT id FROM users WHERE email = %"" + l_username + "%"").item (create {JSON_STRING}.make_json("id")).representation
 
 				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
-			l_user_data := db.has_user_with_password(l_username, l_password)
+			l_user_data := db.has_user_with_password(l_username, get_salted_and_hashed_password(l_password, l_user_id))
 
 
 			if l_user_data.has_user then
