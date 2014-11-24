@@ -1,6 +1,6 @@
 note
 	description: "Handlers for everything that concerns projects."
-	author: "Guido Giovannini"
+	author: "Group1"
 
 class
 	PROJECT

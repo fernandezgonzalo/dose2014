@@ -1,6 +1,6 @@
 note
-	description: "Handlers for everything that concerns users."
-	author: "Guido Giovannini"
+	description: "Handlers for everything that concerns sprints."
+	author: "Group1"
 
 class
 	SPRINT
