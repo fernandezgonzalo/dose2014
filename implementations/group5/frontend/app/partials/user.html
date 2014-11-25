@@ -96,7 +96,7 @@
         <form class="form-horizontal" ng-submit="uploadFile()" name="form">
           <label class="control-label" for="avatar_file">Profile picture</label>
           <p class="avatar big"></p>
-          <input type="file" id="avatar_file" file-model="myFile" required />
+          <input type="file" id="avatar_file" file-model="myFile" required accept="image/gif, image/jpeg, image/png" />
           <p class="help-block">An image should have equal width and height. Minimum dimension is 100x100. Maximum image size is 3Mb.</p>
           <button id="upload_button" data-loading-text="Loading..." class="btn btn-success">Upload image</button>
         </form>
