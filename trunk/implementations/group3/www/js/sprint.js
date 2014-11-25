@@ -3,6 +3,8 @@
 angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', '$log', '$timeout',
     function ($scope, $http, $log, $timeout) {
 // the model that we bind to the input box
+       $scope.data = {};
+
         $scope.newSprint = {
             name: '',
             startDate: '',
@@ -14,15 +16,24 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
         $scope.successMsgVisible = false;
 
         // the function to add the new users
-        $scope.addSprint = function (n,sd,cd,s) {
+        $scope.addSprint = function (newSprint) {
 
             // the payload is simple the json object that we used for binding to the input
             var payload = $scope.newSprint;
 
-            $http.post('/api/sprints', payload)
+            $http.post('/sprint', payload)
                 .success(function (data, status, header, config) {
 
-                    $log.debug('Success adding new sprint');
+                    $scope.data = data;
+
+                    if ($scope.data.status === 'ok') {
+                        $log.debug('Success adding new sprint');
+                    }
+                    else{
+                        $log.debug('Incorrect data');
+                    };
+
+
 
                     // reset the todoModel to not have a description (we keep the last selected user)
                     $scope.newSprint.name = '';

@@ -20,10 +20,10 @@
 			  </select>
 			 <br>
 
-		 Remember Me <input type="checkbox"  ng-model="user.remember" id="rememberInput" placeholder="remember me"><br><br>
+		 Remember Me <input type="checkbox"  id="rememberInput" placeholder="remember me"><br><br>
 		 <a ng-click="changeView(2)"> Forgot password? </a> <br><br>
 
-		  <button ng-click="login(user.email, user.pass, user.remember)" class="btn btn-default">
+		  <button ng-click="login(user)" class="btn btn-default">
 		  	Login
 		  </button>
 		</div>
@@ -70,7 +70,7 @@
 		<form role="form">
 		  <div class="form-group">
 			<input type="text" class="form-control" ng-model="user.email" id="emailInput" placeholder="e-mail"> <br>
-			<button ng-click="login(user.email, null, null)" class="btn btn-default">
+			<button ng-click="forgotPassword(user)" class="btn btn-default">
 		  	Submit
 		    </button><br>
 			<a ng-click="changeView(1)">Back to login</a> <br>
