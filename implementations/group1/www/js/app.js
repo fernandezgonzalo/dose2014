@@ -1,7 +1,6 @@
 'use strict';
-
 var app = angular.module('Demo', [
-'ngRoute', 'ngResource'
+'ngRoute', 'Demo.factory', 'Demo.controllers'
 ]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
@@ -28,6 +27,18 @@ app.config(['$logProvider', function($logProvider){
 		.when('/user/:userId/home', {
 			templateUrl: 'partials/home.html',
 			controller: 'ProjectCtrl'
+		})
+		.when('/user/:userId/home', {
+			templateUrl: 'partials/home.html',
+			controller: 'UsersController'
+		})		
+		.when('/user/:userId/home/:lookupUserId', {
+			templateUrl: 'partials/user-detail.html',
+			controller: 'UsersController'
+		})
+		.when('/user/:userId/project/:projectId', {
+			templateUrl: 'partials/projectDashboard.html',
+			controller: 'UsersController'
 		})
 		.when('/user/home', {
 			templateUrl: 'partials/home.html',
@@ -67,13 +78,8 @@ app.config(['$logProvider', function($logProvider){
     }
 	
 	]);
- 
-  
-  
-  
-  
-  
-  
+	
+	
   
   
   

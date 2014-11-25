@@ -49,3 +49,29 @@ this.user = null;
 
 
 
+
+/**
+
+app.factory('Users', function ($resource) {
+  return $resource('js/users/:id.json');
+  });
+
+app.controller('UsersController', function ($scope, Users, $log) {
+ Users.query(function(data){
+  	$log.info(data[0].id);
+  	$scope.users = data;
+});
+});
+
+
+app.controller('UserDetailCtrl',function($scope,$routeParams,$log){
+	
+	
+});
+
+  
+
+
+
+
+*/

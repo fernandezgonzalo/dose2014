@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo')
+angular.module('Demo.controllers',[])
 .controller('SessionCtrl', ['$scope', '$http', '$log', '$timeout','$window',
 function ($scope, $http, $log, $timeout,$window) {
 	// the model that we bind to the input box
@@ -40,8 +40,8 @@ function ($scope, $http, $log, $timeout,$window) {
          //    let the message dissapear after 2 secs
 		 $timeout(function() {
 			 $scope.successMsgVisible = false;
-			 // Insert the userID insted of 1 later
-			 $window.location.href='/#/user/1/home'; 
+			 // Insert the userID insted of 5 later
+			 $window.location.href='/#/user/5/home'; 
 			 }, 2000);
 		})
 		.error(function(data, status) {

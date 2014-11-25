@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo')
+angular.module('Demo.controllers')
   .controller('TaskCtrl', ['$scope', '$http', '$log',
 	function ($scope, $http, $log) {
 

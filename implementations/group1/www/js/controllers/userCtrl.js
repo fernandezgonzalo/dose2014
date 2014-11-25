@@ -1,18 +1,14 @@
 'use strict';
 
-angular.module('Demo')
-.controller('UserCtrl', ['$scope', '$routeParams', '$location', '$log',
-function ($scope, $routeParams, $log) {
+angular.module('Demo.controllers')
+.controller('UserCtrl', function ($scope, $routeParams, $log, UserFactory) {
 	var userId =  $routeParams.userId;
 	if (userId != null ) {
 		//Get the user from server
 		$scope.userId = userId;
-	}
-	
-	var init = function(userId) {
-		// Initialization function that gets the users from the server
-		
-		}();
+	}	
+	var users = UserFactory.query();
+	$log.info(users);
 	
 		$scope.addUser = function (username, password, email, fistName, lastName) {
 			//Add a new user to the server. 
@@ -33,5 +29,4 @@ function ($scope, $routeParams, $log) {
 			//Retrives a user from the server with a specifir userId
 		  
 		}
-	}
-	]);
+	});
