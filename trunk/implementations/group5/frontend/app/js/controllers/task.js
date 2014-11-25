@@ -79,6 +79,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       });
     } else {
       $scope.currentTask.$update();
+      $('#taskModal').modal('hide');
     }
     
   };
