@@ -38,7 +38,7 @@ app.config(['$logProvider', function($logProvider){
 		})
 		.when('/user/:userId/project/:projectId', {
 			templateUrl: 'partials/projectDashboard.html',
-			controller: 'UsersController'
+			controller: 'UserCtrl'
 		})
 		.when('/user/home', {
 			templateUrl: 'partials/home.html',

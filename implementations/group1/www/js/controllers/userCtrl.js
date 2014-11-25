@@ -7,8 +7,9 @@ angular.module('Demo.controllers')
 		//Get the user from server
 		$scope.userId = userId;
 	}	
-	var users = UserFactory.query();
-	$log.info(users);
+	$scope.users = UserFactory.query(function (data) {
+		$log.info(data);
+	});
 	
 		$scope.addUser = function (username, password, email, fistName, lastName) {
 			//Add a new user to the server. 
