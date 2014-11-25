@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C17_c.o 
 
-OLDOBJECTS =  ar559.o ar559d.o ty542.o ty542d.o ty543.o ty543d.o ty544.o ty544d.o \
-	ty545.o ty545d.o re547.o re547d.o li552.o li552d.o ar528.o ar528d.o \
-	re529.o re529d.o in546.o in546d.o in560.o in560d.o to533.o to533d.o \
-	it550.o it550d.o it549.o it549d.o li537.o li537d.o in548.o in548d.o \
-	cu553.o cu553d.o tr558.o tr558d.o se534.o se534d.o dy536.o dy536d.o \
-	bo530.o bo530d.o ta551.o ta551d.o un540.o un540d.o ch538.o ch538d.o \
-	co557.o co557d.o ac555.o ac555d.o co554.o co554d.o bi535.o bi535d.o \
-	fi531.o fi531d.o dy539.o dy539d.o ba556.o ba556d.o bo532.o bo532d.o \
-	ar541.o ar541d.o 
+OLDOBJECTS =  sp545.o sp545d.o sp547.o sp547d.o ar554.o ar554d.o ty553.o ty553d.o \
+	na531.o na531d.o na548.o na548d.o re530.o re530d.o re549.o re549d.o \
+	li557.o li557d.o ar532.o ar532d.o re542.o re542d.o in555.o in555d.o \
+	to544.o to544d.o it529.o it529d.o it552.o it552d.o it528.o it528d.o \
+	it551.o it551d.o li538.o li538d.o in550.o in550d.o cu558.o cu558d.o \
+	se534.o se534d.o dy533.o dy533d.o bo543.o bo543d.o ta556.o ta556d.o \
+	un541.o un541d.o ch539.o ch539d.o sq546.o sq546d.o ac560.o ac560d.o \
+	co559.o co559d.o bi537.o bi537d.o fi535.o fi535d.o dy540.o dy540d.o \
+	bo536.o bo536d.o 
 
 all: Cobj17.o
 

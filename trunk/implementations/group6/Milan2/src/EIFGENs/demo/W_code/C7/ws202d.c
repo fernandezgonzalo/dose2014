@@ -1,5 +1,5 @@
 /*
- * Class WSF_ROUTING_HANDLER
+ * Class WSF_URI_TEMPLATE_HANDLER
  */
 
 #include "eif_macros.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_202 [] = {417,201,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_202 [] = {418,201,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_202 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_202 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_202 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_202 [] = {0,0xFFFF};
 static struct desc_info desc_202[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_202},
+	{1, (BODY_INDEX)-1, 418, gen_type0_202},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_202[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_202},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,14 +48,10 @@ static struct desc_info desc_202[] = {
 	{28, (BODY_INDEX)-1, 201, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 201, NULL},
-	{3068, (BODY_INDEX)-1, 301, NULL},
-	{3069, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{3070, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{3071, 0, 280, NULL},
-	{3072, (BODY_INDEX)-1, 345, NULL},
-	{3073, (BODY_INDEX)-1, 312, NULL},
-	{3074, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{3075, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3085, (BODY_INDEX)-1, 301, NULL},
+	{3086, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3093, (BODY_INDEX)-1, 326, NULL},
 };
 
 extern void Init202(void);
@@ -63,8 +59,9 @@ void Init202(void)
 {
 	IDSC(desc_202, 0, 201);
 	IDSC(desc_202 + 1, 2, 201);
-	IDSC(desc_202 + 32, 285, 201);
-	IDSC(desc_202 + 34, 309, 201);
+	IDSC(desc_202 + 32, 239, 201);
+	IDSC(desc_202 + 34, 176, 201);
+	IDSC(desc_202 + 35, 279, 201);
 }
 
 

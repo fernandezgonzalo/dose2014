@@ -10,21 +10,21 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F33_620(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_621(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_622(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_623(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_624(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_625(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F33_626(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_545(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_546(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_547(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_548(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_549(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_550(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F33_551(EIF_REFERENCE);
 extern void EIF_Minit33(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#include "eif_path_name.h"
 #include "eif_dir.h"
+#include "eif_path_name.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,8 +41,8 @@ extern "C" {
 #endif
 
 /* {OPERATING_ENVIRONMENT}.directory_separator */
-RTOID (F33_620)
-EIF_TYPED_VALUE F33_620 (EIF_REFERENCE Current)
+RTOID (F33_545)
+EIF_TYPED_VALUE F33_545 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "directory_separator";
@@ -52,25 +52,25 @@ EIF_TYPED_VALUE F33_620 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRB(EIF_CHARACTER_8)
-	RTOTDB(EIF_CHARACTER_8, F33_620);
+	RTOTDB(EIF_CHARACTER_8, F33_545);
 
 	RTLI(1);
 	RTLR(0,Current);
 	RTLU (SK_CHAR8, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 704);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 680);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(32, Current, 704);
+	RTDBGEAA(32, Current, 680);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x08000000, 1,0); /* Result */
 	
-	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(626, Dtype(Current)))(Current)).it_c1);
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(551, Dtype(Current)))(Current)).it_c1);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTOTE;
@@ -85,8 +85,8 @@ EIF_TYPED_VALUE F33_620 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.current_directory_name_representation */
-RTOID (F33_621)
-EIF_TYPED_VALUE F33_621 (EIF_REFERENCE Current)
+RTOID (F33_546)
+EIF_TYPED_VALUE F33_546 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "current_directory_name_representation";
@@ -98,25 +98,25 @@ EIF_TYPED_VALUE F33_621 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRR
-	RTOTDR(F33_621);
+	RTOTDR(F33_546);
 
 	RTLI(1);
 	RTLR(0,Current);
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 705);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 681);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(32, Current, 705);
+	RTDBGEAA(32, Current, 681);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
 	
-	Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(627, Dtype(Current)))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(552, Dtype(Current)))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTOTE;
@@ -132,7 +132,7 @@ EIF_TYPED_VALUE F33_621 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.home_directory_supported */
-EIF_TYPED_VALUE F33_622 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F33_547 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "home_directory_supported";
@@ -148,11 +148,11 @@ EIF_TYPED_VALUE F33_622 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 706);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 682);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(32, Current, 706);
+	RTDBGEAA(32, Current, 682);
 	RTIV(Current, RTAL);Result = (EIF_BOOLEAN) EIF_TEST(eif_home_dir_supported());
 	
 	RTVI(Current, RTAL);
@@ -167,7 +167,7 @@ EIF_TYPED_VALUE F33_622 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.root_directory_supported */
-EIF_TYPED_VALUE F33_623 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F33_548 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "root_directory_supported";
@@ -183,11 +183,11 @@ EIF_TYPED_VALUE F33_623 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 707);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 683);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(32, Current, 707);
+	RTDBGEAA(32, Current, 683);
 	RTIV(Current, RTAL);Result = (EIF_BOOLEAN) EIF_TEST(eif_root_dir_supported());
 	
 	RTVI(Current, RTAL);
@@ -202,7 +202,7 @@ EIF_TYPED_VALUE F33_623 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.case_sensitive_path_names */
-EIF_TYPED_VALUE F33_624 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F33_549 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "case_sensitive_path_names";
@@ -218,11 +218,11 @@ EIF_TYPED_VALUE F33_624 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 708);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 684);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(32, Current, 708);
+	RTDBGEAA(32, Current, 684);
 	RTIV(Current, RTAL);Result = (EIF_BOOLEAN) EIF_TEST(eif_case_sensitive_path_names());
 	
 	RTVI(Current, RTAL);
@@ -237,7 +237,7 @@ EIF_TYPED_VALUE F33_624 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.c_dir_separator */
-EIF_TYPED_VALUE F33_625 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F33_550 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "c_dir_separator";
@@ -253,11 +253,11 @@ EIF_TYPED_VALUE F33_625 (EIF_REFERENCE Current)
 	RTLU (SK_CHAR8, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 709);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 685);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(32, Current, 709);
+	RTDBGEAA(32, Current, 685);
 	RTIV(Current, RTAL);Result = (EIF_CHARACTER_8) eif_dir_separator();
 	
 	RTVI(Current, RTAL);
@@ -272,7 +272,7 @@ EIF_TYPED_VALUE F33_625 (EIF_REFERENCE Current)
 }
 
 /* {OPERATING_ENVIRONMENT}.eif_current_dir_representation */
-EIF_TYPED_VALUE F33_626 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F33_551 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "eif_current_dir_representation";
@@ -289,11 +289,11 @@ EIF_TYPED_VALUE F33_626 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 32, Current, 0, 0, 710);
+	RTEAA(l_feature_name, 32, Current, 0, 0, 686);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(32, Current, 710);
+	RTDBGEAA(32, Current, 686);
 	RTIV(Current, RTAL);Result = (EIF_REFERENCE) eif_current_dir_representation();
 	
 	RTVI(Current, RTAL);
@@ -310,8 +310,8 @@ EIF_TYPED_VALUE F33_626 (EIF_REFERENCE Current)
 void EIF_Minit33 (void)
 {
 	GTCX
-	RTOTS (620,F33_620)
-	RTOTS (621,F33_621)
+	RTOTS (545,F33_545)
+	RTOTS (546,F33_546)
 }
 
 

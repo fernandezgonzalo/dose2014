@@ -41,11 +41,11 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 OBJECTS = big_file_C9_c.o 
 
 OLDOBJECTS =  tu294.o tu294d.o ch296.o ch296d.o mi276.o mi276d.o in289.o in289d.o \
-	ch295.o ch295d.o ha292.o ha292d.o fi273.o fi273d.o ra274.o ra274d.o \
-	ws288.o ws288d.o ws282.o ws282d.o ht290.o ht290d.o ws281.o ws281d.o \
-	mi287.o mi287d.o pl275.o pl275d.o st280.o st280d.o ws291.o ws291d.o \
-	ht283.o ht283d.o ws284.o ws284d.o io267.o io267d.o ws285.o ws285d.o \
-	ar279.o ar279d.o ar278.o ar278d.o uu293.o uu293d.o da277.o da277d.o \
+	ch295.o ch295d.o ha292.o ha292d.o fi273.o fi273d.o ws282.o ws282d.o \
+	ra274.o ra274d.o ht290.o ht290d.o ws288.o ws288d.o ws281.o ws281d.o \
+	pl275.o pl275d.o mi287.o mi287d.o st280.o st280d.o io267.o io267d.o \
+	ht283.o ht283d.o ws291.o ws291d.o ws284.o ws284d.o ws285.o ws285d.o \
+	ar279.o ar279d.o ar278.o ar278d.o da277.o da277d.o uu293.o uu293d.o \
 	ht286.o ht286d.o tc272.o tc272d.o ne271.o ne271d.o ad265.o ad265d.o \
 	ne270.o ne270d.o st269.o st269d.o ad266.o ad266d.o ex264.o ex264d.o \
 	so268.o so268d.o 

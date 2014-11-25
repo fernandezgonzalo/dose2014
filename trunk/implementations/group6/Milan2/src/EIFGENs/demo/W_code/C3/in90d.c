@@ -1,5 +1,5 @@
 /*
- * Class INET_PROPERTIES
+ * Class INET_ADDRESS_IMPL_V6
  */
 
 #include "eif_macros.h"
@@ -9,16 +9,16 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_90 [] = {417,89,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_90 [] = {418,89,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_90 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_90 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_90 [] = {0,0xFFFF};
 
 
 static struct desc_info desc_90[] = {
-	{(BODY_INDEX) 1441, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
+	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_90},
+	{1, (BODY_INDEX)-1, 418, gen_type0_90},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_90[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_90},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,9 +48,10 @@ static struct desc_info desc_90[] = {
 	{28, (BODY_INDEX)-1, 89, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 89, NULL},
-	{1438, (BODY_INDEX)-1, 301, NULL},
-	{1439, (BODY_INDEX)-1, 301, NULL},
-	{1440, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1431, (BODY_INDEX)-1, 314, NULL},
+	{1432, (BODY_INDEX)-1, 91, NULL},
+	{1433, (BODY_INDEX)-1, 91, NULL},
+	{1434, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init90(void);
@@ -58,7 +59,8 @@ void Init90(void)
 {
 	IDSC(desc_90, 0, 89);
 	IDSC(desc_90 + 1, 2, 89);
-	IDSC(desc_90 + 32, 457, 89);
+	IDSC(desc_90 + 32, 452, 89);
+	IDSC(desc_90 + 35, 453, 89);
 }
 
 

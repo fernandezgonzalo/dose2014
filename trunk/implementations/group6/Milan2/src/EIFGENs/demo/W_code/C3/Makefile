@@ -40,14 +40,14 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C3_c.o 
 
-OLDOBJECTS =  is86.o is86d.o ws84.o ws84d.o ws89.o ws89d.o ws88.o ws88d.o ex87.o \
-	ex87d.o ex85.o ex85d.o ws83.o ws83d.o ws82.o ws82d.o js71.o js71d.o \
-	de81.o de81d.o ws80.o ws80d.o ws79.o ws79d.o re78.o re78d.o ws76.o \
-	ws76d.o wg74.o wg74d.o wg72.o wg72d.o js70.o js70d.o js69.o js69d.o \
-	sq67.o sq67d.o sq68.o sq68d.o sq66.o sq66d.o wg73.o wg73d.o ws77.o \
-	ws77d.o co98.o co98d.o wg75.o wg75d.o in95.o in95d.o ur94.o ur94d.o \
-	in93.o in93d.o in92.o in92d.o in91.o in91d.o in97.o in97d.o in96.o \
-	in96d.o in90.o in90d.o 
+OLDOBJECTS =  is83.o is83d.o ws79.o ws79d.o ws86.o ws86d.o ws85.o ws85d.o ex84.o \
+	ex84d.o ex82.o ex82d.o ws81.o ws81d.o ws80.o ws80d.o ws78.o ws78d.o \
+	js68.o js68d.o ws77.o ws77d.o re76.o re76d.o ws74.o ws74d.o wg72.o \
+	wg72d.o wg70.o wg70d.o ht69.o ht69d.o js67.o js67d.o js66.o js66d.o \
+	wg73.o wg73d.o ws75.o ws75d.o ti98.o ti98d.o ti97.o ti97d.o co96.o \
+	co96d.o me95.o me95d.o wg71.o wg71d.o in92.o in92d.o ur91.o ur91d.o \
+	in94.o in94d.o in88.o in88d.o in90.o in90d.o in89.o in89d.o in93.o \
+	in93d.o in87.o in87d.o 
 
 all: Cobj3.o
 

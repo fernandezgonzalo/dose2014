@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_33 [] = {417,32,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_33 [] = {418,32,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_33 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_33 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_33 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_33 [] = {0,0xFFFF};
 static struct desc_info desc_33[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_33},
+	{1, (BODY_INDEX)-1, 418, gen_type0_33},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_33[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_33},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,13 +48,13 @@ static struct desc_info desc_33[] = {
 	{28, (BODY_INDEX)-1, 32, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 32, NULL},
-	{704, (BODY_INDEX)-1, 298, NULL},
-	{705, (BODY_INDEX)-1, 314, NULL},
-	{706, (BODY_INDEX)-1, 301, NULL},
-	{707, (BODY_INDEX)-1, 301, NULL},
-	{708, (BODY_INDEX)-1, 301, NULL},
-	{709, (BODY_INDEX)-1, 298, NULL},
-	{710, (BODY_INDEX)-1, 314, NULL},
+	{680, (BODY_INDEX)-1, 298, NULL},
+	{681, (BODY_INDEX)-1, 314, NULL},
+	{682, (BODY_INDEX)-1, 301, NULL},
+	{683, (BODY_INDEX)-1, 301, NULL},
+	{684, (BODY_INDEX)-1, 301, NULL},
+	{685, (BODY_INDEX)-1, 298, NULL},
+	{686, (BODY_INDEX)-1, 314, NULL},
 };
 
 extern void Init33(void);
@@ -62,7 +62,7 @@ void Init33(void)
 {
 	IDSC(desc_33, 0, 32);
 	IDSC(desc_33 + 1, 2, 32);
-	IDSC(desc_33 + 32, 44, 32);
+	IDSC(desc_33 + 32, 49, 32);
 }
 
 

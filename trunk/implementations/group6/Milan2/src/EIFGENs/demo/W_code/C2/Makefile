@@ -40,14 +40,14 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C2_c.o 
 
-OLDOBJECTS =  it37.o it37d.o pr36.o pr36d.o wo35.o wo35d.o de34.o de34d.o op33.o \
-	op33d.o ws59.o ws59d.o do63.o do63d.o ws61.o ws61d.o ht65.o ht65d.o \
-	ws58.o ws58d.o ws57.o ws57d.o ws64.o ws64d.o ws48.o ws48d.o ma62.o \
-	ma62d.o ob54.o ob54d.o wg60.o wg60d.o ht52.o ht52d.o wg55.o wg55d.o \
-	ws56.o ws56d.o ws47.o ws47d.o ob53.o ob53d.o ht51.o ht51d.o gr50.o \
-	gr50d.o ba49.o ba49d.o wg44.o wg44d.o ws46.o ws46d.o da41.o da41d.o \
-	wg45.o wg45d.o wg43.o wg43d.o ht42.o ht42d.o da40.o da40d.o ad39.o \
-	ad39d.o so38.o so38d.o 
+OLDOBJECTS =  it35.o it35d.o st34.o st34d.o op33.o op33d.o ws57.o ws57d.o do61.o \
+	do61d.o ws59.o ws59d.o sq65.o sq65d.o sq63.o sq63d.o sq64.o sq64d.o \
+	ws56.o ws56d.o ws55.o ws55d.o ws62.o ws62d.o ws46.o ws46d.o ma60.o \
+	ma60d.o ob52.o ob52d.o ht48.o ht48d.o wg58.o wg58d.o ws54.o ws54d.o \
+	wg53.o wg53d.o ws45.o ws45d.o ob51.o ob51d.o gr50.o gr50d.o ba49.o \
+	ba49d.o ht47.o ht47d.o wg42.o wg42d.o ws44.o ws44d.o da39.o da39d.o \
+	ht43.o ht43d.o wg41.o wg41d.o wg40.o wg40d.o da38.o da38d.o ad37.o \
+	ad37d.o so36.o so36d.o 
 
 all: Cobj2.o
 

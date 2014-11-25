@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F25_353(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F25_354(EIF_REFERENCE);
-extern void F25_355(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F25_347(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F25_348(EIF_REFERENCE);
+extern void F25_349(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit25(void);
 
 #ifdef __cplusplus
@@ -35,7 +35,7 @@ extern "C" {
 #endif
 
 /* {WSF_ROUTER_SESSION}.dispatched */
-EIF_TYPED_VALUE F25_353 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F25_347 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "dispatched";
@@ -57,24 +57,24 @@ EIF_TYPED_VALUE F25_353 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 24, Current, 0, 0, 354);
+	RTEAA(l_feature_name, 24, Current, 0, 0, 405);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(24, Current, 354);
+	RTDBGEAA(24, Current, 405);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
 	
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(354, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(348, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	Result = (EIF_BOOLEAN) (EIF_BOOLEAN)(tr1 != NULL);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT(NULL, EX_POST);
 		tb1 = '\01';
 		if (Result) {
-			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(354, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(348, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 			tb1 = (EIF_BOOLEAN)(tr1 != NULL);
 		}
 		if (tb1) {
@@ -96,17 +96,17 @@ EIF_TYPED_VALUE F25_353 (EIF_REFERENCE Current)
 }
 
 /* {WSF_ROUTER_SESSION}.dispatched_handler */
-EIF_TYPED_VALUE F25_354 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F25_348 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_REF;
-	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(354,Dtype(Current)));
+	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(348,Dtype(Current)));
 	return r;
 }
 
 
 /* {WSF_ROUTER_SESSION}.set_dispatched_handler */
-void F25_355 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F25_349 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_dispatched_handler";
@@ -129,23 +129,23 @@ void F25_355 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 24, Current, 0, 1, 356);
+	RTEAA(l_feature_name, 24, Current, 0, 1, 407);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(24, Current, 356);
-	RTCC(arg1, 24, l_feature_name, 1, RTWCT(354, dtype, Dftype(Current)));
+	RTDBGEAA(24, Current, 407);
+	RTCC(arg1, 24, l_feature_name, 1, RTWCT(348, dtype, Dftype(Current)));
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, dtype, 354, 0xF80000C8, 0); /* dispatched_handler */
+	RTDBGAA(Current, dtype, 348, 0xF80000C7, 0); /* dispatched_handler */
 	
 	RTAR(Current, arg1);
-	*(EIF_REFERENCE *)(Current + RTWA(354, dtype)) = (EIF_REFERENCE) RTCCL(arg1);
+	*(EIF_REFERENCE *)(Current + RTWA(348, dtype)) = (EIF_REFERENCE) RTCCL(arg1);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT("h_set", EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(354, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(348, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		if (RTCEQ(tr1, arg1)) {
 			RTCK;
 		} else {

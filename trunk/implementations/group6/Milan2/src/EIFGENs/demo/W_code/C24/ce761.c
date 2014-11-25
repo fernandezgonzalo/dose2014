@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F761_1364(EIF_REFERENCE);
-extern void F761_1365(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F761_1366(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F761_1402(EIF_REFERENCE);
+extern void F761_1403(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F761_1404(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit761(void);
 
 #ifdef __cplusplus
@@ -35,17 +35,17 @@ extern "C" {
 #endif
 
 /* {CELL}.item */
-EIF_TYPED_VALUE F761_1364 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F761_1402 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_UINT64;
-	r.it_n8 = *(EIF_NATURAL_64 *)(Current + RTWA(1291,Dtype(Current)));
+	r.it_n8 = *(EIF_NATURAL_64 *)(Current + RTWA(1329,Dtype(Current)));
 	return r;
 }
 
 
 /* {CELL}.put */
-void F761_1365 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F761_1403 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "put";
@@ -65,21 +65,21 @@ void F761_1365 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_UINT64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 760, Current, 0, 1, 1358);
+	RTEAA(l_feature_name, 760, Current, 0, 1, 1397);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(760, Current, 1358);
+	RTDBGEAA(760, Current, 1397);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, dtype, 1291, 0x3C000000, 0); /* item */
+	RTDBGAA(Current, dtype, 1329, 0x3C000000, 0); /* item */
 	
-	*(EIF_NATURAL_64 *)(Current + RTWA(1291, dtype)) = (EIF_NATURAL_64) arg1;
+	*(EIF_NATURAL_64 *)(Current + RTWA(1329, dtype)) = (EIF_NATURAL_64) arg1;
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT("item_inserted", EX_POST);
-		tu8_1 = *(EIF_NATURAL_64 *)(Current + RTWA(1291, dtype));
+		tu8_1 = *(EIF_NATURAL_64 *)(Current + RTWA(1329, dtype));
 		if ((EIF_BOOLEAN)(tu8_1 == arg1)) {
 			RTCK;
 		} else {
@@ -98,7 +98,7 @@ void F761_1365 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {CELL}.replace */
-void F761_1366 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F761_1404 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "replace";
@@ -118,21 +118,21 @@ void F761_1366 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_UINT64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 760, Current, 0, 1, 1359);
+	RTEAA(l_feature_name, 760, Current, 0, 1, 1398);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(760, Current, 1359);
+	RTDBGEAA(760, Current, 1398);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, dtype, 1291, 0x3C000000, 0); /* item */
+	RTDBGAA(Current, dtype, 1329, 0x3C000000, 0); /* item */
 	
-	*(EIF_NATURAL_64 *)(Current + RTWA(1291, dtype)) = (EIF_NATURAL_64) arg1;
+	*(EIF_NATURAL_64 *)(Current + RTWA(1329, dtype)) = (EIF_NATURAL_64) arg1;
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT("item_inserted", EX_POST);
-		tu8_1 = *(EIF_NATURAL_64 *)(Current + RTWA(1291, dtype));
+		tu8_1 = *(EIF_NATURAL_64 *)(Current + RTWA(1329, dtype));
 		if ((EIF_BOOLEAN)(tu8_1 == arg1)) {
 			RTCK;
 		} else {

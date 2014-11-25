@@ -40,14 +40,14 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C10_c.o 
 
-OLDOBJECTS =  po305.o po305d.o po306.o po306d.o st315.o st315d.o st312.o st312d.o \
+OLDOBJECTS =  po305.o po305d.o po306.o po306d.o st315.o st315d.o st314.o st314d.o \
 	ch299.o ch299d.o ch300.o ch300d.o ch297.o ch297d.o bo302.o bo302d.o \
 	bo303.o bo303d.o ab326.o ab326d.o po304.o po304d.o bo301.o bo301d.o \
-	ch298.o ch298d.o re307.o re307d.o re313.o re313d.o re310.o re310d.o \
-	im314.o im314d.o st309.o st309d.o de316.o de316d.o im311.o im311d.o \
-	ws323.o ws323d.o pa322.o pa322d.o ws327.o ws327d.o ht321.o ht321d.o \
+	ch298.o ch298d.o st313.o st313d.o re307.o re307d.o re311.o re311d.o \
+	re309.o re309d.o im312.o im312d.o de316.o de316d.o im310.o im310d.o \
+	pa323.o pa323d.o ws327.o ws327d.o ws322.o ws322d.o ht321.o ht321d.o \
 	im308.o im308d.o ht325.o ht325d.o ws320.o ws320d.o ws328.o ws328d.o \
-	ht324.o ht324d.o da319.o da319d.o ws329.o ws329d.o ur318.o ur318d.o \
+	da319.o da319d.o ht324.o ht324d.o ws329.o ws329d.o ur318.o ur318d.o \
 	fi317.o fi317d.o 
 
 all: Cobj10.o

@@ -72,6 +72,9 @@ feature {NONE} -- Initialization
 			-- Initialize current service.
 		local
 			l_result: JSON_ARRAY
+			l_result_ob: JSON_OBJECT
+			app: INTEGER
+			risp:BOOLEAN
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
@@ -82,12 +85,12 @@ feature {NONE} -- Initialization
 			--dao.add_member_to_project ("jimmy@yahoo.com", "Chewbacca", TRUE)
 			--dao.remove_member_from_project ("jimmy@yahoo.com", "Chewbacca")
 			--l_result := dao.get_all_project_owners ("bidon")
-			l_result := dao.get_all_user_projects ("jimmy@yahoo.com")
-			print(l_result.debug_output)
-			if dao.is_project_empty ("bidon") then
-				print("true")
-			end
-			--print(dao.check_project_name ("R2D2").out)
+			--l_result := dao.get_all_user_projects ("jimmy@yahoo.com")
+			--print(l_result.debug_output)
+			--if dao.is_project_empty ("bidon") then
+			--	print("true")
+			--end
+			--print(dao.check_project_name ("R2D2").out
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
@@ -97,6 +100,8 @@ feature {NONE} -- Initialization
 			--create user_ctrl.make
 			create user_ctrl.make (dao)
 			create iteration_ctrl.make
+			create work_item_ctrl.make(dao)
+
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
@@ -152,7 +157,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links", agent work_item_ctrl.add_link, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id1,work_item_id2}", agent work_item_ctrl.remove_link, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id}", agent work_item_ctrl.get_all_work_item_links, router.methods_get)
-
+			map_uri_template_agent_with_request_methods ("/api/work_items/{iteration_number", agent work_item_ctrl.get_all_iteration_work_items, router.methods_get)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)

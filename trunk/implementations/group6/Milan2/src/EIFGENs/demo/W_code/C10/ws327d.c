@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_327 [] = {417,326,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_327 [] = {418,326,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_327 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_327 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_327 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_327 [] = {0,0xFFFF};
 static struct desc_info desc_327[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_327},
+	{1, (BODY_INDEX)-1, 418, gen_type0_327},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_327[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_327},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -49,13 +49,13 @@ static struct desc_info desc_327[] = {
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 326, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 312, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 200, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 309, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 310, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 199, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 308, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{11009, (BODY_INDEX)-1, 312, NULL},
-	{11008, (BODY_INDEX)-1, 306, NULL},
+	{11023, (BODY_INDEX)-1, 310, NULL},
+	{11022, (BODY_INDEX)-1, 306, NULL},
 };
 
 extern void Init327(void);
@@ -63,8 +63,8 @@ void Init327(void)
 {
 	IDSC(desc_327, 0, 326);
 	IDSC(desc_327 + 1, 2, 326);
-	IDSC(desc_327 + 32, 148, 326);
-	IDSC(desc_327 + 39, 84, 326);
+	IDSC(desc_327 + 32, 130, 326);
+	IDSC(desc_327 + 39, 86, 326);
 }
 
 

@@ -55,15 +55,15 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 OBJECTS = big_file_C16_c.o 
 
-OLDOBJECTS =  sp511.o sp511d.o ar518.o ar518d.o fu509.o fu509d.o ty506.o ty506d.o \
-	ty507.o ty507d.o ty517.o ty517d.o na512.o na512d.o re513.o re513d.o \
-	li521.o li521d.o in519.o in519d.o to495.o to495d.o it516.o it516d.o \
-	it515.o it515d.o li499.o li499d.o in514.o in514d.o cu522.o cu522d.o \
-	tr527.o tr527d.o se496.o se496d.o dy498.o dy498d.o ta520.o ta520d.o \
-	ha502.o ha502d.o ta504.o ta504d.o ta503.o ta503d.o sq508.o sq508d.o \
-	sq510.o sq510d.o ch500.o ch500d.o co526.o co526d.o ac524.o ac524d.o \
-	co523.o co523d.o bi497.o bi497d.o dy501.o dy501d.o ba525.o ba525d.o \
-	in505.o in505d.o 
+OLDOBJECTS =  ar517.o ar517d.o fu513.o fu513d.o ty505.o ty505d.o ty506.o ty506d.o \
+	ty507.o ty507d.o ty515.o ty515d.o ty516.o ty516d.o li520.o li520d.o \
+	re498.o re498d.o in518.o in518d.o to500.o to500d.o ha508.o ha508d.o \
+	ta502.o ta502d.o ta510.o ta510d.o ta503.o ta503d.o ta511.o ta511d.o \
+	in527.o in527d.o cu521.o cu521d.o tr526.o tr526d.o bo499.o bo499d.o \
+	ta519.o ta519d.o st514.o st514d.o ha501.o ha501d.o ha509.o ha509d.o \
+	un497.o un497d.o ch495.o ch495d.o co525.o co525d.o ac523.o ac523d.o \
+	co522.o co522d.o dy496.o dy496d.o ba524.o ba524d.o rt504.o rt504d.o \
+	in512.o in512d.o 
 
 all: Cobj16.o
 

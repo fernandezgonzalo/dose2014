@@ -1,5 +1,5 @@
 /*
- * Class TIME_UTILITY
+ * Class TIME_MEASUREMENT
  */
 
 #include "eif_macros.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_99 [] = {417,98,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_99 [] = {418,98,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_99 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_99 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_99 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_99 [] = {0,0xFFFF};
 static struct desc_info desc_99[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_99},
+	{1, (BODY_INDEX)-1, 418, gen_type0_99},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_99[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_99},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,10 +48,25 @@ static struct desc_info desc_99[] = {
 	{28, (BODY_INDEX)-1, 98, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 98, NULL},
-	{1543, (BODY_INDEX)-1, 345, NULL},
-	{1544, (BODY_INDEX)-1, 345, NULL},
-	{1545, (BODY_INDEX)-1, 40, NULL},
-	{1546, (BODY_INDEX)-1, 314, NULL},
+	{1536, (BODY_INDEX)-1, 351, NULL},
+	{1537, (BODY_INDEX)-1, 351, NULL},
+	{1538, (BODY_INDEX)-1, 38, NULL},
+	{1539, (BODY_INDEX)-1, 314, NULL},
+	{1540, (BODY_INDEX)-1, 351, NULL},
+	{1541, (BODY_INDEX)-1, 351, NULL},
+	{1542, (BODY_INDEX)-1, 351, NULL},
+	{1543, (BODY_INDEX)-1, 351, NULL},
+	{1544, (BODY_INDEX)-1, 351, NULL},
+	{1545, (BODY_INDEX)-1, 314, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 351, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 351, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 351, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 348, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init99(void);
@@ -59,7 +74,9 @@ void Init99(void)
 {
 	IDSC(desc_99, 0, 98);
 	IDSC(desc_99 + 1, 2, 98);
-	IDSC(desc_99 + 32, 415, 98);
+	IDSC(desc_99 + 32, 405, 98);
+	IDSC(desc_99 + 36, 403, 98);
+	IDSC(desc_99 + 42, 348, 98);
 }
 
 
