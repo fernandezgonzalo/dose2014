@@ -77,7 +77,7 @@ feature -- Data access
 			end
 		end
 
-	has_user (a_email: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
+	has_user (a_email: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; is_active: STRING; email: STRING; hashed_pass: STRING]
 			-- checks if a user with given email exists
 			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
 			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
@@ -97,6 +97,7 @@ feature -- Data access
 			else
 				Result.has_user := True
 				Result.user_id := json_result.item ("id").debug_output.out
+				Result.is_active := json_result.item ("is_active").debug_output.out
 				Result.email := json_result.item ("email").debug_output.out
 				Result.hashed_pass := json_result.item ("password").debug_output.out
 			end
