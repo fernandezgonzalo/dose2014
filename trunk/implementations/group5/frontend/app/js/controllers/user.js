@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', 'ngToast',
-      function ($scope, $log, $location, $routeParams, $resource, Utility, User, ngToast) {
+angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', 'ngToast', 'FileUpload',
+      function ($scope, $log, $location, $routeParams, $resource, Utility, User, ngToast, FileUpload) {
   var TAG = 'UserController::';
 
   $scope.userSaved = false;
@@ -63,6 +63,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
         });
       });
     }
+
   }
 
   var emptyUser = {
@@ -106,4 +107,25 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       });
     }
   }
+
+  $scope.uploadFile = function() {
+    $('#upload_button').button('loading');
+    var file = $scope.myFile;
+    $log.debug(TAG, 'myfile: ', file);
+    var url = '/api/users/' + $scope.user.id + '/avatar';
+    FileUpload.uploadFileToUrl(file, url, function() {
+      $('#upload_button').button('reset');
+      ngToast.create({
+        content: 'Avatar was uploaded!',
+        class: 'danger'
+      });
+    }, function() {
+      $('#upload_button').button('reset');
+      ngToast.create({
+        content: 'Upload image error!',
+        class: 'danger'
+      });
+    });
+  };
+
 }]);
