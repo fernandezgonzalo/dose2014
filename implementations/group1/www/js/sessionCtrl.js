@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('Demo')
-.controller('SessionCtrl', ['$scope', '$http', '$log', '$timeout',
-function ($scope, $http, $log, $timeout) {
+.controller('SessionCtrl', ['$scope', '$http', '$log', '$timeout','$window',
+function ($scope, $http, $log, $timeout,$window) {
 	// the model that we bind to the input box
 	$scope.formData = {
         email: '',
@@ -19,9 +19,10 @@ function ($scope, $http, $log, $timeout) {
 
 	// the function to login
 	$scope.login = function(email, pass) {
+		
 		// the payload is simple the json object that we used for binding to the input
-		$log.info(email)
-		$log.info(pass)
+		//$log.info(email)
+		//$log.info(pass)
         var payload = {
 			email: email,
 			password: pass
@@ -30,18 +31,18 @@ function ($scope, $http, $log, $timeout) {
         $http.post('/api/login', payload)
 		.success(function(data, status, header, config) {	  
             $log.info('Success logging in the user');
-		//	$log.info(status);
-		//	$log.info(header);
-		//	$log.info(config);
-		//	$scope.response.status = status;
-		//	$scope.response.header = header;
-		//	$scope.response.config = config;
-						
-          //   show a success message
+		// When we get a response object back it will be set here		
+	//	if (angualar.equals(data.status, 'ok') {
+	//		$scope.session_id = data.sessionID
+	//	}
+		//   show a success message
             $scope.successMsgVisible = true;
          //    let the message dissapear after 2 secs
-            $timeout(function() {$scope.successMsgVisible = false;}, 2000);
-			
+		 $timeout(function() {
+			 $scope.successMsgVisible = false;
+			 // Insert the userID insted of 1 later
+			 $window.location.href='/#/user/1/home'; 
+			 }, 2000);
 		})
 		.error(function(data, status) {
             $log.info('Error while trying to login user.');
@@ -58,7 +59,7 @@ function ($scope, $http, $log, $timeout) {
 	// the function to logout
 	$scope.logout = function() {
 
-        $http.delete('/api/sessions')
+        $http.get('/api/logout')
 		.success(function(data, status, header, config) {
 
             $log.debug('Success logging out the user');
