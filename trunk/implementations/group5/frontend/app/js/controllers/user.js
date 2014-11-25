@@ -108,23 +108,75 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     }
   }
 
-  $scope.uploadFile = function() {
-    $('#upload_button').button('loading');
-    var file = $scope.myFile;
-    $log.debug(TAG, 'myfile: ', file);
-    var url = '/api/users/' + $scope.user.id + '/avatar';
-    FileUpload.uploadFileToUrl(file, url, function() {
-      $('#upload_button').button('reset');
+  var imageValidation = function(file, callback) {
+    if (!file) {
       ngToast.create({
-        content: 'Avatar was uploaded!',
-        class: 'success'
-      });
-    }, function() {
-      $('#upload_button').button('reset');
-      ngToast.create({
-        content: 'Upload image error!',
+        content: 'File is absent!',
         class: 'danger'
       });
+      callback(false);
+      return;
+    }
+    $log.debug(TAG, 'onImageSelected', file);
+    var reader = new FileReader();
+    var image  = new Image();
+    reader.readAsDataURL(file);  
+    reader.onload = function(_file) {
+      image.src = _file.target.result;              // url.createObjectURL(file);
+      image.onload = function() {
+        if (this.width < 100 || this.height < 100) {
+          ngToast.create({
+            content: 'Minimal dimension of the image is 100x100 pixels!',
+            class: 'danger'
+          });
+          callback(false);     
+          return;
+        } else if (this.size / 1024 / 1024 > 3) {
+          ngToast.create({
+            content: 'Image is too big! Max size is 3mb!',
+            class: 'danger'
+          });
+          callback(false);
+          return;
+        } else if (this.width !== this.height) {
+          ngToast.create({
+            content: 'Image is not squared! It will be truncated!',
+            class: 'warning'
+          });
+        }
+        callback(true);
+      };
+      image.onerror= function() {
+          ngToast.create({
+            content: 'Invalild image!',
+            class: 'danger'
+          });
+          callback(false);
+      };      
+    };
+  };
+
+  $scope.uploadFile = function() {
+    var file = $scope.myFile;
+    imageValidation(file, function(isValid) {
+      $scope.$apply();
+      if (isValid) {
+        $('#upload_button').button('loading');
+        var url = '/api/users/' + $scope.user.id + '/avatar';
+        FileUpload.uploadFileToUrl(file, url, function() {
+          $('#upload_button').button('reset');
+          ngToast.create({
+            content: 'Avatar was uploaded!',
+            class: 'success'
+          });
+        }, function() {
+          $('#upload_button').button('reset');
+          ngToast.create({
+            content: 'Upload image error!',
+            class: 'danger'
+          });
+        });
+      }
     });
   };
 
