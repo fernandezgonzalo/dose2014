@@ -1,11 +1,19 @@
 'use strict';
 
-angular.module('LetsGoTeam').controller('registerController', ['$scope', '$http', '$log', '$timeout',
+
+
+angular.module('LetsGoTeam')
+
+
+.controller('registerController', ['$scope', '$http', '$log', '$timeout',
     function ($scope, $http, $log, $timeout) {
 // the model that we bind to the input box
-    $scope.newUser = {
-        firstName: '',
-        lastName: '',
+
+    $scope.status = {}
+    $scope.user = {
+        //firstName: '',
+
+        name: '',
         email: '',
         password: ''
 
@@ -14,21 +22,27 @@ angular.module('LetsGoTeam').controller('registerController', ['$scope', '$http'
     $scope.successMsgVisible = false;
 
     // the function to add the new users
-    $scope.addUser = function (user) {
+    $scope.addUser = function (newUser) {
 
         // the payload is simple the json object that we used for binding to the input
-        var payload = $scope.newUser;
+        var payload = $scope.user;
 
-        $http.post('/api/users', payload)
+        $http.post('/users', payload)
             .success(function (data, status, header, config) {
-
-                $log.debug('Success adding new user');
+                $scope.status = data;
+                if ($scope.status === 'ok') {
+                    $log.debug('Success adding new user');   
+                }
+                else{
+                    $log.debug('Error while trying to add a new user');    
+                };
+                
 
                 // reset the todoModel to not have a description (we keep the last selected user)
-                $scope.newUser.firstName = '';
-                $scope.newUser.lastName = '';
-                $scope.newUser.email = '';
-                $scope.newUser.password = '';
+               // $scope.user.firstName = '';
+                $scope.user.name = '';
+                $scope.user.email = '';
+                $scope.user.password = '';
 
                 // show a success message
                 $scope.successMsgVisible = true;
@@ -42,5 +56,27 @@ angular.module('LetsGoTeam').controller('registerController', ['$scope', '$http'
             });
         }
     }
-]);
+])
+
+.directive('nxEqual', function() {
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attrs, model) {
+            if (!attrs.nxEqual) {
+                console.error('nxEqual expects a model as an argument!');
+                return;
+            }
+            scope.$watch(attrs.nxEqual, function (value) {
+                model.$setValidity('nxEqual', value === model.$viewValue);
+            });
+            model.$parsers.push(function (value) {
+                var isValid = value === scope.$eval(attrs.nxEqual);
+                model.$setValidity('nxEqual', isValid);
+                return isValid ? value : undefined;
+            });
+        }
+    };
+});
+
+function Ctrl($scope) {}
 
