@@ -12,11 +12,12 @@
 		<div class="modal-body row">
 			<div class="col-md-6">
 				<p>Status: <a href="#" editable-select="currentTask.status" e-ng-options="s.value as s.text for s in statuses"> {{ showStatus() }}</a></p>
-				<p>
+				<p>User: <a href="#" editable-select="currentTask.id_user_assigned" e-ng-options="u.value as u.text for u in userSelect"> {{ showUsers() }}</a></p>
+				<!--<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.id_user_assigned"></span>
 					<span ng-show = "currentTask.id_user_assigned">User:</span>
 					<span editable-text="currentTask.id_user_assigned"> {{ currentTask.id_user_assigned || "Add a user.." }}</span> 
-				</p>
+				</p>-->
 				<p>Priority: <a href="#" editable-select="currentTask.priority" e-ng-options="p.value as p.text for p in priorities"> {{ showPriority() }}</a></p>
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.description"></span>

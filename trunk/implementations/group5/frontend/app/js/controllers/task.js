@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'Utility',
-	function ($scope, $log, $location, $routeParams, $filter, Task, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'User', 'Utility',
+	function ($scope, $log, $location, $routeParams, $filter, Task, User, Utility) {
 
 	var TAG = 'TaskController::';
 	$log.debug(TAG, 'init', $routeParams, $scope.userTasks);
@@ -20,8 +20,16 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     	{value: 'low', text: 'Low'},
     	{value: 'high', text: 'High'},
     	{value: 'critical', text: 'Critical'}
-	];	
+	];
+	$scope.userSelect = [];
 
+	User.query(function(allUsers){
+		for (var i = 0; i < allUsers.length; i++) {
+			$scope.userSelect.push({value: allUsers[i].id, text: allUsers[i].username});
+		}
+		$log.debug('ecco la user selection', $scope.userSelect);
+	});
+	
 	$scope.currentUser.$getTasks(function(data){
 		$scope.userTasks = data;
 		$log.debug(TAG, data);
@@ -51,6 +59,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 	};
 
 	$scope.updateTask = function(){
+		Utility.toUnderscore($scope.currentTask);
 		$log.debug($scope.currentTask);
 		if ($scope.isNew){
 			$scope.currentTask.$save(function(){
@@ -82,6 +91,13 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 	$scope.showPriority = function() {
     	var selected = $filter('filter')($scope.priorities, {value: $scope.currentTask.priority});
     	return ($scope.currentTask.priority && selected.length) ? selected[0].text : 'Not set';
+  	};
+
+	$scope.showUsers = function() {
+		//var thisTask = new Task($scope.currentTask);
+		//Utility.toCamel(thisTask);
+    	var selected = $filter('filter')($scope.userSelect, {value: $scope.currentTask.id_user_assigned});
+    	return ($scope.currentTask.id_user_assigned && selected.length) ? selected[0].text : 'Not set';
   	};
 
   	$scope.setPriorityClass = function(task) {
