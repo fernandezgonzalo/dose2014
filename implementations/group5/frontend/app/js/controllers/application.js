@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
+
+  $scope.onloadListeners = [];
+
   var TAG = 'ApplicationController::';
   $log.debug(TAG, 'init main controller');
 
@@ -45,6 +48,10 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
       var callback = function(user) {
         if (user) {
           $scope.setCurrentUser(user);
+          $log.debug(TAG, 'onloadListeners: ', $scope.onloadListeners);
+          for (var i in $scope.onloadListeners) {
+            $scope.onloadListeners[i]();
+          }
         } else {
           $location.path('/login');
         }
