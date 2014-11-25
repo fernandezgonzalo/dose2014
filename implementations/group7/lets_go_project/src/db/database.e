@@ -74,15 +74,15 @@ feature -- Data access
 
 	delete_with_primary_key (id: STRING; table_name: STRING): BOOLEAN
 		do
-			create db_modify_statement.make ("DELETE FROM " + table_name + " WHERE id=" + id.out + ";", db)
-			db_modify_statement.execute
+			create db_modify_statement.make ("DELETE FROM " + table_name + " WHERE id=?;", db)
+			db_modify_statement.execute_with_arguments (<<id>>)
 			Result := not db_modify_statement.has_error
 		end
 
-	delete (a_statement: STRING): BOOLEAN
+	delete (a_statement: STRING; a_arguments: ITERABLE [ANY]): BOOLEAN
 		do
 			create db_modify_statement.make(a_statement + ";", db)
-			db_modify_statement.execute
+			db_modify_statement.execute_with_arguments (a_arguments)
 			Result := not db_modify_statement.has_error
 		end
 

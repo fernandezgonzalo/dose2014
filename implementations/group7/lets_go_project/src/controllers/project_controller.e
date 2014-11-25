@@ -62,6 +62,6 @@ feature {None} -- Internal helpers
 		local
 			dummy: ANY
 		do
-			dummy := db.delete("DELETE FROM project_shares WHERE user_id = " + dev_id + " AND project_id = " + project_id)
+			dummy := db.delete("DELETE FROM project_shares WHERE user_id = ? AND project_id = ?", <<dev_id, project_id>>)
 		end
 end

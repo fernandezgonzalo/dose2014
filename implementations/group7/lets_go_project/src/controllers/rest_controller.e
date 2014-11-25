@@ -280,6 +280,7 @@ feature {NONE} -- Internal helpers
 				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation, json_object.item(keys.at(9)).representation, json_object.item(keys.at(10)).representation>>
 			end
 
+			-- Remove quotes from the values
 			across Result as value loop
 				if attached {STRING} value.item as str_value then
                		str_value.replace_substring_all ("%"", "")
