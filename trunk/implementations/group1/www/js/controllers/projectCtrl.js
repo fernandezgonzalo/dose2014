@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo')
+angular.module('Demo.controllers')
 .controller('ProjectCtrl', ['$scope', '$routeParams','$http', '$log', function ($scope, $routeParams, $http, $log) {
 	var userId =  $routeParams.userId;
 	var projectId =  $routeParams.projectId;
@@ -12,14 +12,39 @@ angular.module('Demo')
 		//Get the project from server
 		$scope.projectId = projectId;
 	}
-	$scope.projects = [];
-
+	$scope.userProjectIDs = [];
+	$scope.userProjects = [];
 	var init = function() {
+		
 		// Initialization function that gets the projects from the server
+		
+		
+		
 		}();
 	  
 		$scope.getUserProjects = function(userId) {
 			// Gets from the server all the projects for a user
+			$http.get('/api/users/'+userId+'/projects')
+			.success(function(data, status, header, config) {
+				$log.debug('Success getting user projects');
+				$scope.userProjectIDs = data;
+			
+			})
+			.error(function(data, status) {
+				$log.debug('Error while getting user projects.');
+			});
+			$http.get('/api/users/'+userId+'/projects')
+			.success(function(data, status, header, config) {
+				$log.debug('Success getting user projects');
+				$scope.userProjectIDs = data;
+			
+			})
+			.error(function(data, status) {
+				$log.debug('Error while getting user projects.');
+			});
+			
+			
+			
 		}
 	  
 		$scope.createProject = function(name, description) {

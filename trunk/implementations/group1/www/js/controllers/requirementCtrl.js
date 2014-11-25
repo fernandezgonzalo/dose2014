@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo')
+angular.module('Demo.controllers')
   .controller('RequirementCtrl', ['$scope', '$routeParams','$http', '$log',
 	function ($scope, $routeParams, $http, $log) {
 
