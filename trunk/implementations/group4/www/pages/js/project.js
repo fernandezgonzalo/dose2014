@@ -3,6 +3,7 @@ define(
     [
         //System includes
         "angular",
+        "anguComplete"
 
         //Custom includes
     ],
@@ -13,6 +14,7 @@ define(
         (
             "ProjectModule",
             [
+                "angucomplete"
             ]
         )
 
@@ -66,6 +68,8 @@ define(
                 "$scope",
                 function($scope)
                 {
+                    $scope.selectedUsers = "";
+
                     $scope.users =
                     [
                         {

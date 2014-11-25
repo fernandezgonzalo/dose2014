@@ -13,6 +13,7 @@ require.config
             angularCookies: "libs/js/angular-cookies",
             angularResource: "libs/js/angular-resource",
             angularUtils: 'libs/js/ui-utils',
+            anguComplete: 'libs/js/angucomplete',
             domReady: 'libs/js/domReady',
             jQuery: 'libs/js/jquery-2.1.1',
             bootstrap: 'libs/js/bootstrap',
@@ -31,6 +32,7 @@ require.config
             angularCookies: { deps: ["angular"] },
             angularResource: { deps: ["angular"] },
             angularUtils: { deps: ["angular"] },
+            anguComplete: { deps: ["angular"] },
             bootstrap:  { deps: ["jQuery"] },
             bootstrapUi: { deps: ["bootstrap", "angular"] }
         }
