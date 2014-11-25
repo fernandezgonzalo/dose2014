@@ -11,7 +11,8 @@ inherit
 redefine
 	modify_json,
 	post_insert_action,
-	post_update_action
+	post_update_action,
+	is_input_valid
 end
 
 create
@@ -19,6 +20,24 @@ create
 
 
 feature {None} -- Internal helpers
+
+	is_input_valid(input: JSON_OBJECT): BOOLEAN
+		local
+			email_key: JSON_STRING
+		do
+			create email_key.make_json("email")
+			Result := not input.has_key(email_key) or input.has_key(email_key) and then match_email(input.item(email_key).representation)
+		end
+
+
+	match_email(text: STRING): BOOLEAN
+    	local
+      		dfa: LX_DFA_REGULAR_EXPRESSION
+      	do
+	        create dfa.make
+	        dfa.compile("[A-Z0-9._%%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}", True)
+	        Result := dfa.matches(text)
+      	end
 
 
 	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)

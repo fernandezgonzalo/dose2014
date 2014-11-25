@@ -23,11 +23,11 @@ feature {NONE}
 
 feature -- Data access
 
-	query_single_row (a_statement: STRING): JSON_OBJECT
+	query_single_row (a_statement: STRING; arguments: ITERABLE [ANY]): JSON_OBJECT
 		do
 			create Result.make
 			create db_query_statement.make (a_statement + ";", db)
-			db_query_statement.execute (agent row_to_json_object(?, Result))
+			db_query_statement.execute_with_arguments(agent row_to_json_object(?, Result), arguments)
 		end
 
 	query_rows (a_statement: STRING): JSON_ARRAY

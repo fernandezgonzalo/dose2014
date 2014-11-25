@@ -79,7 +79,8 @@ feature -- Handlers
 			id: STRING
 		do
 			id := req.path_parameter (uri_id_name).string_representation
-			resource := db.query_single_row("SELECT * FROM " + table_name + " WHERE id = " + id)
+
+			resource := db.query_single_row("SELECT * FROM " + table_name + " WHERE id = ?", <<id>>)
 			if resource.is_empty then
 				reply_with_404(res)
 			else
@@ -125,6 +126,12 @@ feature -- Error checking handlers (authentication, authorization, input validat
 	create_new_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req))))
+		end
+
+
+	create_new_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_input_validated(req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req))
 		end
 
 
@@ -195,7 +202,7 @@ feature {NONE} -- Internal helpers
 	get_get_all_query_statement(req: WSF_REQUEST): STRING
 		do
 			if parent_uri_id_name /= Void then
-				Result := "SELECT * FROM " + table_name + " WHERE " + parent_uri_id_name + " = " + req.path_parameter (parent_uri_id_name).string_representation
+				Result := "SELECT * FROM " + table_name + " WHERE " + parent_uri_id_name + " = " + req.path_parameter(parent_uri_id_name).string_representation
 			else
 				Result := "SELECT * FROM " + table_name
 			end
@@ -301,7 +308,7 @@ feature {NONE} -- Internal helpers
 				item_id := req.path_parameter(item_singular_name + "_id").string_representation
 				if item_id /= Void then
 					requested_parent_id := req.path_parameter(parent_item_singular_name + "_id").string_representation
-					query_result := db.query_single_row ("SELECT " + parent_item_singular_name + "_id FROM " + item_plural_name + " WHERE id = " + item_id)
+					query_result := db.query_single_row ("SELECT " + parent_item_singular_name + "_id FROM " + item_plural_name + " WHERE id = ?", <<item_id>>)
 					if query_result.is_empty then
 						reply_with_404 (res)
 					else
@@ -324,7 +331,7 @@ feature {NONE} -- Internal helpers
 				user_id := get_user_id_from_req(req)
 				project_id := req.path_parameter("project_id").string_representation
 				if project_id /= Void and user_id /= Void then
-					project_share := db.query_single_row ("SELECT user_id FROM project_shares WHERE user_id = " + user_id + " AND project_id = " + project_id).item (create {JSON_STRING}.make_json ("user_id"))
+					project_share := db.query_single_row ("SELECT user_id FROM project_shares WHERE user_id = ? AND project_id = ?", <<user_id, project_id>>).item (create {JSON_STRING}.make_json ("user_id"))
 					if project_share = Void then
 						reply_with_401 (res)
 					end
@@ -337,8 +344,8 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 
 	ensure_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
 		do
-			if res.status_code = {HTTP_STATUS_CODE}.ok then
-				if req_has_cookie (req) then
+			if no_error_occured_so_far(res) then
+				if req_has_cookie(req) then
 					implementation.call ([])
 				else
 					reply_with_401 (res)
@@ -348,25 +355,35 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 
 	ensure_input_validated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE]; input: JSON_OBJECT)
 		do
-			if res.status_code = {HTTP_STATUS_CODE}.ok then
-				if input /= Void then
+			if no_error_occured_so_far(res) then
+				if input /= Void and then is_input_valid(input) then
 					implementation.call ([input])
 				else
-					reply_with_400 (res)
+					reply_with_400(res)
 				end
 			end
 		end
 
 	ensure_authorized (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE])
 		do
-			if res.status_code = {HTTP_STATUS_CODE}.ok then
+			if no_error_occured_so_far(res) then
 				ensure_belongs_to_parent(req, res, "task", "tasks", "story")
 				ensure_belongs_to_parent(req, res, "story", "stories", "sprint")
 				ensure_belongs_to_parent(req, res, "sprint", "sprints", "project")
 				ensure_user_can_access_project(req, res)
-				if res.status_code = {HTTP_STATUS_CODE}.ok then
+				if no_error_occured_so_far(res) then
 					implementation.call ([])
 				end
 			end
+		end
+
+	no_error_occured_so_far(res: WSF_RESPONSE): BOOLEAN
+		do
+			Result := res.status_code = {HTTP_STATUS_CODE}.ok
+		end
+
+	is_input_valid(input: JSON_OBJECT): BOOLEAN
+		do
+			Result := True
 		end
 end
