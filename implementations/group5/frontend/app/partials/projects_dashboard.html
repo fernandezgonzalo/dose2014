@@ -1,104 +1,106 @@
-<div id="legend">
-  <legend>{{project.name}}</legend>
-</div>
+<div data-ng-controller="TaskController"><!-- injecting task controller -->
 
-<!-- <br> -->
+  <div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
 
-<h4>{{project.client_name}}</h4>
-<div class="row">
-  <!-- <a href="partials/projects_edit.html" class="col-md-10" data-toggle="modal" -->
-  <!--   data-target="#editProjectModal">Edit project info</a> -->
-  <!-- <a href="#/projects/1/edit" class="col-md-10" data-toggle="modal" -->
-  <!--   data-target="#editProjectModal">Edit project info</a> -->
-  <!-- <a ng-click="editProject(project)" class="col-md-10" data-toggle="modal" -->
-  <!--   data-target="#editProjectModal">Edit project info</a> -->
-  <button class="btn btn-default" ng-click="openModal('edit')">Edit
-    project info</button>
-  <a href="#" class="col-md-2" data-toggle="modal"
-    data-target="#">New task   <span class="glyphicon
-      glyphicon-plus"></a>
-</div>
+  <div id="legend">
+    <legend>{{project.name}}</legend>
+  </div>
 
-<div class="col-md-12">
-  <table class="table">
-    <thead>
+  <!-- <br> -->
+
+  <h4>{{project.client_name}}</h4>
+  <div class="row">
+    <!-- <a href="partials/projects_edit.html" class="col-md-10" data-toggle="modal" -->
+    <!--   data-target="#editProjectModal">Edit project info</a> -->
+    <!-- <a href="#/projects/1/edit" class="col-md-10" data-toggle="modal" -->
+    <!--   data-target="#editProjectModal">Edit project info</a> -->
+    <!-- <a ng-click="editProject(project)" class="col-md-10" data-toggle="modal" -->
+    <!--   data-target="#editProjectModal">Edit project info</a> -->
+    <button class="btn btn-default" ng-click="openModal('edit')">Edit
+      project info</button>
+        <a href="" ng-click = "createTask('1')" data-toggle="modal" data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
+  </div>
+
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+          <th class="col-md-3"></th>
+        </tr>
+      </thead>
+      <!-- Initial idea: have the lanes as tables of tables -->
+      <tbody>
       <tr>
-        <th class="col-md-3"></th>
-        <th class="col-md-3"></th>
-        <th class="col-md-3"></th>
-        <th class="col-md-3"></th>
-      </tr>
-    </thead>
-    <!-- Initial idea: have the lanes as tables of tables -->
-    <tbody>
-    <tr>
+        <td>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-md-3">Backlog</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Task 1</td></tr>
+            <tr><td>Task 2</td></tr>
+            <tr><td>Task 3</td></tr>
+          </tbody>
+        </table>
+      </td>
       <td>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-md-3">Backlog</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Task 1</td></tr>
-          <tr><td>Task 2</td></tr>
-          <tr><td>Task 3</td></tr>
-        </tbody>
-      </table>
-    </td>
-    <td>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-md-3">To Do</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Task 1</td></tr>
-          <tr><td>Task 2</td></tr>
-          <tr><td>Task 3</td></tr>
-        </tbody>
-      </table>
-    </td>
-    <td>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-md-3">Doing</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Task 1</td></tr>
-          <tr><td>Task 2</td></tr>
-          <tr><td>Task 3</td></tr>
-        </tbody>
-      </table>
-    </td>
-    <td>
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="col-md-3">Done</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Task 1</td></tr>
-          <tr><td>Task 2</td></tr>
-          <tr><td>Task 3</td></tr>
-        </tbody>
-      </table>
-    </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
-      
-<!-- Edit project modal popup -->
-<div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog"
-  aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
-
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-md-3">To Do</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Task 1</td></tr>
+            <tr><td>Task 2</td></tr>
+            <tr><td>Task 3</td></tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-md-3">Doing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Task 1</td></tr>
+            <tr><td>Task 2</td></tr>
+            <tr><td>Task 3</td></tr>
+          </tbody>
+        </table>
+      </td>
+      <td>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-md-3">Done</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Task 1</td></tr>
+            <tr><td>Task 2</td></tr>
+            <tr><td>Task 3</td></tr>
+          </tbody>
+        </table>
+      </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+        
+  <!-- Edit project modal popup -->
+  <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+          </div> <!-- /.modal-content -->
+      </div> <!-- /.modal-dialog -->
+  </div> <!-- /.modal -->
+</div>  
