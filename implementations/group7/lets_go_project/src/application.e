@@ -95,7 +95,7 @@ feature -- Basic operations
 			-- handling of all the routes relating to "users"
 			users_base_uri := "/users"
 			--setup_restful_routing_for(user_ctrl, users_base_uri, "user_id")
-			map_uri_template_agent_with_request_methods (users_base_uri, agent user_ctrl.create_new, router.methods_post)
+			map_uri_template_agent_with_request_methods (users_base_uri, agent user_ctrl.create_new_validated, router.methods_post)
 			map_uri_template_agent_with_request_methods (users_base_uri + "/{user_id}", agent user_ctrl.get_authorized, router.methods_get)
 			map_uri_template_agent_with_request_methods (users_base_uri + "/{user_id}", agent user_ctrl.update_authorized_validated, router.methods_put)
 			map_uri_template_agent_with_request_methods (users_base_uri + "/{user_id}", agent user_ctrl.delete_authorized, router.methods_delete)
