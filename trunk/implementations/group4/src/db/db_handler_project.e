@@ -93,9 +93,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE Projects SET name = '"+ project.name +"',"+
 															  "status = '"+ project.status +"',"+
 															  "description = '"+ project.description +"',"+
-															  "max_points_per_sprint = '"+ project.max_points_per_sprint.out +"',"+
-															  "number_of_sprints = '"+ project.number_of_sprints.out +"',"+
-															  "user_id = '"+ project.user_id.out +"'"+
+															  "max_points_per_sprint = '"+ project.max_points_per_sprint.out +"'"+
 															  "WHERE id="+ project_id.out +";" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
