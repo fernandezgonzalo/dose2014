@@ -157,15 +157,15 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 	create_new_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
 		local
-			fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
+			fields: ARRAY[STRING]
 			fields_str: STRING
 			values_str: STRING
 			id: INTEGER_64
 		do
-			fields_and_values := get_fields_and_values_from_json(input)
-			fields_str := get_comma_separated_string_without_quotes_from_array (fields_and_values.fields)
-			values_str := get_comma_separated_string_from_array (fields_and_values.values)
-			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")")
+			fields := get_fields_from_json(input)
+			fields_str := get_comma_separated_string_without_quotes_from_array (fields)
+			values_str := get_comma_separated_question_marks(fields.count)
+			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")", get_values_from_json(input))
 			if id >= 0 then
 				post_insert_action(req, res, id, input)
 				reply_with_201_with_data(res, id.out)
@@ -189,7 +189,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 			resource_id := req.path_parameter(uri_id_name).string_representation
 			input.remove (id_key)
-			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_and_values_from_json(input)) + " WHERE id = " + resource_id)
+			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_from_json(input)) + " WHERE id = " + resource_id, get_values_from_json(input))
 			if success then
 				post_update_action(req, res, resource_id, input)
 				reply_with_204(res)
@@ -226,7 +226,7 @@ feature {NONE} -- Internal helpers
 		do
 		end
 
-	get_update_assignments(fields_and_values: TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]): STRING
+	get_update_assignments(fields: ARRAY[STRING]): STRING
 		local
 			i: INTEGER
 			field: STRING
@@ -235,46 +235,79 @@ feature {NONE} -- Internal helpers
 			from
                 i := 1
             until
-                i > fields_and_values.fields.count
+                i > fields.count
             loop
-            	field := fields_and_values.fields.at (i)
+            	field := fields.at (i)
             	field.replace_substring_all ("%"", "")
-            	Result := Result + field + "=" + fields_and_values.values.at (i)
+            	Result := Result + field + "=?"
 
-            	if i < fields_and_values.fields.count then
+            	if i < fields.count then
             		Result := Result + ", "
             	end
                 i := i + 1
             end
 		end
 
+	get_values_from_json(json_object: JSON_OBJECT): ITERABLE[ANY]
+		local
+			keys: ARRAY[JSON_STRING]
+		do
+			keys := json_object.current_keys
 
-	get_fields_and_values_from_json(json_object: JSON_OBJECT): TUPLE [fields: ARRAY[STRING]; values: ARRAY[STRING]]
+			check keys.count <= 11 end
+
+			if keys.count = 0 then
+				Result := Void
+			elseif keys.count = 1 then
+				Result := <<json_object.item(keys.at(1)).representation>>
+			elseif keys.count = 2 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation>>
+			elseif keys.count = 3 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation>>
+			elseif keys.count = 4 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation>>
+			elseif keys.count = 5 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation>>
+			elseif keys.count = 6 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation>>
+			elseif keys.count = 7 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation>>
+			elseif keys.count = 8 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation>>
+			elseif keys.count = 9 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation, json_object.item(keys.at(9)).representation>>
+			elseif keys.count = 10 then
+				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation, json_object.item(keys.at(9)).representation, json_object.item(keys.at(10)).representation>>
+			end
+
+			across Result as value loop
+				if attached {STRING} value.item as str_value then
+               		str_value.replace_substring_all ("%"", "")
+            	end
+			end
+		end
+
+
+	get_fields_from_json(json_object: JSON_OBJECT): ARRAY[STRING]
 		local
 			keys: ARRAY[JSON_STRING]
 			i: INTEGER
-			fields: ARRAY[STRING]
-			values: ARRAY[STRING]
-			key: JSON_STRING
 		do
 			keys := json_object.current_keys
-			create fields.make_filled ("", 1, keys.count)
-			create values.make_filled ("", 1, keys.count)
+			create Result.make_filled ("", 1, keys.count)
 
 			from
                 i := 1
             until
                 i > keys.count
             loop
-            	key := keys.at(i)
-            	fields.put(key.representation, i)
-            	values.put(json_object.item(key).representation, i)
+            	Result.put(keys.at(i).representation, i)
                 i := i + 1
             end
-            Result := [fields, values]
 		end
 
-	get_comma_separated_string_from_array(a: ARRAY[STRING]): STRING
+
+	get_comma_separated_string_without_quotes_from_array(a: ARRAY[STRING]): STRING
 		local
 			i: INTEGER
 		do
@@ -291,12 +324,15 @@ feature {NONE} -- Internal helpers
             	end
                 i := i + 1
             end
+			Result.replace_substring_all ("%"", "")
 		end
 
-	get_comma_separated_string_without_quotes_from_array(a: ARRAY[STRING]): STRING
+	get_comma_separated_question_marks(count: INTEGER): STRING
+		local
+			question_mark_array: ARRAY[STRING]
 		do
-			Result := get_comma_separated_string_from_array(a)
-			Result.replace_substring_all ("%"", "")
+			create question_mark_array.make_filled ("?", 1, count)
+			Result := get_comma_separated_string_without_quotes_from_array(question_mark_array)
 		end
 
 	get_id(req: WSF_REQUEST): STRING

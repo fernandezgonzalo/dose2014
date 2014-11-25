@@ -55,7 +55,7 @@ feature {None} -- Internal helpers
 		local
 			dummy: ANY
 		do
-			dummy := db.insert("INSERT INTO project_shares (user_id, project_id) VALUES (" + dev_id + ", " + project_id + ")")
+			dummy := db.insert("INSERT INTO project_shares (user_id, project_id) VALUES (?, ?)", <<dev_id, project_id>>)
 		end
 
 	remove_user_transaction(project_id: STRING; dev_id: STRING)
