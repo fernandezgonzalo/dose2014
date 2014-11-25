@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			Result := ".." + Operating_environment.directory_separator.out + "www"
 		end
 
-	-- Here we should add the features for controllers classes.
+		-- controllers and other helpers
 	user_ctrl: USER_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
 	sprint_ctrl: SPRINT_CONTROLLER
@@ -54,9 +54,6 @@ feature {NONE} -- Initialization
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
-	--		create database.make (path_to_db_file)
-			--create todo_ctrl.make(dao)
-			--create user_ctrl.make(dao)
 			create session_manager.make
 			create user_ctrl.make (path_to_db_file,session_manager)
 			create project_ctrl.make (path_to_db_file,session_manager)
