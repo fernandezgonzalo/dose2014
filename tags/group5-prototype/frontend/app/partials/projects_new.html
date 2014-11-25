@@ -1,0 +1,57 @@
+<!-- /modal-header -->
+<div class="modal-header">
+  <span class="modal-title h4">New project</span><span class="pull-right">
+    <span class="glyphicon glyphicon-plus">
+</div>	
+
+    
+<!-- /modal-body -->
+<div class="modal-body row">
+  <form nonvalidate class="simple-form">
+    <div class="col-md-6">
+      <fieldset>
+
+        <br>
+
+        <!-- Project name -->
+        <div class="control-group">
+          <label class="control-label" for="projectName">Project name</label>
+          <div class="controls">
+            <input type="text" id="projectName" name="projectName"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="1" ng-model="project.name">
+          </div>
+        </div>
+
+        <!-- Client name -->
+        <div class="control-group">
+          <label class="control-label" for="client">Client</label>
+          <div class="controls">
+            <input type="text" id="client" name="client"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="2" ng-model="project.client_name">
+          </div>
+        </div>
+
+        <!-- Deadline -->
+        <div class="control-group">
+          <label class="control-label" for="dueDate">
+            <span class="glyphicon glyphicon-calendar"></span>   Deadline</label>
+          <div class="controls">
+            <input type="text" id="deadline" name="deadline"
+            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+            autocapitalize="off" tabindex="3" ng-model="project.deadline">
+          </div>
+        </div> 
+
+      </fieldset>
+    </div>
+  </form>
+</div>
+
+<!-- /modal-footer -->
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <button ng-click="createProject(project)" type="button" class="btn btn-primary">Create project</button>
+</div>	
+
