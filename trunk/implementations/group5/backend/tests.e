@@ -40,7 +40,7 @@ feature -- Test routines
 	do
 
 		create database.make_open_read_write (path_to_db_file)
-		-- CRUD USER TEST		
+-------------------------------------------------------------------- CRUD USER TEST ------------------------------------------------------------------------------------------------
 		create crud_user.make(database)
 		create usr.make
 
@@ -157,16 +157,16 @@ feature -- Test routines
 
 
 
-		--CRUD PROJECT TEST
+-------------------------------------------------------------------- CRUD PROJECT TEST ------------------------------------------------------------------------------------------------
 		create crud_project.make(database)
 		create l_result.make
 		create l_result2.make
 		create l_result3.make
 
-		-- create a project and confirm that the information is correct.
+		--create a project and confirm that the information is correct.
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
-		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
+		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		was_created := result_add_user.boolean_item (1)
 		project_id := result_add_user.integer_32_item (2).out.to_natural
 		l_result3 := crud_project.project_by_id(project_id)
@@ -174,6 +174,7 @@ feature -- Test routines
 		create l_deadline.make_empty
 		create l_client.make_empty
 		create l_user_id.make_empty
+		create l_deadline.make_empty
 		if attached {JSON_OBJECT} l_result3 as j_object then
 			-- we have to convert the json string into an eiffel string
 			if attached {JSON_STRING} j_object.item ("name") as s then
@@ -184,11 +185,16 @@ feature -- Test routines
 			end
 			if attached {JSON_STRING} j_object.item ("id_user") as s then
 				l_user_id := s.unescaped_string_8
+			end
+			if attached {JSON_STRING} j_object.item ("deadline") as s then
+				l_deadline := s.unescaped_string_8
+			end
 		end
 		assert ("The result must be true", res )
 		assert ("The name must be project", l_name.is_equal("projectt"))
 		assert ("The client_name must be rick", l_client.is_equal("rick") )
 		assert ("The id_user must be user_id.out", l_user_id.is_equal(user_id.out) )
+		assert ("The deadline must be 20/12/2013", l_deadline.is_equal("20/12/2013"))
 
 
 		-- updates project name and confirm that the information is correct.
@@ -204,6 +210,20 @@ feature -- Test routines
 		end
 		assert ("The result must be true", was_created )
 		assert ("The name must be new name", l_name.is_equal("new name"))
+
+		-- updates project deadline and confirm that the information is correct.
+		res:= crud_project.update_project_deadline("20/12/2014",project_id)
+		create l_result.make
+		l_result := crud_project.project_by_id(project_id)
+		create l_deadline.make_empty
+		if attached {JSON_OBJECT} l_result as j_object2 then
+				-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object2.item ("deadline") as s then
+					l_deadline := s.unescaped_string_8
+				end
+		end
+		assert ("The result must be true", was_created )
+		assert ("The deadline must be 20/12/2014", l_deadline.is_equal("20/12/2014"))
 
 
 		-- updates project client_name and confirm that the information is correct.
@@ -225,13 +245,14 @@ feature -- Test routines
 		assert ("The result must be true", res )
 
 
-		--CRUD TASK TEST
+-------------------------------------------------------------------- CRUD TASK TEST ------------------------------------------------------------------------------------------------
+		-- create a task and confirm that the information is correct.
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_user.integer_32_item (2).out.to_natural
-		result_add_task := crud_task.add_task("title","description","status","priority","","estimation",user_id,user_id,project_id)
+		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		was_created := result_add_task.boolean_item (1)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		l_result3 := crud_task.task_by_id(task_id)
@@ -243,6 +264,7 @@ feature -- Test routines
 		create l_id_user_creator.make_empty
 		create l_id_user_assigned.make_empty
 		create l_project_id.make_empty
+		create l_deadline.make_empty
 		if attached {JSON_OBJECT} l_result3 as j_object4 then
 		-- we have to convert the json string into an eiffel string
 			if attached {JSON_STRING} j_object4.item ("title") as s then
@@ -269,6 +291,9 @@ feature -- Test routines
 			if attached {JSON_STRING} j_object4.item ("project_id") as s then
 				l_project_id := s.unescaped_string_8
 			end
+			if attached {JSON_STRING} j_object4.item ("deadline") as s then
+				l_deadline := s.unescaped_string_8
+			end
 		end
 		cero := 0;
 		assert ("The result must be true", was_created )
@@ -280,110 +305,117 @@ feature -- Test routines
 		assert ("The project_id must be project_id", l_project_id.is_equal(project_id.out) )
 		assert ("The id_user_assigned must be user_id", l_id_user_assigned.is_equal(user_id.out) )
 		assert ("The id_user_creator must be user_id", l_id_user_creator.is_equal(user_id.out))
-
+		assert ("The deadline must be 20/12/2013", l_deadline.is_equal("20/12/2013"))
 
 		-- updates task title and confirm that the information is correct.
-			res := crud_task.update_task_title("new title",task_id)
-			l_result2 := crud_task.task_by_id(task_id)
-			create l_title.make_empty
+		res := crud_task.update_task_title("new title",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_title.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("title") as s then
+				l_title := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The title must be new title", l_title.is_equal("new title"))
+
+		-- updates task title and confirm that the information is correct.
+		res := crud_task.update_task_title("new title",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_title.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("title") as s then
+				l_title := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The title must be new title", l_title.is_equal("new title"))
+
+		-- updates task description and confirm that the information is correct.
+		res := crud_task.update_task_description("new description",task_id)
+		l_result2 := crud_task.task_by_id(project_id)
+		create l_description.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("description") as s then
+				l_description := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The title must be new description", l_description.is_equal("new description"))
+
+		-- updates task estimation and confirm that the information is correct.
+		res := crud_task.update_task_estimation("new estimation",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_estimation.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("estimation") as s then
+				l_estimation := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The estimation must be new estimation", l_estimation.is_equal("new estimation"))
+
+		-- updates task priority and confirm that the information is correct.
+		res := crud_task.update_task_title("new priority",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_priority.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("priority") as s then
+				l_priority := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The priority must be new priority", l_priority.is_equal("new priority"))
+
+		-- updates task title and confirm that the information is correct.
+		res := crud_task.update_task_title("new status",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_status.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("status") as s then
+				l_status := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The status must be new status", l_status.is_equal("new status"))
+
+		-- updates task id_user_assigned and confirm that the information is correct.
+		result_add_user := crud_user.add_user ("emilio@mail.com","emilio","1234","emilio",0)
+		user_id := result_add_user.integer_32_item (2).out.to_natural
+		res := crud_task.update_task_id_user_assigned(user_id,task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_id_user_assigned.make_empty
 			if attached {JSON_OBJECT} l_result2 as j_object3 then
-				-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object3.item ("title") as s then
-					l_title := s.unescaped_string_8
+			-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object3.item ("id_user_assigned") as s then
+					l_id_user_assigned := s.unescaped_string_8
 				end
 			end
-			assert ("The result must be true", res )
-			assert ("The title must be new title", l_title.is_equal("new title"))
+		assert ("The result must be true", res )
+		assert ("The id_user_assigned must be user_id", l_id_user_assigned.is_equal(user_id.out))
 
-			-- updates task title and confirm that the information is correct.
-				res := crud_task.update_task_title("new title",task_id)
-				l_result2 := crud_task.task_by_id(task_id)
-				create l_title.make_empty
-				if attached {JSON_OBJECT} l_result2 as j_object3 then
-					-- we have to convert the json string into an eiffel string
-					if attached {JSON_STRING} j_object3.item ("title") as s then
-						l_title := s.unescaped_string_8
-					end
-				end
-				assert ("The result must be true", res )
-				assert ("The title must be new title", l_title.is_equal("new title"))
+		-- updates task deadline and confirm that the information is correct.
+		res := crud_task.update_task_deadline("20/12/2014",task_id)
+		l_result2 := crud_task.task_by_id(task_id)
+		create l_deadline.make_empty
+		if attached {JSON_OBJECT} l_result2 as j_object3 then
+			-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object3.item ("deadline") as s then
+				l_deadline := s.unescaped_string_8
+			end
+		end
+		assert ("The result must be true", res )
+		assert ("The deadline must be 20/12/2014", l_deadline.is_equal("20/12/2014"))
 
-				-- updates task description and confirm that the information is correct.
-					res := crud_task.update_task_description("new description",task_id)
-					l_result2 := crud_task.task_by_id(project_id)
-					create l_description.make_empty
-					if attached {JSON_OBJECT} l_result2 as j_object3 then
-						-- we have to convert the json string into an eiffel string
-						if attached {JSON_STRING} j_object3.item ("description") as s then
-							l_description := s.unescaped_string_8
-						end
-					end
-					assert ("The result must be true", res )
-					assert ("The title must be new description", l_description.is_equal("new description"))
-
-					-- updates task estimation and confirm that the information is correct.
-						res := crud_task.update_task_estimation("new estimation",task_id)
-						l_result2 := crud_task.task_by_id(task_id)
-						create l_estimation.make_empty
-						if attached {JSON_OBJECT} l_result2 as j_object3 then
-							-- we have to convert the json string into an eiffel string
-							if attached {JSON_STRING} j_object3.item ("estimation") as s then
-								l_estimation := s.unescaped_string_8
-							end
-						end
-						assert ("The result must be true", res )
-						assert ("The estimation must be new estimation", l_estimation.is_equal("new estimation"))
-
-						-- updates task priority and confirm that the information is correct.
-							res := crud_task.update_task_title("new priority",task_id)
-							l_result2 := crud_task.task_by_id(task_id)
-							create l_priority.make_empty
-							if attached {JSON_OBJECT} l_result2 as j_object3 then
-								-- we have to convert the json string into an eiffel string
-								if attached {JSON_STRING} j_object3.item ("priority") as s then
-									l_priority := s.unescaped_string_8
-								end
-							end
-							assert ("The result must be true", res )
-							assert ("The priority must be new priority", l_priority.is_equal("new priority"))
-
-							-- updates task title and confirm that the information is correct.
-								res := crud_task.update_task_title("new status",task_id)
-								l_result2 := crud_task.task_by_id(task_id)
-								create l_status.make_empty
-								if attached {JSON_OBJECT} l_result2 as j_object3 then
-									-- we have to convert the json string into an eiffel string
-									if attached {JSON_STRING} j_object3.item ("status") as s then
-										l_status := s.unescaped_string_8
-									end
-								end
-								assert ("The result must be true", res )
-								assert ("The status must be new status", l_status.is_equal("new status"))
-
-								-- updates task id_user_assigned and confirm that the information is correct.
-								result_add_user := crud_user.add_user ("emilio@mail.com","emilio","1234","emilio",0)
-								user_id := result_add_user.integer_32_item (2).out.to_natural
-															res := crud_task.update_task_id_user_assigned(user_id,task_id)
-															l_result2 := crud_task.task_by_id(task_id)
-															create l_id_user_assigned.make_empty
-															if attached {JSON_OBJECT} l_result2 as j_object3 then
-																-- we have to convert the json string into an eiffel string
-																if attached {JSON_STRING} j_object3.item ("id_user_assigned") as s then
-																	l_id_user_assigned := s.unescaped_string_8
-																end
-															end
-															assert ("The result must be true", res )
-															assert ("The id_user_assigned must be user_id", l_id_user_assigned.is_equal(user_id.out))
-
-
-
-			--delete user and confirm that the delete is correct.
-				res := crud_task.remove_task_by_id(task_id)
-				assert ("The result must be true", res )
-
-end
-
-
+		--delete user and confirm that the delete is correct.
+		res := crud_task.remove_task_by_id(task_id)
+		assert ("The result must be true", res )
 	end
 end
 
