@@ -361,8 +361,7 @@ POST
     "name":"projectname",
     "status":"Active",
     "description":"projectdescr",
-    "mpps":"15",
-    /*"user_id":"1"*/
+    "max_points_per_sprint":"15",
 }
 
 /api/projects/{project_id}
@@ -371,8 +370,7 @@ POST
     "name":"projectname",
     "status":"Active",
     "description":"projectdescr",
-    "mpps":"15",
-    "user_id":"1"
+    "max_points_per_sprint":"15",
 }
 
 /api/projects/{project_id}/collaborators/{user_id}
