@@ -2,107 +2,105 @@
   <legend ng-if="!isEdit">Create a new account</legend>
   <legend ng-if="isEdit">Edit user profile</legend>
 </div>
-<form class="form-horizontal" ng-submit="submit()" name="form">
-  <fieldset>
-    <div class="row">
-      <div class="col-md-6">
-    
-      
-        <div class="form-group" ng-class="{'has-error' : form.username.$invalid && form.username.$dirty, 'has-success' : form.username.$valid && form.username.$dirty }">
-          <!-- Username -->
-          <label class="control-label" for="username">Username</label>
-          <div class="controls">
-            <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$" ng-pattern="/^[A-Za-z0-9_-]{1,15}$/">
-            <p class="help-block">Username can contain any letters, numbers, underscores and hyphens, without spaces.</p>
-          </div>
-        </div>
-     
-        <div class="form-group" ng-class="{'has-error' : form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$valid && form.name.$dirty }">
-          <label class="control-label" for="name">Name</label>
-          <div class="controls">
-              <input type="text" id="name" name="name" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="2" ng-model="user.name" maxlength="64" required>
-              <p class="help-block">Name can contain any characters. Max length is 64 characters.</p>
-          </div>
-        </div>
+<div class="row">
+  <div class="col-md-6">
 
-        <div class="form-group" ng-class="{'has-error' : form.email.$invalid && form.email.$dirty, 'has-success' : form.email.$valid && form.email.$dirty }">
-          <!-- E-mail -->
-          <label class="control-label" for="email">E-mail</label>
-          <div class="controls">
-            <input type="email" id="email" name="email" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="3" ng-model="user.email" required maxlength="255">
-            <p class="help-block">Please provide your E-mail</p>
-          </div>
+    <form class="form-horizontal" ng-submit="submit()" name="form">
+      <div class="form-group" ng-class="{'has-error' : form.username.$invalid && form.username.$dirty, 'has-success' : form.username.$valid && form.username.$dirty }">
+        <!-- Username -->
+        <label class="control-label" for="username">Username</label>
+        <div class="controls">
+          <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$" ng-pattern="/^[A-Za-z0-9_-]{1,15}$/">
+          <p class="help-block">Username can contain any letters, numbers, underscores and hyphens, without spaces.</p>
         </div>
-
-        <div class="form-group" ng-if="isEdit && isAdmin()">
-          <label class="control-label" for="is_admin">Is admin?</label>&nbsp;&nbsp;<input type="checkbox" id="is_admin" name="isAdmin" ng-model="user.isAdmin" ng-true-value="1" ng-false-value="0"/>
-          <p class="help-block">Makes the user an admin</p>
+      </div>
+   
+      <div class="form-group" ng-class="{'has-error' : form.name.$invalid && form.name.$dirty, 'has-success' : form.name.$valid && form.name.$dirty }">
+        <label class="control-label" for="name">Name</label>
+        <div class="controls">
+            <input type="text" id="name" name="name" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="2" ng-model="user.name" maxlength="64" required>
+            <p class="help-block">Name can contain any characters. Max length is 64 characters.</p>
         </div>
-
-        <div ng-if="isEdit && !isAdmin()" class="control-group">
-          <label class="control-label" for="old_password">Old password</label>
-          <div class="controls">
-            <input type="password" id="old_password" name="old_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.oldPassword" disabled>
-            <p class="help-block">You must confirm operation by your password</p>
-          </div>
-        </div>
-
-        <div ng-if="isEdit" class="control-group" ng-class="{'has-error' : form.new_password.$invalid && form.new_password.$dirty, 'has-success' : form.new_password.$valid && form.new_password.$dirty }">
-          <label class="control-label" for="new_password">New password</label>
-          <div class="controls">
-            <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="(^$)|(^.{6,}$)" ng-pattern="/(^$)|(^.{6,}$)/">
-            <p class="help-block">Password should be at least 6 characters</p>
-          </div>
-        </div>
-     
-        <div ng-if="isEdit" ng-showclass="control-group" ng-class="{'has-error' : form.new_password_confirm.$invalid, 'has-success' : form.new_password_confirm.$valid && form.new_password_confirm.$dirty }">
-          <label  class="control-label" for="new_password_confirm">New password (Confirm)</label>
-          <div class="controls">
-            <input type="password" id="new_password_confirm" name="new_password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.newPasswordConfirm" compare-to="new_password">
-            <p class="help-block">Please confirm password</p>
-          </div>
-        </div>
-     
-        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password.$invalid && form.password.$dirty, 'has-success' : form.password.$valid && form.password.$dirty }">
-          <label class="control-label" for="password">Password</label>
-          <div class="controls">
-            <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern="^.{6,}$" pattern="^.{6,}$" ng-pattern="/^.{6,}$/">
-            <p class="help-block">Password should be at least 6 characters</p>
-          </div>
-        </div>
-     
-        <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password_confirm.$invalid && (form.password_confirm.$dirty || form.password.$dirty), 'has-success' : form.password_confirm.$valid && form.password_confirm.$dirty }">
-          <label class="control-label" for="password_confirmed">Password (Confirm)</label>
-          <div class="controls">
-            <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirm" compare-to="password" required>
-            <p class="help-block">Please confirm password</p>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <!-- Button -->
-          <div class="controls">
-            <input type="submit" id="create_button" name="createButton" data-loading-text="Loading..." class="btn btn-success" tabindex="7" ng-if="!isEdit" value="Register"></input>
-            <input type="submit" id="save_button" data-loading-text="Loading..."  name="saveButton" class="btn btn-success" tabindex="7" ng-if="isEdit" value="Save"></input>
-          </div>
-        </div>
-
-
-        <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="8">Log in.</a> </p> 
       </div>
 
-
-
-      <div class="col-md-6">
-        <div class="control-group">
-          <div class="controls">
-            <label class="control-label" for="password_confirm">Profile picture</label>
-            <p class="avatar big"></p>
-            <input type="file" tabindex="6" disabled />
-            <p class="help-block">An image should have equal width and height. Minimum dimension is 100x100. Maximum image size is 3Mb.</p>
-          </div>
+      <div class="form-group" ng-class="{'has-error' : form.email.$invalid && form.email.$dirty, 'has-success' : form.email.$valid && form.email.$dirty }">
+        <!-- E-mail -->
+        <label class="control-label" for="email">E-mail</label>
+        <div class="controls">
+          <input type="email" id="email" name="email" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="3" ng-model="user.email" required maxlength="255">
+          <p class="help-block">Please provide your E-mail</p>
         </div>
+      </div>
+
+      <div class="form-group" ng-if="isEdit && isAdmin()">
+        <label class="control-label" for="is_admin">Is admin?</label>&nbsp;&nbsp;<input type="checkbox" id="is_admin" name="isAdmin" ng-model="user.isAdmin" ng-true-value="1" ng-false-value="0"/>
+        <p class="help-block">Makes the user an admin</p>
+      </div>
+
+      <div ng-if="isEdit && !isAdmin()" class="control-group">
+        <label class="control-label" for="old_password">Old password</label>
+        <div class="controls">
+          <input type="password" id="old_password" name="old_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.oldPassword" disabled>
+          <p class="help-block">You must confirm operation by your password</p>
+        </div>
+      </div>
+
+      <div ng-if="isEdit" class="control-group" ng-class="{'has-error' : form.new_password.$invalid && form.new_password.$dirty, 'has-success' : form.new_password.$valid && form.new_password.$dirty }">
+        <label class="control-label" for="new_password">New password</label>
+        <div class="controls">
+          <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="(^$)|(^.{6,}$)" ng-pattern="/(^$)|(^.{6,}$)/">
+          <p class="help-block">Password should be at least 6 characters</p>
+        </div>
+      </div>
+   
+      <div ng-if="isEdit" ng-showclass="control-group" ng-class="{'has-error' : form.new_password_confirm.$invalid, 'has-success' : form.new_password_confirm.$valid && form.new_password_confirm.$dirty }">
+        <label  class="control-label" for="new_password_confirm">New password (Confirm)</label>
+        <div class="controls">
+          <input type="password" id="new_password_confirm" name="new_password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.newPasswordConfirm" compare-to="new_password">
+          <p class="help-block">Please confirm password</p>
+        </div>
+      </div>
+   
+      <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password.$invalid && form.password.$dirty, 'has-success' : form.password.$valid && form.password.$dirty }">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+          <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern="^.{6,}$" pattern="^.{6,}$" ng-pattern="/^.{6,}$/">
+          <p class="help-block">Password should be at least 6 characters</p>
+        </div>
+      </div>
+   
+      <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password_confirm.$invalid && (form.password_confirm.$dirty || form.password.$dirty), 'has-success' : form.password_confirm.$valid && form.password_confirm.$dirty }">
+        <label class="control-label" for="password_confirmed">Password (Confirm)</label>
+        <div class="controls">
+          <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="5" ng-model="user.passwordConfirm" compare-to="password" required>
+          <p class="help-block">Please confirm password</p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Button -->
+        <div class="controls">
+          <input type="submit" id="create_button" name="createButton" data-loading-text="Loading..." class="btn btn-success" tabindex="7" ng-if="!isEdit" value="Register"></input>
+          <input type="submit" id="save_button" data-loading-text="Loading..."  name="saveButton" class="btn btn-success" tabindex="7" ng-if="isEdit" value="Save"></input>
+        </div>
+      </div>
+    </form>
+    <p ng-if="!isAuthenticated()" class="help-block"> Already have an account? <a href="/#/login" tabindex="8">Log in.</a> </p> 
+  </div>
+
+
+
+  <div class="col-md-6" ng-if="isEdit">
+    <div class="control-group">
+      <div class="controls">
+        <form class="form-horizontal" ng-submit="uploadFile()" name="form">
+          <label class="control-label" for="avatar_file">Profile picture</label>
+          <p class="avatar big"></p>
+          <input type="file" id="avatar_file" file-model="myFile" required />
+          <p class="help-block">An image should have equal width and height. Minimum dimension is 100x100. Maximum image size is 3Mb.</p>
+          <button id="upload_button" data-loading-text="Loading..." class="btn btn-success">Upload image</button>
+        </form>
       </div>
     </div>
-  </fieldset>
-</form>
+  </div>
+</div>
