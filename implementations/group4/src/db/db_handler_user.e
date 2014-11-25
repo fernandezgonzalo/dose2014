@@ -77,31 +77,58 @@ feature -- Data access
 			end
 		end
 
+--	has_user (a_email: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
+--			-- checks if a user with given email exists
+--			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
+--			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
+--		local
+--			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+--		do
+--				-- create a result object
+--			create Result
+
+--			create db_query_statement.make ("SELECT * FROM Users WHERE email=?;", db)
+--			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_email>>)
+
+--			if l_query_result_cursor.after then
+--					-- there are no rows in the result of the query, thus no user with that password exits
+--				print("Did not find a user with email '" + a_email + "' in the database.%N")
+--				Result.has_user := False
+--			else
+--				print("Found a user with email '" + a_email + "' in the database.%N")
+--				Result.has_user := True
+--				Result.user_id := l_query_result_cursor.item.value (1).out
+--				Result.email := l_query_result_cursor.item.value (4).out
+--				Result.hashed_pass := l_query_result_cursor.item.value (5).out
+--			end
+--			
+--		end
+
 	has_user (a_email: STRING): TUPLE[has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 			-- checks if a user with given email exists
 			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
 			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
 		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			json_result : JSON_OBJECT
 		do
 				-- create a result object
 			create Result
+			create json_result.make
 
-			create db_query_statement.make ("SELECT * FROM Users WHERE email=?;", db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_email>>)
+			create db_query_statement.make ("SELECT * FROM Users WHERE email='"+ a_email +"';", db)
+			db_query_statement.execute (agent row_to_json_object(?, 5, json_result))
 
-
-			if l_query_result_cursor.after then
+			if json_result.is_empty then
 					-- there are no rows in the result of the query, thus no user with that password exits
 				print("Did not find a user with email '" + a_email + "' in the database.%N")
 				Result.has_user := False
 			else
 				print("Found a user with email '" + a_email + "' in the database.%N")
 				Result.has_user := True
-				Result.user_id := l_query_result_cursor.item.value (1).out
-				Result.email := l_query_result_cursor.item.value (4).out
-				Result.hashed_pass := l_query_result_cursor.item.value (5).out
+				Result.user_id := json_result.item ("id").debug_output.out
+				Result.email := json_result.item ("email").debug_output.out
+				Result.hashed_pass := json_result.item ("password").debug_output.out
 			end
-		end
 
+		end
 end
