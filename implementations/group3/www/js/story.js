@@ -4,7 +4,7 @@ angular.module('LetsGoTeam')
     .controller('StoryController', ['$scope', '$http', '$log', '$timeout',
         function ($scope, $http, $log, $timeout) {
 
-
+            $scope.data = {};
             // the model that we bind to the input box
             $scope.newStory = {
                 title: '',
@@ -16,15 +16,23 @@ angular.module('LetsGoTeam')
             $scope.successMsgVisible = false;
 
             // the function to add a story
-            $scope.addStory = function(t, d, p, n) {
+            $scope.addStory = function(newStory) {
 
                 // the payload is simple the json object that we used for binding to the input
                 var payload = $scope.newStory;
 
-                $http.post('/api/stories', payload)
+                $http.post('/story', payload)
                     .success(function(data, status, header, config) {
 
-                        $log.debug('Success adding a story');
+                        $scope.data = data;
+
+                        if ($scope.data.status === 'ok') {
+                            $log.debug('Success adding a story');
+                        }
+                        else{
+                            $log.debug('Incorrect data');
+                        };
+
 
                         // reset the todoModel to not have a description (we keep the last selected user)
                         $scope.newStory.title = '';

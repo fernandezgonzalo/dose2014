@@ -24,7 +24,7 @@ angular.module('LetsGoTeam')
     .config(['GooglePlusProvider', function(GooglePlusProvider) {
         GooglePlusProvider.init({
             clientId: '515615149517-4p9d1hqk5mav5eq257q17n3hsehe8mia.apps.googleusercontent.com',
-            apiKey: ''
+            apiKey: 'H0LDfei8cyW6YMnPKzXGAmAO'
         });
     }])
 
@@ -49,6 +49,8 @@ angular.module('LetsGoTeam')
          * Watch for Facebook to be ready.
          * There's also the event that could be used
          */
+
+
         $scope.$watch(
             function() {
                 return Facebook.isReady();
@@ -56,6 +58,9 @@ angular.module('LetsGoTeam')
             function(newVal) {
                 if (newVal)
                     $scope.facebookReady = true;
+            },
+            function(){
+                return GooglePlus.isReady();
             }
         );
 
@@ -66,6 +71,7 @@ angular.module('LetsGoTeam')
                 userIsConnected = true;
             }
         });
+
 
         /**
          * IntentLogin
@@ -101,6 +107,7 @@ angular.module('LetsGoTeam')
 
                 GooglePlus.getUser().then(function (user) {
                     console.log(user);
+                    $scope.logged = true;
                 });
             }, function (err) {
                 console.log(err);
@@ -132,7 +139,9 @@ angular.module('LetsGoTeam')
                     $scope.logged = false;
                 });
             });
-        }
+        };
+
+
 
         /**
          * Taking approach of Events :D
@@ -160,6 +169,7 @@ angular.module('LetsGoTeam')
         });
 
 
+
     }
 ])
 
@@ -182,6 +192,7 @@ angular.module('LetsGoTeam')
             }
         }
     })
+
 
 
 
