@@ -26,7 +26,7 @@ feature {None} -- Internal helpers
 			task_id: STRING
 		do
 			task_id := task.item(create {JSON_STRING}.make_json ("id")).representation
-			assigned_devs := db.query_id_list("SELECT user_id FROM task_assignments WHERE task_id = " + task_id)
+			assigned_devs := db.query_id_list("SELECT user_id FROM task_assignments WHERE task_id = ?", <<task_id>>)
 			task.put (assigned_devs, "assigned_devs")
 		end
 

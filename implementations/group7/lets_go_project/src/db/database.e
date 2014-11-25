@@ -30,18 +30,22 @@ feature -- Data access
 			db_query_statement.execute_with_arguments(agent row_to_json_object(?, Result), arguments)
 		end
 
-	query_rows (a_statement: STRING): JSON_ARRAY
+	query_rows (a_statement: STRING; arguments: ITERABLE [ANY]): JSON_ARRAY
 		do
 			create Result.make_array
 			create db_query_statement.make (a_statement + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, Result))
+			if arguments /= Void then
+				db_query_statement.execute_with_arguments(agent rows_to_json_array(?, Result), arguments)
+			else
+				db_query_statement.execute(agent rows_to_json_array(?, Result))
+			end
 		end
 
-	query_id_list (a_statement: STRING): JSON_ARRAY
+	query_id_list (a_statement: STRING; arguments: ITERABLE [ANY]): JSON_ARRAY
 		do
 			create Result.make_array
 			create db_query_statement.make (a_statement + ";", db)
-			db_query_statement.execute (agent rows_to_json_value_array(?, Result))
+			db_query_statement.execute_with_arguments(agent rows_to_json_value_array(?, Result), arguments)
 		end
 
 	insert (a_statement: STRING): INTEGER_64
