@@ -117,7 +117,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
       $('#upload_button').button('reset');
       ngToast.create({
         content: 'Avatar was uploaded!',
-        class: 'danger'
+        class: 'success'
       });
     }, function() {
       $('#upload_button').button('reset');
