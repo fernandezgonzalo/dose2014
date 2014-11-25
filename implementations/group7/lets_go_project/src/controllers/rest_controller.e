@@ -172,8 +172,13 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			id_key: JSON_STRING
 			success: BOOLEAN
 		do
+			-- Updating the id is not allowed, so ignore this field if present in input
 			create id_key.make_json ("id")
-			resource_id := input.item(id_key).representation
+			if input.has_key(id_key) then
+				input.remove (id_key)
+			end
+
+			resource_id := req.path_parameter(uri_id_name).string_representation
 			input.remove (id_key)
 			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_and_values_from_json(input)) + " WHERE id = " + resource_id)
 			if success then

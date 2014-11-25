@@ -30,7 +30,7 @@ class TestRestResource(unittest.TestCase):
     def test_update(self):
         method = requests.put
         uri = self.single_resource_uri
-        data = self.example_resource.get_json_with_database_fields_with_id()
+        data = self.example_resource.get_json_with_database_fields_without_id()
         self.ensure_unauthorized_fails_authorized_passes(method, uri, 204, data=data)
 
     def test_delete(self):

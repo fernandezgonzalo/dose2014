@@ -164,3 +164,5 @@ if __name__ == '__main__':
     print 'Generated %d sprints.' % len(g.sprints)
     print 'Generated %d stories.' % len(g.stories)
     print 'Generated %d tasks.' % len(g.tasks)
+
+    print g.users[0].projects
