@@ -1,5 +1,5 @@
 /*
- * Code for class HTTP_STATUS_CODE
+ * Code for class HTTP_REQUEST_METHODS
  */
 
 #include "eif_eiffel.h"
@@ -10,42 +10,7 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F136_1898(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1899(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1900(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1901(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1902(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1903(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1904(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1905(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1906(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1907(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1908(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1909(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1910(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1911(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1912(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1913(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1914(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1915(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1916(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1917(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1918(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1919(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1920(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1921(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1922(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1923(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1924(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1925(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1926(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1927(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1928(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1929(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1930(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1931(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1932(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1933(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F136_1933(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern EIF_TYPED_VALUE F136_1934(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F136_1935(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F136_1936(EIF_REFERENCE);
@@ -55,22 +20,6 @@ extern EIF_TYPED_VALUE F136_1939(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F136_1940(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F136_1941(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F136_1942(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1943(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1944(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1945(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1946(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1947(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1948(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1949(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1950(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1951(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1952(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1953(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1954(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1955(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1956(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1957(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F136_1958(EIF_REFERENCE);
 extern void EIF_Minit136(void);
 
 #ifdef __cplusplus
@@ -92,558 +41,267 @@ extern "C" {
 extern "C" {
 #endif
 
-/* {HTTP_STATUS_CODE}.continue */
-EIF_TYPED_VALUE F136_1898 (EIF_REFERENCE Current)
+/* {HTTP_REQUEST_METHODS}.method */
+EIF_TYPED_VALUE F136_1933 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 100L);
-	return r;
+	GTCX
+	char *l_feature_name = "method";
+	RTEX;
+#define arg1 arg1x.it_r
+	EIF_TYPED_VALUE up1x = {{0}, SK_POINTER};
+#define up1 up1x.it_p
+	EIF_TYPED_VALUE ur1x = {{0}, SK_REF};
+#define ur1 ur1x.it_r
+	EIF_REFERENCE tr1 = NULL;
+	EIF_BOOLEAN tb1;
+	EIF_REFERENCE Result = ((EIF_REFERENCE) 0);
+	
+	RTCDT;
+	RTSN;
+	RTDA;
+	RTLD;
+	
+	
+	RTLI(5);
+	RTLR(0,arg1);
+	RTLR(1,Current);
+	RTLR(2,tr1);
+	RTLR(3,ur1);
+	RTLR(4,Result);
+	RTLU (SK_REF, &Result);
+	RTLU(SK_REF,&arg1);
+	RTLU (SK_REF, &Current);
+	
+	RTEAA(l_feature_name, 135, Current, 0, 1, 1873);
+	RTSA(dtype);
+	RTSC;
+	RTME(dtype, 0);
+	RTGC;
+	RTDBGEAA(135, Current, 1873);
+	if (arg1) {
+		RTCC(arg1, 135, l_feature_name, 1, 310);
+	}
+	RTIV(Current, RTAL);
+	RTHOOK(1);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1761, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	ur1 = RTCCL(tr1);
+	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+	if (tb1) {
+		RTHOOK(2);
+		RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+		
+		Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1761, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	} else {
+		RTHOOK(3);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1764, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		ur1 = RTCCL(tr1);
+		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+		if (tb1) {
+			RTHOOK(4);
+			RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+			
+			Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1764, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		} else {
+			RTHOOK(5);
+			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1760, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+			ur1 = RTCCL(tr1);
+			tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+			if (tb1) {
+				RTHOOK(6);
+				RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+				
+				Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1760, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+			} else {
+				RTHOOK(7);
+				tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1762, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+				ur1 = RTCCL(tr1);
+				tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+				if (tb1) {
+					RTHOOK(8);
+					RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+					
+					Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1762, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+				} else {
+					RTHOOK(9);
+					tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1763, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+					ur1 = RTCCL(tr1);
+					tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+					if (tb1) {
+						RTHOOK(10);
+						RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+						
+						Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1763, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+					} else {
+						RTHOOK(11);
+						tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1765, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+						ur1 = RTCCL(tr1);
+						tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+						if (tb1) {
+							RTHOOK(12);
+							RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+							
+							Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1765, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+						} else {
+							RTHOOK(13);
+							tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1766, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+							ur1 = RTCCL(tr1);
+							tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+							if (tb1) {
+								RTHOOK(14);
+								RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+								
+								Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1766, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+							} else {
+								RTHOOK(15);
+								tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1767, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+								ur1 = RTCCL(tr1);
+								tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+								if (tb1) {
+									RTHOOK(16);
+									RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+									
+									Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1767, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+								} else {
+									RTHOOK(17);
+									tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1768, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+									ur1 = RTCCL(tr1);
+									tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4699, "is_case_insensitive_equal", arg1))(arg1, ur1x)).it_b);
+									if (tb1) {
+										RTHOOK(18);
+										RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+										
+										Result = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1768, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+									} else {
+										RTHOOK(19);
+										RTDBGAL(Current, 0, 0xF8000136, 0,0); /* Result */
+										
+										tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(4617, "as_upper", arg1))(arg1)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+										Result = (EIF_REFERENCE) RTCCL(tr1);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	RTVI(Current, RTAL);
+	RTRS;
+	RTHOOK(20);
+	RTDBGLE;
+	RTMD(0);
+	RTLE;
+	RTLO(3);
+	RTEE;
+	{ EIF_TYPED_VALUE r; r.type = SK_REF; r.it_r = Result; return r; }
+#undef up1
+#undef ur1
+#undef arg1
 }
 
-/* {HTTP_STATUS_CODE}.switching_protocols */
-EIF_TYPED_VALUE F136_1899 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 101L);
-	return r;
-}
+/* {HTTP_REQUEST_METHODS}.method_head */
+RTOID (F136_1934)
 
-/* {HTTP_STATUS_CODE}.processing */
-EIF_TYPED_VALUE F136_1900 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 102L);
-	return r;
-}
 
-/* {HTTP_STATUS_CODE}.ie7_request_uri_too_long */
-EIF_TYPED_VALUE F136_1901 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 122L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.ok */
-EIF_TYPED_VALUE F136_1902 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 200L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.created */
-EIF_TYPED_VALUE F136_1903 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 201L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.accepted */
-EIF_TYPED_VALUE F136_1904 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 202L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.nonauthoritative_info */
-EIF_TYPED_VALUE F136_1905 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 203L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.no_content */
-EIF_TYPED_VALUE F136_1906 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 204L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.reset_content */
-EIF_TYPED_VALUE F136_1907 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 205L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.partial_content */
-EIF_TYPED_VALUE F136_1908 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 206L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.multistatus */
-EIF_TYPED_VALUE F136_1909 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 207L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.im_used */
-EIF_TYPED_VALUE F136_1910 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 226L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.multiple_choices */
-EIF_TYPED_VALUE F136_1911 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 300L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.moved_permanently */
-EIF_TYPED_VALUE F136_1912 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 301L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.found */
-EIF_TYPED_VALUE F136_1913 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 302L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.see_other */
-EIF_TYPED_VALUE F136_1914 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 303L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.not_modified */
-EIF_TYPED_VALUE F136_1915 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 304L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.use_proxy */
-EIF_TYPED_VALUE F136_1916 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 305L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.switch_proxy */
-EIF_TYPED_VALUE F136_1917 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 306L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.temp_redirect */
-EIF_TYPED_VALUE F136_1918 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 307L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.bad_request */
-EIF_TYPED_VALUE F136_1919 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 400L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.unauthorized */
-EIF_TYPED_VALUE F136_1920 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 401L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.payment_required */
-EIF_TYPED_VALUE F136_1921 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 402L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.forbidden */
-EIF_TYPED_VALUE F136_1922 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 403L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.not_found */
-EIF_TYPED_VALUE F136_1923 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 404L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.method_not_allowed */
-EIF_TYPED_VALUE F136_1924 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 405L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.not_acceptable */
-EIF_TYPED_VALUE F136_1925 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 406L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.proxy_auth_required */
-EIF_TYPED_VALUE F136_1926 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 407L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.request_timeout */
-EIF_TYPED_VALUE F136_1927 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 408L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.conflict */
-EIF_TYPED_VALUE F136_1928 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 409L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.gone */
-EIF_TYPED_VALUE F136_1929 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 410L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.length_required */
-EIF_TYPED_VALUE F136_1930 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 411L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.precondition_failed */
-EIF_TYPED_VALUE F136_1931 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 412L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.request_entity_too_large */
-EIF_TYPED_VALUE F136_1932 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 413L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.request_uri_too_long */
-EIF_TYPED_VALUE F136_1933 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 414L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.unsupported_media_type */
 EIF_TYPED_VALUE F136_1934 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 415L);
-	return r;
+	GTCX
+	RTOTC (F136_1934,1875,RTMS_EX_H("HEAD",4,1212498244));
 }
 
-/* {HTTP_STATUS_CODE}.request_range_not_satisfiable */
+/* {HTTP_REQUEST_METHODS}.method_get */
+RTOID (F136_1935)
+
+
 EIF_TYPED_VALUE F136_1935 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 416L);
-	return r;
+	GTCX
+	RTOTC (F136_1935,1876,RTMS_EX_H("GET",3,4670804));
 }
 
-/* {HTTP_STATUS_CODE}.expectation_failed */
+/* {HTTP_REQUEST_METHODS}.method_trace */
+RTOID (F136_1936)
+
+
 EIF_TYPED_VALUE F136_1936 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 417L);
-	return r;
+	GTCX
+	RTOTC (F136_1936,1877,RTMS_EX_H("TRACE",5,1380653893));
 }
 
-/* {HTTP_STATUS_CODE}.teapot */
+/* {HTTP_REQUEST_METHODS}.method_options */
+RTOID (F136_1937)
+
+
 EIF_TYPED_VALUE F136_1937 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 418L);
-	return r;
+	GTCX
+	RTOTC (F136_1937,1878,RTMS_EX_H("OPTIONS",7,347751251));
 }
 
-/* {HTTP_STATUS_CODE}.too_many_connections */
+/* {HTTP_REQUEST_METHODS}.method_post */
+RTOID (F136_1938)
+
+
 EIF_TYPED_VALUE F136_1938 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 421L);
-	return r;
+	GTCX
+	RTOTC (F136_1938,1879,RTMS_EX_H("POST",4,1347375956));
 }
 
-/* {HTTP_STATUS_CODE}.unprocessable_entity */
+/* {HTTP_REQUEST_METHODS}.method_put */
+RTOID (F136_1939)
+
+
 EIF_TYPED_VALUE F136_1939 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 422L);
-	return r;
+	GTCX
+	RTOTC (F136_1939,1880,RTMS_EX_H("PUT",3,5264724));
 }
 
-/* {HTTP_STATUS_CODE}.locked */
+/* {HTTP_REQUEST_METHODS}.method_delete */
+RTOID (F136_1940)
+
+
 EIF_TYPED_VALUE F136_1940 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 423L);
-	return r;
+	GTCX
+	RTOTC (F136_1940,1881,RTMS_EX_H("DELETE",6,1413835333));
 }
 
-/* {HTTP_STATUS_CODE}.failed_dependency */
+/* {HTTP_REQUEST_METHODS}.method_connect */
+RTOID (F136_1941)
+
+
 EIF_TYPED_VALUE F136_1941 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 424L);
-	return r;
+	GTCX
+	RTOTC (F136_1941,1882,RTMS_EX_H("CONNECT",7,831608660));
 }
 
-/* {HTTP_STATUS_CODE}.unordered_collection */
+/* {HTTP_REQUEST_METHODS}.method_patch */
+RTOID (F136_1942)
+
+
 EIF_TYPED_VALUE F136_1942 (EIF_REFERENCE Current)
 {
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 425L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.upgrade_required */
-EIF_TYPED_VALUE F136_1943 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 426L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.no_response */
-EIF_TYPED_VALUE F136_1944 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 444L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.retry_with */
-EIF_TYPED_VALUE F136_1945 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 449L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.blocked_parental */
-EIF_TYPED_VALUE F136_1946 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 450L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.client_closed_request */
-EIF_TYPED_VALUE F136_1947 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 499L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.internal_server_error */
-EIF_TYPED_VALUE F136_1948 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 500L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.not_implemented */
-EIF_TYPED_VALUE F136_1949 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 501L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.bad_gateway */
-EIF_TYPED_VALUE F136_1950 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 502L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.service_unavailable */
-EIF_TYPED_VALUE F136_1951 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 503L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.gateway_timeout */
-EIF_TYPED_VALUE F136_1952 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 504L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.http_version_not_supported */
-EIF_TYPED_VALUE F136_1953 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 505L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.variant_also_negotiates */
-EIF_TYPED_VALUE F136_1954 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 506L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.insufficient_storage */
-EIF_TYPED_VALUE F136_1955 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 507L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.bandwidth_limit_exceeded */
-EIF_TYPED_VALUE F136_1956 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 509L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.not_extended */
-EIF_TYPED_VALUE F136_1957 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 510L);
-	return r;
-}
-
-/* {HTTP_STATUS_CODE}.user_access_denied */
-EIF_TYPED_VALUE F136_1958 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_INT32;
-	r.it_i4 = (EIF_INTEGER_32) ((EIF_INTEGER_32) 530L);
-	return r;
+	GTCX
+	RTOTC (F136_1942,1883,RTMS_EX_H("PATCH",5,1096655688));
 }
 
 void EIF_Minit136 (void)
 {
 	GTCX
+	RTOTS (1934,F136_1934)
+	RTOTS (1935,F136_1935)
+	RTOTS (1936,F136_1936)
+	RTOTS (1937,F136_1937)
+	RTOTS (1938,F136_1938)
+	RTOTS (1939,F136_1939)
+	RTOTS (1940,F136_1940)
+	RTOTS (1941,F136_1941)
+	RTOTS (1942,F136_1942)
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * Class SQLITE_NULL_ARG
+ * Class SQLITE_STRING_ARG
  */
 
 #include "eif_macros.h"
@@ -9,17 +9,17 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_411 [] = {417,410,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_411 [] = {418,410,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_411 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_411 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_411 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type4_411 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_411 [] = {310,0xFFFF};
 
 
 static struct desc_info desc_411[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_411},
+	{1, (BODY_INDEX)-1, 418, gen_type0_411},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -38,7 +38,7 @@ static struct desc_info desc_411[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_411},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -49,28 +49,27 @@ static struct desc_info desc_411[] = {
 	{28, (BODY_INDEX)-1, 410, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 410, NULL},
-	{2381, (BODY_INDEX)-1, 301, NULL},
-	{2382, (BODY_INDEX)-1, 147, NULL},
-	{2383, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{2385, (BODY_INDEX)-1, 301, NULL},
-	{2386, (BODY_INDEX)-1, 301, NULL},
-	{2387, (BODY_INDEX)-1, 301, NULL},
-	{2388, (BODY_INDEX)-1, 301, NULL},
-	{2389, (BODY_INDEX)-1, 345, NULL},
-	{2390, (BODY_INDEX)-1, 301, NULL},
-	{2384, (BODY_INDEX)-1, 345, NULL},
-	{13399, (BODY_INDEX)-1, 409, NULL},
-	{13400, (BODY_INDEX)-1, 301, NULL},
-	{13401, (BODY_INDEX)-1, 301, NULL},
-	{13765, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{13759, 0, 313, NULL},
-	{13760, 8, 0, NULL},
-	{13781, (BODY_INDEX)-1, 301, NULL},
-	{13762, (BODY_INDEX)-1, 363, NULL},
-	{13763, (BODY_INDEX)-1, 363, NULL},
-	{13782, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 0, gen_type4_411},
-	{13780, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{2368, (BODY_INDEX)-1, 301, NULL},
+	{2369, (BODY_INDEX)-1, 145, NULL},
+	{2370, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{2371, (BODY_INDEX)-1, 301, NULL},
+	{2372, (BODY_INDEX)-1, 301, NULL},
+	{2373, (BODY_INDEX)-1, 301, NULL},
+	{2374, (BODY_INDEX)-1, 301, NULL},
+	{2375, (BODY_INDEX)-1, 351, NULL},
+	{2376, (BODY_INDEX)-1, 301, NULL},
+	{2377, (BODY_INDEX)-1, 351, NULL},
+	{13413, (BODY_INDEX)-1, 409, NULL},
+	{13414, (BODY_INDEX)-1, 301, NULL},
+	{13415, (BODY_INDEX)-1, 301, NULL},
+	{13774, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{13775, 0, 311, NULL},
+	{13776, 8, 310, NULL},
+	{13794, (BODY_INDEX)-1, 301, NULL},
+	{13778, (BODY_INDEX)-1, 369, NULL},
+	{13779, (BODY_INDEX)-1, 369, NULL},
+	{13795, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 310, gen_type4_411},
 };
 
 extern void Init411(void);
@@ -78,11 +77,10 @@ void Init411(void)
 {
 	IDSC(desc_411, 0, 410);
 	IDSC(desc_411 + 1, 2, 410);
-	IDSC(desc_411 + 32, 354, 410);
-	IDSC(desc_411 + 35, 353, 410);
-	IDSC(desc_411 + 42, 265, 410);
-	IDSC(desc_411 + 45, 264, 410);
-	IDSC(desc_411 + 53, 362, 410);
+	IDSC(desc_411 + 32, 375, 410);
+	IDSC(desc_411 + 35, 374, 410);
+	IDSC(desc_411 + 42, 289, 410);
+	IDSC(desc_411 + 45, 288, 410);
 }
 
 

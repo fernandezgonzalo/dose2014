@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F179_2172(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F179_2173(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F179_2215(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F179_2216(EIF_REFERENCE);
 extern void EIF_Minit179(void);
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /* {VARIANT_VIOLATION}.code */
-EIF_TYPED_VALUE F179_2172 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F179_2215 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "code";
@@ -50,17 +50,17 @@ EIF_TYPED_VALUE F179_2172 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 178, Current, 0, 0, 2112);
+	RTEAA(l_feature_name, 178, Current, 0, 0, 2155);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(178, Current, 2112);
+	RTDBGEAA(178, Current, 2155);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */
 	
-	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1267, 83))(Current)).it_i4);
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1305, 83))(Current)).it_i4);
 	Result = (EIF_INTEGER_32) Result;
 	RTVI(Current, RTAL);
 	RTRS;
@@ -74,8 +74,8 @@ EIF_TYPED_VALUE F179_2172 (EIF_REFERENCE Current)
 }
 
 /* {VARIANT_VIOLATION}.tag */
-RTOID (F179_2173)
-EIF_TYPED_VALUE F179_2173 (EIF_REFERENCE Current)
+RTOID (F179_2216)
+EIF_TYPED_VALUE F179_2216 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "tag";
@@ -89,7 +89,7 @@ EIF_TYPED_VALUE F179_2173 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRR
-	RTOTDR(F179_2173);
+	RTOTDR(F179_2216);
 
 	RTLI(4);
 	RTLR(0,tr1);
@@ -99,21 +99,21 @@ EIF_TYPED_VALUE F179_2173 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 178, Current, 0, 0, 2113);
+	RTEAA(l_feature_name, 178, Current, 0, 0, 2156);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(178, Current, 2113);
+	RTDBGEAA(178, Current, 2156);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF8000131, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF8000135, 0,0); /* Result */
 	
-	tr1 = RTLN(305);
+	tr1 = RTLN(309);
 	tr2 = RTMS_EX_H("Non-decreasing loop variant or negative value reached.",54,1300766254);
 	ur1 = tr2;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(4598, Dtype(tr1)))(tr1, ur1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(4678, Dtype(tr1)))(tr1, ur1x);
 	RTNHOOK(1,1);
 	Result = (EIF_REFERENCE) tr1;
 	RTVI(Current, RTAL);
@@ -133,7 +133,7 @@ EIF_TYPED_VALUE F179_2173 (EIF_REFERENCE Current)
 void EIF_Minit179 (void)
 {
 	GTCX
-	RTOTS (2173,F179_2173)
+	RTOTS (2216,F179_2216)
 }
 
 

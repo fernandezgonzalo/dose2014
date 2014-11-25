@@ -40,13 +40,13 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C1_c.o 
 
-OLDOBJECTS =  an1.o an1d.o st32.o st32d.o is31.o is31d.o rt30.o rt30d.o sy29.o \
-	sy29d.o ut27.o ut27d.o ut28.o ut28d.o ws26.o ws26d.o ws25.o ws25d.o \
-	ch24.o ch24d.o sy23.o sy23d.o js22.o js22d.o ht21.o ht21d.o sq20.o \
-	sq20d.o sq19.o sq19d.o sq18.o sq18d.o sq17.o sq17d.o uu16.o uu16d.o \
-	c_15.o c_15d.o ve14.o ve14d.o ws13.o ws13d.o fi11.o fi11d.o fi12.o \
-	fi12d.o er10.o er10d.o sq9.o sq9d.o sq8.o sq8d.o sq7.o sq7d.o ht6.o \
-	ht6d.o ht5.o ht5d.o ur4.o ur4d.o ob3.o ob3d.o pa2.o pa2d.o 
+OLDOBJECTS =  an1.o an1d.o de2.o de2d.o is32.o is32d.o rt31.o rt31d.o sy30.o \
+	sy30d.o ut28.o ut28d.o ut29.o ut29d.o ws27.o ws27d.o js26.o js26d.o \
+	ws25.o ws25d.o ch24.o ch24d.o sy23.o sy23d.o c_22.o c_22d.o ht21.o \
+	ht21d.o uu20.o uu20d.o sq19.o sq19d.o sq18.o sq18d.o sq17.o sq17d.o \
+	sq16.o sq16d.o ve15.o ve15d.o ws14.o ws14d.o fi12.o fi12d.o fi13.o \
+	fi13d.o er11.o er11d.o sq10.o sq10d.o sq9.o sq9d.o sq8.o sq8d.o ht7.o \
+	ht7d.o ht6.o ht6d.o ur5.o ur5d.o ob4.o ob4d.o pa3.o pa3d.o 
 
 all: Cobj1.o
 

@@ -1,5 +1,5 @@
 /*
- * Class WSF_MIME_HANDLER_HELPER
+ * Class WSF_LAUNCHABLE_SERVICE
  */
 
 #include "eif_macros.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_110 [] = {417,109,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_110 [] = {418,109,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_110 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_110 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_110 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_110 [] = {0,0xFFFF};
 static struct desc_info desc_110[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_110},
+	{1, (BODY_INDEX)-1, 418, gen_type0_110},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_110[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_110},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,11 +48,13 @@ static struct desc_info desc_110[] = {
 	{28, (BODY_INDEX)-1, 109, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 109, NULL},
-	{1632, (BODY_INDEX)-1, 314, NULL},
-	{1633, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1634, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1635, (BODY_INDEX)-1, 336, NULL},
-	{1636, (BODY_INDEX)-1, 238, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1622, (BODY_INDEX)-1, 52, NULL},
+	{1627, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1628, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1629, 0, 284, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1630, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init110(void);
@@ -60,7 +62,8 @@ void Init110(void)
 {
 	IDSC(desc_110, 0, 109);
 	IDSC(desc_110 + 1, 2, 109);
-	IDSC(desc_110 + 32, 342, 109);
+	IDSC(desc_110 + 32, 305, 109);
+	IDSC(desc_110 + 34, 306, 109);
 }
 
 

@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F591_2492(EIF_REFERENCE);
-extern void F591_8163(EIF_REFERENCE, int);
+extern EIF_TYPED_VALUE F591_2537(EIF_REFERENCE);
+extern void F591_8243(EIF_REFERENCE, int);
 extern void EIF_Minit591(void);
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /* {ACTIVE}.replaceable */
-EIF_TYPED_VALUE F591_2492 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F591_2537 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "replaceable";
@@ -50,12 +50,12 @@ EIF_TYPED_VALUE F591_2492 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 590, Current, 0, 0, 2851);
+	RTEAA(l_feature_name, 590, Current, 0, 0, 2895);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(590, Current, 2851);
+	RTDBGEAA(590, Current, 2895);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
@@ -73,7 +73,7 @@ EIF_TYPED_VALUE F591_2492 (EIF_REFERENCE Current)
 }
 
 /* {ACTIVE}._invariant */
-void F591_8163 (EIF_REFERENCE Current, int where)
+void F591_8243 (EIF_REFERENCE Current, int where)
 {
 	GTCX
 	char *l_feature_name = "_invariant";
@@ -89,14 +89,14 @@ void F591_8163 (EIF_REFERENCE Current, int where)
 	RTLR(0,Current);
 	RTLU (SK_VOID, NULL);
 	RTLU (SK_REF, &Current);
-	RTEAINV(l_feature_name, 590, Current, 0, 8162);
+	RTEAINV(l_feature_name, 590, Current, 0, 8242);
 	RTSA(dtype);
 	RTME(dtype, 0);
 	RTIT("writable_constraint", Current);
 	tb1 = '\01';
-	tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2219, dtype))(Current)).it_b);
+	tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2264, dtype))(Current)).it_b);
 	if (tb2) {
-		tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2218, dtype))(Current)).it_b);
+		tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2263, dtype))(Current)).it_b);
 		tb1 = tb2;
 	}
 	if (tb1) {
@@ -106,12 +106,12 @@ void F591_8163 (EIF_REFERENCE Current, int where)
 	}
 	RTIT("empty_constraint", Current);
 	tb1 = '\01';
-	tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2162, dtype))(Current)).it_b);
+	tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2207, dtype))(Current)).it_b);
 	if (tb2) {
 		tb2 = '\0';
-		tb3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2218, dtype))(Current)).it_b);
+		tb3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2263, dtype))(Current)).it_b);
 		if ((EIF_BOOLEAN) !tb3) {
-			tb3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2219, dtype))(Current)).it_b);
+			tb3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2264, dtype))(Current)).it_b);
 			tb2 = (EIF_BOOLEAN) !tb3;
 		}
 		tb1 = tb2;

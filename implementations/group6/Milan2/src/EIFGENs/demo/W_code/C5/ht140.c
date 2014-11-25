@@ -1,5 +1,5 @@
 /*
- * Code for class HTTP_STATUS_CODE_MESSAGES
+ * Code for class HTTP_MIME_TYPES
  */
 
 #include "eif_eiffel.h"
@@ -10,8 +10,60 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F140_2017(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F140_2018(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F140_2014(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2015(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2016(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2017(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2018(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2019(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2020(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2021(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2022(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2023(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2024(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2025(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2026(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2027(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2028(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2029(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2030(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2031(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2032(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2033(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2034(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2035(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2036(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2037(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2038(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2039(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2040(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2041(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2042(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2043(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2044(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2045(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2046(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2047(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2048(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2049(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2050(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2051(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2052(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2053(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2054(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2055(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2056(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2057(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2058(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2059(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2060(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2061(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2062(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2063(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2064(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2065(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2066(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F140_2067(EIF_REFERENCE);
 extern void EIF_Minit140(void);
 
 #ifdef __cplusplus
@@ -33,450 +85,603 @@ extern "C" {
 extern "C" {
 #endif
 
-/* {HTTP_STATUS_CODE_MESSAGES}.is_valid_http_status_code */
-EIF_TYPED_VALUE F140_2017 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+/* {HTTP_MIME_TYPES}.application_atom_xml */
+RTOID (F140_2014)
+
+
+EIF_TYPED_VALUE F140_2014 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "is_valid_http_status_code";
-	RTEX;
-#define arg1 arg1x.it_i4
-	EIF_INTEGER_32 ti4_1;
-	EIF_INTEGER_32 ti4_2;
-	EIF_BOOLEAN Result = ((EIF_BOOLEAN) 0);
-	
-	RTCDT;
-	RTSN;
-	RTDA;
-	RTLD;
-	
-	if ((arg1x.type & SK_HEAD) == SK_REF) arg1x.it_i4 = * (EIF_INTEGER_32 *) arg1x.it_r;
-	
-	RTLI(1);
-	RTLR(0,Current);
-	RTLU (SK_BOOL, &Result);
-	RTLU(SK_INT32,&arg1);
-	RTLU (SK_REF, &Current);
-	
-	RTEAA(l_feature_name, 139, Current, 0, 1, 1957);
-	RTSA(dtype);
-	RTSC;
-	RTME(dtype, 0);
-	RTGC;
-	RTDBGEAA(139, Current, 1957);
-	RTIV(Current, RTAL);
-	RTHOOK(1);
-	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
-	
-	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1782, dtype))(Current)).it_i4);
-	ti4_2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1842, dtype))(Current)).it_i4);
-	Result = (EIF_BOOLEAN) (EIF_BOOLEAN) ((EIF_BOOLEAN) (arg1 >= ti4_1) && (EIF_BOOLEAN) (arg1 <= ti4_2));
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(2);
-	RTDBGLE;
-	RTMD(0);
-	RTLE;
-	RTLO(3);
-	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_BOOL; r.it_b = Result; return r; }
-#undef arg1
+	RTOTC (F140_2014,1964,RTMS_EX_H("application/atom+xml",20,538534252));
 }
 
-/* {HTTP_STATUS_CODE_MESSAGES}.http_status_code_message */
-EIF_TYPED_VALUE F140_2018 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+/* {HTTP_MIME_TYPES}.application_force_download */
+RTOID (F140_2015)
+
+
+EIF_TYPED_VALUE F140_2015 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "http_status_code_message";
-	RTEX;
-#define arg1 arg1x.it_i4
-	EIF_REFERENCE Result = ((EIF_REFERENCE) 0);
-	
-	RTSN;
-	RTDA;
-	RTLD;
-	
-	if ((arg1x.type & SK_HEAD) == SK_REF) arg1x.it_i4 = * (EIF_INTEGER_32 *) arg1x.it_r;
-	
-	RTLI(2);
-	RTLR(0,Result);
-	RTLR(1,Current);
-	RTLU (SK_REF, &Result);
-	RTLU(SK_INT32,&arg1);
-	RTLU (SK_REF, &Current);
-	
-	RTEAA(l_feature_name, 139, Current, 0, 1, 1958);
-	RTSA(Dtype(Current));
-	RTSC;
-	RTME(Dtype(Current), 0);
-	RTGC;
-	RTDBGEAA(139, Current, 1958);
-	RTIV(Current, RTAL);
-	RTHOOK(1);
-	switch (arg1) {
-		case 100L:
-			RTHOOK(2);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Continue",8,2035097445);
-			break;
-		case 101L:
-			RTHOOK(3);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Switching Protocols",19,99036275);
-			break;
-		case 102L:
-			RTHOOK(4);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Processing",10,1807591271);
-			break;
-		case 200L:
-			RTHOOK(5);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("OK",2,20299);
-			break;
-		case 201L:
-			RTHOOK(6);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Created",7,1222454116);
-			break;
-		case 202L:
-			RTHOOK(7);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Accepted",8,385886052);
-			break;
-		case 203L:
-			RTHOOK(8);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Non-Authoritative Information",29,225469550);
-			break;
-		case 204L:
-			RTHOOK(9);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("No Content",10,440539764);
-			break;
-		case 205L:
-			RTHOOK(10);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Reset Content",13,1200807028);
-			break;
-		case 206L:
-			RTHOOK(11);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Partial Content",15,993868660);
-			break;
-		case 207L:
-			RTHOOK(12);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Multi-Status",12,1677333619);
-			break;
-		case 300L:
-			RTHOOK(13);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Multiple Choices",16,1134913651);
-			break;
-		case 301L:
-			RTHOOK(14);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Moved Permanently",17,478838905);
-			break;
-		case 302L:
-			RTHOOK(15);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Found",5,1870504548);
-			break;
-		case 303L:
-			RTHOOK(16);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("See Other",9,1935819122);
-			break;
-		case 304L:
-			RTHOOK(17);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Not Modified",12,104637284);
-			break;
-		case 305L:
-			RTHOOK(18);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Use Proxy",9,2023926393);
-			break;
-		case 306L:
-			RTHOOK(19);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Switch Proxy",12,1183095161);
-			break;
-		case 307L:
-			RTHOOK(20);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Temporary Redirect",18,1809363828);
-			break;
-		case 400L:
-			RTHOOK(21);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Bad Request",11,480473204);
-			break;
-		case 401L:
-			RTHOOK(22);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Unauthorized",12,2043467108);
-			break;
-		case 402L:
-			RTHOOK(23);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Payment Required",16,595669604);
-			break;
-		case 403L:
-			RTHOOK(24);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Forbidden",9,1133290094);
-			break;
-		case 404L:
-			RTHOOK(25);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Not Found",9,519938148);
-			break;
-		case 405L:
-			RTHOOK(26);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Method Not Allowed",18,1556186724);
-			break;
-		case 406L:
-			RTHOOK(27);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Not Acceptable",14,1326595941);
-			break;
-		case 407L:
-			RTHOOK(28);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Proxy Authentication Required",29,295093604);
-			break;
-		case 408L:
-			RTHOOK(29);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Request Timeout",15,1729348212);
-			break;
-		case 409L:
-			RTHOOK(30);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Conflict",8,2084989300);
-			break;
-		case 410L:
-			RTHOOK(31);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Gone",4,1198485093);
-			break;
-		case 411L:
-			RTHOOK(32);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Length Required",15,1215469156);
-			break;
-		case 412L:
-			RTHOOK(33);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Precondition Failed",19,99381604);
-			break;
-		case 413L:
-			RTHOOK(34);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Request Entity Too Large",24,255904869);
-			break;
-		case 414L:
-			RTHOOK(35);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Request-URI Too Long",20,1098108775);
-			break;
-		case 415L:
-			RTHOOK(36);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Unsupported Media Type",22,1806357861);
-			break;
-		case 416L:
-			RTHOOK(37);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Requested Range Not Satisfiable",31,2118876005);
-			break;
-		case 417L:
-			RTHOOK(38);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Expectation Failed",18,1777869668);
-			break;
-		case 418L:
-			RTHOOK(39);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("I\'m a teapot",12,2019786356);
-			break;
-		case 421L:
-			RTHOOK(40);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("There are too many connections from your internet address",57,608721779);
-			break;
-		case 422L:
-			RTHOOK(41);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Unprocessable Entity",20,458227577);
-			break;
-		case 423L:
-			RTHOOK(42);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Locked",6,1818257252);
-			break;
-		case 424L:
-			RTHOOK(43);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Failed Dependency",17,1405794681);
-			break;
-		case 425L:
-			RTHOOK(44);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Unordered Collection",20,184548974);
-			break;
-		case 426L:
-			RTHOOK(45);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Upgrade Required",16,1938052964);
-			break;
-		case 449L:
-			RTHOOK(46);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Retry With",10,1852474984);
-			break;
-		case 450L:
-			RTHOOK(47);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Blocked by Windows Parental Controls",36,1954523251);
-			break;
-		case 500L:
-			RTHOOK(48);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Internal Server Error",21,1474060146);
-			break;
-		case 501L:
-			RTHOOK(49);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Not Implemented",15,748386148);
-			break;
-		case 502L:
-			RTHOOK(50);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Bad Gateway",11,1111329657);
-			break;
-		case 503L:
-			RTHOOK(51);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Service Unavailable",19,706765669);
-			break;
-		case 504L:
-			RTHOOK(52);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Gateway Timeout",15,1652483444);
-			break;
-		case 505L:
-			RTHOOK(53);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("HTTP Version Not Supported",26,648490084);
-			break;
-		case 506L:
-			RTHOOK(54);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Variant Also Negotiates",23,1399311731);
-			break;
-		case 507L:
-			RTHOOK(55);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Insufficient Storage",20,958966629);
-			break;
-		case 509L:
-			RTHOOK(56);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Bandwidth Limit Exceeded",24,843410532);
-			break;
-		case 510L:
-			RTHOOK(57);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("Not Extended",12,502999396);
-			break;
-		case 530L:
-			RTHOOK(58);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = RTMS_EX_H("User access denied",18,1732144484);
-			break;
-		default:
-			RTHOOK(59);
-			RTDBGAL(Current, 0, 0xF800013A, 0,0); /* Result */
-			
-			Result = (EIF_REFERENCE) NULL;
-			break;
-	}
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(60);
-	RTDBGLE;
-	RTMD(0);
-	RTLE;
-	RTLO(3);
-	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_REF; r.it_r = Result; return r; }
-#undef arg1
+	RTOTC (F140_2015,1965,RTMS_EX_H("application/force-download",26,1406807908));
+}
+
+/* {HTTP_MIME_TYPES}.application_javascript */
+RTOID (F140_2016)
+
+
+EIF_TYPED_VALUE F140_2016 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2016,1966,RTMS_EX_H("application/javascript",22,1810499700));
+}
+
+/* {HTTP_MIME_TYPES}.application_json */
+RTOID (F140_2017)
+
+
+EIF_TYPED_VALUE F140_2017 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2017,1967,RTMS_EX_H("application/json",16,1936556398));
+}
+
+/* {HTTP_MIME_TYPES}.application_octet_stream */
+RTOID (F140_2018)
+
+
+EIF_TYPED_VALUE F140_2018 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2018,1968,RTMS_EX_H("application/octet-stream",24,1499935341));
+}
+
+/* {HTTP_MIME_TYPES}.application_pdf */
+RTOID (F140_2019)
+
+
+EIF_TYPED_VALUE F140_2019 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2019,1969,RTMS_EX_H("application/pdf",15,1736004198));
+}
+
+/* {HTTP_MIME_TYPES}.application_postscript */
+RTOID (F140_2020)
+
+
+EIF_TYPED_VALUE F140_2020 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2020,1970,RTMS_EX_H("application/postscript",22,1863990644));
+}
+
+/* {HTTP_MIME_TYPES}.application_rss_xml */
+RTOID (F140_2021)
+
+
+EIF_TYPED_VALUE F140_2021 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2021,1971,RTMS_EX_H("application/rss+xml",19,575649388));
+}
+
+/* {HTTP_MIME_TYPES}.application_rtf */
+RTOID (F140_2022)
+
+
+EIF_TYPED_VALUE F140_2022 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2022,1972,RTMS_EX_H("application/rtf",15,1736139366));
+}
+
+/* {HTTP_MIME_TYPES}.application_xml */
+RTOID (F140_2023)
+
+
+EIF_TYPED_VALUE F140_2023 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2023,1973,RTMS_EX_H("application/xml",15,1736530796));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_shockwave_flash */
+RTOID (F140_2024)
+
+
+EIF_TYPED_VALUE F140_2024 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2024,1974,RTMS_EX_H("application/x-shockwave-flash",29,1479211880));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_compressed */
+RTOID (F140_2025)
+
+
+EIF_TYPED_VALUE F140_2025 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2025,1975,RTMS_EX_H("application/x-compressed",24,844621924));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_gzip */
+RTOID (F140_2026)
+
+
+EIF_TYPED_VALUE F140_2026 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2026,1976,RTMS_EX_H("application/x-gzip",18,144509552));
+}
+
+/* {HTTP_MIME_TYPES}.application_zip */
+RTOID (F140_2027)
+
+
+EIF_TYPED_VALUE F140_2027 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2027,1977,RTMS_EX_H("application/zip",15,1736660848));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_bzip */
+RTOID (F140_2028)
+
+
+EIF_TYPED_VALUE F140_2028 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2028,1978,RTMS_EX_H("application/x-bzip",18,60623472));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_bzip2 */
+RTOID (F140_2029)
+
+
+EIF_TYPED_VALUE F140_2029 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2029,1979,RTMS_EX_H("application/x-bzip2",19,487250226));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_tar */
+RTOID (F140_2030)
+
+
+EIF_TYPED_VALUE F140_2030 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2030,1980,RTMS_EX_H("application/x-tar",17,664108914));
+}
+
+/* {HTTP_MIME_TYPES}.application_x_www_form_encoded */
+RTOID (F140_2031)
+
+
+EIF_TYPED_VALUE F140_2031 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2031,1981,RTMS_EX_H("application/x-www-form-urlencoded",33,632002404));
+}
+
+/* {HTTP_MIME_TYPES}.audio_mpeg3 */
+RTOID (F140_2032)
+
+
+EIF_TYPED_VALUE F140_2032 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2032,1982,RTMS_EX_H("audio/mpeg3",11,1428010291));
+}
+
+/* {HTTP_MIME_TYPES}.audio_mpeg */
+RTOID (F140_2033)
+
+
+EIF_TYPED_VALUE F140_2033 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2033,1983,RTMS_EX_H("audio/mpeg",10,1767182695));
+}
+
+/* {HTTP_MIME_TYPES}.audio_wav */
+RTOID (F140_2034)
+
+
+EIF_TYPED_VALUE F140_2034 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2034,1984,RTMS_EX_H("audio/wav",9,1249066358));
+}
+
+/* {HTTP_MIME_TYPES}.image_bmp */
+RTOID (F140_2035)
+
+
+EIF_TYPED_VALUE F140_2035 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2035,1985,RTMS_EX_H("image/bmp",9,203750768));
+}
+
+/* {HTTP_MIME_TYPES}.image_gif */
+RTOID (F140_2036)
+
+
+EIF_TYPED_VALUE F140_2036 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2036,1986,RTMS_EX_H("image/gif",9,204077414));
+}
+
+/* {HTTP_MIME_TYPES}.image_jpeg */
+RTOID (F140_2037)
+
+
+EIF_TYPED_VALUE F140_2037 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2037,1987,RTMS_EX_H("image/jpeg",10,755092839));
+}
+
+/* {HTTP_MIME_TYPES}.image_jpg */
+RTOID (F140_2038)
+
+
+EIF_TYPED_VALUE F140_2038 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2038,1988,RTMS_EX_H("image/jpg",9,204275815));
+}
+
+/* {HTTP_MIME_TYPES}.image_png */
+RTOID (F140_2039)
+
+
+EIF_TYPED_VALUE F140_2039 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2039,1989,RTMS_EX_H("image/png",9,204668519));
+}
+
+/* {HTTP_MIME_TYPES}.image_svg_xml */
+RTOID (F140_2040)
+
+
+EIF_TYPED_VALUE F140_2040 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2040,1990,RTMS_EX_H("image/svg+xml",13,6517356));
+}
+
+/* {HTTP_MIME_TYPES}.image_tiff */
+RTOID (F140_2041)
+
+
+EIF_TYPED_VALUE F140_2041 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2041,1991,RTMS_EX_H("image/tiff",10,922406502));
+}
+
+/* {HTTP_MIME_TYPES}.image_x_ico */
+RTOID (F140_2042)
+
+
+EIF_TYPED_VALUE F140_2042 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2042,1992,RTMS_EX_H("image/x-ico",11,1054359151));
+}
+
+/* {HTTP_MIME_TYPES}.message_http */
+RTOID (F140_2043)
+
+
+EIF_TYPED_VALUE F140_2043 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2043,1993,RTMS_EX_H("message/http",12,2044433520));
+}
+
+/* {HTTP_MIME_TYPES}.message_s_http */
+RTOID (F140_2044)
+
+
+EIF_TYPED_VALUE F140_2044 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2044,1994,RTMS_EX_H("message/s-http",14,402512752));
+}
+
+/* {HTTP_MIME_TYPES}.message_partial */
+RTOID (F140_2045)
+
+
+EIF_TYPED_VALUE F140_2045 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2045,1995,RTMS_EX_H("message/partial",15,703352428));
+}
+
+/* {HTTP_MIME_TYPES}.message_sip */
+RTOID (F140_2046)
+
+
+EIF_TYPED_VALUE F140_2046 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2046,1996,RTMS_EX_H("message/sip",11,1887748976));
+}
+
+/* {HTTP_MIME_TYPES}.model_vrml */
+RTOID (F140_2047)
+
+
+EIF_TYPED_VALUE F140_2047 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2047,1997,RTMS_EX_H("model/vrml",10,350881132));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_mixed */
+RTOID (F140_2048)
+
+
+EIF_TYPED_VALUE F140_2048 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2048,1998,RTMS_EX_H("multipart/mixed",15,304900708));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_alternative */
+RTOID (F140_2049)
+
+
+EIF_TYPED_VALUE F140_2049 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2049,1999,RTMS_EX_H("multipart/alternative",21,981871717));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_related */
+RTOID (F140_2050)
+
+
+EIF_TYPED_VALUE F140_2050 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2050,2000,RTMS_EX_H("multipart/related",17,2115777636));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_form_data */
+RTOID (F140_2051)
+
+
+EIF_TYPED_VALUE F140_2051 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2051,2001,RTMS_EX_H("multipart/form-data",19,1299947873));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_signed */
+RTOID (F140_2052)
+
+
+EIF_TYPED_VALUE F140_2052 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2052,2002,RTMS_EX_H("multipart/signed",16,472482148));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_encrypted */
+RTOID (F140_2053)
+
+
+EIF_TYPED_VALUE F140_2053 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2053,2003,RTMS_EX_H("multipart/encrypted",19,346409316));
+}
+
+/* {HTTP_MIME_TYPES}.multipart_x_gzip */
+RTOID (F140_2054)
+
+
+EIF_TYPED_VALUE F140_2054 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2054,2004,RTMS_EX_H("multipart/x-gzip",16,482639216));
+}
+
+/* {HTTP_MIME_TYPES}.text_css */
+RTOID (F140_2055)
+
+
+EIF_TYPED_VALUE F140_2055 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2055,2005,RTMS_EX_H("text/css",8,354042739));
+}
+
+/* {HTTP_MIME_TYPES}.text_csv */
+RTOID (F140_2056)
+
+
+EIF_TYPED_VALUE F140_2056 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2056,2006,RTMS_EX_H("text/csv",8,354042742));
+}
+
+/* {HTTP_MIME_TYPES}.text_html */
+RTOID (F140_2057)
+
+
+EIF_TYPED_VALUE F140_2057 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2057,2007,RTMS_EX_H("text/html",9,524739436));
+}
+
+/* {HTTP_MIME_TYPES}.text_javascript */
+RTOID (F140_2058)
+
+
+EIF_TYPED_VALUE F140_2058 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2058,2008,RTMS_EX_H("text/javascript",15,411552116));
+}
+
+/* {HTTP_MIME_TYPES}.text_json */
+RTOID (F140_2059)
+
+
+EIF_TYPED_VALUE F140_2059 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2059,1955,RTMS_EX_H("text/json",9,558228846));
+}
+
+/* {HTTP_MIME_TYPES}.text_plain */
+RTOID (F140_2060)
+
+
+EIF_TYPED_VALUE F140_2060 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2060,1956,RTMS_EX_H("text/plain",10,1054604142));
+}
+
+/* {HTTP_MIME_TYPES}.text_rtf */
+RTOID (F140_2061)
+
+
+EIF_TYPED_VALUE F140_2061 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2061,1957,RTMS_EX_H("text/rtf",8,355026022));
+}
+
+/* {HTTP_MIME_TYPES}.text_tab_separated_values */
+RTOID (F140_2062)
+
+
+EIF_TYPED_VALUE F140_2062 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2062,1958,RTMS_EX_H("text/tab-separated-values",25,2449011));
+}
+
+/* {HTTP_MIME_TYPES}.text_xml */
+RTOID (F140_2063)
+
+
+EIF_TYPED_VALUE F140_2063 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2063,1959,RTMS_EX_H("text/xml",8,355417452));
+}
+
+/* {HTTP_MIME_TYPES}.text_vcard */
+RTOID (F140_2064)
+
+
+EIF_TYPED_VALUE F140_2064 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2064,1960,RTMS_EX_H("text/vcard",10,903657572));
+}
+
+/* {HTTP_MIME_TYPES}.video_avi */
+RTOID (F140_2065)
+
+
+EIF_TYPED_VALUE F140_2065 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2065,1961,RTMS_EX_H("video/avi",9,328151401));
+}
+
+/* {HTTP_MIME_TYPES}.video_quicktime */
+RTOID (F140_2066)
+
+
+EIF_TYPED_VALUE F140_2066 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2066,1962,RTMS_EX_H("video/quicktime",15,1237206117));
+}
+
+/* {HTTP_MIME_TYPES}.video_x_motion_jpeg */
+RTOID (F140_2067)
+
+
+EIF_TYPED_VALUE F140_2067 (EIF_REFERENCE Current)
+{
+	GTCX
+	RTOTC (F140_2067,1963,RTMS_EX_H("video/x-motion-jpeg",19,1531590503));
 }
 
 void EIF_Minit140 (void)
 {
 	GTCX
+	RTOTS (2014,F140_2014)
+	RTOTS (2015,F140_2015)
+	RTOTS (2016,F140_2016)
+	RTOTS (2017,F140_2017)
+	RTOTS (2018,F140_2018)
+	RTOTS (2019,F140_2019)
+	RTOTS (2020,F140_2020)
+	RTOTS (2021,F140_2021)
+	RTOTS (2022,F140_2022)
+	RTOTS (2023,F140_2023)
+	RTOTS (2024,F140_2024)
+	RTOTS (2025,F140_2025)
+	RTOTS (2026,F140_2026)
+	RTOTS (2027,F140_2027)
+	RTOTS (2028,F140_2028)
+	RTOTS (2029,F140_2029)
+	RTOTS (2030,F140_2030)
+	RTOTS (2031,F140_2031)
+	RTOTS (2032,F140_2032)
+	RTOTS (2033,F140_2033)
+	RTOTS (2034,F140_2034)
+	RTOTS (2035,F140_2035)
+	RTOTS (2036,F140_2036)
+	RTOTS (2037,F140_2037)
+	RTOTS (2038,F140_2038)
+	RTOTS (2039,F140_2039)
+	RTOTS (2040,F140_2040)
+	RTOTS (2041,F140_2041)
+	RTOTS (2042,F140_2042)
+	RTOTS (2043,F140_2043)
+	RTOTS (2044,F140_2044)
+	RTOTS (2045,F140_2045)
+	RTOTS (2046,F140_2046)
+	RTOTS (2047,F140_2047)
+	RTOTS (2048,F140_2048)
+	RTOTS (2049,F140_2049)
+	RTOTS (2050,F140_2050)
+	RTOTS (2051,F140_2051)
+	RTOTS (2052,F140_2052)
+	RTOTS (2053,F140_2053)
+	RTOTS (2054,F140_2054)
+	RTOTS (2055,F140_2055)
+	RTOTS (2056,F140_2056)
+	RTOTS (2057,F140_2057)
+	RTOTS (2058,F140_2058)
+	RTOTS (2059,F140_2059)
+	RTOTS (2060,F140_2060)
+	RTOTS (2061,F140_2061)
+	RTOTS (2062,F140_2062)
+	RTOTS (2063,F140_2063)
+	RTOTS (2064,F140_2064)
+	RTOTS (2065,F140_2065)
+	RTOTS (2066,F140_2066)
+	RTOTS (2067,F140_2067)
 }
 
 

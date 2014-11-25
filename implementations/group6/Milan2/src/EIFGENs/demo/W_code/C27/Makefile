@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C27_c.o 
 
-OLDOBJECTS =  sp866.o sp866d.o sp885.o sp885d.o ty877.o ty877d.o ty878.o ty878d.o \
-	ty875.o ty875d.o ty879.o ty879d.o ty883.o ty883d.o ty884.o ty884d.o \
-	na860.o na860d.o na886.o na886d.o re887.o re887d.o ar861.o ar861d.o \
-	re862.o re862d.o to867.o to867d.o it890.o it890d.o it889.o it889d.o \
-	li871.o li871d.o in888.o in888d.o tr859.o tr859d.o se868.o se868d.o \
-	dy870.o dy870d.o bo863.o bo863d.o un874.o un874d.o ch872.o ch872d.o \
-	co858.o co858d.o bi869.o bi869d.o fi864.o fi864d.o dy873.o dy873d.o \
-	rt876.o rt876d.o rt882.o rt882d.o rt880.o rt880d.o rt881.o rt881d.o \
-	bo865.o bo865d.o 
+OLDOBJECTS =  sp878.o sp878d.o sp889.o sp889d.o ty882.o ty882d.o ty883.o ty883d.o \
+	ty879.o ty879d.o ty880.o ty880d.o ty884.o ty884d.o ty888.o ty888d.o \
+	na864.o na864d.o na890.o na890d.o re863.o re863d.o ar865.o ar865d.o \
+	re875.o re875d.o to877.o to877d.o it862.o it862d.o it861.o it861d.o \
+	li871.o li871d.o in860.o in860d.o tr859.o tr859d.o se867.o se867d.o \
+	dy866.o dy866d.o bo876.o bo876d.o un874.o un874d.o ch872.o ch872d.o \
+	co858.o co858d.o bi870.o bi870d.o fi868.o fi868d.o dy873.o dy873d.o \
+	rt881.o rt881d.o rt885.o rt885d.o rt887.o rt887d.o rt886.o rt886d.o \
+	bo869.o bo869d.o 
 
 all: Cobj27.o
 

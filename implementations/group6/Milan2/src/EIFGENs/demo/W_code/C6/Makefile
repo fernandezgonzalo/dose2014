@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C6_c.o 
 
-OLDOBJECTS =  cr179.o cr179d.o ex167.o ex167d.o vo176.o vo176d.o io171.o io171d.o \
-	mi170.o mi170d.o ad178.o ad178d.o se169.o se169d.o vo175.o vo175d.o \
-	no166.o no166d.o pr186.o pr186d.o po185.o po185d.o in184.o in184d.o \
-	ch183.o ch183d.o ro174.o ro174d.o ba173.o ba173d.o va182.o va182d.o \
-	lo181.o lo181d.o as180.o as180d.o ei177.o ei177d.o ei165.o ei165d.o \
-	la172.o la172d.o da168.o da168d.o sq195.o sq195d.o ws197.o ws197d.o \
-	ws196.o ws196d.o sq194.o sq194d.o sq193.o sq193d.o gc192.o gc192d.o \
-	me191.o me191d.o me190.o me190d.o in188.o in188d.o so187.o so187d.o \
-	ne189.o ne189d.o 
+OLDOBJECTS =  lo184.o lo184d.o cr177.o cr177d.o ex165.o ex165d.o se169.o se169d.o \
+	vo174.o vo174d.o io168.o io168d.o mi167.o mi167d.o ad176.o ad176d.o \
+	po183.o po183d.o vo173.o vo173d.o pr182.o pr182d.o in181.o in181d.o \
+	ch180.o ch180d.o ro172.o ro172d.o ba171.o ba171d.o va179.o va179d.o \
+	as178.o as178d.o ei175.o ei175d.o da166.o da166d.o la170.o la170d.o \
+	ws196.o ws196d.o sq193.o sq193d.o ws195.o ws195d.o ws194.o ws194d.o \
+	ra197.o ra197d.o sq192.o sq192d.o sq191.o sq191d.o gc190.o gc190d.o \
+	me189.o me189d.o me188.o me188d.o in186.o in186d.o so185.o so185d.o \
+	ne187.o ne187d.o 
 
 all: Cobj6.o
 

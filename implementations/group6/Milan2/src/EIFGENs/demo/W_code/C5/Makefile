@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C5_c.o 
 
-OLDOBJECTS =  ex146.o ex146d.o ex145.o ex145d.o op156.o op156d.o ei163.o ei163d.o \
-	re160.o re160d.o ex159.o ex159d.o op155.o op155d.o de147.o de147d.o \
-	re158.o re158d.o co154.o co154d.o ol162.o ol162d.o fl152.o fl152d.o \
-	ex144.o ex144d.o ht142.o ht142d.o ht139.o ht139d.o ht138.o ht138d.o \
-	nu132.o nu132d.o st137.o st137d.o st136.o st136d.o op153.o op153d.o \
-	sy161.o sy161d.o ob157.o ob157d.o ha151.o ha151d.o he135.o he135d.o \
-	ht143.o ht143d.o sq148.o sq148d.o st134.o st134d.o in133.o in133d.o \
-	ma150.o ma150d.o ei164.o ei164d.o ht140.o ht140d.o sq149.o sq149d.o \
-	wg141.o wg141d.o 
+OLDOBJECTS =  ex144.o ex144d.o ex143.o ex143d.o op154.o op154d.o ei161.o ei161d.o \
+	re158.o re158d.o re157.o re157d.o ex156.o ex156d.o op153.o op153d.o \
+	de145.o de145d.o co152.o co152d.o ol160.o ol160d.o no164.o no164d.o \
+	fl150.o fl150d.o ex142.o ex142d.o ht140.o ht140d.o ht137.o ht137d.o \
+	ht136.o ht136d.o de135.o de135d.o st134.o st134d.o st133.o st133d.o \
+	op151.o op151d.o sy159.o sy159d.o ob155.o ob155d.o ei163.o ei163d.o \
+	ha149.o ha149d.o he132.o he132d.o ht141.o ht141d.o sq146.o sq146d.o \
+	ma148.o ma148d.o ei162.o ei162d.o ht138.o ht138d.o sq147.o sq147d.o \
+	wg139.o wg139d.o 
 
 all: Cobj5.o
 

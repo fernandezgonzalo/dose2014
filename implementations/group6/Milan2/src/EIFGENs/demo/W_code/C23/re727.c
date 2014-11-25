@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F727_4529(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F727_4609(EIF_REFERENCE);
 extern void EIF_Minit727(void);
 
 #ifdef __cplusplus
@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 /* {READABLE_INDEXABLE}.new_cursor */
-EIF_TYPED_VALUE F727_4529 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F727_4609 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "new_cursor";
@@ -56,30 +56,30 @@ EIF_TYPED_VALUE F727_4529 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 726, Current, 0, 0, 5275);
+	RTEAA(l_feature_name, 726, Current, 0, 0, 5355);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(726, Current, 5275);
+	RTDBGEAA(726, Current, 5355);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF80002D5, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF80002D3, 0,0); /* Result */
 	
 	{
-		static EIF_TYPE_INDEX typarr0[] = {725,0,0xFFFF};
+		static EIF_TYPE_INDEX typarr0[] = {723,0,0xFFFF};
 		EIF_TYPE_INDEX typres0;
-		typarr0[1] = RTWCT(3594, dtype, Dftype(Current));
+		typarr0[1] = RTWCT(3674, dtype, Dftype(Current));
 		
 		typres0 = eif_compound_id(Dftype(Current), typarr0);
 		tr1 = RTLN(typres0);
 	}
 	ur1 = RTCCL(Current);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(3809, Dtype(tr1)))(tr1, ur1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(3889, Dtype(tr1)))(tr1, ur1x);
 	RTNHOOK(1,1);
 	Result = (EIF_REFERENCE) RTCCL(tr1);
 	RTHOOK(2);
-	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTVF(3826, "start", Result))(Result);
+	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTVF(3906, "start", Result))(Result);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(3);
 		RTCT("result_attached", EX_POST);

@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C7_c.o 
 
-OLDOBJECTS =  de229.o de229d.o de228.o de228d.o us227.o us227d.o de226.o de226d.o \
-	ws224.o ws224d.o pr200.o pr200d.o pa230.o pa230d.o c_219.o c_219d.o \
-	de225.o de225d.o ws215.o ws215d.o ws205.o ws205d.o sh223.o sh223d.o \
-	sh216.o sh216d.o sh214.o sh214d.o ws203.o ws203d.o ws204.o ws204d.o \
-	re210.o re210d.o cu207.o cu207d.o ar209.o ar209d.o st218.o st218d.o \
-	ha208.o ha208d.o wg220.o wg220d.o se211.o se211d.o ws198.o ws198d.o \
-	sq206.o sq206d.o sq217.o sq217d.o ws201.o ws201d.o ws202.o ws202d.o \
-	ht213.o ht213d.o ra199.o ra199d.o ht212.o ht212d.o wg222.o wg222d.o \
-	wg221.o wg221d.o 
+OLDOBJECTS =  ws222.o ws222d.o pl230.o pl230d.o pr198.o pr198d.o pa223.o pa223d.o \
+	c_217.o c_217d.o ws204.o ws204d.o sh221.o sh221d.o sh214.o sh214d.o \
+	sh212.o sh212d.o ws213.o ws213d.o ws202.o ws202d.o ws203.o ws203d.o \
+	re208.o re208d.o cu205.o cu205d.o ar207.o ar207d.o co228.o co228d.o \
+	st216.o st216d.o ha206.o ha206d.o ws200.o ws200d.o ti227.o ti227d.o \
+	da226.o da226d.o da225.o da225d.o ab229.o ab229d.o se209.o se209d.o \
+	wg218.o wg218d.o sq199.o sq199d.o sq215.o sq215d.o ws201.o ws201d.o \
+	du224.o du224d.o ht211.o ht211d.o ht210.o ht210d.o wg220.o wg220d.o \
+	wg219.o wg219d.o 
 
 all: Cobj7.o
 

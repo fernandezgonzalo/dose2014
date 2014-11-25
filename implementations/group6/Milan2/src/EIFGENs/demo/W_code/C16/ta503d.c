@@ -1,5 +1,5 @@
 /*
- * Class TABLE_ITERATION_CURSOR [INTEGER_32, INTEGER_32]
+ * Class TABLE_ITERABLE [G#1, INTEGER_32]
  */
 
 #include "eif_macros.h"
@@ -9,25 +9,24 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_503 [] = {417,502,345,345,0xFFFF};
-static EIF_TYPE_INDEX gen_type1_503 [] = {502,345,345,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_503 [] = {418,502,0xFFF8,1,351,0xFFFF};
+static EIF_TYPE_INDEX gen_type1_503 [] = {502,0xFFF8,1,351,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_503 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_503 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type4_503 [] = {502,345,345,0xFFFF};
-static EIF_TYPE_INDEX gen_type5_503 [] = {502,345,345,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_503 [] = {502,0xFFF8,1,351,0xFFFF};
+static EIF_TYPE_INDEX gen_type5_503 [] = {502,0xFFF8,1,351,0xFFFF};
 static EIF_TYPE_INDEX gen_type6_503 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type7_503 [] = {502,345,345,0xFFFF};
-static EIF_TYPE_INDEX gen_type8_503 [] = {502,345,345,0xFFFF};
-static EIF_TYPE_INDEX gen_type9_503 [] = {0xFFF8,2,0xFFFF};
-static EIF_TYPE_INDEX gen_type10_503 [] = {0xFFF8,2,0xFFFF};
-static EIF_TYPE_INDEX gen_type11_503 [] = {0xFFF8,1,0xFFFF};
-static EIF_TYPE_INDEX gen_type12_503 [] = {0xFFF8,1,0xFFFF};
+static EIF_TYPE_INDEX gen_type7_503 [] = {502,0xFFF8,1,351,0xFFFF};
+static EIF_TYPE_INDEX gen_type8_503 [] = {502,0xFFF8,1,351,0xFFFF};
+static EIF_TYPE_INDEX gen_type9_503 [] = {501,0xFFF8,1,0xFFF8,2,0xFFFF};
+static EIF_TYPE_INDEX gen_type10_503 [] = {0xFFF8,1,0xFFFF};
+static EIF_TYPE_INDEX gen_type11_503 [] = {0xFFF8,2,0xFFFF};
 
 
 static struct desc_info desc_503[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_503},
+	{1, (BODY_INDEX)-1, 418, gen_type0_503},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -46,7 +45,7 @@ static struct desc_info desc_503[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type6_503},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -57,12 +56,9 @@ static struct desc_info desc_503[] = {
 	{28, (BODY_INDEX)-1, 502, gen_type7_503},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 502, gen_type8_503},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type9_503},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 501, gen_type9_503},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type10_503},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type11_503},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, gen_type12_503},
 };
 
 extern void Init503(void);
@@ -70,8 +66,8 @@ void Init503(void)
 {
 	IDSC(desc_503, 0, 502);
 	IDSC(desc_503 + 1, 2, 502);
-	IDSC(desc_503 + 32, 258, 502);
-	IDSC(desc_503 + 34, 73, 502);
+	IDSC(desc_503 + 32, 74, 502);
+	IDSC(desc_503 + 34, 170, 502);
 }
 
 

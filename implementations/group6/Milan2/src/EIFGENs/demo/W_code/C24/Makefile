@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C24_c.o 
 
-OLDOBJECTS =  sp770.o sp770d.o ar776.o ar776d.o ty762.o ty762d.o ty763.o ty763d.o \
-	ty761.o ty761d.o ty764.o ty764d.o ty768.o ty768d.o ty769.o ty769d.o \
-	na771.o na771d.o re772.o re772d.o li779.o li779d.o ar786.o ar786d.o \
-	re787.o re787d.o in777.o in777d.o to791.o to791d.o it775.o it775d.o \
-	it774.o it774d.o ce767.o ce767d.o in773.o in773d.o cu780.o cu780d.o \
-	tr785.o tr785d.o bo788.o bo788d.o ta778.o ta778d.o un760.o un760d.o \
-	co784.o co784d.o ac782.o ac782d.o co781.o co781d.o fi789.o fi789d.o \
-	dy759.o dy759d.o ba783.o ba783d.o rt765.o rt765d.o rt766.o rt766d.o \
-	bo790.o bo790d.o 
+OLDOBJECTS =  sp764.o sp764d.o ar770.o ar770d.o ty759.o ty759d.o ty760.o ty760d.o \
+	ty762.o ty762d.o ty763.o ty763d.o na765.o na765d.o re766.o re766d.o \
+	li773.o li773d.o ar780.o ar780d.o re790.o re790d.o in771.o in771d.o \
+	it769.o it769d.o it768.o it768d.o ce761.o ce761d.o li786.o li786d.o \
+	in767.o in767d.o cu774.o cu774d.o tr779.o tr779d.o se782.o se782d.o \
+	dy781.o dy781d.o bo791.o bo791d.o ta772.o ta772d.o un789.o un789d.o \
+	ch787.o ch787d.o co778.o co778d.o ac776.o ac776d.o co775.o co775d.o \
+	bi785.o bi785d.o fi783.o fi783d.o dy788.o dy788d.o ba777.o ba777d.o \
+	bo784.o bo784d.o 
 
 all: Cobj24.o
 

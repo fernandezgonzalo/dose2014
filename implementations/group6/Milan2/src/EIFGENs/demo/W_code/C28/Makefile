@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C28_c.o 
 
-OLDOBJECTS =  ar891.o ar891d.o ty914.o ty914d.o ty915.o ty915d.o ty916.o ty916d.o \
-	ty921.o ty921d.o li894.o li894d.o ar901.o ar901d.o re902.o re902d.o \
-	in892.o in892d.o to906.o to906d.o ha922.o ha922d.o li910.o li910d.o \
-	cu895.o cu895d.o tr900.o tr900d.o se907.o se907d.o dy909.o dy909d.o \
-	bo903.o bo903d.o ta893.o ta893d.o ha923.o ha923d.o un913.o un913d.o \
-	ch911.o ch911d.o co899.o co899d.o ac897.o ac897d.o co896.o co896d.o \
-	bi908.o bi908d.o fi904.o fi904d.o dy912.o dy912d.o ba898.o ba898d.o \
-	rt918.o rt918d.o rt917.o rt917d.o rt919.o rt919d.o rt920.o rt920d.o \
-	bo905.o bo905d.o 
+OLDOBJECTS =  ar895.o ar895d.o ty918.o ty918d.o ty919.o ty919d.o ty920.o ty920d.o \
+	ty921.o ty921d.o re891.o re891d.o li898.o li898d.o ar905.o ar905d.o \
+	re915.o re915d.o in896.o in896d.o to917.o to917d.o it894.o it894d.o \
+	it893.o it893d.o li911.o li911d.o in892.o in892d.o cu899.o cu899d.o \
+	tr904.o tr904d.o se907.o se907d.o dy906.o dy906d.o bo916.o bo916d.o \
+	ta897.o ta897d.o un914.o un914d.o ch912.o ch912d.o co903.o co903d.o \
+	ac901.o ac901d.o co900.o co900d.o bi910.o bi910d.o fi908.o fi908d.o \
+	dy913.o dy913d.o ba902.o ba902d.o rt922.o rt922d.o rt923.o rt923d.o \
+	bo909.o bo909d.o 
 
 all: Cobj28.o
 

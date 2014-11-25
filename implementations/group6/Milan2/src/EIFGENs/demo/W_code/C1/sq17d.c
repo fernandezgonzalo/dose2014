@@ -1,5 +1,5 @@
 /*
- * Class SQLITE_TYPE
+ * Class SQLITE_OPEN_MODE
  */
 
 #include "eif_macros.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_17 [] = {417,16,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_17 [] = {418,16,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_17 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_17 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_17 [] = {0,0xFFFF};
@@ -18,7 +18,7 @@ static EIF_TYPE_INDEX gen_type3_17 [] = {0,0xFFFF};
 static struct desc_info desc_17[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 417, gen_type0_17},
+	{1, (BODY_INDEX)-1, 418, gen_type0_17},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -37,7 +37,7 @@ static struct desc_info desc_17[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_17},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 33, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -48,12 +48,10 @@ static struct desc_info desc_17[] = {
 	{28, (BODY_INDEX)-1, 16, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 16, NULL},
-	{214, (BODY_INDEX)-1, 345, NULL},
-	{215, (BODY_INDEX)-1, 345, NULL},
-	{216, (BODY_INDEX)-1, 345, NULL},
-	{217, (BODY_INDEX)-1, 345, NULL},
-	{218, (BODY_INDEX)-1, 345, NULL},
-	{219, (BODY_INDEX)-1, 301, NULL},
+	{238, (BODY_INDEX)-1, 351, NULL},
+	{239, (BODY_INDEX)-1, 351, NULL},
+	{240, (BODY_INDEX)-1, 351, NULL},
+	{241, (BODY_INDEX)-1, 301, NULL},
 };
 
 extern void Init17(void);
@@ -61,7 +59,7 @@ void Init17(void)
 {
 	IDSC(desc_17, 0, 16);
 	IDSC(desc_17 + 1, 2, 16);
-	IDSC(desc_17 + 32, 277, 16);
+	IDSC(desc_17 + 32, 296, 16);
 }
 
 

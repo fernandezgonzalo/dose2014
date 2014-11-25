@@ -10,24 +10,24 @@
 extern "C" {
 #endif
 
-extern void F6_70(EIF_REFERENCE);
+extern void F6_64(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_65(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_66(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_67(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_68(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_69(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F6_70(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F6_71(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F6_72(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F6_73(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_74(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_75(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_76(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_77(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_78(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F6_79(EIF_REFERENCE);
+extern void F6_74(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F6_75(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F6_76(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F6_77(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F6_78(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F6_79(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void F6_80(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void F6_81(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_82(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_83(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_84(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_85(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_86(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F6_87(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit6(void);
 
 #ifdef __cplusplus
@@ -50,7 +50,7 @@ extern "C" {
 #endif
 
 /* {HTTP_SERVER_CONFIGURATION}.make */
-void F6_70 (EIF_REFERENCE Current)
+void F6_64 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "make";
@@ -67,39 +67,39 @@ void F6_70 (EIF_REFERENCE Current)
 	RTLU (SK_VOID, NULL);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 0, 68);
+	RTEAA(l_feature_name, 5, Current, 0, 0, 113);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(5, Current, 68);
+	RTDBGEAA(5, Current, 113);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, dtype, 75, 0x10000000, 1); /* http_server_port */
+	RTDBGAA(Current, dtype, 69, 0x10000000, 1); /* http_server_port */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(75, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 80L);
+	*(EIF_INTEGER_32 *)(Current + RTWA(69, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 80L);
 	RTHOOK(2);
-	RTDBGAA(Current, dtype, 76, 0x10000000, 1); /* max_tcp_clients */
+	RTDBGAA(Current, dtype, 70, 0x10000000, 1); /* max_tcp_clients */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(76, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 100L);
+	*(EIF_INTEGER_32 *)(Current + RTWA(70, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 100L);
 	RTHOOK(3);
-	RTDBGAA(Current, dtype, 77, 0x10000000, 1); /* socket_accept_timeout */
+	RTDBGAA(Current, dtype, 71, 0x10000000, 1); /* socket_accept_timeout */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(77, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 1000L);
+	*(EIF_INTEGER_32 *)(Current + RTWA(71, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 1000L);
 	RTHOOK(4);
-	RTDBGAA(Current, dtype, 78, 0x10000000, 1); /* socket_connect_timeout */
+	RTDBGAA(Current, dtype, 72, 0x10000000, 1); /* socket_connect_timeout */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(78, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 5000L);
+	*(EIF_INTEGER_32 *)(Current + RTWA(72, dtype)) = (EIF_INTEGER_32) ((EIF_INTEGER_32) 5000L);
 	RTHOOK(5);
-	RTDBGAA(Current, dtype, 73, 0xF800013A, 0); /* document_root */
+	RTDBGAA(Current, dtype, 67, 0xF800013A, 0); /* document_root */
 	
 	tr1 = RTMS_EX_H("htdocs",6,1890384755);
 	RTAR(Current, tr1);
-	*(EIF_REFERENCE *)(Current + RTWA(73, dtype)) = (EIF_REFERENCE) tr1;
+	*(EIF_REFERENCE *)(Current + RTWA(67, dtype)) = (EIF_REFERENCE) tr1;
 	RTHOOK(6);
-	RTDBGAA(Current, dtype, 79, 0x04000000, 1); /* force_single_threaded */
+	RTDBGAA(Current, dtype, 73, 0x04000000, 1); /* force_single_threaded */
 	
-	*(EIF_BOOLEAN *)(Current + RTWA(79, dtype)) = (EIF_BOOLEAN) (EIF_BOOLEAN) 0;
+	*(EIF_BOOLEAN *)(Current + RTWA(73, dtype)) = (EIF_BOOLEAN) (EIF_BOOLEAN) 0;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(7);
@@ -111,97 +111,97 @@ void F6_70 (EIF_REFERENCE Current)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.server_details */
-RTOID (F6_71)
+RTOID (F6_65)
 
 
-EIF_TYPED_VALUE F6_71 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_65 (EIF_REFERENCE Current)
 {
 	GTCX
-	RTOTC (F6_71,70,RTMS_EX_H("Server : NINO Eiffel Server",27,1169312370));
+	RTOTC (F6_65,115,RTMS_EX_H("Server : NINO Eiffel Server",27,1169312370));
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.document_root */
-EIF_TYPED_VALUE F6_72 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_66 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_REF;
-	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(73,Dtype(Current)));
+	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(67,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.http_server_name */
-EIF_TYPED_VALUE F6_73 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_67 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_REF;
-	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(74,Dtype(Current)));
+	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(68,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.http_server_port */
-EIF_TYPED_VALUE F6_74 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_68 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_INT32;
-	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(75,Dtype(Current)));
+	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(69,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.max_tcp_clients */
-EIF_TYPED_VALUE F6_75 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_69 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_INT32;
-	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(76,Dtype(Current)));
+	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(70,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.socket_accept_timeout */
-EIF_TYPED_VALUE F6_76 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_70 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_INT32;
-	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(77,Dtype(Current)));
+	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(71,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.socket_connect_timeout */
-EIF_TYPED_VALUE F6_77 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_71 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_INT32;
-	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(78,Dtype(Current)));
+	r.it_i4 = *(EIF_INTEGER_32 *)(Current + RTWA(72,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.force_single_threaded */
-EIF_TYPED_VALUE F6_78 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_72 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_BOOL;
-	r.it_b = *(EIF_BOOLEAN *)(Current + RTWA(79,Dtype(Current)));
+	r.it_b = *(EIF_BOOLEAN *)(Current + RTWA(73,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.is_verbose */
-EIF_TYPED_VALUE F6_79 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F6_73 (EIF_REFERENCE Current)
 {
 	EIF_TYPED_VALUE r;
 	r.type = SK_BOOL;
-	r.it_b = *(EIF_BOOLEAN *)(Current + RTWA(80,Dtype(Current)));
+	r.it_b = *(EIF_BOOLEAN *)(Current + RTWA(74,Dtype(Current)));
 	return r;
 }
 
 
 /* {HTTP_SERVER_CONFIGURATION}.set_http_server_name */
-void F6_80 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_74 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_http_server_name";
@@ -219,19 +219,19 @@ void F6_80 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 78);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 123);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 78);
-	RTCC(arg1, 5, l_feature_name, 1, RTWCT(74, Dtype(Current), Dftype(Current)));
+	RTDBGEAA(5, Current, 123);
+	RTCC(arg1, 5, l_feature_name, 1, RTWCT(68, Dtype(Current), Dftype(Current)));
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 74, 0xF800013A, 0); /* http_server_name */
+	RTDBGAA(Current, Dtype(Current), 68, 0xF800013A, 0); /* http_server_name */
 	
 	RTAR(Current, arg1);
-	*(EIF_REFERENCE *)(Current + RTWA(74, Dtype(Current))) = (EIF_REFERENCE) RTCCL(arg1);
+	*(EIF_REFERENCE *)(Current + RTWA(68, Dtype(Current))) = (EIF_REFERENCE) RTCCL(arg1);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -244,7 +244,7 @@ void F6_80 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_http_server_port */
-void F6_81 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_75 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_http_server_port";
@@ -262,17 +262,17 @@ void F6_81 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 79);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 124);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 79);
+	RTDBGEAA(5, Current, 124);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 75, 0x10000000, 1); /* http_server_port */
+	RTDBGAA(Current, Dtype(Current), 69, 0x10000000, 1); /* http_server_port */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(75, Dtype(Current))) = (EIF_INTEGER_32) arg1;
+	*(EIF_INTEGER_32 *)(Current + RTWA(69, Dtype(Current))) = (EIF_INTEGER_32) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -285,7 +285,7 @@ void F6_81 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_document_root */
-void F6_82 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_76 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_document_root";
@@ -303,19 +303,19 @@ void F6_82 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 80);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 125);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 80);
-	RTCC(arg1, 5, l_feature_name, 1, RTWCT(73, Dtype(Current), Dftype(Current)));
+	RTDBGEAA(5, Current, 125);
+	RTCC(arg1, 5, l_feature_name, 1, RTWCT(67, Dtype(Current), Dftype(Current)));
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 73, 0xF800013A, 0); /* document_root */
+	RTDBGAA(Current, Dtype(Current), 67, 0xF800013A, 0); /* document_root */
 	
 	RTAR(Current, arg1);
-	*(EIF_REFERENCE *)(Current + RTWA(73, Dtype(Current))) = (EIF_REFERENCE) RTCCL(arg1);
+	*(EIF_REFERENCE *)(Current + RTWA(67, Dtype(Current))) = (EIF_REFERENCE) RTCCL(arg1);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -328,7 +328,7 @@ void F6_82 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_max_tcp_clients */
-void F6_83 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_77 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_max_tcp_clients";
@@ -346,17 +346,17 @@ void F6_83 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 81);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 126);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 81);
+	RTDBGEAA(5, Current, 126);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 76, 0x10000000, 1); /* max_tcp_clients */
+	RTDBGAA(Current, Dtype(Current), 70, 0x10000000, 1); /* max_tcp_clients */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(76, Dtype(Current))) = (EIF_INTEGER_32) arg1;
+	*(EIF_INTEGER_32 *)(Current + RTWA(70, Dtype(Current))) = (EIF_INTEGER_32) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -369,7 +369,7 @@ void F6_83 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_socket_accept_timeout */
-void F6_84 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_78 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_socket_accept_timeout";
@@ -387,17 +387,17 @@ void F6_84 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 82);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 127);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 82);
+	RTDBGEAA(5, Current, 127);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 77, 0x10000000, 1); /* socket_accept_timeout */
+	RTDBGAA(Current, Dtype(Current), 71, 0x10000000, 1); /* socket_accept_timeout */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(77, Dtype(Current))) = (EIF_INTEGER_32) arg1;
+	*(EIF_INTEGER_32 *)(Current + RTWA(71, Dtype(Current))) = (EIF_INTEGER_32) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -410,7 +410,7 @@ void F6_84 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_socket_connect_timeout */
-void F6_85 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_79 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_socket_connect_timeout";
@@ -428,17 +428,17 @@ void F6_85 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 83);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 128);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 83);
+	RTDBGEAA(5, Current, 128);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 78, 0x10000000, 1); /* socket_connect_timeout */
+	RTDBGAA(Current, Dtype(Current), 72, 0x10000000, 1); /* socket_connect_timeout */
 	
-	*(EIF_INTEGER_32 *)(Current + RTWA(78, Dtype(Current))) = (EIF_INTEGER_32) arg1;
+	*(EIF_INTEGER_32 *)(Current + RTWA(72, Dtype(Current))) = (EIF_INTEGER_32) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -451,7 +451,7 @@ void F6_85 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_force_single_threaded */
-void F6_86 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_80 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_force_single_threaded";
@@ -469,17 +469,17 @@ void F6_86 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_BOOL,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 84);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 129);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 84);
+	RTDBGEAA(5, Current, 129);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 79, 0x04000000, 1); /* force_single_threaded */
+	RTDBGAA(Current, Dtype(Current), 73, 0x04000000, 1); /* force_single_threaded */
 	
-	*(EIF_BOOLEAN *)(Current + RTWA(79, Dtype(Current))) = (EIF_BOOLEAN) arg1;
+	*(EIF_BOOLEAN *)(Current + RTWA(73, Dtype(Current))) = (EIF_BOOLEAN) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -492,7 +492,7 @@ void F6_86 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {HTTP_SERVER_CONFIGURATION}.set_is_verbose */
-void F6_87 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F6_81 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_is_verbose";
@@ -510,17 +510,17 @@ void F6_87 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_BOOL,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 5, Current, 0, 1, 85);
+	RTEAA(l_feature_name, 5, Current, 0, 1, 130);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(5, Current, 85);
+	RTDBGEAA(5, Current, 130);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAA(Current, Dtype(Current), 80, 0x04000000, 1); /* is_verbose */
+	RTDBGAA(Current, Dtype(Current), 74, 0x04000000, 1); /* is_verbose */
 	
-	*(EIF_BOOLEAN *)(Current + RTWA(80, Dtype(Current))) = (EIF_BOOLEAN) arg1;
+	*(EIF_BOOLEAN *)(Current + RTWA(74, Dtype(Current))) = (EIF_BOOLEAN) arg1;
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -535,7 +535,7 @@ void F6_87 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 void EIF_Minit6 (void)
 {
 	GTCX
-	RTOTS (71,F6_71)
+	RTOTS (65,F6_65)
 }
 
 
