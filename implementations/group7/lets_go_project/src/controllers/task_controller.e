@@ -34,7 +34,7 @@ feature {None} -- Internal helpers
 		local
 			dummy: ANY
 		do
-			dummy := db.insert("INSERT INTO task_assignments (user_id, task_id) VALUES (" + dev_id + ", " + task_id + ")")
+			dummy := db.insert("INSERT INTO task_assignments (user_id, task_id) VALUES (?, ?)", <<dev_id, task_id>>)
 		end
 
 	remove_user_transaction(task_id: STRING; dev_id: STRING)

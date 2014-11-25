@@ -69,7 +69,7 @@ feature {None} -- Internal helpers
 	        hashed_password := get_salted_and_hashed_password(password, user_id)
 
 	        -- Replace the original password by the salted-hashed version
-			dummy := db.update("UPDATE users SET password = %"" + hashed_password + "%" WHERE id = " + user_id)
+			dummy := db.update("UPDATE users SET password = %"" + hashed_password + "%" WHERE id = " + user_id, Void)
 		end
 
 

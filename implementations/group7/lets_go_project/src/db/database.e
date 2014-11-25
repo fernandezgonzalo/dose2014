@@ -48,10 +48,10 @@ feature -- Data access
 			db_query_statement.execute_with_arguments(agent rows_to_json_value_array(?, Result), arguments)
 		end
 
-	insert (a_statement: STRING): INTEGER_64
+	insert(a_statement: STRING; a_arguments: ITERABLE [ANY]): INTEGER_64
 		do
-			create db_insert_statement.make (a_statement + ";", db)
-			db_insert_statement.execute
+			create db_insert_statement.make(a_statement + ";", db)
+			db_insert_statement.execute_with_arguments(a_arguments)
 
 			if db_insert_statement.has_error then
 				Result := -1
@@ -60,10 +60,15 @@ feature -- Data access
 			end
 		end
 
-	update (a_statement: STRING): BOOLEAN
+	update (a_statement: STRING; a_arguments: ITERABLE [ANY]): BOOLEAN
 		do
-			create db_modify_statement.make (a_statement + ";", db)
-			db_modify_statement.execute
+			create db_modify_statement.make(a_statement + ";", db)
+
+			if a_arguments /= Void then
+				db_modify_statement.execute_with_arguments(a_arguments)
+			else
+				db_modify_statement.execute
+			end
 			Result := not db_modify_statement.has_error
 		end
 
