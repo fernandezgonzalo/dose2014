@@ -11,7 +11,7 @@ class TestUsers(test_rest_resource.TestRestResource):
         super(TestUsers, self).setUp()
         self.resource_name = 'user'
         self.resources_uri = self.root_uri + 'users'
-        self.single_resource_uri = self.resources_uri + '/1'
+        self.single_resource_uri = self.resources_uri + '/2'
         self.example_resource = User(
             email='bertrand.meier@gmail.com',
             password='asdf',
