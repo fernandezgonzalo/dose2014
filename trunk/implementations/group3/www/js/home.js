@@ -58,9 +58,6 @@ angular.module('LetsGoTeam')
             function(newVal) {
                 if (newVal)
                     $scope.facebookReady = true;
-            },
-            function(){
-                return GooglePlus.isReady();
             }
         );
 
@@ -140,6 +137,7 @@ angular.module('LetsGoTeam')
                 });
             });
         };
+        
 
 
 
