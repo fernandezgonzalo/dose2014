@@ -100,7 +100,7 @@ feature -- Handlers
 
 				json_result := db_handler_user.find_by_id(l_user_session_id.to_natural)
 				json_result.remove ("password")
-				
+
 				l_result_payload := json_result.representation
 				set_json_header_ok (res, l_result_payload.count)
 				res.put_string (l_result_payload)
@@ -245,6 +245,7 @@ feature -- Handlers
 			-- remove a user from the database
 		local
 			l_user_session_id,l_user_id: STRING
+			l_session: WSF_COOKIE_SESSION
 		do
 			if req_has_cookie (req, "_casd_session_") then
 					-- the request has a cookie of name "_casd_session_"
@@ -261,9 +262,12 @@ feature -- Handlers
 
 						-- remove the user
 					db_handler_user.remove (l_user_id.to_natural)
-
 						-- prepare the reponse
 					prepare_response("Removed item",200,res)
+						-- destroy the session
+					create l_session.make (req, "_casd_session_", session_manager)
+					l_session.destroy
+
 				else
 						-- the user logged is not the same as the user that is being remoed.
 						-- we return an error stating that the user is not authorized to remove another the user.
@@ -286,7 +290,7 @@ feature -- Handlers
 			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
 				-- if true the email and password match
-			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
+			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; is_active: STRING; email: STRING; hashed_pass: STRING]
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 		do
@@ -316,7 +320,7 @@ feature -- Handlers
 				-- check if the database has this particular email
 			l_user_data := db_handler_user.has_user(l_email)
 
-			if l_user_data.has_user then
+			if (l_user_data.has_user and l_user_data.is_active.is_equal("1")) then
 					-- yes, the email was correct
 					-- so next, we check for the password
 				if (bcrypt.is_valid_password (l_password, l_user_data.hashed_pass)) then
