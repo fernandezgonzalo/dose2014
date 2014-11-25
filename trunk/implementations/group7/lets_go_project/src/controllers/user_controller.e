@@ -81,8 +81,8 @@ feature {None} -- Internal helpers
 			user_id: STRING
 		do
 			user_id := user.item(create {JSON_STRING}.make_json ("id")).representation
-			assigned_tasks := db.query_id_list("SELECT task_id FROM task_assignments WHERE user_id = " + user_id)
-			projects := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id = " + user_id)
+			assigned_tasks := db.query_id_list("SELECT task_id FROM task_assignments WHERE user_id = ?", <<user_id>>)
+			projects := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id = ?", <<user_id>>)
 			user.put (assigned_tasks, "assigned_tasks")
 			user.put (projects, "projects")
 		end

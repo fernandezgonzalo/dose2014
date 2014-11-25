@@ -25,7 +25,7 @@ feature {None} -- Internal helpers
 			sprint_id: STRING
 		do
 			sprint_id := sprint.item(create {JSON_STRING}.make_json ("id")).representation
-			stories := db.query_id_list("SELECT id FROM stories WHERE sprint_id = " + sprint_id)
+			stories := db.query_id_list("SELECT id FROM stories WHERE sprint_id = ?", <<sprint_id>>)
 			sprint.put (stories, "stories")
 		end
 

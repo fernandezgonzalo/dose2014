@@ -27,13 +27,15 @@ feature {None} -- Internal helpers
 			add_user_transaction(new_id.out, get_user_id_from_req(req))
 		end
 
-	get_get_all_query_statement(req: WSF_REQUEST): STRING
+	get_get_all_query_statement(req: WSF_REQUEST): TUPLE[statement: STRING; parameters: ITERABLE[ANY]]
 		local
 			projects_of_this_user: STRING
 		do
-			projects_of_this_user := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id = " + get_user_id_from_req (req)).representation
+			create Result
+			projects_of_this_user := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id = ?", <<get_user_id_from_req (req)>>).representation
 			projects_of_this_user := projects_of_this_user.substring (2, projects_of_this_user.count - 1)
-			Result := "SELECT * FROM projects WHERE id in (" + projects_of_this_user + ")"
+			Result.statement := "SELECT * FROM projects WHERE id in (" + projects_of_this_user + ")"
+			Result.parameters := Void
 		end
 
 	modify_json(project: JSON_OBJECT)
@@ -43,8 +45,8 @@ feature {None} -- Internal helpers
 			project_id: STRING
 		do
 			project_id := project.item(create {JSON_STRING}.make_json ("id")).representation
-			invited_devs := db.query_id_list("SELECT user_id FROM project_shares WHERE project_id = " + project_id)
-			sprints := db.query_id_list("SELECT id FROM sprints WHERE project_id = " + project_id)
+			invited_devs := db.query_id_list("SELECT user_id FROM project_shares WHERE project_id = ?", <<project_id>>)
+			sprints := db.query_id_list("SELECT id FROM sprints WHERE project_id = ?", <<project_id>>)
 			project.put (invited_devs, "invited_devs")
 			project.put (sprints, "sprints")
 		end

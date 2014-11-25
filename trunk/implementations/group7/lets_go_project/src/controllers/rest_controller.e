@@ -50,9 +50,11 @@ feature -- Handlers
 			resources: JSON_ARRAY
 			i: INTEGER
 			resource: JSON_OBJECT
+			get_all_statement: TUPLE[statement: STRING; parameters: ITERABLE[ANY]]
 		do
 			create results.make_array
-			resources := db.query_rows (get_get_all_query_statement(req))
+			get_all_statement := get_get_all_query_statement(req)
+			resources := db.query_rows (get_all_statement.statement, get_all_statement.parameters)
 			from
 				i := 1
 			until
@@ -199,12 +201,15 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 feature {NONE} -- Internal helpers	
 
-	get_get_all_query_statement(req: WSF_REQUEST): STRING
+	get_get_all_query_statement(req: WSF_REQUEST): TUPLE[statement: STRING; parameters: ITERABLE[ANY]]
 		do
+			create Result
 			if parent_uri_id_name /= Void then
-				Result := "SELECT * FROM " + table_name + " WHERE " + parent_uri_id_name + " = " + req.path_parameter(parent_uri_id_name).string_representation
+				Result.statement := "SELECT * FROM " + table_name + " WHERE " + parent_uri_id_name + " = ?"
+				Result.parameters := <<req.path_parameter(parent_uri_id_name).string_representation>>
 			else
-				Result := "SELECT * FROM " + table_name
+				Result.statement := "SELECT * FROM " + table_name
+				Result.parameters := Void
 			end
 			print(Result)
 		end
