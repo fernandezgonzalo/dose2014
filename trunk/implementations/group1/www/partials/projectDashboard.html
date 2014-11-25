@@ -14,8 +14,9 @@
 	</div>
 	<div class="block users-column" >
 		<p><b><h2 align="center">Users</h2></b></p>
+		
 		<ul ng-repeat="user in users">
-			<li><a href="#/projectDashboard/{{user.id}}">{{user.username}}</a></li>
+			<li><a href="#/projectDashboard/{{user.id}}">{{user.lastname}}</a></li>
 		</ul>
 		<button><a href="#/manageUsers">ManageUsers</a></button>
 	</div>
