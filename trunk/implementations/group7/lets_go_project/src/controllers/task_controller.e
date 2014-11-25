@@ -41,6 +41,6 @@ feature {None} -- Internal helpers
 		local
 			dummy: ANY
 		do
-			dummy := db.delete("DELETE FROM task_assignments WHERE user_id = " + dev_id + " AND task_id = " + task_id)
+			dummy := db.delete("DELETE FROM task_assignments WHERE user_id = ? AND task_id = ?", <<dev_id, task_id>>)
 		end
 end
