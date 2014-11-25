@@ -74,7 +74,6 @@ GET:
     "status":"Active",
     "description":"project1 descr",
     "max_points_per_sprint":"12",
-    "number_of_sprints":"3"
 }
 
 /api/projects/{project_id}/collaborators
