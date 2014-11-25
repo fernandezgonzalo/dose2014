@@ -31,7 +31,7 @@ define(
                     $scope.user = user;
                     $scope.change = function(form)
                     {
-                        restapi.change(form.user_name, form.email, form.password).then
+                        restapi.change(form.user_name, form.email, form.password, user.id).then
                         (
                             function () {
                                 $state.go("user");
