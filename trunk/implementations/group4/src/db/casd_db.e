@@ -17,8 +17,10 @@ feature {ANY}
 			-- Creation procedure
 		require
 			valid_file: a_path_to_db_file /= Void and not a_path_to_db_file.is_empty
-		do
+		once("OBJECT")
 			create db.make_open_read_write (a_path_to_db_file)
+			create db_query_statement.make ("PRAGMA foreign_keys = ON;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 1, pragma_result))
 		end
 
 
@@ -80,5 +82,8 @@ feature {DB_HANDLER_TEST}
 
 	db_modify_statement: SQLITE_MODIFY_STATEMENT
 		-- other sql modification statment for the db, e.g. DELETE
+
+	pragma_result: JSON_ARRAY
+
 
 end
