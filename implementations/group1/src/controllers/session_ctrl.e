@@ -89,6 +89,7 @@ feature
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
+				l_result.put_integer (l_user_data.id.to_integer_8, create {JSON_STRING}.make_json ("id"))
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
