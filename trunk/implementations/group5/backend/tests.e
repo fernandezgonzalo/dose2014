@@ -80,6 +80,26 @@ feature -- Test routines
 		assert ("The username must be jjaimez", l_username.is_equal("jjaimez") )
 		assert ("The is_admin must be 0", l_is_admin.is_equal(cero.out))
 
+		--Search user by id and email, the user must be the same
+		usr := crud_user.user_by_id(user_id)
+		l_result := crud_user.user_by_email("jacinto@mail.com")
+		create l_user_id.make_empty
+		create l_email.make_empty
+		if attached {JSON_OBJECT} usr as j_object then
+		-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object.item ("email") as s then
+				l_email := s.unescaped_string_8
+			end
+		end
+		if attached {JSON_OBJECT} l_result as j_object then
+		-- we have to convert the json string into an eiffel string
+			if attached {JSON_STRING} j_object.item ("id") as s then
+				l_user_id := s.unescaped_string_8
+			end
+		end
+		assert ("the user must be the same", l_email.is_equal("jacinto@mail.com") )
+		assert ("the user must be the same", l_user_id.is_equal(user_id.out))
+
 		-- create same user.
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		was_created := result_add_user.boolean_item (1)
