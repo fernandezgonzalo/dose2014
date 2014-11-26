@@ -57,14 +57,6 @@ app.config(['$routeProvider',
         templateUrl: 'partials/projects.html',
         controller: 'ProjectsController'
       })
-      // .when('/projects/new', {
-      //   templateUrl: 'partials/projects_new.html',
-      //   controller: 'ProjectsController'
-      // })
-      // .when('/projects/:id/edit', {
-      //   templateUrl: 'partials/projects_edit.html',
-      //   controller: 'ProjectsController'
-      // })
       .when('/projects/:id/dashboard', {
         templateUrl: 'partials/projects_dashboard.html',
         controller: 'ProjectsController'

@@ -1,3 +1,4 @@
+
 <!-- /modal-header -->
 <div class="modal-header">
   <span class="modal-title h4">Edit project</span><span class="pull-right">
@@ -34,15 +35,33 @@
         </div>
 
         <!-- Deadline -->
+        <!-- <div class="control-group"> -->
+        <!--   <label class="control-label" for="dueDate"> -->
+        <!--     <span class="glyphicon glyphicon-calendar"></span>   Deadline</label> -->
+        <!--   <div class="controls"> -->
+        <!--     <input type="text" id="deadline" name="deadline" -->
+        <!--     placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" -->
+        <!--     autocapitalize="off" tabindex="3" ng-model="project.deadline"> -->
+        <!--   </div> -->
+        <!-- </div>  -->
+
         <div class="control-group">
-          <label class="control-label" for="dueDate">
-            <span class="glyphicon glyphicon-calendar"></span>   Deadline</label>
-          <div class="controls">
-            <input type="text" id="deadline" name="deadline"
-            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
-            autocapitalize="off" tabindex="3" ng-model="project.deadline">
+          <label class="control-label" for="deadline">Deadline</label>
+          <div class="row">
+            <div class="col-md-12">
+              <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}"
+              is-open="opened" min-date="dt" datepicker-options="dateOptions"
+              date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
+              tabindex="3" ng-model="project.deadline"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)">
+                  <i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+              </p>
+            </div>
           </div>
-        </div> 
+        </div>
 
         <!-- Delete -->
         <div class="control-group">
