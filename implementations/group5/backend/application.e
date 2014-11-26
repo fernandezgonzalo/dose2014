@@ -43,8 +43,8 @@ feature {NONE} -- Initialization
 
 
 
-	session_ctrl: DEMO_SESSION_CTRL
-			-- a controller for handling sessions
+
+
 
 	task_ctrl: TASK_CONTROLLER
 			-- a controller for handling todo requests
@@ -72,6 +72,8 @@ feature {NONE} -- Initialization
 			crud_task: CRUD_TASK
 			crud_project: CRUD_PROJECT
 			crud_comment: CRUD_COMMENT
+l_fupload,f: RAW_FILE
+p: MANAGED_POINTER
 
 		do
 				-- create the dao object and the controllers
@@ -83,10 +85,8 @@ feature {NONE} -- Initialization
 			create crud_task.make (database)
 			create crud_project.make (database)
 			create crud_comment.make (database)
-		--
 
 			create session_manager.make
-			create session_ctrl.make(dao, session_manager)
 			create user_ctrl.make(crud_user)
 			create project_ctrl.make(crud_project)
 			create task_ctrl.make (crud_task)
@@ -106,10 +106,6 @@ feature -- Basic operations
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
 
-			--SESSION RELATED URIs
-				-- handling the routes related to "sessions"
-			map_uri_template_agent_with_request_methods ("/api/login", agent session_ctrl.login , router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_delete)
 
 
 			--USER RELATED URIs

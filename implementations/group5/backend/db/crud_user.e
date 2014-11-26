@@ -134,7 +134,7 @@ feature -- Data access
 		do	-- adds a new user with the given user name, password,email, name
 			create Result
 
-			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', " + is_adminn.out + ");", db)
+			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', '" + is_adminn.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 				print("Error while inserting a new user")
