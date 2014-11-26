@@ -85,14 +85,16 @@ feature -- Data access Users
 			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
 		end
 
-	add_user (name,lastname,email,password,rol,active: STRING)
+	add_user (name,lastname,email,password,rol,active: STRING): BOOLEAN
 			-- adds a new user with the given user name
 		do
 			create db_insert_statement.make ("INSERT INTO User(name,lastname,email,password,rol,active) VALUES ('" + name+"','"+lastname+"','"+email+"','"+password+"','"+rol+"','"+active+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
+				Result := False
 			end
+			Result := True
 		end
 
 

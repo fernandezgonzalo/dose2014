@@ -94,8 +94,9 @@ feature -- Basic operations
 				-- handling of all ht routes relating to "user"
 
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.get_users, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.get_users_by_id, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user.add_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.get_users_by_id, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.delete_users, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent user.get_projects_by_user, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/projects/{id_project}", agent user.get_project_by_id, router.methods_get)
 
