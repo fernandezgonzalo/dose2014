@@ -34,6 +34,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
           $scope.tasksInProgress.push($scope.userTasks.data[task]);
         }
       }
+      $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
     });
   };
 
