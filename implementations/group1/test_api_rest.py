@@ -17,6 +17,11 @@ def get_users(session):
 	uri_get_users = "http://localhost:9090/api/users"
 	headers = {"content-type": "application/json"}
 	return session.get(uri_get_users, headers=headers)
+
+def get_user(session, id_user):
+	uri_get_user = "http://localhost:9090/api/users/%s" % id_user
+	headers = {"content-type": "application/json"}
+	return session.get(uri_get_user, headers=headers)
 	
 def post_users(session, name, lastname, email, password, rol, active):
 	uri_post_users = "http://localhost:9090/api/users"
@@ -32,7 +37,7 @@ def delete_users(session, id_user):
 def put_users(session, id_user, name, lastname, password, rol, active):
 	uri_put_users = "http://localhost:9090/api/users/%s" % id_user
 	payload = {"name": name, "lastname": lastname, "password":password, "rol": rol, "active": active}
-	headers = {"content-type": "application/json"}
+	headers = {"content-type": "application/json", "accept": "applicacion/json"}
 	return s.put(uri_put_users, data=json.dumps(payload), headers=headers)
 
 
