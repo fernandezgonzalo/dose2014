@@ -27,7 +27,9 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentUser.$getTasks(function(data){
       $scope.userTasks = data;
       $log.debug(TAG, data);
+      var stoppedTask = 0;
       for (var task in $scope.userTasks.data) {
+      	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTask++; }
         if ($scope.userTasks.data[task].status === 'finished') {
           $scope.tasksFinished.push($scope.userTasks.data[task]);
         } else {
@@ -35,6 +37,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
         }
       }
       $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
+      $scope.stopTasksOnTot = (stoppedTask / data.data.length * 100).toFixed(2);
     });
   };
 
