@@ -14,7 +14,7 @@ CREATE TABLE `user` (
 	`name`	TEXT,
 	`photo`	BLOB,
 	`last_login` DATE NULL,
-	` is_admin`	INTEGER NOT NULL
+	`is_admin`	INTEGER NOT NULL
 );
 
 CREATE  TABLE project (
