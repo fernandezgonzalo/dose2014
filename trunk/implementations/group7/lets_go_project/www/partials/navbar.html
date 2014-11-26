@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse">
       <div ng-show="!authService.isLoggedIn()" >
         <div class="nav navbar-form pull-right">
-          <a href="#/signup" role="button" class="btn btn-primary" data-toggle="modal">Sign Up</a>
+          <a href="#/signup" role="button" class="btn btn-primary">Sign Up</a>
           <a href="#/login" role="button" class="btn btn-primary">Log in</a>
         </div>
       </div>
@@ -24,22 +24,23 @@
         </ul>
 
         <div class="nav navbar-form pull-right">
-          <div class="btn-group " dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-               User <span class="fa fa-cog"></span>
+          <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+               {{ userInfo.email }} <span class="glyphicon glyphicon-user"></span>
             </button>
-            <ul class="dropdown-menu menu-dropdown-forceleft" role="menu">
-              <li class="pull-right"><a href="#/profile">Edit Profile <span class="glyphicon glyphicon-pencil"></span></a></li>
-              <div class="clearfix"></div>
-              <li class="pull-right"><a href="#/password">Change Password <span class="fa fa-key"></span></a></li>
-              <div class="clearfix"></div>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li>
+                <a ng-href="#/user">Profile <span class="glyphicon glyphicon-pencil"></span></a>
+              </li>
               <li class="divider"></li>
-              <div class="clearfix"></div>
-              <li class="pull-right"><a href="#/" ng-click="authService.logout()">Log Out <span class="glyphicon glyphicon-log-out"></span></a></li>
-              <div class="clearfix"></div>
+
+              <li>
+                <a href="#/" ng-click="authService.logout()">Log Out <span class="glyphicon glyphicon-log-out"></span></a>
+              </li>
             </ul>
           </div>
         </div>
+
       </div>
 
     </div> <!-- collapsable  -->

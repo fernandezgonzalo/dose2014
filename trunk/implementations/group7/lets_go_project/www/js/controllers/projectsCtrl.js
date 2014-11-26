@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('ProjectsCtrl', ['$scope', '$location', '$http', '$log', '$routeParams',
-    function ($scope, $location, $http, $log, $routeParams) {
+  .controller('ProjectsCtrl', ['$scope', '$location', '$http', '$log', '$routeParams', 'RESTService', 'AuthService', function ($scope, $location, $http, $log, $routeParams, RESTService, AuthService) {
+      var get_all_projects_uri = '/projects';
+      var create_project_uri = "/projects";
 
+
+      var ownerId = AuthService.getUserInfo();
       $scope.projects = [];
 
       // ------------------------
@@ -29,36 +32,17 @@ angular.module('myApp')
       // ------------------------
 
       var getProjects = function() {
-        // put in a service
-        var get_all_projects_uri = '/projects';
-
-        $http.get(get_all_projects_uri)
-          .success(function(data, status, header, config) {
-            console.log('Fetching ' + data.length + ' projects from server...');
-            $scope.projects = data;
-          })
-          .error(function(data, status) {
-            //$log.debug('Error while fetching projects from server');
-            console.log('Error while fetching projects from server');
-          });
-
+        RESTService.get(get_all_projects_uri, function(data){
+          $log.debug('Fetching ' + data.length + ' projects from server...');
+          $scope.projects = data;
+        });
       }
       // fetch the existing projects in the server
       getProjects();
 
 
-      $scope.cancelCreateProject = function(){
-        // put in a service
-        $location.path("/projects");
-      }
-
       $scope.createProject = function(name, description, start_date, end_date, status) {
-        // put in a service
-        var create_project_uri = "/projects";
-
         var payload = {};
-        // validate
-        var ownerId = 1; //get owner
 
         var createFormData = {
           name: name,
@@ -71,21 +55,19 @@ angular.module('myApp')
 
         payload = createFormData
 
-        $http.post(create_project_uri, payload)
-         .success(function(data, status, header, config) {
-           //$log.debug('Success creating new project');
-           console.log('Success creating new project');
-           $location.path("/projects");
-        })
-         .error(function(data, status) {
-           //$log.debug('Error while trying to create a new project on server');
-           console.log('Error while trying to create a new project on server');
+        RESTService.post(create_project_uri, payload, function(data){
+          $log.debug('Success creating new project');
+          $location.path("/projects");
         });
-
       }
 
+
+      $scope.cancelCreateProject = function(){
+        $location.path("/projects");
+      }
+
+
       var getProject = function(projectId) {
-        // put in a service
         var get_project_uri = "/projects/" +  projectId;
 
         var fetchedProject = {};
@@ -93,33 +75,21 @@ angular.module('myApp')
           return fetchedProject;
         }
 
-        $http.get(get_project_uri)
-        .success(function(data, status, header, config) {
-          //$log.debug('Success getting a project');
-          console.log('Success getting a project');
+        RESTService.get(get_project_uri, function(data){
+          $log.debug('Success getting a project');
           fetchedProject = data;
           $scope.project_retrieved = data;
           $scope.option_selected = getOptionByValue($scope.project_status_options, data.status)
-        })
-        .error(function(data, status) {
-          //$log.debug('Error while trying to getting a project on server');
-          console.log('Error while trying to getting a project on server');
         });
       }
       // get project from url
       getProject($routeParams.projectId);
 
 
-      $scope.cancelUpdateProject = function(){
-        // put in a service
-        $location.path("/projects");
-      }
-
       $scope.updateProject = function(projectId, name, description, start_date, end_date, status) {
         // put in a service
         var update_project_uri = '/projects/' + projectId;
 
-        var ownerId = 1; //get owner
         var payload;
 
         var updateFormData = {
@@ -134,36 +104,26 @@ angular.module('myApp')
 
         payload = updateFormData;
 
-         $http.put(update_project_uri, payload)
-         .success(function(data, status, header, config) {
-           //$log.debug('Success updating project');
-           console.log('Success updating project');
-           // put in a service
-           $location.path('/projects');
-         })
-         .error(function(data, status) {
-           //$log.debug('Error while trying to update project on server.');
-           console.log('Error while trying to update project on server.');
-         });
+        RESTService.put(update_project_uri, payload, function(data){
+          $log.debug('Success updating a project');
+          $location.path('/projects');
+        });
+
+      }
+
+
+      $scope.cancelUpdateProject = function(){
+        $location.path("/projects");
       }
 
 
       $scope.deleteProject = function(projectId) {
-        // put in a service
         var delete_project_uri = '/projects/' + projectId;
 
-        $log.debug('Deleting project '  + projectId);
-
-        $http.delete(delete_project_uri)
-          .success(function(data, status, header, config) {
-            //$log.debug('Success deleting project');
-            console.log('Success deleting project');
-            getProjects();
-          })
-          .error(function(data, status) {
-            //$log.debug('Error while trying to delete project on server');
-            console.log('Error while trying to delete project on server');
-          });
+        RESTService.delete(delete_project_uri, function(data){
+          $log.debug('Success deleting project');
+          getProjects();
+        });
       }
 
 
@@ -173,22 +133,18 @@ angular.module('myApp')
         // put in a service
         var invite_developers_to_project_uri = '/projects/' + projectId + '/invite_devs';
 
-
         // var payload = developers;
         var payload = {
           devs: [1, 2]
         };
-
-        $log.debug('Inviting developers to project...');
+    
 
         $http.put(invite_developers_to_project_uri, payload)
         .success(function(data, status, header, config) {
-          //$log.debug('Success inviting developers to project');
-          console.log('Success inviting developers to project');
+          $log.debug('Success inviting developers to project');
         })
         .error(function(data, status) {
-          //$log.debug('Error while trying to invite developers to project on server.');
-          console.log('Error while trying to invite developers to project on server.');
+          $log.debug('Error while trying to invite developers to project on server');
         });
       }
 
@@ -203,20 +159,14 @@ angular.module('myApp')
           devs: [1, 2]
         };
 
-        $log.debug('Removing developers from project...');
 
         $http.put(remove_developers_to_project_uri, payload)
         .success(function(data, status, header, config) {
-          //$log.debug('Success inviting developers to project');
-          console.log('Success inviting developers to project');
+          $log.debug('Success removing developers from project...');
         })
         .error(function(data, status) {
-          //$log.debug('Error while trying to invite developers to project on server.');
-          console.log('Error while trying to invite developers to project on server.');
+          $log.debug('Error while trying to remove invited developers to project');
         });
       }
-
-
-
     }
   ]);
