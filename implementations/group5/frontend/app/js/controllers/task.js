@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', 'Task', 'User', 'Utility',
-  function ($scope, $log, $location, $routeParams, $filter, Task, User, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Utility',
+  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Utility) {
 
   var TAG = 'TaskController::';
   $log.debug(TAG, 'init', $routeParams, $scope.userTasks);
@@ -79,11 +79,11 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
         $scope.isNew = false;
         $log.debug('current task pushing', $scope.currentTask);
         $scope.tasksInProgress.push($scope.currentTask);
-        $('#taskModal').modal('hide');
+        $route.reload();
       });
     } else {
       $scope.currentTask.$update();
-      $('#taskModal').modal('hide');
+      $route.reload();
     }
     
   };
