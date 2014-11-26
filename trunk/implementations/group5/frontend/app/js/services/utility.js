@@ -35,4 +35,21 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
       }
     }
   };
+
+  this.escape = function(obj) {
+    for (var prop in obj) {
+      if (typeof obj[prop] === 'string' || obj[prop] instanceof String) {
+        obj[prop] = obj[prop].replace(/'/g, '&quot;');
+      }
+    }
+  };
+
+  this.unescape = function(obj) {
+    for (var prop in obj) {
+      if (typeof obj[prop] === 'string' || obj[prop] instanceof String) {
+        obj[prop] = obj[prop].replace(/&quot;/g, '\'');
+      }
+    }
+  };
+  
 }]);
