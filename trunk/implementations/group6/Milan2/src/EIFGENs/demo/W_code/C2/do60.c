@@ -10,20 +10,20 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F60_932(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_933(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_934(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_935(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_936(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_937(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_938(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_939(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_940(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_941(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_942(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_943(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_944(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F60_945(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_969(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_970(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_971(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_972(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_973(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_974(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_975(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_976(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_977(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_978(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_979(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_980(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_981(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F60_982(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit60(void);
 
 #ifdef __cplusplus
@@ -47,7 +47,7 @@ extern "C" {
 #endif
 
 /* {DOUBLE_MATH}.log_2 */
-EIF_TYPED_VALUE F60_932 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_969 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "log_2";
@@ -71,20 +71,20 @@ EIF_TYPED_VALUE F60_932 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 981);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1018);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(59, Current, 981);
+	RTDBGEAA(59, Current, 1018);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x20000000, 1,0); /* Result */
 	
 	ur8_1 = arg1;
-	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(916, dtype))(Current, ur8_1x)).it_r8);
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(953, dtype))(Current, ur8_1x)).it_r8);
 	ur8_1 = (EIF_REAL_64) 2.0;
-	tr8_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(916, dtype))(Current, ur8_1x)).it_r8);
+	tr8_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(953, dtype))(Current, ur8_1x)).it_r8);
 	Result = (EIF_REAL_64) (EIF_REAL_64) ((EIF_REAL_64) (Result) /  (EIF_REAL_64) (tr8_1));
 	RTVI(Current, RTAL);
 	RTRS;
@@ -100,7 +100,7 @@ EIF_TYPED_VALUE F60_932 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.cosine */
-EIF_TYPED_VALUE F60_933 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_970 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "cosine";
@@ -120,11 +120,11 @@ EIF_TYPED_VALUE F60_933 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 982);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1019);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 982);
+	RTDBGEAA(59, Current, 1019);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) cos((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -140,7 +140,7 @@ EIF_TYPED_VALUE F60_933 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.arc_cosine */
-EIF_TYPED_VALUE F60_934 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_971 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "arc_cosine";
@@ -160,11 +160,11 @@ EIF_TYPED_VALUE F60_934 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 983);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1020);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 983);
+	RTDBGEAA(59, Current, 1020);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) acos((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -180,7 +180,7 @@ EIF_TYPED_VALUE F60_934 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.sine */
-EIF_TYPED_VALUE F60_935 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_972 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "sine";
@@ -200,11 +200,11 @@ EIF_TYPED_VALUE F60_935 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 984);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1021);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 984);
+	RTDBGEAA(59, Current, 1021);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) sin((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -220,7 +220,7 @@ EIF_TYPED_VALUE F60_935 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.arc_sine */
-EIF_TYPED_VALUE F60_936 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_973 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "arc_sine";
@@ -240,11 +240,11 @@ EIF_TYPED_VALUE F60_936 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 985);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1022);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 985);
+	RTDBGEAA(59, Current, 1022);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) asin((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -260,7 +260,7 @@ EIF_TYPED_VALUE F60_936 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.tangent */
-EIF_TYPED_VALUE F60_937 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_974 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "tangent";
@@ -280,11 +280,11 @@ EIF_TYPED_VALUE F60_937 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 986);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1023);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 986);
+	RTDBGEAA(59, Current, 1023);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) tan((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -300,7 +300,7 @@ EIF_TYPED_VALUE F60_937 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.arc_tangent */
-EIF_TYPED_VALUE F60_938 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_975 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "arc_tangent";
@@ -320,11 +320,11 @@ EIF_TYPED_VALUE F60_938 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 987);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1024);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 987);
+	RTDBGEAA(59, Current, 1024);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) atan((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -340,7 +340,7 @@ EIF_TYPED_VALUE F60_938 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.sqrt */
-EIF_TYPED_VALUE F60_939 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_976 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "sqrt";
@@ -360,11 +360,11 @@ EIF_TYPED_VALUE F60_939 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 988);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1025);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 988);
+	RTDBGEAA(59, Current, 1025);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) sqrt((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -380,7 +380,7 @@ EIF_TYPED_VALUE F60_939 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.exp */
-EIF_TYPED_VALUE F60_940 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_977 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "exp";
@@ -400,11 +400,11 @@ EIF_TYPED_VALUE F60_940 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 989);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1026);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 989);
+	RTDBGEAA(59, Current, 1026);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) exp((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -420,7 +420,7 @@ EIF_TYPED_VALUE F60_940 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.log */
-EIF_TYPED_VALUE F60_941 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_978 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "log";
@@ -440,11 +440,11 @@ EIF_TYPED_VALUE F60_941 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 990);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1027);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 990);
+	RTDBGEAA(59, Current, 1027);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) log((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -460,7 +460,7 @@ EIF_TYPED_VALUE F60_941 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.log10 */
-EIF_TYPED_VALUE F60_942 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_979 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "log10";
@@ -480,11 +480,11 @@ EIF_TYPED_VALUE F60_942 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 991);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1028);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 991);
+	RTDBGEAA(59, Current, 1028);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) log10((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -500,7 +500,7 @@ EIF_TYPED_VALUE F60_942 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.floor */
-EIF_TYPED_VALUE F60_943 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_980 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "floor";
@@ -520,11 +520,11 @@ EIF_TYPED_VALUE F60_943 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 992);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1029);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 992);
+	RTDBGEAA(59, Current, 1029);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) floor((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -540,7 +540,7 @@ EIF_TYPED_VALUE F60_943 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.ceiling */
-EIF_TYPED_VALUE F60_944 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_981 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "ceiling";
@@ -560,11 +560,11 @@ EIF_TYPED_VALUE F60_944 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 993);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1030);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 993);
+	RTDBGEAA(59, Current, 1030);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) ceil((double) arg1);
 	
 	RTVI(Current, RTAL);
@@ -580,7 +580,7 @@ EIF_TYPED_VALUE F60_944 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {DOUBLE_MATH}.dabs */
-EIF_TYPED_VALUE F60_945 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F60_982 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "dabs";
@@ -600,11 +600,11 @@ EIF_TYPED_VALUE F60_945 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL64,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 59, Current, 0, 1, 994);
+	RTEAA(l_feature_name, 59, Current, 0, 1, 1031);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(59, Current, 994);
+	RTDBGEAA(59, Current, 1031);
 	RTIV(Current, RTAL);Result = (EIF_REAL_64) fabs((double) arg1);
 	
 	RTVI(Current, RTAL);

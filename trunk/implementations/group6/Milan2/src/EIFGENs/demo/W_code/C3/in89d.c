@@ -1,5 +1,5 @@
 /*
- * Class INET_ADDRESS_IMPL_V4
+ * Class INET_ADDRESS_IMPL_V6
  */
 
 #include "eif_macros.h"
@@ -37,11 +37,11 @@ static struct desc_info desc_89[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_89},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -49,8 +49,8 @@ static struct desc_info desc_89[] = {
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 88, NULL},
 	{1430, (BODY_INDEX)-1, 314, NULL},
-	{1427, (BODY_INDEX)-1, 91, NULL},
-	{1428, (BODY_INDEX)-1, 91, NULL},
+	{1427, (BODY_INDEX)-1, 90, NULL},
+	{1428, (BODY_INDEX)-1, 90, NULL},
 	{1429, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
@@ -59,7 +59,7 @@ void Init89(void)
 {
 	IDSC(desc_89, 0, 88);
 	IDSC(desc_89 + 1, 2, 88);
-	IDSC(desc_89 + 32, 452, 88);
+	IDSC(desc_89 + 32, 453, 88);
 	IDSC(desc_89 + 35, 454, 88);
 }
 

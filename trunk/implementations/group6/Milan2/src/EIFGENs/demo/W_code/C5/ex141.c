@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F141_2029(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F141_2070(EIF_REFERENCE);
 extern void EIF_Minit141(void);
 
 #ifdef __cplusplus
@@ -33,8 +33,8 @@ extern "C" {
 #endif
 
 /* {EXCEPTION_MANAGER_FACTORY}.exception_manager */
-RTOID (F141_2029)
-EIF_TYPED_VALUE F141_2029 (EIF_REFERENCE Current)
+RTOID (F141_2070)
+EIF_TYPED_VALUE F141_2070 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "exception_manager";
@@ -46,7 +46,7 @@ EIF_TYPED_VALUE F141_2029 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRR
-	RTOTDR(F141_2029);
+	RTOTDR(F141_2070);
 	dtype = Dtype(Current);
 
 	RTLI(2);
@@ -55,18 +55,18 @@ EIF_TYPED_VALUE F141_2029 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 140, Current, 0, 0, 1969);
+	RTEAA(l_feature_name, 140, Current, 0, 0, 2010);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(140, Current, 1969);
+	RTDBGEAA(140, Current, 2010);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF8000051, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF8000050, 0,0); /* Result */
 	
-	tr1 = RTLN(82);
+	tr1 = RTLN(81);
 	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTWC(32, Dtype(tr1)))(tr1);
 	RTNHOOK(1,1);
 	Result = (EIF_REFERENCE) RTCCL(tr1);
@@ -95,7 +95,7 @@ EIF_TYPED_VALUE F141_2029 (EIF_REFERENCE Current)
 void EIF_Minit141 (void)
 {
 	GTCX
-	RTOTS (2029,F141_2029)
+	RTOTS (2070,F141_2070)
 }
 
 

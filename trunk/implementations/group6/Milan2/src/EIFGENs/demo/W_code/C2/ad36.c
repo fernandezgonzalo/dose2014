@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F36_653(EIF_REFERENCE);extern EIF_INTEGER_32 en_addrinfo_af_inet();
+extern EIF_TYPED_VALUE F36_690(EIF_REFERENCE);extern EIF_INTEGER_32 en_addrinfo_af_inet();
 
-extern EIF_TYPED_VALUE F36_654(EIF_REFERENCE);extern EIF_INTEGER_32 en_addrinfo_af_inet6();
+extern EIF_TYPED_VALUE F36_691(EIF_REFERENCE);extern EIF_INTEGER_32 en_addrinfo_af_inet6();
 
 extern void EIF_Minit36(void);
 
@@ -36,7 +36,7 @@ extern "C" {
 #endif
 
 /* {ADDRINFO}.af_inet */
-EIF_TYPED_VALUE F36_653 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F36_690 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "af_inet";
@@ -52,11 +52,11 @@ EIF_TYPED_VALUE F36_653 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 35, Current, 0, 0, 737);
+	RTEAA(l_feature_name, 35, Current, 0, 0, 774);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(35, Current, 737);
+	RTDBGEAA(35, Current, 774);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) en_addrinfo_af_inet();
 	
 	RTVI(Current, RTAL);
@@ -71,7 +71,7 @@ EIF_TYPED_VALUE F36_653 (EIF_REFERENCE Current)
 }
 
 /* {ADDRINFO}.af_inet6 */
-EIF_TYPED_VALUE F36_654 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F36_691 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "af_inet6";
@@ -87,11 +87,11 @@ EIF_TYPED_VALUE F36_654 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 35, Current, 0, 0, 738);
+	RTEAA(l_feature_name, 35, Current, 0, 0, 775);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(35, Current, 738);
+	RTDBGEAA(35, Current, 775);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) en_addrinfo_af_inet6();
 	
 	RTVI(Current, RTAL);

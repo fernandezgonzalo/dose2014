@@ -1,5 +1,5 @@
 /*
- * Class WSF_TO_WGI_SERVICE
+ * Class WSF_SERVICE_LAUNCHER
  */
 
 #include "eif_macros.h"
@@ -16,7 +16,7 @@ static EIF_TYPE_INDEX gen_type3_54 [] = {0,0xFFFF};
 
 
 static struct desc_info desc_54[] = {
-	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
+	{(BODY_INDEX) 956, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
 	{1, (BODY_INDEX)-1, 418, gen_type0_54},
 	{2, (BODY_INDEX)-1, 301, NULL},
@@ -37,20 +37,30 @@ static struct desc_info desc_54[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_54},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 53, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 53, NULL},
+	{949, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{947, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{948, 0, 106, NULL},
+	{950, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{951, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{952, 0, 107, NULL},
+	{952, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{953, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{954, (BODY_INDEX)-1, 301, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 67, NULL},
+	{955, (BODY_INDEX)-1, 310, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{957, 8, 284, NULL},
 };
 
 extern void Init54(void);
@@ -59,7 +69,8 @@ void Init54(void)
 	IDSC(desc_54, 0, 53);
 	IDSC(desc_54 + 1, 2, 53);
 	IDSC(desc_54 + 32, 390, 53);
-	IDSC(desc_54 + 34, 391, 53);
+	IDSC(desc_54 + 33, 389, 53);
+	IDSC(desc_54 + 35, 305, 53);
 }
 
 

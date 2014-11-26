@@ -1,5 +1,5 @@
 /*
- * Class WSF_URI_TEMPLATE_HANDLER
+ * Class WSF_URI_TEMPLATE_AGENT_HANDLER
  */
 
 #include "eif_macros.h"
@@ -13,6 +13,7 @@ static EIF_TYPE_INDEX gen_type0_202 [] = {418,201,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_202 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_202 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_202 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_202 [] = {426,0,0xFFF9,2,293,322,77,0xFFFF};
 
 
 static struct desc_info desc_202[] = {
@@ -37,21 +38,23 @@ static struct desc_info desc_202[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_202},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 201, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 201, NULL},
-	{3085, (BODY_INDEX)-1, 301, NULL},
-	{3086, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{3093, (BODY_INDEX)-1, 326, NULL},
+	{3081, (BODY_INDEX)-1, 301, NULL},
+	{3082, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3089, (BODY_INDEX)-1, 326, NULL},
+	{3090, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3091, 0, 426, gen_type4_202},
+	{3092, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init202(void);
@@ -59,9 +62,10 @@ void Init202(void)
 {
 	IDSC(desc_202, 0, 201);
 	IDSC(desc_202 + 1, 2, 201);
-	IDSC(desc_202 + 32, 239, 201);
-	IDSC(desc_202 + 34, 176, 201);
-	IDSC(desc_202 + 35, 279, 201);
+	IDSC(desc_202 + 32, 279, 201);
+	IDSC(desc_202 + 34, 281, 201);
+	IDSC(desc_202 + 35, 175, 201);
+	IDSC(desc_202 + 37, 173, 201);
 }
 
 

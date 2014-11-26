@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C4_c.o 
 
-OLDOBJECTS =  ap112.o ap112d.o rt124.o rt124d.o ws111.o ws111d.o rt123.o rt123d.o \
-	nu129.o nu129d.o st126.o st126d.o st128.o st128d.o st127.o st127d.o \
-	rt125.o rt125d.o rt122.o rt122d.o da103.o da103d.o ws119.o ws119d.o \
-	ws121.o ws121d.o ws120.o ws120d.o wg118.o wg118d.o wg115.o wg115d.o \
-	ws114.o ws114d.o ws106.o ws106d.o sq113.o sq113d.o ws108.o ws108d.o \
-	ws110.o ws110d.o st131.o st131d.o in130.o in130d.o ti100.o ti100d.o \
-	ti99.o ti99d.o da101.o da101d.o da104.o da104d.o da102.o da102d.o \
-	ws107.o ws107d.o pe105.o pe105d.o ws109.o ws109d.o wg117.o wg117d.o \
-	wg116.o wg116d.o 
+OLDOBJECTS =  ap111.o ap111d.o rt123.o rt123d.o ws110.o ws110d.o rt122.o rt122d.o \
+	st130.o st130d.o st131.o st131d.o nu125.o nu125d.o st129.o st129d.o \
+	rt124.o rt124d.o rt121.o rt121d.o he128.o he128d.o ws118.o ws118d.o \
+	ws120.o ws120d.o ws119.o ws119d.o wg117.o wg117d.o wg114.o wg114d.o \
+	da102.o da102d.o ws113.o ws113d.o ws105.o ws105d.o sq112.o sq112d.o \
+	ws107.o ws107d.o ws109.o ws109d.o st127.o st127d.o in126.o in126d.o \
+	ws106.o ws106d.o da100.o da100d.o da103.o da103d.o da101.o da101d.o \
+	ti99.o ti99d.o pe104.o pe104d.o ws108.o ws108d.o wg116.o wg116d.o \
+	wg115.o wg115d.o 
 
 all: Cobj4.o
 

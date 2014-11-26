@@ -1,5 +1,5 @@
 /*
- * Class WSF_SERVICE
+ * Class WSF_CALLBACK_SERVICE
  */
 
 #include "eif_macros.h"
@@ -13,10 +13,11 @@ static EIF_TYPE_INDEX gen_type0_108 [] = {418,107,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_108 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_108 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_108 [] = {0,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_108 [] = {426,0,0xFFF9,2,293,322,77,0xFFFF};
 
 
 static struct desc_info desc_108[] = {
-	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
+	{(BODY_INDEX) 1622, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
 	{1, (BODY_INDEX)-1, 418, gen_type0_108},
 	{2, (BODY_INDEX)-1, 301, NULL},
@@ -37,19 +38,21 @@ static struct desc_info desc_108[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_108},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 107, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 107, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1622, (BODY_INDEX)-1, 52, NULL},
+	{1621, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1618, (BODY_INDEX)-1, 51, NULL},
+	{1619, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{1620, 0, 426, gen_type4_108},
 };
 
 extern void Init108(void);
@@ -57,7 +60,8 @@ void Init108(void)
 {
 	IDSC(desc_108, 0, 107);
 	IDSC(desc_108 + 1, 2, 107);
-	IDSC(desc_108 + 32, 305, 107);
+	IDSC(desc_108 + 32, 303, 107);
+	IDSC(desc_108 + 34, 391, 107);
 }
 
 

@@ -307,7 +307,7 @@ feature --data access: USERS
 		do
 			create Result.make_array
 
-			create db_query_statement.make("SELECT * FROM users;" , db)
+			create db_query_statement.make("SELECT * FROM user;" , db)
 
 			db_query_statement.execute(agent rows_to_json_array (?, 7, Result))
 
@@ -318,7 +318,7 @@ feature --data access: USERS
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_query_statement.make ("SELECT * FROM users WHERE email = ?;", db)
+			create db_query_statement.make ("SELECT * FROM user WHERE email = ?;", db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email>>)
 
 			if l_query_result_cursor.after then
@@ -341,25 +341,18 @@ feature --data access: USERS
 		--	a PHOTO of the user, which must be a valid path to a picture or to an avatar
 
 		require
-			-- an_email must be a valid email address
-
-			a_password.count = 8
-			a_name /= VOID
-			not a_name.is_empty
-			a_surname /= VOID
-			not a_surname.is_empty
+			valid_email: an_email /= VOID
+			valid_password: (a_password /= VOID) AND (a_password.count = 8)
+			valid_user_name: (a_name /= VOID) AND (not a_name.is_empty)
+			valid_user_surname: (a_surname /= VOID) AND (not a_surname.is_empty)
+			valid_role: a_role /= VOID
+			valid_photo: a_path_to_a_photo /= VOID
 
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-
-			create db_insert_statement.make ("INSERT INTO users(email,password,name,surname,male,role,photo) VALUES (?,?,?,?,?,?,?);", db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo>>)
-
-
-			if db_insert_statement.has_error then
-				print("Error while inserting a new user.")
-			end
+			create db_insert_statement.make ("INSERT INTO user(email,password,name,surname,male,role,photo) VALUES (?,?,?,?,?,?,?);", db)
+			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo>>)
 
 		end
 
@@ -370,7 +363,7 @@ feature --data access: USERS
 		require
 			-- an_email must be a valid email address
 		do
-			create db_modify_statement.make ("DELETE FROM users WHERE email= '" + an_email + "';", db)
+			create db_modify_statement.make ("DELETE FROM user WHERE email= '" + an_email + "';", db)
 
 			db_modify_statement.execute
 
@@ -393,7 +386,7 @@ feature --data access: USERS
 			--create db_modify_statement.make ("UPDATE users SET password = '" + new_password.hash_code.out + "' WHERE email = '" + user_email + "';" , db)
 			--db_modify_statement.execute
 
-			create db_modify_statement.make ("UPDATE users SET password = ? WHERE email = '" + user_email + "';", db)
+			create db_modify_statement.make ("UPDATE user SET password = ? WHERE email = '" + user_email + "';", db)
 			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<new_password.hash_code>>)
 
 
@@ -412,7 +405,7 @@ feature --data access: USERS
 			new_name /= VOID
 			not new_name.is_empty
 		do
-			create db_modify_statement.make ("UPDATE users SET name = '" + new_name + "' WHERE email = '" + user_email + "';" , db)
+			create db_modify_statement.make ("UPDATE user SET name = '" + new_name + "' WHERE email = '" + user_email + "';" , db)
 
 			db_modify_statement.execute
 
@@ -431,7 +424,7 @@ feature --data access: USERS
 			new_surname /= VOID
 			not new_surname.is_empty
 		do
-			create db_modify_statement.make ("UPDATE users SET surname = '" + new_surname + "' WHERE email = '" + user_email + "';" , db)
+			create db_modify_statement.make ("UPDATE user SET surname = '" + new_surname + "' WHERE email = '" + user_email + "';" , db)
 
 			db_modify_statement.execute
 
@@ -447,7 +440,7 @@ feature --data access: USERS
 		require
 			-- an_email must be a valid email address
 		do
-			create db_modify_statement.make ("UPDATE users SET role = '" + new_role + "' WHERE email = '" + user_email + "';" , db)
+			create db_modify_statement.make ("UPDATE user SET role = '" + new_role + "' WHERE email = '" + user_email + "';" , db)
 
 			db_modify_statement.execute
 
@@ -463,7 +456,7 @@ feature --data access: USERS
 		require
 			-- an_email must be a valid email address
 		do
-			create db_modify_statement.make ("UPDATE users SET photo = '" + path_to_new_photo + "' WHERE email = '" + user_email + "';" , db)
+			create db_modify_statement.make ("UPDATE user SET photo = '" + path_to_new_photo + "' WHERE email = '" + user_email + "';" , db)
 
 			db_modify_statement.execute
 
@@ -489,7 +482,7 @@ feature --data access: USERS
 		do
 			create Result.make
 
-			create db_query_statement.make("SELECT * FROM users WHERE email = '" + user_email + "';" , db)
+			create db_query_statement.make("SELECT * FROM user WHERE email = '" + user_email + "';" , db)
 
 			db_query_statement.execute(agent row_to_json_object (?, 7, Result))
 		end
@@ -507,7 +500,7 @@ feature --data access: USERS
 
 			create Result
 
-			create db_query_statement.make ("SELECT * FROM Users WHERE name=? AND password=?;", db)
+			create db_query_statement.make ("SELECT * FROM user WHERE email=? AND password=?;", db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<an_email, a_password.hash_code>>)
 
 
@@ -519,8 +512,8 @@ feature --data access: USERS
 				print("A user with the given name and password was successfully found into the database.%N")
 				Result.check_result := True
 				Result.user_email := l_query_result_cursor.item.value (1).out
-				Result.user_name := l_query_result_cursor.item.value (3).out
-				Result.user_surname := l_query_result_cursor.item.value (4).out
+				Result.user_name := l_query_result_cursor.item.value (2).out
+				Result.user_surname := l_query_result_cursor.item.value (3).out
 			end
 		end
 
@@ -544,7 +537,7 @@ feature --Data access: ITERATIONS
 		do
 			create Result.make_array
 
-			create db_query_statement.make("SELECT * FROM iterations WHERE project = '" + a_project + "';" , db)
+			create db_query_statement.make("SELECT * FROM iteration WHERE project = '" + a_project + "';" , db)
 
 			db_query_statement.execute(agent rows_to_json_array (?, 4, Result))
 
@@ -570,7 +563,7 @@ feature --Data access: ITERATIONS
 			--create db_insert_statement.make ("INSERT INTO users(email,password,name,surname,male,role,photo) VALUES ('" + an_email + "', '" + a_password.hash_code + "', '" + a_name + "', '" + a_surname + "', '" + is_male.out + "', '" + a_role + "', '" + a_path_to_a_photo + "');", db)
 			--db_insert_statement.execute
 
-			create db_insert_statement.make ("INSERT INTO iterations(numbers, project, name, backlog) VALUES (?,?,?,?);", db)
+			create db_insert_statement.make ("INSERT INTO iteration(numbers, project, name, backlog) VALUES (?,?,?,?);", db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_number, a_project, a_name, is_backlog>>)
 
 
@@ -594,7 +587,7 @@ feature --Data access: ITERATIONS
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_modify_statement.make ("DELETE FROM iterations WHERE number=? AND project= '" + a_project + "';", db)
+			create db_modify_statement.make ("DELETE FROM iteration WHERE number=? AND project= '" + a_project + "';", db)
 			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<a_number, a_project>>)
 
 			if db_modify_statement.has_error then

@@ -37,11 +37,11 @@ static struct desc_info desc_327[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_327},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -50,12 +50,12 @@ static struct desc_info desc_327[] = {
 	{30, (BODY_INDEX)-1, 326, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, 310, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 199, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 198, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, 308, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{11023, (BODY_INDEX)-1, 310, NULL},
-	{11022, (BODY_INDEX)-1, 306, NULL},
+	{11024, (BODY_INDEX)-1, 310, NULL},
+	{11023, (BODY_INDEX)-1, 306, NULL},
 };
 
 extern void Init327(void);
@@ -63,8 +63,8 @@ void Init327(void)
 {
 	IDSC(desc_327, 0, 326);
 	IDSC(desc_327 + 1, 2, 326);
-	IDSC(desc_327 + 32, 130, 326);
-	IDSC(desc_327 + 39, 86, 326);
+	IDSC(desc_327 + 32, 149, 326);
+	IDSC(desc_327 + 39, 85, 326);
 }
 
 

@@ -1,5 +1,5 @@
 /*
- * Code for class DATE_TIME_VALUE
+ * Code for class DATE_MEASUREMENT
  */
 
 #include "eif_eiffel.h"
@@ -10,9 +10,7 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F103_1607(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F103_1608(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F103_1609(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F103_1613(EIF_REFERENCE);
 extern void EIF_Minit103(void);
 
 #ifdef __cplusplus
@@ -34,70 +32,49 @@ extern "C" {
 extern "C" {
 #endif
 
-/* {DATE_TIME_VALUE}.date */
-EIF_TYPED_VALUE F103_1607 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_REF;
-	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(1498,Dtype(Current)));
-	return r;
-}
-
-
-/* {DATE_TIME_VALUE}.time */
-EIF_TYPED_VALUE F103_1608 (EIF_REFERENCE Current)
-{
-	EIF_TYPED_VALUE r;
-	r.type = SK_REF;
-	r.it_r = *(EIF_REFERENCE *)(Current + RTWA(1497,Dtype(Current)));
-	return r;
-}
-
-
-/* {DATE_TIME_VALUE}.fractional_second */
-EIF_TYPED_VALUE F103_1609 (EIF_REFERENCE Current)
+/* {DATE_MEASUREMENT}.days_in_month */
+EIF_TYPED_VALUE F103_1613 (EIF_REFERENCE Current)
 {
 	GTCX
-	char *l_feature_name = "fractional_second";
+	char *l_feature_name = "days_in_month";
 	RTEX;
-	EIF_TYPED_VALUE up1x = {{0}, SK_POINTER};
-#define up1 up1x.it_p
-	EIF_REFERENCE tr1 = NULL;
-	EIF_REAL_64 tr8_1;
-	EIF_REAL_64 Result = ((EIF_REAL_64) 0);
+	EIF_TYPED_VALUE ui4_1x = {{0}, SK_INT32};
+#define ui4_1 ui4_1x.it_i4
+	EIF_TYPED_VALUE ui4_2x = {{0}, SK_INT32};
+#define ui4_2 ui4_2x.it_i4
+	EIF_INTEGER_32 ti4_1;
+	EIF_INTEGER_32 ti4_2;
+	EIF_INTEGER_32 Result = ((EIF_INTEGER_32) 0);
 	
 	RTCDT;
 	RTSN;
 	RTDA;
 	RTLD;
 	
-	RTLI(2);
+	RTLI(1);
 	RTLR(0,Current);
-	RTLR(1,tr1);
-	RTLU (SK_REAL64, &Result);
+	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 102, Current, 0, 0, 1589);
+	RTEAA(l_feature_name, 102, Current, 0, 0, 1586);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(102, Current, 1589);
+	RTDBGEAA(102, Current, 1586);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0x20000000, 1,0); /* Result */
+	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */
 	
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1497, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
-	RTNHOOK(1,1);
-	tr8_1 = *(EIF_REAL_64 *)(tr1 + RTVA(1463, "fractional_second", tr1));
-	Result = (EIF_REAL_64) tr8_1;
+	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1496, dtype))(Current)).it_i4);
+	ui4_1 = ti4_1;
+	ti4_2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1497, dtype))(Current)).it_i4);
+	ui4_2 = ti4_2;
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(1474, dtype))(Current, ui4_1x, ui4_2x)).it_i4);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
-		RTCT("same_fractional", EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1497, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
-		RTNHOOK(2,1);
-		tr8_1 = *(EIF_REAL_64 *)(tr1 + RTVA(1463, "fractional_second", tr1));
-		if ((EIF_BOOLEAN)(Result == tr8_1)) {
+		RTCT("positive_result", EX_POST);
+		if ((EIF_BOOLEAN) (Result > ((EIF_INTEGER_32) 0L))) {
 			RTCK;
 		} else {
 			RTCF;
@@ -111,8 +88,9 @@ EIF_TYPED_VALUE F103_1609 (EIF_REFERENCE Current)
 	RTLE;
 	RTLO(2);
 	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_REAL64; r.it_r8 = Result; return r; }
-#undef up1
+	{ EIF_TYPED_VALUE r; r.type = SK_INT32; r.it_i4 = Result; return r; }
+#undef ui4_1
+#undef ui4_2
 }
 
 void EIF_Minit103 (void)

@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F328_6384(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F328_6385(EIF_REFERENCE, EIF_TYPED_VALUE);
 extern void EIF_Minit328(void);
 
 #ifdef __cplusplus
@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 /* {WSF_SELF_DOCUMENTED_ROUTER_MAPPING}.documentation */
-EIF_TYPED_VALUE F328_6384 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F328_6385 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "documentation";
@@ -67,33 +67,33 @@ EIF_TYPED_VALUE F328_6384 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU (SK_REF, &Current);
 	RTLU(SK_REF, &loc1);
 	
-	RTEAA(l_feature_name, 327, Current, 1, 1, 11024);
+	RTEAA(l_feature_name, 327, Current, 1, 1, 11025);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(327, Current, 11024);
+	RTDBGEAA(327, Current, 11025);
 	if (arg1) {
 		RTCC(arg1, 327, l_feature_name, 1, 281);
 	}
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(5232, Dtype(Current)))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(5233, Dtype(Current)))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	loc1 = RTCCL(tr1);
-	loc1 = RTRV(eif_non_attached_type(79),loc1);
+	loc1 = RTRV(eif_non_attached_type(76),loc1);
 	if (EIF_TEST(loc1)) {
 		RTHOOK(2);
-		RTDBGAL(Current, 0, 0xF800001A, 0,0); /* Result */
+		RTDBGAL(Current, 0, 0xF8000019, 0,0); /* Result */
 		
 		ur1 = RTCCL(Current);
 		ur2 = RTCCL(arg1);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTVF(1228, "mapping_documentation", loc1))(loc1, ur1x, ur2x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTVF(1213, "mapping_documentation", loc1))(loc1, ur1x, ur2x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		Result = (EIF_REFERENCE) RTCCL(tr1);
 	} else {
 		RTHOOK(3);
-		RTDBGAL(Current, 0, 0xF800001A, 0,0); /* Result */
+		RTDBGAL(Current, 0, 0xF8000019, 0,0); /* Result */
 		
-		tr1 = RTLN(26);
+		tr1 = RTLN(25);
 		ur1 = RTCCL(Current);
 		(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(356, Dtype(tr1)))(tr1, ur1x);
 		RTNHOOK(3,1);

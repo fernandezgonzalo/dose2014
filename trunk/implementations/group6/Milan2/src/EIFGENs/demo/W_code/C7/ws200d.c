@@ -1,5 +1,5 @@
 /*
- * Class WSF_HANDLER
+ * Class WSF_ROUTING_HANDLER
  */
 
 #include "eif_macros.h"
@@ -37,19 +37,25 @@ static struct desc_info desc_200[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_200},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 199, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 199, NULL},
-	{3085, (BODY_INDEX)-1, 301, NULL},
-	{3086, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3081, (BODY_INDEX)-1, 301, NULL},
+	{3082, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3083, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3084, 0, 280, NULL},
+	{3085, (BODY_INDEX)-1, 348, NULL},
+	{3086, (BODY_INDEX)-1, 310, NULL},
+	{3087, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{3088, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init200(void);
@@ -57,7 +63,8 @@ void Init200(void)
 {
 	IDSC(desc_200, 0, 199);
 	IDSC(desc_200 + 1, 2, 199);
-	IDSC(desc_200 + 32, 239, 199);
+	IDSC(desc_200 + 32, 279, 199);
+	IDSC(desc_200 + 34, 309, 199);
 }
 
 
