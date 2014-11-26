@@ -93,10 +93,22 @@ feature -- Data access Users
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
 				Result := False
+			else
+				Result := True
 			end
-			Result := True
 		end
 
+	update_user(id: NATURAL; name, lastname, password, rol, active: STRING): BOOLEAN
+		do
+			create db_modify_statement.make("UPDATE User SET name='" + name + "', lastname='" + lastname + "', password='" + password + "', rol='" + rol + "', active='" + active + "' WHERE id=" + id.out + ";", db)
+			print (db_modify_statement.statement_string + "%N")
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				Result := False
+			else
+				Result := True
+			end
+		end
 
 	remove_user (id: NATURAL)
 			-- removes the todo with the given id
