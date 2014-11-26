@@ -6,7 +6,7 @@ class
 	DEMO_USER_CTRL
 
 inherit
-	WBPMS_HEADER_JSON_HELPER
+	DEMO_HEADER_JSON_HELPER
 
 create
 	make
@@ -14,7 +14,7 @@ create
 
 feature {NONE} -- Creation
 
-	make (a_dao: WBPMS_DB)
+	make (a_dao: DEMO_DB)
 		do
 			my_db := a_dao
 		end
@@ -22,7 +22,7 @@ feature {NONE} -- Creation
 
 feature {NONE} -- Private attributes
 
-	my_db: WBPMS_DB
+	my_db: DEMO_DB
 
 
 feature -- Handlers
@@ -69,7 +69,7 @@ feature -- Handlers
 			end
 
 				-- create the user in the database
-			my_db.add_user (l_name)
+			--my_db.add_user (l_name)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
