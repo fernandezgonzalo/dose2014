@@ -10,28 +10,28 @@
 extern "C" {
 #endif
 
-extern void F186_2299(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
-extern void F186_2300(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
-extern void F186_2301(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F186_2302(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F186_2303(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F186_2304(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F186_2305(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F186_2306(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F186_2307(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
-extern void F186_2308(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F186_2309(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F186_2310(EIF_REFERENCE);extern EIF_INTEGER_32 inet_address_size();
+extern void F186_2340(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern void F186_2341(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern void F186_2342(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F186_2343(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F186_2344(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F186_2345(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F186_2346(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F186_2347(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F186_2348(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern void F186_2349(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern void F186_2350(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F186_2351(EIF_REFERENCE);extern EIF_INTEGER_32 inet_address_size();
 
-extern void F186_2311(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern void en_sockaddr_set_family(EIF_POINTER, EIF_INTEGER_32);
+extern void F186_2352(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern void en_sockaddr_set_family(EIF_POINTER, EIF_INTEGER_32);
 
-extern EIF_TYPED_VALUE F186_2312(EIF_REFERENCE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 en_sockaddr_get_family(EIF_POINTER);
+extern EIF_TYPED_VALUE F186_2353(EIF_REFERENCE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 en_sockaddr_get_family(EIF_POINTER);
 
-extern void F186_2313(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern void en_sockaddr_set_port(EIF_POINTER, EIF_INTEGER_32);
+extern void F186_2354(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern void en_sockaddr_set_port(EIF_POINTER, EIF_INTEGER_32);
 
-extern EIF_TYPED_VALUE F186_2314(EIF_REFERENCE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 en_sockaddr_get_port(EIF_POINTER);
+extern EIF_TYPED_VALUE F186_2355(EIF_REFERENCE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 en_sockaddr_get_port(EIF_POINTER);
 
-extern EIF_TYPED_VALUE F186_2315(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 get_servent_port(EIF_POINTER, EIF_POINTER);
+extern EIF_TYPED_VALUE F186_2356(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);extern EIF_INTEGER_32 get_servent_port(EIF_POINTER, EIF_POINTER);
 
 extern void EIF_Minit186(void);
 
@@ -55,7 +55,7 @@ extern "C" {
 #endif
 
 /* {NETWORK_SOCKET_ADDRESS}.make_from_address_and_port */
-void F186_2299 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+void F186_2340 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "make_from_address_and_port";
@@ -83,14 +83,14 @@ void F186_2299 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 2, 2239);
+	RTEAA(l_feature_name, 185, Current, 0, 2, 2281);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2239);
+	RTDBGEAA(185, Current, 2281);
 	if (arg1) {
-		RTCC(arg1, 185, l_feature_name, 1, 91);
+		RTCC(arg1, 185, l_feature_name, 1, 90);
 	}
 	RTIV(Current, RTAL);
 	if ((RTAL & CK_REQUIRE) || RTAC) {
@@ -108,16 +108,16 @@ label_1:
 	}
 body:;
 	RTHOOK(3);
-	RTDBGAA(Current, dtype, 643, 0xF8000101, 0); /* socket_address */
+	RTDBGAA(Current, dtype, 680, 0xF80000FD, 0); /* socket_address */
 	
 	ui4_1 = arg2;
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1345, "sockaddr", arg1))(arg1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1379, "sockaddr", arg1))(arg1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTAR(Current, tr1);
-	*(EIF_REFERENCE *)(Current + RTWA(643, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
+	*(EIF_REFERENCE *)(Current + RTWA(680, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(4);
 		RTCT(NULL, EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		if ((EIF_BOOLEAN)(tr1 != NULL)) {
 			RTCK;
 		} else {
@@ -139,7 +139,7 @@ body:;
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.make_from_hostname_and_port */
-void F186_2300 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+void F186_2341 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "make_from_hostname_and_port";
@@ -177,14 +177,14 @@ void F186_2300 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_REF, &loc1);
 	RTLU(SK_REF, &loc2);
 	
-	RTEAA(l_feature_name, 185, Current, 2, 2, 2240);
+	RTEAA(l_feature_name, 185, Current, 2, 2, 2282);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2240);
+	RTDBGEAA(185, Current, 2282);
 	if (arg1) {
-		RTCC(arg1, 185, l_feature_name, 1, 310);
+		RTCC(arg1, 185, l_feature_name, 1, 314);
 	}
 	RTIV(Current, RTAL);
 	if ((RTAL & CK_REQUIRE) || RTAC) {
@@ -202,38 +202,38 @@ label_1:
 	}
 body:;
 	RTHOOK(3);
-	RTDBGAL(Current, 1, 0xF800005B, 0, 0); /* loc1 */
+	RTDBGAL(Current, 1, 0xF800005A, 0, 0); /* loc1 */
 	
 	ur1 = RTCCL(arg1);
-	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2046, dtype))(Current, ur1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2087, dtype))(Current, ur1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTHOOK(4);
 	if ((EIF_BOOLEAN)(loc1 != NULL)) {
 		RTHOOK(5);
-		RTDBGAL(Current, 2, 0xF8000101, 0, 0); /* loc2 */
+		RTDBGAL(Current, 2, 0xF80000FD, 0, 0); /* loc2 */
 		
 		ui4_1 = arg2;
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1345, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1379, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		loc2 = (EIF_REFERENCE) RTCCL(tr1);
 	} else {
 		RTHOOK(6);
-		RTDBGAL(Current, 2, 0xF8000101, 0, 0); /* loc2 */
+		RTDBGAL(Current, 2, 0xF80000FD, 0, 0); /* loc2 */
 		
-		tr1 = RTLNSMART(eif_non_attached_type(RTWCT(643, dtype, Dftype(Current))));
-		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(647, dtype))(Current)).it_i4);
+		tr1 = RTLNSMART(eif_non_attached_type(RTWCT(680, dtype, Dftype(Current))));
+		ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(684, dtype))(Current)).it_i4);
 		ui4_1 = ti4_1;
-		(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(3015, Dtype(tr1)))(tr1, ui4_1x);
+		(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(3038, Dtype(tr1)))(tr1, ui4_1x);
 		RTNHOOK(6,1);
 		loc2 = (EIF_REFERENCE) RTCCL(tr1);
 	}
 	RTHOOK(7);
-	RTDBGAA(Current, dtype, 643, 0xF8000101, 0); /* socket_address */
+	RTDBGAA(Current, dtype, 680, 0xF80000FD, 0); /* socket_address */
 	
 	RTAR(Current, loc2);
-	*(EIF_REFERENCE *)(Current + RTWA(643, dtype)) = (EIF_REFERENCE) RTCCL(loc2);
+	*(EIF_REFERENCE *)(Current + RTWA(680, dtype)) = (EIF_REFERENCE) RTCCL(loc2);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(8);
 		RTCT(NULL, EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		if ((EIF_BOOLEAN)(tr1 != NULL)) {
 			RTCK;
 		} else {
@@ -256,7 +256,7 @@ body:;
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.make_any_local */
-void F186_2301 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F186_2342 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "make_any_local";
@@ -284,28 +284,28 @@ void F186_2301 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU (SK_REF, &Current);
 	RTLU(SK_REF, &loc1);
 	
-	RTEAA(l_feature_name, 185, Current, 1, 1, 2241);
+	RTEAA(l_feature_name, 185, Current, 1, 1, 2283);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2241);
+	RTDBGEAA(185, Current, 2283);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 1, 0xF800005B, 0, 0); /* loc1 */
+	RTDBGAL(Current, 1, 0xF800005A, 0, 0); /* loc1 */
 	
-	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2043, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2084, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTHOOK(2);
-	RTDBGAA(Current, dtype, 643, 0xF8000101, 0); /* socket_address */
+	RTDBGAA(Current, dtype, 680, 0xF80000FD, 0); /* socket_address */
 	
 	ui4_1 = arg1;
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1345, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1379, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTAR(Current, tr1);
-	*(EIF_REFERENCE *)(Current + RTWA(643, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
+	*(EIF_REFERENCE *)(Current + RTWA(680, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(3);
 		RTCT(NULL, EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 		if ((EIF_BOOLEAN)(tr1 != NULL)) {
 			RTCK;
 		} else {
@@ -326,7 +326,7 @@ void F186_2301 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.make_localhost */
-void F186_2302 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F186_2343 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "make_localhost";
@@ -354,24 +354,24 @@ void F186_2302 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU (SK_REF, &Current);
 	RTLU(SK_REF, &loc1);
 	
-	RTEAA(l_feature_name, 185, Current, 1, 1, 2242);
+	RTEAA(l_feature_name, 185, Current, 1, 1, 2284);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2242);
+	RTDBGEAA(185, Current, 2284);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 1, 0xF800005B, 0, 0); /* loc1 */
+	RTDBGAL(Current, 1, 0xF800005A, 0, 0); /* loc1 */
 	
-	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2045, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2086, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTHOOK(2);
-	RTDBGAA(Current, dtype, 643, 0xF8000101, 0); /* socket_address */
+	RTDBGAA(Current, dtype, 680, 0xF80000FD, 0); /* socket_address */
 	
 	ui4_1 = arg1;
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1345, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1379, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTAR(Current, tr1);
-	*(EIF_REFERENCE *)(Current + RTWA(643, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
+	*(EIF_REFERENCE *)(Current + RTWA(680, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(3);
@@ -386,7 +386,7 @@ void F186_2302 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.make_loopback */
-void F186_2303 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F186_2344 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "make_loopback";
@@ -414,24 +414,24 @@ void F186_2303 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU (SK_REF, &Current);
 	RTLU(SK_REF, &loc1);
 	
-	RTEAA(l_feature_name, 185, Current, 1, 1, 2243);
+	RTEAA(l_feature_name, 185, Current, 1, 1, 2285);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2243);
+	RTDBGEAA(185, Current, 2285);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 1, 0xF800005B, 0, 0); /* loc1 */
+	RTDBGAL(Current, 1, 0xF800005A, 0, 0); /* loc1 */
 	
-	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2044, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	loc1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2085, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTHOOK(2);
-	RTDBGAA(Current, dtype, 643, 0xF8000101, 0); /* socket_address */
+	RTDBGAA(Current, dtype, 680, 0xF80000FD, 0); /* socket_address */
 	
 	ui4_1 = arg1;
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1345, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(1379, "sockaddr", loc1))(loc1, ui4_1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTAR(Current, tr1);
-	*(EIF_REFERENCE *)(Current + RTWA(643, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
+	*(EIF_REFERENCE *)(Current + RTWA(680, dtype)) = (EIF_REFERENCE) RTCCL(tr1);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(3);
@@ -446,7 +446,7 @@ void F186_2303 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.port */
-EIF_TYPED_VALUE F186_2304 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F186_2345 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "port";
@@ -468,21 +468,21 @@ EIF_TYPED_VALUE F186_2304 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 0, 2244);
+	RTEAA(l_feature_name, 185, Current, 0, 0, 2286);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2244);
+	RTDBGEAA(185, Current, 2286);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */
 	
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTNHOOK(1,1);
-	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3021, "item", tr1));
+	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3044, "item", tr1));
 	up1 = tp1;
-	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2076, dtype))(Current, up1x)).it_i4);
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2117, dtype))(Current, up1x)).it_i4);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -496,7 +496,7 @@ EIF_TYPED_VALUE F186_2304 (EIF_REFERENCE Current)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.host_address */
-EIF_TYPED_VALUE F186_2305 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F186_2346 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "host_address";
@@ -522,20 +522,20 @@ EIF_TYPED_VALUE F186_2305 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Current);
 	RTLU(SK_REF, &loc1);
 	
-	RTEAA(l_feature_name, 185, Current, 1, 0, 2245);
+	RTEAA(l_feature_name, 185, Current, 1, 0, 2287);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2245);
+	RTDBGEAA(185, Current, 2287);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTCT0("has_address", EX_CHECK);
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTNHOOK(1,1);
-	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3021, "item", tr1));
+	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3044, "item", tr1));
 	up1 = tp1;
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2048, dtype))(Current, up1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2089, dtype))(Current, up1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	loc1 = RTCCL(tr1);
 	if (EIF_TEST(loc1)) {
 		RTCK0;
@@ -543,7 +543,7 @@ EIF_TYPED_VALUE F186_2305 (EIF_REFERENCE Current)
 		RTCF0;
 	}
 	RTHOOK(2);
-	RTDBGAL(Current, 0, 0xF800005B, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF800005A, 0,0); /* Result */
 	
 	Result = (EIF_REFERENCE) RTCCL(loc1);
 	RTVI(Current, RTAL);
@@ -559,7 +559,7 @@ EIF_TYPED_VALUE F186_2305 (EIF_REFERENCE Current)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.is_valid_host */
-EIF_TYPED_VALUE F186_2306 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F186_2347 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "is_valid_host";
@@ -587,14 +587,14 @@ EIF_TYPED_VALUE F186_2306 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 1, 2246);
+	RTEAA(l_feature_name, 185, Current, 0, 1, 2288);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2246);
+	RTDBGEAA(185, Current, 2288);
 	if (arg1) {
-		RTCC(arg1, 185, l_feature_name, 1, 310);
+		RTCC(arg1, 185, l_feature_name, 1, 314);
 	}
 	RTIV(Current, RTAL);
 	if ((RTAL & CK_REQUIRE) || RTAC) {
@@ -611,7 +611,7 @@ body:;
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
 	
 	ur1 = RTCCL(arg1);
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2046, dtype))(Current, ur1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2087, dtype))(Current, ur1x)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	Result = (EIF_BOOLEAN) (EIF_BOOLEAN)(tr1 != NULL);
 	RTVI(Current, RTAL);
 	RTRS;
@@ -628,7 +628,7 @@ body:;
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.set_port_from_name */
-void F186_2307 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+void F186_2348 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "set_port_from_name";
@@ -671,46 +671,46 @@ void F186_2307 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_REF, &loc2);
 	RTLU(SK_INT32, &loc3);
 	
-	RTEAA(l_feature_name, 185, Current, 3, 2, 2247);
+	RTEAA(l_feature_name, 185, Current, 3, 2, 2289);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2247);
+	RTDBGEAA(185, Current, 2289);
 	if (arg1) {
-		RTCC(arg1, 185, l_feature_name, 1, 310);
+		RTCC(arg1, 185, l_feature_name, 1, 314);
 	}
 	if (arg2) {
-		RTCC(arg2, 185, l_feature_name, 2, 310);
+		RTCC(arg2, 185, l_feature_name, 2, 314);
 	}
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	RTDBGAL(Current, 1, 0xF80000DB, 0, 0); /* loc1 */
+	RTDBGAL(Current, 1, 0xF80000D7, 0, 0); /* loc1 */
 	
-	tr1 = RTLN(219);
+	tr1 = RTLN(215);
 	ur1 = RTCCL(arg1);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(2373, Dtype(tr1)))(tr1, ur1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(2396, Dtype(tr1)))(tr1, ur1x);
 	RTNHOOK(1,1);
 	loc1 = (EIF_REFERENCE) RTCCL(tr1);
 	RTHOOK(2);
-	RTDBGAL(Current, 2, 0xF80000DB, 0, 0); /* loc2 */
+	RTDBGAL(Current, 2, 0xF80000D7, 0, 0); /* loc2 */
 	
-	tr1 = RTLN(219);
+	tr1 = RTLN(215);
 	ur1 = RTCCL(arg2);
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(2373, Dtype(tr1)))(tr1, ur1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(2396, Dtype(tr1)))(tr1, ur1x);
 	RTNHOOK(2,1);
 	loc2 = (EIF_REFERENCE) RTCCL(tr1);
 	RTHOOK(3);
 	RTDBGAL(Current, 3, 0x10000000, 1, 0); /* loc3 */
 	
-	tp1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(2392, "item", loc1))(loc1)).it_p);
+	tp1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(2415, "item", loc1))(loc1)).it_p);
 	up1 = tp1;
-	tp2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(2392, "item", loc2))(loc2)).it_p);
+	tp2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(2415, "item", loc2))(loc2)).it_p);
 	up2 = tp2;
-	loc3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2077, dtype))(Current, up1x, up2x)).it_i4);
+	loc3 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2118, dtype))(Current, up1x, up2x)).it_i4);
 	RTHOOK(4);
 	ui4_1 = loc3;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2073, dtype))(Current, ui4_1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2114, dtype))(Current, ui4_1x);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(5);
@@ -728,7 +728,7 @@ void F186_2307 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.set_port */
-void F186_2308 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F186_2349 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_port";
@@ -754,20 +754,20 @@ void F186_2308 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 1, 2248);
+	RTEAA(l_feature_name, 185, Current, 0, 1, 2290);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2248);
+	RTDBGEAA(185, Current, 2290);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(643, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(680, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTNHOOK(1,1);
-	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3021, "item", tr1));
+	tp1 = *(EIF_POINTER *)(tr1 + RTVA(3044, "item", tr1));
 	up1 = tp1;
 	ui4_1 = arg1;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2075, dtype))(Current, up1x, ui4_1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2116, dtype))(Current, up1x, ui4_1x);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -782,7 +782,7 @@ void F186_2308 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.set_host_address */
-void F186_2309 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+void F186_2350 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "set_host_address";
@@ -807,21 +807,21 @@ void F186_2309 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REF,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 1, 2249);
+	RTEAA(l_feature_name, 185, Current, 0, 1, 2291);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(185, Current, 2249);
+	RTDBGEAA(185, Current, 2291);
 	if (arg1) {
-		RTCC(arg1, 185, l_feature_name, 1, 91);
+		RTCC(arg1, 185, l_feature_name, 1, 90);
 	}
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	ur1 = RTCCL(arg1);
-	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2069, dtype))(Current)).it_i4);
+	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(2110, dtype))(Current)).it_i4);
 	ui4_1 = ti4_1;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2064, dtype))(Current, ur1x, ui4_1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(2105, dtype))(Current, ur1x, ui4_1x);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(2);
@@ -836,7 +836,7 @@ void F186_2309 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.address_size */
-EIF_TYPED_VALUE F186_2310 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F186_2351 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "address_size";
@@ -852,11 +852,11 @@ EIF_TYPED_VALUE F186_2310 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 0, 2250);
+	RTEAA(l_feature_name, 185, Current, 0, 0, 2292);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2250);
+	RTDBGEAA(185, Current, 2292);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) inet_address_size();
 	
 	RTVI(Current, RTAL);
@@ -871,7 +871,7 @@ EIF_TYPED_VALUE F186_2310 (EIF_REFERENCE Current)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.set_sock_family */
-void F186_2311 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+void F186_2352 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "set_sock_family";
@@ -892,11 +892,11 @@ void F186_2311 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 2, 2251);
+	RTEAA(l_feature_name, 185, Current, 0, 2, 2293);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2251);
+	RTDBGEAA(185, Current, 2293);
 	RTIV(Current, RTAL);en_sockaddr_set_family(arg1, arg2);
 	
 	RTVI(Current, RTAL);
@@ -912,7 +912,7 @@ void F186_2311 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.get_sock_family */
-EIF_TYPED_VALUE F186_2312 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F186_2353 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "get_sock_family";
@@ -932,11 +932,11 @@ EIF_TYPED_VALUE F186_2312 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_POINTER,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 1, 2252);
+	RTEAA(l_feature_name, 185, Current, 0, 1, 2294);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2252);
+	RTDBGEAA(185, Current, 2294);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) en_sockaddr_get_family(arg1);
 	
 	RTVI(Current, RTAL);
@@ -952,7 +952,7 @@ EIF_TYPED_VALUE F186_2312 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.set_sock_port */
-void F186_2313 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+void F186_2354 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "set_sock_port";
@@ -973,11 +973,11 @@ void F186_2313 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 2, 2253);
+	RTEAA(l_feature_name, 185, Current, 0, 2, 2295);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2253);
+	RTDBGEAA(185, Current, 2295);
 	RTIV(Current, RTAL);en_sockaddr_set_port(arg1, arg2);
 	
 	RTVI(Current, RTAL);
@@ -993,7 +993,7 @@ void F186_2313 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.get_sock_port */
-EIF_TYPED_VALUE F186_2314 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F186_2355 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "get_sock_port";
@@ -1013,11 +1013,11 @@ EIF_TYPED_VALUE F186_2314 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_POINTER,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 1, 2254);
+	RTEAA(l_feature_name, 185, Current, 0, 1, 2296);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2254);
+	RTDBGEAA(185, Current, 2296);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) en_sockaddr_get_port(arg1);
 	
 	RTVI(Current, RTAL);
@@ -1033,7 +1033,7 @@ EIF_TYPED_VALUE F186_2314 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {NETWORK_SOCKET_ADDRESS}.get_servent_port */
-EIF_TYPED_VALUE F186_2315 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+EIF_TYPED_VALUE F186_2356 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "get_servent_port";
@@ -1056,11 +1056,11 @@ EIF_TYPED_VALUE F186_2315 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYP
 	RTLU(SK_POINTER,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 185, Current, 0, 2, 2255);
+	RTEAA(l_feature_name, 185, Current, 0, 2, 2280);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 1);
-	RTDBGEAA(185, Current, 2255);
+	RTDBGEAA(185, Current, 2280);
 	RTIV(Current, RTAL);Result = (EIF_INTEGER_32) get_servent_port(arg1, arg2);
 	
 	RTVI(Current, RTAL);

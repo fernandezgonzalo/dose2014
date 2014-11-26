@@ -1,5 +1,5 @@
 /*
- * Class TIME_UTILITY
+ * Class TIME_CONSTANTS
  */
 
 #include "eif_macros.h"
@@ -37,21 +37,27 @@ static struct desc_info desc_97[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_97},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 96, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 96, NULL},
-	{1536, (BODY_INDEX)-1, 351, NULL},
-	{1537, (BODY_INDEX)-1, 351, NULL},
-	{1538, (BODY_INDEX)-1, 38, NULL},
-	{1539, (BODY_INDEX)-1, 314, NULL},
+	{1532, (BODY_INDEX)-1, 348, NULL},
+	{1533, (BODY_INDEX)-1, 348, NULL},
+	{1534, (BODY_INDEX)-1, 37, NULL},
+	{1535, (BODY_INDEX)-1, 314, NULL},
+	{1538, (BODY_INDEX)-1, 348, NULL},
+	{1539, (BODY_INDEX)-1, 348, NULL},
+	{1540, (BODY_INDEX)-1, 348, NULL},
+	{1541, (BODY_INDEX)-1, 348, NULL},
+	{1536, (BODY_INDEX)-1, 348, NULL},
+	{1537, (BODY_INDEX)-1, 314, NULL},
 };
 
 extern void Init97(void);
@@ -59,7 +65,8 @@ void Init97(void)
 {
 	IDSC(desc_97, 0, 96);
 	IDSC(desc_97 + 1, 2, 96);
-	IDSC(desc_97 + 32, 405, 96);
+	IDSC(desc_97 + 32, 411, 96);
+	IDSC(desc_97 + 36, 414, 96);
 }
 
 

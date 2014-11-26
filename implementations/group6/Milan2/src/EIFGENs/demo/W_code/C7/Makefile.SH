@@ -55,15 +55,15 @@ $spitshell >>Makefile <<'!NO!SUBS!'
 
 OBJECTS = big_file_C7_c.o 
 
-OLDOBJECTS =  ws222.o ws222d.o pl230.o pl230d.o pr198.o pr198d.o pa223.o pa223d.o \
-	c_217.o c_217d.o ws204.o ws204d.o sh221.o sh221d.o sh214.o sh214d.o \
-	sh212.o sh212d.o ws213.o ws213d.o ws202.o ws202d.o ws203.o ws203d.o \
-	re208.o re208d.o cu205.o cu205d.o ar207.o ar207d.o co228.o co228d.o \
-	st216.o st216d.o ha206.o ha206d.o ws200.o ws200d.o ti227.o ti227d.o \
-	da226.o da226d.o da225.o da225d.o ab229.o ab229d.o se209.o se209d.o \
-	wg218.o wg218d.o sq199.o sq199d.o sq215.o sq215d.o ws201.o ws201d.o \
-	du224.o du224d.o ht211.o ht211d.o ht210.o ht210d.o wg220.o wg220d.o \
-	wg219.o wg219d.o 
+OLDOBJECTS =  ws221.o ws221d.o pl229.o pl229d.o pa222.o pa222d.o c_216.o c_216d.o \
+	ws203.o ws203d.o sh220.o sh220d.o sh213.o sh213d.o sh211.o sh211d.o \
+	ws212.o ws212d.o ws201.o ws201d.o ws202.o ws202d.o re207.o re207d.o \
+	ar206.o ar206d.o cu204.o cu204d.o co227.o co227d.o st215.o st215d.o \
+	ha205.o ha205d.o se208.o se208d.o wg217.o wg217d.o da226.o da226d.o \
+	da225.o da225d.o ti224.o ti224d.o ab228.o ab228d.o ws199.o ws199d.o \
+	ht230.o ht230d.o sq198.o sq198d.o sq214.o sq214d.o ws200.o ws200d.o \
+	ht210.o ht210d.o du223.o du223d.o ht209.o ht209d.o wg219.o wg219d.o \
+	wg218.o wg218d.o 
 
 all: Cobj7.o
 

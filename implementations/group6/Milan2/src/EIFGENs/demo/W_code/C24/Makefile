@@ -2,13 +2,13 @@ INCLUDE_PATH =  -I"$(ISE_LIBRARY)/unstable/library/persistency/database/sqlite3/
 SHELL = /bin/sh
 CC = cc
 CPP = c++
-CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
-CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CFLAGS = -O0 -pipe -fno-common -fPIC  -DEIF_IEEE_BEHAVIOR -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
+CPPFLAGS = -O0 -pipe -fno-common -fPIC  -DWORKBENCH -I"/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/include" -I. $(INCLUDE_PATH)
 LDFLAGS = 
 CCLDFLAGS =   
 LDSHAREDFLAGS =   -dynamiclib -flat_namespace -undefined suppress -o
-EIFLIB = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/lib/libwkbench.a"
-EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/studio/config/macosx-x86-64/templates
+EIFLIB = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/lib/libwkbench.a"
+EIFTEMPLATES = /Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/config/macosx-x86-64/templates
 LIBS = -lm
 MAKE = make
 AR = ar
@@ -20,7 +20,7 @@ RANLIB = ar ts
 RM = /bin/rm -f
 FILE_EXIST = 
 RMDIR = 
-X2C = "/Applications/MacPorts/Eiffel_14.05/studio/spec/macosx-x86-64/bin/x2c"
+X2C = "/Applications/MacPorts/Eiffel_14.05/EiffelStudio.app/Contents/MacOS/../Resources/../../../studio/spec/macosx-x86-64/bin/x2c"
 SHAREDLINK = cc
 SHAREDLIBS = -lm
 SHARED_SUFFIX = .dylib
@@ -40,15 +40,15 @@ SYSTEM_IN_DYNAMIC_LIB = demo.dylib
 
 OBJECTS = big_file_C24_c.o 
 
-OLDOBJECTS =  sp764.o sp764d.o ar770.o ar770d.o ty759.o ty759d.o ty760.o ty760d.o \
-	ty762.o ty762d.o ty763.o ty763d.o na765.o na765d.o re766.o re766d.o \
-	li773.o li773d.o ar780.o ar780d.o re790.o re790d.o in771.o in771d.o \
-	it769.o it769d.o it768.o it768d.o ce761.o ce761d.o li786.o li786d.o \
-	in767.o in767d.o cu774.o cu774d.o tr779.o tr779d.o se782.o se782d.o \
-	dy781.o dy781d.o bo791.o bo791d.o ta772.o ta772d.o un789.o un789d.o \
-	ch787.o ch787d.o co778.o co778d.o ac776.o ac776d.o co775.o co775d.o \
-	bi785.o bi785d.o fi783.o fi783d.o dy788.o dy788d.o ba777.o ba777d.o \
-	bo784.o bo784d.o 
+OLDOBJECTS =  sp767.o sp767d.o ar773.o ar773d.o ty759.o ty759d.o ty760.o ty760d.o \
+	ty761.o ty761d.o ty765.o ty765d.o ty766.o ty766d.o na768.o na768d.o \
+	re769.o re769d.o ar783.o ar783d.o li776.o li776d.o re784.o re784d.o \
+	in774.o in774d.o to788.o to788d.o it772.o it772d.o it771.o it771d.o \
+	ce764.o ce764d.o in770.o in770d.o se789.o se789d.o dy791.o dy791d.o \
+	cu777.o cu777d.o tr782.o tr782d.o bo785.o bo785d.o ta775.o ta775d.o \
+	co781.o co781d.o ac779.o ac779d.o bi790.o bi790d.o fi786.o fi786d.o \
+	co778.o co778d.o ba780.o ba780d.o rt762.o rt762d.o rt763.o rt763d.o \
+	bo787.o bo787d.o 
 
 all: Cobj24.o
 

@@ -1,5 +1,5 @@
 /*
- * Class WSF_SESSION
+ * Class WSF_SELF_DOCUMENTED_HANDLER
  */
 
 #include "eif_macros.h"
@@ -13,7 +13,6 @@ static EIF_TYPE_INDEX gen_type0_77 [] = {418,76,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_77 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_77 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_77 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type4_77 [] = {467,0,306,0xFFFF};
 
 
 static struct desc_info desc_77[] = {
@@ -38,34 +37,18 @@ static struct desc_info desc_77[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_77},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 76, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 76, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 310, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 310, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 287, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 408, NULL},
-	{1261, (BODY_INDEX)-1, 301, NULL},
-	{1262, (BODY_INDEX)-1, 301, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
-	{1263, (BODY_INDEX)-1, 467, gen_type4_77},
-	{1264, (BODY_INDEX)-1, 0, NULL},
-	{1265, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1266, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1267, (BODY_INDEX)-1, 313, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{1260, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, 25, NULL},
 };
 
 extern void Init77(void);
@@ -73,7 +56,7 @@ void Init77(void)
 {
 	IDSC(desc_77, 0, 76);
 	IDSC(desc_77 + 1, 2, 76);
-	IDSC(desc_77 + 32, 165, 76);
+	IDSC(desc_77 + 32, 153, 76);
 }
 
 

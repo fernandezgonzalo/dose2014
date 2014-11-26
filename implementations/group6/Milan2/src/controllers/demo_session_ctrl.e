@@ -101,7 +101,7 @@ feature -- Handlers
 					-- we store the user surname and use the key "surname"
 				l_session.remember (l_user_data.user_surname, "surname")
 
-					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
+					-- commit the data; this will trigger the session_manager to actually store the data to disk (in the session folder _WFS_SESSIONS_)
 				l_session.commit
 
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
@@ -123,7 +123,7 @@ feature -- Handlers
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("Message"))
+				l_result.put (create {JSON_STRING}.make_json ("ERROR: Username or password incorrect"), create {JSON_STRING}.make_json ("ERROR"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
@@ -152,10 +152,10 @@ feature -- Handlers
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
-				-- set the repsone header, indicating that everything went ok by statuscode 200
+			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("SUCCESS"))
+				-- set the respone header, indicating that everything went ok by statuscode 200
 			set_json_header_ok (res, l_result.representation.count)
-				-- add the message to the response response
+				-- add the message to the response
 			res.put_string (l_result.representation)
 		end
 end

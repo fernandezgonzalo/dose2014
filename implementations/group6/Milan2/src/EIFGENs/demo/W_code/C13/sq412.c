@@ -1,5 +1,5 @@
 /*
- * Code for class SQLITE_NULL_ARG
+ * Code for class SQLITE_DOUBLE_ARG
  */
 
 #include "eif_eiffel.h"
@@ -10,9 +10,8 @@
 extern "C" {
 #endif
 
-extern void F412_8206(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F412_8207(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern void F412_8208(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern void F412_8207(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F412_8208(EIF_REFERENCE);
 extern void EIF_Minit412(void);
 
 #ifdef __cplusplus
@@ -34,156 +33,8 @@ extern "C" {
 extern "C" {
 #endif
 
-/* {SQLITE_NULL_ARG}.make */
-void F412_8206 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
-{
-	GTCX
-	char *l_feature_name = "make";
-	RTEX;
-#define arg1 arg1x.it_r
-	EIF_TYPED_VALUE up1x = {{0}, SK_POINTER};
-#define up1 up1x.it_p
-	EIF_TYPED_VALUE ur1x = {{0}, SK_REF};
-#define ur1 ur1x.it_r
-	EIF_TYPED_VALUE ur2x = {{0}, SK_REF};
-#define ur2 ur2x.it_r
-	EIF_REFERENCE tr1 = NULL;
-	EIF_BOOLEAN tb1;
-	RTCDT;
-	RTSN;
-	RTDA;
-	RTLD;
-	
-	
-	RTLI(5);
-	RTLR(0,arg1);
-	RTLR(1,ur1);
-	RTLR(2,Current);
-	RTLR(3,ur2);
-	RTLR(4,tr1);
-	RTLU (SK_VOID, NULL);
-	RTLU(SK_REF,&arg1);
-	RTLU (SK_REF, &Current);
-	
-	RTEAA(l_feature_name, 411, Current, 0, 1, 13796);
-	RTSA(dtype);
-	RTSC;
-	RTME(dtype, 0);
-	RTGC;
-	RTDBGEAA(411, Current, 13796);
-	if (arg1) {
-		RTCC(arg1, 411, l_feature_name, 1, 310);
-	}
-	RTIV(Current, RTAL);
-	if ((RTAL & CK_REQUIRE) || RTAC) {
-		RTHOOK(1);
-		RTCT("a_var_attached", EX_PRE);
-		RTTE((EIF_BOOLEAN)(arg1 != NULL), label_1);
-		RTCK;
-		RTHOOK(2);
-		RTCT("not_a_var_is_empty", EX_PRE);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(4572, "is_empty", arg1))(arg1)).it_b);
-		RTTE((EIF_BOOLEAN) !tb1, label_1);
-		RTCK;
-		RTHOOK(3);
-		RTCT("a_var_is_valid_variable_name", EX_PRE);
-		ur1 = RTCCL(arg1);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2192, dtype))(Current, ur1x)).it_b);
-		RTTE(tb1, label_1);
-		RTCK;
-		RTJB;
-label_1:
-		RTCF;
-	}
-body:;
-	RTHOOK(4);
-	ur1 = RTCCL(arg1);
-	ur2 = NULL;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(6461, dtype))(Current, ur1x, ur2x);
-	if (RTAL & CK_ENSURE) {
-		RTHOOK(5);
-		RTCT("variable_set", EX_POST);
-		tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6462, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
-		RTNHOOK(5,1);
-		ur1 = RTCCL(arg1);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTVF(4701, "same_string", tr1))(tr1, ur1x)).it_b);
-		if (tb1) {
-			RTCK;
-		} else {
-			RTCF;
-		}
-	}
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(6);
-	RTDBGLE;
-	RTMD(0);
-	RTLE;
-	RTLO(3);
-	RTEE;
-#undef up1
-#undef ur1
-#undef ur2
-#undef arg1
-}
-
-/* {SQLITE_NULL_ARG}.is_valid_value */
-EIF_TYPED_VALUE F412_8207 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
-{
-	GTCX
-	char *l_feature_name = "is_valid_value";
-	RTEX;
-#define arg1 arg1x.it_r
-	EIF_BOOLEAN Result = ((EIF_BOOLEAN) 0);
-	
-	RTCDT;
-	RTSN;
-	RTDA;
-	RTLD;
-	
-	
-	RTLI(2);
-	RTLR(0,arg1);
-	RTLR(1,Current);
-	RTLU (SK_BOOL, &Result);
-	RTLU(SK_REF,&arg1);
-	RTLU (SK_REF, &Current);
-	
-	RTEAA(l_feature_name, 411, Current, 0, 1, 13797);
-	RTSA(dtype);
-	RTSC;
-	RTME(dtype, 0);
-	RTGC;
-	RTDBGEAA(411, Current, 13797);
-	RTCC(arg1, 411, l_feature_name, 1, RTWCT(6463, dtype, Dftype(Current)));
-	RTIV(Current, RTAL);
-	RTHOOK(1);
-	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
-	
-	Result = (EIF_BOOLEAN) (EIF_BOOLEAN) !(EIF_BOOLEAN)(arg1 != NULL);
-	if (RTAL & CK_ENSURE) {
-		RTHOOK(2);
-		RTCT("not_attached_a_value", EX_POST);
-		if ((!(Result) || ((EIF_BOOLEAN) !(EIF_BOOLEAN)(arg1 != NULL)))) {
-			RTCK;
-		} else {
-			RTCF;
-		}
-	}
-	RTVI(Current, RTAL);
-	RTRS;
-	RTHOOK(3);
-	RTDBGLE;
-	RTMD(0);
-	RTLE;
-	RTLO(3);
-	RTEE;
-	{ EIF_TYPED_VALUE r; r.type = SK_BOOL; r.it_b = Result; return r; }
-#undef arg1
-}
-
-/* {SQLITE_NULL_ARG}.bind_to_statement */
-void F412_8208 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+/* {SQLITE_DOUBLE_ARG}.bind_to_statement */
+void F412_8207 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "bind_to_statement";
@@ -192,9 +43,12 @@ void F412_8208 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 #define arg2 arg2x.it_i4
 	EIF_TYPED_VALUE up1x = {{0}, SK_POINTER};
 #define up1 up1x.it_p
+	EIF_TYPED_VALUE ur8_1x = {{0}, SK_REAL64};
+#define ur8_1 ur8_1x.it_r8
 	EIF_TYPED_VALUE ui4_1x = {{0}, SK_INT32};
 #define ui4_1 ui4_1x.it_i4
 	EIF_POINTER tp1;
+	EIF_REAL_64 tr8_1;
 	EIF_INTEGER_32 ti4_1;
 	EIF_BOOLEAN tb1;
 	RTCDT;
@@ -212,12 +66,12 @@ void F412_8208 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 411, Current, 0, 2, 13798);
+	RTEAA(l_feature_name, 411, Current, 0, 2, 13797);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(411, Current, 13798);
+	RTDBGEAA(411, Current, 13797);
 	if (arg1) {
 		RTCC(arg1, 411, l_feature_name, 1, 395);
 	}
@@ -229,17 +83,17 @@ void F412_8208 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE ar
 		RTCK;
 		RTHOOK(2);
 		RTCT("a_statement_is_accessible", EX_PRE);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6252, "is_accessible", arg1))(arg1)).it_b);
+		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6253, "is_accessible", arg1))(arg1)).it_b);
 		RTTE(tb1, label_1);
 		RTCK;
 		RTHOOK(3);
 		RTCT("a_statement_is_compiled", EX_PRE);
-		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6250, "is_compiled", arg1))(arg1)).it_b);
+		tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6251, "is_compiled", arg1))(arg1)).it_b);
 		RTTE(tb1, label_1);
 		RTCK;
 		RTHOOK(4);
 		RTCT("not_a_statement_is_executing", EX_PRE);
-		tb1 = *(EIF_BOOLEAN *)(arg1 + RTVA(6249, "is_executing", arg1));
+		tb1 = *(EIF_BOOLEAN *)(arg1 + RTVA(6250, "is_executing", arg1));
 		RTTE((EIF_BOOLEAN) !tb1, label_1);
 		RTCK;
 		RTHOOK(5);
@@ -252,12 +106,14 @@ label_1:
 	}
 body:;
 	RTHOOK(6);
-	tp1 = *(EIF_POINTER *)(arg1 + RTVA(6265, "internal_stmt", arg1));
+	tp1 = *(EIF_POINTER *)(arg1 + RTVA(6266, "internal_stmt", arg1));
 	up1 = tp1;
 	ui4_1 = arg2;
-	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(98, 9))(Current, up1x, ui4_1x)).it_i4);
+	tr8_1 = *(EIF_REAL_64 *)(Current + RTWA(6464, dtype));
+	ur8_1 = tr8_1;
+	ti4_1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE, EIF_TYPED_VALUE)) RTWF(95, 8))(Current, up1x, ui4_1x, ur8_1x)).it_i4);
 	ui4_1 = ti4_1;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2189, dtype))(Current, ui4_1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWF(2185, dtype))(Current, ui4_1x);
 	RTVI(Current, RTAL);
 	RTRS;
 	RTHOOK(7);
@@ -267,10 +123,21 @@ body:;
 	RTLO(4);
 	RTEE;
 #undef up1
+#undef ur8_1
 #undef ui4_1
 #undef arg2
 #undef arg1
 }
+
+/* {SQLITE_DOUBLE_ARG}.internal_value */
+EIF_TYPED_VALUE F412_8208 (EIF_REFERENCE Current)
+{
+	EIF_TYPED_VALUE r;
+	r.type = SK_REAL64;
+	r.it_r8 = *(EIF_REAL_64 *)(Current + RTWA(6471,Dtype(Current)));
+	return r;
+}
+
 
 void EIF_Minit412 (void)
 {

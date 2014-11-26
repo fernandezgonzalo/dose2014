@@ -10,8 +10,8 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F149_2097(EIF_REFERENCE);
-extern EIF_TYPED_VALUE F149_2098(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F149_2138(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F149_2139(EIF_REFERENCE);
 extern void EIF_Minit149(void);
 
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 #endif
 
 /* {FLOATING_POINT_FAILURE}.code */
-EIF_TYPED_VALUE F149_2097 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F149_2138 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "code";
@@ -50,17 +50,17 @@ EIF_TYPED_VALUE F149_2097 (EIF_REFERENCE Current)
 	RTLU (SK_INT32, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 148, Current, 0, 0, 2037);
+	RTEAA(l_feature_name, 148, Current, 0, 0, 2079);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(148, Current, 2037);
+	RTDBGEAA(148, Current, 2079);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */
 	
-	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1262, 83))(Current)).it_i4);
+	Result = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(1296, 82))(Current)).it_i4);
 	Result = (EIF_INTEGER_32) Result;
 	RTVI(Current, RTAL);
 	RTRS;
@@ -74,8 +74,8 @@ EIF_TYPED_VALUE F149_2097 (EIF_REFERENCE Current)
 }
 
 /* {FLOATING_POINT_FAILURE}.tag */
-RTOID (F149_2098)
-EIF_TYPED_VALUE F149_2098 (EIF_REFERENCE Current)
+RTOID (F149_2139)
+EIF_TYPED_VALUE F149_2139 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "tag";
@@ -89,7 +89,7 @@ EIF_TYPED_VALUE F149_2098 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRR
-	RTOTDR(F149_2098);
+	RTOTDR(F149_2139);
 
 	RTLI(4);
 	RTLR(0,tr1);
@@ -99,21 +99,21 @@ EIF_TYPED_VALUE F149_2098 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 148, Current, 0, 0, 2038);
+	RTEAA(l_feature_name, 148, Current, 0, 0, 2078);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(148, Current, 2038);
+	RTDBGEAA(148, Current, 2078);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
-	RTDBGAL(Current, 0, 0xF8000131, 0,0); /* Result */
+	RTDBGAL(Current, 0, 0xF8000135, 0,0); /* Result */
 	
-	tr1 = RTLN(305);
+	tr1 = RTLN(309);
 	tr2 = RTMS_EX_H("Floating point exception.",25,454066990);
 	ur1 = tr2;
-	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(4598, Dtype(tr1)))(tr1, ur1x);
+	(FUNCTION_CAST(void, (EIF_REFERENCE, EIF_TYPED_VALUE)) RTWC(4679, Dtype(tr1)))(tr1, ur1x);
 	RTNHOOK(1,1);
 	Result = (EIF_REFERENCE) tr1;
 	RTVI(Current, RTAL);
@@ -133,7 +133,7 @@ EIF_TYPED_VALUE F149_2098 (EIF_REFERENCE Current)
 void EIF_Minit149 (void)
 {
 	GTCX
-	RTOTS (2098,F149_2098)
+	RTOTS (2139,F149_2139)
 }
 
 

@@ -9,24 +9,24 @@
 extern "C" {
 #endif
 
-static EIF_TYPE_INDEX gen_type0_27 [] = {719,26,0xFFFF};
+static EIF_TYPE_INDEX gen_type0_27 [] = {665,26,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_27 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_27 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_27 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type4_27 [] = {769,363,0xFFFF};
-static EIF_TYPE_INDEX gen_type5_27 [] = {769,363,0xFFFF};
-static EIF_TYPE_INDEX gen_type6_27 [] = {884,360,0xFFFF};
-static EIF_TYPE_INDEX gen_type7_27 [] = {884,360,0xFFFF};
-static EIF_TYPE_INDEX gen_type8_27 [] = {884,360,0xFFFF};
-static EIF_TYPE_INDEX gen_type9_27 [] = {884,360,0xFFFF};
-static EIF_TYPE_INDEX gen_type10_27 [] = {884,360,0xFFFF};
-static EIF_TYPE_INDEX gen_type11_27 [] = {884,360,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_27 [] = {766,366,0xFFFF};
+static EIF_TYPE_INDEX gen_type5_27 [] = {766,366,0xFFFF};
+static EIF_TYPE_INDEX gen_type6_27 [] = {885,363,0xFFFF};
+static EIF_TYPE_INDEX gen_type7_27 [] = {885,363,0xFFFF};
+static EIF_TYPE_INDEX gen_type8_27 [] = {885,363,0xFFFF};
+static EIF_TYPE_INDEX gen_type9_27 [] = {885,363,0xFFFF};
+static EIF_TYPE_INDEX gen_type10_27 [] = {885,363,0xFFFF};
+static EIF_TYPE_INDEX gen_type11_27 [] = {885,363,0xFFFF};
 
 
 static struct desc_info desc_27[] = {
 	{(BODY_INDEX) -1, (BODY_INDEX) -1, INVALID_DTYPE, NULL},
 	{0, (BODY_INDEX)-1, 314, NULL},
-	{1, (BODY_INDEX)-1, 719, gen_type0_27},
+	{1, (BODY_INDEX)-1, 665, gen_type0_27},
 	{2, (BODY_INDEX)-1, 301, NULL},
 	{3, (BODY_INDEX)-1, 301, NULL},
 	{4, (BODY_INDEX)-1, 301, NULL},
@@ -45,11 +45,11 @@ static struct desc_info desc_27[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_27},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 31, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -61,10 +61,10 @@ static struct desc_info desc_27[] = {
 	{367, (BODY_INDEX)-1, 301, NULL},
 	{368, (BODY_INDEX)-1, 301, NULL},
 	{369, (BODY_INDEX)-1, 301, NULL},
-	{370, (BODY_INDEX)-1, 345, NULL},
-	{371, (BODY_INDEX)-1, 345, NULL},
-	{372, (BODY_INDEX)-1, 345, NULL},
-	{373, (BODY_INDEX)-1, 345, NULL},
+	{370, (BODY_INDEX)-1, 348, NULL},
+	{371, (BODY_INDEX)-1, 348, NULL},
+	{372, (BODY_INDEX)-1, 348, NULL},
+	{373, (BODY_INDEX)-1, 348, NULL},
 	{374, (BODY_INDEX)-1, 314, NULL},
 	{375, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{376, (BODY_INDEX)-1, 314, NULL},
@@ -74,20 +74,20 @@ static struct desc_info desc_27[] = {
 	{380, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{381, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{382, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{383, (BODY_INDEX)-1, 769, gen_type4_27},
-	{384, (BODY_INDEX)-1, 769, gen_type5_27},
-	{385, (BODY_INDEX)-1, 311, NULL},
+	{383, (BODY_INDEX)-1, 766, gen_type4_27},
+	{384, (BODY_INDEX)-1, 766, gen_type5_27},
+	{385, (BODY_INDEX)-1, 313, NULL},
 	{386, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{387, (BODY_INDEX)-1, 311, NULL},
+	{387, (BODY_INDEX)-1, 313, NULL},
 	{388, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{389, (BODY_INDEX)-1, 311, NULL},
+	{389, (BODY_INDEX)-1, 313, NULL},
 	{390, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{391, (BODY_INDEX)-1, 311, NULL},
+	{391, (BODY_INDEX)-1, 313, NULL},
 	{392, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{393, (BODY_INDEX)-1, 884, gen_type6_27},
-	{394, (BODY_INDEX)-1, 884, gen_type7_27},
-	{395, (BODY_INDEX)-1, 884, gen_type8_27},
-	{396, (BODY_INDEX)-1, 884, gen_type9_27},
+	{393, (BODY_INDEX)-1, 885, gen_type6_27},
+	{394, (BODY_INDEX)-1, 885, gen_type7_27},
+	{395, (BODY_INDEX)-1, 885, gen_type8_27},
+	{396, (BODY_INDEX)-1, 885, gen_type9_27},
 	{397, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{398, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{399, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -97,26 +97,26 @@ static struct desc_info desc_27[] = {
 	{403, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{404, (BODY_INDEX)-1, 314, NULL},
 	{405, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{406, (BODY_INDEX)-1, 311, NULL},
+	{406, (BODY_INDEX)-1, 313, NULL},
 	{407, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{408, (BODY_INDEX)-1, 311, NULL},
+	{408, (BODY_INDEX)-1, 313, NULL},
 	{409, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{410, (BODY_INDEX)-1, 311, NULL},
+	{410, (BODY_INDEX)-1, 313, NULL},
 	{411, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{412, (BODY_INDEX)-1, 311, NULL},
+	{412, (BODY_INDEX)-1, 313, NULL},
 	{413, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{414, (BODY_INDEX)-1, 311, NULL},
+	{414, (BODY_INDEX)-1, 313, NULL},
 	{415, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{416, (BODY_INDEX)-1, 311, NULL},
+	{416, (BODY_INDEX)-1, 313, NULL},
 	{417, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{418, (BODY_INDEX)-1, 311, NULL},
+	{418, (BODY_INDEX)-1, 313, NULL},
 	{419, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{420, (BODY_INDEX)-1, 314, NULL},
 	{421, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{422, (BODY_INDEX)-1, 314, NULL},
 	{423, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{424, (BODY_INDEX)-1, 884, gen_type10_27},
-	{425, (BODY_INDEX)-1, 884, gen_type11_27},
+	{424, (BODY_INDEX)-1, 885, gen_type10_27},
+	{425, (BODY_INDEX)-1, 885, gen_type11_27},
 	{426, (BODY_INDEX)-1, 314, NULL},
 	{427, (BODY_INDEX)-1, 314, NULL},
 	{428, (BODY_INDEX)-1, 314, NULL},
@@ -124,8 +124,8 @@ static struct desc_info desc_27[] = {
 	{430, (BODY_INDEX)-1, 314, NULL},
 	{431, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{432, (BODY_INDEX)-1, 301, NULL},
-	{433, (BODY_INDEX)-1, 357, NULL},
-	{434, (BODY_INDEX)-1, 134, NULL},
+	{433, (BODY_INDEX)-1, 360, NULL},
+	{434, (BODY_INDEX)-1, 127, NULL},
 };
 
 extern void Init27(void);
@@ -133,7 +133,7 @@ void Init27(void)
 {
 	IDSC(desc_27, 0, 26);
 	IDSC(desc_27 + 1, 2, 26);
-	IDSC(desc_27 + 32, 122, 26);
+	IDSC(desc_27 + 32, 124, 26);
 }
 
 

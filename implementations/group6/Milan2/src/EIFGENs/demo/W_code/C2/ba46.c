@@ -10,12 +10,12 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F46_807(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F46_808(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F46_809(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F46_810(EIF_REFERENCE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F46_811(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
-extern EIF_TYPED_VALUE F46_812(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_844(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_845(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_846(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_847(EIF_REFERENCE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_848(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
+extern EIF_TYPED_VALUE F46_849(EIF_REFERENCE, EIF_TYPED_VALUE, EIF_TYPED_VALUE);
 extern void EIF_Minit46(void);
 
 #ifdef __cplusplus
@@ -39,7 +39,7 @@ extern "C" {
 #endif
 
 /* {BASIC_ROUTINES}.charconv */
-EIF_TYPED_VALUE F46_807 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F46_844 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "charconv";
@@ -63,12 +63,12 @@ EIF_TYPED_VALUE F46_807 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 1, 865);
+	RTEAA(l_feature_name, 45, Current, 0, 1, 902);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(45, Current, 865);
+	RTDBGEAA(45, Current, 902);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x08000000, 1,0); /* Result */
@@ -91,7 +91,7 @@ EIF_TYPED_VALUE F46_807 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {BASIC_ROUTINES}.abs */
-EIF_TYPED_VALUE F46_808 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F46_845 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "abs";
@@ -112,12 +112,12 @@ EIF_TYPED_VALUE F46_808 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 1, 866);
+	RTEAA(l_feature_name, 45, Current, 0, 1, 903);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(45, Current, 866);
+	RTDBGEAA(45, Current, 903);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	if ((EIF_BOOLEAN) (arg1 < ((EIF_INTEGER_32) 0L))) {
@@ -153,7 +153,7 @@ EIF_TYPED_VALUE F46_808 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {BASIC_ROUTINES}.sign */
-EIF_TYPED_VALUE F46_809 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F46_846 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "sign";
@@ -174,12 +174,12 @@ EIF_TYPED_VALUE F46_809 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_INT32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 1, 867);
+	RTEAA(l_feature_name, 45, Current, 0, 1, 904);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(45, Current, 867);
+	RTDBGEAA(45, Current, 904);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	if ((EIF_BOOLEAN) (arg1 < ((EIF_INTEGER_32) 0L))) {
@@ -232,7 +232,7 @@ EIF_TYPED_VALUE F46_809 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {BASIC_ROUTINES}.rsign */
-EIF_TYPED_VALUE F46_810 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
+EIF_TYPED_VALUE F46_847 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 {
 	GTCX
 	char *l_feature_name = "rsign";
@@ -254,12 +254,12 @@ EIF_TYPED_VALUE F46_810 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 	RTLU(SK_REAL32,&arg1);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 1, 868);
+	RTEAA(l_feature_name, 45, Current, 0, 1, 905);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(45, Current, 868);
+	RTDBGEAA(45, Current, 905);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	tr4_1 = (EIF_REAL_32) (((EIF_INTEGER_32) 0L));
@@ -317,7 +317,7 @@ EIF_TYPED_VALUE F46_810 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x)
 }
 
 /* {BASIC_ROUTINES}.bottom_int_div */
-EIF_TYPED_VALUE F46_811 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+EIF_TYPED_VALUE F46_848 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "bottom_int_div";
@@ -340,12 +340,12 @@ EIF_TYPED_VALUE F46_811 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 2, 869);
+	RTEAA(l_feature_name, 45, Current, 0, 2, 906);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(45, Current, 869);
+	RTDBGEAA(45, Current, 906);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */
@@ -375,7 +375,7 @@ EIF_TYPED_VALUE F46_811 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED
 }
 
 /* {BASIC_ROUTINES}.up_int_div */
-EIF_TYPED_VALUE F46_812 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
+EIF_TYPED_VALUE F46_849 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED_VALUE arg2x)
 {
 	GTCX
 	char *l_feature_name = "up_int_div";
@@ -398,12 +398,12 @@ EIF_TYPED_VALUE F46_812 (EIF_REFERENCE Current, EIF_TYPED_VALUE arg1x, EIF_TYPED
 	RTLU(SK_INT32,&arg2);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 45, Current, 0, 2, 870);
+	RTEAA(l_feature_name, 45, Current, 0, 2, 907);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(45, Current, 870);
+	RTDBGEAA(45, Current, 907);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x10000000, 1,0); /* Result */

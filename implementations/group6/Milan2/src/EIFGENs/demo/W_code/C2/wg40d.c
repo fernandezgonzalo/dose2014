@@ -1,5 +1,5 @@
 /*
- * Class WGI_OUTPUT_STREAM
+ * Class WGI_ERROR_STREAM
  */
 
 #include "eif_macros.h"
@@ -37,11 +37,11 @@ static struct desc_info desc_40[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_40},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
@@ -49,14 +49,6 @@ static struct desc_info desc_40[] = {
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 39, NULL},
 	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{788, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{789, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{790, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 301, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{791, (BODY_INDEX)-1, 314, NULL},
 };
 
 extern void Init40(void);
@@ -64,7 +56,7 @@ void Init40(void)
 {
 	IDSC(desc_40, 0, 39);
 	IDSC(desc_40 + 1, 2, 39);
-	IDSC(desc_40 + 32, 445, 39);
+	IDSC(desc_40 + 32, 444, 39);
 }
 
 

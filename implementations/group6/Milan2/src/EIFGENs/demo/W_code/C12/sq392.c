@@ -10,9 +10,9 @@
 extern "C" {
 #endif
 
-extern EIF_TYPED_VALUE F392_7850(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F392_7851(EIF_REFERENCE);
 extern EIF_TYPED_VALUE F392_7852(EIF_REFERENCE);
+extern EIF_TYPED_VALUE F392_7853(EIF_REFERENCE);
 extern void EIF_Minit392(void);
 
 #ifdef __cplusplus
@@ -35,8 +35,8 @@ extern "C" {
 #endif
 
 /* {SQLITE_SHARED_API}.sqlite_api */
-RTOID (F392_7850)
-EIF_TYPED_VALUE F392_7850 (EIF_REFERENCE Current)
+RTOID (F392_7851)
+EIF_TYPED_VALUE F392_7851 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "sqlite_api";
@@ -47,7 +47,7 @@ EIF_TYPED_VALUE F392_7850 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRR
-	RTOTDR(F392_7850);
+	RTOTDR(F392_7851);
 
 	RTLI(2);
 	RTLR(0,tr1);
@@ -55,19 +55,19 @@ EIF_TYPED_VALUE F392_7850 (EIF_REFERENCE Current)
 	RTLU (SK_REF, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 391, Current, 0, 0, 13413);
+	RTEAA(l_feature_name, 391, Current, 0, 0, 13414);
 	RTSA(Dtype(Current));
 	RTSC;
 	RTME(Dtype(Current), 0);
 	RTGC;
-	RTDBGEAA(391, Current, 13413);
+	RTDBGEAA(391, Current, 13414);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0xF8000199, 0,0); /* Result */
 	
 	tr1 = RTLN(409);
-	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTWC(6451, Dtype(tr1)))(tr1);
+	(FUNCTION_CAST(void, (EIF_REFERENCE)) RTWC(6452, Dtype(tr1)))(tr1);
 	RTNHOOK(1,1);
 	Result = (EIF_REFERENCE) RTCCL(tr1);
 	RTVI(Current, RTAL);
@@ -84,7 +84,7 @@ EIF_TYPED_VALUE F392_7850 (EIF_REFERENCE Current)
 }
 
 /* {SQLITE_SHARED_API}.is_interface_usable */
-EIF_TYPED_VALUE F392_7851 (EIF_REFERENCE Current)
+EIF_TYPED_VALUE F392_7852 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "is_interface_usable";
@@ -107,28 +107,28 @@ EIF_TYPED_VALUE F392_7851 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 391, Current, 0, 0, 13414);
+	RTEAA(l_feature_name, 391, Current, 0, 0, 13415);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(391, Current, 13414);
+	RTDBGEAA(391, Current, 13415);
 	RTIV(Current, RTAL);
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
 	
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6146, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6147, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTNHOOK(1,1);
-	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6457, "is_interface_usable", tr1))(tr1)).it_b);
+	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6458, "is_interface_usable", tr1))(tr1)).it_b);
 	Result = (EIF_BOOLEAN) tb1;
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT("sqlite_api_is_interface_usable", EX_POST);
 		tb1 = '\01';
 		if (Result) {
-			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6146, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6147, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 			RTNHOOK(2,1);
-			tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6457, "is_interface_usable", tr1))(tr1)).it_b);
+			tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6458, "is_interface_usable", tr1))(tr1)).it_b);
 			tb1 = tb2;
 		}
 		if (tb1) {
@@ -150,8 +150,8 @@ EIF_TYPED_VALUE F392_7851 (EIF_REFERENCE Current)
 }
 
 /* {SQLITE_SHARED_API}.is_sqlite_available */
-RTOID (F392_7852)
-EIF_TYPED_VALUE F392_7852 (EIF_REFERENCE Current)
+RTOID (F392_7853)
+EIF_TYPED_VALUE F392_7853 (EIF_REFERENCE Current)
 {
 	GTCX
 	char *l_feature_name = "is_sqlite_available";
@@ -167,7 +167,7 @@ EIF_TYPED_VALUE F392_7852 (EIF_REFERENCE Current)
 	RTLD;
 	
 #define Result RTOTRB(EIF_BOOLEAN)
-	RTOTDB(EIF_BOOLEAN, F392_7852);
+	RTOTDB(EIF_BOOLEAN, F392_7853);
 	dtype = Dtype(Current);
 
 	RTLI(2);
@@ -176,29 +176,29 @@ EIF_TYPED_VALUE F392_7852 (EIF_REFERENCE Current)
 	RTLU (SK_BOOL, &Result);
 	RTLU (SK_REF, &Current);
 	
-	RTEAA(l_feature_name, 391, Current, 0, 0, 13415);
+	RTEAA(l_feature_name, 391, Current, 0, 0, 13416);
 	RTSA(dtype);
 	RTSC;
 	RTME(dtype, 0);
 	RTGC;
-	RTDBGEAA(391, Current, 13415);
+	RTDBGEAA(391, Current, 13416);
 	RTIV(Current, RTAL);
 	RTOTP;
 	RTHOOK(1);
 	RTDBGAL(Current, 0, 0x04000000, 1,0); /* Result */
 	
-	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6146, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+	tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6147, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 	RTNHOOK(1,1);
-	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6457, "is_interface_usable", tr1))(tr1)).it_b);
+	tb1 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6458, "is_interface_usable", tr1))(tr1)).it_b);
 	Result = (EIF_BOOLEAN) tb1;
 	if (RTAL & CK_ENSURE) {
 		RTHOOK(2);
 		RTCT("sqlite_api_is_interface_usable", EX_POST);
 		tb1 = '\01';
 		if (Result) {
-			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6146, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
+			tr1 = ((up1x = (FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTWF(6147, dtype))(Current)), (((up1x.type & SK_HEAD) == SK_REF)? (EIF_REFERENCE) 0: (up1x.it_r = RTBU(up1x))), (up1x.type = SK_POINTER), up1x.it_r);
 			RTNHOOK(2,1);
-			tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6457, "is_interface_usable", tr1))(tr1)).it_b);
+			tb2 = (((FUNCTION_CAST(EIF_TYPED_VALUE, (EIF_REFERENCE)) RTVF(6458, "is_interface_usable", tr1))(tr1)).it_b);
 			tb1 = tb2;
 		}
 		if (tb1) {
@@ -224,8 +224,8 @@ EIF_TYPED_VALUE F392_7852 (EIF_REFERENCE Current)
 void EIF_Minit392 (void)
 {
 	GTCX
-	RTOTS (7850,F392_7850)
-	RTOTS (7852,F392_7852)
+	RTOTS (7851,F392_7851)
+	RTOTS (7853,F392_7853)
 }
 
 

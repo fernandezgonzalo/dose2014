@@ -1,5 +1,5 @@
 /*
- * Class DATE_TIME_LANGUAGE_CONSTANTS
+ * Class DATE_TIME_TOOLS
  */
 
 #include "eif_macros.h"
@@ -41,25 +41,25 @@ static struct desc_info desc_38[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_38},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 37, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 37, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 314, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 429, gen_type4_38},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 429, gen_type5_38},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 429, gen_type6_38},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 429, gen_type7_38},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 314, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 314, NULL},
-	{(BODY_INDEX)-1, (BODY_INDEX)-1, 314, NULL},
+	{779, (BODY_INDEX)-1, 314, NULL},
+	{780, (BODY_INDEX)-1, 429, gen_type4_38},
+	{781, (BODY_INDEX)-1, 429, gen_type5_38},
+	{782, (BODY_INDEX)-1, 429, gen_type6_38},
+	{783, (BODY_INDEX)-1, 429, gen_type7_38},
+	{778, (BODY_INDEX)-1, 314, NULL},
+	{776, (BODY_INDEX)-1, 314, NULL},
+	{777, (BODY_INDEX)-1, 314, NULL},
 };
 
 extern void Init38(void);

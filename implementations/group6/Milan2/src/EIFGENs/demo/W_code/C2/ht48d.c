@@ -1,5 +1,5 @@
 /*
- * Class HTTP_ACCEPT_MEDIA_TYPE_VARIANTS
+ * Class HTTP_ACCEPT_VARIANTS
  */
 
 #include "eif_macros.h"
@@ -13,7 +13,7 @@ static EIF_TYPE_INDEX gen_type0_48 [] = {418,47,0xFFFF};
 static EIF_TYPE_INDEX gen_type1_48 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type2_48 [] = {0,0xFFFF};
 static EIF_TYPE_INDEX gen_type3_48 [] = {0,0xFFFF};
-static EIF_TYPE_INDEX gen_type4_48 [] = {425,310,0xFFFF};
+static EIF_TYPE_INDEX gen_type4_48 [] = {422,310,0xFFFF};
 
 
 static struct desc_info desc_48[] = {
@@ -38,27 +38,27 @@ static struct desc_info desc_48[] = {
 	{17, (BODY_INDEX)-1, 0, gen_type3_48},
 	{18, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{19, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{20, (BODY_INDEX)-1, 33, NULL},
+	{20, (BODY_INDEX)-1, 32, NULL},
 	{21, (BODY_INDEX)-1, 314, NULL},
 	{22, (BODY_INDEX)-1, 314, NULL},
 	{23, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{24, (BODY_INDEX)-1, 32, NULL},
+	{24, (BODY_INDEX)-1, 31, NULL},
 	{25, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{26, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{27, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 	{28, (BODY_INDEX)-1, 47, NULL},
 	{29, (BODY_INDEX)-1, 304, NULL},
 	{30, (BODY_INDEX)-1, 47, NULL},
-	{906, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{909, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{(BODY_INDEX)-1, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{910, 0, 310, NULL},
+	{911, 8, 422, gen_type4_48},
+	{912, 16, 310, NULL},
+	{913, 24, 301, NULL},
+	{914, (BODY_INDEX)-1, 301, NULL},
 	{915, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{907, 0, 310, NULL},
-	{908, 8, 425, gen_type4_48},
-	{909, 16, 310, NULL},
-	{910, 24, 301, NULL},
-	{911, (BODY_INDEX)-1, 301, NULL},
-	{912, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{913, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
-	{914, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{916, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
+	{917, (BODY_INDEX)-1, (EIF_TYPE_INDEX)-1, NULL},
 };
 
 extern void Init48(void);
