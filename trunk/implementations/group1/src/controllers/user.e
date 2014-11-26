@@ -156,9 +156,7 @@ feature -- Handlers
 
 					-- create the user in the database
 			l_user_id := req.path_parameter ("id_user").string_representation
-			print("YEAG1")
 			flag := my_db.update_user (l_user_id.to_natural_8, name, last_name, password, rol, active)
-			print ("YEAG")
 			if flag then
 				-- add object id to response
 				create l_result.make
