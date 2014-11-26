@@ -1,10 +1,11 @@
 #!/bin/bash
+svn=https://dose2014.googlecode.com/svn/tags/group5-prototype
 # install all
 # sudo add-apt-repository ppa:eiffelstudio-team/ppa
 # sudo apt-get update
 # sudo apt-get install eiffelstudio apache2 libgtk2.0-dev libxtst-dev
-# sudo cp /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/
-# sudo cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/
+# sudo ln -s /etc/apache2/mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load
+# sudo ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 # sudo chgrp -R www-data /usr/lib/cgi-bin/
 # sudo chmod -R g+w /usr/lib/cgi-bin/
 # sudo chgrp -R www-data /var/www/
@@ -13,10 +14,10 @@
 
 pushd /home/dose/dose2014
 rm -rf deploy
-svn export https://dose2014.googlecode.com/svn/trunk/implementations/group5/deploy deploy --username dsteblyuk@gmail.com
+svn export $svn/deploy deploy --username dsteblyuk@gmail.com
 rm -rf .backend_bak
 mv backend .backend_bak
-svn export https://dose2014.googlecode.com/svn/trunk/implementations/group5/backend backend --username dsteblyuk@gmail.com
+svn export $svn/backend backend --username dsteblyuk@gmail.com
 
 # install db
 # mkdir /var/www/db
