@@ -29,6 +29,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       $log.debug(TAG, data);
       var stoppedTask = 0;
       for (var task in $scope.userTasks.data) {
+      	Utility.unescape($scope.userTasks.data[task]);
       	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTask++; }
         if ($scope.userTasks.data[task].status === 'finished') {
           $scope.tasksFinished.push($scope.userTasks.data[task]);
@@ -52,7 +53,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     for (var i = 0; i < allUsers.length; i++) {
       $scope.userSelect.push({value: allUsers[i].id, text: allUsers[i].username});
     }
-    $log.debug('ecco la user selection', $scope.userSelect);
   });
 
   $scope.createTask = function(projectId) {
@@ -64,7 +64,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
 
-    $log.debug('new task content', $scope.currentTask);
+    $log.debug(TAG, 'new task content', $scope.currentTask);
   };
 
   $scope.openTask = function(task) {
@@ -73,11 +73,11 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 
   $scope.updateTask = function(){
     Utility.toUnderscore($scope.currentTask);
-    $log.debug($scope.currentTask);
+    Utility.escape($scope.currentTask);
     if ($scope.isNew){
       $scope.currentTask.$save(function(){
         $scope.isNew = false;
-        $log.debug('current task pushing', $scope.currentTask);
+        $log.debug(TAG, 'current task pushing', $scope.currentTask);
         $scope.tasksInProgress.push($scope.currentTask);
         $route.reload();
       });
@@ -108,7 +108,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   };
 
   $scope.showUsers = function() {
-    //var thisTask = new Task($scope.currentTask);
       Utility.toCamel($scope.currentTask);
       var selected = $filter('filter')($scope.userSelect, {value: $scope.currentTask.idUserAssigned});
       var result = ($scope.currentTask.idUserAssigned && selected.length) ? selected[0].text : 'Not set';
