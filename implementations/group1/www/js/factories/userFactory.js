@@ -1,5 +1,6 @@
-angular.module('Demo.factory', ['ngResource']).factory('UserFactory', function ($resource) {
-	var r = $resource('api/users');
-	
-  return r;
+angular.module('DOSEMS.factory', ['ngResource']).factory('UserFactory', function ($resource) {
+  return $resource(
+	  'api/users/:userId', //URL
+	  {userId:'@id'}		//Default paramaters
+);
 });
