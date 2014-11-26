@@ -31,26 +31,6 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 
---	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
---			-- sends a reponse that contains a json array with all users
---		local
---			l_result_payload: JSON_ARRAY
---			l_result_payload_json: JSON_OBJECT
---		do
---			create l_result_payload.make_array
---			create l_result_payload_json.make
---			if req_has_cookie(req, "_session_") then
---				print("entro por session%N")
---				l_result_payload := my_db.search_all_users
---				set_json_header_ok (res, l_result_payload.count)
---			else
---				print("no entro%N")
---				l_result_payload_json.put_string ("User is not logged in.", create {JSON_STRING}.make_json ("Message"))
---				set_json_header (res, 401, l_result_payload.representation.count)
---			end
---			res.put_string (l_result_payload.representation)
---		end
-
 	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 	-- sends a reponse that contains a json array with all users
 		local
@@ -104,12 +84,35 @@ feature -- Handlers
 			res.put_string(l_result_payload)
 		end
 
+	delete_users (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_result: JSON_OBJECT
+			l_user_id: STRING
+		do
+			if req_has_cookie(req, "_session_") then
+				l_user_id := req.path_parameter ("id_user").string_representation
+				my_db.remove_user (l_user_id.to_natural_8)
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_user_id.out), create {JSON_STRING}.make_json ("Message"))
+				set_json_header_ok(res, l_result.count)
+				res.put_string(l_result.representation)
+			else
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("User is not logged in."), create {JSON_STRING}.make_json ("Message"))
+
+				-- send the response
+				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
+		end
+
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new users; the user_name is expected to be part of the request's payload
 		local
 			l_payload, name, last_name, email, password, rol, active: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			flag: BOOLEAN
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -136,7 +139,7 @@ feature -- Handlers
 				end
 
 					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("lastName") as l then
+				if attached {JSON_STRING} j_object.item ("lastname") as l then
 					last_name := l.unescaped_string_8
 				end
 
@@ -163,15 +166,19 @@ feature -- Handlers
 			end
 
 				-- create the user in the database
-			my_db.add_user (name, last_name, email, password, rol, active)
-
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added user " + name+" "+last_name), create {JSON_STRING}.make_json ("Message"))
+			flag := my_db.add_user (name, last_name, email, password, rol, active)
+			if flag then
+				-- add object id to response
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Added user " + name+" "+last_name), create {JSON_STRING}.make_json ("Message"))
 
 				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				set_json_header_ok (res, l_result.representation.count)
+				res.put_string (l_result.representation)
+			end
+				-- fail add_user
+
+
 		end
 
 end
