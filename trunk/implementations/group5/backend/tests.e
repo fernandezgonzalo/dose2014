@@ -98,7 +98,6 @@ feature -- Test routines
 	create l_user_id.make_empty
 	create l_email.make_empty
 	if attached {JSON_OBJECT} usr as j_object then
-
 		if attached {JSON_STRING} j_object.item ("email") as s then
 			l_email := s.unescaped_string_8
 		end
@@ -111,28 +110,6 @@ feature -- Test routines
 	end
 	assert ("the user must be the same", l_email.is_equal("jacinto@mail.com") )
 	assert ("the user must be the same", l_user_id.is_equal(user_id.out))
-	res := crud_user.remove_user_by_id(user_id)
-	end
-
-
-	create_same_user_test
-	-- create same user.
-	local
-		result_add_user: TUPLE [BOOLEAN, INTEGER_32]
-		was_created, res: BOOLEAN
-		user_id: NATURAL
-		usr: JSON_OBJECT
-		database : SQLITE_DATABASE
-		crud_user: CRUD_USER
-	do
-	create database.make_open_read_write (path_to_db_file)
-	create crud_user.make(database)
-	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
-	user_id := result_add_user.integer_32_item (2).out.to_natural
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
-	was_created := result_add_user.boolean_item (1)
-	assert ("The result must be true", not was_created)
 	res := crud_user.remove_user_by_id(user_id)
 	end
 
@@ -331,15 +308,14 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		was_created := result_add_user.boolean_item (1)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		was_created := result_add_project.boolean_item (1)
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		l_result := crud_project.project_by_id(project_id)
 		create l_name.make_empty
 		create l_deadline.make_empty
 		create l_client.make_empty
 		create l_user_id.make_empty
 		if attached {JSON_OBJECT} l_result as j_object then
-
 			if attached {JSON_STRING} j_object.item ("name") as s then
 				l_name := s.unescaped_string_8
 			end
@@ -353,13 +329,14 @@ feature -- Test routines
 				l_deadline := s.unescaped_string_8
 			end
 		end
+		res := crud_project.remove_project_by_id(project_id)
+		res := crud_user.remove_user_by_id(user_id)
 		assert ("The result must be true", was_created )
-		assert ("The name must be project", l_name.is_equal("projectt"))
+		assert ("The name must be projectt", l_name.is_equal("projectt"))
 		assert ("The client_name must be rick", l_client.is_equal("rick") )
 		assert ("The id_user must be user_id.out", l_user_id.is_equal(user_id.out) )
 		assert ("The deadline must be 20/12/2013", l_deadline.is_equal("20/12/2013"))
-		res := crud_project.remove_project_by_id(project_id)
-		res := crud_user.remove_user_by_id(user_id)
+
 		end
 
 		updates_project_name_test
@@ -381,7 +358,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		res:= crud_project.update_project_name("new name",project_id)
 		l_result := crud_project.project_by_id(project_id)
 		create l_name.make_empty
@@ -416,7 +393,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		res:= crud_project.update_project_deadline("20/12/2014",project_id)
 		l_result := crud_project.project_by_id(project_id)
 		create l_deadline.make_empty
@@ -447,11 +424,12 @@ feature -- Test routines
 		do
 		create database.make_open_read_write (path_to_db_file)
 		create crud_project.make(database)
+		create crud_user.make(database)
 		create l_result.make
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		l_result := crud_project.project_by_id(project_id)
 		res := crud_project.update_project_client_name("new client_name",project_id)
 		l_result := crud_project.project_by_id(project_id)
@@ -487,7 +465,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		res := crud_project.remove_project_by_id(project_id)
 		assert ("The result must be true", res )
 		res := crud_user.remove_user_by_id(user_id)
@@ -509,11 +487,15 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_id_user_creator,l_id_user_assigned,l_title,l_description,l_status,l_priority,l_estimation,l_project_id,l_deadline: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
+		result_add_user := crud_user.add_user("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		was_created := result_add_task.boolean_item (1)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
@@ -528,7 +510,6 @@ feature -- Test routines
 		create l_project_id.make_empty
 		create l_deadline.make_empty
 		if attached {JSON_OBJECT} l_result as j_object4 then
-
 			if attached {JSON_STRING} j_object4.item ("title") as s then
 				l_title := s.unescaped_string_8
 			end
@@ -550,13 +531,16 @@ feature -- Test routines
 			if attached {JSON_STRING} j_object4.item ("id_user_assigned") as s then
 				l_id_user_assigned := s.unescaped_string_8
 			end
-			if attached {JSON_STRING} j_object4.item ("project_id") as s then
+			if attached {JSON_STRING} j_object4.item ("id_project") as s then
 				l_project_id := s.unescaped_string_8
 			end
 			if attached {JSON_STRING} j_object4.item ("deadline") as s then
 				l_deadline := s.unescaped_string_8
 			end
 		end
+		res := crud_task.remove_task_by_id(task_id)
+		res := crud_project.remove_project_by_id(project_id)
+		res := crud_user.remove_user_by_id(user_id)
 		assert ("The result must be true", was_created )
 		assert ("The title must be title", l_title.is_equal("title"))
 		assert ("The description must be description", l_description.is_equal("description") )
@@ -567,9 +551,6 @@ feature -- Test routines
 		assert ("The id_user_assigned must be user_id", l_id_user_assigned.is_equal(user_id.out) )
 		assert ("The id_user_creator must be user_id", l_id_user_creator.is_equal(user_id.out))
 		assert ("The deadline must be 20/12/2013", l_deadline.is_equal("20/12/2013"))
-		res := crud_task.remove_task_by_id(task_id)
-		res := crud_project.remove_project_by_id(project_id)
-		res := crud_user.remove_user_by_id(user_id)
 		end
 
 		update_task_title
@@ -586,18 +567,21 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_title: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		res := crud_task.update_task_title("new title",task_id)
 		l_result := crud_task.task_by_id(task_id)
 		create l_title.make_empty
 		if attached {JSON_OBJECT} l_result as j_object3 then
-
 			if attached {JSON_STRING} j_object3.item ("title") as s then
 				l_title := s.unescaped_string_8
 			end
@@ -625,24 +609,27 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_description: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
-		res := crud_task.update_task_description("new description",task_id)
-		l_result := crud_task.task_by_id(project_id)
+		res := crud_task.update_task_description("description2",task_id)
+		l_result := crud_task.task_by_id(task_id)
 		create l_description.make_empty
-		if attached {JSON_OBJECT} l_result as j_object3 then
-
-			if attached {JSON_STRING} j_object3.item ("description") as s then
+		if attached {JSON_OBJECT} l_result as j_object4 then
+			if attached {JSON_STRING} j_object4.item ("description") as s then
 				l_description := s.unescaped_string_8
 			end
 		end
+		assert ("The description must be description2", l_description.is_equal("description2"))
 		assert ("The result must be true", res )
-		assert ("The title must be new description", l_description.is_equal("new description"))
 		res := crud_task.remove_task_by_id(task_id)
 		res := crud_project.remove_project_by_id(project_id)
 		res := crud_user.remove_user_by_id(user_id)
@@ -663,11 +650,15 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_estimation: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		res := crud_task.update_task_estimation("new estimation",task_id)
@@ -701,14 +692,18 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_priority: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
-		res := crud_task.update_task_title("new priority",task_id)
+		res := crud_task.update_task_priority("new priority",task_id)
 		l_result := crud_task.task_by_id(task_id)
 		create l_priority.make_empty
 		if attached {JSON_OBJECT} l_result as j_object3 then
@@ -739,14 +734,18 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_status,l_priority: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
-		res := crud_task.update_task_title("new status",task_id)
+		res := crud_task.update_task_status("new status",task_id)
 		l_result := crud_task.task_by_id(task_id)
 		create l_status.make_empty
 		if attached {JSON_OBJECT} l_result as j_object3 then
@@ -777,13 +776,18 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_id_user_assigned: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
+		res := crud_user.remove_user_by_id(user_id)
 		result_add_user := crud_user.add_user ("emilio@mail.com","emilio","1234","emilio",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		res := crud_task.update_task_id_user_assigned(user_id,task_id)
@@ -817,11 +821,15 @@ feature -- Test routines
 			l_result: JSON_OBJECT
 			l_deadline: STRING
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		res := crud_task.update_task_deadline("20/12/2014",task_id)
@@ -841,7 +849,7 @@ feature -- Test routines
 		end
 
 
-		delete_task
+		delete_task_test
 		--delete task and confirm that the delete is correct.
 		local
 			crud_user: CRUD_USER
@@ -854,11 +862,15 @@ feature -- Test routines
 			user_id,project_id,task_id,comment_id: NATURAL
 			l_result: JSON_OBJECT
 		do
+		create database.make_open_read_write (path_to_db_file)
+		create crud_project.make(database)
+		create crud_user.make(database)
+		create l_result.make
 		create crud_task.make(database)
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		res := crud_task.remove_task_by_id(task_id)
@@ -894,7 +906,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		result_add_comment := crud_comment.add_comment ("commentary",task_id,user_id )
@@ -949,7 +961,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		result_add_comment := crud_comment.add_comment ("commentary",task_id,user_id )
@@ -959,7 +971,7 @@ feature -- Test routines
 		l_result := crud_comment.comment_by_id(comment_id)
 		create l_comment.make_empty
 		if attached {JSON_OBJECT} l_result as j_object3 then
-			
+
 			if attached {JSON_STRING} j_object3.item ("commentary") as s then
 				l_comment := s.unescaped_string_8
 			end
@@ -973,8 +985,8 @@ feature -- Test routines
 		end
 
 
-		delete_task_test
-		--delete task and confirm that the delete is correct.
+		delete_comment_test
+		--delete comment and confirm that the delete is correct.
 		local
 			crud_user: CRUD_USER
 			crud_project: CRUD_PROJECT
@@ -993,7 +1005,7 @@ feature -- Test routines
 		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
-		project_id := result_add_user.integer_32_item (2).out.to_natural
+		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		result_add_comment := crud_comment.add_comment ("commentary",task_id,user_id )
