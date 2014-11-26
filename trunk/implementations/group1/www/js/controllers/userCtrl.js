@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo.controllers')
+angular.module('DOSEMS.controllers')
 .controller('UserCtrl', function ($scope, $routeParams, $log, UserFactory) {
 	var userId =  $routeParams.userId;
 	if (userId != null ) {

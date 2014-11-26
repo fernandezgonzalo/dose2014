@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo.controllers',[])
+angular.module('DOSEMS.controllers',[])
 .controller('SessionCtrl', ['$scope', '$http', '$log', '$timeout','$window',
 function ($scope, $http, $log, $timeout,$window) {
 	// the model that we bind to the input box
@@ -30,6 +30,9 @@ function ($scope, $http, $log, $timeout,$window) {
 
         $http.post('/api/login', payload)
 		.success(function(data, status, header, config) {	  
+			$log.info(data);
+						$log.info(status);
+						
             $log.info('Success logging in the user');
 		// When we get a response object back it will be set here		
 	//	if (angualar.equals(data.status, 'ok') {

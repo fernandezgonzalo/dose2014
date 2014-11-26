@@ -1,6 +1,6 @@
 'use strict';
-var app = angular.module('Demo', [
-'ngRoute', 'Demo.factory', 'Demo.controllers'
+var app = angular.module('DOSEMS', [
+'ngRoute', 'DOSEMS.factory', 'DOSEMS.controllers'
 ]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
@@ -16,6 +16,19 @@ app.config(['$logProvider', function($logProvider){
 			templateUrl: 'partials/login.html',
 			controller: 'SessionCtrl'
 		})
+		.when('/signup', {
+			templateUrl: 'partials/user.html',
+			controller: 'UserCtrl'
+		})
+		.when('/user/:userId/home', {
+			templateUrl: 'partials/home.html',
+			controller: 'ProjectCtrl'
+		})
+		.when('/user/:userId/project/:projectId', {
+			templateUrl: 'partials/projectDashboard.html',
+			controller: 'UserController'
+		})
+		
 		.when('/user', {
 			templateUrl: 'partials/user.html',
 			controller: 'UserCtrl'
@@ -24,14 +37,6 @@ app.config(['$logProvider', function($logProvider){
 			templateUrl: 'partials/logout.html',
 			controller: 'SessionCtrl'
 		})
-		.when('/user/:userId/home', {
-			templateUrl: 'partials/home.html',
-			controller: 'ProjectCtrl'
-		})
-		.when('/user/:userId/home', {
-			templateUrl: 'partials/home.html',
-			controller: 'UsersController'
-		})		
 		.when('/user/:userId/home/:lookupUserId', {
 			templateUrl: 'partials/user-detail.html',
 			controller: 'UsersController'
@@ -60,10 +65,7 @@ app.config(['$logProvider', function($logProvider){
 			templateUrl: 'partials/user.html',
 			controller: 'UserCtrl'
 		})
-		.when('/signup', {
-			templateUrl: 'partials/user.html',
-			controller: 'UserCtrl'
-		})
+		
 		.when('/sprint', {
 	        templateUrl: 'partials/sprint.html',
 	        controller: 'SprintCtrl'

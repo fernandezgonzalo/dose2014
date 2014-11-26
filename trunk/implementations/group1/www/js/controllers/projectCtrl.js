@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Demo.controllers')
-.controller('ProjectCtrl', ['$scope', '$routeParams','$http', '$log', function ($scope, $routeParams, $http, $log) {
+angular.module('DOSEMS.controllers')
+.controller('ProjectCtrl', ['$scope', '$routeParams', '$log', function ($scope, $routeParams, $http, $log) {
 	var userId =  $routeParams.userId;
 	var projectId =  $routeParams.projectId;
 	if (userId != null ) {
@@ -14,13 +14,6 @@ angular.module('Demo.controllers')
 	}
 	$scope.userProjectIDs = [];
 	$scope.userProjects = [];
-	var init = function() {
-		
-		// Initialization function that gets the projects from the server
-		
-		
-		
-		}();
 	  
 		$scope.getUserProjects = function(userId) {
 			// Gets from the server all the projects for a user

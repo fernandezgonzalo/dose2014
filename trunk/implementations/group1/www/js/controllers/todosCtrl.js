@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Demo.controllers')
+angular.module('DOSEMS.controllers')
   .controller('TodosCtrl', ['$scope', '$http', '$log',
     function ($scope, $http, $log) {
 
