@@ -10,15 +10,13 @@
 
   <h4>{{project.client_name}}</h4>
   <div class="row">
-    <!-- <a href="partials/projects_edit.html" class="col-md-10" data-toggle="modal" -->
-    <!--   data-target="#editProjectModal">Edit project info</a> -->
-    <!-- <a href="#/projects/1/edit" class="col-md-10" data-toggle="modal" -->
-    <!--   data-target="#editProjectModal">Edit project info</a> -->
-    <!-- <a ng-click="editProject(project)" class="col-md-10" data-toggle="modal" -->
-    <!--   data-target="#editProjectModal">Edit project info</a> -->
-    <button class="btn btn-default" ng-click="openModal('edit')">Edit
+    <div class="col-md-12">
+    <button class="btn btn-default col-md-2" ng-click="openModal('edit')">Edit
       project info</button>
-        <a href="" ng-click = "createTask('1')" data-toggle="modal" data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
+    <span class="col-md-8"></span>
+        <a href="" class="col-md-2" ng-click = "createTask('1')" data-toggle="modal"
+          data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
+    </div>
   </div>
 
   <div class="col-md-12">
@@ -96,11 +94,11 @@
   </div>
         
   <!-- Edit project modal popup -->
-  <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-          </div> <!-- /.modal-content -->
-      </div> <!-- /.modal-dialog -->
-  </div> <!-- /.modal -->
+  <!-- <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" -->
+  <!--   aria-labelledby="myModalLabel" aria-hidden="true"> -->
+  <!--     <div class="modal-dialog"> -->
+  <!--         <div class="modal-content"> -->
+  <!--         </div>  -->
+  <!--     </div>  -->
+  <!-- </div>  -->
 </div>  

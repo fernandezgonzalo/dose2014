@@ -2,15 +2,15 @@
 
 angular.module('Mgmt')
        .controller('ProjectsController', ['$scope', '$log', '$location',
-                   '$routeParams', '$modal', 'Utility', 'Project',
-                   function ($scope, $log, $location, $routeParams, $modal, Utility, Project) {
+                   '$route', '$routeParams', '$modal', 'Utility', 'Project',
+                   function ($scope, $log, $location, $route, $routeParams,
+                             $modal, Utility, Project) {
 
   $log.debug('ProjectsController::init');
 
   // -------------------------------------------------------
   // CREATE
 
-  // $scope.createProject = function(project) {
   var createProject = function(project) {
     var newProject = new Project(project);
     // Asign user_id property to the project to be created.
@@ -50,12 +50,12 @@ angular.module('Mgmt')
   // -------------------------------------------------------
   // UPDATE 
 
-  // $scope.updateProject = function(project) {
   var updateProject = function(project) {
     var updatedProject = new Project(project);
     updatedProject.$update(function() {
       $log.log('Project updated successfully.');
-      $location.path('/projects/' + project.id + '/dashboard');
+      // $location.path('/projects/' + project.id + '/dashboard');
+      $route.reload();
     }, function() {
       $log.error('There was an error upon project update.');
       $scope.updateProjectError = true;
@@ -66,7 +66,8 @@ angular.module('Mgmt')
   // DELETE 
 
   var deleteProject = function(project) {
-    project.$delete(function() {
+    var deletedProject = new Project(project);
+    deletedProject.$delete(function() {
       $log.log('Project deleted successfully.');
       $location.path('/projects');
     }, function() {
@@ -98,7 +99,7 @@ angular.module('Mgmt')
       case 'new':
         modalInstance = $modal.open({
           templateUrl: 'partials/projects_new.html',
-          controller: 'newModalController',
+          controller: 'NewModalController',
           size: 'sm',
           resolve: {
             createProject: function() { return createProject; },
@@ -109,7 +110,7 @@ angular.module('Mgmt')
       case 'edit':
         modalInstance = $modal.open({
           templateUrl: 'partials/projects_edit.html',
-          controller: 'editModalController',
+          controller: 'EditModalController',
           size: 'sm',
           resolve: {
             project: function() { return $scope.project; },

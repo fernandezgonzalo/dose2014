@@ -1,11 +1,14 @@
 'use strict';
 
 angular.module('Mgmt')
-       .controller('newModalController',
-                   function($log, $scope, $modalInstance, createProject) {
+       .controller('NewModalController',
+                   function($log, $scope, Datepicker, $modalInstance,
+                            createProject) {
 
-         $log.debug('newModalController::init');
+         $log.debug('NewModalController::init');
          
+         Datepicker.set($scope);
+
          $scope.createProject = function(project) {
            createProject(project);
            $modalInstance.close();
@@ -16,11 +19,13 @@ angular.module('Mgmt')
          };
 
        })
-       .controller('editModalController',
-                   function($log, $scope, $modalInstance, project,
-                            updateProject, deleteProject) {
+       .controller('EditModalController', 
+                   function($log, $scope, Datepicker, $modalInstance,
+                            project, updateProject, deleteProject) {
 
-         $log.debug('editModalController::init');
+         $log.debug('EditModalController::init');
+
+         Datepicker.set($scope);
 
          // Clone 'project' object to decouple it from ProjectsController.
          $scope.project = JSON.parse(JSON.stringify(project));
