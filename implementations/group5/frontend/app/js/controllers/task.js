@@ -27,18 +27,24 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentUser.$getTasks(function(data){
       $scope.userTasks = data;
       $log.debug(TAG, data);
-      var stoppedTask = 0;
+      var createdTasks = 0;
+      var inProgTasks = 0;
+      var stoppedTasks = 0;
       for (var task in $scope.userTasks.data) {
       	Utility.unescape($scope.userTasks.data[task]);
-      	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTask++; }
+      	if ($scope.userTasks.data[task].status === 'created') { createdTasks++; }
+      	if ($scope.userTasks.data[task].status === 'in_progress') { inProgTasks++; }
+      	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTasks++; }
         if ($scope.userTasks.data[task].status === 'finished') {
           $scope.tasksFinished.push($scope.userTasks.data[task]);
         } else {
           $scope.tasksInProgress.push($scope.userTasks.data[task]);
         }
       }
+      $scope.creatTasksOnTot = (createdTasks / data.data.length * 100).toFixed(2);
+      $scope.inPrTasksOnTot = (inProgTasks / data.data.length * 100).toFixed(2);
+      $scope.stopTasksOnTot = (stoppedTasks / data.data.length * 100).toFixed(2);
       $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
-      $scope.stopTasksOnTot = (stoppedTask / data.data.length * 100).toFixed(2);
     });
   };
 
