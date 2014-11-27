@@ -1,7 +1,4 @@
 #!/bin/bash
-# Prerequisites:
-# sudo apt-get install npm subversion git
-# sudo ln -s /usr/bin/nodejs /usr/bin/node # fix ubuntu npm installation bug
 svn=https://dose2014.googlecode.com/svn/tags/group5-prototype
 pushd /home/dose/dose2014
 rm -rf .frontend_bak
