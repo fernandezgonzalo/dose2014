@@ -6,11 +6,10 @@ angular.module('Mgmt').directive('doseIsUniqueUser', [function() {
     require: 'ngModel',
     link: function(scope, element, attrs, ctrl) {
 
-      element.bind('change', function(e) {
+      element.bind('change', function() {
         var users = scope.users;
         var attr = attrs.doseIsUniqueUser;
         var isUnique = true;
-        console.debug(e, element.val());
         for (var i in users) {
           var user = users[i];
           if (!scope.user.id || scope.user.id !== user.id) {
