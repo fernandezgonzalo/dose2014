@@ -118,6 +118,7 @@ feature -- Handlers
 			prepare_response("Added sprint",200,res)
 		end
 
+
 	update_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- update a sprint from the database
 		local

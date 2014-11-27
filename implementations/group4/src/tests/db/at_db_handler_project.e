@@ -52,9 +52,9 @@ feature -- Test routines
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(project)
-				-- assert when the user was successfully added.
-			assert ("User successfully added", not db_handler.db_insert_statement.has_error)
-				-- remove the user added for test
+				-- assert when the project was successfully added.
+			assert ("Project successfully added", not db_handler.db_insert_statement.has_error)
+				-- remove the project added for test
 			db_handler.db.rollback
 		end
 
