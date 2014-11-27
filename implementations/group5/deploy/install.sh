@@ -31,3 +31,6 @@ sudo ln -s /etc/apache2/conf-available/apache-mgmt.conf /etc/apache2/conf-enable
 # FRONTEND
 sudo apt-get install npm subversion git
 sudo ln -s /usr/bin/nodejs /usr/bin/node # fix ubuntu npm installation bug
+
+# MAIL
+sudo apt-get install mailutils
