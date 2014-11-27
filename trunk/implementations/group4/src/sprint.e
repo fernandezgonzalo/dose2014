@@ -31,6 +31,14 @@ feature -- Sprint properties
 	project_id : NATURAL
 
 
+feature -- Project seters
+
+	set_project_duration(new_duration: NATURAL)
+	do
+		duration := new_duration
+	end
+
+
 feature -- Auxiliary routines
 
 	not_empty(control: STRING) : BOOLEAN
