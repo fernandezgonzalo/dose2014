@@ -163,30 +163,52 @@ feature -- Data access : project
 			end
 		end
 
-	--- TODO: Fix bug
 	check_project_name (a_project_name: STRING) : BOOLEAN
 		-- check if a given name already exist in the database: return true if the name exists
 		local
-			l_list: JSON_OBJECT
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			create db_query_statement.make ("SELECT * from project WHERE name='" + a_project_name + "';", db)
-			db_query_statement.execute (agent row_to_json_object(?, 1, l_list))
-			if  l_list.is_empty
-				then Result := False
-				else Result := True
+			l_query_result_cursor := db_query_statement.execute_new
+			if  l_query_result_cursor.after then
+				Result := False
+			else
+				Result := true
 			end
 		end
 
-	--- TODO: Fig bug
+	--TODO: Doesn't work if the user is not a member of the project
+	is_owner (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			-- check if the given email is owner of the given project
+			create db_query_statement.make ("SELECT owner from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
+			l_query_result_cursor := db_query_statement.execute_new
+			--l_query_result_cursor.start
+			--if l_query_result_cursor.after then
+				l_query_result_cursor.start
+				if l_query_result_cursor.item.boolean_value (1) then
+					Result := True
+				else
+					print(l_query_result_cursor.item.string_value (1))
+					Result := False
+				end
+			--else
+				--Result := False
+			--end
+		end
+
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
 		local
-			l_list: JSON_ARRAY
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			-- check in the table iteration if some of them are related to the given name project
 			create db_query_statement.make ("SELECT number, name FROM iteration WHERE project='" + a_project_name + "';", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, l_list))
-			if l_list.count = 0 then
+			l_query_result_cursor := db_query_statement.execute_new
+
+			if l_query_result_cursor.after then
 				Result := true
 			else
 				Result := False
@@ -705,7 +727,7 @@ feature	--Data access: WORK ITEMS
 				print("SUCCESS: The new work_item was deleted from the db. %N")
 			end
 		end
-		
+
 	--works
 	modify_work_item(work_item_id: INTEGER; work_item_number: INTEGER; work_item_iteration: INTEGER; work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING; work_item_created_by: STRING)
 		--modifies an existing work_item which the given informations	
