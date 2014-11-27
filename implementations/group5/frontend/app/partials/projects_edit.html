@@ -8,7 +8,7 @@
     
 <!-- /modal-body -->
 <div class="modal-body row">
-  <form nonvalidate class="simple-form">
+  <form name="form" class="simple-form" novalidate>
     <div class="col-md-6">
       <fieldset>
 
@@ -20,7 +20,8 @@
           <div class="controls">
             <input type="text" id="projectName" name="projectName"
             class="input-xlarge" autocorrect="off" spellcheck="false"
-            autocapitalize="off" tabindex="1" ng-model="project.name">
+            autocapitalize="off" tabindex="1" ng-model="project.name"
+            ng-required="true">
           </div>
         </div>
 
@@ -29,22 +30,13 @@
           <label class="control-label" for="client">Client</label>
           <div class="controls">
             <input type="text" id="client" name="client"
-            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
-            autocapitalize="off" tabindex="2" ng-model="project.client_name">
+            placeholder="" class="input-xlarge" autocorrect="off"
+            spellcheck="false" autocapitalize="off" tabindex="2"
+            ng-model="project.client_name" ng-required="true">
           </div>
         </div>
 
         <!-- Deadline -->
-        <!-- <div class="control-group"> -->
-        <!--   <label class="control-label" for="dueDate"> -->
-        <!--     <span class="glyphicon glyphicon-calendar"></span>   Deadline</label> -->
-        <!--   <div class="controls"> -->
-        <!--     <input type="text" id="deadline" name="deadline" -->
-        <!--     placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" -->
-        <!--     autocapitalize="off" tabindex="3" ng-model="project.deadline"> -->
-        <!--   </div> -->
-        <!-- </div>  -->
-
         <div class="control-group">
           <label class="control-label" for="deadline">Deadline</label>
           <div class="row">
@@ -52,8 +44,8 @@
               <p class="input-group">
               <input type="text" class="form-control" datepicker-popup="{{format}}"
               is-open="opened" min-date="dt" datepicker-options="dateOptions"
-              date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
-              tabindex="3" ng-model="project.deadline"/>
+              date-disabled="disabled(date, mode)" close-text="Close"
+              tabindex="3" ng-model="project.deadline" ng-required="true"/>
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)">
                   <i class="glyphicon glyphicon-calendar"></i></button>
@@ -67,23 +59,23 @@
         <div class="control-group">
           <label class="control-label" for="deleteProject"></label>
           <div class="controls">
-          <!--   <a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-remove"> -->
-          <!-- </span>   Delete project</label></a> -->
-          <button class="btn btn-danger"
-            ng-click="deleteProject(project)">Delete project</button>
-        </div>
+            <!--   <a ng-click="deleteProject(project)"><span class="glyphicon glyphicon-remove"> -->
+            <!-- </span>   Delete project</label></a> -->
+            <button class="btn btn-danger"
+              ng-click="deleteProject(project)">Delete project</button>
+          </div>
 
-      </fieldset>
-    </div>
-  </form>
-</div>
+        </fieldset>
+      </div>
+    </form>
+  </div>
 
 
-<!-- /modal-footer -->
-<div class="modal-footer">
-  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-  <button class="btn btn-default" ng-click="cancel()">Close</button>
-  <button ng-click="updateProject(project)" type="button" class="btn
-    btn-primary">Save changes</button>
-</div>	
+  <!-- /modal-footer -->
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+    <button class="btn btn-default" ng-click="cancel()">Close</button>
+    <button ng-click="updateProject(project)" ng-disabled="form.$invalid"
+      type="button" class="btn btn-primary">Save changes</button>
+  </div>	
 

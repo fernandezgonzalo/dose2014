@@ -3,17 +3,16 @@
 angular.module('Mgmt').service('Datepicker', function() {  
 
   this.set = function(scope) {
-    // scope.algo = 'Miguel';
     
     scope.today = function() {
       scope.dt = new Date();
     };
     scope.today();
 
-    scope.clear = function() {
+    // scope.clear = function() {
       // scope.dt = new Date();
       // scope.dt = null;
-    };
+    // };
 
     // Disable weekend selection
     scope.disabled = function(date, mode) {
@@ -32,8 +31,10 @@ angular.module('Mgmt').service('Datepicker', function() {
       startingDay: 1
     };
 
-    scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd-MM-yyyy', 'shortDate'];
-    scope.format = scope.formats[2];
+    // scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd-MM-yyyy', 'shortDate'];
+    // scope.format = scope.formats[2];
+    
+    scope.format = 'dd-MM-yyyy';
 
   };
 });
