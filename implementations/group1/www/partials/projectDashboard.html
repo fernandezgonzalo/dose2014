@@ -16,7 +16,13 @@
 		<p><b><h2 align="center">Users</h2></b></p>
 		
 		<ul ng-repeat="user in users">
-			<li><a href="#/projectDashboard/{{user.id}}">{{user.lastname}}</a></li>
+			<li><a  ng-href="#/user/{{userId}}/project/{{projectId}}/{{user.id}}">{{user.lastname}}</a></li>
+			<!--<button ng-click='getUrl()'>d</button> 
+			<p>aa{{absUrl}}{{lookupUserId}}</p>
+			bb{{projectId}}
+			/user/{{user.id}}/project/{{getUserInfo.projectId}}/{{lookupUserId}} 
+			<li><a href="{{absUrl}}/1">{{user.lastname}}</a></li>
+			{{user.id}} -->
 		</ul>
 		<button><a href="#/manageUsers">ManageUsers</a></button>
 	</div>

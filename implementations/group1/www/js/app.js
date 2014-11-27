@@ -24,11 +24,7 @@ app.config(['$logProvider', function($logProvider){
 			templateUrl: 'partials/home.html',
 			controller: 'ProjectCtrl'
 		})
-		.when('/user/:userId/project/:projectId', {
-			templateUrl: 'partials/projectDashboard.html',
-			controller: 'UserController'
-		})
-		
+			
 		.when('/user', {
 			templateUrl: 'partials/user.html',
 			controller: 'UserCtrl'
@@ -37,9 +33,9 @@ app.config(['$logProvider', function($logProvider){
 			templateUrl: 'partials/logout.html',
 			controller: 'SessionCtrl'
 		})
-		.when('/user/:userId/home/:lookupUserId', {
+		.when('/user/:userId/project/:projectId/:lookupUserId', {
 			templateUrl: 'partials/user-detail.html',
-			controller: 'UsersController'
+			controller: 'UserCtrl'
 		})
 		.when('/user/:userId/project/:projectId', {
 			templateUrl: 'partials/projectDashboard.html',
