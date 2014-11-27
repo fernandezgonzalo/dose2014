@@ -94,8 +94,8 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   function save() {
-    $('#save_button').button('loading');
     if ($scope.form.$valid) {
+      $('#save_button').button('loading');
       var user = $scope.user;
       if (!user.newPassword) {
         user.newPassword = '';
@@ -130,9 +130,9 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   function create() {
-    $('#create_button').button('loading');
     var user = $scope.user;
     if ($scope.form.$valid) {
+      $('#create_button').button('loading');
       user.isAdmin = '0';
       Utility.toUnderscore(user);
       var newUser = new User(user);
