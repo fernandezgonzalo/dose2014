@@ -14,7 +14,8 @@ password TEXT NOT NULL,
 name TEXT,
 photo BLOB,
 last_login DATE NULL,
-is_admin INTEGER NOT NULL
+is_admin INTEGER NOT NULL,
+salt INTEGER DEFAULT 0
 );
 
 CREATE  TABLE project (
@@ -22,7 +23,8 @@ CREATE  TABLE project (
   name TEXT NOT NULL ,
   deadline DATE NULL ,
   client_name TEXT NULL ,
-  id_user INTEGER NULL REFERENCES user (id ) ON DELETE SET NULL ON UPDATE CASCADE);
+  id_user INTEGER NULL REFERENCES user (id ) ON DELETE SET NULL ON UPDATE CASCADE),
+  is_finished	INTEGER DEFAULT 0);
 
 CREATE  TABLE task (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
