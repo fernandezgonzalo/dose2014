@@ -295,8 +295,30 @@ feature {NONE}--login
 
 		end
 
+	crypto_pass(user_password: STRING): STRING
+	--Encrypts the password
+	local
+        bcrypt: BCRYPT
+        hashed_password: STRING
+    do
+        create bcrypt.make
+        hashed_password := bcrypt.hashed_password (user_password, bcrypt.default_gensalt)
+        Result := hashed_password
+   	end
 
-
+	valid_pass(password_entry: STRING;hashed_password: STRING): BOOLEAN
+	--Params: the entered password and encrypted password
+	--the function tells us if the password entered is correct
+	local
+        bcrypt: BCRYPT
+    do
+        create bcrypt.make
+        if bcrypt.is_valid_password (password_entry, hashed_password) then
+             Result := true
+        else
+             Result := false
+        end
+    end
 
 
 feature {NONE}
