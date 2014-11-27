@@ -295,25 +295,35 @@ feature {NONE}--login
 
 		end
 
-	crypto_pass(user_password: STRING): STRING
+	crypto_pass(user_password: STRING): TUPLE [salt:INTEGER_64; hashed_password: STRING]
 	--Encrypts the password
 	local
         bcrypt: BCRYPT
         hashed_password: STRING
+        a_salt_generator: SALT_GENERATOR
+        salt: INTEGER_64
+        pass: STRING
     do
+    	create Result
+        a_salt_generator.make (5)
+        salt := a_salt_generator.new_random
         create bcrypt.make
-        hashed_password := bcrypt.hashed_password (user_password, bcrypt.default_gensalt)
-        Result := hashed_password
+        pass := user_password + salt.out
+        hashed_password := bcrypt.hashed_password (pass, bcrypt.default_gensalt)
+        Result.hashed_password := hashed_password
+        Result.salt := salt;
    	end
 
-	valid_pass(password_entry: STRING;hashed_password: STRING): BOOLEAN
+	valid_pass(password_entry: STRING;hashed_password: STRING;salt: INTEGER_64): BOOLEAN
 	--Params: the entered password and encrypted password
 	--the function tells us if the password entered is correct
 	local
         bcrypt: BCRYPT
+        pass: STRING
     do
         create bcrypt.make
-        if bcrypt.is_valid_password (password_entry, hashed_password) then
+        pass := password_entry + salt.out;
+        if bcrypt.is_valid_password (pass, hashed_password) then
              Result := true
         else
              Result := false
