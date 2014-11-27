@@ -7,7 +7,7 @@
     
 <!-- /modal-body -->
 <div class="modal-body row">
-  <form nonvalidate class="simple-form">
+  <form name="form" class="simple-form" novalidate>
     <div class="col-md-6">
       <fieldset>
 
@@ -18,8 +18,9 @@
           <label class="control-label" for="projectName">Project name</label>
           <div class="controls">
             <input type="text" id="projectName" name="projectName"
-            placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
-            autocapitalize="off" tabindex="1" ng-model="project.name">
+            ng-model="project.name" placeholder="" class="input-xlarge"
+            autocorrect="off" spellcheck="false" autocapitalize="off"
+            tabindex="1" ng-required="true">
           </div>
         </div>
 
@@ -27,31 +28,22 @@
         <div class="control-group">
           <label class="control-label" for="client">Client</label>
           <div class="controls">
-            <input type="text" id="client" name="client"
+            <input type="text" id="client" name="client" ng-model="project.client_name"
             placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
-            autocapitalize="off" tabindex="2" ng-model="project.client_name">
+            autocapitalize="off" tabindex="2" ng-required="true">
           </div>
         </div>
 
         <!-- Deadline -->
-        <!-- <div class="control-group"> -->
-        <!--   <label class="control-label" for="dueDate"> -->
-        <!--     <span class="glyphicon glyphicon-calendar"></span>   Deadline</label> -->
-        <!--   <div class="controls"> -->
-        <!--     <input type="text" id="deadline" name="deadline" -->
-        <!--     placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" -->
-        <!--     autocapitalize="off" tabindex="3" ng-model="project.deadline"> -->
-        <!--   </div> -->
-        <!-- </div>  -->
         <div class="control-group">
           <label class="control-label" for="deadline">Deadline</label>
           <div class="row">
             <div class="col-md-12">
               <p class="input-group">
-              <input type="text" class="form-control" datepicker-popup="{{format}}"
-              is-open="opened" min-date="dt" datepicker-options="dateOptions"
-              date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"
-              tabindex="3" ng-model="project.deadline"/>
+              <input type="text" class="form-control" ng-model="project.deadline"
+              datepicker-popup="{{format}}" is-open="opened" min-date="dt"
+              datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+              close-text="Close" tabindex="3" ng-required="true"/>
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)">
                   <i class="glyphicon glyphicon-calendar"></i></button>
@@ -60,15 +52,15 @@
             </div>
           </div>
         </div>
-
-      </fieldset>
-    </div>
-  </form>
+      </form>
+    </fieldset>
+  </div>
 </div>
 
 <!-- /modal-footer -->
 <div class="modal-footer">
   <button class="btn btn-default" ng-click="cancel()">Close</button>
-  <button class="btn btn-primary" ng-click="createProject(project)">Create project</button>
+  <button class="btn btn-primary" ng-click="createProject(project)"
+    ng-disabled="form.$invalid">Create project</button>
 </div>	
 
