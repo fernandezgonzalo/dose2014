@@ -47,11 +47,22 @@ def get_projects(session, id_user):
 	headers = {"content-type": "application/json"}
 	return s.get(uri_get_projects, headers=headers)
 
+def get_project(session, id_project):
+	uri_get_project = "http://localhost:9090/api/users/projects/%s" % id_project
+	headers = {"content-type": "application/json"}
+	return s.get(uri_get_project, headers=headers)
+
 def add_project(session, id_user, name, info):
 	uri_add_project = "http://localhost:9090/api/users/%s/projects" % id_user
 	payload = {"name": name, "info": info}
 	headers = {"content-type": "application/json"}
 	return s.post(uri_add_project, data=json.dumps(payload), headers=headers)
+
+def update_project(session, id_project, name, info):
+	uri_update_project = "http://localhost:9090/api/users/projects/%s" % id_project
+	payload = {"name": name, "info": info}
+	headers = {"content-type": "application/json"}
+	return s.put(uri_update_project, data=json.dumps(payload), headers=headers)
 
 s = requests.Session()
 do_login(s, "asd@asd.com", "asd")

@@ -103,6 +103,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent user.get_projects_by_user, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent project.add_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/projects/{id_project}", agent user.get_project_by_id, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/projects/{id_project}", agent project.update_project, router.methods_put)
 
 				-- handling of all ht routes relating to "project"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/developers", agent project.get_users_by_id_project, router.methods_get)

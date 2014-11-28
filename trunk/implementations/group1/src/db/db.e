@@ -162,6 +162,18 @@ feature -- Data access Projects
 			end
 		end
 
+	update_project(id_project: NATURAL; name, info: STRING): BOOLEAN
+		do
+			create db_modify_statement.make("UPDATE Project SET name='" + name + "', info='" + info + "' WHERE id=" + id_project.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				Result := False
+			else
+				Result := True
+			end
+		end
+
+
 	create_project_by_user (id_user: NATURAL; name, info: STRING): BOOLEAN
 		local
 			stmt_insert_project, stmt_insert_userproject: STRING
