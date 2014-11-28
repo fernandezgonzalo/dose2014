@@ -162,6 +162,33 @@ feature -- Data access Projects
 			end
 		end
 
+	create_project_by_user (id_user: NATURAL; name, info: STRING): BOOLEAN
+		local
+			stmt_insert_project, stmt_insert_userproject: STRING
+			l_id_project: INTEGER_64
+		do
+			stmt_insert_project := "INSERT INTO Project(info, name) VALUES ('" + info +"','"+name+"');"
+			create db_insert_statement.make (stmt_insert_project, db)
+			db_insert_statement.execute
+			if db_insert_statement.has_error then
+				print ("Error while insert new project")
+				Result := False
+			else
+				l_id_project := db_insert_statement.last_row_id
+				stmt_insert_userproject := "INSERT INTO userproject(id_user, id_project) VALUES ('" + id_user.out + "', '" + l_id_project.out + "');"
+
+				create db_insert_statement.make (stmt_insert_userproject, db)
+				db_insert_statement.execute
+				if db_insert_statement.has_error then
+					print ("Error while insert userproject")
+					Result := False
+					--remove_project(l_id_project)
+				else
+					Result := True
+				end
+			end
+		end
+
 		remove_project (id: NATURAL)
 				-- removes the todo with the given id
 			do
