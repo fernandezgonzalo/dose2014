@@ -20,7 +20,7 @@
 	<div class="col-md-12">
 		<table class="table">
 			<tr ng-repeat="task in tasksInProgress" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
-				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
+				<td class="col-md-6">{{projectSelect[task.id_project]}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
@@ -41,7 +41,7 @@
 	<div class="col-md-12">
 		<table class="table">
 			<tr ng-repeat="task in tasksFinished" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
-				<td class="col-md-6">{{task.id_project}} {{task.title}}</td>
+				<td class="col-md-6">{{projectSelect[task.id_project]}} {{task.title}}</td>
 				<td class="col-md-2"><span class="badge">10</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
@@ -56,7 +56,7 @@
 </div>
 
 <div class="row">
-	<p class="col-md-2 text-right big">Created tasks on total: </p>
+	<p class="col-md-2 big">Created tasks on total: </p>
 	<div class="col-md-8">
 		<div class="progress">
 	  		<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{creatTasksOnTot}}%">
@@ -70,7 +70,7 @@
 </div>
 
 <div class="row">
-	<p class="col-md-2 text-right big">In progress tasks on total: </p>
+	<p class="col-md-2 big">In progress tasks on total: </p>
 	<div class="col-md-8">
 		<div class="progress">
 	  		<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{inPrTasksOnTot}}%">
@@ -84,7 +84,7 @@
 </div>
 
 <div class="row">
-	<p class="col-md-2 text-right big">Stopped tasks on total: </p>
+	<p class="col-md-2 big">Stopped tasks on total: </p>
 	<div class="col-md-8">
 		<div class="progress">
 	  		<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{stopTasksOnTot}}%">
@@ -98,7 +98,7 @@
 </div>
 
 <div class="row">
-	<p class="col-md-2 text-right big">Finished tasks on total: </p>
+	<p class="col-md-2 big">Finished tasks on total: </p>
 	<div class="col-md-8">
 		<div class="progress">
 	  		<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-attr-style="width: {{finTasksOnTot}}%">

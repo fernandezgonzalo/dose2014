@@ -1,12 +1,13 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Utility',
-  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Project', 'Utility',
+  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Project, Utility) {
 
   var TAG = 'TaskController::';
   $log.debug(TAG, 'init', $routeParams, $scope.userTasks);
 
   $scope.currentTask = {};
+
   $scope.isNew = false;
   $scope.tasksFinished = [];
   $scope.tasksInProgress = [];
@@ -22,6 +23,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     {value: 'critical', text: 'Critical'}
   ];
   $scope.userSelect = [];
+  $scope.projectSelect = [];
 
   var onload = function() {
     $scope.currentUser.$getTasks(function(data){
@@ -32,15 +34,18 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       var stoppedTasks = 0;
       for (var task in $scope.userTasks.data) {
       	Utility.unescape($scope.userTasks.data[task]);
+      	//stats variables
       	if ($scope.userTasks.data[task].status === 'created') { createdTasks++; }
       	if ($scope.userTasks.data[task].status === 'in_progress') { inProgTasks++; }
       	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTasks++; }
+
         if ($scope.userTasks.data[task].status === 'finished') {
           $scope.tasksFinished.push($scope.userTasks.data[task]);
         } else {
           $scope.tasksInProgress.push($scope.userTasks.data[task]);
         }
       }
+      //stats variables
       $scope.creatTasksOnTot = (createdTasks / data.data.length * 100).toFixed(2);
       $scope.inPrTasksOnTot = (inProgTasks / data.data.length * 100).toFixed(2);
       $scope.stopTasksOnTot = (stoppedTasks / data.data.length * 100).toFixed(2);
@@ -58,6 +63,13 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   User.query(function(allUsers){
     for (var i = 0; i < allUsers.length; i++) {
       $scope.userSelect.push({value: allUsers[i].id, text: allUsers[i].username});
+    }
+  });
+
+  Project.query(function(allProjects){
+    for (var i = 0; i < allProjects.length; i++) {
+    	Utility.unescape(allProjects[i]);
+    	$scope.projectSelect[allProjects[i].id] = allProjects[i].name;
     }
   });
 
