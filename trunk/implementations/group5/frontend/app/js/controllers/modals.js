@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('Mgmt')
-       .controller('NewModalController',
+       .controller('NewModalController', ['$log', '$scope', 'Datepicker',
+                   '$modalInstance', 'createProject',
                    function($log, $scope, Datepicker, $modalInstance,
                             createProject) {
 
@@ -18,10 +19,11 @@ angular.module('Mgmt')
            $modalInstance.dismiss('cancel');
          };
 
-       })
-       .controller('EditModalController', 
-                   function($log, $scope, Datepicker, $modalInstance,
-                            project, updateProject, deleteProject) {
+       }])
+       .controller('EditModalController', ['$log', '$scope', 'Datepicker',
+                   '$modalInstance', 'project', 'updateProject', 'deleteProject',
+                   function($log, $scope, Datepicker, $modalInstance, project,
+                            updateProject, deleteProject) {
 
          $log.debug('EditModalController::init');
 
@@ -44,4 +46,4 @@ angular.module('Mgmt')
            $modalInstance.dismiss('cancel');
          };
 
-       });
+       }]);
