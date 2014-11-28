@@ -10,8 +10,8 @@ user_id = 1
 if len(sys.argv) >= 2:
   user_id = int(sys.argv[1])
 
-# url = 'http://localhost:9100/api/users'
 url = 'http://localhost/api/users'
+# url = 'http://localhost:9100/api/users'
 users = json.loads(urllib2.urlopen(url).read())
 
 user = None
@@ -30,21 +30,23 @@ Dear administrators,
   
   Our cordial user "{0}" ("{1}") needs help.
   It seems (s)he forgot the password.
-  Can you please contact and help her/him through this her/his email: "{2}"!
+  Can you please contact and help her or him through this email: "{2}"!
 
 Best wishes, 
   Automatic DOSE mail script.
 """.format(user['name'], user['username'], user['email'])
 
+if len(admins) <= 0:
+  admins.append('dsteblyuk@gmail.com')
+
 me = 'admin@dose.net'
-you = 'dsteblyuk@gmail.com'
 msg = MIMEText(body)
 msg['Subject'] = 'Password recovery request'
 msg['From'] = me
-msg['To'] = you
+msg['To'] = admins[0]
 
 # Send the message via our own SMTP server, but don't include the
 # envelope header.
 s = smtplib.SMTP('localhost')
-s.sendmail(me, [you], msg.as_string())
+s.sendmail(me, admins, msg.as_string())
 s.quit()
