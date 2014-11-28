@@ -5,18 +5,23 @@ note
 	revision: "$Revision$"
 class
 	PROJECTS_CONTROLLER
-
-	inherit
+inherit
 	CONTROLLER_BASE
+	redefine
+		make,
+		db_model
+end
+
 create
 	make
+
 feature {NONE} -- Creation
 	make(model: PROJECT)
 		do
-			Project := model
+			db_model := model
 		end
 feature {NONE} -- Private attributes
-	Project: PROJECT
+	db_model: PROJECT
 feature -- Handlers
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
@@ -38,69 +43,13 @@ feature -- Handlers
 
 			end
 
-			project.new(name)
+			db_model.new(name)
 
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Created project " + name), create {JSON_STRING}.make_json ("Message"))
 
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
-		end
-
-
-	remove(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			project_id: STRING
-			l_result: JSON_OBJECT
-		do
-			project_id := req.path_parameter("project_id").string_representation
-			Project.delete_by_id(project_id.to_natural)
-
-			create l_result.make
-			l_result.put(create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
-		end
-
-
-	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-
-			payload: STRING
-		do
-			payload := Project.get_all.representation
-
-			set_json_header_ok(res, payload.count)
-			res.put_string(payload)
-		end
-
-	show(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			project_id, result_payload: STRING
-		do
-			project_id := req.path_parameter ("project_id").string_representation
-
-			result_payload := project.get_by_id(project_id.to_natural).representation
-
-			set_json_header_ok(res, result_payload.count)
-			res.put_string (result_payload)
-		end
-
-	edit(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			payload: STRING
-			parser: JSON_PARSER
-			j_obj: JSON_OBJECT
-		do
-			create payload.make_empty
-			req.read_input_data_into(payload)
-			create parser.make_parser(payload)
-
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				j_obj := j_object
-				project.update_fields(j_obj)
-			end
 		end
 
 end

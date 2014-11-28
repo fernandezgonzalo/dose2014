@@ -5,9 +5,13 @@ DROP TABLE SprintComments;
 DROP TABLE Tasks;
 DROP TABLE TasksComments;
 DROP TABLE Projects;
-DROP TABLE ProjectsComments;
+DROP TABLE ProjectComments;
 DROP TABLE Stories;
 DROP TABLE StoriesComments;
+
+DROP TABLE StoriesBelongToProjects;
+DROP TABLE TasksBelongToStories;
+DROP TABLE TasksBelongToSprints;
 
 -- Make sure that foreign_key support is turned on
 PRAGMA foreign_keys = ON;
@@ -15,7 +19,7 @@ PRAGMA foreign_keys = ON;
 -- At first, create tables
 
 CREATE TABLE Users (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   login TEXT NOT NULL UNIQUE,
   password TEXT,
   name TEXT,
@@ -23,12 +27,12 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Projects(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE ProjectComments(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   сontents TEXT NOT NULL UNIQUE,
   date TEXT,
   userId INTEGER NOT NULL,
@@ -39,7 +43,7 @@ CREATE TABLE ProjectComments(
 
 
 CREATE TABLE Sprints(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
   projectId INTEGER NOT NULL,
   start_time TEXT,
@@ -48,7 +52,7 @@ CREATE TABLE Sprints(
 );
 
 CREATE TABLE SprintComments(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   сontents TEXT NOT NULL UNIQUE,
   date TEXT,
   userId INTEGER NOT NULL,
@@ -58,7 +62,7 @@ CREATE TABLE SprintComments(
 );
 
 CREATE TABLE Tasks(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
   points INTEGER,
   status INTEGER,
@@ -66,7 +70,7 @@ CREATE TABLE Tasks(
 );
 
 CREATE TABLE TasksComments(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   сontents TEXT NOT NULL UNIQUE,
   date TEXT,
   userId INTEGER NOT NULL,
@@ -76,12 +80,12 @@ CREATE TABLE TasksComments(
 );
 
 CREATE TABLE Stories(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE StoriesComments(
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   сontents TEXT NOT NULL UNIQUE,
   date TEXT,
   userId INTEGER NOT NULL,
