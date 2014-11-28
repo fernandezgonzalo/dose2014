@@ -191,8 +191,6 @@ angular.module('Mgmt')
 
 
 
-
-
   $scope.finished = [
     {
       id: 1,
