@@ -9,88 +9,135 @@
   <h4>{{project.client_name}}</h4>
   <div class="row">
     <div class="col-md-12">
-    <button class="btn btn-default col-md-2" ng-click="openModal('edit')">Edit
-      project info</button>
-    <span class="col-md-8"></span>
-        <a href="" class="col-md-2" ng-click = "createTask('1')" data-toggle="modal"
-          data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
+      <button class="btn btn-link col-md-2"
+        ng-click="openModal('edit')">Edit project info</button>
+      <span class="col-md-8"></span>
+      <a href="" class="col-md-2" ng-click = "createTask('1')" data-toggle="modal"
+        data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
     </div>
   </div>
 
-  <div class="col-md-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
-        </tr>
-      </thead>
-      
-      <!-- Initial idea: have the lanes as tables of tables -->
-      <tbody>
-      <tr>
-        <td>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-3">Backlog</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="task in backlogTasks">
-              <td>{{task.description}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-3">To Do</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="task in todoTasks">
-              <td>{{task.description}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-3">Doing</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="task in doingTasks">
-              <td>{{task.description}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td>
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="col-md-3">Done</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="task in doneTasks">
-              <td>{{task.description}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      </tr>
-      </tbody>
-    </table>
+  <br>
+  <br>
+
+  <!-- {{backlogTasks}} -->
+  <!-- {{todoTasks}} -->
+
+  <div class="contentWrapper ng-cloak">
+  <div class="content">
+  <div class="row-fluid">
+    <div class="col-md-12">
+
+      <div class="col-md-3">
+        <div class="panel panel-danger">
+          <div class="panel-heading"><h4>Backlog</h4></div>
+          <div class="panel-body" jqyoui-droppable="{multiple:false}"
+          data-drop="true" ng-model="backlogTasks"
+          data-jqyoui-options="{accept:'.task-draggable:not([ng-model=backlogTasks])'}">
+            <div class="btn btn-default btn-block task-draggable" ng-repeat="task in backlogTasks"
+            data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+            jqyoui-draggable="{index: {{$index}}, animate:false}" ng-model="backlogTasks">
+              {{task.title}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="panel panel-warning">
+          <div class="panel-heading"><h4>To do</h4></div>
+          <div class="panel-body" jqyoui-droppable="{multiple:false}"
+          data-drop="true" ng-model="todoTasks"
+          data-jqyoui-options="{accept:'.task-draggable:not([ng-model=todoTasks])'}">
+            <div class="btn btn-default btn-block task-draggable" ng-repeat="task in todoTasks"
+            data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+            jqyoui-draggable="{index: {{$index}}, animate:false}" ng-model="todoTasks">
+              {{task.title}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="panel panel-info">
+          <div class="panel-heading"><h4>Doing</h4></div>
+          <div class="panel-body" jqyoui-droppable="{multiple:false}"
+          data-drop="true" ng-model="doingTasks"
+          data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doingTasks])'}">
+            <div class="btn btn-default btn-block task-draggable"
+              ng-repeat="task in doingTasks"
+            data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+            jqyoui-draggable="{index: {{$index}}, animate:false}"
+            ng-model="doingTasks">
+              {{task.title}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="panel panel-success">
+          <div class="panel-heading"><h4>Done</h4></div>
+          <div class="panel-body" jqyoui-droppable="{multiple:false}"
+          data-drop="true" ng-model="doneTasks"
+          data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doneTasks])'}">
+            <div class="btn btn-default btn-block task-draggable"
+              ng-repeat="task in doneTasks"
+            data-drag="true" data-jqyoui-options="{revert: 'invalid'}"
+            jqyoui-draggable="{index: {{$index}}, animate:false}"
+            ng-model="doneTasks">
+              {{task.title}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div class="col-md-3"> -->
+      <!--   <div class="panel panel-info"> -->
+      <!--     <div class="panel-heading"><h4>Doing</h4></div> -->
+      <!--     <ul class="list-group" jqyoui-droppable="{multiple:true}" -->
+      <!--     data-drop="true" ng-model="doingTasks" -->
+      <!--     data-jqyoui-options="{accept:'.list-group-item:not([ng-model=doingTasks])'}"> -->
+      <!--       <li class="list-group-item" ng-repeat="task in doingTasks" -->
+      <!--       data-drag="true" data-jqyoui-options="{revert: 'invalid'}" -->
+      <!--       jqyoui-draggable="{index: {{$index}}, animate:true}" ng-model="doingTasks"> -->
+      <!--         {{task.title}} -->
+      <!--       </li> -->
+      <!--     </ul> -->
+      <!--   </div> -->
+      <!-- </div> -->
+
+      <!-- <div class="col-md-3"> -->
+      <!--   <div class="panel panel-success"> -->
+      <!--     <div class="panel-heading"><h4>Done</h4></div> -->
+      <!--     <ul class="list-group" jqyoui-droppable="{multiple:true}" -->
+      <!--     data-drop="true" ng-model="doneTasks" -->
+      <!--     data-jqyoui-options="{accept:'.list-group-item:not([ng-model=doneTasks])'}"> -->
+      <!--       <li class="list-group-item" ng-repeat="task in doneTasks" -->
+      <!--       data-drag="true" data-jqyoui-options="{revert: 'invalid'}" -->
+      <!--       jqyoui-draggable="{index: {{$index}}, animate:true}" -->
+      <!--       ng-model="doneTasks"> -->
+      <!--         {{task.title}} -->
+      <!--       </li> -->
+      <!--     </ul> -->
+      <!--   </div> -->
+      <!-- </div> -->
+
+
+    </div>
   </div>
+  </div>
+  </div>
+
+     <!-- <span data-drag="true" jqyoui-draggable>So you think you can drag</span>  -->
+     <!-- <div ng-repeat="task in backlogTasks" data-drag="true" -->
+     <!--   data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{animate:true}"> -->
+     <!--   <div>{{task.title}}</div> -->
+     <!-- </div> -->
+
+
+
         
   <!-- Edit project modal popup -->
   <!-- <div class="modal fade" id="editProjectModal" tabindex="-1" role="dialog" -->
