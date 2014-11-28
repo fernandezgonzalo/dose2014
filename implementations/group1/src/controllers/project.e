@@ -54,13 +54,15 @@ feature -- Handlers
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project
 		local
-			l_payload, info: STRING
+			l_payload, info, name, l_user_id: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			flag: BOOLEAN
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
 			create info.make_empty
+			create name.make_empty
 
 
 				-- read the payload from the request and store it in the string
@@ -77,12 +79,15 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("info") as n then
 					info := n.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("name") as n then
+					name := n.unescaped_string_8
+				end
 
 
 			end
 
-				-- create the user in the database
-			-- my_db.add_project (info)
+			l_user_id := req.path_parameter ("id_user").string_representation
+			flag := my_db.create_project_by_user (l_user_id.to_natural_8, name, info)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
