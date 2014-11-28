@@ -35,15 +35,26 @@ angular.module('Mgmt')
   // Retrieve data for current project (/projects/{id}/dashboard).
   if($routeParams.id) {
     var id = $routeParams.id;
+    //
     // Retrieve project information.
     Project.get({projectId: id}, function(project) {
       $scope.project = project;
+    }, function() {
+      $log.error('There was an error while loading project info.');
     });
-    // Retrieve tasks belonging to the project.
-    Project.getTasks({projectId: id}, function(tasks) {
-      $scope.tasks = tasks;
-      $log.log('Array of tasks of the project:');
-      $log.log(tasks);
+
+    // Retrieve the tasks belonging to the project.
+    Project.getTasks({projectId: id}, function(data) {
+
+      var tasks = organizeTasks(data);
+
+      $scope.todoTasks = tasks.todo;
+      $scope.doingTasks = tasks.doing;
+      $scope.doneTasks = tasks.done;
+      $scope.backlogTasks = tasks.backlog;
+
+    }, function() {
+      $log.error('There was an error while loading project tasks.');
     });
   }
 
@@ -77,7 +88,7 @@ angular.module('Mgmt')
   };
   
   // -------------------------------------------------------
-  // Methods
+  // Helper functions
 
   $scope.openProject = function(project) {
     $location.path('/projects/' + project.id + '/dashboard');
@@ -86,8 +97,48 @@ angular.module('Mgmt')
   $scope.editProject = function(project) {
     $location.path('/projects/' + project.id + '/edit');
   };
-  
 
+  // Distribute tasks into swimlanes according to their status.
+  var organizeTasks = function(data) {
+
+    var todo = [];
+    var doing = [];
+    var done = [];
+    var backlog = [];
+
+    // Wait until the actual data arrives from the server.
+    data.$promise.then(function(tasks) {
+      for (var i = 0; i < tasks.length; i++) {
+
+        switch (tasks[i].status) {
+          case 'created':
+            todo.push(tasks[i]);
+          break;
+          case 'in_progress':
+            doing.push(tasks[i]);
+          break;
+          case 'finished':
+            done.push(tasks[i]);
+          break;
+          case 'stopped':
+            backlog.push(tasks[i]);
+          break;
+          default:
+            $log.error('Task ' + tasks[i].id + ' has no valid status');
+          break;
+        }
+      }
+    });
+
+    return {
+      'todo': todo,
+      'doing': doing,
+      'done': done,
+      'backlog': backlog
+    };
+  };
+  
+  // -------------------------------------------------------
   // Modal pop-ups
 
   $scope.openModal = function(action) {

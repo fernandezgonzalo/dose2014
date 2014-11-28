@@ -6,8 +6,6 @@
     <legend>{{project.name}}</legend>
   </div>
 
-  <!-- <br> -->
-
   <h4>{{project.client_name}}</h4>
   <div class="row">
     <div class="col-md-12">
@@ -29,6 +27,7 @@
           <th class="col-md-3"></th>
         </tr>
       </thead>
+      
       <!-- Initial idea: have the lanes as tables of tables -->
       <tbody>
       <tr>
@@ -40,9 +39,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Task 1</td></tr>
-            <tr><td>Task 2</td></tr>
-            <tr><td>Task 3</td></tr>
+            <tr ng-repeat="task in backlogTasks">
+              <td>{{task.description}}</td>
+            </tr>
           </tbody>
         </table>
       </td>
@@ -54,9 +53,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Task 1</td></tr>
-            <tr><td>Task 2</td></tr>
-            <tr><td>Task 3</td></tr>
+            <tr ng-repeat="task in todoTasks">
+              <td>{{task.description}}</td>
+            </tr>
           </tbody>
         </table>
       </td>
@@ -68,9 +67,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Task 1</td></tr>
-            <tr><td>Task 2</td></tr>
-            <tr><td>Task 3</td></tr>
+            <tr ng-repeat="task in doingTasks">
+              <td>{{task.description}}</td>
+            </tr>
           </tbody>
         </table>
       </td>
@@ -82,9 +81,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Task 1</td></tr>
-            <tr><td>Task 2</td></tr>
-            <tr><td>Task 3</td></tr>
+            <tr ng-repeat="task in doneTasks">
+              <td>{{task.description}}</td>
+            </tr>
           </tbody>
         </table>
       </td>
