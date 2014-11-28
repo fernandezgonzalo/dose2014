@@ -1,10 +1,16 @@
 note
-	description: "Handlers for everything that concerns users."
+	description: "Handlers for everything that concerns db_models."
 	author: "hce"
 class
 	USERS_CONTROLLER
 inherit
 	CONTROLLER_BASE
+	export {NONE}
+		update
+	redefine
+		make,
+		db_model
+end
 
 create
 	make
@@ -13,24 +19,13 @@ feature {NONE} -- Creation
 
 	make (model: USER)
 		do
-			user := model
+			db_model := model
 		end
 
 
 feature {NONE}
-	user: USER
+	db_model: USER
 feature
-	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
-		local
-			l_result_payload: STRING
-		do
-			l_result_payload := user.get_all.representation
-
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
-		end
-
 
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
@@ -52,25 +47,14 @@ feature
 
 			end
 
-			user.new(name)
+			db_model.new(name)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added user " + name), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("Added db_model " + name), create {JSON_STRING}.make_json ("Message"))
 
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		end
 
-	show(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			user_id, result_payload: STRING
-		do
-			user_id := req.path_parameter("user_id").string_representation
-
-			result_payload := user.get_by_id(user_id.to_natural).representation
-
-			set_json_header_ok(res, result_payload.count)
-			res.put_string(result_payload)
-		end
 end
