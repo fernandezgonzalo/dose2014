@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-md-4">
     <div class="input-group search">
-      <input type="text" class="form-control" placeholder="Search by name, surname and email">
+      <input type="text" class="form-control" ng-model="query" placeholder="Search by name, surname and email">
       <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
     </div>
   </div>
@@ -24,7 +24,7 @@
         <th>Email</th>
         <th> </ht>
       </tr>
-      <tr ng-repeat="user in users" class="row-link" ng-click="openProfile(user)">
+      <tr ng-repeat="user in filtered = (users | filter:search)" class="row-link" ng-click="openProfile(user)">
         <td>{{ user.name }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
@@ -33,5 +33,6 @@
         </td>
       </tr>
     </table>
+    <p ng-if="filtered.length == 0">There is no users considering your filter.</p>
   </div>
 </div>

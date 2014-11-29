@@ -19,6 +19,19 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.users = User.query();
   
+  $scope.search = function(item) {
+    var searchString = item.name + item.username + item.email;
+    var needle = $scope.query || '';
+    $scope.emptyFilter = false;
+    if (needle) {
+      if (searchString.indexOf(needle) === -1) {
+        return false;
+      }
+    }
+    $scope.emptyFilter = false;
+    return true;
+  };
+
   $scope.openProfile = function(user) {
     $location.path('/users/' + user.id);
   };
