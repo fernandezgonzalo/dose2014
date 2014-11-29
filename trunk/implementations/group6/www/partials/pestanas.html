@@ -1,14 +1,21 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active"><a href='#/home' data-toggle="tab">Home</a></li>
+    <li><a href='#/home' data-toggle="tab">Home</a></li>
     <li><a href='#/projects' data-toggle="tab">Projects</a></li>
+    <form class="navbar-form navbar-left">
+        <div>
+          <div class="col-lg-2 col-lg-offset-8">
+<!-- El input del search probablemente sea de tipo "search" y no redireccione a ningun otra página-->
+            <a href='#/search' data-toggle="tab"><input type="text" class="form-control" placeholder="Search:"></input></a>
+          </div>
+        </div>
+  </form>
   </ul>
+  
   <div class="tab-content">
     <div id="home" class="tab-pane active">
-      <h4>Home</h4>
     </div>
     <div id="project" class="tab-pane">
-    <h4>Projects</h4>
     </div>
   </div><!-- /.tab-content -->  
 </div><!-- /.tabbable -->
