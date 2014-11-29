@@ -5,7 +5,7 @@ angular.module('Wbpms')
     function ($scope, $http, $log) {
         
         
-    $scope.searchUser = {
+    $scope.globalSearch = {
         url: ''
     }
     // declaration !AND! call (see parenthesis at end of function)
@@ -15,15 +15,40 @@ angular.module('Wbpms')
     }
                 
     //search global other user. pre-condition: User is login  
-    $scope.searchGlobalOtherUser = function(user,keyword){
+    $scope.globalOtherUserSearch = function(user,keyword){
+        
+        var payload = {
+                user : username,
+                password : keyword
+            }
 
-        $http.get('/api/search/'+user+'/'+keyword)
+        $http.get('/api/search/', payload)
           .success(function(data, status, header, config) {
-            // the server should return a json array which contains all the todos
-            $scope.searchUser = data;
+            // the server should return a json array which contains the uri redirection
+            $scope.globalSearch = data;
           })
           .error(function(data, status) {
             $log.debug('Error user not found');
           });
     }
+    
+    //search global work item. pre-condition: User is login 
+     $scope.globalWorkItemSearch = function(workItem,keyword){
+         
+         var payload = {
+                workItem : work_Item,
+                password : keyword
+            }
+         
+
+        $http.get('/api/search/', payload)
+          .success(function(data, status, header, config) {
+            // the server should return a json array which contains the uri to redirection
+            $scope.globalSearch = data;
+          })
+          .error(function(data, status) {
+            $log.debug('Error workItem not found');
+          });
+    }
+}]);
 }]);
