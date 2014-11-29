@@ -384,6 +384,16 @@ feature -- Data access Sprint
 			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 
+	update_sprint(id_sprint, duration: NATURAL): BOOLEAN
+		do
+			create db_modify_statement.make("UPDATE Sprint SET duration='" + duration.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				Result := False
+			else
+				Result := True
+			end
+		end
 
 feature -- Data access Task
 
