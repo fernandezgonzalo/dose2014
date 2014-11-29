@@ -97,28 +97,28 @@ feature --handlers
 				if my_db.check_if_mail_already_present (l_email) then
 
 						-- EMAIL already present into the database. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: email already present into the database. New user was not created."), create {JSON_STRING}.make_json ("ERROR"))
+					l_result.put (create {JSON_STRING}.make_json ("ERROR: email already present into the database. New user was not created."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if NAME and SURNAME are valid
 				elseif (l_name = VOID) OR (l_name.is_empty) OR (l_surname = VOID) OR (l_surname.is_empty)	then
 
 						-- NAME or SURNAME is not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: name or surname not valid. New user was not created."), create {JSON_STRING}.make_json ("ERROR"))
+					l_result.put (create {JSON_STRING}.make_json ("ERROR: name or surname not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if PASSWORD is valid
 				elseif (l_pwd = VOID) OR (l_pwd.count /= 8) then
 
 						-- PASSWORD not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: password not valid. New user was not created."), create {JSON_STRING}.make_json ("ERROR"))
+					l_result.put (create {JSON_STRING}.make_json ("ERROR: password not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if ROLE and PHOTO are valid
 				elseif (l_role = VOID) OR (l_photo = VOID) then
 
 					-- ROLE or PHOTO not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: role or photo not valid. New user was not created."), create {JSON_STRING}.make_json ("ERROR"))
+					l_result.put (create {JSON_STRING}.make_json ("ERROR: role or photo not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				else
@@ -126,7 +126,7 @@ feature --handlers
 					my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, l_gender)
 
 						-- Sending back a success message
-					l_result.put (create {JSON_STRING}.make_json ("Successfully added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("SUCCESS"))
+					l_result.put (create {JSON_STRING}.make_json ("Successfully added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("success"))
 					set_json_header_ok (res, l_result.representation.count)
 
 				end
@@ -174,12 +174,12 @@ feature --handlers
 				my_db.remove_user (l_email)
 
 					-- create a json object that as a "Message" property that states what happend
-				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_email + " from the database."), create {JSON_STRING}.make_json ("SUCCESS"))
+				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_email + " from the database."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result.representation.count)
 
 			else
 					-- EMAIL not present into the database. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: the email is not present into the database."), create {JSON_STRING}.make_json ("ERROR"))
+				l_result.put (create {JSON_STRING}.make_json ("ERROR: the email is not present into the database."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
 
 			end
@@ -226,7 +226,7 @@ feature --handlers
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Password for user " + l_email + " has been changed."), create {JSON_STRING}.make_json ("SUCCESS"))
+			l_result.put (create {JSON_STRING}.make_json ("Password for user " + l_email + " has been changed."), create {JSON_STRING}.make_json ("success"))
 
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)

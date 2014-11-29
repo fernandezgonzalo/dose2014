@@ -44,12 +44,6 @@ feature {NONE} -- Initialization
 	session_ctrl: DEMO_SESSION_CTRL
 			-- a controller for handling sessions
 
-	todo_ctrl: DEMO_TODO_CTRL
-			-- a controller for handling todo requests
-
-	demo_user_ctrl: DEMO_USER_CTRL
-			-- a controller for handling user requests
-
 	iteration_ctrl: ITERATION_CTRL
 			-- a controller for handling user requests
 
@@ -70,45 +64,10 @@ feature {NONE} -- Initialization
 
 	initialize
 			-- Initialize current service.
-		local
-			l_result: JSON_ARRAY
 		do
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-
---				 -- BEGIN QUERIES TESTS
---			print("%N***********new test*************%N")
---			print(dao.get_all_users.representation + "%N")
-
---			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
---				dao.remove_user ("nicogallo@gmail.com")
---				print("%Nuser removed%N")
---			else
---				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
---				print("%Nuser added%N")
-
---			end
-
---			print(dao.get_all_users.representation + "%N")
-
---			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
---				dao.remove_user ("nicogallo@gmail.com")
---				print("%Nuser removed%N")
---			else
---				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
---				print("%Nuser added%N")
-
---			end
-
---			print(dao.get_all_users.representation + "%N")
-
-
---				 -- END OF TESTS
-
-
-
-
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create project_ctrl.make (dao, session_manager)
@@ -137,7 +96,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.delete_user, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.update_user_name, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.change_password, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_user_info, router.methods_get)
 			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.check_user_password, router.methods_get)
 
