@@ -93,6 +93,7 @@ feature
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
+				res.put_string (l_result.representation)
 			else
 
 				-- the username & password combination was wrong
