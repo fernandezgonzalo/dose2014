@@ -45,10 +45,7 @@ feature -- Handlers
 			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
-
-
-				-- if true the username and password match
-			l_user_data: TUPLE [check_result: BOOLEAN; user_email: STRING; user_name: STRING; user_surname: STRING]
+			l_user_data: TUPLE[check_result: BOOLEAN; email: STRING; password: STRING; name: STRING; surname: STRING; gender: STRING; role: STRING]
 
 				-- a session
 			l_session: WSF_COOKIE_SESSION
@@ -84,7 +81,6 @@ feature -- Handlers
 				-- check if the database has this particular username & password combination
 			l_user_data := my_db.check_user_password(l_email, l_password)
 
-
 			if l_user_data.check_result then
 					-- yes, the username & password combo was correct
 					-- so next, we create a session
@@ -95,11 +91,17 @@ feature -- Handlers
 					-- add all the data we need to the session (format here is [value, key] pairs)
 
 					-- we store the user email and the key "email"
-				l_session.remember (l_user_data.user_email, "email")
+				l_session.remember (l_user_data.email, "email")
+					-- we store the user password and the key "password"
+				l_session.remember (l_user_data.password, "password")
 					-- we store the user name and the key "name"
-				l_session.remember (l_user_data.user_name, "name")
+				l_session.remember (l_user_data.name, "name")
 					-- we store the user surname and use the key "surname"
-				l_session.remember (l_user_data.user_surname, "surname")
+				l_session.remember (l_user_data.surname, "surname")
+					-- we store the user gender and use the key "gender"
+				l_session.remember (l_user_data.gender, "gender")
+					-- we store the user role and use the key "role"
+				l_session.remember (l_user_data.role, "role")
 
 					-- commit the data; this will trigger the session_manager to actually store the data to disk (in the session folder _WFS_SESSIONS_)
 				l_session.commit
@@ -111,9 +113,10 @@ feature -- Handlers
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("email: " + l_user_data.email + ", password: " + l_user_data.password + ", name: " + l_user_data.name + ", surname: " + l_user_data.surname + ", gender: " + l_user_data.gender + ", role: " + l_user_data.role), create {JSON_STRING}.make_json ("success"))
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
-				set_json_header (res, 200, l_result.representation.count)
+				set_json_header_ok (res, l_result.representation.count)
 			else
 
 				-- the username & password combination was wrong
@@ -123,7 +126,7 @@ feature -- Handlers
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: Username or password incorrect"), create {JSON_STRING}.make_json ("ERROR"))
+				l_result.put (create {JSON_STRING}.make_json ("ERROR: Username or password incorrect"), create {JSON_STRING}.make_json ("error"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
@@ -152,7 +155,7 @@ feature -- Handlers
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("SUCCESS"))
+			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("success"))
 				-- set the respone header, indicating that everything went ok by statuscode 200
 			set_json_header_ok (res, l_result.representation.count)
 				-- add the message to the response

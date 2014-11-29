@@ -137,7 +137,7 @@ feature --handlers about work_items
 				right:=False
 			end
 			-- Check if the iteration exists
-			if my_db.iteration_exists (l_iteration,l_project) = False then
+			if my_db.check_iteration (l_iteration,l_project) = False then
 				--The iteration doesn't exist
 				l_result_payload.put (create {JSON_STRING}.make_json ("Error: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("ERROR"))
 				set_json_header (res, 401, l_result_payload.representation.count)
