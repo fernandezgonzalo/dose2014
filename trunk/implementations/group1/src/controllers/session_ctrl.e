@@ -107,6 +107,7 @@ feature
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
+				res.put_string (l_result.representation)
 			end
 
 				-- add the message to the response response
