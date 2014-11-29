@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('Mgmt')
-       .controller('ProjectsController', ['$scope', '$log', '$location',
-                   '$route', '$routeParams', '$modal', 'Utility', 'Project',
+       .controller('ProjectsController', ['$scope', '$log', '$location', '$route',
+                   '$routeParams', '$modal', 'Utility', 'Project', 'Task',
                    function ($scope, $log, $location, $route, $routeParams,
-                             $modal, Utility, Project) {
+                             $modal, Utility, Project, Task) {
 
   $log.debug('ProjectsController::init');
 
@@ -17,6 +17,7 @@ angular.module('Mgmt')
     newProject.idUser = $scope.currentUser.id;
     // Change attribute names from camelCase to underscore case to send to backend DB.
     Utility.toUnderscore(newProject);
+    Utility.escape(newProject);
     newProject.$save(function(serverResponse) {
       $log.log('Project created successfully.');
       $location.path('/projects/' + serverResponse.id + '/dashboard');
@@ -30,7 +31,18 @@ angular.module('Mgmt')
   // READ 
 
   // Retrieve all the projects (/projects).
-  $scope.projects = Project.query();
+  Project.query(function(data) {
+    // Wait until data arrives from the server and unescape strings.
+    data.$promise.then(function(projects) {
+      for (var i = 0; i < projects.length; i++) {
+        Utility.unescape(projects[i]);
+      }
+      $scope.projects = projects;
+    });
+  }, function() {
+    $log.error('There was an error while retrieving projects.');
+  });
+
 
   // Retrieve data for current project (/projects/{id}/dashboard).
   if($routeParams.id) {
@@ -39,6 +51,7 @@ angular.module('Mgmt')
     // Retrieve project information.
     Project.get({projectId: id}, function(project) {
       $scope.project = project;
+      Utility.unescape($scope.project);
     }, function() {
       $log.error('There was an error while loading project info.');
     });
@@ -63,13 +76,24 @@ angular.module('Mgmt')
 
   var updateProject = function(project) {
     var updatedProject = new Project(project);
+    Utility.escape(updatedProject);
     updatedProject.$update(function() {
       $log.log('Project updated successfully.');
-      // $location.path('/projects/' + project.id + '/dashboard');
       $route.reload();
     }, function() {
       $log.error('There was an error upon project update.');
       $scope.updateProjectError = true;
+    });
+  };
+  
+  // Update of tasks status: done when Drag & Dropping.
+  var updateTaskStatus = function(task, status) {
+    var updatedTask = new Task(task);
+    updatedTask.status = status;
+    updatedTask.$update(function() {
+      $log.log('Task status successfully changed.');
+    }, function() {
+      $log.error('There was an error upon task status update.');
     });
   };
   
@@ -184,7 +208,18 @@ angular.module('Mgmt')
 
   };
 
+  // -------------------------------------------------------
+  // Drag & Drop.
 
+  $scope.dragCallback = function(event, ui, task) {
+    $scope.draggedTask = task;
+  };
+
+  $scope.dropCallback = function(event, ui, task, status) {
+     updateTaskStatus(task, status);
+     $scope.draggedTask = null;
+  };
+  
 
 
 
