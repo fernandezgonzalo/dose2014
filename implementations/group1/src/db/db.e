@@ -367,7 +367,7 @@ feature -- Data access Sprint
 		end
 
 	remove_sprint (id: NATURAL)
-			-- removes the todo with the given id
+			-- removes the sprint with the given id
 		do
 			create db_modify_statement.make ("DELETE FROM Sprint WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
