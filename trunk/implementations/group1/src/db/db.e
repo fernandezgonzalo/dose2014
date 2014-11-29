@@ -354,13 +354,15 @@ feature -- Data access Sprint
 			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
-	add_sprint (duration, id_project: STRING)
+	add_sprint (duration, id_project: STRING): BOOLEAN
 
 		do
 			create db_insert_statement.make ("INSERT INTO Sprint(duration, id_project) VALUES ('"+duration+"','"+id_project+"');", db);
 			db_insert_statement.execute
+			Result := True
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Sprint")
+				Result := False
 			end
 		end
 

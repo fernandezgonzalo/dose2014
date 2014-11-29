@@ -29,6 +29,46 @@ feature {NONE} -- Private attributes
 
 feature -- Handlers
 
+	add_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
+
+		local
+			l_payload, l_project_id, duration: STRING
+			parser: JSON_PARSER
+			l_result: JSON_OBJECT
+			flag: BOOLEAN
+		do
+				-- create emtpy string objects
+			create l_payload.make_empty
+			create duration.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- for the todo description and the userId
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+						-- we have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("duration") as n then
+						duration := n.unescaped_string_8
+					end
+			end
+
+			l_project_id := req.path_parameter ("id_project").string_representation
+			flag := my_db.add_sprint (duration, l_project_id)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Sprint added "), create {JSON_STRING}.make_json ("Message"))
+
+				-- send the response
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
+	end
+
 	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all sprints
 		local
