@@ -57,7 +57,8 @@ angular.module('Mgmt')
     });
 
     // Retrieve the tasks belonging to the project.
-    Project.getTasks({projectId: id}, function(data) {
+    // Project.getTasks({projectId: id}, function(data) {
+    Task.getProjectTasks({projectId: id}, function(data) {
 
       var tasks = organizeTasks(data);
 
@@ -134,23 +135,22 @@ angular.module('Mgmt')
     data.$promise.then(function(tasks) {
       for (var i = 0; i < tasks.length; i++) {
 
-        var t = new Task(tasks[i]); // Cast to get rid of Project prototype.
-
+        // var t = tasks[i]; // Cast to get rid of Project prototype.
         switch (tasks[i].status) {
           case 'created':
-            todo.push(t);
+            todo.push(tasks[i]);
           break;
           case 'in_progress':
-            doing.push(t);
+            doing.push(tasks[i]);
           break;
           case 'finished':
-            done.push(t);
+            done.push(tasks[i]);
           break;
           case 'stopped':
-            backlog.push(t);
+            backlog.push(tasks[i]);
           break;
           default:
-            $log.error('Task ' + t.id + ' has no valid status');
+            $log.error('Task ' + tasks[i].id + ' has no valid status');
           break;
         }
       }
