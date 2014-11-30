@@ -9,24 +9,30 @@ angular.module('DOSEMS.controllers')
         var userId = $routeParams.userId;
         $scope.init = function () {
             $scope.getCurrentUser();
-            $scope.getUserProjects();
+            $scope.getUserProjectsIDs();
         };
         $scope.getCurrentUser = function () {
             //Get the user from server
-            $scope.user = Users.get({userId: userId});
-            $scope.user.$promise.then(function (data) {
-                $scope.user = data[0];
-                $log.debug($scope.user);
-                $log.debug($scope.user.email);
+            var response = Users.get({userId: userId});
+            response.$promise.then(function (data) {
+                $log.debug(data);
+                $scope.user = data;
             });
         };
-        $scope.getUserProjects = function () {
+        $scope.getUserProjectsIDs = function () {
             //Get the users projects from server
-            $scope.usersProjects = Projects.get({userId: userId});
-            $scope.usersProjects.$promise.then(function (data) {
-                $scope.usersProjects = data[0];
-                $log.debug($scope.usersProjects);
+            var response = Projects.get({userId: userId});
+            response.$promise.then(function (data) {
+                $log.debug(data);
+                $scope.userProjectsIDs = data;
+                $scope.getUserProjects(data);
             });
+        };
+        $scope.getUserProjects = function (userProjectIDs) {
+            angular.forEach(userProjectIDs, function (obj, id) {
+                $log.debug(obj.id_project + " " + obj.id_user);
+            });
+
         };
         $scope.init();
     });

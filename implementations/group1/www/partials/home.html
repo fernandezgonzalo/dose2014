@@ -1,20 +1,12 @@
-
 <div class="block">
-
-  Dashboard view
-
-  
-  {{userId}} <br>
-  {{projectId}}
-  
-  <table>
-  <tr>
-	  <th>UserId</th>
-	  <th>ProjectId</th>
-  </tr>
-  <tr ng-repeat="project in userProjects">
-  <td>{{project.id_user}}</td>
-    <td>{{project.id_project}}</td>
-</tr>
-  </table>
+    <table>
+        <tr>
+            <th>UserId</th>
+            <th>ProjectId</th>
+        </tr>
+        <tr ng-repeat="project in userProjectsIDs">
+            <td>{{project.id_user}}</td>
+            <td>{{project.id_project}}</td>
+        </tr>
+    </table>
 </div> 
