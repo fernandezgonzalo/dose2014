@@ -1,7 +1,7 @@
 <div ng-include="'partials/navbar.html'"></div>
 
 
-<div ng-controller="ProjectsCtrl">
+<div ng-controller="StoriesCtrl">
   <div class="container">
     <div class="container">
       <div class="row vertical-offset-100">
@@ -9,39 +9,39 @@
           <div class="panel panel-primary">
 
             <div class="panel-heading">
-              <h3 class="panel-title">Create Project {{createFormData.project_name}}</h3>
+              <h3 class="panel-title">Create Story {{createFormData.story_title}}</h3>
             </div>
             <div class="panel-body">
-              <form ng-submit="createProject(createFormData.project_name, createFormData.project_description, createFormData.project_start_date, createFormData.project_end_date, createFormData.project_status.value)" accept-charset="UTF-8" role="form">
+              <form ng-submit="createStory(createFormData.story_title, createFormData.story_description, createFormData.story_notes, createFormData.story_points, createFormData.story.sprint_id)" accept-charset="UTF-8" role="form">
                 <fieldset>
 
                   <div class="form-group">
-                    <label for="project_name">Project Name (*)</label>
-                    <input class="form-control" ng-model="createFormData.project_name" placeholder="Project Name" name="project_name" type="text" required>
+                    <label for="story_title">Story Title (*)</label>
+                    <input class="form-control" ng-model="createFormData.story_title" placeholder="Project Title" name="story_title" type="text" required>
                   </div>
 
                   <div class="form-group">
-                    <label for="project_description">Project Description</label>
-                    <textarea class="form-control" ng-model="createFormData.project_description" name="project_description" placeholder="Project Description" rows="4"></textarea>
+                    <label for="story_description">Story Description</label>
+                    <textarea class="form-control" ng-model="createFormData.story_description" name="story_description" placeholder="Story Description" rows="4"></textarea>
                   </div>
 
                   <div class="form-group">
-                    <label for="start_date">Start Date</label>
-                    <input class="form-control" ng-model="createFormData.project_start_date" placeholder="2013-2-1" name="start_date" type="text" ng-click="open_start_date($event)" datepicker-popup="{{format}}" is-open="start_date_opened" close-text="Close" required>
+                    <label for="story_notes">Story Notes</label>
+                    <textarea class="form-control" ng-model="createFormData.story_notes" name="story_notes" placeholder="Story Notes" rows="4"></textarea>
                   </div>
 
                   <div class="form-group">
-                    <label for="end_date">Completion Date</label>
-                    <input class="form-control" ng-model="createFormData.project_end_date" placeholder="2014-2-1" name="end_date" type="text" ng-click="open_end_date($event)" datepicker-popup="{{format}}" is-open="end_date_opened" close-text="Close">
+                    <label for="story_points">Story Points</label>
+                    <input class="form-control" ng-model="createFormData.story_points" placeholder="Story Points" name="story_points" type="text">
                   </div>
 
                   <div class="form-group">
-                    <label for="project_status">Status</label>
-                    <select  class="form-control" ng-model="createFormData.project_status" name="project_status" ng-init="createFormData.project_status = project_status_options[0]" ng-options="option.label for option in project_status_options" required></select>
+                    <label for="sprint_id">Sprint:</label>
+                     {{sprintId}}
                   </div>
 
                   <input type="submit" class="btn btn-primary" id="submit" value="Create" />
-                  <a ng-click="cancelCreateProject()" class="btn btn-default">Cancel</a>
+                  <a ng-click="cancelCreateStory()" class="btn btn-default">Cancel</a>
 
                 </fieldset>
               </form>
