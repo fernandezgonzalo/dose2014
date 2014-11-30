@@ -1,6 +1,6 @@
 'use strict';
 var app = angular.module('DOSEMS', [
-    'ngRoute', 'DOSEMS.factory', 'DOSEMS.controllers'
+    'ngRoute', 'DOSEMS.services', 'DOSEMS.controllers'
 ]);
 
 /** Turn on/off the angular debugging; should be off when deployed */
@@ -20,35 +20,39 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/user.html',
                 controller: 'UserCtrl'
             })
-            .when('/user/:userId/home', {
+            .when('/user/:userId/home', { //Showing user dashboard
                 templateUrl: 'partials/home.html',
                 controller: 'DashboardCtrl'
             })
-            .when('/user', {
+            /*
+             This is admin page?
+             */
+            .when('/user', { //Getting a list of all users in the system
                 templateUrl: 'partials/user.html',
                 controller: 'UserCtrl'
             })
             .when('/user/:userID/logout', {
                 templateUrl: 'partials/logout.html',
                 controller: 'SessionCtrl'
-            })
+            })/* - Should this be a separate page with oen URL?
             .when('/user/:userId/project/:projectId/:lookupUserId', {
                 templateUrl: 'partials/user-detail.html',
                 controller: 'UserCtrl'
-            })
-            .when('/user/:userId/project/:projectId', {
+            })*/
+            .when('/user/:userId/project/:projectId', { // Show project dashboard
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
-            })
-            .when('/user/home', {
-                templateUrl: 'partials/home.html',
-                controller: 'ProjectCtrl'
-            })
+            })/*
+         .when('/user/home', {
+         templateUrl: 'partials/home.html',
+         controller: 'ProjectCtrl'
+         })*/
+         /* -- Wjat is this and how does it compare with /user/:userId/project/:projectId ?
             .when('/user/:userId/home/:projectId', {
                 templateUrl: 'partials/home.html',
                 controller: 'ProjectCtrl'
-            })
-            .when('/user/:userId//cpanel', {
+            })*/
+            .when('/user/:userId/cpanel', {
                 templateUrl: 'partials/cpanel.html',
                 controller: 'UserCtrl'
             })
@@ -61,14 +65,14 @@ app.config(['$routeProvider', '$locationProvider',
                 controller: 'UserCtrl'
             })
 
-            .when('/sprint', {
+/*            .when('/sprint', {
                 templateUrl: 'partials/sprint.html',
                 controller: 'SprintCtrl'
             })
             .when('/task', {
                 templateUrl: 'partials/task.html',
                 controller: 'TaskCtrl'
-            })
+            })*/
             .otherwise({
                 redirectTo: '/login'
             });
