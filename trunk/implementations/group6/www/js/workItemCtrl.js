@@ -4,6 +4,35 @@ angular.module('Wbpms')
   .controller('WorkItemCtrl', ['$scope', '$http', '$log',
     function ($scope, $http, $log) {
       
+      $scope.workItems = [
+            {
+                idWorkItem:'001',
+                title:'Work Item 001',
+                point:'00/00'
+            },
+            {
+                idWorkItem:'002',
+                title:'Work Item 002',
+                point:'00/00'
+            },
+            {
+                idWorkItem:'003',
+                title:'Work Item 003',
+                point:'00/00'
+            },
+            {
+                idWorkItem:'004',
+                title:'Work Item 004',
+                point:'00/00'
+            }
+        ];
+        
+      $scope.newWorkItem = {
+           idWorkItem: '',
+           title: '',
+           point: ''
+      }  
+
 
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
@@ -11,7 +40,7 @@ angular.module('Wbpms')
 
       };
         
-     
+   /*  
      $scope.getWorkItemInfo = function(idWorkItem) {
        //the server should return a json with work_item info
 
@@ -54,7 +83,7 @@ angular.module('Wbpms')
      $scope.getAllWorkItemLinks = function(idWorkItem) {
     // the server should return a json array with all links about
     // a certain work_item
-     }
+     } */
 
         
     }
