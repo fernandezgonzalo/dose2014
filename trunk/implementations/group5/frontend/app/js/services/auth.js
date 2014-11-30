@@ -8,7 +8,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   var key = 'email';
   var passKey = 'password';
 
-  authService.login = function(credentials, callback, error) {
+  authService.login = function(credentials, callback) {
     $http.post('/api/login', credentials);
     User.query(function(users) {
       // frontend authentication :)

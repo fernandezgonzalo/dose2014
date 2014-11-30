@@ -107,7 +107,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   };
 
   function save() {
-    if ($scope.form.$valid || true) {
+    if ($scope.form.$valid) {
       $('#save_button').button('loading');
       var user = $scope.user;
       if (!user.newPassword) {
@@ -144,7 +144,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   function create() {
     var user = $scope.user;
-    if ($scope.form.$valid || true) {
+    if ($scope.form.$valid) {
       $('#create_button').button('loading');
       user.isAdmin = '0';
       Utility.toUnderscore(user);
@@ -164,15 +164,28 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
           $('#username').focus();
         }
         
-      }, function() {
+      }, function(response) {
         $('#create_button').button('reset');
-        ngToast.create({
-          content: 'Create user error!',
-          class: 'danger'
-        });
+        if (response.status === 409) {
+          $scope.form.email.$setValidity('isUnique', false);
+          ngToast.create({
+            content: response.data.error,
+            class: 'danger'
+          });
+        } else {
+          ngToast.create({
+            content: 'Create user error!',
+            class: 'danger'
+          });          
+        }
       });
     }
   }
+
+  $scope.changed = function(el) {
+    $log.debug(el);
+    el.$setValidity('isUnique', true);
+  };
 
   var imageValidation = function(file, callback) {
     if (!file) {
