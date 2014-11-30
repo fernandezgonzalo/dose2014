@@ -125,6 +125,20 @@ feature -- Data access : project
 			--end
 		end
 
+	is_member (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			-- check if the given email is owner of the given project
+			create db_query_statement.make ("SELECT * from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
+			l_query_result_cursor := db_query_statement.execute_new
+			if l_query_result_cursor.after then
+				Result := True
+			else
+				Result := False
+			end
+		end
+
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
 		local
@@ -132,6 +146,22 @@ feature -- Data access : project
 		do
 			-- check in the table iteration if some of them are related to the given name project
 			create db_query_statement.make ("SELECT number, name FROM iteration WHERE project='" + a_project_name + "';", db)
+			l_query_result_cursor := db_query_statement.execute_new
+
+			if l_query_result_cursor.after then
+				Result := true
+			else
+				Result := False
+			end
+		end
+
+	has_member (a_project_name: STRING) : BOOLEAN
+		--check if the given project has members
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			-- check in the table iteration if some of them are related to the given name project
+			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
 
 			if l_query_result_cursor.after then
@@ -209,6 +239,16 @@ feature -- Data access : project
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting member")
+			end
+		end
+
+	promote_owner (a_project_name, a_user_email: STRING)
+		-- promote a member owner to a project
+		do
+			create db_modify_statement.make ("UPDATE member SET owner='1' WHERE user='" + a_user_email + "' AND project='" + a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while promoting member")
 			end
 		end
 
