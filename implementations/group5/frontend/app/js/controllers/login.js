@@ -13,8 +13,8 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
   };
 
   $scope.login = function() {
-    $('#login_button').button('loading');
     if ($scope.loginForm.$valid) {
+      $('#login_button').button('loading');
       var callback = function(user) {
         $('#login_button').button('reset');
         if (!user) {
@@ -28,7 +28,6 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
         }
       };
       AuthService.login($scope.credentials, callback);
-
     }
   };
 
