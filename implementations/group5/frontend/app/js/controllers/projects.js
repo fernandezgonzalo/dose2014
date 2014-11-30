@@ -90,7 +90,6 @@ angular.module('Mgmt')
   var updateTaskStatus = function(task, status) {
     var updatedTask = new Task(task);
     updatedTask.status = status;
-    $log.info(updatedTask);
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
     }, function() {
@@ -135,21 +134,23 @@ angular.module('Mgmt')
     data.$promise.then(function(tasks) {
       for (var i = 0; i < tasks.length; i++) {
 
+        var t = new Task(tasks[i]); // Cast to get rid of Project prototype.
+
         switch (tasks[i].status) {
           case 'created':
-            todo.push(tasks[i]);
+            todo.push(t);
           break;
           case 'in_progress':
-            doing.push(tasks[i]);
+            doing.push(t);
           break;
           case 'finished':
-            done.push(tasks[i]);
+            done.push(t);
           break;
           case 'stopped':
-            backlog.push(tasks[i]);
+            backlog.push(t);
           break;
           default:
-            $log.error('Task ' + tasks[i].id + ' has no valid status');
+            $log.error('Task ' + t.id + ' has no valid status');
           break;
         }
       }
