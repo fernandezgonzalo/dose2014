@@ -2,6 +2,21 @@
 
 angular.module('DOSEMS.controllers')
 .controller('UserCtrl', function ($scope, $routeParams, $log, UserFactory,$location) {
+
+	$scope.text = "blas";
+	$scope.users2 = [
+				{fullName: "Muriel Priestly", points: 21},
+				{fullName: "Arline Buendia", points: 47},
+				{fullName: "Yahaira Beller", points: 25},
+				{fullName: "Bell Curtin", points: 25},
+				{fullName: "Lonnie Banh", points: 36},
+				{fullName: "Theodora Forshey", points: 12},
+				{fullName: "Jermaine Vinson", points: 51},
+				{fullName: "Rosalind Wool", points: 43},
+				{fullName: "Lucy Violette", points: 46},
+				{fullName: "Janise Columbus", points: 29}
+			];
+
 	var userId =  $routeParams.userId;
 	if (userId != null ) {
 		//Get the user from server
