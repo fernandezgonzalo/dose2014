@@ -214,3 +214,27 @@ th {
 	float: left;
 	width: 25%;
 }
+
+/* Ranking */
+#ranking table {
+	width: 90%;
+}
+#ranking table .col1 {
+	width: 3%;
+}
+#ranking table .col2 {
+	width: 60%;
+}
+#ranking table .col3 {
+	width: 15%;
+}
+#ranking table td.col1 {
+	text-align: right;
+	padding-right: 5px;
+}
+#ranking table td.col2 {
+	padding-left: 8px;
+}
+#ranking table td.col3 {
+	text-align: center;
+}
