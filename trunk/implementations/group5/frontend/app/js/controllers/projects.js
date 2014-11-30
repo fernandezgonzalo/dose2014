@@ -8,14 +8,14 @@ angular.module('Mgmt')
 
   $log.debug('ProjectsController::init');
 
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // CREATE
 
   var createProject = function(project) {
     var newProject = new Project(project);
     // Asign user_id property to the project to be created.
     newProject.idUser = $scope.currentUser.id;
-    // Change attribute names from camelCase to underscore case to send to backend DB.
+    // Change attribute names from camelCase to underscore to send to server DB.
     Utility.toUnderscore(newProject);
     Utility.escape(newProject);
     newProject.$save(function(serverResponse) {
@@ -27,7 +27,7 @@ angular.module('Mgmt')
     });
   };
 
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // READ 
 
   // Retrieve all the projects (/projects).
@@ -71,7 +71,7 @@ angular.module('Mgmt')
     });
   }
 
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // UPDATE 
 
   var updateProject = function(project) {
@@ -90,6 +90,7 @@ angular.module('Mgmt')
   var updateTaskStatus = function(task, status) {
     var updatedTask = new Task(task);
     updatedTask.status = status;
+    $log.info(updatedTask);
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
     }, function() {
@@ -97,7 +98,7 @@ angular.module('Mgmt')
     });
   };
   
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // DELETE 
 
   var deleteProject = function(project) {
@@ -111,7 +112,7 @@ angular.module('Mgmt')
     });
   };
   
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Helper functions
 
   $scope.openProject = function(project) {
@@ -162,7 +163,7 @@ angular.module('Mgmt')
     };
   };
   
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Modal pop-ups
 
   $scope.openModal = function(action) {
@@ -208,18 +209,60 @@ angular.module('Mgmt')
 
   };
 
-  // -------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Drag & Drop.
 
-  $scope.dragCallback = function(event, ui, task) {
+  // This object is used to change selected item style on hovering.
+  $scope.item = {
+    selected: -1,
+    origin: -1,
+    over: -1
+  };
+
+  // Comparison function to know which CSS class apply to the selected item.
+  $scope.hovering = function(selected, over , origin) {
+    return ( $scope.item.selected === selected &&
+             $scope.item.over === over &&
+             $scope.item.origin === origin );
+  };
+
+  // Drag & drop built in functions.
+  
+  $scope.startCallback = function(event, ui, task, selected, origin) {
     $scope.draggedTask = task;
+    $scope.item.selected = selected;
+    $scope.item.origin = origin;
   };
 
   $scope.dropCallback = function(event, ui, task, status) {
-     updateTaskStatus(task, status);
-     $scope.draggedTask = null;
+    updateTaskStatus(task, status);
+    $scope.draggedTask = null;
+    $scope.item.selected = -1;
+    $scope.item.over = -1;
+    $scope.item.origin = -1;
   };
-  
+
+  $scope.overCallback = function(event, ui, over) {
+    $scope.item.over = over;
+  };
+
+  $scope.outCallback = function() {
+    $scope.item.over = -1;
+  };
+
+  $scope.stopCallback = function() {
+    $scope.item.selected = -1;
+    $scope.item.origin = -1;
+  };
+
+
+
+
+
+
+
+
+
 
 
 
