@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('DashboardCtrl', function ($scope, $routeParams, $log, Users, Projects) {
+    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', function ($scope, $routeParams, $log, Users, Projects) {
         var userId = $routeParams.userId;
         $scope.init = function () {
             $scope.getCurrentUser();
@@ -35,4 +35,4 @@ angular.module('DOSEMS.controllers')
 
         };
         $scope.init();
-    });
+    }]);

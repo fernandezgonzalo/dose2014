@@ -31,14 +31,14 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/user.html',
                 controller: 'UserCtrl'
             })
-            .when('/user/:userID/logout', {
+            .when('/logout', {
                 templateUrl: 'partials/logout.html',
                 controller: 'SessionCtrl'
             })/* - Should this be a separate page with oen URL?
-            .when('/user/:userId/project/:projectId/:lookupUserId', {
-                templateUrl: 'partials/user-detail.html',
-                controller: 'UserCtrl'
-            })*/
+         .when('/user/:userId/project/:projectId/:lookupUserId', {
+         templateUrl: 'partials/user-detail.html',
+         controller: 'UserCtrl'
+         })*/
             .when('/user/:userId/project/:projectId', { // Show project dashboard
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
@@ -47,11 +47,11 @@ app.config(['$routeProvider', '$locationProvider',
          templateUrl: 'partials/home.html',
          controller: 'ProjectCtrl'
          })*/
-         /* -- Wjat is this and how does it compare with /user/:userId/project/:projectId ?
-            .when('/user/:userId/home/:projectId', {
-                templateUrl: 'partials/home.html',
-                controller: 'ProjectCtrl'
-            })*/
+            /* -- Wjat is this and how does it compare with /user/:userId/project/:projectId ?
+             .when('/user/:userId/home/:projectId', {
+             templateUrl: 'partials/home.html',
+             controller: 'ProjectCtrl'
+             })*/
             .when('/user/:userId/cpanel', {
                 templateUrl: 'partials/cpanel.html',
                 controller: 'UserCtrl'
@@ -65,14 +65,14 @@ app.config(['$routeProvider', '$locationProvider',
                 controller: 'UserCtrl'
             })
 
-/*            .when('/sprint', {
-                templateUrl: 'partials/sprint.html',
-                controller: 'SprintCtrl'
-            })
-            .when('/task', {
-                templateUrl: 'partials/task.html',
-                controller: 'TaskCtrl'
-            })*/
+            /*            .when('/sprint', {
+             templateUrl: 'partials/sprint.html',
+             controller: 'SprintCtrl'
+             })
+             .when('/task', {
+             templateUrl: 'partials/task.html',
+             controller: 'TaskCtrl'
+             })*/
             .otherwise({
                 redirectTo: '/login'
             });

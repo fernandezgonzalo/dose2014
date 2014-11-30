@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('DOSEMS.controllers', [])
+angular.module('DOSEMS.controllers', ['ngCookies'])
     .controller('SessionCtrl',
     function ($scope, $http, $log, $timeout, $window) {
         // the model that we bind to the input box
@@ -8,21 +8,13 @@ angular.module('DOSEMS.controllers', [])
             email: '',
             pass: ''
         };
-        $scope.response = {
-            status: '',
-            reason: '',
-            session_id: ''
-        };
-
+        $scope.currentUserId = '';
         $scope.successMsgVisible = false;
         $scope.errorMsgVisible = false;
 
         // the function to login
         $scope.login = function (email, pass) {
-
             // the payload is simple the json object that we used for binding to the input
-            //$log.info(email)
-            //$log.info(pass)
             var payload = {
                 email: email,
                 password: pass
@@ -30,21 +22,19 @@ angular.module('DOSEMS.controllers', [])
 
             $http.post('/api/login', payload)
                 .success(function (data, status, header, config) {
-                    $log.info(data);
-                    $log.info(status);
-
-                    $log.info('Success logging in the user');
+                    $log.debug('Success logging in the user');
                     // When we get a response object back it will be set here
                     //	if (angualar.equals(data.status, 'ok') {
                     //		$scope.session_id = data.sessionID
                     //	}
                     //   show a success message
                     $scope.successMsgVisible = true;
-                    //    let the message dissapear after 2 secs
+                    //    let the message disappear after 2 secs
+                    $scope.currentUserId = data.id;
                     $timeout(function () {
                         $scope.successMsgVisible = false;
-                        // Insert the userID insted of 5 later
-                        $window.location.href = '/#/user/5/home';
+                        // Insert the userID instead of 5 later
+                        $window.location.href = '/#/user/' + $scope.currentUserId + '/home';
                     }, 2000);
                 })
                 .error(function (data, status) {
@@ -74,6 +64,7 @@ angular.module('DOSEMS.controllers', [])
                     // let the message dissapear after 2 secs
                     $timeout(function () {
                         $scope.successMsgVisible = false;
+                        $window.location.href = '/#/login';
                     }, 2000);
                 })
                 .error(function (data, status) {
