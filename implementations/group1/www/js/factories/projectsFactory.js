@@ -1,7 +1,3 @@
-angular.module('DOSEMS.factory').factory('UserFactory', function ($resource) {
-  return $resource(
-	  'api/users/:userId/projects/:projectId', //URL
-	  {userId:'@userId', 
-	  projectId:'@projectId'}//Default paramaters
-);
+angular.module('DOSEMS.factory').factory('ProjectFactory', function ($resource) {
+    return $resource('api/users/:userId/projects/:projectId', {}, {get: {method: 'get', isArray: true}});
 });
