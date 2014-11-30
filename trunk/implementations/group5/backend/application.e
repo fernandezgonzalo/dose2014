@@ -1,6 +1,6 @@
 note
-	description : "The main class of the demo. Sets up the router and instanciates the controllers and database."
-	author		: "hce"
+	description : "The main class of the application. Sets up the router and instanciates the controllers and database."
+	author		: "Group 5"
 
 class
 	APPLICATION
@@ -26,7 +26,7 @@ create
 feature {NONE} -- Initialization
 
 	path_to_db_file: STRING
-		-- calculates the path to the demo.db file, based on the location of the .ecf file
+		-- calculates the path to the database file, based on the location of the .ecf file
 		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
 			-- sed replace db
@@ -43,6 +43,8 @@ feature {NONE} -- Initialization
 
 
 
+	session_ctrl: SESSION_CONTROLLER
+			-- a controller for handling sessions
 
 
 
@@ -57,10 +59,6 @@ feature {NONE} -- Initialization
 
 	comment_ctrl: COMMENT_CONTROLLER
 			-- a controller for handling comment requests
-
-	dao: DEMO_DB
-			-- access to the database and the functionality that comes with that class
-
 
 	session_manager: WSF_FS_SESSION_MANAGER
 
@@ -87,6 +85,7 @@ p: MANAGED_POINTER
 			create crud_comment.make (database)
 
 			create session_manager.make
+			create session_ctrl.make(crud_user, session_manager)
 			create user_ctrl.make(crud_user)
 			create project_ctrl.make(crud_project)
 			create task_ctrl.make (crud_task)
@@ -107,6 +106,11 @@ feature -- Basic operations
 		do
 
 
+			--SESSION RELATED URIs
+			--Login
+			map_uri_template_agent_with_request_methods ("/api/login", agent session_ctrl.login, router.methods_post)
+			--Logout
+			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.login, router.methods_delete)
 
 			--USER RELATED URIs
 
