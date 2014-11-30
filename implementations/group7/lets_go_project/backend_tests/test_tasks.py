@@ -14,6 +14,8 @@ class TestTasks(test_rest_resource.TestRestResource):
         self.example_resource = Task(
             nr=1,
             description='some description',
+            comment='some comment',
+            status=1,
             owner=1,
             story_id=1,
             assigned_devs=[],
@@ -23,6 +25,8 @@ class TestTasks(test_rest_resource.TestRestResource):
         self.update_resource = Task(
             nr=7,
             description='some updated description',
+            comment='some updated comment',
+            status=2,
             owner=2,
             story_id=1,
             assigned_devs=[],

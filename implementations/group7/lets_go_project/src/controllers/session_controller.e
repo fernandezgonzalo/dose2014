@@ -51,7 +51,7 @@ feature -- Handlers
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 			l_user_id: STRING
-
+			l_user_id_json_value: JSON_VALUE
 		do
 				-- create emtpy string object
 			create l_payload.make_empty
@@ -78,34 +78,39 @@ feature -- Handlers
 
 			end
 
-			l_user_id := db.query_single_row("SELECT id FROM users WHERE email = ?", <<l_username>>).item (create {JSON_STRING}.make_json("id")).representation
+			l_user_id_json_value := db.query_single_row("SELECT id FROM users WHERE email = ?", <<l_username>>).item (create {JSON_STRING}.make_json("id"))
+			if l_user_id_json_value /= Void then
 
-				-- we now have the username and password that were send.
-				-- check if the database has this particular username & password combination
-			l_user_data := db.has_user_with_password(l_username, get_salted_and_hashed_password(l_password, l_user_id))
+				l_user_id := l_user_id_json_value.representation
+
+					-- we now have the username and password that were send.
+					-- check if the database has this particular username & password combination
+				l_user_data := db.has_user_with_password(l_username, get_salted_and_hashed_password(l_password, l_user_id))
 
 
-			if l_user_data.has_user then
-					-- yes, the username & password combo was correct
-					-- so next, we create a session
+				if l_user_data.has_user then
+						-- yes, the username & password combo was correct
+						-- so next, we create a session
 
-					-- create the session; choose a name for the cookie that we'll send back
-				create l_session.make_new ("lets_go_session", session_manager)
+						-- create the session; choose a name for the cookie that we'll send back
+					create l_session.make_new ("lets_go_session", session_manager)
 
-					-- add all the data we need to the session (format here is [value, key] pairs)
-					-- we store the username and the key "username"
-				l_session.remember (l_user_data.username, "email")
-					-- we store the user id and use the key "id"
-				l_session.remember (l_user_data.id, "id")
+						-- add all the data we need to the session (format here is [value, key] pairs)
+						-- we store the username and the key "username"
+					l_session.remember (l_user_data.username, "email")
+						-- we store the user id and use the key "id"
+					l_session.remember (l_user_data.id, "id")
 
-					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
-				l_session.commit
+						-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
+					l_session.commit
 
-					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
-				l_session.apply (req, res, "/")
+						-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
+					l_session.apply (req, res, "/")
 
-				reply_with_200_with_data(res, l_user_data.id.out)
-
+					reply_with_200_with_data(res, l_user_data.id.out)
+				else
+					res.set_status_code (401)
+				end
 			else
 
 				-- the username & password combination was wrong

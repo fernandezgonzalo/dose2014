@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS tasks (
   id                    INTEGER PRIMARY KEY AUTOINCREMENT,
   nr                    INTEGER NOT NULL,
   description           VARCHAR(120) NOT NULL,
+  comment               VARCHAR(400) NOT NULL,
+  status                INTEGER NOT NULL,
   owner                 INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   story_id              INTEGER NOT NULL REFERENCES stories(id) ON DELETE CASCADE
 );
