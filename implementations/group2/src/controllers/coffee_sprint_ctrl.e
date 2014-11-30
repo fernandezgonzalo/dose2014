@@ -10,7 +10,8 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-	add_data_to_map_add, add_data_to_map_get_all, add_data_to_map_update, add_data_to_map_delete, is_authorized_add, is_authorized_delete, is_authorized_get_all, is_authorized_update, is_authorized_get, add_data_to_map_get
+	add_data_to_map_add, add_data_to_map_get_all, add_data_to_map_update, add_data_to_map_delete, is_authorized_add, is_authorized_get_all,
+	is_authorized_update, is_authorized_get, add_data_to_map_get, delete
 	end
 
 create
@@ -54,8 +55,69 @@ feature -- Handlers
 		a_map.values.put_front(l_sprint_id)
 	end
 
+	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_user_id: STRING
+		l_project_id: STRING
+		l_sprint_id: STRING
+		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_sprint_id := req.path_parameter("sprint_id").string_representation
+			l_user_id := req.path_parameter("user_id").string_representation
+			l_project_id:=my_db.get_project_id_of_sprint (l_sprint_id)
+			if is_authorized_delete(l_project_id, l_user_id) then
+				l_result := my_db.get_from_id (table_name, l_sprint_id)
+				l_delete_result:= my_db.delete(table_name,l_sprint_id)
+				if l_delete_result.success then
+					return_success_without_message (l_result, res)
+				else
+					return_error(l_result, res,"Could not delete from" + table_name, 500)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
-	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+--	get_current_sprint (req: WSF_REQUEST; res: WSF_RESPONSE) : JSON_OBJECT
+--	local
+--		current_date: DATE
+--		l_result: JSON_OBJECT
+--		l_result_array: JSON_ARRAY
+--
+--	do
+--		create current_date.make_now
+--		if req_has_cookie (req, "_coffee_session_" ) then
+--			l_result := my_db.get_current_sprint(current_date)
+--			if l_result /= Void then
+--				--l_result.put_string (l_result_array.representation,"projects")
+--				return_success_without_message (l_result, res)
+--			else
+--				create l_result.make
+--				return_error(l_result, res,"Could not get current sprint", 501)
+--			end
+--		else
+--			return_error(l_result, res, "User not logged in", 404)
+--		end
+--	end
+
+--	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+--	local
+--		l_project_id: STRING
+--		l_manager_id: STRING
+--	do
+--		l_project_id := req.path_parameter("project_id").string_representation.out
+--		l_manager_id := my_db.get_from_id ("project", l_project_id).item ("manager_id").representation
+--		l_manager_id.replace_substring_all("%"", "")
+--		Result :=  equal(l_manager_id, get_session_from_req (req, "_coffee_session_").item("id").out)
+--	end
+
+	is_authorized_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	local
 		l_project_id: STRING
 		l_manager_id: STRING
@@ -66,14 +128,9 @@ feature -- Handlers
 		Result :=  equal(l_manager_id, get_session_from_req (req, "_coffee_session_").item("id").out)
 	end
 
-	is_authorized_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
-	do
-		Result:= is_authorized_delete (req, a_map)
-	end
-
 	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do
-		Result:= is_authorized_delete (req, a_map)
+		Result:= is_authorized_add (req, a_map)
 	end
 
 	is_authorized_get_all(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN

@@ -34,15 +34,17 @@ feature
 		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
 		l_user_id: STRING
-		l_project_id_index: INTEGER
+		l_project_id: STRING
 		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_map := parse_request (req)
 			create l_user_id.make_empty
+			create l_project_id.make_empty
 			l_user_id := req.path_parameter("user_id").string_representation
-			l_delete_result:= my_db.delete_user_from_project(l_user_id,l_map.values.at (1))
+			l_project_id := req.path_parameter("project_id").string_representation
+			l_delete_result:= my_db.delete_user_from_project(l_user_id,l_project_id)
 			if l_delete_result.success then
 				l_result := my_db.get_from_id ("user", l_delete_result.id)
 				return_success_without_message (l_result, res)
