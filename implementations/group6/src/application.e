@@ -68,6 +68,46 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
+			if dao.is_member ("giorgio@hotmail.it", "The amazing project") then
+				print("true G")
+			else
+				print("false G")
+			end
+
+			print(dao.get_all_project_members ("bidon").representation)
+
+--				 -- BEGIN QUERIES TESTS
+--			print("%N***********new test*************%N")
+--			print(dao.get_all_users.representation + "%N")
+
+--			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
+--				dao.remove_user ("nicogallo@gmail.com")
+--				print("%Nuser removed%N")
+--			else
+--				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
+--				print("%Nuser added%N")
+
+--			end
+
+--			print(dao.get_all_users.representation + "%N")
+
+--			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
+--				dao.remove_user ("nicogallo@gmail.com")
+--				print("%Nuser removed%N")
+--			else
+--				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
+--				print("%Nuser added%N")
+
+--			end
+
+--			print(dao.get_all_users.representation + "%N")
+
+
+--				 -- END OF TESTS
+
+
+
+
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create project_ctrl.make (dao, session_manager)
@@ -108,6 +148,8 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("api/project/{project_name_id}", agent project_ctrl.get_all_project_members, router.methods_get)
 			map_uri_template_agent_with_request_methods ("api/project/{project_name_id)/{user_email_id}", agent project_ctrl.add_member_to_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("api/project/{project_name_id}/{user_email_id}", agent project_ctrl.remove_member_from_project, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("api/projects/{project_name_id)/owners/{user_email_id}", agent project_ctrl.promote_owner, router.methods_post)
+			map_uri_template_agent_with_request_methods ("api/projects/{project_name_id)/owners", agent project_ctrl.get_all_project_owners, router.methods_get)
 
 
 				-- handling of all the routes relating to "users"
