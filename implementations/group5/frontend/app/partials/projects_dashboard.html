@@ -24,21 +24,28 @@
       <div class="row-fluid">
         <div class="col-md-12">
 
-          <!-- Backlone swimlane -->
+          <!-- Backlog swimlane -->
           <div class="col-md-3">
             <div class="panel panel-danger">
-
               <div class="panel-heading"><h4>Backlog</h4></div>
 
               <div class="panel-body" ng-model="backlogTasks" data-drop="true"
-                jqyoui-droppable="{multiple:false, onDrop: 'dropCallback(draggedTask, \'stopped\')'}"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(0)',
+                onOut: 'outCallback', onDrop: 'dropCallback(draggedTask, \'stopped\')'}"
                 data-jqyoui-options="{accept:'.task-draggable:not([ng-model=backlogTasks])'}">
 
-                <div class="btn btn-default btn-block task-draggable" ng-model="backlogTasks"
-                  ng-repeat="task in backlogTasks" data-drag="true"
-                  data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},
-                  animate:false, onDrag: 'dragCallback(task)'}">
+                <div ng-model="backlogTasks" ng-repeat="task in backlogTasks" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task, $index, 0)',
+                  onStop: 'stopCallback'}" data-jqyoui-options="{revert: 'invalid'}"
+
+                  ng-class=
+                  "{'btn btn-warning btn-block task-draggable': hovering($index, 1, 0),
+                  'btn btn-info btn-block task-draggable': hovering($index, 2, 0),
+                  'btn btn-success btn-block task-draggable': hovering($index, 3, 0),
+                  'btn btn-default btn-block task-draggable': true}">
+
                   {{task.title}}
+
                 </div>
               </div>
             </div>
@@ -47,18 +54,25 @@
           <!-- To do swimlane -->
           <div class="col-md-3">
             <div class="panel panel-warning">
-
               <div class="panel-heading"><h4>To do</h4></div>
 
               <div class="panel-body" ng-model="todoTasks" data-drop="true"
-                jqyoui-droppable="{multiple:false, onDrop: 'dropCallback(draggedTask, \'created\')'}"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(1)',
+                onOut: 'outCallback', onDrop: 'dropCallback(draggedTask, \'created\')'}"
                 data-jqyoui-options="{accept:'.task-draggable:not([ng-model=todoTasks])'}">
 
-                <div class="btn btn-default btn-block task-draggable" ng-model="todoTasks"
-                  ng-repeat="task in todoTasks" data-drag="true"
-                  data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},
-                  animate:false, onDrag: 'dragCallback(task)'}">
+                <div ng-model="todoTasks" ng-repeat="task in todoTasks" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task, $index, 1)',
+                  onStop: 'stopCallback'}" data-jqyoui-options="{revert: 'invalid'}"
+
+                  ng-class=
+                  "{'btn btn-danger btn-block task-draggable': hovering($index, 0, 1),
+                  'btn btn-info btn-block task-draggable': hovering($index, 2, 1),
+                  'btn btn-success btn-block task-draggable': hovering($index, 3, 1),
+                  'btn btn-default btn-block task-draggable': true}">
+
                   {{task.title}}
+                  
                 </div>
               </div>
             </div>
@@ -67,18 +81,25 @@
           <!-- Doing swimlane -->
           <div class="col-md-3">
             <div class="panel panel-info">
-
               <div class="panel-heading"><h4>Doing</h4></div>
 
               <div class="panel-body" ng-model="doingTasks" data-drop="true"
-                jqyoui-droppable="{multiple:false, onDrop: 'dropCallback(draggedTask, \'in_progress\')'}"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(2)',
+                onOut: 'outCallback', onDrop: 'dropCallback(draggedTask, \'in_progress\')'}"
                 data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doingTasks])'}">
 
-                <div class="btn btn-default btn-block task-draggable" ng-model="doingTasks"
-                  ng-repeat="task in doingTasks" data-drag="true"
-                  data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},
-                  animate:false, onDrag: 'dragCallback(task)'}">
+                <div ng-model="doingTasks" ng-repeat="task in doingTasks" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task, $index, 2)',
+                  onStop: 'stopCallback'}" data-jqyoui-options="{revert: 'invalid'}"
+
+                  ng-class=
+                  "{'btn btn-danger btn-block task-draggable': hovering($index, 0, 2),
+                  'btn btn-warning btn-block task-draggable': hovering($index,1, 2),
+                  'btn btn-success btn-block task-draggable': hovering($index, 3, 2),
+                  'btn btn-default btn-block task-draggable': true}">
+
                   {{task.title}}
+
                 </div>
               </div>
             </div>
@@ -86,19 +107,27 @@
 
           <!-- Done swimlane -->
           <div class="col-md-3">
-            <div class="panel panel-info">
-
+            <div class="panel panel-success">
               <div class="panel-heading"><h4>Done</h4></div>
 
               <div class="panel-body" ng-model="doneTasks" data-drop="true"
-                jqyoui-droppable="{multiple:false, onDrop: 'dropCallback(draggedTask, \'finished\')'}"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(3)',
+                onOut: 'outCallback', onDrop: 'dropCallback(draggedTask, \'finished\')'}"
                 data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doneTasks])'}">
 
-                <div class="btn btn-default btn-block task-draggable" ng-model="doneTasks"
-                  ng-repeat="task in doneTasks" data-drag="true"
-                  data-jqyoui-options="{revert: 'invalid'}" jqyoui-draggable="{index: {{$index}},
-                  animate:false, onDrag: 'dragCallback(task)'}">
-                  {{task.title}}
+                <div ng-model="doneTasks" ng-repeat="task in doneTasks" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task, $index, 3)',
+                  onStop: 'stopCallback'}" data-jqyoui-options="{revert: 'invalid'}"
+
+                  ng-class=
+                  "{'btn btn-danger btn-block task-draggable': hovering($index, 0, 3),
+                  'btn btn-warning btn-block task-draggable': hovering($index, 1, 3),
+                  'btn btn-info btn-block task-draggable': hovering($index, 2, 3),
+                  'btn btn-default btn-block task-draggable': true}">
+
+                  <!-- <div ng-mousedown="item.selected = $index" ng-mouseup="item.selected = -1"> -->
+                    {{task.title}}
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
