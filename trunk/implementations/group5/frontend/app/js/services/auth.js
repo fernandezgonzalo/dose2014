@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', function($log, User, Utility) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', function($log, User, Utility, $http) {
   var TAG = 'AuthService::';
   $log.debug(TAG, 'init');
 
@@ -8,7 +8,8 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', functi
   var key = 'email';
   var passKey = 'password';
 
-  authService.login = function(credentials, callback) {
+  authService.login = function(credentials, callback, error) {
+    $http.post('/api/login', credentials);
     User.query(function(users) {
       // frontend authentication :)
       var result = null;
