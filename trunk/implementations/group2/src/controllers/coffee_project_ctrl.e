@@ -10,7 +10,8 @@ class
 	inherit
 		COFFEE_BASE_CONTROLLER
 		redefine
-			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_delete, is_authorized_update, add_data_to_map_get, is_authorized_get
+			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_update, add_data_to_map_get, is_authorized_get,
+			delete
 		end
 
 create
@@ -65,6 +66,33 @@ feature -- Handlers
 			end
 	end
 
+	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_user_id: STRING
+		l_project_id: STRING
+		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_project_id := req.path_parameter("project_id").string_representation
+			l_user_id := req.path_parameter("user_id").string_representation
+			if is_authorized_delete(l_project_id, l_user_id) then
+				l_result := my_db.get_from_id (table_name, l_project_id)
+				l_delete_result:= my_db.delete(table_name,l_project_id)
+				if l_delete_result.success then
+					return_success_without_message (l_result, res)
+				else
+					return_error(l_result, res,"Could not delete from" + table_name, 500)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
 
 	add_data_to_map_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
@@ -113,10 +141,33 @@ feature -- Handlers
 		end
 	end
 
-	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	get_users(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+		l_project_id: STRING
 	do
-		Result :=  is_authorized_update (req, a_map)
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_project_id := req.path_parameter("project_id").string_representation
+			l_result_array := my_db.get_users_from_project(l_project_id)
+			if l_result /= Void then
+				--l_result.put_string (l_result_array.representation,"users")
+				return_success_array (l_result_array, res)
+			else
+				create l_result.make
+				return_error(l_result, res,"Could not get from " + table_name, 501)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
 	end
+
+
+--	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+--	do
+--		Result :=  is_authorized_update (req, a_map)
+--	end
 
 	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	local

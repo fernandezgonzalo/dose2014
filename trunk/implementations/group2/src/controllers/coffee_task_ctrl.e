@@ -10,8 +10,8 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-	add_data_to_map_add,add_data_to_map_update, add, add_data_to_map_get_all, update,add_data_to_map_delete, is_authorized_add, is_authorized_update, is_authorized_delete,is_authorized_get_all,
-	is_authorized_get, add_data_to_map_get
+		add_data_to_map_add,add_data_to_map_update, add, add_data_to_map_get_all, update,add_data_to_map_delete, is_authorized_add,
+		is_authorized_update, is_authorized_get_all, is_authorized_get, add_data_to_map_get, delete
 	end
 
 create
@@ -19,6 +19,36 @@ create
 
 
 feature -- Handlers
+
+
+	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_user_id: STRING
+		l_project_id: STRING
+		l_task_id: STRING
+		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_task_id := req.path_parameter("task_id").string_representation
+			l_user_id := req.path_parameter("user_id").string_representation
+			l_project_id:=my_db.get_project_id_of_task (l_task_id)
+			if is_authorized_delete(l_project_id, l_user_id) then
+				l_result := my_db.get_from_id (table_name, l_task_id)
+				l_delete_result:= my_db.delete(table_name,l_task_id)
+				if l_delete_result.success then
+					return_success_without_message (l_result, res)
+				else
+					return_error(l_result, res,"Could not delete from" + table_name, 500)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
 	is_authorized_add (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	local
@@ -38,10 +68,10 @@ feature -- Handlers
 		Result:=is_authorized_add (req, a_map)
 	end
 
-	is_authorized_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
-	do
-		Result:=is_authorized_add (req, a_map)
-	end
+--	is_authorized_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+--	do
+--		Result:=is_authorized_add (req, a_map)
+--	end
 
 	is_authorized_get_all (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do

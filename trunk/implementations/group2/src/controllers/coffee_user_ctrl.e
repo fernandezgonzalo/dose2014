@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_update, add, add_data_to_map_get, is_authorized_delete, is_authorized_update, get_all
+		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete
 	end
 
 create
@@ -20,9 +20,34 @@ create
 
 feature -- Handlers
 
-	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_user_id: STRING
+		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
-		Result :=  equal(get_value_from_map("id",a_map), get_session_from_req (req, "_coffee_session_").item("id").out)
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_user_id := req.path_parameter("user_id").string_representation
+			if is_authorized_delete_user(req, l_user_id) then
+				l_result := my_db.get_from_id (table_name, l_user_id)
+				l_delete_result:= my_db.delete(table_name,l_user_id)
+				if l_delete_result.success then
+					return_success_without_message (l_result, res)
+				else
+					return_error(l_result, res,"Could not delete from" + table_name, 500)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
+	is_authorized_delete_user(req: WSF_REQUEST a_user_id:STRING): BOOLEAN
+	do
+		Result :=  equal(a_user_id, get_session_from_req (req, "_coffee_session_").item("id").out)
 	end
 
 	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
