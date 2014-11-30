@@ -6,23 +6,20 @@
 
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<a href="#" class="modal-title h4" editable-text="currentTask.title"> {{ currentTask.title || "Add title.." }} </a>
+			<a href="#" class="modal-title h4" editable-text="currentTask.title" buttons="no" e-required> {{ currentTask.title || "Add title.." }} </a>
 		</div>	<!-- /modal-header -->
 
 		<div class="modal-body row">
 			<div class="col-md-6">
-				<p>Status: <a href="#" editable-select="currentTask.status" e-ng-options="s.value as s.text for s in statuses"> {{ showStatus() }}</a></p>
-				<p>User: <a href="#" editable-select="currentTask.id_user_assigned" e-ng-options="u.value as u.text for u in userSelect"> {{ showUsers() }}</a></p>
-				<!--<p>
-					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.id_user_assigned"></span>
-					<span ng-show = "currentTask.id_user_assigned">User:</span>
-					<span editable-text="currentTask.id_user_assigned"> {{ currentTask.id_user_assigned || "Add a user.." }}</span> 
-				</p>-->
-				<p>Priority: <a href="#" editable-select="currentTask.priority" e-ng-options="p.value as p.text for p in priorities"> {{ showPriority() }}</a></p>
+				<p>Status: <a href="#" editable-select="currentTask.status" buttons="no" e-ng-options="s.value as s.text for s in statuses" e-required> {{ showStatus() }}</a></p>
+				<p>User: <a href="#" buttons="no" editable-text="currentTask.id_user_assigned" e-typeahead="u.value as u.text for u in userSelect">
+    				{{ showUsers() }}</a>
+    			</p>
+				<p>Priority: <a href="#" editable-select="currentTask.priority" buttons="no" e-ng-options="p.value as p.text for p in priorities" e-required> {{ showPriority() }}</a></p>
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.description"></span>
 					<span ng-show = "currentTask.description">Description:</span>
-					<span editable-text="currentTask.description"> {{ currentTask.description || "Add description.." }}</span>
+					<span editable-text="currentTask.description" buttons="no"> {{ currentTask.description || "Add description.." }}</span>
 				</p>
 				<p>Comments: Here will be comments</p>
 			</div>
@@ -30,12 +27,12 @@
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.estimation"></span>
 					<span class="glyphicon glyphicon-star"></span>
-					<span editable-text="currentTask.estimation"> {{ currentTask.estimation || "Add points.." }}</span>
+					<span editable-text="currentTask.estimation" buttons="no"> {{ currentTask.estimation || "Add points.." }}</span>
 				</p>
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.deadline"></span>
 					<span class="glyphicon glyphicon-time"></span>
-					<span editable-text="currentTask.deadline"> {{ currentTask.deadline || "Add a deadline" }}</span>
+					<span editable-text="currentTask.deadline" buttons="no"> {{ currentTask.deadline || "Add a deadline" }}</span>
 				</p>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
 				<p><span class="glyphicon glyphicon-comment"></span> add a comment</p>
@@ -49,35 +46,3 @@
     </div>
   </div>
 </div>
-
-
-<!--
-
-<div class="modal-header" ng-controller="TaskController">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<a href="#" class="modal-title h4" editable-text="user.name"> {{ user.name || "empty" }} </a><span class="pull-right"><span class="glyphicon glyphicon-star"></span> 100</span>
-</div>	<
-
-<div class="modal-body row">
-	<div class="col-md-6">
-		<p>Status: Created</p>
-		<p>User: Alan</p>
-		<p>Priority: Critical</p>
-		<p>Description: This is a description of a task. Every user can add a description when creating or editing task. I know this is obvious, I just need a long text for format checking!</p>
-		<p>Comments: Here will be comments</p>
-	</div>
-	<div class="col-md-6">
-		<p><span class="glyphicon glyphicon-time"></span> 30 jan</td></p>
-		<p><span class="glyphicon glyphicon-plus"></span> add deadline</td></p>
-		<p><span class="glyphicon glyphicon-plus"></span> add user</td></p>
-		<p><span class="glyphicon glyphicon-plus"></span> add description</td></p>
-		<p><span class="glyphicon glyphicon-remove"></span> delete task</td></p>
-		<p><span class="glyphicon glyphicon-comment"></span> add a comment</td></p>
-	</div>
-</div>	
-
-<div class="modal-footer">
-	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	<button type="button" class="btn btn-primary">Save changes</button>
-</div>	 
--->
