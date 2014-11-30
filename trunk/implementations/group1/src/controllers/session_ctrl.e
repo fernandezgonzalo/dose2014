@@ -89,11 +89,10 @@ feature
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
-				l_result.put_integer (l_user_data.id.to_integer_8, create {JSON_STRING}.make_json ("id"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.id.to_string_32), create {JSON_STRING}.make_json ("id"))
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
-				res.put_string (l_result.representation)
 			else
 
 				-- the username & password combination was wrong
@@ -107,7 +106,6 @@ feature
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
 			end
 
 				-- add the message to the response response
