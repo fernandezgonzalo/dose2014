@@ -5,12 +5,12 @@
 <div class="row">
   <div class="col-md-6">
 
-    <form class="form-horizontal" ng-submit="submit()" name="form" novalidate>
+    <form class="form-horizontal" ng-submit="submit()" name="form">
       <div class="form-group" ng-class="{'has-error' : form.username.$invalid && form.username.$dirty, 'has-success' : form.username.$valid && form.username.$dirty }">
         <!-- Username -->
         <label class="control-label" for="username">Username</label>
         <div class="controls">
-          <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$">
+          <input type="text" id="username" name="username" placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false" autocapitalize="off" tabindex="1"  ng-model="user.username" required autofocus maxlength="15" pattern="^[A-Za-z0-9_-]{1,15}$" ng-pattern="/^[A-Za-z0-9_-]{1,15}$/">
           <p class="help-block"><span ng-if="form.username.$error.isUniqueUser">User with this username already exists. </span>Username can contain any letters, numbers, underscores and hyphens, without spaces.</p>
         </div>
       </div>
@@ -27,8 +27,8 @@
         <!-- E-mail -->
         <label class="control-label" for="email">E-mail</label>
         <div class="controls">
-          <input type="text" id="email" name="email" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="3" ng-model="user.email" required maxlength="255">
-          <p class="help-block"><span ng-if="form.email.$error.isUniqueUser">User with this email already exists. </span>Please provide your E-mail</p>
+          <input type="email" id="email" name="email" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="3" ng-model="user.email" required maxlength="255" ng-change="changed(form.email);">
+          <p class="help-block"><span ng-if="form.email.$error.isUnique">User with this email already exists. </span>Please provide your E-mail</p>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
       <div ng-if="isEdit" class="control-group" ng-class="{'has-error' : form.new_password.$invalid && form.new_password.$dirty, 'has-success' : form.new_password.$valid && form.new_password.$dirty }">
         <label class="control-label" for="new_password">New password</label>
         <div class="controls">
-          <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="(^$)|(^.{6,}$)" >
+          <input type="password" id="new_password" name="new_password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.newPassword" pattern="(^$)|(^.{6,}$)" ng-pattern="/(^$)|(^.{6,}$)/">
           <p class="help-block">Password should be at least 6 characters</p>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <div ng-if="!isEdit" class="form-group" ng-class="{'has-error' : form.password.$invalid && form.password.$dirty, 'has-success' : form.password.$valid && form.password.$dirty }">
         <label class="control-label" for="password">Password</label>
         <div class="controls">
-          <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern="^.{6,}$" pattern="^.{6,}$">
+          <input type="password" id="password" name="password" placeholder="" class="input-xlarge" spellcheck="false" autocapitalize="off" tabindex="4" ng-model="user.password" required pattern="^.{6,}$" pattern="^.{6,}$" ng-pattern="/^.{6,}$/">
           <p class="help-block">Password should be at least 6 characters</p>
         </div>
       </div>

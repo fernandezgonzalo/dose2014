@@ -13,7 +13,7 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
   };
 
   $scope.login = function() {
-    if ($scope.loginForm.$valid || true) {
+    if ($scope.loginForm.$valid) {
       $('#login_button').button('loading');
       var callback = function(user) {
         $('#login_button').button('reset');
