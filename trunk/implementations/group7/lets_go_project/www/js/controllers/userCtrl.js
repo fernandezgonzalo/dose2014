@@ -1,18 +1,11 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('UserCtrl', ['$scope', '$location', '$log', 'RESTService', 'AuthService', function ($scope, $location, $log, RESTService, AuthService) {
+  .controller('UserCtrl', ['$scope', '$location', '$log', 'RESTService', 'AuthService', '$timeout', 'UserService', function ($scope, $location, $log, RESTService, AuthService, $timeout, UserService) {
 
-    var baseUsersUri = '/users'
     var userId = AuthService.getUserInfo();
-    var getUserUri = baseUsersUri + '/' + userId;
-    var updateUserUri = baseUsersUri + "/" + userId;
-    var deleteUserUri = baseUsersUri + "/" + userId;
-
-    var passwordMinLenth = 6;
 
     $scope.signUp = function(email, firstname, lastname, password, confirmPassword){
-      $scope.passwordMatch = false;
 
       var signupDataForm = {
         email: email,
@@ -21,18 +14,14 @@ angular.module('myApp')
         password: password
       };
 
-      var payload = signupDataForm;
+      if (password == confirmPassword) {
 
-      if (password == confirmPassword && password.length > passwordMinLenth) {
-        $scope.passwordMatch = true;
+        UserService.createUser(signupDataForm, function(data){
+          $log.debug('Success creating new user');
 
-        RESTService.post(baseUsersUri, payload, function(data){
-          $log.debug('Success creating new project');
+          $timeout(function() { $scope.successMsgVisible = true;}, 30000);
           $location.path("/login");
         });
-      }else{
-        $log.warn('Password doesn\'t match');
-        $scope.passwordMatch = false;
       }
     }
 
@@ -44,25 +33,48 @@ angular.module('myApp')
 
     $scope.editUser = function(email, firstname, lastname) {
       var payload = {
-        id: userId,
         firstname: firstname,
         lastname: lastname,
         email: email,
       }
 
-      RESTService.put(updateUserUri, payload, function(data){
+      UserService.editUser(userId, payload, function(data){
         $log.debug('Success editing user');
         $location.path('/user');
       });
     }
+
 
     $scope.cancelEditUser = function(){
       $log.debug('Cancel edit user');
       $location.path('/user');
     }
 
+
+    $scope.changePassword = function(password, confirmPassword) {
+      if(password != undefined && confirmPassword != undefined){
+
+        var payload = {
+          password: password,
+        }
+        UserService.changePassword(userId, payload, function(data){
+          $log.debug('Success changing password!');
+          $scope.successMsgVisible = true;
+          $timeout(function(){ $location.path('/projects');}, 1000);
+        });
+      }
+
+    }
+
+
+    $scope.cancelChangePassword = function(){
+      $log.debug('Cancel change password');
+      $location.path('/projects');
+    }
+
+
     $scope.deleteUser = function(){
-      RESTService.delete(deleteUserUri, function(data){
+      UserService.deleteUser(userId, function(data){
         $log.debug('Success deleting user');
         AuthService.logout();
         $location.path('/home');

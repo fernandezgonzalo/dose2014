@@ -29,6 +29,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'UserCtrl'
   })
 
+  .when('/user/password/', {
+    templateUrl: 'partials/change_password.html',
+    controller: 'UserCtrl'
+  })
+
   .when('/user/edit/:userId', {
     templateUrl: 'partials/edit_user.html',
     controller: 'UserCtrl'
@@ -59,9 +64,18 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'ProjectsCtrl'
   })
 
-  .when('/requirements', {
-    templateUrl: 'partials/requirements.html',
-    controller: 'RequirementsCtrl'
+  .when('/projects/:projectId/sprints/:sprintId/stories/', {
+    templateUrl: 'partials/stories.html',
+    controller: 'StoriesCtrl'
+  })
+
+  .when('/projects/:projectId/sprints/:sprintId/stories/create', {
+    templateUrl: 'partials/create_story.html',
+    controller: 'StoriesCtrl'
+  })
+  .when('/projects/:projectId/sprints/:sprintId/stories/edit/:storyId', {
+    templateUrl: 'partials/edit_story.html',
+    controller: 'StoriesCtrl'
   })
 
   .when('/sprints', {
@@ -69,8 +83,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'SprintsCtrl'
   })
 
-  .when('/sprint/create', {
+  .when('/sprint/create/:projectId', {
     templateUrl: 'partials/create_sprint.html',
+    controller: 'SprintsCtrl'
+  })
+
+  .when('/projects/:projectId/sprints/edit/:sprintId', {
+    templateUrl: 'partials/edit_sprint.html',
     controller: 'SprintsCtrl'
   })
 
@@ -79,15 +98,26 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'TasksCtrl'
   })
 
-  .when('/projects/:projectID/sprints/:sprintID/stories/:storyID/tasks',{
+  .when('/projects/:projectId/sprints/:sprintId/stories/:storyId/tasks',{
     templateUrl: 'partials/tasks.html',
     controller: 'TasksCtrl'
   })
 
-  .when('/task/create',{
+  .when('/projects/:projectId/sprints/:sprintId/stories/:storyId/tasks/create',{
     templateUrl: 'partials/create_task.html',
     controller: 'TasksCtrl'
   })
+
+  .when('/projects/:projectId/sprints/:sprintId/stories/:storyId/task/edit/:taskId', {
+    templateUrl: 'partials/edit_task.html',
+    controller: 'TasksCtrl'
+  })
+
+  .when('/taskboard/project/:projectId/sprint/:sprintId', {
+    templateUrl: 'partials/taskboard.html',
+    controller: 'TaskboardCtrl'
+  })
+
 
   .otherwise({
     redirectTo: '/login'
@@ -124,7 +154,7 @@ app.run(function ($rootScope, $location, $http, $timeout, AuthService, RESTServi
       // the user is not logged yet
       getUser();
     }
-    
+
     // if never logged in, do nothing (otherwise bookmarks fail)
     if ($rootScope.authService.initialState()){
       // we are public browsing
