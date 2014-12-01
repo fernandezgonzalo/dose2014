@@ -1,4 +1,4 @@
-<div class="block">
+<div id="login" class="block">
 
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -24,15 +24,11 @@
                     Login
                 </button>
             </form>
-            <!--<div ng-model="response">
-                Status: 	{{response.status}} <br>
-                Reason: 	{{response.header}}<br>
-                Session ID: {{response.config}}
-            </div> -->
-
+            <div>
+                <p>Don't have an account? <a href="/#/signup">Sign up</a>
+                </p>
+            </div>
             <div class="alert alert-success" role="alert" ng-show="successMsgVisible">Okay, you're now logged in. <br>
-
-
             </div>
             <div class="alert alert-danger" role="alert" ng-show="errorMsgVisible">Username or password incorrect.</div>
         </div>

@@ -17,8 +17,8 @@ app.config(['$routeProvider', '$locationProvider',
                 controller: 'SessionCtrl'
             })
             .when('/signup', {
-                templateUrl: 'partials/user.html',
-                controller: 'UserCtrl'
+                templateUrl: 'partials/signup.html',
+                controller: 'SignupCtrl'
             })
             .when('/user/:userId/home', { //Showing user dashboard
                 templateUrl: 'partials/home.html',
@@ -43,10 +43,10 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
             })
-			.when('/user/:userId/project/:projectId/:lookupUserId', {
-			templateUrl: 'partials/user-detail.html',
-			controller: 'UserDetailsCtrl'
-			})/*
+            .when('/user/:userId/project/:projectId/:lookupUserId', {
+                templateUrl: 'partials/user-detail.html',
+                controller: 'UserDetailsCtrl'
+            })/*
          .when('/user/home', {
          templateUrl: 'partials/home.html',
          controller: 'ProjectCtrl'
