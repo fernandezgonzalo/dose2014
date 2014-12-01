@@ -157,5 +157,19 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	delete_project (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a confiramtion message of a deleted project
+		local
+			l_result: JSON_OBJECT
+			l_project_id: STRING
+		do
+				l_project_id := req.path_parameter ("id_project").string_representation
+				my_db.remove_project (l_project_id.to_natural_8)
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Project removed " + l_project_id.out), create {JSON_STRING}.make_json ("Message"))
+				set_json_header_ok(res, l_result.count)
+				res.put_string(l_result.representation)
+		end
+
 end
 
