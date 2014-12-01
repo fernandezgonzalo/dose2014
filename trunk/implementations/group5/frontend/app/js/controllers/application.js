@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', 'User', function($scope, $log, $location, AuthService, User) {
+angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
 
   $scope.onloadListeners = [];
 
   var TAG = 'ApplicationController::';
-  $log.debug(TAG, 'init main controller');
+  $log.debug(TAG, 'init');
 
   $scope.currentUser = null;
   $scope.isAuthenticated = AuthService.isAuthenticated;
@@ -17,6 +17,7 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
 
   $scope.logout = function() {
     AuthService.logout();
+    $location.path('/login');
   };
 
   $scope.isActive = function(path) {
@@ -33,23 +34,23 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     return true;
   };
 
-  if (!AuthService.isAuthenticated()) {
-    $location.path('/login');
-  } else {
-    if ($scope.currentUser === null) {
-      var userId = localStorage.getItem(AuthService.KEY);
+  $scope.getCurrentUser = function() {
+    return new Promise(function(resolve, reject) {
+      if ($scope.currentUser) {
+        resolve($scope.currentUser);
+      } else {
+        AuthService.getCurrentUser().then(function(user) {
+          resolve(user);
+        }, function() {
+          reject();
+          $location.path('/login');
+        });
+      }
+    });
+  };
 
-      User.get({userId: userId}, function(user) {
-        AuthService.loginSuccess(user);
-        $scope.setCurrentUser(user);
-        $log.debug(TAG, 'onloadListeners: ', $scope.onloadListeners);
-        for (var i in $scope.onloadListeners) {
-          $scope.onloadListeners[i]();
-        }
-      }, function() {
-        $location.path('/login');
-      });
-    }
-  }
+  $scope.getCurrentUser().then(function(user) {
+    $scope.setCurrentUser(user);
+  });  
 
 }]);
