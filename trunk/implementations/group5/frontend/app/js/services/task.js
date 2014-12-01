@@ -14,6 +14,5 @@ angular.module('Mgmt').factory('Task', ['$resource', '$log', function($resource,
                                          isArray: true}
                    });
   
-  // return Task;
 
 }]);

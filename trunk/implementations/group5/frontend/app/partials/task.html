@@ -27,11 +27,13 @@
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.estimation"></span>
 					<span class="glyphicon glyphicon-star"></span>
-					<span editable-text="currentTask.estimation" buttons="no"> {{ currentTask.estimation || "Add points.." }}</span>
+					<span editable-range="currentTask.estimation" e-step="5"> {{ currentTask.estimation || "Add points.." }}</span>
 				</p>
 				<p>
 					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.deadline"></span>
 					<span class="glyphicon glyphicon-time"></span>
+					<!--<a href="#" editable-bsdate="currentTask.deadline" e-datepicker-popup="dd-MMMM-yyyy"> {{ (currentTask.deadline | date:"dd/MM/yyyy") || 'empty' }}</a>
+ 					<a href="#" editable-bstime="user.time" e-show-meridian="false" e-minute-step="10"> {{ (currentTask.deadline | date:"HH:mm") || 'empty' }}</a> -->
 					<span editable-text="currentTask.deadline" buttons="no"> {{ currentTask.deadline || "Add a deadline" }}</span>
 				</p>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>

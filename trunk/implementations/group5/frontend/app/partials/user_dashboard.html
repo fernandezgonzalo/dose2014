@@ -21,7 +21,7 @@
 		<table class="table">
 			<tr ng-repeat="task in tasksInProgress" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
-				<td class="col-md-2"><span class="badge">10</span> comments</td>
+				<td class="col-md-2"><span class="badge">{{getCommentsNum(task.id)}}</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
 			</tr>
@@ -42,7 +42,7 @@
 		<table class="table">
 			<tr ng-repeat="task in tasksFinished" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-6">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
-				<td class="col-md-2"><span class="badge">10</span> comments</td>
+				<td class="col-md-2"><span class="badge">{{getCommentsNum(task.id)}}</span> comments</td>
 				<td class="col-md-2"><span class="glyphicon glyphicon-time"></span> {{task.deadline}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
 			</tr>
