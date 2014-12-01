@@ -229,6 +229,20 @@ feature -- Data access
 				end
 			end
 
+			update_user_last_login_today (id: NATURAL): BOOLEAN
+				-- updates the last_login with current day of the user identified by id
+			do
+				create db_modify_statement.make ("UPDATE user SET last_login= date() WHERE id= '" + id.out + "' ;", db)
+				db_modify_statement.execute
+				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
+					print("Error while updating an user")
+						Result:=false
+							-- TODO: we probably want to return something if there's an error
+					else
+						Result:= true;
+				end
+			end
+
 	update_user_is_admin (id: NATURAL; new_is_admin: NATURAL): BOOLEAN
 				-- updates the is_admin of the user identified by id
 			do
@@ -276,7 +290,7 @@ feature -- Data access
 				Result.id := l_query_result_cursor.item.integer_value (1)
 			end
 		end
-		
+
 		has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name,last_login:STRING;is_admin: INTEGER]
 				-- checks if a user with given username and password exists
 				-- if yes, the result tuple value "has_user" will be true and "id" ,"email","username","password", "name", "last_login" and "is_admin" will be set
