@@ -279,20 +279,20 @@ feature -- Data access
 		end
 	end
 
---	get_current_sprint (a_current_date : DATE) : JSON_OBJECT
---	local
---		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
---	do
---		create Result.make
---		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=?;", db)
---		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_current_date, a_current_date>>)
---		if l_query_result_cursor.after then
---			print("Error while quering table " + a_table_name)
---			RESULT:= VOID
---		else
---			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
---		end
---	end
+	get_current_sprint (a_current_date : DATE) : JSON_OBJECT
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+		create Result.make
+		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_current_date, a_current_date>>)
+		if l_query_result_cursor.after then
+			print("Error while quering table sprint")
+			RESULT:= VOID
+		else
+			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
+		end
+	end
 
 	get_all(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : JSON_ARRAY
 	local
@@ -396,6 +396,96 @@ feature -- Data access
 
 	end
 
+	get_project_backlog(a_project_id: STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i: INTEGER
+	do
+		create Result.make_array
+		on_finish_sprint(a_project_id)
+		create db_query_statement.make ("SELECT task.* FROM task,sprint,requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=? AND task.sprint_id=null AND task.progress <> 'Completed';", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
+	on_finish_sprint (a_project_id: STRING)
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i: INTEGER
+		l_sprint_id: STRING
+		l_now: DATE
+	do
+		create l_json_object.make
+		create l_now.make_now
+		create db_query_statement.make ("SELECT id FROM sprint WHERE end_date < ? AND project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_now, a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("id") then
+					l_sprint_id:= l_json_object.item ("id").representation
+					l_sprint_id.replace_substring_all ("%"","")
+					create db_modify_statement.make("UPDATE task SET sprint_id=null WHERE sprint_id=? AND progress <> 'Completed';", db)
+					db_modify_statement.execute_with_arguments (<<l_sprint_id>>)
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+		mark_req_completed (a_project_id)
+	end
+
+	mark_req_completed (a_project_id: STRING)
+	local
+		l_query_result_cursor, l_query_result_cursor1: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i: INTEGER
+		l_req_id: STRING
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT id FROM requirement WHERE project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("id") then
+					l_req_id:= l_json_object.item ("id").representation
+					l_req_id.replace_substring_all ("%"","")
+					create db_query_statement.make("SELECT * FROM task WHERE requirement_id=? AND progress <> 'Completed';", db)
+					l_query_result_cursor1:= db_query_statement.execute_new_with_arguments (<<l_req_id>>)
+					if l_query_result_cursor1.after then
+						create db_modify_statement.make("UPDATE requirement SET completed=true WHERE id=?;", db)
+						db_modify_statement.execute_with_arguments (<<l_req_id>>)
+					end
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
 	add_user (a_email: STRING a_password: STRING a_first_name: STRING a_last_name: STRING) : BOOLEAN
 			-- adds a new user with the given user name
 		do
@@ -424,6 +514,29 @@ feature -- Data access
 	end
 
 	get_users_from_project(a_project_id: STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i:INTEGER
+	do
+			-- create a result object
+ 		create Result.make_array
+		create db_query_statement.make ("SELECT u.first_name, u.last_name, u.email, d.points FROM user as u, developer_mapping as d WHERE d.user_id = u.id AND d.project_id = ? ORDER BY d.points DESC", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
+	get_users_ranking(a_project_id: STRING): JSON_ARRAY
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		i:INTEGER
