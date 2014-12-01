@@ -103,11 +103,11 @@ feature -- Handlers
 					end
 				else
 					l_result.put (create {JSON_STRING}.make_json ("assigned user does not exist"), create {JSON_STRING}.make_json ("error"))
-					set_json_header (res, 400, l_result.representation.count)
+					set_json_header (res, 409, l_result.representation.count)
 				end
 			else
 				l_result.put (create {JSON_STRING}.make_json ("project does not exist."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 400, l_result.representation.count)
+				set_json_header (res, 409, l_result.representation.count)
 			end
 
 			res.put_string (l_result.representation)
