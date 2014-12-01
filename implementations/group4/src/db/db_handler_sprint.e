@@ -78,4 +78,14 @@ feature -- Data access
 			end
 		end
 
+feature -- Data access for reports
+
+	total_sprints_by_status_and_project_id (status : STRING;project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of sprints which status is 'status' related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
+
 end
