@@ -12,7 +12,7 @@
       <button class="btn btn-link col-md-2"
         ng-click="openModal('edit')">Edit project info</button>
       <span class="col-md-8"></span>
-      <a href="" class="col-md-2" ng-click = "createTask('1')" data-toggle="modal"
+      <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
         data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
     </div>
   </div>
@@ -36,13 +36,14 @@
 
                 <div ng-model="backlogTasks" ng-repeat="task in backlogTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task, $index, 0)',
-                  onStop: 'stopCallback'}" data-jqyoui-options="{revert: 'invalid'}"
+                  onStop: 'stopCallback'}" data-jqyoui-options="{revert:
+                  'invalid', scroll: true}" class="btn btn-block task-draggable"
 
-                  ng-class=
-                  "{'btn btn-warning btn-block task-draggable': hovering($index, 1, 0),
-                  'btn btn-info btn-block task-draggable': hovering($index, 2, 0),
-                  'btn btn-success btn-block task-draggable': hovering($index, 3, 0),
-                  'btn btn-default btn-block task-draggable': true}">
+
+
+                  ng-class= "{'btn-warning': hovering($index, 1, 0), 'btn-info': hovering($index, 2, 0),
+                  'btn-success': hovering($index, 3, 0), 'btn-default': true}">
+                  <!-- ng-class=cssClasses.backlogTasks> -->
 
                   {{task.title}}
 
