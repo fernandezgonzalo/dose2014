@@ -225,23 +225,14 @@ feature -- Data access
 		end
 	end
 
-	delete (a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : TUPLE[success: BOOLEAN; id: STRING]
-	local
-		l_id: STRING
-		l_counter: INTEGER
+	delete (a_table_name: STRING a_id: STRING) : TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create Result.default_create
-		l_counter:=1
-		across a_map.keys as k  loop
-			if equal(k.item, "id")  then
-				l_id := a_map.values.at(l_counter)
-			end
-			l_counter:= l_counter+1
-		end
+
 		create db_modify_statement.make ("DELETE FROM " + a_table_name + " WHERE id=?;", db)
-		db_modify_statement.execute_with_arguments (<<l_id>>)
+		db_modify_statement.execute_with_arguments (<<a_id>>)
 		Result.success:= true
-		Result.id := l_id
+		Result.id := a_id
 		if db_modify_statement.has_error then
 			print("Error while deleting from table " + a_table_name)
 			Result.success:= false
@@ -287,6 +278,21 @@ feature -- Data access
 			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
 		end
 	end
+
+--	get_current_sprint (a_current_date : DATE) : JSON_OBJECT
+--	local
+--		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+--	do
+--		create Result.make
+--		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=?;", db)
+--		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_current_date, a_current_date>>)
+--		if l_query_result_cursor.after then
+--			print("Error while quering table " + a_table_name)
+--			RESULT:= VOID
+--		else
+--			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
+--		end
+--	end
 
 	get_all(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : JSON_ARRAY
 	local
@@ -417,6 +423,29 @@ feature -- Data access
 		end
 	end
 
+	get_users_from_project(a_project_id: STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i:INTEGER
+	do
+			-- create a result object
+ 		create Result.make_array
+		create db_query_statement.make ("SELECT u.first_name, u.last_name, u.email FROM user as u, developer_mapping as d WHERE d.user_id = u.id AND d.project_id = ?", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
 	is_task_from_req_in_sprint(a_req_id: STRING): BOOLEAN
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -445,6 +474,60 @@ feature -- Data access
 				l_query_result_cursor.forth
 			else
 				i:=2
+			end
+		end
+	end
+
+	get_project_id_of_req (a_req_id:STRING) : STRING
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object:JSON_OBJECT
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT project_id FROM requirement WHERE id=?;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_req_id>>)
+		Result:=""
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+			if l_json_object.has_key ("project_id") then
+				Result:= l_json_object.item ("project_id").representation
+				Result.replace_substring_all ("%"","")
+			end
+		end
+	end
+
+	get_project_id_of_sprint (a_sprint_id:STRING) : STRING
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object:JSON_OBJECT
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT project_id FROM sprint WHERE id=?;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_sprint_id>>)
+		Result:=""
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+			if l_json_object.has_key ("project_id") then
+				Result:= l_json_object.item ("project_id").representation
+				Result.replace_substring_all ("%"","")
+			end
+		end
+	end
+
+	get_project_id_of_task (a_task_id:STRING) : STRING
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object:JSON_OBJECT
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT requirement.project_id FROM requirement, task WHERE requirement.id=task.requirement_id AND task.id=?;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_task_id>>)
+		Result:=""
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+			if l_json_object.has_key ("project_id") then
+				Result:= l_json_object.item ("project_id").representation
+				Result.replace_substring_all ("%"","")
 			end
 		end
 	end
