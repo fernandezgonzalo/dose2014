@@ -14,20 +14,18 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
 
   $scope.login = function() {
     if ($scope.loginForm.$valid) {
-      $('#login_button').button('loading');
-      var callback = function(user) {
+      AuthService.login($scope.credentials).then(function(user) {
         $('#login_button').button('reset');
-        if (!user) {
-          ngToast.create({
-            content: 'Wrong credentials',
-            class: 'danger'
-          });
-        } else {
-          $scope.setCurrentUser(user);
-          $location.path('/');
-        }
-      };
-      AuthService.login($scope.credentials, callback);
+        $scope.setCurrentUser(user);
+        $location.path('/');
+        $scope.$apply();
+      }, function(response) {
+        ngToast.create({
+          content: response.data.Message,
+          class: 'danger'
+        });
+        $scope.$apply();
+      });
     }
   };
 

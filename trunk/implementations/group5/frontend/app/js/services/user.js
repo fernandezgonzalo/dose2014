@@ -7,7 +7,7 @@ angular.module('Mgmt').factory('User', ['$resource', '$http', '$log', function($
   $log.debug(TAG, 'init');
 
   var User = $resource('/api/users/:userId', {userId: '@id'}, {
-                         'update':   {method: 'PUT'},
+                         'update':   {method: 'PUT'}
   });
 
   User.prototype.$getTasks = function(success) {

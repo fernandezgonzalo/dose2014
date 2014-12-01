@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
+angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', 'User', function($scope, $log, $location, AuthService, User) {
 
   $scope.onloadListeners = [];
 
@@ -17,7 +17,6 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
 
   $scope.logout = function() {
     AuthService.logout();
-    location.href = '/';
   };
 
   $scope.isActive = function(path) {
@@ -34,29 +33,22 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     return true;
   };
 
-  $scope.isAdmin = function() {
-    return AuthService.isAdmin();
-  };
-
-  // Frontend authentication :)
   if (!AuthService.isAuthenticated()) {
     $location.path('/login');
   } else {
     if ($scope.currentUser === null) {
-      var email = localStorage.getItem('email');
-      var password = localStorage.getItem('password');
-      var callback = function(user) {
-        if (user) {
-          $scope.setCurrentUser(user);
-          $log.debug(TAG, 'onloadListeners: ', $scope.onloadListeners);
-          for (var i in $scope.onloadListeners) {
-            $scope.onloadListeners[i]();
-          }
-        } else {
-          $location.path('/login');
+      var userId = localStorage.getItem(AuthService.KEY);
+
+      User.get({userId: userId}, function(user) {
+        AuthService.loginSuccess(user);
+        $scope.setCurrentUser(user);
+        $log.debug(TAG, 'onloadListeners: ', $scope.onloadListeners);
+        for (var i in $scope.onloadListeners) {
+          $scope.onloadListeners[i]();
         }
-      };
-      AuthService.login({email: email, password: password}, callback);
+      }, function() {
+        $location.path('/login');
+      });
     }
   }
 

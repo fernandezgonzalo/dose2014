@@ -1,47 +1,41 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', function($log, User, Utility, $http) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', '$location', function($log, User, Utility, $http, $location) {
   var TAG = 'AuthService::';
   $log.debug(TAG, 'init');
 
   var authService = {};
-  var key = 'email';
-  var passKey = 'password';
+  authService.KEY = 'MGMT_ID';
 
-  authService.login = function(credentials, callback) {
-    $http.post('/api/login', credentials);
-    User.query(function(users) {
-      // frontend authentication :)
-      var result = null;
-      for (var i in users) {
-        if (users[i].email === credentials.email && users[i].password === credentials.password) {
-          Utility.toCamel(users[i]);
-          result = users[i];
-          if (result.isAdmin === '0') {
-            result.isAdmin = false;
-          } else {
-            result.isAdmin = true;
-          }
-          break;
-        }
-      }
-      if (result) {
-        authService.currentUser = result;
-        localStorage.setItem(key, result.email);
-        localStorage.setItem(passKey, result.password);
-      }
-      callback(result);
+  authService.login = function(credentials) {
+    return new Promise(function(resolve, reject) {
+      $http.post('/api/login', credentials).then(function(response) {
+        var user = new User({userId: response.data.id});
+        angular.extend(user, response.data);
+        authService.loginSuccess(user);
+        resolve(user);
+      }, function(response) {
+        $log.debug(TAG, response);
+        reject(response);
+      });
     });
   };
 
+  authService.loginSuccess = function(user) {
+    Utility.toCamel(user);
+    this.currentUser = user;
+    localStorage.setItem(authService.KEY, user.id);
+    return user;
+  };
+
   authService.logout = function() {
-    localStorage.removeItem(key);
-    localStorage.removeItem(passKey);
-    return true;
+    $http.delete('/api/logout');
+    localStorage.removeItem(authService.KEY);
+    $location.path('/login');
   };
  
   authService.isAuthenticated = function () {
-    return localStorage.getItem(key);
+    return localStorage.getItem(authService.KEY);
   };
  
   authService.isAdmin = function () {

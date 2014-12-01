@@ -183,7 +183,6 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
   }
 
   $scope.changed = function(el) {
-    $log.debug(el);
     el.$setValidity('isUnique', true);
   };
 
