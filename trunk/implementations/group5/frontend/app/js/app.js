@@ -48,7 +48,7 @@ app.config(['$routeProvider',
       })
       .when('/users', {
         templateUrl: 'partials/user_list.html',
-        controller: 'UserController'
+        controller: 'UserListController'
       })
       .when('/users/new', {
         templateUrl: 'partials/user.html',
