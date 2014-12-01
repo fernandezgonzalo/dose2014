@@ -407,6 +407,24 @@ feature -- Data access Task
 
 		end
 
+	search_tasks_by_user (id_user: INTEGER): JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM Task where id="+id_user.out+";", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
+
+		end
+
+	search_tasks_points_by_user (id_user: INTEGER): JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT points FROM Task where id="+id_user.out+";", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
+
+		end
+
 	search_a_task (id: INTEGER): JSON_ARRAY
 		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
@@ -537,6 +555,7 @@ feature -- Data access Requirement
 				Result.username := l_query_result_cursor.item.value (4).out
 			end
 		end
+
 
 
 feature {NONE}
