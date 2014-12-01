@@ -5,11 +5,17 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', function ($scope, $routeParams, $log, Users, Projects) {
+    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', '$window', function ($scope, $routeParams, $log, Users, Projects, $window) {
         var userId = $routeParams.userId;
         $scope.init = function () {
+            if (!$scope.LOGGED_IN) {
+                $window.location.href = '/#/login';
+            }
             $scope.getCurrentUser();
             $scope.getUserProjectsIDs();
+            if ($scope.LOGGED_IN) {
+                $log.debug("Logged In");
+            }
         };
         $scope.getCurrentUser = function () {
             //Get the user from server
