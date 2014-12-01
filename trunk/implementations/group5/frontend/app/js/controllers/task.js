@@ -7,6 +7,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   $log.debug(TAG, 'init');
 
   $scope.currentTask = {};
+  $scope.newComment = new Comment();
 
   $scope.isNew = false;
   $scope.tasksFinished = [];
@@ -115,8 +116,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       	$scope.tasksComments[$scope.currentTask.id][i].$update();
       }
       $route.reload();
-    }
-    
+    } 
   };
 
   $scope.deleteTask = function(){
@@ -127,6 +127,20 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   	Comment.query({taskId: idTask}, function(comments) {
   		$scope.tasksComments[idTask] = comments;
 	});
+  };
+
+  $scope.saveComment = function(userId, taskId){
+  	Utility.toCamel($scope.newComment);
+  	$log.debug('COMMENTO NUOVO prima di aggiungere ids::', $scope.newComment);
+  	$scope.newComment.idTask = taskId;
+  	$scope.newComment.idUser = userId;
+  	Utility.toUnderscore($scope.newComment);
+  	delete $scope.newComment.idTask;
+  	delete $scope.newComment.idUser;
+  	$log.debug('COMMENTO NUOVO::', $scope.newComment);
+  	$scope.newComment.$save(function(){
+  		$route.reload();
+  	});
   };
 
   $scope.deleteComment = function(comment){
