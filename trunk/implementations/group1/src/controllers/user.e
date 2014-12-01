@@ -175,6 +175,7 @@ feature -- Handlers
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
+			l_user_data: TUPLE [has_user: BOOLEAN; id: STRING]
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -229,10 +230,11 @@ feature -- Handlers
 
 				-- create the user in the database
 			flag := my_db.add_user (name, last_name, email, password, rol, active)
+			l_user_data := my_db.has_user_with_password(email,password)
 			if flag then
 				-- add object id to response
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Added user " + name+" "+last_name), create {JSON_STRING}.make_json ("Message"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.id), create {JSON_STRING}.make_json ("id"))
 
 				-- send the response
 				set_json_header_ok (res, l_result.representation.count)
