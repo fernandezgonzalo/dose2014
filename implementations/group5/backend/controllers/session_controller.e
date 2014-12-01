@@ -45,6 +45,7 @@ feature -- Handlers
 			l_payload, l_user, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			is_updated_last_login : BOOLEAN
 
 
 				-- if true the username and password match
@@ -106,6 +107,8 @@ feature -- Handlers
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
+					-- update the last login to the current date
+				is_updated_last_login := my_crud.update_user_last_login_today (l_user_data.id.to_natural_32)
 
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
