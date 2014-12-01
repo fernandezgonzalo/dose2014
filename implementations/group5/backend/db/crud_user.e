@@ -232,7 +232,7 @@ feature -- Data access
 			update_user_last_login_today (id: NATURAL): BOOLEAN
 				-- updates the last_login with current day of the user identified by id
 			do
-				create db_modify_statement.make ("UPDATE user SET last_login= date() WHERE id= '" + id.out + "' ;", db)
+				create db_modify_statement.make ("UPDATE user SET last_login= datetime() WHERE id= '" + id.out + "' ;", db)
 				db_modify_statement.execute
 				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 					print("Error while updating an user")
@@ -321,10 +321,20 @@ feature -- Data access
 					Result.is_admin := l_query_result_cursor.item.integer_value (8)
 				end
 			end
+
+		user_exists(id: NATURAL): BOOLEAN
+		do
+				create Result
+				create db_query_statement.make ("SELECT * FROM user WHERE id=?;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<id>>)
+				if l_query_result_cursor.after then
+					Result := False
+				else
+					Result := True
+				end
+		end
+
 feature {NONE}--login
-
-
-
 
 	is_admin(id:INTEGER): JSON_OBJECT
 	--returns the username and is_admin of the user identified by id
