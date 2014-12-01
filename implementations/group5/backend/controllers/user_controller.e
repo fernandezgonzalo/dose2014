@@ -97,18 +97,23 @@ feature -- Handlers
 			create l_result.make
 				-- create the user in the database
 			was_created := false
-			if not my_crud_user.user_exists (l_email).boolean_item (1) then
-				result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name,"" ,l_is_admin.to_integer)
-				was_created := result_add_user.boolean_item (1)
-				user_id := result_add_user.integer_32_item (2)
+			if not my_crud_user.user_exists_with_email (l_email).boolean_item (1) then
+				if not my_crud_user.user_exists_with_username (l_username).boolean_item (1) then
+					result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, "", l_is_admin.to_integer)
+					was_created := result_add_user.boolean_item (1)
+					user_id := result_add_user.integer_32_item (2)
+				else
+					l_result.put (create {JSON_STRING}.make_json ("Username already in use"), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 409, l_result.representation.count)
+				end
+			else
+				l_result.put (create {JSON_STRING}.make_json ("Email already in use"), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 409, l_result.representation.count)
 			end
 			if was_created then
 					--if the user was created,set the response
 				l_result.put (create {JSON_STRING}.make_json (user_id.out), create {JSON_STRING}.make_json ("id"))
 				set_json_header (res, 201, l_result.representation.count)
-			else
-				l_result.put (create {JSON_STRING}.make_json ("User already exists"), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 409, l_result.representation.count)
 			end
 			res.put_string (l_result.representation)
 		end
@@ -177,28 +182,36 @@ feature -- Handlers
 				end
 			end
 			create l_result.make
-			result_exists_user := my_crud_user.user_exists (l_email)
-			if not result_exists_user.boolean_item (1) and  not (l_id.to_natural = result_exists_user.natural_32_item (2)) then
-				if my_crud_user.update_user_email (l_id.to_natural, l_email) And my_crud_user.update_user_is_admin (l_id.to_natural, l_is_admin.to_natural) And my_crud_user.update_user_last_login (l_id.to_natural, l_last_login) And my_crud_user.update_user_name (l_id.to_natural, l_name) And my_crud_user.update_user_username (l_id.to_natural, l_username) then
-						--if the user was updated,set the response
-					if not l_password.is_empty then
-						if my_crud_user.update_user_password (l_id.to_natural, l_password) then
+			result_exists_user := my_crud_user.user_exists_with_email (l_email)
+			if not result_exists_user.boolean_item (1) and not (l_id.to_natural = result_exists_user.natural_32_item (2)) then
+				result_exists_user := my_crud_user.user_exists_with_username (l_username)
+				print(l_id.to_natural)
+				print(result_exists_user.natural_32_item (2))
+				if not result_exists_user.boolean_item (1) and not (l_id.to_natural = result_exists_user.natural_32_item (2)) then
+					if my_crud_user.update_user_email (l_id.to_natural, l_email) And my_crud_user.update_user_is_admin (l_id.to_natural, l_is_admin.to_natural) And my_crud_user.update_user_last_login (l_id.to_natural, l_last_login) And my_crud_user.update_user_name (l_id.to_natural, l_name) And my_crud_user.update_user_username (l_id.to_natural, l_username) then
+							--if the user was updated,set the response
+						if not l_password.is_empty then
+							if my_crud_user.update_user_password (l_id.to_natural, l_password) then
+								l_result := my_crud_user.user_by_id (l_id.to_natural)
+								set_json_header_ok (res, l_result.representation.count)
+							else
+								l_result.put (create {JSON_STRING}.make_json ("Password edit error"), create {JSON_STRING}.make_json ("error"))
+								set_json_header (res, 500, l_result.representation.count)
+							end
+						else
 							l_result := my_crud_user.user_by_id (l_id.to_natural)
 							set_json_header_ok (res, l_result.representation.count)
-						else
-							l_result.put (create {JSON_STRING}.make_json ("Password edit error"), create {JSON_STRING}.make_json ("error"))
-							set_json_header (res, 500, l_result.representation.count)
 						end
 					else
-						l_result := my_crud_user.user_by_id (l_id.to_natural)
-						set_json_header_ok (res, l_result.representation.count)
+						l_result.put (create {JSON_STRING}.make_json ("Error while updating"), create {JSON_STRING}.make_json ("error"))
+						set_json_header (res, 500, l_result.representation.count)
 					end
 				else
-					l_result.put (create {JSON_STRING}.make_json ("Error while updating"), create {JSON_STRING}.make_json ("error"))
-					set_json_header (res, 500, l_result.representation.count)
+					l_result.put (create {JSON_STRING}.make_json ("Username already in use"), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 409, l_result.representation.count)
 				end
 			else
-				l_result.put (create {JSON_STRING}.make_json ("Email already used"), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Email already in use"), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 409, l_result.representation.count)
 			end
 			res.put_string (l_result.representation)

@@ -151,7 +151,7 @@ feature -- Handlers
 			create l_session.make (req, "MGMT_SESSION_ID", session_manager)
 			--
 			l_session.destroy
-
+			print("aca")
 			--update_result := my_crud.update_user_last_login (l_id.to_natural_32, "")
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend

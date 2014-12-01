@@ -110,7 +110,7 @@ feature -- Basic operations
 			--Login
 			map_uri_template_agent_with_request_methods ("/api/login", agent session_ctrl.login, router.methods_post)
 			--Logout
-			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.login, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_delete)
 
 			--USER RELATED URIs
 

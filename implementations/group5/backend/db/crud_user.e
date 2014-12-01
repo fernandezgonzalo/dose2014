@@ -243,7 +243,7 @@ feature -- Data access
 				end
 			end
 
-	user_exists (email: STRING) : TUPLE[exists: BOOLEAN; id: INTEGER]
+	user_exists_with_email (email: STRING) : TUPLE[exists: BOOLEAN; id: INTEGER]
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
@@ -260,6 +260,23 @@ feature -- Data access
 			end
 		end
 
+		user_exists_with_username (username: STRING) : TUPLE[exists: BOOLEAN; id: INTEGER]
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			--create a result object
+			create Result
+			create db_query_statement.make ("SELECT * FROM user WHERE username=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<username>>)
+			if l_query_result_cursor.after then
+				Result.exists := False
+				Result.id := -1
+			else
+				Result.exists := True
+				Result.id := l_query_result_cursor.item.integer_value (1)
+			end
+		end
+		
 		has_user_with_password (email, a_password: STRING): TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name,last_login:STRING;is_admin: INTEGER]
 				-- checks if a user with given username and password exists
 				-- if yes, the result tuple value "has_user" will be true and "id" ,"email","username","password", "name", "last_login" and "is_admin" will be set

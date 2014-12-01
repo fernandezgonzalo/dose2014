@@ -234,4 +234,20 @@ feature -- Data access
 --		db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 --	end
 
+	project_exists (id_project : NATURAL) : TUPLE[exists: BOOLEAN; id: INTEGER]
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			--create a result object
+			create Result
+			create db_query_statement.make ("SELECT * FROM project WHERE id=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<id_project>>)
+			if l_query_result_cursor.after then
+				Result.exists := False
+				Result.id := -1
+			else
+				Result.exists := True
+				Result.id := l_query_result_cursor.item.integer_value (1)
+			end
+		end
 end
