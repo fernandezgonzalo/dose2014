@@ -115,5 +115,63 @@ feature -- Data access
 			end
 		end
 
+feature -- Data access for reports
+
+	total_points_by_project_id (project_id: NATURAL) : JSON_OBJECT
+			-- returns the sum of the points of the tasks related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_tasks_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of tasks related to a given sprint of a project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_subtasks_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of subtasks related to a given sprint of a project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_points_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
+			-- returns the sum of the points of the tasks related to a given sprint of a project
+		do
+			create Result.make
+			-- implement
+		end
+
+	points_by_position_and_project_id (position: STRING;project_id: NATURAL) : JSON_OBJECT
+			-- returns the sum of the points of the tasks which position is 'position' related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_tasks_by_position_and_project_id (position: STRING;project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of tasks which position is 'position' related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_tasks_by_type_and_project_id (type: STRING;project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of tasks which type is 'type' related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
+	total_tasks_by_priority_and_project_id (priority: STRING;project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of tasks which priority is 'priority' related to a given project
+		do
+			create Result.make
+			-- implement
+		end
+
 end
 
