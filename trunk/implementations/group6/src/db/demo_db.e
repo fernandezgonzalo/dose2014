@@ -197,8 +197,8 @@ feature -- Data access : project
 		do
 			-- select from member table the project of the specific user
 			create Result.make_array
-			create db_query_statement.make ("SELECT project FROM member WHERE user='" + a_user_email + "';", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
+			create db_query_statement.make ("SELECT member.project, sum(work_item.points) as points FROM member, work_item WHERE user='" + a_user_email + "'AND member.project = work_item.project GROUP BY member.project;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		end
 
 	get_all_project_members (a_project_name: STRING): JSON_ARRAY

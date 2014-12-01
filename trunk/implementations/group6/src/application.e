@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 				print("false G")
 			end
 
-			print(dao.get_all_project_members ("bidon").representation)
+			print(dao.get_all_user_projects ("giorgio@hotmail.it").representation)
 
 --				 -- BEGIN QUERIES TESTS
 --			print("%N***********new test*************%N")
