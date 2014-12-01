@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Project', 'Utility',
-  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Project, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Project', 'Comment', 'Utility',
+  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Project, Comment, Utility) {
 
   var TAG = 'TaskController::';
-  $log.debug(TAG, 'init', $routeParams, $scope.userTasks);
+  $log.debug(TAG, 'init');
 
   $scope.currentTask = {};
 
@@ -24,6 +24,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   ];
   $scope.userSelect = [];
   $scope.projectSelect = [];
+  $scope.tasksComments =[];
+  
 
   var onload = function() {
     $scope.currentUser.$getTasks(function(data){
@@ -38,6 +40,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       	if ($scope.userTasks.data[task].status === 'created') { createdTasks++; }
       	if ($scope.userTasks.data[task].status === 'in_progress') { inProgTasks++; }
       	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTasks++; }
+
+      	commentsQuery($scope.userTasks.data[task].id);
 
         if ($scope.userTasks.data[task].status === 'finished') {
           $scope.tasksFinished.push($scope.userTasks.data[task]);
@@ -79,6 +83,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask.idProject = projectId;
     $scope.currentTask.status = 'created';
     $scope.currentTask.priority = 'low';
+    $scope.currentTask.deadline = new Date();
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
 
@@ -110,6 +115,20 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask.$delete();
   };
 
+  var commentsQuery = function(idTask){
+  	Comment.query({taskId: idTask}, function(comments) {
+  		$scope.tasksComments[idTask] = comments;
+	});
+  };
+
+  $scope.getCommentsNum = function(idTask){
+  	if ($scope.tasksComments[idTask]) {
+  		return $scope.tasksComments[idTask].length;
+  	}else{
+  		return 0;
+  	}
+  }
+
   $scope.openProjectDash = function($event, projectId) {
     $location.path('/projects/'+ projectId +'/dashboard');
     $event.stopPropagation();
@@ -128,7 +147,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   $scope.showUsers = function() {
       Utility.toCamel($scope.currentTask);
       var selected = $filter('filter')($scope.userSelect, {value: $scope.currentTask.idUserAssigned});
-      var result = ($scope.currentTask.idUserAssigned && selected.length) ? selected[0].text : 'Not set';
+      var result = ($scope.currentTask.idUserAssigned && selected.length) ? selected[0].text : 'Assign to user..';
       Utility.toUnderscore($scope.currentTask);
       return result;
   };
