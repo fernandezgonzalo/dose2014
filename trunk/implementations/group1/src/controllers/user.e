@@ -234,7 +234,7 @@ feature -- Handlers
 			if flag then
 				-- add object id to response
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json (l_user_data.id), create {JSON_STRING}.make_json ("id"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.id.to_string_32), create {JSON_STRING}.make_json ("id"))
 
 				-- send the response
 				set_json_header_ok (res, l_result.representation.count)
