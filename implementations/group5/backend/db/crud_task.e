@@ -296,5 +296,37 @@ feature -- Data access
 			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
 			end
 
+	project_exists (id_project : NATURAL) : BOOLEAN
+	--Verify if the indicated project exist.
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			--create a result object
+			create Result
+			create db_query_statement.make ("SELECT * FROM project WHERE id=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<id_project>>)
+			if l_query_result_cursor.after then
+				Result := False
+			else
+				Result := True
+			end
+		end
+
+		user_exists(id: NATURAL): BOOLEAN
+		--Verify if the indicated user exist.
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+				create Result
+				create db_query_statement.make ("SELECT * FROM user WHERE id=?;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<id>>)
+				if l_query_result_cursor.after then
+					Result := False
+				else
+					Result := True
+				end
+		end
+
+
 
 end

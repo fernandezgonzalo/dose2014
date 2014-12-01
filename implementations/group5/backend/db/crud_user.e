@@ -323,6 +323,8 @@ feature -- Data access
 			end
 
 		user_exists(id: NATURAL): BOOLEAN
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 				create Result
 				create db_query_statement.make ("SELECT * FROM user WHERE id=?;", db)
