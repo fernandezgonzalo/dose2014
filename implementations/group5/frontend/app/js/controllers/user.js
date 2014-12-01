@@ -6,6 +6,8 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
 
   $scope.userSaved = false;
 
+  $log.debug($scope.currentUser);
+
   $log.debug(TAG, 'init', $routeParams);
   if ($routeParams.id) {
     $scope.isEdit = true;
@@ -106,6 +108,27 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     }
   };
 
+  function userUpdateError(response) {
+    $('#save_button').button('reset');
+    $('#create_button').button('reset');
+    if (response.status === 409) {
+      if (response.data.error.toLowerCase().indexOf('username') !== -1) {
+        $scope.form.username.$setValidity('isUnique', false);
+      } else if (response.data.error.toLowerCase().indexOf('email') !== -1) {
+        $scope.form.email.$setValidity('isUnique', false);
+      }
+      ngToast.create({
+        content: response.data.error,
+        class: 'danger'
+      });
+    } else {
+      ngToast.create({
+        content: 'Create user error!',
+        class: 'danger'
+      });          
+    }
+  }
+
   function save() {
     if ($scope.form.$valid) {
       $('#save_button').button('loading');
@@ -121,13 +144,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
           class: 'success'
         });
         Utility.toCamel($scope.user);
-      }, function() {
-        $('#save_button').button('reset');
-        ngToast.create({
-          content: 'Error updating the user!',
-          class: 'danger'
-        });
-      });
+      }, userUpdateError);
     }
 
   }
@@ -163,22 +180,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
           $scope.form.$setPristine(true);
           $('#username').focus();
         }
-        
-      }, function(response) {
-        $('#create_button').button('reset');
-        if (response.status === 409) {
-          $scope.form.email.$setValidity('isUnique', false);
-          ngToast.create({
-            content: response.data.error,
-            class: 'danger'
-          });
-        } else {
-          ngToast.create({
-            content: 'Create user error!',
-            class: 'danger'
-          });          
-        }
-      });
+      }, userUpdateError);
     }
   }
 
