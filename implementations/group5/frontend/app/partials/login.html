@@ -4,12 +4,12 @@
             <form class="form form-signin" ng-submit="login()" name="loginForm">
                 <h1>Welcome to Mgmt</h1>
 
-                <div class="form-group" ng-class="{'has-error' : loginForm.email.$invalid && loginForm.email.$dirty, 'has-success' : loginForm.email.$valid && loginForm.email.$dirty }">
-                    <input type="email" name="email" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus tabindex="1">
+                <div class="form-group" ng-class="{'has-error' : loginForm.email.$invalid  && loginForm.email.$dirty, 'has-success' : loginForm.email.$valid && loginForm.email.$dirty }">
+                    <input type="email" name="email" ng-model="credentials.email" class="form-control" placeholder="Email" required autofocus tabindex="1" ng-change="changed()">
                 </div>
                 
                 <div class="form-group" ng-class="{'has-error' : loginForm.password.$invalid && loginForm.password.$dirty, 'has-success' : loginForm.password.$valid && loginForm.password.$dirty }">
-                    <input type="password" name="password" ng-model="credentials.password" class="form-control last" placeholder="Password" required tabindex="2">
+                    <input type="password" name="password" ng-model="credentials.password" class="form-control last" placeholder="Password" required tabindex="2" ng-change="changed()">
                     
                 </div>
                 <button id="login_button" class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Loading..." tabindex="3">

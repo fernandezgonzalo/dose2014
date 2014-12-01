@@ -4,6 +4,7 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
     function($scope, $location, $log, AuthService, ngToast) {
 
   var TAG = 'LoginController::';
+  var FLAG = 'correctCredentials';
 
   $log.debug(TAG, 'init');
 
@@ -20,13 +21,28 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
         $location.path('/');
         $scope.$apply();
       }, function(response) {
-        ngToast.create({
-          content: response.data.Message,
-          class: 'danger'
-        });
-        $scope.$apply();
+        if (response.data.Message) {
+          ngToast.create({
+            content: response.data.Message,
+            class: 'danger'
+          });
+          $scope.$apply(function() {
+            $scope.loginForm.email.$setValidity(FLAG, false);
+            $scope.loginForm.password.$setValidity(FLAG, false);
+          });
+        } else {
+          ngToast.create({
+            content: 'Unknow error occured',
+            class: 'danger'
+          });
+        }
       });
     }
+  };
+
+  $scope.changed = function() {
+    $scope.loginForm.email.$setValidity(FLAG, true);
+    $scope.loginForm.password.$setValidity(FLAG, true);
   };
 
 }]);
