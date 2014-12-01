@@ -163,6 +163,26 @@ feature -- Handlers
 		end
 	end
 
+	get_users_ranking(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+		l_project_id: STRING
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_project_id := req.path_parameter("project_id").string_representation
+			l_result_array := my_db.get_users_ranking(l_project_id)
+			if l_result /= Void then
+				return_success_array (l_result_array, res)
+			else
+				create l_result.make
+				return_error(l_result, res,"Could not get from " + table_name, 501)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
 --	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 --	do

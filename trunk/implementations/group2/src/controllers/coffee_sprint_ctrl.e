@@ -84,27 +84,25 @@ feature -- Handlers
 		end
 	end
 
---	get_current_sprint (req: WSF_REQUEST; res: WSF_RESPONSE) : JSON_OBJECT
---	local
---		current_date: DATE
---		l_result: JSON_OBJECT
---		l_result_array: JSON_ARRAY
---
---	do
---		create current_date.make_now
---		if req_has_cookie (req, "_coffee_session_" ) then
---			l_result := my_db.get_current_sprint(current_date)
---			if l_result /= Void then
---				--l_result.put_string (l_result_array.representation,"projects")
---				return_success_without_message (l_result, res)
---			else
---				create l_result.make
---				return_error(l_result, res,"Could not get current sprint", 501)
---			end
---		else
---			return_error(l_result, res, "User not logged in", 404)
---		end
---	end
+	get_current_sprint (req: WSF_REQUEST; res: WSF_RESPONSE) : JSON_OBJECT
+	local
+		current_date: DATE
+		l_result: JSON_OBJECT
+	do
+		create current_date.make_now
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_result := my_db.get_current_sprint(current_date)
+			if l_result /= Void then
+				--l_result.put_string (l_result_array.representation,"projects")
+				return_success_without_message (l_result, res)
+			else
+				create l_result.make
+				return_error(l_result, res,"Could not get current sprint", 501)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
 
 --	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 --	local
