@@ -85,6 +85,7 @@ feature -- Data access Users
 			db_query_statement.execute (agent rows_to_json_array (?, 7, Result))
 		end
 
+
 	add_user (name,lastname,email,password,rol,active: STRING): BOOLEAN
 			-- adds a new user with the given user name
 		do
