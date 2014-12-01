@@ -15,8 +15,8 @@
 	<div class="block users-column" >
 		<p><b><h2 align="center">Users</h2></b></p>
 		
-		<ul ng-repeat="user in users">
-			<li><a  ng-href="#/user/{{userId}}/project/{{projectId}}/{{user.id}}">{{user.lastname}}</a></li>
+		<ul ng-repeat="user in usersFromProj">
+			<li><a  ng-href="#/user/{{userId}}/project/{{projectId}}/{{user.id}}">{{user.name}}</a></li>
 			<!--<button ng-click='getUrl()'>d</button> 
 			<p>aa{{absUrl}}{{lookupUserId}}</p>
 			bb{{projectId}}
