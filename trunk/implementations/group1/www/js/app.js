@@ -42,7 +42,11 @@ app.config(['$routeProvider', '$locationProvider',
             .when('/user/:userId/project/:projectId', { // Show project dashboard
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
-            })/*
+            })
+			.when('/user/:userId/project/:projectId/:lookupUserId', {
+			templateUrl: 'partials/user-detail.html',
+			controller: 'UserDetailsCtrl'
+			})/*
          .when('/user/home', {
          templateUrl: 'partials/home.html',
          controller: 'ProjectCtrl'

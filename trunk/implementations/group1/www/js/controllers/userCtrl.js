@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-.controller('UserCtrl', function ($scope, $routeParams, $log, UserFactory,$location) {
+.controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject,Users,$location) {
 
 	$scope.text = "blas";
 	$scope.users2 = [
@@ -20,35 +20,23 @@ angular.module('DOSEMS.controllers')
 	var userId =  $routeParams.userId;
 	if (userId != null ) {
 		//Get the user from server
-		$scope.userId = userId;
+		$scope.userId = $routeParams.userId;
 		$scope.projectId = $routeParams.projectId;
+		$log.info($scope.userId);
+		$log.info($scope.projectId);
 	}	
-	$scope.users = UserFactory.query(function (data) {
-		$log.info(data);
-		$scope.getUserInfo();
+	$log.info("fdf");
+	$scope.usersIdFromProject = UsersFromProject.get({userId:$scope.userId,projectId:$scope.projectId},function (data) {
+	
+		var i = 0;
+		for(i=0;i<$scope.usersIdFromProject.length;i++)
+		
+			$scope.usersFromProj = Users.get({userId:$scope.usersIdFromProject[i].id_user},function(data){});
+	
 	});
 	
-		$scope.getUserInfo = function(){
-			
-			$log.info($routeParams)
-			var i = 0;
-			this.lookupUserId = $routeParams.lookupUserId;
-			
-			this.user = null;
-			$log.info("fdfsd");
-				$log.info($scope.users.length);
-			for (i = 0; i < this.users.length; i++) 	
-			{
-				$log.info("fdfsd");
-				if ($scope.users[i].id == this.lookupUserId) 
-				{
-					$log.info($scope.users[i])
-					this.user = $scope.users[i];
-				}
-			
-			}
-			$log.info(this.user.lastname);
-		}
+	
+	
 		
 		
 		$scope.getUrl = function(){
