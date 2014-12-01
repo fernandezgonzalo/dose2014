@@ -27,7 +27,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   $scope.projectSelect = [];
   $scope.tasksComments = [];
   $scope.userHash = [];
-  
+
+    
 
   var onload = function() {
     $scope.currentUser.$getTasks(function(data){
@@ -62,8 +63,10 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   if ($scope.currentUser) {
     onload();
   } else {
-    $scope.onloadListeners.push(onload);
-    $log.debug(TAG, 'onloadlisteners: ', $scope.onloadListeners);
+    $scope.getCurrentUser().then(function(user) {
+      $scope.setCurrentUser(user);
+      onload();
+    });
   }
 
   User.query(function(allUsers){

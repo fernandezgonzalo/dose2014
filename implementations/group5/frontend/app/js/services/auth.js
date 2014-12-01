@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', '$location', function($log, User, Utility, $http, $location) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', function($log, User, Utility, $http) {
   var TAG = 'AuthService::';
   $log.debug(TAG, 'init');
 
@@ -31,16 +31,24 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   authService.logout = function() {
     $http.delete('/api/logout');
     localStorage.removeItem(authService.KEY);
-    $location.path('/login');
   };
  
   authService.isAuthenticated = function () {
-    return localStorage.getItem(authService.KEY);
+    return localStorage.getItem(authService.KEY) ;
   };
  
   authService.isAdmin = function () {
     return !!authService.currentUser && authService.currentUser.isAdmin;
-  };  
+  };
 
+  authService.getCurrentUser = function() {
+    var userId = localStorage.getItem(authService.KEY);
+    return new Promise(function(resolve, reject) {
+      User.get({userId: userId}, function(user) {
+        authService.loginSuccess(user);
+        resolve(user);
+      }, reject);
+    });
+  };
   return authService;
 }]);
