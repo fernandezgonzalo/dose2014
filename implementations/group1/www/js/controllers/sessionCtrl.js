@@ -3,15 +3,22 @@
 angular.module('DOSEMS.controllers', ['ngCookies'])
     .controller('SessionCtrl', ['$rootScope', '$scope', '$http', '$log', '$timeout', '$window',
         function ($rootScope, $scope, $http, $log, $timeout, $window) {
-            $rootScope.LOGGED_IN = false;
-            // the model that we bind to the input box
-            $scope.formData = {
-                email: '',
-                pass: ''
+            $scope.init = function () {
+                $rootScope.LOGGED_IN = false;
+                // the model that we bind to the input box
+                $scope.formData = {
+                    email: '',
+                    pass: ''
+                };
+                $rootScope.currentUserId = -1;
+                $scope.successMsgVisible = false;
+                $scope.errorMsgVisible = false;
             };
-            $scope.currentUserId = '';
-            $scope.successMsgVisible = false;
-            $scope.errorMsgVisible = false;
+
+            $scope.$on("signup_done", function (event, args) {
+
+                $log.debug("here");
+            });
 
             // the function to login
             $scope.login = function (email, pass) {
@@ -31,12 +38,12 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                         //   show a success message
                         $scope.successMsgVisible = true;
                         //    let the message disappear after 2 secs
-                        $scope.currentUserId = data.id;
+                        $rootScope.currentUserId = data.id;
                         $rootScope.LOGGED_IN = true;
                         $timeout(function () {
                             $scope.successMsgVisible = false;
                             // Insert the userID instead of 5 later
-                            $window.location.href = '/#/user/' + $scope.currentUserId + '/home';
+                            $window.location.href = '/#/user/' + $rootScope.currentUserId + '/home';
                         }, 2000);
                     })
                     .error(function (data, status) {
@@ -50,7 +57,7 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                         }, 2000);
 
                     });
-            }
+            };
 
 
             // the function to logout
@@ -73,6 +80,8 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                     .error(function (data, status) {
                         $log.debug('Error while logging out the user.');
                     });
-            }
-        }]
-);
+            };
+
+            $scope.init();
+
+        }]);
