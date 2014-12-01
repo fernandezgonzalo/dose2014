@@ -89,15 +89,25 @@ feature -- Handlers
 				end
 
 			end
-			create l_result.make
-				-- create the user in the database
-			result_add_task := my_crud_task.add_task (l_title, l_description, l_status, l_priority, l_deadline, l_estimation, l_id_user_creator.to_natural, l_id_user_assigned.to_natural, l_id_project.to_natural)
-			was_created := result_add_task.boolean_item (1)
-			task_id := result_add_task.integer_32_item (2)
-			if was_created then
-				--if the task was created,set the response
-				l_result.put (create {JSON_STRING}.make_json (task_id.out), create {JSON_STRING}.make_json ("id"))
-				set_json_header (res, 201, l_result.representation.count)
+			if my_crud_task.project_exists (l_id_project.to_natural) then
+				if my_crud_task.user_exists (l_id_user_assigned.to_natural) then
+					create l_result.make
+						-- create the user in the database
+					result_add_task := my_crud_task.add_task (l_title, l_description, l_status, l_priority, l_deadline, l_estimation, l_id_user_creator.to_natural, l_id_user_assigned.to_natural, l_id_project.to_natural)
+					was_created := result_add_task.boolean_item (1)
+					task_id := result_add_task.integer_32_item (2)
+					if was_created then
+						--if the task was created,set the response
+					l_result.put (create {JSON_STRING}.make_json (task_id.out), create {JSON_STRING}.make_json ("id"))
+					set_json_header (res, 201, l_result.representation.count)
+					end
+				else
+					l_result.put (create {JSON_STRING}.make_json ("assigned user does not exist"), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 400, l_result.representation.count)
+				end
+			else
+				l_result.put (create {JSON_STRING}.make_json ("project does not exist."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 400, l_result.representation.count)
 			end
 
 			res.put_string (l_result.representation)
