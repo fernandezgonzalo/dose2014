@@ -68,11 +68,11 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-			if dao.is_member ("giorgio@hotmail.it", "The amazing project") then
-				print("true G")
-			else
-				print("false G")
-			end
+		--	if dao.is_member ("giorgio@hotmail.it", "The amazing project") then
+		--		print("true G")
+		--	else
+		--		print("false G")
+		--	end
 
 			print(dao.get_all_user_projects ("giorgio@hotmail.it").representation)
 
@@ -113,6 +113,11 @@ feature {NONE} -- Initialization
 			create project_ctrl.make (dao, session_manager)
 			create user_ctrl.make (dao)
 			create iteration_ctrl.make (dao)
+			create work_item_ctrl.make (dao)
+			--dao.add_work_item ("nuovo_prova", "questa è una prova", 15, 2, "The amazig project", "Done", "jimmy@yahoo.com", "jimmy@yahoo.com")
+			--dao.modify_work_item (6, 2, 1, "The amazing project", "prova_modifica",10, "Ongoing", "giorgio@hotmail.it", "descrizone_modifica", "giorgio@hotmail.it")
+
+
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
@@ -162,8 +167,8 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item_info, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/work_items", agent work_item_ctrl.create_work_item, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.update_work_item, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_all_iteration_work_items, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.change_work_item, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{nb_iteration}", agent work_item_ctrl.get_all_iteration_work_items, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.add_comment, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.get_all_work_item_comments, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.add_comment, router.methods_post)
