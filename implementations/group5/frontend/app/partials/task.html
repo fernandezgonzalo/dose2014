@@ -50,6 +50,13 @@
 				</p>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
 				<p><span class="glyphicon glyphicon-comment"></span> add a comment</p>
+				
+				<form novalidate role="form">
+				  <div class="form-group">
+				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
+				  </div>
+				  <button ng-click="saveComment(currentUser.id, currentTask.id)" type="submit" class="btn btn-primary">Submit</button>
+				</form>
 			</div>
 		</div>	<!-- /modal-body -->
 
