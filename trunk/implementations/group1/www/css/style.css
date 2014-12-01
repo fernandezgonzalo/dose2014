@@ -290,3 +290,43 @@ th {
     width: 60%;
     padding-left: 20px;
 }
+
+/* Add User view */
+#addUsers a.link-button span{
+	width: 100px;
+}
+
+#addUsers div.buttons {
+	text-align: right;
+}
+#addUSers div.buttons > div {
+	display: inline-block;
+	margin-right: 10px;
+}
+#addUsers table {
+    line-height: 25px;
+	margin-left: 30px;
+}
+
+#addUsers table .col1 {
+    width: 250px;
+}
+
+#addUsers table .col2 {
+    width: 150px;
+}
+
+#addUsers table .col3 {
+    width: 130px;
+}
+
+#addUsers table td.col1 {
+    padding-left: 8px;
+}
+
+#addUsers table td.col2 {
+    padding-left: 8px;
+}
+#addUsers table td.col3 {
+    padding-left: 15px;
+}

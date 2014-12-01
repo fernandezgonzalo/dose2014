@@ -68,6 +68,10 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/user.html',
                 controller: 'UserCtrl'
             })
+			.when('/user/:userId/projectUsers', {
+                templateUrl: 'partials/manageUsers.html',
+                controller: 'UserCtrl'
+            })
 
             /*            .when('/sprint', {
              templateUrl: 'partials/sprint.html',
