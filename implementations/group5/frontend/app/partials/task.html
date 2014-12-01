@@ -21,7 +21,19 @@
 					<span ng-show = "currentTask.description">Description:</span>
 					<span editable-text="currentTask.description" buttons="no"> {{ currentTask.description || "Add description.." }}</span>
 				</p>
-				<p>Comments: Here will be comments</p>
+				<p>Comments:
+					<span ng-if="getCommentsNum(currentTask.id) === 0">No comments yet!</span>
+					<div class="small" ng-repeat="comment in tasksComments[currentTask.id]">
+						<span>{{userHash[comment.id_user]}}:</span>
+						<span ng-if="comment.id_user === currentUser.id">
+							<a class="pull-right" ng-click = "deleteComment(comment)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<a href="#" editable-textarea="comment.commentary" e-rows="7" e-cols="40">
+								<pre>{{comment.commentary}}</pre>
+							</a>
+						</span>
+						<span ng-if="comment.id_user !== currentUser.id">{{comment.commentary}}</span>
+					</div>
+				</p>
 			</div>
 			<div class="col-md-6">
 				<p>

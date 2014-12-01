@@ -24,7 +24,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   ];
   $scope.userSelect = [];
   $scope.projectSelect = [];
-  $scope.tasksComments =[];
+  $scope.tasksComments = [];
+  $scope.userHash = [];
   
 
   var onload = function() {
@@ -67,6 +68,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   User.query(function(allUsers){
     for (var i = 0; i < allUsers.length; i++) {
       $scope.userSelect.push({value: allUsers[i].id, text: allUsers[i].username});
+      $scope.userHash[allUsers[i].id] = allUsers[i].username;
     }
   });
 
@@ -81,6 +83,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask = new Task();
     $scope.currentTask.idUserCreator = $scope.currentUser.id;
     $scope.currentTask.idProject = projectId;
+    $scope.currentTask.idUserAssigned = '0';
+    $scope.currentTask.title = 'Add a new title';
     $scope.currentTask.status = 'created';
     $scope.currentTask.priority = 'low';
     $scope.currentTask.deadline = new Date();
@@ -106,6 +110,10 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       });
     } else {
       $scope.currentTask.$update();
+      $log.debug('COMMENTI DA MODIFICARE::',$scope.tasksComments[$scope.currentTask.id]);
+      for (var i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
+      	$scope.tasksComments[$scope.currentTask.id][i].$update();
+      }
       $route.reload();
     }
     
@@ -121,13 +129,18 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
 	});
   };
 
+  $scope.deleteComment = function(comment){
+  	comment.$delete();
+  	$route.reload();
+  };
+
   $scope.getCommentsNum = function(idTask){
   	if ($scope.tasksComments[idTask]) {
   		return $scope.tasksComments[idTask].length;
   	}else{
   		return 0;
   	}
-  }
+  };
 
   $scope.openProjectDash = function($event, projectId) {
     $location.path('/projects/'+ projectId +'/dashboard');
