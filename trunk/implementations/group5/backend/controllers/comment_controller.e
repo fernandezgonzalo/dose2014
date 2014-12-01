@@ -48,7 +48,7 @@ feature -- Handlers
 		end
 
 		--returns json array with the coments for a task
-	get_comment_by_task_id(req: WSF_REQUEST; res: WSF_RESPONSE)
+	get_comments_by_task_id(req: WSF_REQUEST; res: WSF_RESPONSE)
 
 	local
 		l_task_id, l_result_payload: STRING
@@ -76,7 +76,9 @@ feature -- Handlers
 		do
 			-- create emtpy string objects
 			create l_comment.make_empty
-
+			create l_payload.make_empty
+			create l_user_id.make_empty
+			create l_task_id.make_empty
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 
@@ -88,7 +90,7 @@ feature -- Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("comment") as s then
+				if attached {JSON_STRING} j_object.item ("commentary") as s then
 					l_comment := s.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("id_user") as s then

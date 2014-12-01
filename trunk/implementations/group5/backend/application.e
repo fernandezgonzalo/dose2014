@@ -114,7 +114,7 @@ feature -- Basic operations
 
 			--USER RELATED URIs
 
-				-- handling of all ht routes relating to "users"
+				-- handling of all the routes relating to "users"
 			--Retrieving all users
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			--Creating one user.
@@ -155,7 +155,7 @@ feature -- Basic operations
 			--handling of the routes relating to comments
 
 					--List all comments for a task
-					map_uri_template_agent_with_request_methods ("/api/tasks/{id}/comments", agent comment_ctrl.get_comment_by_task_id, router.methods_get)
+					map_uri_template_agent_with_request_methods ("/api/tasks/{id}/comments", agent comment_ctrl.get_comments_by_task_id, router.methods_get)
 
 					--Create a comment
 					map_uri_template_agent_with_request_methods ("/api/tasks/{id}/comments", agent comment_ctrl.create_comment, router.methods_post)

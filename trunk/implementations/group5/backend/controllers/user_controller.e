@@ -149,6 +149,7 @@ feature -- Handlers
 			create l_last_login.make_empty
 			create l_is_admin.make_empty
 			create l_password.make_empty
+			create l_id.make_empty
 			l_id := req.path_parameter ("id").string_representation
 
 				-- read the payload from the request and store it in the string
@@ -183,11 +184,7 @@ feature -- Handlers
 			end
 			create l_result.make
 			result_exists_user := my_crud_user.user_exists_with_email (l_email)
-			if not result_exists_user.boolean_item (1) and not (l_id.to_natural = result_exists_user.natural_32_item (2)) then
-				result_exists_user := my_crud_user.user_exists_with_username (l_username)
-				print(l_id.to_natural)
-				print(result_exists_user.natural_32_item (2))
-				if not result_exists_user.boolean_item (1) and not (l_id.to_natural = result_exists_user.natural_32_item (2)) then
+			if not result_exists_user.boolean_item (1)  then
 					if my_crud_user.update_user_email (l_id.to_natural, l_email) And my_crud_user.update_user_is_admin (l_id.to_natural, l_is_admin.to_natural) And my_crud_user.update_user_last_login (l_id.to_natural, l_last_login) And my_crud_user.update_user_name (l_id.to_natural, l_name) And my_crud_user.update_user_username (l_id.to_natural, l_username) then
 							--if the user was updated,set the response
 						if not l_password.is_empty then
@@ -206,13 +203,14 @@ feature -- Handlers
 						l_result.put (create {JSON_STRING}.make_json ("Error while updating"), create {JSON_STRING}.make_json ("error"))
 						set_json_header (res, 500, l_result.representation.count)
 					end
+			else
+				if (l_id.to_integer = result_exists_user.integer_32_item (2)) then
+					l_result := my_crud_user.user_by_id (l_id.to_natural)
+					set_json_header_ok (res, l_result.representation.count)
 				else
-					l_result.put (create {JSON_STRING}.make_json ("Username already in use"), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Email already in use"), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 409, l_result.representation.count)
 				end
-			else
-				l_result.put (create {JSON_STRING}.make_json ("Email already in use"), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 409, l_result.representation.count)
 			end
 			res.put_string (l_result.representation)
 		end
