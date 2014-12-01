@@ -111,7 +111,6 @@ feature -- Handlers
 			end
 			create l_result.make
 				-- create the project in the database
-			print(l_user_id.out)
 			result_add_project := my_crud_project.add_project (l_name, l_deadline, l_client, l_user_id.to_natural)
 			was_created := result_add_project.boolean_item (1)
 			project_id := result_add_project.integer_32_item (2)
