@@ -348,10 +348,10 @@ feature -- Data access Sprint
 			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 
-	search_tasks_by_sprint (id_user, id_sprint: INTEGER): JSON_ARRAY
+	search_tasks_by_sprint (id_sprint: INTEGER): JSON_ARRAY
 		do
-			create Result.make_array     
-			create db_query_statement.make ("SELECT id FROM task natural join taskuser_sprint where id_sprint= "+id_sprint.out+" and id_task = id;" , db)
+			create Result.make_array
+			create db_query_statement.make ("SELECT t.id FROM task t, taskuser_sprint r where r.id_sprint = '"+id_sprint.out+"' and t.id = r.id_task;" , db)
 			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
