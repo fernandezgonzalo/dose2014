@@ -10,11 +10,11 @@
         <div id="navigation">
             <ul>
                 <li ng-show="loggedIn">
-                    <a href="/#/user/home">Dashboard</a>
+                    <a href="/#/user/{{user.id}}/home">Dashboard</a>
                 </li>
-                <li ng-show="loggedIn">
-                    <a href="/#/tasks">My Tasks</a>
-                </li>
+                <!--                <li ng-show="loggedIn">
+                                    <a href="/#/tasks">My Tasks</a>
+                                </li>-->
                 <li>
                     <a href="/#/ranking">Ranking</a>
                 </li>

@@ -1,12 +1,19 @@
 <div class="block">
-    <table>
-        <tr>
-            <th>UserId</th>
-            <th>ProjectId</th>
-        </tr>
-        <tr ng-repeat="project in userProjectsIDs">
-            <td>{{project.id_user}}</td>
-            <td>{{project.id_project}}</td>
-        </tr>
-    </table>
+    <h2>Welcome - {{user.name }} {{user.lastname}}</h2>
+
+    <div>
+        <h3>Your Projects</h3>
+        <ul class="media-list">
+            <li class="media" ng-repeat="project in userProjects">
+                <div class="media-body">
+                    <a class="media-heading" href="/#/user/{{user.id}}/project/{{project.id}}"><h4>
+                        {{project.name}}</h4>
+                    </a>
+
+                    <p>{{project.info}}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
 </div> 
