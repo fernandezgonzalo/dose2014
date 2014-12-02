@@ -66,6 +66,26 @@ feature -- Handlers
 			end
 	end
 
+	get_progress (req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_project_id: STRING
+		l_result: JSON_OBJECT
+	do
+
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_project_id := req.path_parameter("project_id").string_representation
+			l_result := my_db.get_task_progress(l_project_id)
+			if l_result /= Void then
+				return_success_without_message (l_result, res)
+			else
+				create l_result.make
+				return_error(l_result, res,"Could not get current sprint", 501)
+			end
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
 	get_current_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
 		l_project_id: STRING
@@ -117,7 +137,7 @@ feature -- Handlers
 		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_project_id := req.path_parameter("project_id").string_representation
-			l_user_id := req.path_parameter("user_id").string_representation
+			l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
 			if is_authorized_delete(l_project_id, l_user_id) then
 				l_result := my_db.get_from_id (table_name, l_project_id)
 				l_delete_result:= my_db.delete(table_name,l_project_id)
