@@ -11,6 +11,10 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                 };
                 $scope.successMsgVisible = false;
                 $scope.errorMsgVisible = false;
+
+                if (Users.loggedIn) {
+                    $scope.logout();
+                }
             };
             // the function to login
             $scope.login = function (email, pass) {

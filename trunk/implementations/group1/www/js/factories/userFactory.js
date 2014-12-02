@@ -1,29 +1,8 @@
 angular.module('DOSEMS.services', ['ngResource']).factory('Users', function ($resource) {
     Users = {
         loggedIn: false,
-        /*
-         loggedInUserId: -1,
-         */
         currentUser: {},
-        resource: $resource("api/users/:userId",
-            {},
-            {
-                get: {method: 'get', isArray: true}
-                /*getCurrentUser: {
-                 method: 'get', params: {
-                 userId: function () {
-                 if (loggedIn) {
-                 return loggedInUserId;
-                 } else {
-                 return -1;
-                 }
-
-                 }
-                 }
-                 }*/
-
-
-            }
+        resource: $resource("api/users/:userId", {}, {get: {method: 'get', isArray: true}}
         ),
         restUser: function () {
             this.loggedIn = false;
@@ -31,7 +10,6 @@ angular.module('DOSEMS.services', ['ngResource']).factory('Users', function ($re
             this.currentUser = {};
 
         }
-
     };
 
     return Users;
