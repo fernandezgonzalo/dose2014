@@ -25,6 +25,8 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$stateP
             var project_id = $stateParams.projectId;
             Projects.one(project_id).all('sprints').post($scope.sprint).then(function(project) {
                 $location.path('/projects/'+ project_id);
+            }, function error(err) {
+                $scope.error = err.Message;
             });
         };
 

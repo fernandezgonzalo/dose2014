@@ -19,7 +19,7 @@ angular.module('coffee.core').controller('ProjectUsersController', ['$scope', '$
         $scope.findCurrentUsers = function() {
             var project_id = $stateParams.projectId;
 
-            $scope.current_users = [];
+            //$scope.current_users = [];
             //TODO: waiting for backend..
             /*Projects.one(project_id).getList('users').then(function(users) {
                 $scope.current_users = users;
