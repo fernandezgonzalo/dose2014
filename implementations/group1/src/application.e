@@ -53,6 +53,10 @@ feature {NONE} -- Initialization
 
 	task: TASK
 		-- a controller for handling task requests
+
+	requirement: REQUIREMENT
+		-- a contreoler for handling requirement requets
+
 	dao: DB
 			-- access to the database and the functionality that comes with that class
 
@@ -119,6 +123,13 @@ feature -- Basic operations
 				-- handling of all ht routes relating to "task"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks", agent sprint.get_tasks_by_sprint, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks/{id_task}", agent task.get_a_task, router.methods_get)
+
+
+				-- handling of all ht routes relating to "requirement"
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements", agent requirement.add_requeriment , router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.get_a_requeriment, router.methods_get)
+		--	map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}", agent requirement., router.methods_put)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.delete_requirement, router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
 			create fhdl.make_hidden (path_to_www_folder)
