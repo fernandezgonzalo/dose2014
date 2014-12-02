@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('coffee.core').controller('DashboardController', ['$scope', '$stateParams', '$location', 'Global', 'Projects', 'Users', 'Requirements', 'Tasks',
-    function($scope, $stateParams, $location, Global, Projects, Users, Requirements, Tasks) {
+angular.module('coffee.core').controller('DashboardController', ['$scope', '$stateParams', '$location', '$modal', 'Global', 'Projects', 'Users', 'Requirements', 'Tasks',
+    function($scope, $stateParams, $location, $modal, Global, Projects, Users, Requirements, Tasks) {
 
         $scope.global = Global;
 
@@ -20,11 +20,12 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
                             in_progress: [],
                             done: [],
                             title: req.title,
-                            id: req.id
+                            id: req.id,
                         };             
 
                         Requirements.one(req.id).getList('tasks').then(function(tasks) {
                             angular.forEach(tasks, function(task) {
+                                task.user = $scope.loadUser(task.user_id);
                                 pushTask(task);
                             });
                         });
@@ -33,6 +34,74 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
 
             });
         };
+
+
+        $scope.loadUser = function(id) {
+            return Users.one(id).get().$object
+        };
+
+
+        $scope.openAssign = function (project, task) {
+
+            var modalInstance = $modal.open({
+                templateUrl: '/app/core/views/projects/assign_modal.html',
+                controller: 'AssignController',
+                size: 'sm',
+                resolve: {
+                    task: function () {
+                        return task;
+                    },
+                    project: function () {
+                        return project;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selected_user) {
+                task.user_id = selected_user.id;
+                task.user = selected_user;                
+                task.put().then(function(res) {
+                    console.log(res);
+                }, function err(msg) {
+                    alert(msg);
+                });                
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        $scope.openLog = function (project, task) {
+
+            var modalInstance = $modal.open({
+                templateUrl: '/app/core/views/projects/log_modal.html',
+                controller: 'LogController',
+                size: 'sm',
+                resolve: {
+                    task: function () {
+                        return task;
+                    },
+                    project: function () {
+                        return project;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (hours) {
+                task.hours_spent = hours;
+                task.put().then(function(res) {
+                    console.log(res);
+                }, function err(msg) {
+                    alert(msg);
+                });                
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        ////////////////////////////////////////////////////
+        //    Drag & Drop functions
+        ////////////////////////////////////////////////////
+
 
         $scope.onDropToDo = function(data,evt){
             var index = indexOfTask($scope.dashboard[data.requirement_id].todo, data.id);
@@ -80,9 +149,6 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
         };
 
 
-        $scope.loadUser = function(id) {
-            return Users.one(id).get().$object
-        };
 
         ////////////////////////////////////////////////////
         //    Utils functions

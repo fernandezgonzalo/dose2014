@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title">Assign issue</h3>
+</div>
+<div class="modal-body" data-ng-init="init()">
+    <ul>
+        <li data-ng-repeat="user in current_users">
+            <a data-ng-click="selectUser(user)">{{user.first_name}} {{user.last_name}} </a>
+        </li>
+    </ul>
+    Selected: <b>{{selected.first_name}} {{selected.last_name}} </b>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
