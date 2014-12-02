@@ -53,7 +53,7 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
             }
         }).
         state('editTask', {
-            url: '/tasks/:taskId/edit',
+            url: '/requirements/:requirementId/tasks/:taskId/edit',
             templateUrl: '/app/core/views/tasks/edit.html',
             resolve: {
                 loggedin: checkLoggedin

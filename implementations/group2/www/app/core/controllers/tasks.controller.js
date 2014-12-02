@@ -65,7 +65,14 @@ angular.module('coffee.core').controller('TaskController', ['$scope', '$statePar
         };
 
         $scope.update = function() {
-            $scope.requirement.put().then(function() {
+            //we need a method PUT /taks/{task_id}
+            //$scope.task.put().then(function() {
+            //    $location.path('listTasks');
+            //});
+            Requirements
+            .one($scope.task.requirement_id)
+            .one('tasks', $scope.task.id)
+            .customPUT($scope.task).then(function(res) {
                 $location.path('listTasks');
             });
         };
