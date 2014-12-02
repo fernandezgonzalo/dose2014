@@ -20,18 +20,21 @@ feature
 	add_data_to_map_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
 			l_user_id: STRING
+			l_project_id: STRING
 		do
 			create l_user_id.make_empty
 			l_user_id := req.path_parameter("user_id").string_representation
-			a_map.keys.put_front("user_id")
-			a_map.values.put_front(l_user_id)
-			a_map.keys.put_front("points")
-			a_map.values.put_front("0")
+			l_project_id := req.path_parameter("project_id").string_representation
+			a_map.keys.extend("user_id")
+			a_map.values.extend(l_user_id)
+			a_map.keys.extend("points")
+			a_map.values.extend("0")
+			a_map.keys.extend ("project_id")
+			a_map.values.extend (l_project_id)
 		end
 
 	delete(req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
-	--	l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
 		l_user_id: STRING
 		l_project_id: STRING

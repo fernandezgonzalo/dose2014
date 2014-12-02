@@ -78,14 +78,13 @@ feature -- Handlers
 	do
 		create l_result.make
 			l_map := parse_request (req)
-			l_add_result:= my_db.add (table_name,l_map)
-			if l_add_result.success then
-				l_result := my_db.get_from_id (table_name, l_add_result.id)
-				--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
-				return_success_without_message (l_result, res)
-			else
-				return_error(l_result, res,"Could not add to " + table_name, 501)
-			end
+				l_add_result:= my_db.add (table_name,l_map)
+				if l_add_result.success then
+					l_result := my_db.get_from_id (table_name, l_add_result.id)
+					return_success_without_message (l_result, res)
+				else
+					return_error(l_result, res,"Could not add to " + table_name, 501)
+				end
 
 		end
 
@@ -120,6 +119,9 @@ feature -- Handlers
 
 
 feature {NONE} -- helpers
+
+	--dfa: RX_PCRE_MATCHER
+
 	reject(l_result_payload: JSON_OBJECT res: WSF_RESPONSE)
 
 	local
