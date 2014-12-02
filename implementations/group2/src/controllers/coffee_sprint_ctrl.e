@@ -84,20 +84,22 @@ feature -- Handlers
 		end
 	end
 
-	get_current_sprint (req: WSF_REQUEST; res: WSF_RESPONSE) : JSON_OBJECT
+	get_all_tasks(req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
-		current_date: DATE
 		l_result: JSON_OBJECT
+		l_result_array: JSON_ARRAY
+		l_sprint_id: STRING
 	do
-		create current_date.make_now
+		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
-			l_result := my_db.get_current_sprint(current_date)
+			l_sprint_id := req.path_parameter("sprint_id").string_representation
+			l_result_array := my_db.get_tasks_from_sprint(l_sprint_id)
 			if l_result /= Void then
 				--l_result.put_string (l_result_array.representation,"projects")
-				return_success_without_message (l_result, res)
+				return_success_array (l_result_array, res)
 			else
 				create l_result.make
-				return_error(l_result, res,"Could not get current sprint", 501)
+				return_error(l_result, res,"Could not get from " + table_name, 501)
 			end
 		else
 			return_error(l_result, res, "User not logged in", 404)

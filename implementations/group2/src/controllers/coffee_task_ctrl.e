@@ -170,51 +170,32 @@ feature -- Handlers
 	end
 
 	update(req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
-			l_result: JSON_OBJECT
-			l_update_result: TUPLE[success: BOOLEAN; id: STRING]
-		do
-			create l_result.make
-			if req_has_cookie (req, "_coffee_session_" ) then
-				l_map := parse_request (req)
-				add_data_to_map_update (req, l_map)
-				if is_authorized_update(req, l_map) then
-					l_update_result:= my_db.update_task (l_map)
-					if l_update_result.success then
-						l_result:= my_db.get_from_id (table_name, l_update_result.id)
-						return_success_without_message (l_result, res)
-					else
-						return_error(l_result, res,"Could not update " + table_name, 501)
-					end
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+		l_update_result: TUPLE[success: BOOLEAN; id: STRING]
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_update (req, l_map)
+			if is_authorized_update(req, l_map) then
+				l_update_result:= my_db.update_task (l_map)
+				if l_update_result.success then
+					l_result:= my_db.get_from_id (table_name, l_update_result.id)
+					return_success_without_message (l_result, res)
 				else
-					return_error (l_result, res, "Not authorized", 403)
-				end
-
-			else
-				return_error(l_result, res, "User not logged in", 404)
-			end
-		end
-
-		get_tasks_project_backlog (req: WSF_REQUEST; res: WSF_RESPONSE)
-		local
-			l_result: JSON_OBJECT
-			l_result_array: JSON_ARRAY
-			l_project_id: STRING
-		do
-			create l_result.make
-			if req_has_cookie (req, "_coffee_session_" ) then
-				l_project_id := req.path_parameter("project_id").string_representation
-				l_result_array := my_db.get_project_backlog(l_project_id)
-				if l_result /= Void then
-					return_success_array (l_result_array, res)
-				else
-					create l_result.make
-					return_error(l_result, res,"Could not get from " + table_name, 501)
+					return_error(l_result, res,"Could not update " + table_name, 501)
 				end
 			else
-				return_error(l_result, res, "User not logged in", 404)
+				return_error (l_result, res, "Not authorized", 403)
 			end
+
+		else
+			return_error(l_result, res, "User not logged in", 404)
 		end
+	end
+
+	
 
 end
