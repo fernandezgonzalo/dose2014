@@ -45,15 +45,17 @@
 					<span editable-range="currentTask.estimation" e-step="5"> {{ currentTask.estimation || "Add points.." }}</span>
 				</p>
 				<p>
-					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.deadline"></span>
-					<span class="glyphicon glyphicon-time"></span>
-					<!--<a href="#" editable-bsdate="currentTask.deadline" e-datepicker-popup="dd-MMMM-yyyy"> {{ (currentTask.deadline | date:"dd/MM/yyyy") || 'empty' }}</a>
- 					<a href="#" editable-bstime="user.time" e-show-meridian="false" e-minute-step="10"> {{ (currentTask.deadline | date:"HH:mm") || 'empty' }}</a> -->
-					<span editable-text="currentTask.deadline" buttons="no"> {{ currentTask.deadline || "Add a deadline" }}</span>
+					<div class="form-horizontal">
+			            <div class="input-group">
+			              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.openedDate" close-text="Close" />
+			              <span class="input-group-btn">
+			              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick()"><i class="glyphicon glyphicon-time"></i></button>
+			              </span>
+			            </div>
+			        </div>
 				</p>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
 				<p ng-if="!isNew"><span class="glyphicon glyphicon-comment"></span> add a comment</p>
-				
 				<form ng-if="!isNew" novalidate role="form">
 				  <div class="form-group">
 				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
