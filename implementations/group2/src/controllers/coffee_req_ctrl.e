@@ -31,7 +31,7 @@ feature -- Handlers
 		create l_result.make
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_req_id := req.path_parameter("req_id").string_representation
-			l_user_id := req.path_parameter("user_id").string_representation
+			l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
 			l_project_id:=my_db.get_project_id_of_req (l_req_id)
 			if is_authorized_delete(l_project_id, l_user_id) then
 				l_result := my_db.get_from_id (table_name, l_req_id)
