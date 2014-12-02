@@ -21,19 +21,22 @@
 					<span ng-show = "currentTask.description">Description:</span>
 					<span editable-text="currentTask.description" buttons="no"> {{ currentTask.description || "Add description.." }}</span>
 				</p>
-				<p>Comments:
-					<span ng-if="getCommentsNum(currentTask.id) === 0">No comments yet!</span>
-					<div class="small" ng-repeat="comment in tasksComments[currentTask.id]">
-						<span>{{userHash[comment.id_user]}}:</span>
+				<div class="panel panel-primary">
+				  <div class="panel-heading">Comments</div>
+				  <div class="panel-body comments">
+				    <span ng-if="getCommentsNum(currentTask.id) === 0">No comments yet!</span>
+					<div ng-repeat="comment in tasksComments[currentTask.id]">
+						<span class="small">{{userHash[comment.id_user]}}:</span>
 						<span ng-if="comment.id_user === currentUser.id">
-							<a class="pull-right" ng-click = "deleteComment(comment)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-							<a href="#" editable-textarea="comment.commentary" e-rows="7" e-cols="40">
+							<a class="small pull-right" ng-click = "deleteComment(comment)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<a href="#" editable-textarea="comment.commentary" e-rows="5" e-cols="15">
 								<pre>{{comment.commentary}}</pre>
 							</a>
 						</span>
-						<span ng-if="comment.id_user !== currentUser.id">{{comment.commentary}}</span>
+						<p ng-if="comment.id_user !== currentUser.id">{{comment.commentary}}</p>
 					</div>
-				</p>
+				  </div>
+				</div>
 			</div>
 			<div class="col-md-6">
 				<p>
@@ -49,9 +52,9 @@
 					<span editable-text="currentTask.deadline" buttons="no"> {{ currentTask.deadline || "Add a deadline" }}</span>
 				</p>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
-				<p><span class="glyphicon glyphicon-comment"></span> add a comment</p>
+				<p ng-if="!isNew"><span class="glyphicon glyphicon-comment"></span> add a comment</p>
 				
-				<form novalidate role="form">
+				<form ng-if="!isNew" novalidate role="form">
 				  <div class="form-group">
 				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
 				  </div>
