@@ -401,7 +401,7 @@ feature -- Data access Sprint
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents the user's role on a determined project
 		do
 			create Result.make_array
-			create db_modify_statement.make("SELECT type FROM UserProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '"+id_project.out+"');", db)
+			create db_modify_statement.make("SELECT type FROM RolProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '"+id_project.out+"');", db)
 		    db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 feature -- Data access Task
