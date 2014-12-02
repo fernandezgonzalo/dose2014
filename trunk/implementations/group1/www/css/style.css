@@ -292,20 +292,22 @@ th {
 }
 
 /* Add User view */
-#addUsers a.link-button span{
-	width: 100px;
+#addUsers a.link-button span {
+    width: 100px;
 }
 
 #addUsers div.buttons {
-	text-align: right;
+    text-align: right;
 }
+
 #addUSers div.buttons > div {
-	display: inline-block;
-	margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
 }
+
 #addUsers table {
     line-height: 25px;
-	margin-left: 30px;
+    margin-left: 30px;
 }
 
 #addUsers table .col1 {
@@ -327,6 +329,23 @@ th {
 #addUsers table td.col2 {
     padding-left: 8px;
 }
+
 #addUsers table td.col3 {
     padding-left: 15px;
+}
+
+/* User dashboard */
+
+#dashboard textarea {
+    resize: none;
+}
+
+#dashboard form {
+    width: 40%;
+    padding-left: 10px;
+
+}
+
+#dashboard .projectsList {
+    padding-left: 10px;
 }
