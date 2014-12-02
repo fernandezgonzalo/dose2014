@@ -52,10 +52,10 @@ feature {NONE} -- Initialization
 			-- a controller for handling sprint requests
 
 	task: TASK
-		-- a controller for handling task requests
+			-- a controller for handling task requests
 
 	requirement: REQUIREMENT
-		-- a contreoler for handling requirement requets
+			-- a contreoler for handling requirement requets
 
 	dao: DB
 			-- access to the database and the functionality that comes with that class
@@ -103,7 +103,6 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.delete_users, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}", agent user.put_users, router.methods_put)
 
-
 				-- handling of all ht routes relating to "project"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent user.get_projects_by_user, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects", agent project.add_project, router.methods_post)
@@ -119,16 +118,15 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}", agent sprint.update_sprint, router.methods_put)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}", agent sprint.delete_sprint, router.methods_delete)
 
-
 				-- handling of all ht routes relating to "task"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks", agent sprint.get_tasks_by_sprint, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks/{id_task}", agent task.get_a_task, router.methods_get)
 
-
 				-- handling of all ht routes relating to "requirement"
-			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements", agent requirement.add_requeriment , router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements", agent requirement.add_requeriment, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements", agent requirement.get_requeriments, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.get_a_requeriment, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.update_requiremet , router.methods_put)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.update_requiremet, router.methods_put)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/requirements/{id_requirement}", agent requirement.delete_requirement, router.methods_delete)
 
 				-- setting the path to the folder from where we serve static files
