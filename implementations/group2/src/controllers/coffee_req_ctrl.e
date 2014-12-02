@@ -83,8 +83,13 @@ feature -- Handlers
 	end
 
 	add_data_to_map_update (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+	local
+		l_req_id: STRING
 	do
 		add_data_to_map_add (req, a_map)
+		l_req_id := req.path_parameter("req_id").string_representation
+		a_map.keys.extend("id")
+		a_map.values.extend(l_req_id)
 	end
 
 --	is_authorized_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN

@@ -111,9 +111,14 @@ feature -- Handlers
 		end
 
 	add_data_to_map_update (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-			do
-				add_data_to_map_add (req, a_map)
-			end
+	local
+		l_task_id: STRING
+	do
+		add_data_to_map_add (req, a_map)
+		l_task_id := req.path_parameter("task_id").string_representation.out
+		a_map.keys.extend("id")
+		a_map.values.extend(l_task_id)
+	end
 
 	add_data_to_map_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 			do

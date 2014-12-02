@@ -37,12 +37,17 @@ feature -- Handlers
 
 	add_data_to_map_update (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 	do
-		add_data_to_map_add (req, a_map)
+		add_data_to_map_delete (req, a_map)
 	end
 
 	add_data_to_map_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-	do
-		add_data_to_map_add (req, a_map)
+		local
+			l_sprint_id: STRING
+		do
+			add_data_to_map_add (req, a_map)
+			l_sprint_id := req.path_parameter("sprint_id").string_representation
+			a_map.keys.extend("id")
+			a_map.values.extend(l_sprint_id)
 	end
 
 	add_data_to_map_get (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
@@ -51,8 +56,8 @@ feature -- Handlers
 	do
 		create l_sprint_id.make_empty
 		l_sprint_id := req.path_parameter("sprint_id").string_representation
-		a_map.keys.put_front("id")
-		a_map.values.put_front(l_sprint_id)
+		a_map.keys.extend("id")
+		a_map.values.extend(l_sprint_id)
 	end
 
 	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
