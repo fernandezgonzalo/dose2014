@@ -2,9 +2,9 @@
 
 angular.module('Mgmt')
        .controller('ProjectsController', ['$scope', '$log', '$location', '$route',
-                   '$routeParams', '$modal', 'Utility', 'Project', 'Task',
+                   '$routeParams', '$modal', 'Utility', 'Project', 'Task', 'User',
                    function ($scope, $log, $location, $route, $routeParams,
-                             $modal, Utility, Project, Task) {
+                             $modal, Utility, Project, Task, User) {
 
   $log.debug('ProjectsController::init');
 
@@ -32,20 +32,34 @@ angular.module('Mgmt')
 
   // Retrieve all the projects (/projects).
   Project.query(function(data) {
-    // Wait until data arrives from the server and unescape strings.
-    data.$promise.then(function(projects) {
-      for (var i = 0; i < projects.length; i++) {
-        Utility.unescape(projects[i]);
-      }
-      $scope.projects = projects;
-    });
+    
+    var projects = organizeProjects(data);
+
+    $log.info(projects);
+    $scope.finishedProjects = projects.finished;
+    $scope.unfinishedProjects = projects.unfinished;
+
   }, function() {
     $log.error('There was an error while retrieving projects.');
   });
 
+  // $log.info($scope.unfinishedProjects);
+
+  // Retrieve all users to get their names for /projects page.
+  $scope.authors = {};
+  User.query(function(data) {
+    data.$promise.then(function(users) {
+      for (var i = 0; i < users.length; i++) {
+        Utility.unescape(users[i]);
+        // Create a Hash table to map User ID with Username.
+        $scope.authors[users[i].id] = users[i].username;
+      }
+    });
+  });
+
 
   // Retrieve data for current project (/projects/{id}/dashboard).
-  if($routeParams.id) {
+  if ($routeParams.id) {
     var id = $routeParams.id;
     //
     // Retrieve project information.
@@ -77,6 +91,7 @@ angular.module('Mgmt')
 
   var updateProject = function(project) {
     var updatedProject = new Project(project);
+    Utility.toUnderscore(updatedProject);
     Utility.escape(updatedProject);
     updatedProject.$update(function() {
       $log.log('Project updated successfully.');
@@ -122,6 +137,32 @@ angular.module('Mgmt')
 
   $scope.editProject = function(project) {
     $location.path('/projects/' + project.id + '/edit');
+  };
+
+  // Distribute projects into "In progress" and "Finished".
+  var organizeProjects = function(data) {
+
+    var finished = [];
+    var unfinished = [];
+
+    // Wait until data arrives from the server.
+    data.$promise.then(function(projects) {
+      for (var i = 0; i < projects.length; i++) {
+
+        Utility.toCamel(projects[i]);
+        Utility.unescape(projects[i]);
+        if (projects[i].isFinished === 1) {
+          finished.push(projects[i]);
+        } else {
+          unfinished.push(projects[i]);
+        }
+      }
+    });
+
+    return {
+      'finished': finished,
+      'unfinished': unfinished
+    };
   };
 
   // Distribute tasks into swimlanes according to their status.
@@ -222,28 +263,6 @@ angular.module('Mgmt')
     over: -1
   };
 
-  // CSS classes to be changed dynamically.
-  $scope.dragDropClass = function (dragTaskId) {
-
-    if (draggedTask.id === dragTaskId) {
-      switch (draggedTask.over) {
-        case 0:
-          return 'btn-danger task-rotate';
-        case 1:
-          return 'btn-warning task-rotate';
-        case 2:
-          return 'btn-info task-rotate';
-        case 3:
-          return 'btn-success task-rotate';
-        default:
-          return 'btn-default task-rotate';
-      }
-    } else {
-      return 'btn-default';
-    }
-
-  };
-
   $scope.startCallback = function(event, ui, task) {
     $scope.dragDropTask = task;
     draggedTask.id = task.id;
@@ -271,7 +290,46 @@ angular.module('Mgmt')
     }
   };
 
+  // ---------------------------------------------------------------------------
+  // CSS classes to be changed dynamically.
 
+  // /projects: row coloring.
+  $scope.unfinishedProjectClass = function(even) {
+    if (even) {
+      return 'danger';
+    } else {
+      return 'success';
+    }
+  };
+  
+  $scope.finishedProjectClass = function(even) {
+    if (even) {
+      return 'active';
+    } else {
+      return '';
+    }
+  };
+  
+  // /project/{id}/dashboard: while dragging a task.
+  $scope.dragDropClass = function (dragTaskId) {
+
+    if (draggedTask.id === dragTaskId) {
+      switch (draggedTask.over) {
+        case 0:
+          return 'btn-danger task-rotate';
+        case 1:
+          return 'btn-warning task-rotate';
+        case 2:
+          return 'btn-info task-rotate';
+        case 3:
+          return 'btn-success task-rotate';
+        default:
+          return 'btn-default task-rotate';
+      }
+    } else {
+      return 'btn-default';
+    }
+  };
 
 
 
