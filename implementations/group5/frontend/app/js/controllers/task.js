@@ -28,6 +28,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   $scope.tasksComments = [];
   $scope.userHash = [];
   $scope.openedDate = false;
+  $scope.viewCommentForm = false;
+  $scope.viewDeadline = false;
 
     
 
@@ -94,12 +96,14 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask.priority = 'low';
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
+    $scope.viewCommentForm = false;
 
     $log.debug(TAG, 'new task content', $scope.currentTask);
   };
 
   $scope.openTask = function(task) {
   		$scope.isNew = false;
+  		$scope.viewCommentForm = false;
         $scope.currentTask = new Task(task);
   };
 
@@ -159,6 +163,22 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   		return $scope.tasksComments[idTask].length;
   	}else{
   		return 0;
+  	}
+  };
+
+  $scope.toggleComment = function() {
+  	if ($scope.viewCommentForm === false) {
+  		$scope.viewCommentForm = true;
+  	}else{
+  		$scope.viewCommentForm = false;
+  	}
+  };
+
+  $scope.toggleDeadline = function() {
+  	if ($scope.viewDeadline === false) {
+  		$scope.viewDeadline = true;
+  	}else{
+  		$scope.viewDeadline = false;
   	}
   };
 
