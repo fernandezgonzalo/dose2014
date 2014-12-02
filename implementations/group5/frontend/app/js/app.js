@@ -18,7 +18,7 @@ app.config(['$logProvider', function($logProvider) {
   $logProvider.debugEnabled(true);
 }]);
 
-app.factory('authInterceptor', function($location, $q) {
+app.factory('authInterceptor', ['$location', '$q', function($location, $q) {
   return {
     responseError: function(response) {
       if (response.status === 401) {
@@ -27,12 +27,12 @@ app.factory('authInterceptor', function($location, $q) {
       return $q.reject(response);
     }
   };
-});
+}]);
 
 
-app.config(function($httpProvider) {
+app.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
-});
+}]);
 
 /** Define the routes for the application; This routing is done by Angular */
 app.config(['$routeProvider',
