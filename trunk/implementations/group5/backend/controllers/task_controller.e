@@ -185,9 +185,7 @@ feature -- Handlers
 				if my_crud_task.update_task_deadline (l_deadline, l_task_id.to_natural) And my_crud_task.update_task_description (l_description, l_task_id.to_natural) And my_crud_task.update_task_estimation (l_estimation, l_task_id.to_natural) And my_crud_task.update_task_id_user_assigned (l_id_user_assigned.to_natural, l_task_id.to_natural) And my_crud_task.update_task_priority (l_priority, l_task_id.to_natural) And my_crud_task.update_task_status (l_status, l_task_id.to_natural) And my_crud_task.update_task_title (l_title, l_task_id.to_natural) then
 						--if the task was updated,set the response
 					if l_status.is_equal ("finished") then
-						print("acas")
 						if my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural) then
-							print("caca")
 							l_result := my_crud_task.task_by_id (l_task_id.to_natural)
 							set_json_header_ok (res, l_result.representation.count)
 						end
