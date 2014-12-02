@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users,SprintsForProject, Sprints, $location) {
+    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users,SprintsForProject, Sprints, TasksFromSprint, Tasks,$location) {
 
         $scope.text = "blas";
         $scope.users2 = [
@@ -45,10 +45,24 @@ angular.module('DOSEMS.controllers')
 				
 					$log.info(sprintsForProj);
 				
-			
+			//TasksFromSprint
 			});*/
 		});
+		//----------------decomment this if you wanna test get all tasks from Sprint 1
+	/*	$scope.tasksIdFromSprint = TasksFromSprint.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:1},function(data){
+			$log.info(data);
 		
+		});
+	*/	
+		
+		// -------------decomment this is you wanna test task details for project 1, sprint 1
+		
+	
+	/*	$scope.taskInfo = Tasks.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:1},function(data){
+			$log.info(data);
+		
+		});
+		*/
 		
         $scope.getUrl = function () {
             $scope.bla = "bla";
