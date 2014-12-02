@@ -26,8 +26,17 @@ angular.module('LetsGoTeam')
       // the function to login with users information
       $scope.login = function(user) {
 
+        $scope.user = user;
+
+        var i;
+        for (i = 0; i < users.length; i++) {
+          if(users[i].email === $scope.user.email && users[i].password === $scope.user.pass ){
+            $scope.successMsgVisible = true;
+          };
+
+        }
         // the payload is simple the json object that we used for binding to the input
-        var payload = $scope.user;
+       /* var payload = $scope.user;
 
         $http.post('/login', payload)
           .success(function(data, status, header, config) {
@@ -47,7 +56,7 @@ angular.module('LetsGoTeam')
           })
           .error(function(data, status) {
             $log.debug('Error while trying to login');
-          });
+          });*/
       };
 
       $scope.forgotPassword = function(user){
@@ -57,8 +66,8 @@ angular.module('LetsGoTeam')
         $http.post('/login/forgot-password', payload)
             .success(function(data, status, header, config) {
 
-              $scope.status = data;
-              if ($scope.status === 'ok') {
+              $scope.data = data;
+              if ($scope.data.status === 'ok') {
                 $log.debug('New password:'+ $scope.status.newPass);
               }
               else{

@@ -3,7 +3,7 @@
         <form class="form-signin" name="registerForm"  ng-submit="registerForm.$valid && addUser(user)" novalidate>
             <h2 class="form-signin-heading"> Sign in </h2>
             <fieldset  class="form-group">
-                First name <input ng-model = "user.name" class="form-control" type= "text" title="First name"  required/>
+                First name <input ng-model = "user.firstName" class="form-control" type= "text" title="First name"  required/>
             </fieldset>
             <fieldset  class="form-group">
                 Last name <input ng-model = "user.lastName" class="form-control"  type= "text"  title="Last name" required />
@@ -20,9 +20,11 @@
             </fieldset>    
             <fieldset class="form-group">
                 <input type="submit" class="btn btn-primary pull-right" value="Register" />
-                <a ng-href="http://localhost:9090/#/home" >
+                <a ng-href="http://localhost:63342/www/index.html#/home" >
                     <button class="btn btn-danger pull-left"> Cancel </button>
                 </a>
+            {{listLength}}
+            {{successMsgVisible}}
             </fieldset>
         </form>
 

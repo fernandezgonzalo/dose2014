@@ -4,6 +4,13 @@ var app = angular.module('LetsGoTeam', [
   'ngRoute', 'facebook','googleplus'
 ]);
 
+var users = [{id:1 ,firstName:'Juanito',LastName:'Perez',email:'jPe@gmail.com',password:'perez'}];
+var usersProjects = [{idProject:1,idUser:1}];
+var projects = [{id:1 ,name:'P1' }];
+var sprints;
+var stories;
+var tasks;
+
 /** Turn on/off the angular debugging; should be off when deployed */
 app.config(['$logProvider', function($logProvider){
   $logProvider.debugEnabled(false);
@@ -33,7 +40,7 @@ app.factory('myService', function() {
     getSavedProject: getSavedProject,
     getSavedSprint: getSavedSprint
   }
-}),
+});
 
 /** Define the routes for the application; This routing is done by Angular */
 app.config(['$routeProvider', '$locationProvider',
@@ -76,3 +83,30 @@ app.config(['$routeProvider', '$locationProvider',
       });
     }
   ]);
+
+
+//TESTING
+
+describe("LetsGoTeam", function () {
+
+  beforeEach(module('LetsGoTeam'));
+
+  describe("registerController", function () {
+
+    var scope, httpBackend;
+    beforeEach(inject(function ($rootScope, $controller, $httpBackend, $http) {
+      scope = $rootScope.$new();
+      httpBackend = $httpBackend;
+      httpBackend.when("GET", "/users").respond([{nombre:"juan",password:"asd"}, {nombre:"pedro",password:"dede"}]);
+      $controller('registerController', {
+        $scope: scope,
+        $http: $http
+      });
+    }));
+
+    it("should have 3 movies", function () {
+      httpBackend.flush();
+      expect(scope.data.length).toBe(2);
+    });
+  });
+});
