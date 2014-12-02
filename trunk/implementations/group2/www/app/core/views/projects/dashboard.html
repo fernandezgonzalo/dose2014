@@ -19,11 +19,16 @@
                                 </div>
                             </div>
                             {{obj.description}}
-                            <p data-ng-init="user = loadUser(obj.user_id)">
+                            <p>
                             Points: {{obj.points}}.
                             Hours estimated: {{obj.hours_estimated}}.
                             Hours spent: {{obj.hours_spent}}.
-                            User: {{user.first_name}} {{user.last_name}} 
+                            User: {{obj.user.first_name}} {{obj.user.last_name}} 
+                            </p>
+                            <p>
+                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                              <a data-ng-click="openAssign(project, obj)">Assign</a>
+                              <a data-ng-click="openLog(project, obj)">Log Hours</a>
                             </p>
                         </div>
                     </div>
@@ -47,6 +52,10 @@
                             Hours spent: {{obj.hours_spent}}.
                             User: {{user.first_name}} {{user.last_name}} 
                             </p>
+                            <p>
+                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                              <a data-ng-click="openAssign(project, obj)">Assign</a>
+                              <a data-ng-click="openLog(project, obj)">Log Hours</a>                            </p>
                         </div>
                     </div>
                 </div>
@@ -69,6 +78,10 @@
                             Hours spent: {{obj.hours_spent}}.
                             User: {{user.first_name}} {{user.last_name}} 
                             </p>
+                            <p>
+                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                              <a data-ng-click="openAssign(project, obj)">Assign</a>
+                              <a data-ng-click="openLog(project, obj)">Log Hours</a>                            </p>
                         </div>
                     </div>
                 </div>
