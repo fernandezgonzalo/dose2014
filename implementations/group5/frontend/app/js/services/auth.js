@@ -23,6 +23,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
 
   authService.loginSuccess = function(user) {
     Utility.toCamel(user);
+    user.lastLoginDate = Utility.parseDate(user.lastLogin);
     this.currentUser = user;
     localStorage.setItem(authService.KEY, user.id);
     return user;

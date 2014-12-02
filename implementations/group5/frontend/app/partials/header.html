@@ -10,7 +10,7 @@
         </div>
         <div>
           Hello, {{ currentUser.name }}!<br />
-          <span>Last login: {{ currentUser.lastLogin }}</span>
+          <span>Last login: {{ currentUser.lastLoginDate | date: "dd/MM/yy 'at' H:mm" }}</span>
         </div>
     </div>
   </div>
