@@ -32,10 +32,13 @@ angular.module('coffee.core').controller('TaskController', ['$scope', '$statePar
 
         $scope.create = function() {
             var requirement_id = $stateParams.requirementId;
-            var sprint_id = $scope.task.sprint_id.id;
             var user_id = $scope.global.user.id;
+            var sprint_id = null;
+            if ($scope.task.sprint_id) {
+                var sprint_id = $scope.task.sprint_id.id;
+                $scope.task.sprint_id = sprint_id;  
+            }
 
-            $scope.task.sprint_id = sprint_id;
             $scope.task.requirement_id = requirement_id;
             $scope.task.user_id = user_id;
             $scope.task.last_modified = "";
