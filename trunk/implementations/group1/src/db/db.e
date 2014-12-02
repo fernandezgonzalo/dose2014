@@ -420,7 +420,7 @@ feature -- Data access Task
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT points FROM Task where id="+id_user.out+";", db)
+			create db_query_statement.make ("SELECT id_user, points FROM Task where id="+id_user.out+";", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 
 		end
