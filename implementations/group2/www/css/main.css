@@ -67,3 +67,7 @@
     .inprogress-item {
 
     }
+
+    .item {
+        border: 1px solid black;
+    }

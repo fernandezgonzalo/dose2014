@@ -19,7 +19,8 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
                             todo: [],
                             in_progress: [],
                             done: [],
-                            title: req.title
+                            title: req.title,
+                            id: req.id
                         };             
 
                         Requirements.one(req.id).getList('tasks').then(function(tasks) {
@@ -78,6 +79,10 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             }
         };
 
+
+        $scope.loadUser = function(id) {
+            return Users.one(id).get().$object
+        };
 
         ////////////////////////////////////////////////////
         //    Utils functions
