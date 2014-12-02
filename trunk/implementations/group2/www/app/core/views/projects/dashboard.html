@@ -1,0 +1,62 @@
+<div data-ng-controller="DashboardController" data-ng-init="init()">
+
+    <h1>Dashboard <small>Current Sprint</small></h1>
+    <p>Currently displays all reqs(waiting for a method to display just the reqs of current sprint.)</p>
+
+
+      <div class="row" data-ng-repeat="req in dashboard">
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">{{req.title}}</h3>
+        </div>
+
+        <div class="panel-body" data-ng-show="req.todo.length || req.in_progress.length || req.done.length">
+
+        <div class="col-md-4 bg-warning" ng-drop="true" ng-drop-success="onDropToDo($data,$event)">
+             <div class="col-md-12">
+              <h4>TO DO</h4>
+            </div>
+
+            <div class="col-md-12 todo-item">
+              <div data-ng-repeat="obj in req.todo" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragToDo($data,$event)" ng-center-anchor="{{centerAnchor}}">
+                <div class="col-md-12">
+                  {{obj.title}}
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4 bg-info"  ng-drop="true" ng-drop-success="onDropInProgress($data,$event)">
+            <div class="col-md-12">
+              <h4 class="title">In progress</h4>
+            </div>
+            
+            <div class="col-md-12 inprogress-item">
+              <div data-ng-repeat="obj in req.in_progress" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragInProgress($data,$event)" ng-center-anchor="{{centerAnchor}}">
+                <div class="col-md-12">
+                  {{obj.title}}
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 bg-success"  ng-drop="true" ng-drop-success="onDropDone($data,$event)">
+            <div class="col-md-12">
+              <h4 class="title">Done</h4>
+            </div>
+            
+            <div class="col-md-12">
+              <div data-ng-repeat="obj in req.done" ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragDone($data,$event)" ng-center-anchor="{{centerAnchor}}">
+                <div class="col-md-12">
+                  {{obj.title}}
+                </div>
+              </div>
+            </div>
+        </div>
+
+      </div>
+      </div>
+      </div>
+</div>
