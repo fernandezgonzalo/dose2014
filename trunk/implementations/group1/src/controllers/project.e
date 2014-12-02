@@ -158,11 +158,11 @@ feature -- Handlers
 		end
 
 	get_ranking (req: WSF_REQUEST; res: WSF_RESPONSE)
-
 		local
-			l_result_payload: STRING
+			l_result_payload, l_project_id: STRING
 		do
-			-- l_result_payload := my_db.search_tasks_points_by_user (l_project_id.to_integer).representation
+			l_project_id := req.path_parameter ("id_project").string_representation
+			l_result_payload := my_db.search_user_points_by_project (l_project_id.to_integer).representation
 		end
 
 end
