@@ -279,13 +279,15 @@ feature -- Data access
 		end
 	end
 
-	get_current_sprint (a_current_date : DATE) : JSON_OBJECT
+	get_current_sprint (a_project_id : STRING) : JSON_OBJECT
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_current_date: DATE
 	do
 		create Result.make
-		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=?;", db)
-		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_current_date, a_current_date>>)
+		create l_current_date.make_now
+		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=? AND project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_current_date, l_current_date,a_project_id>>)
 		if l_query_result_cursor.after then
 			print("Error while quering table sprint")
 			RESULT:= VOID
@@ -513,14 +515,14 @@ feature -- Data access
 		end
 	end
 
-	get_users_from_project(a_project_id: STRING): JSON_ARRAY
+	get_users_ranking(a_project_id: STRING): JSON_ARRAY
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		i:INTEGER
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT u.first_name, u.last_name, u.email, d.points FROM user as u, developer_mapping as d WHERE d.user_id = u.id AND d.project_id = ? ORDER BY d.points DESC", db)
+		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email, developer_mapping.points FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id=? ORDER BY developer_mapping.points DESC", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
@@ -536,15 +538,38 @@ feature -- Data access
 		end
 	end
 
-	get_users_ranking(a_project_id: STRING): JSON_ARRAY
+	get_users_from_project(a_project_id: STRING): JSON_ARRAY
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		i:INTEGER
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT u.first_name, u.last_name, u.email FROM user as u, developer_mapping as d WHERE d.user_id = u.id AND d.project_id = ?", db)
+		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id = ?", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
+	get_tasks_from_sprint(a_sprint_id: STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i:INTEGER
+	do
+			-- create a result object
+ 		create Result.make_array
+		create db_query_statement.make ("SELECT * FROM task WHERE sprint_id = ?", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_sprint_id>>)
 		from
 			i:= 1
 		until
