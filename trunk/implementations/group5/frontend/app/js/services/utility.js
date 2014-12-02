@@ -51,5 +51,51 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
       }
     }
   };
+
+  this.parseDate = function(s) {
+    if (s instanceof Date) {
+      $log.warn(TAG, 'input is already date, need string; do nothing;', s);
+      return s;
+    }
+    var date  = s;
+    var time = '';
+    if (s.indexOf(' ') !== -1) {
+      s = s.split(' ');  
+      date = s[0];
+      time = s[1];
+    }
+    var y, m, d;
+    if (date.indexOf('-') !== -1) {
+      date = date.split('-');
+      if (date.length === 3) {
+        y = parseInt(date[0]);
+        m = parseInt(date[1]);
+        d = parseInt(date[2]);
+      } else {
+        $log.error(TAG, 'Can\'t parse datetime string: ', s, '; expected 3 tokens');
+        return;
+      }
+    } else {
+      $log.error(TAG, 'Can\'t parse datetime string: ', s, '; expected "-" delimeter');
+      return;
+    }
+    if (time.indexOf(':') !== -1) {
+      time = time.split(':');
+      var hh, mm;
+      var ss = 0;
+      if (time.length >= 2) {
+        hh = parseInt(time[0]);
+        mm = parseInt(time[1]);
+        if (time.length >= 3) {
+          ss = time[2];
+        }
+      } else {
+        $log.error(TAG, 'Can\'t parse time string: ', s, '; expected time be 2 or more tokens');
+        return;
+      }
+      return new Date(Date.UTC(y, m, d, hh, mm, ss));
+    }
+    return new Date(Date.UTC(y, m, d));
+  };
   
 }]);
