@@ -524,7 +524,7 @@ feature -- Data access Requirement
 		end
 
 	remove_requirement (id: NATURAL)
-			-- removes the todo with the given id
+			-- removes the todo with the given  id
 		do
 			create db_modify_statement.make ("DELETE FROM Requirement WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
