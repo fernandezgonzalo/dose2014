@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', 'Task', 'User', 'Project', 'Comment', 'Utility',
-  function ($scope, $log, $location, $routeParams, $filter, $route, Task, User, Project, Comment, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', '$timeout', 'Task', 'User', 'Project', 'Comment', 'Utility',
+  function ($scope, $log, $location, $routeParams, $filter, $route, $timeout, Task, User, Project, Comment, Utility) {
 
   var TAG = 'TaskController::';
   $log.debug(TAG, 'init');
@@ -27,6 +27,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   $scope.projectSelect = [];
   $scope.tasksComments = [];
   $scope.userHash = [];
+  $scope.openedDate = false;
 
     
 
@@ -91,7 +92,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask.title = 'Add a new title';
     $scope.currentTask.status = 'created';
     $scope.currentTask.priority = 'low';
-    //$scope.currentTask.deadline = new Date();
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
 
@@ -183,6 +183,12 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       var result = ($scope.currentTask.idUserAssigned && selected.length) ? selected[0].text : 'Assign to user..';
       Utility.toUnderscore($scope.currentTask);
       return result;
+  };
+  $scope.openDatepick = function() {
+    $timeout(function() {
+      $scope.openedDate = true;
+      $scope.currentTask.deadline = new Date();
+    });
   };
 
   $scope.setPriorityClass = function(task) {
