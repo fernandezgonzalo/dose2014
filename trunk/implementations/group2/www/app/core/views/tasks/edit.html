@@ -1,4 +1,4 @@
-<section data-ng-controller="TaskController" data-ng-init='findOne()'>
+<section data-ng-controller="TaskController" data-ng-init='init(); findOne()'>
 	<div class="page-header">
 		<h1>Edit Task Task</h1>
 	</div>
@@ -54,8 +54,8 @@
 				</div>
 				<div class="form-group">
                    <label class="control-label" for="name">Sprint Number</label>
-                   <div class="controls">
-                       <select ng-model="task.sprint_id" name='task.sprint_id' ng-options="sprint.number for sprint in sprints track by sprint.id" required></select>
+                   <div class="controls" data-ng-init="loadSprints(task.sprint_id)">
+                       <select data-ng-model="task.sprint_id" data-ng-options="sprint.id as sprint.number for sprint in sprints" required></select>
                    </div>
                </div>
 				<div class="form-group">
