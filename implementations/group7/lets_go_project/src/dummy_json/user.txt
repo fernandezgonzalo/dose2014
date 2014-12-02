@@ -1,9 +1,0 @@
-{
-  "id":              1,
-  "email":           "a@b.c",
-  "password":        "asdf",
-  "firstname":       "Bertrand",
-  "lastname":        "Meier",
-  "projects":        [1, 2],
-  "assigned_tasks":  [1, 2]
-}

@@ -1,1 +1,0 @@
-nosetests --ignore-files test_rest_resource.py
