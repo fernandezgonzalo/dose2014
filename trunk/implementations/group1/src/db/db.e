@@ -420,8 +420,9 @@ feature -- Data access Task
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
 			create Result.make_array
-			create db_query_statement.make ("select t.id_user, t.points from task t,  requirement r where r.id_project = '"+id_project.out+"' and t.id_requirement = r.id ;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
+
+			create db_query_statement.make ("select t.id_user, u.name, t.points from user u, task t, requirement r where r.id_project = '"+id_project.out+"' and t.id_requirement = r.id and u.id = t.id_user ;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 
 		end
 
