@@ -132,7 +132,7 @@ feature -- Data access
 			create db_modify_statement.make ("DELETE FROM task WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while deleting a task")
+			--	print("Error while deleting a task")
 				Result:= false
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -149,7 +149,7 @@ feature -- Data access
 			create db_insert_statement.make (" INSERT INTO task (title,description,status,priority,deadline,estimation,id_user_creator,id_user_assigned,id_project) VALUES ('" + title+"','"+description+"','"+status+"','"+priority+"','"+deadline+"','"+estimation+"','"+id_user_creator.out+"','"+id_user_assigned.out+"','"+id_project.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
-				print("Error while inserting a new task")
+			--	print("Error while inserting a new task")
 				Result.id:= -1 ;
 				Result.was_created:=false;
 			else
@@ -167,7 +167,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET title= '"+ title+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -182,7 +182,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET deadline= '"+ deadline+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -196,7 +196,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET status= '"+ status+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -210,7 +210,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET priority= '"+ priority+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -224,7 +224,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET description= '"+ description+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -238,7 +238,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET estimation= '"+ estimation+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -252,7 +252,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE task SET id_user_assigned= '"+ id_user_assigned.out+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a task")
+			--	print("Error while updating a task")
 				Result:=false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -264,7 +264,7 @@ feature -- Data access
 	--showing the tasks that the user is assigned and are still in the doing swim lane of the projects
 	do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM task WHERE id_user_assigned = '" +id_user.out+"' AND status = 'Planned';", db)
+			create db_query_statement.make ("SELECT * FROM task WHERE id_user_assigned = '" +id_user.out+"' AND status = 'planned';", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
 
 		end
@@ -274,7 +274,7 @@ feature -- Data access
 
 	do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM task WHERE id_user_assigned = '" +id_user.out+"' AND status = 'In progress';", db)
+			create db_query_statement.make ("SELECT * FROM task WHERE id_user_assigned = '" +id_user.out+"' AND status = 'in progress';", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 10, Result))
 
 		end
@@ -327,6 +327,18 @@ feature -- Data access
 				end
 		end
 
-
+	revise_all_tasks_of_the_project ( id: NATURAL): BOOLEAN
+			-- revise all tasks of the project, if all are finished, set "true" in is_finished of the project
+		do
+			create db_modify_statement.make ("update project set is_finished = 1 where (id= '"+id.out +"' and (select count(*) from task where status= 'Finished' and id_project= '"+id.out +"' )= (select count(*) from task where id_project= '"+id.out +"'));", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
+			--	print("Error while updating a task")
+				Result:=false;
+					-- TODO: we probably want to return something if there's an error
+			else
+				Result:=true;
+			end
+		end
 
 end
