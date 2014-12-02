@@ -90,6 +90,7 @@ angular.module('Mgmt')
   // Update of tasks status: done when Drag & Dropping.
   var updateTaskStatus = function(task, status) {
     var updatedTask = new Task(task);
+    Utility.escape(updatedTask);
     updatedTask.status = status;
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
@@ -135,6 +136,7 @@ angular.module('Mgmt')
     data.$promise.then(function(tasks) {
       for (var i = 0; i < tasks.length; i++) {
 
+        Utility.unescape(tasks[i]);
         // var t = tasks[i]; // Cast to get rid of Project prototype.
         switch (tasks[i].status) {
           case 'created':
@@ -213,50 +215,61 @@ angular.module('Mgmt')
   // ---------------------------------------------------------------------------
   // Drag & Drop.
 
-  // This object is used to change selected item style on hovering.
-  $scope.item = {
-    selected: -1,
+  // This object is used to change selected task class on hovering.
+  var draggedTask = {
+    id: -1,
     origin: -1,
     over: -1
   };
 
-  // Comparison function to know which CSS class apply to the selected item.
-  $scope.hovering = function(selected, over , origin) {
-    return ( $scope.item.selected === selected &&
-             $scope.item.over === over &&
-             $scope.item.origin === origin );
+  // CSS classes to be changed dynamically.
+  $scope.dragDropClass = function (dragTaskId) {
+
+    if (draggedTask.id === dragTaskId) {
+      switch (draggedTask.over) {
+        case 0:
+          return 'btn-danger task-rotate';
+        case 1:
+          return 'btn-warning task-rotate';
+        case 2:
+          return 'btn-info task-rotate';
+        case 3:
+          return 'btn-success task-rotate';
+        default:
+          return 'btn-default task-rotate';
+      }
+    } else {
+      return 'btn-default';
+    }
+
   };
 
-  // Drag & drop built in functions.
-  
-  $scope.startCallback = function(event, ui, task, selected, origin) {
-    $scope.draggedTask = task;
-    $scope.item.selected = selected;
-    $scope.item.origin = origin;
+  $scope.startCallback = function(event, ui, task) {
+    $scope.dragDropTask = task;
+    draggedTask.id = task.id;
   };
 
   $scope.dropCallback = function(event, ui, task, status) {
     updateTaskStatus(task, status);
-    $scope.draggedTask = null;
-    $scope.item.selected = -1;
-    $scope.item.over = -1;
-    $scope.item.origin = -1;
+    $scope.dragDropTask = null;
+    draggedTask.id= -1;
+    draggedTask.over = -1;
   };
 
   $scope.overCallback = function(event, ui, over) {
-    $scope.item.over = over;
+    draggedTask.over = over;
   };
 
   $scope.outCallback = function() {
-    $scope.item.over = -1;
+    draggedTask.over = -1;
   };
 
-  $scope.stopCallback = function() {
-    $scope.item.selected = -1;
-    $scope.item.origin = -1;
+  $scope.stopCallback = function(event, ui, taskId) {
+    // If drag stops, and no other task is being dragged, reset variable.
+    if (draggedTask.id === taskId) {
+      draggedTask.id = -1;
+    }
   };
-
-
 
 
 
