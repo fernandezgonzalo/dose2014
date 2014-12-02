@@ -616,6 +616,41 @@ feature -- Data access
 		end
 	end
 
+	get_task_progress(a_project_id: STRING): JSON_OBJECT
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		percentage: INTEGER
+		temp: STRING
+		l_completed_tasks, l_tasks: INTEGER
+	do
+		create l_json_object.make
+		create Result.make
+		create db_query_statement.make ("SELECT COUNT(*) FROM task, requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("count(*)") then
+					temp:= l_json_object.item ("count(*)").representation
+					temp.replace_substring_all ("%"","")
+					l_tasks:=temp.to_integer
+				end
+		end
+		create db_query_statement.make ("SELECT COUNT(*) FROM task, requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=? AND task.progress='Completed';", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("count(*)") then
+					temp:= l_json_object.item ("count(*)").representation
+				temp.replace_substring_all ("%"","")
+					l_completed_tasks:=temp.to_integer
+				end
+		end
+		percentage:=((l_completed_tasks*100)//(l_tasks*100))
+		Result.put (create {JSON_STRING}.make_json (percentage.out), create{JSON_STRING}.make_json ("progress_percentage"))
+
+	end
+
 	get_project_id_of_req (a_req_id:STRING) : STRING
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
