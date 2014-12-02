@@ -141,9 +141,9 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.delete_user, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.change_password, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_user_info, router.methods_get)
-			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.check_user_password, router.methods_get)
+			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.change_password, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.update_user, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.get_user_info, router.methods_get)
 
 				-- handling of all the routes relating to "projects"
 			map_uri_template_agent_with_request_methods ("api/projects", agent project_ctrl.add_project, router.methods_post)

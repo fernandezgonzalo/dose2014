@@ -334,7 +334,7 @@ feature --data access: USERS
 
 		end
 
-	update_user_information(an_email, a_name, a_surname, a_role, a_path_to_a_photo:STRING;)
+	update_user_information(an_email, a_password, a_name, a_surname, a_role, a_path_to_a_photo:STRING;)
 		--updates an existing user's information into the database.
 		--requires:
 		--	an EMAIL of the user, which must be a valid email address, and already present into the database
@@ -344,6 +344,7 @@ feature --data access: USERS
 
 		require
 			valid_email: (an_email /= VOID) AND (not an_email.is_empty)
+			valid_password: (a_password /= VOID) AND (a_password.count = 8)
 			valid_user_name: (a_name /= VOID) AND (not a_name.is_empty)
 			valid_user_surname: (a_surname /= VOID) AND (not a_surname.is_empty)
 			valid_role: a_role /= VOID
@@ -355,6 +356,8 @@ feature --data access: USERS
 		do
 			create db_modify_statement.make ("UPDATE user SET name = ? AND surname = ? AND role = ? AND photo = ? WHERE email = '" + an_email + "';" , db)
 			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<a_name, a_surname, a_role, a_path_to_a_photo>>)
+
+			change_user_password(an_email, a_password)
 
 		end
 
@@ -374,55 +377,6 @@ feature --data access: USERS
 
 		end
 
-	update_user_name(user_email, new_name: STRING)
-		--changes a specified user's name.
-		--requires a not null value of NAME.
-
-		require
-			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
-			valid_user_name: (new_name /= VOID) AND (not new_name.is_empty)
-		do
-			create db_modify_statement.make ("UPDATE user SET name = '" + new_name + "' WHERE email = '" + user_email + "';" , db)
-			db_modify_statement.execute
-
-		end
-
-	update_user_surname(user_email, new_surname: STRING)
-		--changes a specified user's surname.
-		--requires a not null value of SURNAME.
-
-		require
-			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
-			valid_user_surname: (new_surname /= VOID) AND (not new_surname.is_empty)
-		do
-			create db_modify_statement.make ("UPDATE user SET surname = '" + new_surname + "' WHERE email = '" + user_email + "';" , db)
-			db_modify_statement.execute
-
-		end
-
-	update_user_role(user_email, new_role: STRING)
-		--changes a specified user's role.
-
-		require
-			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
-			valid_role: (new_role /= VOID)
-		do
-			create db_modify_statement.make ("UPDATE user SET role = '" + new_role + "' WHERE email = '" + user_email + "';" , db)
-			db_modify_statement.execute
-
-		end
-
-	update_user_photo(user_email, path_to_new_photo: STRING)
-		--changes a specified user's photo.
-
-		require
-			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
-			valid_path_to_a_photo: (path_to_new_photo /= VOID)
-		do
-			create db_modify_statement.make ("UPDATE user SET photo = '" + path_to_new_photo + "' WHERE email = '" + user_email + "';" , db)
-			db_modify_statement.execute
-
-		end
 
 	get_user_info(user_email: STRING): JSON_OBJECT
 		--returns a JSON_OBJECT representing the specified user's information
@@ -441,8 +395,8 @@ feature --data access: USERS
 		do
 			create Result.make
 
-			create db_query_statement.make("SELECT * FROM user WHERE email = '" + user_email + "';" , db)
-			db_query_statement.execute(agent row_to_json_object (?, 7, Result))
+			create db_query_statement.make("SELECT (name, surname, gender, role, photo) FROM user WHERE email = '" + user_email + "';" , db)
+			db_query_statement.execute(agent row_to_json_object (?, 5, Result))
 
 		end
 
