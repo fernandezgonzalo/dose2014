@@ -13,7 +13,9 @@
 	<a data-ng-href="#!/requirements/{{requirement.id}}/edit" class="list-group-item">
 		Edit Requirement
 	</a>
-	<a data-ng-click="remove()" class="list-group-item">
+	<a  data-ng-confirm-click="Are you sure?" 
+    	data-confirmed-click="remove()" 
+    	class="list-group-item">
 		Delete Requirement
 	</a>
 </section>
