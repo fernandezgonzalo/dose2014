@@ -45,4 +45,22 @@ app.config(['$routeProvider', '$locationProvider',
         redirectTo: '/login'
       });
     }
-  ]);
+]);
+
+app.factory('UserData', function(){
+    return {
+      email : '',
+      password : '',
+      name : '',
+      surname : '',
+      gender : '',
+      role : '',
+      changepwd : false
+        }
+});
+
+app.factory('ProjectData', function(){
+    return {
+      id_project: ''
+    }
+});
