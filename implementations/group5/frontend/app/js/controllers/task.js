@@ -91,7 +91,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
     $scope.currentTask.title = 'Add a new title';
     $scope.currentTask.status = 'created';
     $scope.currentTask.priority = 'low';
-    $scope.currentTask.deadline = new Date();
+    //$scope.currentTask.deadline = new Date();
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
 
@@ -99,6 +99,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   };
 
   $scope.openTask = function(task) {
+  		$scope.isNew = false;
         $scope.currentTask = new Task(task);
   };
 
@@ -114,8 +115,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
       });
     } else {
       $scope.currentTask.$update();
-      $log.debug('COMMENTI DA MODIFICARE::',$scope.tasksComments[$scope.currentTask.id]);
       for (var i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
+      	Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
       	$scope.tasksComments[$scope.currentTask.id][i].$update();
       }
       $route.reload();
@@ -129,18 +130,20 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   var commentsQuery = function(idTask){
   	Comment.query({taskId: idTask}, function(comments) {
   		$scope.tasksComments[idTask] = comments;
+  		for (var i = 0; i < $scope.tasksComments[idTask].length; i++) {
+  			Utility.unescape($scope.tasksComments[idTask][i]);
+  		}
 	});
   };
 
   $scope.saveComment = function(userId, taskId){
   	Utility.toCamel($scope.newComment);
-  	$log.debug('COMMENTO NUOVO prima di aggiungere ids::', $scope.newComment);
   	$scope.newComment.idTask = taskId;
   	$scope.newComment.idUser = userId;
   	Utility.toUnderscore($scope.newComment);
   	delete $scope.newComment.idTask;
   	delete $scope.newComment.idUser;
-  	$log.debug('COMMENTO NUOVO::', $scope.newComment);
+  	Utility.escape($scope.newComment);
   	$scope.newComment.$save(function(){
   		$route.reload();
   	});
