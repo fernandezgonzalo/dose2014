@@ -386,6 +386,7 @@ feature -- Data access Sprint
 		end
 
 	update_sprint(id_sprint, duration: NATURAL): BOOLEAN
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
 			create db_modify_statement.make("UPDATE Sprint SET duration=" + duration.out + ";", db)
 			db_modify_statement.execute
@@ -396,6 +397,13 @@ feature -- Data access Sprint
 			end
 		end
 
+	get_user_role(id_user, id_project: INTEGER): JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents the user's role on a determined project
+		do
+			create Result.make_array
+			create db_modify_statement.make("SELECT type FROM UserProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '"+id_project.out+"');", db)
+		    db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+		end
 feature -- Data access Task
 
 	search_tasks: JSON_ARRAY

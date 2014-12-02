@@ -260,8 +260,17 @@ feature -- Handlers
 				res.put_string (l_result.representation)
 			end
 				-- fail add_user
-
-
 		end
 
+	get_user_role(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_result_payload: STRING
+			l_user_id, l_project_id: STRING
+		do
+			l_user_id := req.path_parameter ("id_user").string_representation
+			l_project_id := req.path_parameter ("id_project").string_representation
+			l_result_payload := my_db.get_user_role (l_user_id.to_integer, l_project_id.to_integer).representation
+			set_json_header_ok(res, l_result_payload.count)
+			res.put_string(l_result_payload)
+		end
 end
