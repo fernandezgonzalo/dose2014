@@ -69,7 +69,7 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
       date = date.split('-');
       if (date.length === 3) {
         y = parseInt(date[0]);
-        m = parseInt(date[1]);
+        m = parseInt(date[1]) - 1;
         d = parseInt(date[2]);
       } else {
         $log.error(TAG, 'Can\'t parse datetime string: ', s, '; expected 3 tokens');
