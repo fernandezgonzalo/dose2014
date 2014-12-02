@@ -19,6 +19,7 @@ feature {NONE} -- Creation
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
+			get_ranking
 		end
 
 
@@ -27,24 +28,24 @@ feature {NONE} -- Private attributes
 	my_db: DB
 	session_manager: WSF_SESSION_MANAGER
 
---	get_ranking
---		local
---			l_result_payload, l_project_id: STRING
---			a: JSON_ARRAY
---			i: INTEGER
---		do
---			-- l_project_id := req.path_parameter ("id_project").string_representation
---			a := my_db.search_user_points_by_project (1)
---			from
---				i := 1;
---			until
---				i > a.count
---			loop
---				print (a.i_th (i).representation.)
---				i := i + 1
---			end
+	get_ranking
+		local
+			l_result_payload, l_project_id: STRING
+			a: JSON_ARRAY
+			i: INTEGER
+		do
+			-- l_project_id := req.path_parameter ("id_project").string_representation
+			a := my_db.search_user_points_by_project (1)
+			from
+				i := 1;
+			until
+				i > a.count
+			loop
+				print (a.i_th (i).representation)
+				i := i + 1
+			end
 
---		end
+		end
 
 
 feature -- Handlers
