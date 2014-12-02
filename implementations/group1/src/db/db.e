@@ -511,13 +511,15 @@ feature -- Data access Requirement
 			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
 		end
 
-	add_requirement (estim, desc,id_project: STRING)
+	add_requirement (estimation,desc, id_project: STRING): BOOLEAN
 
 		do
-			create db_insert_statement.make ("INSERT INTO Requirement(estim, desc,id_project) VALUES ('"+estim+"','"+desc+"','"+id_project+"');", db);
+			create db_insert_statement.make ("INSERT INTO Requirement(duration, id_project) VALUES ('"+estimation+"','"+desc+"','"+id_project+"');", db);
 			db_insert_statement.execute
+			Result := True
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Requirement")
+				Result := False
 			end
 		end
 
@@ -530,6 +532,8 @@ feature -- Data access Requirement
 				print("Error while deleting a Requirement")
 			end
 		end
+
+feature
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
 			-- checks if a user with given username and password exists
