@@ -26,7 +26,7 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 	get_projects (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all users
+			-- sends a reponse that contains a json array with all projects
 		local
 			l_result_payload: STRING
 		do
