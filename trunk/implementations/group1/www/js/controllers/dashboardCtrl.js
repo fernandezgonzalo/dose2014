@@ -5,15 +5,15 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', '$window', function ($scope, $routeParams, $log, Users, Projects, $window) {
+    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', '$window', '$cookieStore', function ($scope, $routeParams, $log, Users, Projects, $window, $cookieStore) {
         $scope.init = function () {
             $scope.userId = $routeParams.userId;
-            $log.debug("RouteParam = " + $scope.userId);
-            $scope.user = Users.currentUser;
-            $log.debug("Dashboard - CurrentUser: ");
-            $log.debug($scope.user);
-            if (!Users.loggedIn) {
+            Users.resource.get({userId: $scope.userId}).$promise.then(function (data) {
+                $scope.user = data[0];
+            });
+            if (!$cookieStore.get('loggedIn')) {
                 $window.location.href = '/#/login';
+                return;
             }
             $scope.getUserProjectsIDs();
 
@@ -32,7 +32,6 @@ angular.module('DOSEMS.controllers')
             $log.debug("Dashboard - Getting userProjects");
             $scope.userProjects = [];
             angular.forEach(userProjectIDs, function (obj, id) {
-                $log.debug(obj.id_project + " " + obj.id_user);
                 var response = Projects.get({userId: obj.id_user, projectId: obj.id_project});
                 response.$promise.then(function (data) {
                     $log.debug("Printing project data");
@@ -42,5 +41,6 @@ angular.module('DOSEMS.controllers')
             });
 
         };
+
         $scope.init();
     }]);

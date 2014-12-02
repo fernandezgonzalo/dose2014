@@ -14,7 +14,7 @@ app.config(['$routeProvider', '$locationProvider',
         $routeProvider
             .when('/login', {
                 templateUrl: 'partials/login.html',
-                controller: 'SessionCtrl'
+                controller: 'LoginCtrl'
             })
             .when('/signup', {
                 templateUrl: 'partials/signup.html',
@@ -33,7 +33,7 @@ app.config(['$routeProvider', '$locationProvider',
             })
             .when('/logout', {
                 templateUrl: 'partials/logout.html',
-                controller: 'SessionCtrl'
+                controller: 'LogoutCtrl'
             })/* - Should this be a separate page with oen URL?
          .when('/user/:userId/project/:projectId/:lookupUserId', {
          templateUrl: 'partials/user-detail.html',
