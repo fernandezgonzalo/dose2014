@@ -5,16 +5,23 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('HeaderCtrl', ['Users', '$scope', '$log', function (Users, $scope, $log) {
+    .controller('HeaderCtrl', ['Users', '$scope', '$log', '$cookieStore', function (Users, $scope, $log, $cookieStore) {
         $scope.init = function () {
+            $scope.loggedIn = $cookieStore.get('loggedIn');
+            $scope.userId = $cookieStore.get('userId');
+            Users.resource.get({userId: $scope.userId}).$promise.then(function (data) {
+                $scope.user = data[0];
+            });
             $scope.$on('loggedIn', function (event, data) {
-                $scope.loggedIn = Users.loggedIn;
+                $scope.loggedIn = true;
                 $log.debug("Responded to the loggedIn event");
-                $scope.user = Users.currentUser;
+                Users.resource.get({userId: $scope.userId}).$promise.then(function (data) {
+                    $scope.user = data[0];
+                });
             });
             $scope.$on('loggedOut', function (event, data) {
                 $log.debug("Responded to the loggedOut event");
-                $scope.loggedIn = Users.loggedIn;
+                $scope.loggedIn = false;
                 $scope.user = null;
             });
         };

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('DOSEMS.controllers', ['ngCookies'])
-    .controller('SessionCtrl', ['$rootScope', '$scope', '$http', '$log', '$timeout', '$window', 'Users',
-        function ($rootScope, $scope, $http, $log, $timeout, $window, Users) {
+    .controller('LoginCtrl', ['$rootScope', '$scope', '$http', '$log', '$timeout', '$window', 'Users', '$cookieStore',
+        function ($rootScope, $scope, $http, $log, $timeout, $window, Users, $cookieStore) {
             $scope.init = function () {
                 // the model that we bind to the input box
                 $scope.formData = {
@@ -11,10 +11,6 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                 };
                 $scope.successMsgVisible = false;
                 $scope.errorMsgVisible = false;
-
-                if (Users.loggedIn) {
-                    $scope.logout();
-                }
             };
             // the function to login
             $scope.login = function (email, pass) {
@@ -23,20 +19,16 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                     email: email,
                     password: pass
                 };
-
                 $http.post('/api/login', payload)
                     .success(function (data, status, header, config) {
                         $log.debug('Success logging in the user');
                         $scope.successMsgVisible = true;
-                        Users.loggedIn = true;
-                        Users.resource.get({userId: data.id}).$promise.then(function (data) {
-                            $log.debug("Getting logged in user");
-                            Users.currentUser = data[0];
-                            $rootScope.$broadcast('loggedIn');
-                        });
                         $timeout(function () {
+                            $cookieStore.put('loggedIn', true);
+                            $cookieStore.put('userId', data.id);
+                            $rootScope.$broadcast('loggedIn');
                             $scope.successMsgVisible = false;
-                            $window.location.href = '/#/user/' + Users.currentUser.id + '/home';
+                            $window.location.href = '/#/user/' + data.id + '/home';
                         }, 500);
                     })
                     .error(function (data, status) {
@@ -50,29 +42,6 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
 
                     });
             };
-
-
-            // the function to logout
-            $scope.logout = function () {
-
-                $http.get('/api/logout')
-                    .success(function (data, status, header, config) {
-
-                        $log.debug('Success logging out the user');
-                        Users.restUser();
-                        $scope.successMsgVisible = true;
-                        $rootScope.$broadcast('loggedOut');
-                        // let the message dissapear after 2 secs
-                        $timeout(function () {
-                            $scope.successMsgVisible = false;
-                            $window.location.href = '/#/login';
-                        }, 500);
-                    })
-                    .error(function (data, status) {
-                        $log.debug('Error while logging out the user.');
-                    });
-            };
-
             $scope.init();
 
         }]);

@@ -5,39 +5,43 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('SignupCtrl', ['$rootScope', '$scope', '$log', 'Users', '$window', function ($rootScope, $scope, $log, Users, $window) {
+    .controller('SignupCtrl', ['$rootScope', '$scope', '$log', 'Users', '$window', '$cookieStore', function ($rootScope, $scope, $log, Users, $window, $cookieStore) {
         $scope.init = function () {
             // the model that we bind to the input boxes
             $scope.signupData = {
                 name: '',
-                lastName: '',
+                lastname: '',
                 email: '',
-                pass: '',
+                password: '',
                 passwordRepeat: '',
-                $passwordError: false
             };
+            $scope.$passwordErro = false;
+
         };
         $scope.signup = function () {
-            if (!angular.equals($scope.signupData.pass, $scope.signupData.passwordRepeat)) {
-                $scope.signupData.$passwordError = true;
+            $log.debug("Password length = " + $scope.signupData.password.length);
+            if (!angular.equals($scope.signupData.password, $scope.signupData.passwordRepeat) ||
+                $scope.signupData.password.length < 2 ||
+                $scope.signupData.password.length > 20
+            ) {
+                $scope.$passwordError = true;
                 return;
             }
             var newUser = new Users.resource();
             newUser.name = $scope.signupData.name;
-            newUser.lastName = $scope.signupData.lastName;
+            newUser.lastname = $scope.signupData.lastname;
             newUser.email = $scope.signupData.email;
-            newUser.pass = $scope.signupData.pass;
+            newUser.password = $scope.signupData.password;
 
 
             newUser.$save().then(function (response) {
-                $log.debug(response);
-                /*
-                 $rootScope.currentUserId = response.id;
-                 */
-                Users.loggedInUserId = 5;
-                Users.loggedIn = true;
-                $window.location.href = '/#/user/' + Users.loggedInUserId + '/home';
+                $log.debug("Here");
 
+                var id = response.id;
+                $rootScope.$broadcast('loggedIn', {userId: id});
+                $cookieStore.put('loggedIn', true);
+                $cookieStore.put('userId', id);
+                $window.location.href = '/#/user/' + id + '/home';
             });
         };
 
