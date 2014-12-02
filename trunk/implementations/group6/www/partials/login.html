@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div id="description" class="col-lg-2 col-lg-offset-10">
-                <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">Sign Up</button>
+                <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"><i class="fa fa-users"></i> Sign Up</button>
             </div>
         </div>
     </div>
@@ -25,15 +25,20 @@
                  </div>
             </div>
             <div id="singin" class="col-lg-3">
-                <form class="form-signin" ng-submit="logIn(loginModel)" role="form" id="1181323992">
-                    <h5> Username </h5>
-                    <input type="username" id="inputUsername" class="form-control" ng-model="loginModel.username" placeholder="Username" required="" autofocus="">
-                    <h5> Password </h5>
-                    <input type="password" id="inputPassword" class="form-control" ng-model="loginModel.password" placeholder="Password" required="">
-                    <a href="htttp://www.google.com" style="float: right;">Forget Password?</a>
-                    <br>
-                    <br>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <form class="form-signin" role="form" data-toggle="validator" ng-submit="logIn(loginModel)" id="1181323992">
+                    <div class="form-group">
+                        <label for="inputEmail" class="control-label">Email</label>
+                        <input type="email" id="inputEmail" class="form-control" ng-model="loginModel.email" placeholder="someone@example.com" autofocus="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="control-label">Password</label>
+                        <input type="password" data-minlength="8" class="form-control" id="inputPassword" ng-model="loginModel.password" placeholder="Password" required>
+                     </div>
+                        <a href="htttp://www.google.com" style="float: right;">Forget Password?</a>
+                        <br>
+                        <br>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -71,67 +76,60 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel">Sing Up</h3>
                 </div>
                 <div class="modal-body">
-                    <div class="container">
+                    <!-- Sing Up form -->
+                    <form class="form-signin" role="form" data-toggle="validator">
                         <div class="row">
-                            <div class="col-lg-2">
-                                <span class="input-group-addon">*Username</span>
-                            </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" ng-model="newUser.new_user_username" placeholder="Username" required="" autofocus="">
+                                <span class="input-group-addon">*Email</span>
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="email" class="form-control" ng-model="newUser.new_user_email" placeholder="someone@example.com" required="" autofocus="">
                             </div>
                         </div>
                        <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">*Password</span>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <input type="password" class="form-control" ng-model="newUser.new_user_password" placeholder="Password" required="" autofocus="">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">*Confirm Password</span>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <input type="password" class="form-control" ng-model="newUser.new_user_confirm_password" placeholder="Password" required="" autofocus="">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">*Name</span>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <input type="text" class="form-control" ng-model="newUser.new_user_name" placeholder="Name" required="" autofocus="">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">*Surname</span>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <input type="text" class="form-control" ng-model="newUser.new_user_surname" placeholder="Surname" required="" autofocus="">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
-                                <span class="input-group-addon">*Email</span>
-                            </div>  
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" ng-model="newUser.new_user_email" placeholder="Email" required="" autofocus="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-2">
                                 <span class="input-group-addon">*Gender</span>
                             </div>  
-                            <div class="col-lg-4">
+                            <div class="col-lg-8">
                                 <span class="input-group-addon">
                                     <input type="radio" ng-model="newUser.new_user_gender" value="male">
                                     Male
@@ -143,42 +141,52 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">Role</span>
                             </div>  
-                            <div class="col-lg-4">
-                                <select class="form-control" ng-model="newUser.new_user_role">
-                                  <option>Developer</option>
-                                  <option>Project Manager</option>
-                                  <option>Quality Assurance</option>
-                                  <option>Business Analyst</option>
-                                  <option>Other</option>
-                                </select>
+                            <div class="col-lg-8">
+                                <select class="form-control" ng-model="newUser.new_user_role" ng-options="rol for rol in roles.values"></select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-2">
+                            <div class="col-lg-4">
                                 <span class="input-group-addon">Photo</span>
                             </div>  
-                            <div class="col-lg-4">
-                                <button type="button" class="btn btn-primary btn-sm btn-file btn-block">
-                                    Browse…<input type="file" multiple="">
-                                </button>
+                            <div class="col-lg-8">
+                                <form enctype="multipart/form-data" submit="alert('hola');" >
+                                    <div class="form-group">
+                                        <input id="avatar-upload" type="file" accept="image/*" >
+                                        <script>
+                                        /* Initialize your widget via javascript as follows */
+                                        $("#avatar-upload").fileinput({
+                                            previewFileType: "image",
+                                            browseClass: "btn btn-success",
+                                            browseLabel: "Browse",
+                                            browseIcon: '<i class="fa fa-picture-o"></i>',
+                                            removeClass: "btn btn-danger",
+                                            removeLabel: "Delete",
+                                            removeIcon: '<i class="fa fa-times"></i>',
+                                            uploadClass: "btn btn-info",
+                                            uploadLabel: "Upload",
+                                            uploadIcon: '<i class="fa fa-upload"></i>',
+                                        });
+                                        </script>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="container"> 
+                    </form>
+                    <!-- footer -->
+                    <div class="modal-footer">
                         <div class="row">
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-sm btn-primary btn-block">Done</button>
+                            <div class="col-lg-4">
+                                <button type="button" class="btn btn-sm btn-primary btn-block" ng-click="singUp(newUser);" data-dismiss="modal">Done</button>
                             </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-sm btn-success btn-block">Clear</button>
+                            <div class="col-lg-4">
+                                <button type="button" class="btn btn-sm btn-success btn-block" ng-click="clear()">Clear</button>
                             </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-sm btn-danger btn-block" data-dismiss="modal">Cancel</button>
+                            <div class="col-lg-4">
+                                <button type="button" class="btn btn-sm btn-danger btn-block" ng-click="clear()" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -186,7 +194,5 @@
             </div>
         </div>
     </div>
-
-
 </article>
 <div ng-include="'partials/footer.html'"></div>
