@@ -533,6 +533,17 @@ feature -- Data access Requirement
 			end
 		end
 
+	update_requirement(estimation, desc, id_project, id_requirement: STRING): BOOLEAN
+		do
+			create db_modify_statement.make("UPDATE Requirement SET estimation='" + estimation + "', desc='" + desc  + "', id_project='" + id_project + "' WHERE id=" + id_requirement + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				Result := False
+			else
+				Result := True
+			end
+		end
+
 feature
 
 	has_user_with_password (a_user_name, a_password: STRING): TUPLE[has_user: BOOLEAN; id: STRING; username: STRING]
