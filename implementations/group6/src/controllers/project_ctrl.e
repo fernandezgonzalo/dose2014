@@ -115,7 +115,7 @@ feature --Handlers
 			-- catch the prject name from the path
 			l_project_name := req.path_parameter ("project_name_id").string_representation
 
-
+			create l_result_payload.make
 			-- Receive the name of the user
 			if req_has_cookie(req, "_demo_session_") then
 				l_user_email := get_session_from_req(req, "_demo_session_").at("id").out
@@ -246,7 +246,8 @@ feature --Handlers
 		do
 			--catch the user email from the uri
 			l_user_email := req.path_parameter ("user_email_id").string_representation
-
+			create j_obj.make
+			create l_result_payload.make_array
 			-- Check if the name doesn't already exist
 			if l_user_email.is_empty or l_user_email = Void then
 				--Error user email empty
@@ -305,7 +306,8 @@ feature --Handlers
 		do
 			-- catch the project name in the uri
 			l_project_name := req.path_parameter ("project_name_id").string_representation
-
+			create j_obj.make
+			create l_result_payload.make_array
 			if l_project_name.is_empty or l_project_name = Void then
 				--Error user email empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
@@ -333,6 +335,7 @@ feature --Handlers
 			l_user_email, l_project_name, l_new_member: STRING
 			l_result_payload: JSON_OBJECT
 		do
+			create l_result_payload.make
 			-- catch the name of the project and the new member
 			l_new_member := req.path_parameter ("user_email_id").string_representation
 			l_project_name:= req.path_parameter ("project_name_id").string_representation
@@ -383,6 +386,7 @@ feature --Handlers
 			l_user_email, l_project_name, l_member: STRING
 			l_result_payload: JSON_OBJECT
 		do
+			create l_result_payload.make
 			-- catch the name of the project and the new member
 			l_member := req.path_parameter ("user_email_id").string_representation
 			l_project_name:= req.path_parameter ("project_name_id").string_representation
@@ -437,6 +441,7 @@ feature --Handlers
 			l_user_email, l_project_name, l_new_owner: STRING
 			l_result_payload: JSON_OBJECT
 		do
+			create l_result_payload.make
 			-- catch the name of the project and the new owner
 			l_new_owner := req.path_parameter ("user_email_id").string_representation
 			l_project_name:= req.path_parameter ("project_name_id").string_representation
