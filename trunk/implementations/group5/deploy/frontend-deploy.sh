@@ -1,5 +1,5 @@
 #!/bin/bash
-svn=https://dose2014.googlecode.com/svn/tags/group5-prototype
+svn=https://dose2014.googlecode.com/svn/tags/group5-1st-release
 pushd /home/dose/dose2014
 rm -rf .frontend_bak
 mv frontend .frontend_bak
