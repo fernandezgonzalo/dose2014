@@ -344,7 +344,7 @@ feature -- Data access Sprint
 		-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a sprint
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Sprint WHERE id="+id.out +";" , db)
+			create db_query_statement.make ("SELECT * FROM Sprint WHERE id= '"+id.out +"';" , db)
 			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
 		end
 
@@ -370,7 +370,7 @@ feature -- Data access Sprint
 	remove_sprint (id: NATURAL)
 			-- removes the sprint with the given id
 		do
-			create db_modify_statement.make ("DELETE FROM Sprint WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM Sprint WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a Sprint")
@@ -387,7 +387,7 @@ feature -- Data access Sprint
 
 	update_sprint(id_sprint, duration: NATURAL): BOOLEAN
 		do
-			create db_modify_statement.make("UPDATE Sprint SET duration='" + duration.out + ";", db)
+			create db_modify_statement.make("UPDATE Sprint SET duration=" + duration.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				Result := False
