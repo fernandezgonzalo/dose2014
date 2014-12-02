@@ -44,19 +44,20 @@
 					<span class="glyphicon glyphicon-star"></span>
 					<span editable-range="currentTask.estimation" e-step="5"> {{ currentTask.estimation || "Add points.." }}</span>
 				</p>
-				<p>
-					<div class="form-horizontal">
-			            <div class="input-group">
-			              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.openedDate" close-text="Close" />
-			              <span class="input-group-btn">
-			              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick()"><i class="glyphicon glyphicon-time"></i></button>
-			              </span>
-			            </div>
-			        </div>
-				</p>
+				<p ng-if="currentTask.deadline"><span class="glyphicon glyphicon-time"></span> {{currentTask.deadline | date:'mediumDate'}}</p>
+				<p ng-if="currentTask.deadline"><a href="" ng-click="toggleDeadline()"><span class="glyphicon glyphicon-time"></span> edit deadline</a></p>
+				<p ng-if="!currentTask.deadline"><a href="" ng-click="toggleDeadline()"><span class="glyphicon glyphicon-time"></span> add a deadline</a></p>
+				<div ng-if="viewDeadline" class="form-horizontal">
+		            <div class="input-group">
+		              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.openedDate" close-text="Close" />
+		              <span class="input-group-btn">
+		              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick()"><i class="glyphicon glyphicon-time"></i></button>
+		              </span>
+		            </div>
+		        </div>
 				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
-				<p ng-if="!isNew"><span class="glyphicon glyphicon-comment"></span> add a comment</p>
-				<form ng-if="!isNew" novalidate role="form">
+				<p ng-if="!isNew"><a href="" ng-click="toggleComment()"><span class="glyphicon glyphicon-comment"></span> add a comment</a></p>
+				<form ng-if="viewCommentForm" novalidate role="form">
 				  <div class="form-group">
 				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
 				  </div>
