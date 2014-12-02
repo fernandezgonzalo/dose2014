@@ -6,11 +6,11 @@ class
 	PROJECT
 
 inherit
+
 	HEADER_JSON_HELPER
 
 create
 	make
-
 
 feature {NONE} -- Creation
 
@@ -19,14 +19,11 @@ feature {NONE} -- Creation
 			my_db := a_dao
 		end
 
-
 feature {NONE} -- Private attributes
 
 	my_db: DB
 
-
 feature -- Handlers
-
 
 	get_projects (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all users
@@ -34,21 +31,19 @@ feature -- Handlers
 			l_result_payload: STRING
 		do
 			l_result_payload := my_db.search_all_projects.representation
-
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		end
 
 	get_users_by_id_project (req: WSF_REQUEST; res: WSF_RESPONSE)
-
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
 		do
 			l_project_id := req.path_parameter ("id_project").string_representation
 			l_result_payload := my_db.search_all_users_by_project (l_project_id.to_integer).representation
-			set_json_header_ok(res, l_result_payload.count)
-			res.put_string(l_result_payload)
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
 		end
 
 	update_project (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -58,11 +53,10 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
 		do
-			-- create emtpy string objects
+				-- create emtpy string objects
 			create l_payload.make_empty
 			create info.make_empty
 			create name.make_empty
-
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -81,12 +75,8 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("name") as n then
 					name := n.unescaped_string_8
 				end
-
-
 			end
-
 			l_project_id := req.path_parameter ("id_project").string_representation
-
 			flag := my_db.update_project (l_project_id.to_natural_8, name, info)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
@@ -111,7 +101,6 @@ feature -- Handlers
 			create info.make_empty
 			create name.make_empty
 
-
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 
@@ -129,10 +118,7 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("name") as n then
 					name := n.unescaped_string_8
 				end
-
-
 			end
-
 			l_user_id := req.path_parameter ("id_user").string_representation
 			flag := my_db.create_project_by_user (l_user_id.to_natural_8, name, info)
 
@@ -163,13 +149,20 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 			l_project_id: STRING
 		do
-				l_project_id := req.path_parameter ("id_project").string_representation
-				my_db.remove_project (l_project_id.to_natural_8)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Project removed " + l_project_id.out), create {JSON_STRING}.make_json ("Message"))
-				set_json_header_ok(res, l_result.count)
-				res.put_string(l_result.representation)
+			l_project_id := req.path_parameter ("id_project").string_representation
+			my_db.remove_project (l_project_id.to_natural_8)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Project removed " + l_project_id.out), create {JSON_STRING}.make_json ("Message"))
+			set_json_header_ok (res, l_result.count)
+			res.put_string (l_result.representation)
+		end
+
+	get_ranking (req: WSF_REQUEST; res: WSF_RESPONSE)
+
+		local
+			l_result_payload: STRING
+		do
+			-- l_result_payload := my_db.search_tasks_points_by_user (l_project_id.to_integer).representation
 		end
 
 end
-

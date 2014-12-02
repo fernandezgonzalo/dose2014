@@ -350,8 +350,8 @@ feature -- Data access Sprint
 
 	search_tasks_by_sprint (id_user, id_sprint: INTEGER): JSON_ARRAY
 		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT id FROM task cross join (select id_task from taskuser_sprint where id_user="+id_user.out +" and id_sprint= "+id_sprint.out+");" , db)
+			create Result.make_array     
+			create db_query_statement.make ("SELECT id FROM task natural join taskuser_sprint where id_sprint= "+id_sprint.out+" and id_task = id;" , db)
 			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
@@ -416,11 +416,11 @@ feature -- Data access Task
 
 		end
 
-	search_tasks_points_by_user (id_user: INTEGER): JSON_ARRAY
+	search_tasks_points_by_user_and_project (id_project: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT id_user, points FROM Task where id="+id_user.out+";", db)
+			create db_query_statement.make ("SELECT id, points FROM task cross join (select id from requirement where id_project="+id_project.out +");", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 
 		end
