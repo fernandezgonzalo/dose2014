@@ -381,8 +381,8 @@ feature -- Data access Sprint
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a list of sprints of a selected project
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Sprint WHERE (id_project = "+id_project.out+");" , db)
-			db_query_statement.execute (agent rows_to_json_array (?, 3, Result))
+			create db_query_statement.make ("SELECT id FROM Sprint WHERE (id_project = "+id_project.out+");" , db)
+			db_query_statement.execute (agent rows_to_json_array (?, 1, Result))
 		end
 
 	update_sprint(id_sprint, duration: NATURAL): BOOLEAN
