@@ -156,12 +156,25 @@ https://gist.github.com/bMinaise/7329874
 
 // This setting allow us to wrap text within buttons.
 .btn {
-white-space:normal !important;
+  white-space:normal !important;
     // max-width:200px;
 }
 
 .task-draggable {
   text-align: left;
+}
+
+.task-rotate {
+  -webkit-transform: rotate(3deg); /* Safari and Chrome */
+  -moz-transform: rotate(3deg);   /* Firefox */
+  -ms-transform: rotate(3deg);   /* IE 9 */
+  -o-transform: rotate(3deg);   /* Opera */
+  transform: rotate(3deg);
+}
+
+// Set scrollbars in swimlanes panels.
+.panel-body {
+  // overflow-y: scroll;
 }
 
 // .thumbnail { height: 280px !important; }
