@@ -97,34 +97,34 @@ feature --handlers
 				if  (l_email = VOID)then
 
 						-- EMAIL not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: email not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Email not valid"), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				elseif my_db.check_if_mail_already_present (l_email) then
 
 						-- EMAIL already present into the database. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: email already present into the database. New user was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Mail already present into the database."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if NAME and SURNAME are valid
 				elseif (l_name = VOID) OR (l_name.is_empty) OR (l_surname = VOID) OR (l_surname.is_empty)	then
 
 						-- NAME or SURNAME is not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: name or surname not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Name or surname not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if PASSWORD is valid
 				elseif (l_pwd = VOID) OR (l_pwd.count /= 8) then
 
 						-- PASSWORD not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: password not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Password not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if ROLE and PHOTO are valid
 				elseif (l_role = VOID) OR (l_photo = VOID) then
 
 					-- ROLE or PHOTO not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: role or photo not valid. New user was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Role or photo not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				else
@@ -132,7 +132,7 @@ feature --handlers
 					my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, l_gender)
 
 						-- Sending back a success message
-					l_result.put (create {JSON_STRING}.make_json ("Successfully added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("success"))
+					l_result.put (create {JSON_STRING}.make_json ("Added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("success"))
 					set_json_header_ok (res, l_result.representation.count)
 
 				end
@@ -149,44 +149,32 @@ feature --handlers
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
 
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
-
-			end
+				-- catch the EMAIL of the user to remove from the path
+			l_email := req.path_parameter ("user_email").string_representation
 
 				--create the result object
 			create l_result.make
 
 				-- checking if the EMAIL is already present into the database
-			if (l_email = VOID) OR my_db.check_if_mail_already_present (l_email) then
+			if (l_email = VOID) OR (l_email.is_empty) then
 
+					-- EMAIL not valid. Sending back a error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not valid."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
+
+			elseif (not my_db.check_if_mail_already_present (l_email)) then
+
+					-- EMAIL not present into the database. Sending back an error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not present into the database."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
+
+			else
 					-- remove the user from the database
 				my_db.remove_user (l_email)
 
-					-- create a json object that as a "Message" property that states what happend
 				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_email + " from the database."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result.representation.count)
-
-			else
-					-- EMAIL not present into the database. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: the email is not present into the database."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result.representation.count)
 
 			end
 
@@ -242,18 +230,12 @@ feature --handlers
 	update_user(req: WSF_REQUEST; res: WSF_RESPONSE)
 			--updates user's information into the database; user's email, name, surname, role, photo are expected to be part of the request payload
 		local
-			l_payload, l_email, l_name, l_surname, l_role, l_photo: STRING
+			l_payload, l_email, l_name, l_surname, l_password, l_role, l_photo: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
-			create l_name.make_empty
-			create l_surname.make_empty
-			create l_role.make_empty
-			create l_photo.make_empty
-
+				-- catch the EMAIL of the user from the path
+			l_email := req.path_parameter ("user_email").string_representation
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -265,15 +247,14 @@ feature --handlers
 				-- for the todo description and the userId
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
 				if attached {JSON_STRING} j_object.item ("name") as s then
 					l_name := s.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("surname") as s then
 					l_surname := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("password") as s then
+					l_password := s.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("role") as s then
 					l_role := s.unescaped_string_8
@@ -284,33 +265,40 @@ feature --handlers
 
 			end
 
-			if (l_email = VOID) OR (not my_db.check_if_mail_already_present(l_email)) then
+			if (l_email = VOID) OR (l_email.is_empty )then
 
 					-- EMAIL not valid. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: email not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Email not valid."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
+
+			elseif (not my_db.check_if_mail_already_present (l_email)) then
+
+					-- EMAIL not present into the database. Sending back an error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not present into the database."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
+
 
 			elseif (l_name = VOID) OR (l_name.is_empty) OR (l_surname = VOID) OR (l_surname.is_empty) then
 
 					-- NAME or SURNAME not valid. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: name or surname not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Name or surname not valid."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
 
-			elseif (l_role = VOID) OR (l_role.is_empty) then
+			elseif (l_role = VOID) then
 
 					-- ROLE not valid. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: role not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Role not valid."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
 
-			elseif (l_photo = VOID) OR (l_photo.is_empty) then
+			elseif (l_photo = VOID) then
 
 					-- PHOTO not valid. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: photo not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Photo not valid."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
 
 			else
 					-- update user's information into the database
-				my_db.update_user_information (l_email, l_name, l_surname, l_role, l_photo)
+				my_db.update_user_information (l_email, l_password, l_name, l_surname, l_role, l_photo)
 
 				create l_result.make
 				l_result.put (create {JSON_STRING}.make_json ("User information for  " + l_email + " has been updated."), create {JSON_STRING}.make_json ("success"))
@@ -328,46 +316,31 @@ feature --handlers
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
-				-- create emtpy string objects
-			create l_payload.make_empty
-			create l_email.make_empty
 
-				-- read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
+				-- catch the EMAIL of the user from the path
+			l_email := req.path_parameter ("user_email").string_representation
 
-				-- now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
-					-- we have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("email") as s then
-					l_email := s.unescaped_string_8
-				end
-
-			end
 
 			if (l_email = VOID) OR (l_email.is_empty) then
 
 					-- EMAIL not valid. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: email not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Email not valid."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result.representation.count)
 
-			elseif (my_db.check_if_mail_already_present (l_email)) then
+			elseif (not my_db.check_if_mail_already_present (l_email)) then
 
-					-- getting user information
-				l_result := my_db.get_user_info (l_email)
-
-				l_result.put (create {JSON_STRING}.make_json ("User information for  " + l_email), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result.representation.count)
+					-- EMAIL not present into the database. Sending back an error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not present into the database."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
 
 			else
 
-					-- EMAIL not present into the database. Sending back an error message
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: email not present into the database."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result.representation.count)
+				l_result.put (create {JSON_STRING}.make_json ("User information for  " + l_email), create {JSON_STRING}.make_json ("success"))
+
+					-- getting user information
+				l_result := my_db.get_user_info (l_email)
+				
+				set_json_header_ok (res, l_result.representation.count)
 
 			end
 

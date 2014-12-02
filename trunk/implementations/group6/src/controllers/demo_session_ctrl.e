@@ -113,7 +113,13 @@ feature -- Handlers
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("email: " + l_user_data.email + ", password: " + l_user_data.password + ", name: " + l_user_data.name + ", surname: " + l_user_data.surname + ", gender: " + l_user_data.gender + ", role: " + l_user_data.role), create {JSON_STRING}.make_json ("success"))
+				l_result.put (create {JSON_STRING}.make_json ("User logged in."), create {JSON_STRING}.make_json ("success"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.email), create {JSON_STRING}.make_json ("email"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.password), create {JSON_STRING}.make_json ("password"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.name), create {JSON_STRING}.make_json ("name: "))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.surname), create {JSON_STRING}.make_json ("surname"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.gender), create {JSON_STRING}.make_json ("gender"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.role), create {JSON_STRING}.make_json ("role"))
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header_ok (res, l_result.representation.count)
@@ -121,12 +127,10 @@ feature -- Handlers
 
 				-- the username & password combination was wrong
 				-- so we don't create a session
-				-- but return an error message
 
-					-- create the response
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+					-- Sendig back an error message
 				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("ERROR: Username or password incorrect"), create {JSON_STRING}.make_json ("error"))
+				l_result.put (create {JSON_STRING}.make_json ("Username or password incorrect"), create {JSON_STRING}.make_json ("error"))
 
 					-- set the repsone header, indicating that no session in created because the client was not authorized
 				set_json_header (res, 401, l_result.representation.count)
