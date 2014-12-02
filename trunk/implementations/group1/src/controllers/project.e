@@ -163,6 +163,8 @@ feature -- Handlers
 		do
 			l_project_id := req.path_parameter ("id_project").string_representation
 			l_result_payload := my_db.search_user_points_by_project (l_project_id.to_integer).representation
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
 		end
 
 end
