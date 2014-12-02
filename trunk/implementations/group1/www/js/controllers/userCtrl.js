@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users, $location) {
+    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users,SprintsForProject, Sprints, $location) {
 
         $scope.text = "blas";
         $scope.users2 = [
@@ -26,20 +26,30 @@ angular.module('DOSEMS.controllers')
             $log.info($scope.projectId);
         }
         $log.info("fdf");
-        $scope.usersIdFromProject = UsersFromProject.get({
-            userId: $scope.userId,
-            projectId: $scope.projectId
-        }, function (data) {
-
-            var i = 0;
-            for (i = 0; i < $scope.usersIdFromProject.length; i++)
-
-                $scope.usersFromProj = Users.get({userId: $scope.usersIdFromProject[i].id_user}, function (data) {
-                });
-
+        $scope.usersIdFromProject = UsersFromProject.get({userId:$scope.userId,projectId:$scope.projectId},function (data) {
+				$log.info($scope.usersIdFromProject.length);
+				$log.info()
+                var i = 0;
+                for(i=0;i<$scope.usersIdFromProject.length;i++)
+                
+                        $scope.usersFromProj = Users.resource.get({userId:$scope.usersIdFromProject[i].id_user},function(data){});
+        
         });
 
-
+		$scope.sprintsIdForProject = SprintsForProject.get({userId:$scope.userId,projectId:$scope.projectId},function(data){
+		
+			$log.info($scope.sprintsIdForProject);
+		/*	var i = 0;
+			for(i=0;i<$scope.sprintsIdForProject.length;i++)
+				$scope.sprintsForProj = Sprints.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:$scope.sprintsIdForProject[i].id},function(data){
+				
+					$log.info(sprintsForProj);
+				
+			
+			});*/
+		});
+		
+		
         $scope.getUrl = function () {
             $scope.bla = "bla";
             $scope.absUrl = $location.absUrl();
