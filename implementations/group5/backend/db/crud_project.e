@@ -102,7 +102,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM project;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 
 		end
 
@@ -112,7 +112,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM project WHERE id = '" + id.out + "' ;", db)
-			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 
 		end
 
@@ -122,7 +122,7 @@ feature -- Data access
 			create db_modify_statement.make ("DELETE FROM project WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while deleting a poject")
+			--	print("Error while deleting a poject")
 				Result := false
 
 					-- TODO: we probably want to return something if there's an error
@@ -140,7 +140,7 @@ feature -- Data access
 			create db_insert_statement.make ("INSERT INTO project(name,deadline,client_name,id_user) VALUES ('" + name +"', '" +deadline  +"', '" +  client_name  +"', '" + id_user.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
-				print("Error while inserting a new project")
+			--	print("Error while inserting a new project")
 				Result.id:= -1 ;
 				Result.was_created:=false;
 			else
@@ -157,7 +157,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE project SET name='"+ name+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a project")
+			--	print("Error while updating a project")
 				Result:= false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -171,7 +171,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE project SET deadline= '"+ deadline+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a project")
+			--	print("Error while updating a project")
 				Result:= false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -185,7 +185,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE project SET client_name= '"+ client_name+ "' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a project")
+			--	print("Error while updating a project")
 				Result:= false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -205,7 +205,7 @@ feature -- Data access
 	--RETURNS total number of finished tasks in the project identified by id_project
 	do
 		create Result.make
-		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'Finished';", db)
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" 'AND status = 'finished';", db)
 		db_query_statement.execute (agent row_to_json_object (?, 2, Result))
 	end
 
@@ -213,7 +213,7 @@ feature -- Data access
 	--RETURNS total number of stopped tasks in the project identified by id_project
 	do
 		create Result.make
-		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" ' AND status = 'Stopped';", db)
+		create db_query_statement.make ("SELECT id_project,COUNT(*) FROM task WHERE id_project = '"+id_project.out+" ' AND status = 'stopped';", db)
 		db_query_statement.execute (agent row_to_json_object(?, 2, Result))
 	end
 
@@ -222,7 +222,7 @@ feature -- Data access
 	do
 		create Result.make_array
 		create db_query_statement.make ("SELECT * FROM project  WHERE id_user = '"+id.out+ "';", db)
-		db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+		db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 		end
 
 
@@ -249,5 +249,25 @@ feature -- Data access
 				Result.exists := True
 				Result.id := l_query_result_cursor.item.integer_value (1)
 			end
+		end
+
+	finished_projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
+			--returns the projects that are in finished
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM project where is_finished= 1;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
+
+		end
+
+	in_progress_projects: JSON_ARRAY
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
+			--returns the projects that are in progress
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT * FROM project where is_finished= 0;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
+
 		end
 end

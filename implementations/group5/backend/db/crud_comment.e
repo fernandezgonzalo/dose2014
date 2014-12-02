@@ -132,7 +132,7 @@ feature -- Data access
 			create db_modify_statement.make ("DELETE FROM comment WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0  then
-				print("Error while deleting a comment")
+			--	print("Error while deleting a comment")
 				Result:= false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -149,7 +149,7 @@ feature -- Data access
 			create db_insert_statement.make ("INSERT INTO comment(commentary, id_task, id_user) VALUES ('" + commentary +"','" +id_task.out  +"', '" +  id_user.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
-				print("Error while inserting a new comment")
+			--	print("Error while inserting a new comment")
 				Result.id:= -1 ;
 				Result.was_created:=false;
 			else
@@ -166,7 +166,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE comment SET commentary= '"+ commentary+"' WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating a comment")
+			--	print("Error while updating a comment")
 				Result:=false;
 			else
 				Result:=true;

@@ -90,7 +90,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM user;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
 
 		end
 
@@ -100,7 +100,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE id = '" + id.out + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
 
 		end
 
@@ -110,7 +110,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE email = '" + email + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
 
 		end
 
@@ -120,7 +120,7 @@ feature -- Data access
 			create db_modify_statement.make ("DELETE FROM user WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while deleting a Todo")
+			--	print("Error while deleting a Todo")
 				Result:= false;
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -137,7 +137,7 @@ feature -- Data access
 			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,last_login,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', '"+last_lgn +"', '"+ is_adminn.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
-				print("Error while inserting a new user")
+			--	print("Error while inserting a new user")
 				Result.id:= -1 ;
 				Result.was_created:=false;
 			else
@@ -165,7 +165,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE user SET password= '"+ new_pass+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating an user")
+			--	print("Error while updating an user")
 				Result:=false
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -179,7 +179,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE user SET name= '"+ new_name+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating an user")
+			--	print("Error while updating an user")
 				Result:=false
 					-- TODO: we probably want to return something if there's an error
 			else
@@ -193,7 +193,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE user SET email= '"+ new_email+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating an user")
+			--	print("Error while updating an user")
 					Result:=false
 						-- TODO: we probably want to return something if there's an error
 				else
@@ -207,7 +207,7 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE user SET username= '"+ new_username+ "' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-				print("Error while updating an user")
+			--	print("Error while updating an user")
 					Result:=false
 						-- TODO: we probably want to return something if there's an error
 				else
@@ -221,7 +221,7 @@ feature -- Data access
 				create db_modify_statement.make ("UPDATE user SET last_login= '"+ new_last_login + "' WHERE id= '" + id.out + "' ;", db)
 				db_modify_statement.execute
 				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-					print("Error while updating an user")
+				--	print("Error while updating an user")
 						Result:=false
 							-- TODO: we probably want to return something if there's an error
 					else
@@ -235,7 +235,7 @@ feature -- Data access
 				create db_modify_statement.make ("UPDATE user SET last_login= datetime() WHERE id= '" + id.out + "' ;", db)
 				db_modify_statement.execute
 				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-					print("Error while updating an user")
+				--	print("Error while updating an user")
 						Result:=false
 							-- TODO: we probably want to return something if there's an error
 					else
@@ -249,7 +249,7 @@ feature -- Data access
 				create db_modify_statement.make ("UPDATE user SET is_admin= '"+ new_is_admin.out + "' WHERE id= '" + id.out + "' ;", db)
 				db_modify_statement.execute
 				if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-					print("Error while updating an user")
+				--	print("Error while updating an user")
 						Result:=false
 							-- TODO: we probably want to return something if there's an error
 					else
@@ -307,10 +307,10 @@ feature -- Data access
 
 				if l_query_result_cursor.after then
 						-- there are no rows in the result of the query, thus no user with that password exits
-					print("Did not find a user with email '" + email  + "' and password '" + a_password + "' in the dataase.%N")
+				--	print("Did not find a user with email '" + email  + "' and password '" + a_password + "' in the dataase.%N")
 					Result.has_user := False
 				else
-					print("Found a user email '" + email + "' and password '" + a_password + "' in the database.%N")
+				--	print("Found a user email '" + email + "' and password '" + a_password + "' in the database.%N")
 					Result.has_user := True
 					Result.id := l_query_result_cursor.item.integer_value (1)
 					Result.email := l_query_result_cursor.item.value (2).out
@@ -343,7 +343,7 @@ feature {NONE}--login
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT username,is_admin FROM user WHERE id = '" + id.out + "' ;", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 2, Result))
 
 		end
 
@@ -352,7 +352,7 @@ feature {NONE}--login
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT username,last_login FROM user WHERE id = '" + id.out + "' ;", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 2, Result))
 
 		end
 
