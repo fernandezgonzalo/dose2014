@@ -1,7 +1,13 @@
-<div class="block">
-    <h2>Welcome - {{user.name }} {{user.lastname}}</h2>
-
-    <div>
+<div class="block" id="dashboard">
+    <div class="page-header">
+        <h1>Welcome
+            <small> - {{user.name }} {{user.lastname}}</small>
+        </h1>
+    </div>
+    <!--
+        <h2>Welcome - {{user.name }} {{user.lastname}}</h2>
+    -->
+    <div class="projectsList">
         <h3>Your Projects</h3>
         <ul class="media-list">
             <li class="media" ng-repeat="project in userProjects">
@@ -15,5 +21,22 @@
             </li>
         </ul>
     </div>
+    <div class="newProjectContainer">
+        <form role="form">
+            <div class="form-group">
+                <label for="projectName">Project name</label>
+                <input type="text" class="form-control" ng-model="newProjectData.name" id="projectName"
+                       placeholder="Enter Project name">
+            </div>
+            <div class="form-group">
+                <label for="projectInfo">Password</label>
+                <textarea class="form-control" ng-model="newProjectData.info" id="projectInfo"
+                          placeholder="Enter project info"></textarea>
+            </div>
 
+            <button ng-click="newProject(formData.email, formData.pass)" class="btn btn-default">
+                New Project
+            </button>
+        </form>
+    </div>
 </div> 
