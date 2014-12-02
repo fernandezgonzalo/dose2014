@@ -511,10 +511,10 @@ feature -- Data access Requirement
 			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
 		end
 
-	add_requirement (id, estim, desc,id_project: STRING)
+	add_requirement (estim, desc,id_project: STRING)
 
 		do
-			create db_insert_statement.make ("INSERT INTO Requirement(id, estim, desc,id_project) VALUES ('"+id+"','"+estim+"','"+desc+"','"+id_project+"');", db);
+			create db_insert_statement.make ("INSERT INTO Requirement(estim, desc,id_project) VALUES ('"+estim+"','"+desc+"','"+id_project+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new Requirement")
