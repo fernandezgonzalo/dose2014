@@ -416,12 +416,12 @@ feature -- Data access Task
 
 		end
 
-	search_tasks_points_by_user_and_project (id_project: INTEGER): JSON_ARRAY
+	search_user_points_by_project (id_project: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT id, points FROM task cross join (select id from requirement where id_project="+id_project.out +");", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
+			create db_query_statement.make ("select t.id_user, t.points from task t,  requirement r where r.id_project = '"+id_project.out+"' and t.id_requirement = r.id ;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 
 		end
 
