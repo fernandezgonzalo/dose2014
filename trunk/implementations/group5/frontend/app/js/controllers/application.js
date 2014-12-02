@@ -38,13 +38,15 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     return new Promise(function(resolve, reject) {
       if ($scope.currentUser) {
         resolve($scope.currentUser);
-      } else {
+      } else if (AuthService.isAuthenticated()) {
         AuthService.getCurrentUser().then(function(user) {
           resolve(user);
         }, function() {
           reject();
           $location.path('/login');
         });
+      } else {
+        $location.path('/login');
       }
     });
   };
