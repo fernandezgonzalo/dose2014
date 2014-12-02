@@ -9,53 +9,68 @@ angular.module('LetsGoTeam')
     function ($scope, $http, $log, $timeout) {
 // the model that we bind to the input box
 
-    $scope.status = {}
+    $scope.data = [];
+        $scope.listLength = users.length;
+    $scope.status = {};
     $scope.user = {
-        //firstName: '',
+        firstName: '',
 
-        name: '',
+        lastName: '',
         email: '',
         password: ''
 
-    }
+    };
 
     $scope.successMsgVisible = false;
 
     // the function to add the new users
     $scope.addUser = function (newUser) {
 
+        $scope.successMsgVisible = true;
+
+        $scope.user = newUser;
+
+        users.push($scope.user);
+
+        $scope.listLength = users.length;
+
+
         // the payload is simple the json object that we used for binding to the input
-        var payload = $scope.user;
+        // var payload = $scope.user;
 
-        $http.post('/users', payload)
-            .success(function (data, status, header, config) {
-                $scope.status = data;
-                if ($scope.status === 'ok') {
-                    $log.debug('Success adding new user');   
-                }
-                else{
-                    $log.debug('Error while trying to add a new user');    
-                };
-                
+        /*$http.post('/users', payload)
+         .success(function (data, status, header, config) {
+         $scope.status = data;
+         if ($scope.status === 'ok') {
+         $log.debug('Success adding new user');
+         }
+         else{
+         $log.debug('Error while trying to add a new user');
+         };
 
-                // reset the todoModel to not have a description (we keep the last selected user)
-               // $scope.user.firstName = '';
-                $scope.user.name = '';
-                $scope.user.email = '';
-                $scope.user.password = '';
 
-                // show a success message
-                $scope.successMsgVisible = true;
-                // let the message dissapear after 2 secs
-                $timeout(function () {
-                    $scope.successMsgVisible = false;
-                }, 2000);
-            })
-            .error(function (data, status) {
-                $log.debug('Error while trying to add a new user');
-            });
-        }
+         // reset the todoModel to not have a description (we keep the last selected user)
+         // $scope.user.firstName = '';
+         $scope.user.name = '';
+         $scope.user.email = '';
+         $scope.user.password = '';
+
+         // show a success message
+         $scope.successMsgVisible = true;
+         // let the message dissapear after 2 secs
+         $timeout(function () {
+         $scope.successMsgVisible = false;
+         }, 2000);
+         })
+         .error(function (data, status) {
+         $log.debug('Error while trying to add a new user');
+         });
+         }*/
+
     }
+    }
+
+
 ])
 
 .directive('nxEqual', function() {
@@ -79,4 +94,8 @@ angular.module('LetsGoTeam')
 });
 
 function Ctrl($scope) {}
+
+
+
+
 
