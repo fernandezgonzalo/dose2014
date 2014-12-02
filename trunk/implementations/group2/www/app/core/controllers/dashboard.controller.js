@@ -41,6 +41,16 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
         };
 
 
+        $scope.assignToMe = function(task) {
+            task.user_id = $scope.global.user.id;
+            task.user = $scope.global.user;
+            task.put().then(function(res) {
+                console.log(res);
+            }, function err(msg) {
+                alert(msg);
+            }); 
+        };
+
         $scope.openAssign = function (project, task) {
 
             var modalInstance = $modal.open({

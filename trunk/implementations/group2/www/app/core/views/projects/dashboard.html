@@ -23,12 +23,13 @@
                             Points: {{obj.points}}.
                             Hours estimated: {{obj.hours_estimated}}.
                             Hours spent: {{obj.hours_spent}}.
-                            User: {{obj.user.first_name}} {{obj.user.last_name}} 
+                            User: {{obj.user.first_name}} {{obj.user.last_name}}
                             </p>
                             <p>
-                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
-                              <a data-ng-click="openAssign(project, obj)">Assign</a>
-                              <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-click="openAssign(project, obj)">Assign</a>
+                            <a data-ng-click="assignToMe(obj)">Assign to Me</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
                             </p>
                         </div>
                     </div>
@@ -37,7 +38,6 @@
                     <div class="col-md-12">
                         <h4 class="title">In progress</h4>
                     </div>
-
                     <div class="col-md-12 inprogress-item">
                         <div data-ng-repeat="obj in req.in_progress" class="item">
                             <div ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragInProgress($data,$event)" ng-center-anchor="{{centerAnchor}}">
@@ -50,12 +50,14 @@
                             Points: {{obj.points}}.
                             Hours estimated: {{obj.hours_estimated}}.
                             Hours spent: {{obj.hours_spent}}.
-                            User: {{user.first_name}} {{user.last_name}} 
+                            User: {{user.first_name}} {{user.last_name}}
                             </p>
                             <p>
-                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
-                              <a data-ng-click="openAssign(project, obj)">Assign</a>
-                              <a data-ng-click="openLog(project, obj)">Log Hours</a>                            </p>
+                            <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-click="assignToMe(obj)">Assign to Me</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +65,6 @@
                     <div class="col-md-12">
                         <h4 class="title">Done</h4>
                     </div>
-
                     <div class="col-md-12">
                         <div data-ng-repeat="obj in req.done"  class="item">
                             <div  ng-drag="true" ng-drag-data="obj" ng-drag-success="onDragDone($data,$event)" ng-center-anchor="{{centerAnchor}}">
@@ -76,12 +77,14 @@
                             Points: {{obj.points}}.
                             Hours estimated: {{obj.hours_estimated}}.
                             Hours spent: {{obj.hours_spent}}.
-                            User: {{user.first_name}} {{user.last_name}} 
+                            User: {{user.first_name}} {{user.last_name}}
                             </p>
                             <p>
-                              <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
-                              <a data-ng-click="openAssign(project, obj)">Assign</a>
-                              <a data-ng-click="openLog(project, obj)">Log Hours</a>                            </p>
+                            <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-click="assignToMe(obj)">Assign to Me</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            </p>
                         </div>
                     </div>
                 </div>
