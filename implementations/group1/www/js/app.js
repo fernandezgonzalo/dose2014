@@ -68,7 +68,7 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/user.html',
                 controller: 'UserCtrl'
             })
-			.when('/user/:userId/projectUsers', {
+            .when('/user/:userId/projectUsers', {
                 templateUrl: 'partials/manageUsers.html',
                 controller: 'UserCtrl'
             })
@@ -87,8 +87,8 @@ app.config(['$routeProvider', '$locationProvider',
     }
 
 ]);
-	
-	
+
+
   
   
   

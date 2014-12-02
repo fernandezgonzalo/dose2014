@@ -22,7 +22,7 @@ angular.module('DOSEMS.controllers')
                 $scope.signupData.$passwordError = true;
                 return;
             }
-            var newUser = new Users();
+            var newUser = new Users.resource();
             newUser.name = $scope.signupData.name;
             newUser.lastName = $scope.signupData.lastName;
             newUser.email = $scope.signupData.email;
@@ -34,9 +34,9 @@ angular.module('DOSEMS.controllers')
                 /*
                  $rootScope.currentUserId = response.id;
                  */
-                $rootScope.currentUserId = 5;
-                $rootScope.LOGGED_IN = true;
-                $window.location.href = '/#/user/' + $rootScope.currentUserId + '/home';
+                Users.loggedInUserId = 5;
+                Users.loggedIn = true;
+                $window.location.href = '/#/user/' + Users.loggedInUserId + '/home';
 
             });
         };

@@ -1,18 +1,18 @@
-<div id="header">
+<div id="header" ng-controller="HeaderCtrl">
     <div class="float-left">
         <a href=""><img class="logo" src="img/logo.png"/></a>
     </div>
-    <div id="user" class="float-right">
-        <a href="/#/user" class="underline">Name</a>
+    <div ng-show="loggedIn" id="user" class="float-right">
+        <a href="/#/user/{{user.id}}/home" class="underline">{{user.name}}</a>
         <span>(<a ng-click="logout()" href="/#/logout" class="underline">Logout</a>)</span>
     </div>
     <div class="float-left">
         <div id="navigation">
             <ul>
-                <li>
+                <li ng-show="loggedIn">
                     <a href="/#/user/home">Dashboard</a>
                 </li>
-                <li>
+                <li ng-show="loggedIn">
                     <a href="/#/tasks">My Tasks</a>
                 </li>
                 <li>
