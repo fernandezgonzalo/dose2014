@@ -37,7 +37,9 @@
                 <div ng-model="backlogTasks" ng-repeat="task in backlogTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid', scroll: true}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)>
+                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
 
                   {{task.title}}
 
@@ -59,7 +61,9 @@
                 <div ng-model="todoTasks" ng-repeat="task in todoTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)>
+                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
 
                   {{task.title}}
                   
@@ -81,7 +85,9 @@
                 <div ng-model="doingTasks" ng-repeat="task in doingTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)>
+                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
 
                   {{task.title}}
 
@@ -103,7 +109,9 @@
                 <div ng-model="doneTasks" ng-repeat="task in doneTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)>
+                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
 
                   <!-- <div ng-mousedown="item.selected = $index" ng-mouseup="item.selected = -1"> -->
                     {{task.title}}

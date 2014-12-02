@@ -34,7 +34,7 @@ angular.module('Mgmt').service('Datepicker', function() {
     // scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd-MM-yyyy', 'shortDate'];
     // scope.format = scope.formats[2];
     
-    scope.format = 'dd-MM-yyyy';
+    scope.format = 'yyyy-MM-dd';
 
   };
 });

@@ -5,6 +5,7 @@
 
 <br>
 
+<!-- Projects in progress -->
 <div class="row">
   <div class="col-md-12">
     <table class="table">
@@ -23,19 +24,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="row-link" ng-repeat="project in projects"
-          ng-click="openProject(project)">
+        <tr ng-repeat="project in unfinishedProjects"
+          ng-click="openProject(project)" class="row-link"
+          ng-class=unfinishedProjectClass($even)>
           <td>{{project.name}}</td>
-          <td>Client: {{project.client_name}}</td>
-          <td>Created by: {{project.id_user}}</td>
+          <td>Client: {{project.clientName}}</td>
+          <td>Created by: {{authors[project.idUser]}}</td>
           <td><span class="glyphicon glyphicon-calendar"></span>
             {{project.deadline | date:'longDate'}}</td>
+        </tr>
+        <!-- If there are no projects in progress, show message. -->
+        <tr ng-if="unfinishedProjects.length == 0"
+          class="row-link danger">
+          <td>There are no projects in progress.</td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
+<!-- Projects finished -->
 <div class="row">
   <div class="col-md-12">
     <table class="table">
@@ -48,23 +59,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="row-link" ng-repeat="project in finished"
-          ng-click="openProject(project)">
+        <tr ng-repeat="project in finishedProjects"
+          ng-click="openProject(project)" class="row-link"
+          ng-class=unfinishedProjectClass($even)>
           <td>{{project.name}}</td>
-          <td>{{project.client}}</td>
-          <td>Created by: {{project.author}}</td>
-          <td><span class="glyphicon glyphicon-calendar"></span>  {{project.date}}</td>
+          <td>{{project.clientName}}</td>
+          <td>Created by: {{authors[project.idUser]}}</td>
+          <td><span class="glyphicon glyphicon-calendar"></span>
+            {{project.deadline | date:'longDate'}}</td>
+        </tr>
+        <!-- If there are no projects finished, show message. -->
+        <tr ng-if="finishedProjects.length == 0"
+          class="row-link active">
+          <td>There are no finished projects.</td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- New project modal popup -->
-<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog"
-  aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-    </div>
-</div>
