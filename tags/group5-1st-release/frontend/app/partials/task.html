@@ -1,0 +1,74 @@
+
+<!-- Modal -->
+<div class="modal fade" id="taskModal" ng-if="currentTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<a href="#" class="modal-title h4" editable-text="currentTask.title" buttons="no" e-required> {{ currentTask.title || "Add title.." }} </a>
+		</div>	<!-- /modal-header -->
+
+		<div class="modal-body row">
+			<div class="col-md-6">
+				<p>Status: <a href="#" editable-select="currentTask.status" buttons="no" e-ng-options="s.value as s.text for s in statuses" e-required> {{ showStatus() }}</a></p>
+				<p>User: <a href="#" buttons="no" editable-text="currentTask.id_user_assigned" e-typeahead="u.value as u.text for u in userSelect">
+    				{{ showUsers() }}</a>
+    			</p>
+				<p>Priority: <a href="#" editable-select="currentTask.priority" buttons="no" e-ng-options="p.value as p.text for p in priorities" e-required> {{ showPriority() }}</a></p>
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.description"></span>
+					<span ng-show = "currentTask.description">Description:</span>
+					<span editable-text="currentTask.description" buttons="no"> {{ currentTask.description || "Add description.." }}</span>
+				</p>
+				<div class="panel panel-primary">
+				  <div class="panel-heading">Comments</div>
+				  <div class="panel-body comments">
+				    <span ng-if="getCommentsNum(currentTask.id) === 0">No comments yet!</span>
+					<div ng-repeat="comment in tasksComments[currentTask.id]">
+						<span class="small">{{userHash[comment.id_user]}}:</span>
+						<span ng-if="comment.id_user === currentUser.id">
+							<a class="small pull-right" ng-click = "deleteComment(comment)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<a href="#" editable-textarea="comment.commentary" e-rows="5" e-cols="15">
+								<pre>{{comment.commentary}}</pre>
+							</a>
+						</span>
+						<p ng-if="comment.id_user !== currentUser.id">{{comment.commentary}}</p>
+					</div>
+				  </div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<p>
+					<span class="glyphicon glyphicon-plus" ng-show = "!currentTask.estimation"></span>
+					<span class="glyphicon glyphicon-star"></span>
+					<span editable-range="currentTask.estimation" e-step="5"> {{ currentTask.estimation || "Add points.." }}</span>
+				</p>
+				<p>
+					<div class="form-horizontal">
+			            <div class="input-group">
+			              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.openedDate" close-text="Close" />
+			              <span class="input-group-btn">
+			              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick()"><i class="glyphicon glyphicon-time"></i></button>
+			              </span>
+			            </div>
+			        </div>
+				</p>
+				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
+				<p ng-if="!isNew"><span class="glyphicon glyphicon-comment"></span> add a comment</p>
+				<form ng-if="!isNew" novalidate role="form">
+				  <div class="form-group">
+				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
+				  </div>
+				  <button ng-click="saveComment(currentUser.id, currentTask.id)" type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>	<!-- /modal-body -->
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary" ng-click = "updateTask()">Save changes</button>
+		</div>	<!-- /modal-footer -->
+    </div>
+  </div>
+</div>
