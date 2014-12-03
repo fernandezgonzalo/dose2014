@@ -78,7 +78,6 @@ feature -- Data access
 																																						       a_task.sprint_id.out + "','" +
 																																						       a_task.project_id.out + "','" +
 																																						       a_task.user_id.out + "');", db)
-			io.put_string (db_insert_statement.string)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new topic")
