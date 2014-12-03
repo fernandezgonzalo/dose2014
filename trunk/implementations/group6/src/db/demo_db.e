@@ -215,8 +215,8 @@ feature -- Data access : project
 		-- get all the members and owners of a specific project
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "';", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
+			create db_query_statement.make ("SELECT member.user, user.name, user.surname, member.owner FROM member, user WHERE member.project='" + a_project_name + "'AND user.email = member.user;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		end
 
 	get_all_project_owners (a_project_name: STRING): JSON_ARRAY
@@ -225,8 +225,8 @@ feature -- Data access : project
 			-- call get_all_project_members and filter by owners only
 			-- return them as JSON_ARRAY
 			create Result.make_array
-			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "'AND owner=1;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
+			create db_query_statement.make ("SELECT member.user, user.name, user.surname, member.owner FROM member, user WHERE member.project='" + a_project_name + "'AND user.email = member.user AND owner=1;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		end
 
 	add_member_to_project (a_project_name: STRING; a_user_email: STRING; a_owner: BOOLEAN)
