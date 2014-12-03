@@ -148,10 +148,13 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       		}
       	}      	
       }
-      for (i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
-      	Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
-      	$scope.tasksComments[$scope.currentTask.id][i].$update();
+      if($scope.tasksComments[$scope.currentTask.id]) {
+	      for (i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
+	      	Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
+	      	$scope.tasksComments[$scope.currentTask.id][i].$update();
+	      }
       }
+
     } 
   };
 
