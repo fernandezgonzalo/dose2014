@@ -68,13 +68,16 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
+			--bool:=dao.check_status ("Done")
+			--print("%N%N")
+			--print(bool)
 		--	if dao.is_member ("giorgio@hotmail.it", "The amazing project") then
 		--		print("true G")
 		--	else
 		--		print("false G")
 		--	end
 
-			print(dao.get_all_user_projects ("jimmy@yahoo.com").representation)
+--			print(dao.get_all_user_projects ("jimmy@yahoo.com").representation)
 
 --				 -- BEGIN QUERIES TESTS
 --			print("%N***********new test*************%N")
@@ -104,9 +107,6 @@ feature {NONE} -- Initialization
 
 
 --				 -- END OF TESTS
-
-
-
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
@@ -165,17 +165,16 @@ feature -- Basic operations
 
 
 				--handling of all the routes relating to "work_items"
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item_info, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/work_items", agent work_item_ctrl.create_work_item, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.change_work_item, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{nb_iteration}", agent work_item_ctrl.get_all_iteration_work_items, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.add_comment, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.get_all_work_item_comments, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/comments", agent work_item_ctrl.add_comment, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links", agent work_item_ctrl.add_link, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id1,work_item_id2}", agent work_item_ctrl.remove_link, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links/{work_item_id}", agent work_item_ctrl.get_all_work_item_links, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.get_work_item_info, router.methods_get)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items", agent work_item_ctrl.create_work_item, router.methods_post)   -- everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}", agent work_item_ctrl.change_work_item, router.methods_post)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/iteration/{number,project}", agent work_item_ctrl.get_all_iteration_work_items, router.methods_get)  -- everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/comments/{work_item_id}", agent work_item_ctrl.add_comment, router.methods_post)  -- everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/comments/{work_item_id}", agent work_item_ctrl.get_all_work_item_comments, router.methods_get)  -- everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/links/{work_item1,work_item2}", agent work_item_ctrl.add_link, router.methods_post) --everything works
+			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links", agent work_item_ctrl.remove_link, router.methods_delete) --everything work
+			map_uri_template_agent_with_request_methods ("/api/work_items/links/{work_item_id}", agent work_item_ctrl.get_all_work_item_links, router.methods_get) --everything work
 
 
 				-- setting the path to the folder from where we serve static files
