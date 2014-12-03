@@ -20,7 +20,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TASK
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_result := db_handler.find_by_id (1)
 
@@ -36,7 +36,7 @@ feature -- Test routines
 			assert("Correct super_task_id ", json_result.item("super_task_id").debug_output.is_equal("1"))
 			assert("Correct user_id", json_result.item ("user_id").debug_output.is_equal("1"))
 			assert("Correct project_id", json_result.item ("project_id").debug_output.is_equal("1"))
-			assert("Correct sprint_id", json_result.item ("sprint_id").debug_output.is_equal("4"))
+			assert("Correct sprint_id", json_result.item ("sprint_id").debug_output.is_equal("1"))
 		end
 
 	find_by_id_nonexistent_task_test
@@ -45,7 +45,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TASK
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.find_by_id (100)
 			assert("Task not found", json_result.is_empty)
 		end
@@ -56,13 +56,13 @@ feature -- Test routines
 			task: TASK
 			db_handler : DB_HANDLER_TASK
 		do
-			create task.make (42, 42, 42, 42, "title", "desc", "Bug", "Low", "Backlog")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create task.make (1, 1, 1, 42, "title", "desc", "Bug", "Low", "Backlog")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add_super (task)
 				-- assert when the task was successfully added.
-			assert ("Topic successfully added", not db_handler.db_insert_statement.has_error)
+			assert ("Task successfully added", not db_handler.db_insert_statement.has_error)
 				-- remove the task added for test
 			db_handler.db.rollback
 		end
@@ -73,13 +73,13 @@ feature -- Test routines
 			task: TASK
 			db_handler : DB_HANDLER_TASK
 		do
-			create task.make_sub_task (42, 42, 42, 42, 42, "title", "desc", "Bug", "Low", "Backlog")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create task.make_sub_task (1, 1, 1, 1, 42, "title", "desc", "Bug", "Low", "Backlog")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add_sub (task)
 				-- assert when the task was successfully added.
-			assert ("Topic successfully added", not db_handler.db_insert_statement.has_error)
+			assert ("Task successfully added", not db_handler.db_insert_statement.has_error)
 				-- remove the task added for test
 			db_handler.db.rollback
 		end
@@ -90,8 +90,8 @@ feature -- Test routines
 			task: TASK
 			db_handler : DB_HANDLER_TASK
 		do
-			create task.make (42, 42, 42, 42, "title", "descr", "Bug", "Low", "Backlog")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create task.make (1, 1, 1, 42, "title", "descr", "Bug", "Low", "Backlog")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add_super (task)
@@ -113,8 +113,8 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TASK
 			json_result : JSON_OBJECT
 		do
-			create task.make (42, 42, 42, 42, "title", "descr", "Bug", "Low", "Backlog")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create task.make (1, 1, 1, 42, "title", "descr", "Bug", "Low", "Backlog")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add_super (task)
