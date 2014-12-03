@@ -91,7 +91,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     $scope.currentTask.idUserCreator = $scope.currentUser.id;
     $scope.currentTask.idProject = projectId;
     $scope.currentTask.idUserAssigned = '0';
-    $scope.currentTask.title = 'Add a new title';
     $scope.currentTask.status = 'created';
     $scope.currentTask.priority = 'low';
     Utility.toUnderscore($scope.currentTask);
