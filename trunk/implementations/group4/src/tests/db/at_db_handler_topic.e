@@ -20,7 +20,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TOPIC
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_result := db_handler.find_by_id (1)
 
@@ -30,7 +30,7 @@ feature -- Test routines
 			assert("Correct answered value ", json_result.item("answered").debug_output.is_equal("0"))
 			assert("Correct user_id", json_result.item ("user_id").debug_output.is_equal("1"))
 			assert("Correct project_id", json_result.item ("project_id").debug_output.is_equal("1"))
-			assert("Correct sprint_id", json_result.item ("sprint_id").debug_output.is_equal("4"))
+			assert("Correct sprint_id", json_result.item ("sprint_id").debug_output.is_equal("1"))
 			assert("Correct task_id", json_result.item ("task_id").debug_output.is_equal("1"))
 		end
 
@@ -40,7 +40,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TOPIC
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.find_by_id (100)
 			assert("Topic not found", json_result.is_empty)
 		end
@@ -51,8 +51,8 @@ feature -- Test routines
 			topic : TOPIC
 			db_handler : DB_HANDLER_TOPIC
 		do
-			create topic.make (42, 42, 42,42,"TITLE","DESCR")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create topic.make (1, 1, 1, 1,"TITLE","DESCR")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
@@ -68,8 +68,8 @@ feature -- Test routines
 			topic : TOPIC
 			db_handler : DB_HANDLER_TOPIC
 		do
-			create topic.make (42, 42, 42,42,"TITLE","DESCR")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create topic.make (1, 1, 1, 1,"TITLE","DESCR")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
@@ -91,8 +91,8 @@ feature -- Test routines
 			db_handler : DB_HANDLER_TOPIC
 			json_result : JSON_OBJECT
 		do
-			create topic.make (42, 42, 42, 42, "TITLE", "DESCR")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create topic.make (1, 1, 1, 1, "TITLE", "DESCR")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
