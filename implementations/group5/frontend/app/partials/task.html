@@ -28,7 +28,7 @@
 					<div ng-repeat="comment in tasksComments[currentTask.id]">
 						<span class="small">{{userHash[comment.id_user]}}:</span>
 						<span ng-if="comment.id_user === currentUser.id">
-							<a class="small pull-right" ng-click = "deleteComment(comment)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							<a class="small pull-right" ng-click = "deleteComment(comment, currentTask.id)" href="">delete comment <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
 							<a href="#" editable-textarea="comment.commentary" e-rows="5" e-cols="15">
 								<pre>{{comment.commentary}}</pre>
 							</a>
@@ -55,7 +55,7 @@
 		              </span>
 		            </div>
 		        </div>
-				<p><a href = "#" ng-click = "deleteTask()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
+				<p ng-if="!isNew"><a href = "#" ng-click = "deleteTask(); $event.preventDefault()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
 				<p ng-if="!isNew"><a href="" ng-click="toggleComment()"><span class="glyphicon glyphicon-comment"></span> add a comment</a></p>
 				<form ng-if="viewCommentForm" novalidate role="form">
 				  <div class="form-group">
