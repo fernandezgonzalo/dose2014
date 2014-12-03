@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_add,add_data_to_map_update, add, add_data_to_map_get_all, update,add_data_to_map_delete, is_authorized_add,
+		add_data_to_map_add,add_data_to_map_update, add, add_data_to_map_get_all, update, is_authorized_add,
 		is_authorized_update, is_authorized_get_all, is_authorized_get, add_data_to_map_get, delete
 	end
 
@@ -68,11 +68,6 @@ feature -- Handlers
 		Result:=is_authorized_add (req, a_map)
 	end
 
---	is_authorized_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
---	do
---		Result:=is_authorized_add (req, a_map)
---	end
-
 	is_authorized_get_all (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do
 		Result:=is_authorized_add (req, a_map)
@@ -119,11 +114,6 @@ feature -- Handlers
 		a_map.keys.extend("id")
 		a_map.values.extend(l_task_id)
 	end
-
-	add_data_to_map_delete (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-			do
-				add_data_to_map_add (req, a_map)
-			end
 
 	add_data_to_map_get (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		local
