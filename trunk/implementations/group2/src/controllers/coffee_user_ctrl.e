@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete
+		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete, add_data_to_map_delete
 	end
 
 create
@@ -66,9 +66,14 @@ feature -- Handlers
 		end
 
 	add_data_to_map_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-		do
-			add_data_to_map_update (req, a_map)
-		end
+	do
+		add_data_to_map_update (req, a_map)
+	end
+
+	add_data_to_map_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
+	do
+		add_data_to_map_update (req, a_map)
+	end
 
 	add (req: WSF_REQUEST; res: WSF_RESPONSE)
 	local

@@ -121,7 +121,7 @@ feature -- Data access
 		create db_modify_statement.make("Update task Set requirement_id=?,title=?,points=?,hours_estimated=?,description=?,progress=?,last_modified=?,sprint_id=? WHERE id=?;", db)
 		db_modify_statement.execute_with_arguments (l_values)
 		Result.success:= true
-		Result.id := db_insert_statement.last_row_id.out
+		Result.id := get_value_from_map ("id", a_map)
 		if db_modify_statement.has_error then
 			print("Error while updateing table task")
 				Result.success:= false

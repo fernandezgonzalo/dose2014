@@ -10,8 +10,7 @@ class
 	inherit
 		COFFEE_BASE_CONTROLLER
 		redefine
-			add_data_to_map_update, add_data_to_map_delete, get_all, add, is_authorized_update, add_data_to_map_get, is_authorized_get,
-			delete
+			add_data_to_map_update, get_all, add, is_authorized_update, add_data_to_map_get, is_authorized_get,delete
 		end
 
 create
@@ -50,7 +49,6 @@ feature -- Handlers
 					values.put_i_th ("0", 3)
 					l_add_result := my_db.add ("developer_mapping", [keys,values])
 					if l_add_result.success then
-						--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
 						l_result:= my_db.get_from_id (table_name, l_add_result.id)
 						return_success_without_message (l_result, res)
 					else
@@ -135,6 +133,8 @@ feature -- Handlers
 		l_delete_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create l_result.make
+		create l_user_id.make_empty
+		create l_project_id.make_empty
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_project_id := req.path_parameter("project_id").string_representation
 			l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
@@ -144,7 +144,7 @@ feature -- Handlers
 				if l_delete_result.success then
 					return_success_without_message (l_result, res)
 				else
-					return_error(l_result, res,"Could not delete from" + table_name, 500)
+					return_error(l_result, res,"Could not delete from " + table_name, 500)
 				end
 			else
 				return_error (l_result, res, "Not authorized", 403)
@@ -169,10 +169,6 @@ feature -- Handlers
 			a_map.values.extend(l_manager_id)
 		end
 
-	add_data_to_map_delete(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
-		do
-			add_data_to_map_update (req, a_map)
-		end
 
 	add_data_to_map_get(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 		do
