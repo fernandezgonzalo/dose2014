@@ -531,13 +531,13 @@ feature --Data access: ITERATIONS
 		--checks if the given iteration exists and return False if it doesn't exist and True otherwise
 		require
 			valid_number: iteration_number >= 0
-			valid_project_name: (project /= VOID)
-			existing_project: check_project_name(project)
+--			valid_project_name: (project /= VOID)
+--			existing_project: check_project_name(project)
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_query_statement.make ("SELECT * FROM iteration WHERE number = ?, project = ? ",db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<iteration_number, project>>)
+			create db_query_statement.make ("SELECT * FROM iteration WHERE number = ? AND project = '" + project + "' ;",db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<iteration_number>>)
 
 			if l_query_result_cursor.after then
 				Result := False
@@ -549,10 +549,46 @@ feature --Data access: ITERATIONS
 
 
 
-
-
-
 feature	--Data access: WORK ITEMS
+
+	update_number(start_num: INTEGER)
+	-- changes the numbers of the work_items which are associated with the same iteration and project and greater number
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			iteration: INTEGER
+			project: STRING
+			id: INTEGER
+			value: INTEGER
+
+		do
+			-- searches the iteration and the project of the given work_item
+			create db_query_statement.make("SELECT nb_iteration, project FROM work_item WHERE id=?;",db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<start_num>>)
+			-- saves iteration and project
+			iteration:= l_query_result_cursor.item.integer_value(1)
+			project:= l_query_result_cursor.item.string_value (2)
+			-- finds all work_items which belongs to the same iteration and project
+			create db_query_statement.make ("SELECT * from work_item WHERE nb_iteration=? AND project = '" + project + "' AND id>?;",db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<iteration,start_num>>)
+			-- changes only the number of that work_items which have a greater number
+			if l_query_result_cursor.after then
+				--nothing heppens
+			else
+				from
+				--none
+				until
+					l_query_result_cursor.after
+				loop
+					id:= l_query_result_cursor.item.integer_value (1)
+					value:= l_query_result_cursor.item.integer_value (2)
+					create db_modify_statement.make ("UPDATE work_item SET number=? WHERE id=? ;",db)
+					db_modify_statement.execute_with_arguments (<<value-1,id>>)
+					l_query_result_cursor.forth
+				end
+
+			end
+
+		end
 
 	--OK
 	iteration_work_items(iteration_number: INTEGER; project_name: STRING): JSON_ARRAY
@@ -561,7 +597,6 @@ feature	--Data access: WORK ITEMS
 			--create the result object, in this case an empty JSON_ARRAY	
 			create Result.make_array
 			create db_query_statement.make("SELECT * FROM work_item WHERE nb_iteration=? AND project = '" + project_name + "';" , db)
-			--db_query_statement.execute(agent rows_to_json_array(?, 10, Result))
 			db_query_statement.execute_with_arguments (agent rows_to_json_array(?, 10, Result), <<iteration_number>>)
 			if(db_query_statement.has_error) then
 				-- the iteration with the given number hasn't any work_item into the db				
@@ -601,18 +636,19 @@ feature	--Data access: WORK ITEMS
 				number:=number+1
 				l_query_result_cursor.forth
 			end
-			Result:=(number+1)
+			Result:=(number)
 		end
 
 	--OK
-	add_work_item(name: STRING; description: STRING; points: INTEGER; iteration: INTEGER; project: STRING; state: STRING; owner: STRING; created_by: STRING)
+	add_work_item(name: STRING; description: STRING; points: INTEGER; iteration: INTEGER; project: STRING; state: STRING; created_by: STRING; owner: STRING)
 		-- adds a new work_item with the given information
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			num_new:INTEGER
 		do
 			create db_insert_statement.make ("INSERT INTO work_item(number,nb_iteration,project,name,description,points,status,created_by,owner) VALUES (?,?,?,?,?,?,?,?,?);", db)
-			num_new:=count_number_work_item(iteration,project) + 1
+			num_new:=count_number_work_item(iteration,project)
+			print(num_new)
 			l_query_result_cursor:=db_insert_statement.execute_new_with_arguments(<<num_new,iteration,project,name,description,points,state,created_by,owner>>)
 			if db_insert_statement.has_error then
 				print("Error while inserting a new work_item")
@@ -635,110 +671,119 @@ feature	--Data access: WORK ITEMS
 				print("Error while deleting a work_item.%N")
 			else
 				--the new work_item was deleted from db and so sends an appropriate message				
-				print("SUCCESS: The new work_item was deleted from the db. %N")
+				print("SUCCESS: The work_item was deleted from the db. %N")
 			end
 		end
 
 	--OK
-	modify_work_item(work_item_id: INTEGER; work_item_number: INTEGER; work_item_iteration: INTEGER; work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING; work_item_created_by: STRING)
+	modify_work_item(work_item_id: INTEGER; work_item_iteration: INTEGER;work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING)
 		--modifies an existing work_item which the given informations	
 		local
 			a: STRING
-			b: INTEGER
-			num: NATURAL
+			b, new_num: INTEGER
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			text: STRING
-
 		do
 			if work_item_exists(work_item_id)then
-			-- Finds the work_item with che given id
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			-- Checks each element of the given work_item
-			-- Checks the name
-			a:= l_query_result_cursor.item.value(5).out
-			if (a.same_string(work_item_name) = false) then
-				--the names are different than add a comment
-				text:=("Old name: %"" + a + "%""+", New name: %"" + work_item_name + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET name=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_name,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item name.")
+				-- Finds the work_item with che given id
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				-- Checks each element of the given work_item
+				-- Checks the name
+				a:= l_query_result_cursor.item.value(5).out
+				if (a.same_string(work_item_name) = false) then
+					--the names are different than add a comment
+					text:=("Old name: %"" + a + "%""+", New name: %"" + work_item_name + "%"")
+					add_comment_from_modification(work_item_id,text)
+					create db_modify_statement.make ("UPDATE work_item SET name=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_name,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item name.")
+					end
 				end
-			end
-			-- Checks the points	
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			b:= l_query_result_cursor.item.integer_value(7)
-			if (b.is_equal(work_item_point) = false) then
-				--the points are different than add a comment
-				text:=("Old points: %"" + b.out + "%""+", New points: %"" + work_item_point.out + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET points=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_point,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item point.")
+				-- Checks the points	
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				b:= l_query_result_cursor.item.integer_value(7)
+				if (b.is_equal(work_item_point) = false) then
+					--the points are different than add a comment
+					text:=("Old points: %"" + b.out + "%""+", New points: %"" + work_item_point.out + "%"")
+					add_comment_from_modification(work_item_id,text)
+					create db_modify_statement.make ("UPDATE work_item SET points=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_point,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item point.")
+					end
 				end
-			end
-			-- Checks the status
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			a:= l_query_result_cursor.item.value(8).out
-			if (a.same_string(work_item_state) = false) then
-				--the status are different than add a comment
-				text:=("Old status: %"" + a + "%""+", New status: %"" + work_item_state + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET status=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_state,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item status.")
+				-- Checks the status
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				a:= l_query_result_cursor.item.value(8).out
+				if (a.same_string(work_item_state) = false) then
+					--the status are different than add a comment
+					text:=("Old status: %"" + a + "%""+", New status: %"" + work_item_state + "%"")
+					add_comment_from_modification(work_item_id,text)
+					create db_modify_statement.make ("UPDATE work_item SET status=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_state,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item status.")
+					end
 				end
-			end
-			-- Checks the owner
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			a:= l_query_result_cursor.item.value(10).out
-			if (a.same_string(work_item_owner) = false) then
-				--the owners are different than add a comment
-				text:=("Old owner: %"" + a + "%""+", New owner: %"" + work_item_owner + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET owner=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_owner,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item owner.")
+				-- Checks the owner
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				a:= l_query_result_cursor.item.value(10).out
+				if (a.same_string(work_item_owner) = false) then
+					--the owners are different than add a comment
+					text:=("Old owner: %"" + a + "%""+", New owner: %"" + work_item_owner + "%"")
+					add_comment_from_modification(work_item_id,text)
+					create db_modify_statement.make ("UPDATE work_item SET owner=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_owner,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item owner.")
+					end
 				end
-			end
-			-- Checks the iteration
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			b:= l_query_result_cursor.item.integer_value(3)
-			if (b.is_equal (work_item_iteration)= false) then
-				--the iterations are different than add a comment
-				text:=("Old iteration: %"" + b.out + "%""+", New iteration: %"" + work_item_iteration.out + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET nb_iteration=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_iteration,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item iteration.")
+				-- Checks the iteration
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				b:= l_query_result_cursor.item.integer_value(3)
+				if (b.is_equal (work_item_iteration)= false) then
+					--the iterations are different than add a comment
+					text:=("Old iteration: %"" + b.out + "%""+", New iteration: %"" + work_item_iteration.out + "%"")
+					add_comment_from_modification(work_item_id,text)
+					--modify its number with respect to the number of the new iteration
+					--count and modify the number of the new iteration
+					new_num:=count_number_work_item(work_item_iteration,work_item_project)
+					create db_modify_statement.make ("UPDATE work_item SET number=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<new_num,work_item_id>>)
+					-- update the numbers of the work_items of the original iteration
+					update_number(work_item_id)
+					create db_modify_statement.make ("UPDATE work_item SET nb_iteration=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_iteration,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item iteration.")
+					end
 				end
-			end
-			-- Checks the description
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			a:= l_query_result_cursor.item.value(6).out
-			if (a.same_string(work_item_description) = false) then
-				--the creators are different than add a comment
-				text:=("Old description: %"" + a + "%""+", New description: %"" + work_item_description + "%"")
-				add_comment_from_modification(work_item_id,text)
-				create db_modify_statement.make ("UPDATE work_item SET description=? WHERE id=? ;", db)
-				l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_description,work_item_id>>)
-				if db_modify_statement.has_error then
-					print("Error while changing the work_item description.")
+				-- Checks the description
+				create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+				a:= l_query_result_cursor.item.value(6).out
+				if (a.same_string(work_item_description) = false) then
+					--the creators are different than add a comment
+					text:=("Old description: %"" + a + "%""+", New description: %"" + work_item_description + "%"")
+					add_comment_from_modification(work_item_id,text)
+					create db_modify_statement.make ("UPDATE work_item SET description=? WHERE id=? ;", db)
+					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_description,work_item_id>>)
+					if db_modify_statement.has_error then
+						print("Error while changing the work_item description.")
+					end
 				end
+--				Result:=True
+--			else
+			-- The work_item doesn't exist into the db
+--			Result:=False
 			end
 		end
-	end
 
 
 feature --data access: LINKS
@@ -757,6 +802,21 @@ feature --data access: LINKS
 				print("SUCCESS: a new link  is added between the two given work_items")
 			end
 		end
+
+	link_exist(work_item_id1: INTEGER; work_item_id2: INTEGER):BOOLEAN
+		--checks if the given link exist into the db, returns True if it exists and False otherwise
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_query_statement.make ("SELECT * FROM link WHERE work_item1 = ? AND work_item2 = ?;",db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<work_item_id1,work_item_id2>>)
+			if l_query_result_cursor.after then
+				Result := False
+			else
+				Result := True
+			end
+		end
+
 
 	--OK
 	remove_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
@@ -813,6 +873,7 @@ feature --data access: LINKS
 			else
 				Result := True
 			end
+
 		end
 
 feature --data access: COMMENTS
