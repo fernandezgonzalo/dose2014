@@ -36,7 +36,6 @@ feature -- Data access
 			-- Adds a topic to the corresponding project, with the desired creator
 		do
 			create db_insert_statement.make ("INSERT INTO Topics(title,description,answered,user_id,project_id,task_id,sprint_id) VALUES ('" + a_topic.title + "','" + a_topic.description + "','" + a_topic.answered.to_integer.out + "','" + a_user_id.out + "','" + a_project_id.out + "','" + a_task_id.out + "','" + a_sprint_id.out + "');", db);
-			io.put_string (db_insert_statement.string)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				print("Error while inserting a new topic")
