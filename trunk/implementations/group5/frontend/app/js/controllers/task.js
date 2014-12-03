@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$location', '$routeParams','$filter', '$route', '$timeout', 'Task', 'User', 'Project', 'Comment', 'Utility',
-  function ($scope, $log, $location, $routeParams, $filter, $route, $timeout, Task, User, Project, Comment, Utility) {
+angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$log','$filter', '$timeout', 'Task', 'User', 'Project', 'Comment', 'Utility',
+  function ($scope, $location, $log, $filter, $timeout, Task, User, Project, Comment, Utility) {
 
   var TAG = 'TaskController::';
   $log.debug(TAG, 'init');
@@ -115,20 +115,59 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
         $scope.isNew = false;
         $log.debug(TAG, 'current task pushing', $scope.currentTask);
         $scope.tasksInProgress.push($scope.currentTask);
-        $route.reload();
+        $('#taskModal').modal('hide');
       });
     } else {
       $scope.currentTask.$update();
-      for (var i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
+      $('#taskModal').modal('hide');
+      var i;
+      if ($scope.currentTask.status === 'finished') {
+      	for (i = 0; i < $scope.tasksInProgress.length; i++) {
+      		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
+      			$scope.tasksInProgress.splice(i, 1);
+      			$scope.tasksFinished.push($scope.currentTask);
+      		}
+      	}
+      	for (i = 0; i < $scope.tasksFinished.length; i++) {
+      		if ($scope.currentTask.id === $scope.tasksFinished[i].id) {
+      			$scope.tasksFinished.splice(i, 1);
+      			$scope.tasksFinished.splice(i, 0, $scope.currentTask);
+      		}
+      	}
+      }else{
+      	for (i = 0; i < $scope.tasksInProgress.length; i++) {
+      		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
+      			$scope.tasksInProgress.splice(i, 1);
+      			$scope.tasksInProgress.splice(i, 0, $scope.currentTask);
+      		}
+      	}
+      	for (i = 0; i < $scope.tasksFinished.length; i++) {
+      		if ($scope.currentTask.id === $scope.tasksFinished[i].id) {
+      			$scope.tasksFinished.splice(i, 1);
+      			$scope.tasksInProgress.push($scope.currentTask);
+      		}
+      	}      	
+      }
+      for (i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
       	Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
       	$scope.tasksComments[$scope.currentTask.id][i].$update();
       }
-      $route.reload();
     } 
   };
 
   $scope.deleteTask = function(){
+  	for (var i = 0; i < $scope.tasksInProgress.length; i++) {
+  		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
+  			$scope.tasksInProgress.splice(i, 1);
+  		}
+  	}
+  	for (i = 0; i < $scope.tasksFinished.length; i++) {
+  		if ($scope.currentTask.id === $scope.tasksFinished[i].id) {
+  			$scope.tasksFinished.splice(i, 1);
+ 		}
+ 	}
     $scope.currentTask.$delete();
+    $('#taskModal').modal('hide');
   };
 
   var commentsQuery = function(idTask){
@@ -147,15 +186,21 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$log', '$locatio
   	Utility.toUnderscore($scope.newComment);
   	delete $scope.newComment.idTask;
   	delete $scope.newComment.idUser;
+  	$scope.tempComment = new Comment($scope.newComment);
   	Utility.escape($scope.newComment);
-  	$scope.newComment.$save(function(){
-  		$route.reload();
+  	$scope.newComment.$save(function(res){
+  		$scope.tempComment.id = res.id;
+  		$scope.tasksComments[taskId].push($scope.tempComment);
   	});
   };
 
-  $scope.deleteComment = function(comment){
+  $scope.deleteComment = function(comment, taskId){
+  	for (var i = 0; i < $scope.tasksComments[taskId].length; i++) {
+  		if ($scope.tasksComments[taskId][i].id === comment.id) {
+  			$scope.tasksComments[taskId].splice(i, 1);
+  		}
+  	}
   	comment.$delete();
-  	$route.reload();
   };
 
   $scope.getCommentsNum = function(idTask){
