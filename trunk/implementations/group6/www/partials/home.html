@@ -1,13 +1,13 @@
 <div ng-include="'partials/header.html'"></div>
 <div ng-include="'partials/pestanas.html'"></div>    
-<article>
+<article ng-init="init()">
 <div>   
   <div class="row">
     <div class= "col-md-1 col-md-offset-1">
       <img src="img/male.png" class="img-thumbnail" style="float">
       </div> 
-        {{usuario.surname}} <br>
-        {{usuario.email}}             
+        <h4>{{usuario.name}} {{usuario.surname}} <br><br>
+        {{usuario.email}}</h4>
       </div>
       <div class="container">
         <div class="col-lg-8">
