@@ -104,11 +104,17 @@ angular.module('Mgmt')
   
   // Update of tasks status: done when Drag & Dropping.
   var updateTaskStatus = function(task, status) {
+
     var updatedTask = new Task(task);
     Utility.escape(updatedTask);
     updatedTask.status = status;
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
+      updateTaskScope(status);
+      $log.info($scope.backlogTasks);
+      $log.info($scope.todoTasks);
+      $log.info($scope.doingTasks);
+      $log.info($scope.doneTasks);
     }, function() {
       $log.error('There was an error upon task status update.');
     });
@@ -206,6 +212,27 @@ angular.module('Mgmt')
       'backlog': backlog
     };
   };
+
+  // Change updated task status in scope after update.
+  
+  var updateTaskScope = function(status) {
+
+    switch(status) {
+      case 'stopped': 
+        $scope.backlogTasks[$scope.backlogTasks.length-1].status = status;
+        break;
+      case 'created': 
+        $scope.todoTasks[$scope.todoTasks.length-1].status = status;
+        break;
+      case 'in_progress': 
+        $scope.doingTasks[$scope.doingTasks.length-1].status = status;
+        break;
+      case 'finished': 
+        $scope.doneTasks[$scope.doneTasks.length-1].status = status;
+        break;
+    }
+  };
+  
   
   // ---------------------------------------------------------------------------
   // Modal pop-ups
@@ -218,7 +245,7 @@ angular.module('Mgmt')
 
       case 'new':
         modalInstance = $modal.open({
-          templateUrl: 'partials/projects_new.html',
+          templateUrl: 'partials/projects_new2.html',
           controller: 'NewModalController',
           size: 'sm',
           resolve: {
@@ -332,29 +359,5 @@ angular.module('Mgmt')
   };
 
 
-
-
-
-
-
-
-
-
-
-  $scope.finished = [
-    {
-      id: 1,
-      name: 'Grammar recognizer',
-      client: 'Science Imp.',
-      author: 'Alan',
-      date: 'Oct 31'
-    },
-    {
-      id: 2,
-      name: 'Shopping mobile app development',
-      client: 'Amazon',
-      author: 'Jeff',
-      date: 'Aug 13'
-    }];
 }]);
 
