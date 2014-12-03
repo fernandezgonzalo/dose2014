@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('LetsGoTeam')
-  .controller('LoginController', ['$scope', '$http', '$log', '$timeout',
-    function ($scope, $http, $log, $timeout) {
+  .controller('LoginController', ['$scope', '$http', '$log', '$location', '$timeout',
+    function ($scope, $http, $log,$location, $timeout) {
 
 	  $scope.view = 1;
 
@@ -31,7 +31,13 @@ angular.module('LetsGoTeam')
         var i;
         for (i = 0; i < users.length; i++) {
           if(users[i].email === $scope.user.email && users[i].password === $scope.user.pass ){
+            logged = true;
             $scope.successMsgVisible = true;
+            $location.path("/projectsSprints");
+            currentUser = $scope.user;
+          }
+          else{
+            $scope.changeView(4);
           };
 
         }
