@@ -35,8 +35,6 @@ angular.module('DOSEMS.controllers')
 
 
             newUser.$save().then(function (response) {
-                $log.debug("Here");
-
                 var id = response.id;
                 $rootScope.$broadcast('loggedIn', {userId: id});
                 $cookieStore.put('loggedIn', true);
