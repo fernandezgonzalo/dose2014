@@ -287,7 +287,7 @@ feature -- Data access
 		create Result.make
 		create l_current_date.make_now
 		create db_query_statement.make ("SELECT * FROM sprint WHERE start_date <=? AND end_date >=? AND project_id=?;", db)
-		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_current_date, l_current_date,a_project_id>>)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_current_date.out, l_current_date.out,a_project_id>>)
 		if l_query_result_cursor.after then
 			print("Error while quering table sprint")
 			RESULT:= VOID

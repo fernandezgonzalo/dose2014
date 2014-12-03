@@ -186,7 +186,6 @@ feature -- Handlers
 			l_user_id := req.path_parameter("user_id").string_representation
 			l_result_array := my_db.get_all_from_project(l_user_id)
 			if l_result /= Void then
-				--l_result.put_string (l_result_array.representation,"projects")
 				return_success_array (l_result_array, res)
 			else
 				create l_result.make
