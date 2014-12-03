@@ -1,4 +1,4 @@
-angular.module('DOSEMS.services', ['ngResource']).factory('Users', function ($resource) {
+angular.module('DOSEMS.services', ['ngResource', 'ngCookies']).factory('Users', function ($resource) {
     Users = {
         loggedIn: false,
         currentUser: {},
@@ -6,7 +6,6 @@ angular.module('DOSEMS.services', ['ngResource']).factory('Users', function ($re
         ),
         restUser: function () {
             this.loggedIn = false;
-            this.loggedInUserId = -1;
             this.currentUser = {};
 
         }

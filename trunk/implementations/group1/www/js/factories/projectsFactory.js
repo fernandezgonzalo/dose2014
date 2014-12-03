@@ -1,3 +1,11 @@
-angular.module('DOSEMS.services').factory('Projects', function ($resource) {
-    return $resource('api/users/:userId/projects/:projectId', {}, {get: {method: 'get', isArray: true}});
-});
+angular.module('DOSEMS.services').factory('Projects', ['$resource', '$cookieStore', function ($resource, $cookieStore) {
+    if ($cookieStore.get('loggedIn')) {
+        return $resource('api/users/' + $cookieStore.get('userId') + '/projects/:projectId', {}, {
+                get: {
+                    method: 'get',
+                    isArray: true
+                }
+            }
+        );
+    }
+}]);

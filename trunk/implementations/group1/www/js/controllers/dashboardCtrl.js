@@ -16,7 +16,11 @@ angular.module('DOSEMS.controllers')
                 return;
             }
             $scope.getUserProjectsIDs();
-
+            $scope.newProjectData = {
+                name: '',
+                info: ''
+            };
+            $scope.emptyInput = false;
         };
         $scope.getUserProjectsIDs = function () {
             //Get the users projects from server
@@ -42,5 +46,25 @@ angular.module('DOSEMS.controllers')
 
         };
 
+
+        $scope.newProject = function () {
+            //Check that input isn't empty
+            if ($scope.newProjectData.name.length == 0 ||
+                $scope.newProjectData.info.length == 0
+            ) {
+                $scope.emptyInput = true;
+                return;
+            }
+
+            Projects.save($scope.newProjectData, function (response) {
+                var newProject = {
+                    name: $scope.newProjectData.name,
+                    info: $scope.newProjectData.info
+                };
+                $scope.userProjects.push(newProject);
+                $scope.newProjectData.info = '';
+                $scope.newProjectData.name = '';
+            });
+        };
         $scope.init();
     }]);
