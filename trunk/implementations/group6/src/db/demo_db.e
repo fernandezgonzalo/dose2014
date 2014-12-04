@@ -552,7 +552,7 @@ feature --Data access: ITERATIONS
 feature	--Data access: WORK ITEMS
 
 	update_number(start_num: INTEGER)
-	-- changes the numbers of the work_items which are associated with the same iteration and project and greater number
+	-- Changes the numbers of the work_items which are associated with the same iteration and project and greater number
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			iteration: INTEGER
@@ -561,21 +561,21 @@ feature	--Data access: WORK ITEMS
 			value: INTEGER
 
 		do
-			-- searches the iteration and the project of the given work_item
+			-- Searches the iteration and the project of the given work_item
 			create db_query_statement.make("SELECT nb_iteration, project FROM work_item WHERE id=?;",db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<start_num>>)
-			-- saves iteration and project
+			-- Saves iteration and project
 			iteration:= l_query_result_cursor.item.integer_value(1)
 			project:= l_query_result_cursor.item.string_value (2)
-			-- finds all work_items which belongs to the same iteration and project
+			-- Finds all work_items which belongs to the same iteration and project
 			create db_query_statement.make ("SELECT * from work_item WHERE nb_iteration=? AND project = '" + project + "' AND id>?;",db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<iteration,start_num>>)
-			-- changes only the number of that work_items which have a greater number
+			-- Changes only the number of that work_items which have a greater number
 			if l_query_result_cursor.after then
-				--nothing heppens
+				--Nothing heppens
 			else
 				from
-				--none
+				--None
 				until
 					l_query_result_cursor.after
 				loop
@@ -592,9 +592,9 @@ feature	--Data access: WORK ITEMS
 
 	--OK
 	iteration_work_items(iteration_number: INTEGER; project_name: STRING): JSON_ARRAY
-	--returns a JSON_ARRAY where each element is a JSON_OBJECT representing an work_item of the specified iteration
+	-- Returns a JSON_ARRAY where each element is a JSON_OBJECT representing an work_item of the specified iteration
 		do
-			--create the result object, in this case an empty JSON_ARRAY	
+			-- Create the result object, in this case an empty JSON_ARRAY	
 			create Result.make_array
 			create db_query_statement.make("SELECT * FROM work_item WHERE nb_iteration=? AND project = '" + project_name + "';" , db)
 			db_query_statement.execute_with_arguments (agent rows_to_json_array(?, 10, Result), <<iteration_number>>)
@@ -606,15 +606,15 @@ feature	--Data access: WORK ITEMS
 
 	--OK
 	work_item_info (work_item_id: INTEGER): JSON_OBJECT
-		-- returns a JSON_OBJECT with all information about a specified work_item
+		-- Returns a JSON_OBJECT with all information about a specified work_item
 		do
-			-- create the result object, in this case an empty JSON_OBJECT			
+			-- Create the result object, in this case an empty JSON_OBJECT			
 			create Result.make
-			-- search the information about work_item with the given id			
+			-- Search the information about work_item with the given id			
 			create db_query_statement.make ("SELECT * FROM work_item WHERE id=? ;" , db)
 			db_query_statement.execute_with_arguments (agent row_to_json_object (?, 10, Result),<<work_item_id>>)
 			if(db_query_statement.has_error) then
-				-- the work_item with the given id doesn't exist into the db				
+				-- The work_item with the given id doesn't exist into the db				
 				print("Error while searching the given work_item.")
 			end
 
@@ -622,7 +622,7 @@ feature	--Data access: WORK ITEMS
 
 	--OK
 	count_number_work_item(iteration_num: INTEGER; project_name: STRING):INTEGER
-		-- counts how many work_items has the iteration with number iteration_number associated with project_name and give the new value of id which will be assigned to the new work_item
+		-- Counts how many work_items has the iteration with number iteration_number associated with project_name and give the new value of id which will be assigned to the new work_item
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			number:INTEGER
@@ -641,48 +641,48 @@ feature	--Data access: WORK ITEMS
 
 	--OK
 	add_work_item(name: STRING; description: STRING; points: INTEGER; iteration: INTEGER; project: STRING; state: STRING; created_by: STRING; owner: STRING)
-		-- adds a new work_item with the given information
+		-- Adds a new work_item with the given information
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			num_new:INTEGER
 		do
 			create db_insert_statement.make ("INSERT INTO work_item(number,nb_iteration,project,name,description,points,status,created_by,owner) VALUES (?,?,?,?,?,?,?,?,?);", db)
 			num_new:=count_number_work_item(iteration,project)
-			print(num_new)
 			l_query_result_cursor:=db_insert_statement.execute_new_with_arguments(<<num_new,iteration,project,name,description,points,state,created_by,owner>>)
 			if db_insert_statement.has_error then
 				print("Error while inserting a new work_item")
 			else
-				--the new work_item was deleted from db and so sends an appropriate message				
+				-- The new work_item was deleted from db and so sends an appropriate message				
 				print("SUCCESS: The new work_item was added to the db. %N")
 			end
 		end
 
 	--OK
 	remove_work_item(work_item_id:INTEGER)
-		--removes an existing work_item which has the given identificator	
+		-- Removes an existing work_item which has the given identificator	
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			-- create the result string, in this case an empty JSON_STRING		
+			-- Create the result string, in this case an empty JSON_STRING		
 			create db_modify_statement.make ("DELETE FROM work_item WHERE id=?;", db)
 			l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_id>>)
 			if db_modify_statement.has_error then
 				print("Error while deleting a work_item.%N")
 			else
-				--the new work_item was deleted from db and so sends an appropriate message				
+				-- The new work_item was deleted from db and so sends an appropriate message				
 				print("SUCCESS: The work_item was deleted from the db. %N")
 			end
 		end
 
 	--OK
-	modify_work_item(work_item_id: INTEGER; work_item_iteration: INTEGER;work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING)
-		--modifies an existing work_item which the given informations	
+	modify_work_item(work_item_id: INTEGER; work_item_iteration: INTEGER;work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING): STRING
+		-- Modifies an existing work_item which the given informations	
 		local
 			a: STRING
 			b, new_num: INTEGER
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			text: STRING
+			old_name: STRING
 		do
 			if work_item_exists(work_item_id)then
 				-- Finds the work_item with che given id
@@ -691,8 +691,10 @@ feature	--Data access: WORK ITEMS
 				-- Checks each element of the given work_item
 				-- Checks the name
 				a:= l_query_result_cursor.item.value(5).out
+				-- Saves the original name of the work_item
+				old_name:=a
 				if (a.same_string(work_item_name) = false) then
-					--the names are different than add a comment
+					-- The names are different than add a comment
 					text:=("Old name: %"" + a + "%""+", New name: %"" + work_item_name + "%"")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET name=? WHERE id=? ;", db)
@@ -706,7 +708,7 @@ feature	--Data access: WORK ITEMS
 				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
 				b:= l_query_result_cursor.item.integer_value(7)
 				if (b.is_equal(work_item_point) = false) then
-					--the points are different than add a comment
+					-- The points are different than add a comment
 					text:=("Old points: %"" + b.out + "%""+", New points: %"" + work_item_point.out + "%"")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET points=? WHERE id=? ;", db)
@@ -720,7 +722,7 @@ feature	--Data access: WORK ITEMS
 				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
 				a:= l_query_result_cursor.item.value(8).out
 				if (a.same_string(work_item_state) = false) then
-					--the status are different than add a comment
+					-- The status are different than add a comment
 					text:=("Old status: %"" + a + "%""+", New status: %"" + work_item_state + "%"")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET status=? WHERE id=? ;", db)
@@ -734,7 +736,7 @@ feature	--Data access: WORK ITEMS
 				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
 				a:= l_query_result_cursor.item.value(10).out
 				if (a.same_string(work_item_owner) = false) then
-					--the owners are different than add a comment
+					-- The owners are different than add a comment
 					text:=("Old owner: %"" + a + "%""+", New owner: %"" + work_item_owner + "%"")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET owner=? WHERE id=? ;", db)
@@ -748,15 +750,17 @@ feature	--Data access: WORK ITEMS
 				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
 				b:= l_query_result_cursor.item.integer_value(3)
 				if (b.is_equal (work_item_iteration)= false) then
-					--the iterations are different than add a comment
+					-- Remove all links connected with the given work_item
+					remove_all_work_item_links(work_item_id)
+					-- The iterations are different than add a comment
 					text:=("Old iteration: %"" + b.out + "%""+", New iteration: %"" + work_item_iteration.out + "%"")
 					add_comment_from_modification(work_item_id,text)
-					--modify its number with respect to the number of the new iteration
-					--count and modify the number of the new iteration
+					-- Modify its number with respect to the number of the new iteration
+					-- Count and modify the number of the new iteration
 					new_num:=count_number_work_item(work_item_iteration,work_item_project)
 					create db_modify_statement.make ("UPDATE work_item SET number=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<new_num,work_item_id>>)
-					-- update the numbers of the work_items of the original iteration
+					-- Update the numbers of the work_items of the original iteration
 					update_number(work_item_id)
 					create db_modify_statement.make ("UPDATE work_item SET nb_iteration=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_iteration,work_item_id>>)
@@ -769,7 +773,7 @@ feature	--Data access: WORK ITEMS
 				l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
 				a:= l_query_result_cursor.item.value(6).out
 				if (a.same_string(work_item_description) = false) then
-					--the creators are different than add a comment
+					-- The creators are different than add a comment
 					text:=("Old description: %"" + a + "%""+", New description: %"" + work_item_description + "%"")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET description=? WHERE id=? ;", db)
@@ -778,10 +782,8 @@ feature	--Data access: WORK ITEMS
 						print("Error while changing the work_item description.")
 					end
 				end
---				Result:=True
---			else
-			-- The work_item doesn't exist into the db
---			Result:=False
+				-- Returns the old name of the work_item
+				Result:= old_name
 			end
 		end
 
@@ -790,7 +792,7 @@ feature --data access: LINKS
 
 	--OK
 	add_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
-		--adds a new link between the work_idem with id work_item_id1 and one with id work_item_id2	
+		-- Adds a new link between the work_idem with id work_item_id1 and one with id work_item_id2	
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
@@ -804,7 +806,7 @@ feature --data access: LINKS
 		end
 
 	link_exist(work_item_id1: INTEGER; work_item_id2: INTEGER):BOOLEAN
-		--checks if the given link exist into the db, returns True if it exists and False otherwise
+		-- Checks if the given link exist into the db, returns True if it exists and False otherwise
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
@@ -817,10 +819,23 @@ feature --data access: LINKS
 			end
 		end
 
+	remove_all_work_item_links(work_item_id: INTEGER)
+		-- When we delete an existing work_item we have to remove all links connect with it
+		local
+			l_modify_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_modify_statement.make ("DELETE FROM link WHERE work_item1 = ? OR work_item2 =?;",db)
+			l_modify_result_cursor:=db_modify_statement.execute_new_with_arguments (<<work_item_id,work_item_id>>)
+			if db_modify_statement.has_error then
+				print("Error while deleting all links connected with the given work_item.%N")
+			else
+				print("SUCCESS: all links connected with the given work_item are deleted.%N")
+			end
+		end
 
 	--OK
 	remove_link(work_item_id1: INTEGER; work_item_id2: INTEGER)
-		--removes an existing link between the work_idem with id work_item_id1 and one with id work_item_id2
+		-- Removes an existing link between the work_idem with id work_item_id1 and one with id work_item_id2
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
@@ -835,14 +850,14 @@ feature --data access: LINKS
 
 	--OK
 	work_item_links(work_item_id: INTEGER): JSON_ARRAY
-		--returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a link with another work_item		
+		-- Returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a link with another work_item		
 		do
-			-- create the result object, in this case an empty JSON_ARRAY			
+			-- Create the result object, in this case an empty JSON_ARRAY			
 			create Result.make_array
 			create db_query_statement.make("SELECT * FROM link WHERE work_item1=? OR work_item2=?;" , db)
 			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 2, Result), <<work_item_id,work_item_id>>)
 			if(db_query_statement.has_error) then
-				-- the work_item with the given number hasn't any link into the db				
+				-- The work_item with the given number hasn't any link into the db				
 				print("Error while getting of the link%N")
 			end
 
@@ -850,7 +865,7 @@ feature --data access: LINKS
 
 	--OK
 	check_status(status: STRING): BOOLEAN
-		--checks the correctness of the status field: it could be only "not started", "ongoing" or "done". Returns True if it is correct, False otherwise
+		-- Checks the correctness of the status field: it could be only "not started", "ongoing" or "done". Returns True if it is correct, False otherwise
 		do
 			if status.same_string ("Not started") OR status.same_string ("Ongoing") OR status.same_string ("Done") then
 				Result:=True
@@ -877,10 +892,26 @@ feature --data access: LINKS
 		end
 
 feature --data access: COMMENTS
+	--OK
+	remove_all_work_item_comments(work_item_id: INTEGER)
+		-- Removes all comments regarding the given work_item
+		local
+			l_modify_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_modify_statement.make ("DELETE FROM comment WHERE work_item = ?;",db)
+			l_modify_result_cursor:=db_modify_statement.execute_new_with_arguments (<<work_item_id>>)
+			if db_modify_statement.has_error then
+				print("Error while deleting all comments connected with the given work_item.%N")
+			else
+				-- All comments are deleted and so sends an appropriate message
+				print("SUCCESS: all comments connected with the given work_item are deleted.%N")
+			end
+		end
+
 
 	--OK
 	add_comment(work_item_id: INTEGER; text_comment: STRING; author_comment:STRING)
-		--adds a new comment with the given information		
+		-- Adds a new comment with the given information		
 		local
 			moment:DATE_TIME
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -893,14 +924,14 @@ feature --data access: COMMENTS
 			if db_insert_statement.has_error then
 				print("Error while inserting a new comment%N")
 			else
-				--the new work_item was added to db and so sends an appropriate message	
+				-- The new work_item was added to db and so sends an appropriate message	
 				print("SUCCESS: the new comment was added%N")
 			end
 		end
 
 	--OK
 	add_comment_from_modification(work_item_id: INTEGER; text_comment: STRING)
-		--adds a new comment with che given string from the modification of an existing work_item
+		-- Adds a new comment with che given string from the modification of an existing work_item
 		local
 			moment: DATE_TIME
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -913,21 +944,24 @@ feature --data access: COMMENTS
 			if db_insert_statement.has_error then
 				print("Error while inserting a new comment%N")
 			else
-				--the new work_item was added to db and so sends an appropriate message	
+				--The new work_item was added to db and so sends an appropriate message	
 				print("SUCCESS: the new comment was added%N")
 			end
 		end
 
 	--works
 	work_item_comments(work_item_id: INTEGER): JSON_ARRAY
-		--returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a comment		
+		-- Returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a comment		
 		do
-			-- create the result array, in this case an empty JSON_ARRAY			
+			-- Create the result array, in this case an empty JSON_ARRAY			
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM comment WHERE work_item=? ;", db)
 			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 4, Result), <<work_item_id>>)
 			if db_query_statement.has_error then
 				print("Error during the listing of the comments")
+			else
+				--The comments regarding the given work_item are listed
+				print("SUCCESS: the comments regarding the given work_item are listed")
 			end
 
 		end
