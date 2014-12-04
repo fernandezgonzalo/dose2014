@@ -1,1 +1,22 @@
 <button type="button" class="btn btn-default" ng-click="add_sprint()">Add sprint</button>
+
+<table class="table table-hover text-center">
+    <thead>
+    <tr>
+        <th></th>
+        <th class="clickable text-center">#id</th>
+        <th class="clickable text-center">Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="sprint in sprints" class="warning">
+        <td>
+            <img class="clickable inline" ng-click="remove(sprint)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
+            <img class="clickable inline" ng-click="edit(sprint)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
+        </td>
+        <td ng-click="go(sprint)">{{sprint.id}}</td>
+        <td ng-click="go(sprint)">{{sprint.status}}</td>
+    </tr>
+    </tbody>
+</table>
