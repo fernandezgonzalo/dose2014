@@ -64,24 +64,5 @@ feature -- Test routines
     		end
 		end
 
-	creation_negative_test_with_mpps_equals_zero
-			-- Creation test with mpps equals zero
-		local
-  			ok, second_time: BOOLEAN
-  			project: PROJECT
-		do
-    		if not second_time then
-          		ok := True
-          		create project.make ("new_name", "new_status", "new_description", 0, 1) -- Must throw an exception
-          		ok := False
-    		end
-    		assert ("The rutine has to fail", ok)
-		rescue
-     		second_time := True
-     		if ok then   -- ok = true means that the rutine failed
-           		retry
-    		end
-		end
-
 
 end

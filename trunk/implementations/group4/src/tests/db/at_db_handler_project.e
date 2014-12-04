@@ -18,7 +18,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_PROJECT
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_result := db_handler.find_by_id (1)
 
@@ -27,6 +27,7 @@ feature -- Test routines
 			assert("Correct is_active ", json_result.item("status").debug_output.is_equal("Active"))
 			assert("Correct description", json_result.item ("description").debug_output.is_equal("project1 descr"))
 			assert("Correct max_points_per_sprint", json_result.item ("max_points_per_sprint").debug_output.is_equal("10"))
+			assert("Correct number_of_sprints", json_result.item ("number_of_sprints").debug_output.is_equal("1"))
 			assert("Correct user_id", json_result.item ("user_id").debug_output.is_equal("1"))
 		end
 
@@ -36,7 +37,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_PROJECT
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.find_by_id (100)
 			assert("Project not found", json_result.is_empty)
 		end
@@ -47,8 +48,8 @@ feature -- Test routines
 			project : PROJECT
 			db_handler : DB_HANDLER_PROJECT
 		do
-			create project.make ("test_name", "test_status", "test_descrption", 100, 4)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create project.make ("test_name", "test_status", "test_descrption", 100, 3)
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(project)
@@ -58,14 +59,14 @@ feature -- Test routines
 			db_handler.db.rollback
 		end
 
-	update_projet_test
+	update_project_test
 			-- Test for routine update
 		local
 			project: PROJECT
 			db_handler : DB_HANDLER_PROJECT
 		do
-			create project.make ("test_name", "test_status", "test_descrption", 100, 4)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create project.make ("test_name", "test_status", "test_descrption", 100, 3)
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(project)
@@ -88,7 +89,7 @@ feature -- Test routines
 			json_result : JSON_OBJECT
 		do
 			create project.make ("new_name", "new_status", "new_description", 100, 1)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (project)
