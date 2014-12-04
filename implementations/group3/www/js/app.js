@@ -5,21 +5,26 @@ var app = angular.module('LetsGoTeam', [
 ]);
 
 var projects = [{id:1 ,name:'P1' }];
-var currentUser;
+var id_user = 3,id_project = 4,id_sprint = 4,id_story = 4,id_task= 2;
+var currentUser={};
+var currentProject={};
+var currentSprint={};
+var currentStory={};
 var users = [{id:1 ,firstName:'Juanito',LastName:'Perez',email:'jPe@gmail.com',password:'perez'},
   {id:2 ,firstName:'Pablito',LastName:'Lopez',email:'pLo@gmail.com',password:'lopez'}];
 var usersProjects = [{idProject:1,idUser:1},{idProject:2,idUser:1},{idProject:3,idUser:2}];
+var usersTasks = [{idTask:1,idUser:1},{idTask:1,idUser:1},{idTask:1,idUser:2}];
 var projects = [{id:1 , name:'Project1', owner:'Juanito', status:'open', startDate:21345667},
   {id:2 , name:'Project2', owner:'Juanito', status:'open', startDate:97345667},
   {id:3 , name:'Project3', owner:'Pablito', status:'open', startDate:145667}];
 var projectsSprints =[{idProject:1,idSprint:1},{idProject:1,idSprint:2},{idProject:2,idSprint:3}];
-var sprints = [{id:1 , name:'Sprint1', status:'open', startDate:12345667, completionDate:445123211},
-  {id:2 , name:'Sprint2', status:'close', startDate:32265667, completionDate:884312311},
-  {id:3 , name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911} ];
-var stories = [{id:1 , title:'Story1', description:'Hi', points:20, notes:'ok'},
-  {id:2 , title:'Story2', description:'Hi', points:15, notes:'ok'},
-  {id:3 , title:'Story3', description:'Hi', points:35, notes:'ok'} ];
-var tasks = [];
+var sprints = [{id:1 , idProject:1, name:'Sprint1', status:'open', startDate:12345667, completionDate:445123211},
+  {id:2 , idProject:1, name:'Sprint2', status:'close', startDate:32265667, completionDate:884312311},
+  {id:3 , idProject:2,name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911} ];
+var stories = [{id:1 , idSprint:1, title:'Story1', description:'Hi', points:20, notes:'ok'},
+  {id:2 , idSprint:1, title:'Story2', description:'Hi', points:15, notes:'ok'},
+  {id:3 , idSprint:2, title:'Story3', description:'Hi', points:35, notes:'ok'} ];
+var tasks = [{id:1, idStory:1, description:'Task1', number:1, points:5}];
 var logged = false;
 
 

@@ -6,7 +6,7 @@ angular.module('LetsGoTeam')
 
             $scope.data = {};
             // the model that we bind to the input box
-            $scope.newStory = {
+            $scope.story = {
                 title: '',
                 description: '',
                 points: '',
@@ -18,6 +18,13 @@ angular.module('LetsGoTeam')
             // the function to add a story
             $scope.addStory = function(newStory) {
 
+                $scope.story = newStory;
+
+                stories.push({id:id_story , idSprint:currentSprint.id, title:$scope.story.title, description:$scope.story.description, points:$scope.story.points, notes:$scope.story.notes});
+                id_story=id_story+1;
+
+
+                /*
                 // the payload is simple the json object that we used for binding to the input
                 var payload = $scope.newStory;
 
@@ -48,7 +55,9 @@ angular.module('LetsGoTeam')
                     .error(function(data, status) {
                         $log.debug('Error while trying to add a story');
                     });
+                    */
             }
+
 
         }
     ]);

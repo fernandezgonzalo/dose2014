@@ -30,7 +30,9 @@ angular.module('LetsGoTeam')
 
         $scope.user = newUser;
 
-        users.push($scope.user);
+        users.push({id:id_user,firstName:$scope.user.firstName,lastName:$scope.user.lastName,email:$scope.user.email,
+            password:$scope.user.password});
+        id_user = id_user+1;
 
         $scope.listLength = users.length;
 
