@@ -3,9 +3,10 @@ define(
     [
         //System includes
         "angular",
-        "anguComplete"
+        "anguComplete",
 
         //Custom includes
+        "blocks/createtask/createtask",
     ],
 
     function(angular)
@@ -14,7 +15,8 @@ define(
         (
             "ProjectModule",
             [
-                "angucomplete"
+                "angucomplete",
+                "uiCreateTaskModule"
             ]
         )
 
@@ -38,7 +40,22 @@ define(
                 "$scope",
                 function($scope)
                 {
-                    $scope.add_sprint = function()
+                    $scope.add = function()
+                    {
+
+                    };
+
+                    $scope.remove = function()
+                    {
+
+                    };
+
+                    $scope.edit = function ()
+                    {
+
+                    };
+
+                    $scope.go = function ()
                     {
 
                     };
