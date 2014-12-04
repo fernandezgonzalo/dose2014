@@ -130,8 +130,19 @@ feature -- Handlers
 	end
 
 	is_authorized_update(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
+	local
+	l_sprint_id: STRING
+	l_project_id: STRING
+	l_user_id: STRING
+	l_manager_id: STRING
 	do
-		Result:= is_authorized_add (req, a_map)
+		l_sprint_id := req.path_parameter("sprint_id").string_representation
+		l_project_id := my_db.get_from_id ("sprint",l_sprint_id).item ("project_id").representation
+		l_project_id.replace_substring_all ("%"", "")
+		l_manager_id := my_db.get_from_id ("project", l_project_id).item ("manager_id").representation
+		l_manager_id.replace_substring_all("%"", "")
+		l_user_id := get_session_from_req (req, "_coffee_session_").item("id").out
+		Result:= equal(l_user_id, l_manager_id)
 	end
 
 	is_authorized_get_all(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
