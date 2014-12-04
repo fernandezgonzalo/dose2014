@@ -171,10 +171,16 @@ feature -- Data access
 		create Result
 		create fn.make_from_string (document_root)
 		fn := fn.extended (id.out)
-		create avatar.make_open_read(fn.name)
-		avatar.read_stream (avatar.count)
-    	Result.content := avatar.last_string.twin
-    	Result.size_avatar:= avatar.count.out
+		create avatar.make_with_path (fn)
+		if not avatar.exists then
+			Result.content := ""
+    		Result.size_avatar:= "0"
+		else
+			avatar.open_read
+			avatar.read_stream (avatar.count)
+		    Result.content := avatar.last_string.twin
+    		Result.size_avatar:= avatar.count.out
+    	end
 	end
 
 	update_user_password (id: NATURAL; new_pass: STRING): BOOLEAN
