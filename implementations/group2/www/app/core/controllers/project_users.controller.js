@@ -19,13 +19,11 @@ angular.module('coffee.core').controller('ProjectUsersController', ['$scope', '$
         $scope.findCurrentUsers = function() {
             var project_id = $stateParams.projectId;
 
-            //$scope.current_users = [];
-            //TODO: waiting for backend..
-            /*Projects.one(project_id).getList('users').then(function(users) {
+            Projects.one(project_id).getList('users').then(function(users) {
                 $scope.current_users = users;
             }, function error(err) {
                 console.log('err',err);
-            } );*/
+            });
         };
 
         $scope.findAllUsers = function() {
@@ -36,15 +34,16 @@ angular.module('coffee.core').controller('ProjectUsersController', ['$scope', '$
 
         $scope.addUser = function(user) {
             var project_id = $stateParams.projectId;
-            Users.one(user.id).all('projects').post({'project_id': project_id}).then(function(response) {
+
+            Users.one(user.id).all('projects').one(project_id).post().then(function(response) {
                 $scope.current_users.push(user);
             });
         };
 
         $scope.removeUser = function(user) {
             var project_id = $stateParams.projectId;
-            
-            Users.one(user.id).one('projects', project_id).remove().then(function(response) {
+
+            Users.one(user.id).all('projects').one(project_id).remove().then(function(response) {
                 for (var i in $scope.current_users) {
                     if ($scope.current_users[i].id === user.id) {
                         $scope.current_users.splice(i, 1);
