@@ -123,6 +123,10 @@ feature -- Basic operations
 				--handling of the routes relating to "single users"
 			--Retrieving an user
 			map_uri_template_agent_with_request_methods ("/api/users/{id}", agent user_ctrl.get_user_by_id, router.methods_get)
+
+			map_uri_template_agent_with_request_methods ("/api/users/{id}/avatar", agent user_ctrl.put_avatar , router.methods_put)
+
+			map_uri_template_agent_with_request_methods ("/api/users/{id}/avatar", agent user_ctrl.get_avatar , router.methods_get)
 			--Editing an user
 			map_uri_template_agent_with_request_methods ("/api/users/{id}", agent user_ctrl.update_user, router.methods_put)
 			--Removing an user
