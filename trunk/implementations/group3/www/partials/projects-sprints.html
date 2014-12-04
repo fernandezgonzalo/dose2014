@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-md-2">
                     <h2>
-                        <a ng-href="http://localhost:9090/LetsGoTeam/index.html#/project"> <!-- poner ruta cuando este! -->
+                        <a ng-href="http://localhost:63342/www/index.html#/project"> <!-- poner ruta cuando este! -->
                             <button type="button" class="btn btn-info pull-right" >Add Project</button>
                         </a>
 
@@ -42,7 +42,9 @@
         </div>
         <div class="col-md-6">
             <h1 align="center" > <strong> Sprints </strong>
-                <button  class="btn btn-info pull-right"> Add Sprint</button>
+                <a ng-href="http://localhost:63342/www/index.html#/sprint">
+                    <button  class="btn btn-info pull-right"> Add Sprint</button>
+                </a>
             </h1>
             <div class="list-group">
                 <div class="list-group-item" ng-repeat="sprint in projectSprints">
@@ -53,12 +55,12 @@
                             <h4><strong> Completion Date:</strong>  {{sprint.completionDate | date}}</h4>
                         </div>
                         <div class="col-md-2">
-                            <a ng-href="http://localhost:9090/LetsGoTeam/index.html#/sprint"> <!-- poner ruta! -->
+                            <a ng-href="http://localhost:63342/www/index.html#/sprint"> <!-- poner ruta! -->
                                 <button type="button" class="btn btn-link pull-left"> Edit </button>
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <a   ng-href="http://localhost:9090/LetsGoTeam/index.html#/storyTask">
+                            <a   ng-href="http://localhost:63342/www/index.html#/storyTask">
                                 <button ng-click="shareInfo(currentProject,sprint);"  type="button" class="btn btn-link pull-left"> View board </button>
                             </a>
                         </div>

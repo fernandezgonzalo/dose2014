@@ -2,6 +2,7 @@
     <div class="container-fluid">
         <div class ="row">
             <div class="col-md-10">
+                {{actualStory.id}}
                 <h2> <strong> {{project.name}}  |  {{sprint.name}} </strong> </h2>
             </div>
             <div class="col-md-2">
@@ -30,7 +31,7 @@
                     </a>
                 </h3>
                 <div class="list-group">
-                    <div class="list-group-item colorHover" ng-repeat = "story in stories" ng-click="setStorySelected(story.id); setTasks()" >
+                    <div class="list-group-item colorHover" ng-repeat = "story in stories" ng-click="setStorySelected(story); setTasks()" >
                         <div class="row  ">
                             <div class="col-md-6">
                                 <h4> <strong>{{story.name}}</strong></h4>
@@ -38,7 +39,7 @@
                             </div>
                             <div class="col-md-6">
                                 <button type="button" class="btn btn-link pull-left">Edit</button>
-                                <a ng-href="http://localhost:9090/LetsGoTeam/index.html#/task">
+                                <a ng-href="http://localhost:63342/www/index.html#/task">
                                     <button type="button" class="btn btn-link pull-left">Add task</button>
                                  </a>
                             </div>
