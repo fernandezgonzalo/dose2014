@@ -339,7 +339,7 @@ feature --handlers
 
 					-- getting user information
 				l_result := my_db.get_user_info (l_email)
-				
+
 				set_json_header_ok (res, l_result.representation.count)
 
 			end
