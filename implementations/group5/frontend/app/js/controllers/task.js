@@ -27,7 +27,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $scope.projectSelect = [];
   $scope.tasksComments = [];
   $scope.userHash = [];
-  $scope.openedDate = false;
+  $scope.datePicker = {openedDate: false};
   $scope.viewCommentForm = false;
   $scope.viewDeadline = false;
 
@@ -103,6 +103,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $scope.openTask = function(task) {
   		$scope.isNew = false;
   		$scope.viewCommentForm = false;
+  		$scope.viewDeadline = false;
         $scope.currentTask = new Task(task);
   };
 
@@ -251,11 +252,14 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       Utility.toUnderscore($scope.currentTask);
       return result;
   };
-  $scope.openDatepick = function() {
-    $timeout(function() {
-      $scope.openedDate = true;
-      $scope.currentTask.deadline = new Date();
-    });
+
+  $scope.openDatepick = function($event) {
+  	$event.preventDefault();
+  	$event.stopPropagation();
+  	$scope.datePicker.openedDate = true;
+  	if (!$scope.currentTask.deadline) {
+  		$scope.currentTask.deadline = new Date();
+  	}
   };
 
   $scope.setPriorityClass = function(task) {
