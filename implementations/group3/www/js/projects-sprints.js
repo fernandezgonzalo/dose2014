@@ -18,6 +18,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         $scope.control = false;
 
         var init = function() {
+
             var i;
             for (i = 0; i < usersProjects.length; i++) {
                 if(usersProjects[i].idUser === currentUser.id){
@@ -40,7 +41,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
             $scope.projectSprints = [];
             var i;
             for (i = 0; i < projectsSprints.length; i++) {
-                $scope.control = true;
+
                 if(projectsSprints[i].idProject === $scope.currentProject.id ){
 
                     $scope.projectSprints.push(sprints[projectsSprints[i].idSprint -1]);
