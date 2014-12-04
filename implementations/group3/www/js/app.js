@@ -95,6 +95,10 @@ app.config(['$routeProvider', '$locationProvider',
           templateUrl: 'partials/story-task.html',
           controller: 'storyTaskController'
       })
+      .when('/project', {
+          templateUrl: 'partials/project.html',
+          controller: 'projectController'
+      })
       .otherwise({
         redirectTo: '/home'
       });

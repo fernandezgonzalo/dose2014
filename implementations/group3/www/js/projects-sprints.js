@@ -63,7 +63,9 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
 
             $scope.setProjectSelected = function(p){
                 //$scope.projectSelected = p.id;
+
                 $scope.currentProject = p;
+                currentProject = p;
             }
 
     }

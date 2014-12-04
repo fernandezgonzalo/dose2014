@@ -9,30 +9,46 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
          $scope.project = myService.getSavedProject();
         $scope.sprint = myService.getSavedSprint();
-        $scope.actualSprint = {};
+        $scope.actualStory = {};
         $scope.stories = [];
         $scope.tasks = []
 
         var init = function() {
-            $http.get('/sprint-stories/{sprint.id}')
+           /* $http.get('/sprint-stories/{sprint.id}')
                 .success(function(data, status, header, config) {
 
                     $scope.stories = data;
                 })
                 .error(function(data, status) {
                     $log.debug('Error while fetching stories from server');
-                });
+                });*/
+            $scope.stories = [];
+            var i;
+            for (i = 0; i < stories.length; i++) {
+                if(stories[i].idSprint === $scope.sprint.id ){
+                    $scope.stories.push(stories[i]);
+                }
+            }
         }();
 
         $scope.setTasks = function(){
-            $http.get('/projects-sprints/{actualProject.id}')
+           /* $http.get('/projects-sprints/{actualProject.id}')
                 .success(function(data, status, header, config) {
 
                     $scope.tasks = data;
                 })
                 .error(function(data, status) {
                     $log.debug('Error while fetching proyects from server');
-                });
+                });*/
+            $scope.tasks = [];
+            var i;
+            for (i = 0; i < tasks.length; i++) {
+
+                if(tasks[i].idStory === $scope.actualStory.id ){
+
+                    $scope.tasks.push(tasks[i]);
+                }
+            }
         }
 
 
@@ -55,9 +71,9 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
         $scope.storySelected = -1;
 
-        $scope.setStorySelected = function(id){
-            $scope.storySelected = id;
-            $scope.actualStory = $scope.stories[id];
+        $scope.setStorySelected = function(s){
+            //$scope.storySelected = id;
+            $scope.actualStory = s ;//$scope.stories[id];
         }
 
     }]);
