@@ -246,8 +246,12 @@ feature -- Handlers
 		do
 			l_id := req.path_parameter ("id").string_representation
 			tuple:=my_crud_user.get_user_avatar (l_id.to_natural)
-			res.add_header (200, <<["Content-Type:","image"], ["Content-Length:",tuple.size_avatar]>>)
-			res.put_string (tuple.content)
+			if(tuple.content.is_empty and tuple.size_avatar.is_equal ("0"))then
+				res.set_status_code (404)
+			else
+				res.add_header (200, <<["Content-Type:","image"], ["Content-Length:",tuple.size_avatar]>>)
+				res.put_string (tuple.content)
+			end
 		end
 
 
