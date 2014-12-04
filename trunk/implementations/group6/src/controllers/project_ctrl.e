@@ -77,7 +77,7 @@ feature --Handlers
 			end
 
 			-- Check if the name doesn't already exist
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -85,7 +85,7 @@ feature --Handlers
 				--Error name already existing
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name already existing"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -122,7 +122,7 @@ feature --Handlers
 			end
 
 			-- Check if the name already exists in the db
-			if l_project_name.is_empty or l_project_name = Void then
+			if  l_project_name = Void or l_project_name.is_empty then
 				--Error name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -134,7 +134,7 @@ feature --Handlers
 				-- Check if the project is empty (no iterations): db.is_project_empty(a_project_name)
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project is not empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -202,11 +202,11 @@ feature --Handlers
 			end
 
 			-- Check if the name doesn't already exist
-			if l_old_project_name.is_empty or l_old_project_name = Void then
+			if l_old_project_name = Void or l_old_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Old project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_new_project_name.is_empty or l_new_project_name = Void then
+			elseif l_new_project_name = Void or  l_new_project_name.is_empty then
 				--Error new name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("New project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -214,7 +214,7 @@ feature --Handlers
 				--Error name already existing
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name already existing"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -249,7 +249,7 @@ feature --Handlers
 			create j_obj.make
 			create l_result_payload.make_array
 			-- Check if the name doesn't already exist
-			if l_user_email.is_empty or l_user_email = Void then
+			if l_user_email = Void or l_user_email.is_empty then
 				--Error user email empty
 				j_obj.put (create {JSON_STRING}.make_json ("User email empty"), create {JSON_STRING}.make_json ("Error"))
 				l_result_payload.extend (j_obj)
@@ -276,7 +276,7 @@ feature --Handlers
 			l_project_name := req.path_parameter ("project_name_id").string_representation
 			create j_obj.make
 			create l_result_payload.make_array
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error user email empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				l_result_payload.extend (j_obj)
@@ -308,7 +308,7 @@ feature --Handlers
 			l_project_name := req.path_parameter ("project_name_id").string_representation
 			create j_obj.make
 			create l_result_payload.make_array
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error user email empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				l_result_payload.extend (j_obj)
@@ -345,11 +345,11 @@ feature --Handlers
 				l_user_email := get_session_from_req(req, "_session_").at("id").out
 			end
 
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_new_member.is_empty or l_new_member = Void then
+			elseif l_new_member = Void or l_new_member.is_empty then
 				--Error new member
 				l_result_payload.put (create {JSON_STRING}.make_json ("New member email empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -357,7 +357,7 @@ feature --Handlers
 				--Error name does not exist
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -396,11 +396,11 @@ feature --Handlers
 				l_user_email := get_session_from_req(req, "_session_").at("id").out
 			end
 
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_member.is_empty or l_member = Void then
+			elseif l_member = Void or l_member.is_empty then
 				--Error new member
 				l_result_payload.put (create {JSON_STRING}.make_json ("Member email empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -408,7 +408,7 @@ feature --Handlers
 				--Error name does not exist
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -451,11 +451,11 @@ feature --Handlers
 				l_user_email := get_session_from_req(req, "_session_").at("id").out
 			end
 
-			if l_project_name.is_empty or l_project_name = Void then
+			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_new_owner.is_empty or l_new_owner = Void then
+			elseif l_new_owner = Void or l_new_owner.is_empty then
 				--Error new owner
 				l_result_payload.put (create {JSON_STRING}.make_json ("New owner email empty"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -463,7 +463,7 @@ feature --Handlers
 				--Error name does not exist
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_user_email.is_empty or l_user_email = void  then
+			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
