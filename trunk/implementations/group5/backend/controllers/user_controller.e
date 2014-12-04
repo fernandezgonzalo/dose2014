@@ -215,4 +215,66 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+
+	document_root: READABLE_STRING_8
+			-- Document root to look for files or directories
+		local
+			e: EXECUTION_ENVIRONMENT
+			dn: DIRECTORY_NAME
+		once
+			create e
+			create dn.make_from_string (e.current_working_directory)
+			dn.extend ("images")
+			Result := dn.string
+			if Result [Result.count] = Operating_environment.directory_separator then
+				Result := Result.substring (1, Result.count - 1)
+			end
+		ensure
+			not Result.ends_with (Operating_environment.directory_separator.out)
+		end
+
+
+
+
+	get_avatar (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Upload page is requested, either GET or POST
+			-- On GET display the web form to upload file, by passing ?nb=5 you can upload 5 images
+			-- On POST display the uploaded files
+		local
+			l_id: STRING_8
+			tuple: TUPLE[content,size_avatar:STRING]
+		do
+			l_id := req.path_parameter ("id").string_representation
+			tuple:=my_crud_user.get_user_avatar (l_id.to_natural)
+			res.add_header (200, <<["Content-Type:","image"], ["Content-Length:",tuple.size_avatar]>>)
+			res.put_string (tuple.content)
+		end
+
+
+	put_avatar (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_id: STRING_8
+			fn: PATH
+			n: INTEGER
+			p: MANAGED_POINTER
+			avatar :RAW_FILE
+		do
+			n := 0
+			across
+				req.uploaded_files as c
+			loop
+				n := n + 1
+				l_id := req.path_parameter ("id").string_representation
+				create fn.make_from_string (document_root)
+				c.item.change_name (l_id.out)
+				fn := fn.extended (c.item.name)
+				if c.item.move_to (fn.name) then
+					create avatar.make_open_read (fn.name)
+					res.set_status_code (200)
+				end
+			end
+		end
+
 end
+
+

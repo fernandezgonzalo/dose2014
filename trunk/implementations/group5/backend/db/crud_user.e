@@ -148,16 +148,34 @@ feature -- Data access
 			end
 		end
 
---	update_user_photo (id: NATURAL)
---			-- updates the picture of the user identified by id
---		do
---			create db_modify_statement.make ("UPDATE user SET photo= foto nueva WHERE id=" + id.out + ";", db)
---			db_modify_statement.execute
---			if db_modify_statement.has_error then
---				print("Error while deleting an user")
---					-- TODO: we probably want to return something if there's an error
---			end
---		end
+	update_user_photo (id: NATURAL ; photo: MANAGED_POINTER): BOOLEAN
+			-- updates the picture of the user identified by id
+			local
+				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_modify_statement.make ("UPDATE user SET photo= ?  WHERE id= '" + id.out + "';", db)
+			l_query_result_cursor:= db_modify_statement.execute_new_with_arguments (<<photo>>)
+			if db_modify_statement.has_error  or db_modify_statement.changes_count=0 then
+					Result:=false
+			else
+				Result:=true;
+			end
+		end
+
+	get_user_avatar(id:NATURAL): TUPLE[content,size_avatar: STRING]
+	--returns the binary data of the avatar, and the size
+	local
+		avatar :RAW_FILE
+		fn: PATH
+	do
+		create Result
+		create fn.make_from_string (document_root)
+		fn := fn.extended (id.out)
+		create avatar.make_open_read(fn.name)
+		avatar.read_stream (avatar.count)
+    	Result.content := avatar.last_string.twin
+    	Result.size_avatar:= avatar.count.out
+	end
 
 	update_user_password (id: NATURAL; new_pass: STRING): BOOLEAN
 			-- updates the password of the user identified by id
@@ -390,6 +408,27 @@ feature {NONE}--login
              Result := false
         end
     end
+
+
+document_root: READABLE_STRING_8
+			-- Document root to look for files or directories
+		local
+			e: EXECUTION_ENVIRONMENT
+			dn: DIRECTORY_NAME
+		once
+			create e
+			create dn.make_from_string (e.current_working_directory)
+			dn.extend ("images")
+			Result := dn.string
+			if Result [Result.count] = Operating_environment.directory_separator then
+				Result := Result.substring (1, Result.count - 1)
+			end
+		ensure
+			not Result.ends_with (Operating_environment.directory_separator.out)
+		end
+
+
+
 
 
 feature {NONE}
