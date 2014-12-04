@@ -18,7 +18,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_SPRINT
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_result := db_handler.find_by_id_and_project_id (0, 1)
 
@@ -35,7 +35,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_SPRINT
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.find_by_id_and_project_id (20, 20)
 			assert("Sprint not found", json_result.is_empty)
 		end
@@ -47,7 +47,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_SPRINT
 		do
 			create sprint.make ("Backlog", 10, 2)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (sprint)
@@ -64,7 +64,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_SPRINT
 		do
 			create sprint.make ("Backlog", 10, 2)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(sprint)
@@ -87,7 +87,7 @@ feature -- Test routines
 			json_result : JSON_OBJECT
 		do
 			create sprint.make ("Backlog", 10, 2)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (sprint)
