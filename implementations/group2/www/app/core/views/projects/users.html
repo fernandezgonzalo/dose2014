@@ -7,7 +7,8 @@
 			<li data-ng-repeat="user in current_users" class="list-group-item">
 				<h4 class="list-group-item-heading">{{user.first_name}} {{user.last_name}} </h4>
 				<p class="list-group-item-text" data-ng-bind="project.email"></p>
-				<button class="btn btn-danger" data-ng-click="removeUser(user)">Remove</button>
+				<p data-ng-show="user.id == project.manager_id">Project Manager</p>
+				<button class="btn btn-danger" data-ng-click="removeUser(user)" data-ng-hide="user.id == global.user.id">Remove</button>
 			</li>
 		</ul>
 	</div>
@@ -15,7 +16,7 @@
 	<div>
 		<h3>Add user</h3>		
 		
-		    <input type="text" ng-model="selected_user" typeahead="user as user.first_name + ' ' + user.last_name for user in users | filter:$viewValue | limitTo:8" class="form-control">
+		    <input type="text" ng-model="selected_user" typeahead="user as user.first_name + ' ' + user.last_name for user in users | filter:$viewValue | limitTo:8" class="form-control" placeholder="Start Typing">
 
 		    <button class="btn btn-primary" data-ng-show="!!selected_user.id" data-ng-click="addUser(selected_user)">
 		    	Add {{selected_user.first_name}} {{selected_user.last_name}} to this project
