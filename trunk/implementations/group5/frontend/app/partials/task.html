@@ -49,9 +49,9 @@
 				<p ng-if="!currentTask.deadline"><a href="" ng-click="toggleDeadline()"><span class="glyphicon glyphicon-time"></span> add a deadline</a></p>
 				<div ng-if="viewDeadline" class="form-horizontal">
 		            <div class="input-group">
-		              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.openedDate" close-text="Close" />
+		              <input type="text" class="form-control" datepicker-popup="dd.MMMM.yyyy" ng-model="currentTask.deadline" is-open="$parent.datePicker.openedDate" ng-required="true" close-text="Close" />
 		              <span class="input-group-btn">
-		              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick()"><i class="glyphicon glyphicon-time"></i></button>
+		              	<button style="height:34px;" class="btn btn-default" ng-click="openDatepick($event)"><i class="glyphicon glyphicon-time"></i></button>
 		              </span>
 		            </div>
 		        </div>
