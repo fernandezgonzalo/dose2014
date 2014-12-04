@@ -5,7 +5,7 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
 // the model that we bind to the input box
        $scope.data = {};
 
-        $scope.newSprint = {
+        $scope.sprint = {
             name: '',
             startDate: '',
             completionDate: '',
@@ -18,6 +18,12 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
         // the function to add the new users
         $scope.addSprint = function (newSprint) {
 
+            $scope.sprint = newSprint;
+
+            sprints.push({id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
+            id_sprint=id_sprint+1;
+
+            /*
             // the payload is simple the json object that we used for binding to the input
             var payload = $scope.newSprint;
 
@@ -51,6 +57,7 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
                 .error(function (data, status) {
                     $log.debug('Error while trying to add a new sprint');
                 });
+                */
         }
     }
 ]);

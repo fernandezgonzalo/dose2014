@@ -13,10 +13,10 @@ angular.module('LetsGoTeam')
 
             $scope.data = {};
             // the model that we bind to the input box
-            $scope.newTask = {
+            $scope.task = {
                 description: '',
-                number: '',
-                assignees: ''
+                number: 0,
+                points: 0
             };
 
             $scope.successMsgVisible = false;
@@ -24,6 +24,12 @@ angular.module('LetsGoTeam')
             // the function to add a story
             $scope.addTask = function(newTask) {
 
+                $scope.task = newTask;
+
+                tasks.push({id:id_task , idStory:currentStory.id, description:$scope.task.description, number:$scope.task.number, points:$scope.task.points});
+                id_task=id_task+1;
+
+                /*
                 // the payload is simple the json object that we used for binding to the input
                 var payload = $scope.newTask;
 
@@ -54,6 +60,7 @@ angular.module('LetsGoTeam')
                     .error(function(data, status) {
                         $log.debug('Error while trying to add a task');
                     });
+                    */
             }
 
         }

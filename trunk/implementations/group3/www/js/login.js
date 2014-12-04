@@ -30,17 +30,14 @@ angular.module('LetsGoTeam')
 
         var i;
         for (i = 0; i < users.length; i++) {
-          if(users[i].email === $scope.user.email && users[i].password === $scope.user.pass ){
+          if(users[i].email === $scope.user.email && users[i].password === $scope.user.pass && !logged){
             logged = true;
             $scope.successMsgVisible = true;
+            currentUser = users[i];
             $location.path("/projectsSprints");
-            currentUser = $scope.user;
           }
-          else{
-            $scope.changeView(4);
-          };
-
         }
+        if (!logged) $scope.changeView(4);
         // the payload is simple the json object that we used for binding to the input
        /* var payload = $scope.user;
 
