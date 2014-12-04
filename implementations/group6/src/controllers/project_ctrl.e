@@ -58,7 +58,7 @@ feature --Handlers
 
 				if req_has_cookie(req, "_session_") then
 
-					l_user_email := get_session_from_req(req, "_session_").at("id").out
+					l_user_email := get_session_from_req(req, "_session_").at("email").out
 				end
 
 			-- read the payload from the request and store it in the string
@@ -118,7 +118,7 @@ feature --Handlers
 			create l_result_payload.make
 			-- Receive the name of the user
 			if req_has_cookie(req, "_session_") then
-				l_user_email := get_session_from_req(req, "_session_").at("id").out
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
 
 			-- Check if the name already exists in the db
@@ -180,7 +180,7 @@ feature --Handlers
 
 				if req_has_cookie(req, "_session_") then
 
-					l_user_email := get_session_from_req(req, "_session_").at("id").out
+					l_user_email := get_session_from_req(req, "_session_").at("email").out
 				end
 
 			-- read the payload from the request and store it in the string
@@ -342,7 +342,7 @@ feature --Handlers
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
-				l_user_email := get_session_from_req(req, "_session_").at("id").out
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
 
 			if l_project_name = Void or l_project_name.is_empty then
@@ -393,7 +393,7 @@ feature --Handlers
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
-				l_user_email := get_session_from_req(req, "_session_").at("id").out
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
 
 			if l_project_name = Void or l_project_name.is_empty then
@@ -448,7 +448,7 @@ feature --Handlers
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
-				l_user_email := get_session_from_req(req, "_session_").at("id").out
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
 
 			if l_project_name = Void or l_project_name.is_empty then
