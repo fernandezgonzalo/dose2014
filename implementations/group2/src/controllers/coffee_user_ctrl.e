@@ -82,15 +82,18 @@ feature -- Handlers
 		l_add_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create l_result.make
-			l_map := parse_request (req)
-				l_add_result:= my_db.add (table_name,l_map)
-				if l_add_result.success then
-					l_result := my_db.get_from_id (table_name, l_add_result.id)
-					return_success_without_message (l_result, res)
-				else
-					return_error(l_result, res,"Could not add to " + table_name, 501)
-				end
-
+		l_map := parse_request (req)
+		if validate_input(l_map) then
+			l_add_result:= my_db.add (table_name,l_map)
+			if l_add_result.success then
+				l_result := my_db.get_from_id (table_name, l_add_result.id)
+				return_success_without_message (l_result, res)
+			else
+				return_error(l_result, res,"Could not add to " + table_name, 501)
+			end
+		else
+			return_error(l_result, res,"Validation error", 400)
+		end
 		end
 
 	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -106,7 +109,6 @@ feature -- Handlers
 			if is_authorized_get_all(req,l_map) then
 				l_result_array := my_db.get_all_users
 				if l_result /= Void then
-					--l_result.put_string (l_result_array.representation, table_name + "s")
 					return_success_array (l_result_array, res)
 				else
 					create l_result.make
@@ -125,7 +127,15 @@ feature -- Handlers
 
 feature {NONE} -- helpers
 
-	--dfa: RX_PCRE_MATCHER
+	validate_input(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : BOOLEAN
+	local
+		dfa: LX_DFA_REGULAR_EXPRESSION
+	do
+		create dfa.make
+        dfa.compile("^[A-Z0-9._%%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", True)
+        Result:= dfa.matches(get_value_from_map ("email", a_map))
+	end
+
 
 	reject(l_result_payload: JSON_OBJECT res: WSF_RESPONSE)
 

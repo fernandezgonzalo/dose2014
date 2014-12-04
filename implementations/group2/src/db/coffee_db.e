@@ -522,7 +522,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email, developer_mapping.points FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id=? ORDER BY developer_mapping.points DESC;", db)
+		create db_query_statement.make ("SELECT user.id, user.first_name, user.last_name, user.email, developer_mapping.points FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id=? ORDER BY developer_mapping.points DESC;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
@@ -545,7 +545,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id = ?;", db)
+		create db_query_statement.make ("SELECT user.id, user.first_name, user.last_name, user.email FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id = ?;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
