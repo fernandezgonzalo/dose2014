@@ -405,7 +405,7 @@ feature -- Data access
 	do
 		create Result.make_array
 		on_finish_sprint(a_project_id)
-		create db_query_statement.make ("SELECT task.* FROM task,sprint,requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=? AND task.sprint_id=null AND task.progress <> 'Completed';", db)
+		create db_query_statement.make ("SELECT task.* FROM task,sprint,requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=? AND (task.sprint_id=null or task.sprint_id=0) AND task.progress <> 'Completed';", db)
 		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
@@ -432,7 +432,7 @@ feature -- Data access
 		create l_json_object.make
 		create l_now.make_now
 		create db_query_statement.make ("SELECT id FROM sprint WHERE end_date < ? AND project_id=?;", db)
-		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_now, a_project_id>>)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_now.out, a_project_id>>)
 		from
 			i:= 1
 		until
@@ -522,7 +522,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email, developer_mapping.points FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id=? ORDER BY developer_mapping.points DESC", db)
+		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email, developer_mapping.points FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id=? ORDER BY developer_mapping.points DESC;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
@@ -545,7 +545,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id = ?", db)
+		create db_query_statement.make ("SELECT user.first_name, user.last_name, user.email FROM user, developer_mapping WHERE developer_mapping.user_id = user.id AND developer_mapping.project_id = ?;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
@@ -568,7 +568,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT * FROM task WHERE sprint_id = ?", db)
+		create db_query_statement.make ("SELECT * FROM task WHERE sprint_id = ?;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_sprint_id>>)
 		from
 			i:= 1
@@ -639,12 +639,10 @@ feature -- Data access
 		create db_query_statement.make ("SELECT COUNT(*) FROM task, requirement WHERE task.requirement_id=requirement.id AND requirement.project_id=? AND task.progress='Completed';", db)
 		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		if not l_query_result_cursor.after then
-			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
-				if l_json_object.has_key ("count(*)") then
-					temp:= l_json_object.item ("count(*)").representation
-				temp.replace_substring_all ("%"","")
-					l_completed_tasks:=temp.to_integer
-				end
+			l_json_object.put (create {JSON_STRING}.make_json (l_query_result_cursor.item.string_value (1)), create{JSON_STRING}.make_json ("completed"))
+			temp:= l_json_object.item ("completed").representation
+			temp.replace_substring_all ("%"","")
+			l_completed_tasks:=temp.to_integer
 		end
 		percentage:=((l_completed_tasks*100)//(l_tasks*100))
 		Result.put (create {JSON_STRING}.make_json (percentage.out), create{JSON_STRING}.make_json ("progress_percentage"))
