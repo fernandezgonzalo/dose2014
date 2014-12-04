@@ -20,7 +20,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 			json_array_result : JSON_ARRAY
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_array_result := db_handler.find_all
 

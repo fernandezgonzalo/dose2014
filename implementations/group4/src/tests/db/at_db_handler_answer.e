@@ -20,7 +20,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_ANSWER
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.find_by_id (1)
 
 				-- correct attributes
