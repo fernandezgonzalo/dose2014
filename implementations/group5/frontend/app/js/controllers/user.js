@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', 'ngToast', 'FileUpload',
-      function ($scope, $log, $location, $routeParams, $resource, Utility, User, ngToast, FileUpload) {
+angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$location', '$routeParams', '$resource', 'Utility', 'User', 'ngToast', 'FileUpload', 'AuthService',
+      function ($scope, $log, $location, $routeParams, $resource, Utility, User, ngToast, FileUpload, AuthService) {
         
   var TAG = 'UserController::';
 
@@ -11,6 +11,7 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
     $scope.isEdit = true;
     User.get({userId  : $routeParams.id}, function(user) {
       Utility.toCamel(user);
+      AuthService.hasAvatar(user);
       $scope.user = user;
       user.password = '';
     });
