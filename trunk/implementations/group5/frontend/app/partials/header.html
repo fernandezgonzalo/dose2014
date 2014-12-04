@@ -6,7 +6,8 @@
     </div>
     <div ng-if="isAuthenticated()" class="navbar-header navbar-right table-row">
         <div>
-          <img class="avatar small"> </img>
+          <img ng-if="currentUser.hasAvatar" class="avatar small" style="background-image: url('{{ currentUser.avatar }}')"> </img>
+          <img ng-if="!currentUser.hasAvatar" class="avatar small"> </img>
         </div>
         <div>
           Hello, {{ currentUser.name }}!<br />

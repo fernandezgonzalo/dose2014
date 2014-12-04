@@ -26,7 +26,17 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
     user.lastLoginDate = Utility.parseDate(user.lastLogin);
     this.currentUser = user;
     localStorage.setItem(authService.KEY, user.id);
+    authService.hasAvatar(user);
     return user;
+  };
+
+  authService.hasAvatar = function(user) {
+    user.avatar = '/api/users/' + user.id + '/avatar';
+    $http.get(user.avatar).then(function() {
+      user.hasAvatar = true;
+    }, function() {
+      user.hasAvatar = false;
+    });
   };
 
   authService.logout = function() {
