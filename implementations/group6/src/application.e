@@ -77,6 +77,8 @@ feature {NONE} -- Initialization
 		--		print("false G")
 		--	end
 
+			--print(dao.get_points ("bidon").representation)
+
 --			print(dao.get_all_user_projects ("jimmy@yahoo.com").representation)
 
 --				 -- BEGIN QUERIES TESTS
@@ -143,16 +145,16 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.delete_user, router.methods_delete)
 			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.change_password, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.update_user, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.get_user_info, router.methods_get)
+			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.get_user_info, router.methods_get)
 
 				-- handling of all the routes relating to "projects"
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get) -- works
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.add_project, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}", agent project_ctrl.remove_project, router.methods_delete)
-			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}", agent project_ctrl.rename_project, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/projects/members/{user_email_id}", agent project_ctrl.get_all_user_projects, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}", agent project_ctrl.get_all_project_members, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}/{user_email_id}", agent project_ctrl.add_member_to_project, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.remove_project, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/projects/update", agent project_ctrl.rename_project, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/projects", agent project_ctrl.get_all_user_projects, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/members", agent project_ctrl.get_all_project_members, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/members/add", agent project_ctrl.add_member_to_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}/{user_email_id}", agent project_ctrl.remove_member_from_project, router.methods_delete)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}/owners/{user_email_id}", agent project_ctrl.promote_owner, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}/owners", agent project_ctrl.get_all_project_owners, router.methods_get)
