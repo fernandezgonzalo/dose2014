@@ -207,8 +207,8 @@ feature -- Data access : project
 		do
 			-- select from member table the project of the specific user
 			create Result.make_array
-			create db_query_statement.make ("SELECT member.project, sum(IFNULL(work_item.points, 0)) as points FROM member LEFT JOIN work_item ON member.project = work_item.project WHERE user='" + a_user_email + "' GROUP BY member.project;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
+			create db_query_statement.make ("SELECT member.project as project_name, sum(IFNULL(work_item.points, 0)) as points, member.owner FROM member LEFT JOIN work_item ON member.project = work_item.project WHERE user='" + a_user_email + "' GROUP BY member.project;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		end
 
 	get_all_project_members (a_project_name: STRING): JSON_ARRAY
@@ -225,7 +225,7 @@ feature -- Data access : project
 			-- call get_all_project_members and filter by owners only
 			-- return them as JSON_ARRAY
 			create Result.make_array
-			create db_query_statement.make ("SELECT member.user, user.name, user.surname, member.owner FROM member, user WHERE member.project='" + a_project_name + "'AND user.email = member.user AND owner=1;", db)
+			create db_query_statement.make ("SELECT member.user as email, user.name, user.surname, member.owner FROM member, user WHERE member.project='" + a_project_name + "'AND user.email = member.user AND owner=1;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		end
 
@@ -261,6 +261,13 @@ feature -- Data access : project
 				print("Error while promoting member")
 			end
 		end
+
+	get_points (a_project_name: STRING): JSON_OBJECT
+		-- get the total numbers of points of a project
+		do
+			create db_query_statement.make ("SELECT sum(IFNULL(work_item.points, 0)) as points FROM work_item WHERE work_item.project='" + a_project_name + "';", db)
+			db_query_statement.execute (agent row_to_json_object(?, 1, Result))
+		 end
 
 
 feature --data access: USERS
