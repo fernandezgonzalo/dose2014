@@ -131,6 +131,37 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+	add_user_in_project (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- adds a user in a project
+		local
+			l_payload,l_user_id, l_project_id: STRING
+			parser: JSON_PARSER
+			l_result: JSON_OBJECT
+			flag: BOOLEAN
+		do
+				-- create emtpy string objects
+			create l_payload.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+
+			l_user_id := req.path_parameter ("id_user").string_representation
+			l_project_id := req.path_parameter ("id_project").string_representation
+			flag := my_db.add_user_project (l_user_id, l_project_id)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Added user in project "), create {JSON_STRING}.make_json ("Message"))
+
+				-- send the response
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
+		end
+
 	get_project_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all sprints of a selected project
 		local
@@ -166,5 +197,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		end
+
+
 
 end

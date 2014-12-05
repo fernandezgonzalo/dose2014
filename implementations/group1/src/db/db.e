@@ -270,14 +270,17 @@ feature -- Data access UserProjects
 			db_query_statement.execute (agent rows_to_json_array (?, 2, Result))
 		end
 
-	add_user_project (id_user, id_project: STRING)
+	add_user_project (id_user, id_project: STRING):BOOLEAN
 
 		do
-			create db_insert_statement.make ("INSERT INTO RolProject(id_user, id_project) VALUES ('" + id_user +"','"+id_project+"');", db);
+			create db_insert_statement.make ("INSERT INTO UserProject(id_user, id_project) VALUES ('" + id_user +"','"+id_project+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
-				print("Error while inserting a new UserProject")
+				result := False
+			else
+				result := True
 			end
+
 		end
 
 	remove_user_project (id: NATURAL)
