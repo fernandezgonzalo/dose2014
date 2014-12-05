@@ -56,11 +56,11 @@ feature --Handlers
 				--l_project_name := req.path_parameter ("project_name_id").string_representation
 				-- Receive the name of the new project
 
-				if req_has_cookie(req, "_session_") then
+		--		if req_has_cookie(req, "_session_") then
 
-					l_user_email := get_session_from_req(req, "_session_").at("email").out
-				end
-
+		--			l_user_email := get_session_from_req(req, "_session_").at("email").out
+		--		end
+			l_user_email := "giorgio@hotmail.it"
 			-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 			--now parse the json object that we got as part of the payload
@@ -96,7 +96,7 @@ feature --Handlers
 			else
 				my_db.add_project (l_project_name, l_user_email)
 				 --create the backlog iteration
-				my_db.add_iteration (l_project_name)
+				--my_db.add_iteration (l_project_name)
 				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("New project '" + l_project_name + "' added successfully."), create {JSON_STRING}.make_json ("success"))
 				l_result_payload.put (create {JSON_STRING}.make_json (l_project_name), create {JSON_STRING}.make_json ("project_name"))

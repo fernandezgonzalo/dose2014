@@ -500,11 +500,11 @@ feature --Data access: ITERATIONS
 			iteration_name: STRING
 		do
 			if is_project_empty(a_project) then
-				is_backlog := True
+				is_backlog := TRUE
 				iteration_number := 0
 				iteration_name := "BACKLOG ITERATION"
 			else
-				is_backlog := False
+				is_backlog := FALSE
 				iteration_number := get_all_project_iterations(a_project).count
 				iteration_name := "ITERATION " + iteration_number.out
 			end
