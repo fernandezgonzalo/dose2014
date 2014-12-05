@@ -8,6 +8,8 @@ define(
         //Custom includes
         "blocks/createtask/createtask",
         "blocks/edittask/edittask",
+        "blocks/createsprint/createsprint",
+        "blocks/editsprint/editsprint",
         "pages/js/restapi"
     ],
 
@@ -20,6 +22,8 @@ define(
                 "angucomplete",
                 "uiCreateTaskModule",
                 "uiEditTaskModule",
+                "uiCreateSprintModule",
+                "uiEditSprintModule",
                 "RestApiModule"
             ]
         )
@@ -46,19 +50,29 @@ define(
                 "$scope",
                 function($scope)
                 {
-                    $scope.add = function()
-                    {
+                    $scope.$on
+                    (
+                        "create_sprint",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            console.log("create_sprint");
+                        }
+                    );
 
-                    };
+                    $scope.$on
+                    (
+                        "edit_sprint",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            console.log("edit_sprint");
+                        }
+                    );
 
                     $scope.remove = function()
                     {
-
-                    };
-
-                    $scope.edit = function ()
-                    {
-
+                        console.log("Remove sprint");
                     };
 
                     $scope.go = function ()
@@ -87,23 +101,22 @@ define(
                         {
                             event.stopPropagation();
                             restapi.create_task(data, $stateParams.id);
-                            //restapi.create_project(data.project_name, data.description, data.max_points_per_sprint).then(update_projects);
                         }
                     );
 
-                    $scope.add = function()
-                    {
-
-                    };
+                    $scope.$on
+                    (
+                        "edit_task",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            console.log("edit_task");
+                        }
+                    );
 
                     $scope.remove = function()
                     {
-
-                    };
-
-                    $scope.edit = function ()
-                    {
-
+                        console.log("Remove task");
                     };
 
                     $scope.go = function ()
