@@ -17,7 +17,7 @@
 
         <button type="button"
                 class="form-group btn btn-default inline"
-                ng-click="add_user()">Add user</button>
+                ng-click="add_collaborator()">Add user</button>
     </div>
 </form>
 
@@ -33,9 +33,9 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="user in data | filter:query | orderBy: 'name' " class="warning">
+    <tr ng-repeat="user in collaborators | filter:query | orderBy: 'name' " class="warning">
         <td>
-            <img class="inline clickable" ng-click="" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
+            <img class="inline clickable" ng-click="remove_collaborator(user)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
         </td>
         <td ng-click="">{{user.user_name}}</td>
         <td ng-click="">{{user.email}}</td>

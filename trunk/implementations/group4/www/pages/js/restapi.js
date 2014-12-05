@@ -136,6 +136,23 @@ define(
                         )
                     };
 
+                    module.project = function(project_id)
+                    {
+                        return $http.get('/api/projects/'+project_id)
+                        .then
+                        (
+                            function(data)
+                            {
+                                return data.data;
+                            },
+                            function(data)
+                            {
+                                $log.info("error");
+                                $log.info(data);
+                            }
+                        )
+                    };
+
                     module.remove_project = function(id)
                     {
                         return $http.delete('/api/projects/' + id);
@@ -202,7 +219,8 @@ define(
                             type: form.type
                         };
 
-                        return $http.post("/api/projects/"+project_id+"/tasks", request).then
+                        return $http.post("/api/projects/"+project_id+"/tasks", request)
+                        .then
                         (
                             function(data)
                             {
@@ -210,6 +228,36 @@ define(
                                 return data.data;
                             }
                         );
+                    };
+
+                    module.all_users = function ()
+                    {
+                        return $http.get("/api/users").then
+                        (
+                            function(data)
+                            {
+                                return data.data;
+                            }
+                        )
+                    };
+
+                    module.project_collaborators = function (project_id) {
+                        return $http.get("/api/projects/" + project_id + "/collaborators")
+                        .then
+                        (
+                            function(data)
+                            {
+                                return data.data;
+                            }
+                        )
+                    };
+
+                    module.add_project_collaborator = function (project_id, user_id) {
+                        return $http.post("/api/projects/" + project_id + "/collaborators/" + user_id, {});
+                    };
+
+                    module.remove_project_collaborator = function (project_id, user_id) {
+                        return $http.delete("/api/projects/" + project_id + "/collaborators/" + user_id);
                     };
 
                     //////////////////////////////////////////////////////////////

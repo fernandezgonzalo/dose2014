@@ -28,9 +28,11 @@ define(
             [
                 "$scope",
                 "$state",
-                function($scope, $state)
+                "project",
+                function($scope, $state, project)
                 {
                     $scope.state = $state;
+                    $scope.project = project;
                 }
             ]
         )
@@ -117,33 +119,91 @@ define(
             "ProjectUsersCtr",
             [
                 "$scope",
-                function($scope)
+                "$stateParams",
+                "all_users",
+                "collaborators",
+                "restapi",
+                function($scope, $stateParams, all_users, collaborators, restapi)
                 {
-                    $scope.selectedUsers = "";
-
-                    $scope.users =
-                    [
-                        {
-                            "user_name":"name1",
-                            "email":"mail"
-                        },
-                        {
-                            "user_name":"name2",
-                            "email":"mail"
-                        }
-                    ];
-
-                    $scope.query = "";
-
-                    $scope.data = [{"id":"1","user_name":"name","is_active":"1","email":"name1@mail.com"},{"id":"2","user_name":"name1","is_active":"1","email":"name2@mail.com"},{"id":"3","user_name":"name2","is_active":"0","email":"name3@mail.com"},{"id":"4","user_name":"Foo","is_active":"1","email":"foo@foo.foo"}];
-
-                    $scope.add_user = function()
+                    function update_project_collaborators()
                     {
-
+                        return restapi.project_collaborators($stateParams.id).then
+                        (
+                            function(data)
+                            {
+                                $scope.collaborators = data;
+                            }
+                        )
                     }
+
+                    $scope.data = all_users;
+                    $scope.collaborators = collaborators;
+
+                    $scope.add_collaborator = function()
+                    {
+                        return restapi.add_project_collaborator($stateParams.id, $scope.selectedUsers.originalObject.id)
+                            .then(update_project_collaborators);
+                    };
+
+                    $scope.remove_collaborator = function(user)
+                    {
+                        return restapi.remove_project_collaborator($stateParams.id, user.id)
+                            .then(update_project_collaborators);
+                    };
                 }
             ]
         )
+
+        .factory
+        (
+            'AllUsersProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function()
+                    {
+                        return restapi.all_users();
+                    };
+                    return module;
+                }
+            ]
+        )
+
+        .factory
+        (
+            'ProjectCollaboratorsProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function(id)
+                    {
+                        return restapi.project_collaborators(id);
+                    };
+                    return module;
+                }
+            ]
+        )
+
+        .factory
+        (
+            'ProjectProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function(id)
+                    {
+                        return restapi.project(id);
+                    };
+                    return module;
+                }
+            ]
+        );
 
     }
 );
