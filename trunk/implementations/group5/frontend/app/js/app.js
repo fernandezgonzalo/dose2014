@@ -6,7 +6,8 @@ var app = angular.module('Mgmt', [
   'xeditable',
   'ui.bootstrap',
   'ngToast',
-  'ngDragDrop'
+  'ngDragDrop',
+  'tc.chartjs'
 ]);
 
 app.run(['editableOptions', function(editableOptions) {

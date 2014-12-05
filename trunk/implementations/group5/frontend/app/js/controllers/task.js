@@ -30,7 +30,25 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $scope.datePicker = {openedDate: false};
   $scope.viewCommentForm = false;
   $scope.viewDeadline = false;
-
+  $scope.chart = null;
+  $scope.chartData = [
+	  {value: 25, color: '#1E90FF', highlight: '#00BFFF', label: 'Created tasks on total'},
+	  {value: 25, color: '#FFD700', highlight: '#EEE8AA', label: 'In progress tasks on total'},
+	  {value: 25, color: '#F7464A', highlight: '#F08080', label: 'Stopped tasks on total'},
+	  {value: 25, color: '#008000', highlight: '#90EE90', label: 'Finished tasks on total'}
+  ];
+  $scope.chartOptions = {
+  	//responsive: true,
+    segmentShowStroke : true,
+    segmentStrokeColor : '#fff',
+    segmentStrokeWidth : 2,
+    percentageInnerCutout : 0, // 0 for Pie charts
+    animationSteps : 100,
+    animationEasing : 'easeOutBounce',
+    animateRotate : true,
+    animateScale : false,
+    legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+  };
     
 
   var onload = function() {
@@ -60,6 +78,11 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       $scope.inPrTasksOnTot = (inProgTasks / data.data.length * 100).toFixed(2);
       $scope.stopTasksOnTot = (stoppedTasks / data.data.length * 100).toFixed(2);
       $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
+      $scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
+      $scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
+      $scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
+      $scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
+      $scope.chart.update();
     });
   };
 
@@ -113,8 +136,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     if ($scope.isNew){
       $scope.currentTask.$save(function(){
         $scope.isNew = false;
-        $log.debug(TAG, 'current task pushing', $scope.currentTask);
-        $scope.tasksInProgress.push($scope.currentTask);
         $('#taskModal').modal('hide');
       });
     } else {
@@ -126,6 +147,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
       			$scope.tasksInProgress.splice(i, 1);
       			$scope.tasksFinished.push($scope.currentTask);
+
+      			
       		}
       	}
       	for (i = 0; i < $scope.tasksFinished.length; i++) {
@@ -154,6 +177,27 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
 	      	$scope.tasksComments[$scope.currentTask.id][i].$update();
 	      }
       }
+
+      var createdTasks = 0;
+      var inProgTasks = 0;
+      var stoppedTasks = 0;
+      var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
+
+      for (i = 0; i < $scope.tasksInProgress.length; i++) {
+      	if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
+      	if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
+      	if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
+      }
+
+      $scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
+      $scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
+      $scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
+      $scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
+      $scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
+      $scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
+      $scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
+      $scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
+      $scope.chart.update();
 
     } 
   };
