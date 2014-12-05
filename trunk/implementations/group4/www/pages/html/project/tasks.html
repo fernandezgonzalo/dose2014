@@ -16,7 +16,7 @@
     <tr ng-repeat="task in tasks" class="warning">
         <td>
             <img class="clickable inline" ng-click="remove(task)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
-            <img class="clickable inline" ng-click="edit(task)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
+            <img class="clickable inline" ng-controller="EditTaskCtr" ng-click="editTask(task)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
         </td>
         <td ng-click="go(task)">{{task.id}}</td>
         <td ng-click="go(task)">{{task.type}}</td>
