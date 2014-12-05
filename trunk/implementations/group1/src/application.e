@@ -116,7 +116,7 @@ feature -- Basic operations
 
 				-- handling of all ht routes relating to "userproject"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/users_projects", agent project.add_user_in_project, router.methods_post)
-			-- map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/users_projects/{user_poject_id}", agent project.get_ranking, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/users_projects", agent project.delete_user_in_project, router.methods_delete)
 
 
 				-- handling of all ht routes relating to "sprint"

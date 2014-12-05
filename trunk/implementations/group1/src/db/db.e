@@ -283,13 +283,15 @@ feature -- Data access UserProjects
 
 		end
 
-	remove_user_project (id: NATURAL)
+	remove_user_project (id_user, id_project: STRING): BOOLEAN
 			-- removes the todo with the given id
 		do
-			create db_modify_statement.make ("DELETE FROM UserProject WHERE id=" + id.out + ";", db)
+			create db_modify_statement.make ("DELETE FROM UserProject WHERE id_user= '" + id_user + "' and id_project = '"+id_project+"';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while deleting a User Project")
+			 	result := False
+			else
+				result := True
 			end
 		end
 
