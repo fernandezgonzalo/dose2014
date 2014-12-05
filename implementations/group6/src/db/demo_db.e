@@ -647,7 +647,7 @@ feature	--Data access: WORK ITEMS
 		end
 
 	--OK
-	add_work_item(name: STRING; description: STRING; points: INTEGER; iteration: INTEGER; project: STRING; state: STRING; created_by: STRING; owner: STRING)
+	add_work_item(name: STRING; description: STRING; points: INTEGER; iteration: INTEGER; project: STRING; state: STRING; created_by: STRING; owner: STRING): INTEGER
 		-- Adds a new work_item with the given information
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -658,9 +658,18 @@ feature	--Data access: WORK ITEMS
 			l_query_result_cursor:=db_insert_statement.execute_new_with_arguments(<<num_new,iteration,project,name,description,points,state,created_by,owner>>)
 			if db_insert_statement.has_error then
 				print("Error while inserting a new work_item")
+				Result:=-1
 			else
 				-- The new work_item was deleted from db and so sends an appropriate message				
 				print("SUCCESS: The new work_item was added to the db. %N")
+				-- Finds the generated work_itedm_id
+				create db_query_statement.make ("SELECT last_insert_rowid();",db)
+				l_query_result_cursor:=db_query_statement.execute_new
+				if l_query_result_cursor.after = False then
+					--The execution of the previous statement returns a single row which rapresent the last insertion, so reads its work_item_id
+					Result:=l_query_result_cursor.item.integer_value (1)
+				end
+
 			end
 		end
 

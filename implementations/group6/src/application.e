@@ -61,6 +61,10 @@ feature {NONE} -- Initialization
 
 	session_manager: WSF_FS_SESSION_MANAGER
 
+	comment: COMMENT
+
+	link: LINK
+
 
 	initialize
 			-- Initialize current service.
@@ -116,10 +120,6 @@ feature {NONE} -- Initialization
 			create user_ctrl.make (dao)
 			create iteration_ctrl.make (dao)
 			create work_item_ctrl.make (dao)
-			--dao.add_work_item ("nuovo_prova", "questa è una prova", 15, 2, "The amazig project", "Done", "jimmy@yahoo.com", "jimmy@yahoo.com")
-			--dao.modify_work_item (6, 2, 1, "The amazing project", "prova_modifica",10, "Ongoing", "giorgio@hotmail.it", "descrizone_modifica", "giorgio@hotmail.it")
-
-
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
