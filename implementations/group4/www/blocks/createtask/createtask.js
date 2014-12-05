@@ -27,24 +27,24 @@ define(
                     $scope.type_opt =
                     [
                         {
-                            id: "Bug",
-                            name: "Bug"
-                        },
-                        {
                             id: "Feature",
                             name: "Feature"
+                        },
+                        {
+                            id: "Bug",
+                            name: "Bug"
                         }
                     ];
 
                     $scope.priority_opt =
                     [
                         {
-                            id: "Normal",
-                            name: "Normal"
-                        },
-                        {
                             id: "High",
                             name: "High"
+                        },
+                        {
+                            id: "Normal",
+                            name: "Normal"
                         },
                         {
                             id: "Low",
