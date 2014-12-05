@@ -7,7 +7,9 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $log.debug(TAG, 'init');
 
   $scope.currentTask = {};
-  $scope.newComment = new Comment();
+  $scope.newComment = null;
+  $scope.a = {};
+  $scope.a.strComment = '';
 
   $scope.isNew = false;
   $scope.tasksFinished = [];
@@ -131,6 +133,9 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   		$scope.viewCommentForm = false;
   		$scope.viewDeadline = false;
         $scope.currentTask = new Task(task);
+        for (var i = 0; i < $scope.tasksComments[task.id].length; i++) {
+			Utility.unescape($scope.tasksComments[task.id][i]);
+        }
   };
 
   $scope.updateTask = function(){
@@ -142,66 +147,69 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
         $('#taskModal').modal('hide');
       });
     } else {
-      $scope.currentTask.$update();
-      $('#taskModal').modal('hide');
-      var i;
-      if ($scope.currentTask.status === 'finished') {
-      	for (i = 0; i < $scope.tasksInProgress.length; i++) {
-      		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
-      			$scope.tasksInProgress.splice(i, 1);
-      			$scope.tasksFinished.push($scope.currentTask);
+    	var currentStatus = $scope.currentTask.status;
+    	var currentTaskId = $scope.currentTask.id;
+    	$scope.currentTask.$update(function(){
+    		Utility.unescape($scope.currentTask);
+    		$('#taskModal').modal('hide');
+    		var i;
+    		if (currentStatus === 'finished') {
+    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
+    				if (currentTaskId === $scope.tasksInProgress[i].id) {
+    					$scope.tasksInProgress.splice(i, 1);
+    					$scope.tasksFinished.push($scope.currentTask);
+    				}
+    			}
+    			for (i = 0; i < $scope.tasksFinished.length; i++) {
+    				if (currentTaskId === $scope.tasksFinished[i].id) {
+    					$scope.tasksFinished.splice(i, 1);
+    					$scope.tasksFinished.splice(i, 0, $scope.currentTask);
+    				}
+    			}
+    		}
+    		if (currentStatus !== 'finished') {
+    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
+    				if (currentTaskId === $scope.tasksInProgress[i].id) {
+    					$scope.tasksInProgress.splice(i, 1);
+    					$scope.tasksInProgress.splice(i, 0, $scope.currentTask);
+    				}
+    			}
+    			for (i = 0; i < $scope.tasksFinished.length; i++) {
+    				if (currentTaskId === $scope.tasksFinished[i].id) {
+    					$scope.tasksFinished.splice(i, 1);
+    					$scope.tasksInProgress.push($scope.currentTask);
+    				}
+    			}      	
+    		}
+    		if($scope.tasksComments[$scope.currentTask.id]) {
+    			for (i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
+    				Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
+    				$scope.tasksComments[$scope.currentTask.id][i].$update();
+    			}
+    		}
+    		if ($scope.chart) {
+    			var createdTasks = 0;
+    			var inProgTasks = 0;
+    			var stoppedTasks = 0;
+    			var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
 
-      			
-      		}
-      	}
-      	for (i = 0; i < $scope.tasksFinished.length; i++) {
-      		if ($scope.currentTask.id === $scope.tasksFinished[i].id) {
-      			$scope.tasksFinished.splice(i, 1);
-      			$scope.tasksFinished.splice(i, 0, $scope.currentTask);
-      		}
-      	}
-      }else{
-      	for (i = 0; i < $scope.tasksInProgress.length; i++) {
-      		if ($scope.currentTask.id === $scope.tasksInProgress[i].id) {
-      			$scope.tasksInProgress.splice(i, 1);
-      			$scope.tasksInProgress.splice(i, 0, $scope.currentTask);
-      		}
-      	}
-      	for (i = 0; i < $scope.tasksFinished.length; i++) {
-      		if ($scope.currentTask.id === $scope.tasksFinished[i].id) {
-      			$scope.tasksFinished.splice(i, 1);
-      			$scope.tasksInProgress.push($scope.currentTask);
-      		}
-      	}      	
-      }
-      if($scope.tasksComments[$scope.currentTask.id]) {
-	      for (i = 0; i < $scope.tasksComments[$scope.currentTask.id].length; i++) {
-	      	Utility.escape($scope.tasksComments[$scope.currentTask.id][i]);
-	      	$scope.tasksComments[$scope.currentTask.id][i].$update();
-	      }
-      }
-      if ($scope.chart) {
-	      var createdTasks = 0;
-	      var inProgTasks = 0;
-	      var stoppedTasks = 0;
-	      var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
+    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
+    				if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
+    				if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
+    				if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
+    			}
 
-	      for (i = 0; i < $scope.tasksInProgress.length; i++) {
-	      	if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
-	      	if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
-	      	if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
-	      }
-
-	      $scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
-	      $scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
-	      $scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
-	      $scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
-	      $scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
-	      $scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
-	      $scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
-	      $scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
-	      $scope.chart.update();     	
-      }
+    			$scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
+    			$scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
+    			$scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
+    			$scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
+    			$scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
+    			$scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
+    			$scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
+    			$scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
+    			$scope.chart.update();     	
+    		}
+    	});
     } 
   };
 
@@ -230,12 +238,15 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   $scope.saveComment = function(userId, taskId){
+  	$scope.newComment = new Comment();
   	Utility.toCamel($scope.newComment);
   	$scope.newComment.idTask = taskId;
   	$scope.newComment.idUser = userId;
+  	$scope.newComment.commentary = $scope.a.strComment;
   	Utility.toUnderscore($scope.newComment);
   	delete $scope.newComment.idTask;
   	delete $scope.newComment.idUser;
+  	$log.debug('COMMENTO DA INSERIRE::', $scope.newComment);
   	$scope.tempComment = new Comment($scope.newComment);
   	Utility.escape($scope.newComment);
   	$scope.newComment.$save(function(res){
@@ -262,19 +273,11 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   $scope.toggleComment = function() {
-  	if ($scope.viewCommentForm === false) {
-  		$scope.viewCommentForm = true;
-  	}else{
-  		$scope.viewCommentForm = false;
-  	}
+  	$scope.viewCommentForm = !$scope.viewCommentForm;
   };
 
   $scope.toggleDeadline = function() {
-  	if ($scope.viewDeadline === false) {
-  		$scope.viewDeadline = true;
-  	}else{
-  		$scope.viewDeadline = false;
-  	}
+  	$scope.viewDeadline = !$scope.viewDeadline;
   };
 
   $scope.openProjectDash = function($event, projectId) {
