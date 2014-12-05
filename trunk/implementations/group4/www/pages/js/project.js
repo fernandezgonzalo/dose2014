@@ -7,6 +7,7 @@ define(
 
         //Custom includes
         "blocks/createtask/createtask",
+        "pages/js/restapi"
     ],
 
     function(angular)
@@ -16,7 +17,8 @@ define(
             "ProjectModule",
             [
                 "angucomplete",
-                "uiCreateTaskModule"
+                "uiCreateTaskModule",
+                "RestApiModule"
             ]
         )
 
@@ -70,8 +72,21 @@ define(
             "ProjectTasksCtr",
             [
                 "$scope",
-                function($scope)
+                "$stateParams",
+                "restapi",
+                function($scope, $stateParams, restapi)
                 {
+                    $scope.$on
+                    (
+                        "create_task",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            restapi.create_task(data, $stateParams.id);
+                            //restapi.create_project(data.project_name, data.description, data.max_points_per_sprint).then(update_projects);
+                        }
+                    );
+
                     $scope.add = function()
                     {
 

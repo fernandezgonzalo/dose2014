@@ -51,6 +51,15 @@
                         ng-options="position.id as position.name for position in position_opt" required>
                 </select>
             </div>
+
+            <div class="form-group" ng-class="{ 'has-error': newTaskForm.points.$invalid }">
+                <input type="number"
+                       name="points"
+                       class="form-control"
+                       ng-model="form.points"
+                       id="points"
+                       placeholder="Estimate points" required/>
+            </div>
         </div>
 
     </div>
