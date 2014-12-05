@@ -186,7 +186,30 @@ define(
                             description: form.description,
                             max_points_per_sprint: form.max_points_per_sprint.toString()
                         };
+
                         return $http.post("/api/projects/"+project_id, request);
+                    };
+
+                    module.create_task = function (form, project_id)
+                    {
+                        var request =
+                        {
+                            title: form.title,
+                            description: form.description,
+                            priority: form.priority,
+                            position: form.position,
+                            points: form.points.toString(),
+                            type: form.type
+                        };
+
+                        return $http.post("/api/projects/"+project_id+"/tasks", request).then
+                        (
+                            function(data)
+                            {
+                                console.log(data.data);
+                                return data.data;
+                            }
+                        );
                     };
 
                     //////////////////////////////////////////////////////////////
