@@ -69,6 +69,15 @@ feature --handlers about work_items
 			l_number, l_points, l_iteration:INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
+			new_id: INTEGER
+			comment: COMMENT
+			link: LINK
+			c1,c2: STRING
+			l_comments: ARRAYED_LIST[COMMENT]
+			l_links: ARRAYED_LIST[LINK]
+			num: INTEGER -- counts hw many comments there are
+			presence_user: BOOLEAN --it is True if the author of the comments exist into the dd, False otherwise
+			presence_work_item: BOOLEAN --it is True if the work_item of the link exist into the dd, False otherwise
 		do
 			-- Create string objects to read-in the payload that comes with the request
 			create l_payload.make_empty
@@ -117,8 +126,63 @@ feature --handlers about work_items
 				if attached {JSON_STRING} j_object.item ("owner") as s then
 					l_owner := s.unescaped_string_8
 				end
+ 				if attached {JSON_OBJECT} j_object.item ("comments") as a then
+ 					presence_user:= True
+ 					-- Reads the author
+ 					if attached {JSON_STRING} a.item ("author") as t then
+						c2:= (t.unescaped_string_8)
+						-- Checks the existence of the given user into the db
+						if my_db.check_if_mail_already_present (c2) = False then
+							presence_user:=False
+						end
+					end
+					if presence_user = True then
+						--If the author exists than reads the comments
+						if attached {JSON_ARRAY} a.item ("texts") as arr AND presence_user = True then
+							create l_comments.make (arr.count)
+							across arr.array_representation as array loop
+							-- Reads one text at time
+								if attached {JSON_OBJECT} array.item as comm then
+									if attached {JSON_STRING} comm.item ("text") as t then
+										c1:= t.unescaped_string_8
+										create comment.make (c1, c2)
+										l_comments.extend (comment)
+									end
+								end
+							end
+						end
+					end
+				end
+				if attached {JSON_ARRAY} j_object.item ("links") as a then
+					presence_work_item := True
+					create l_links.make (a.count)
+					across a.array_representation as lconn loop
+						if attached {JSON_OBJECT}  lconn.item as j_ob AND presence_work_item = True then
+							if attached {JSON_STRING} j_ob.item ("work_item_2") as t then
+								-- Checks if the given work_item exists
+								if my_db.work_item_exists (t.item.to_integer) = False then
+									presence_work_item:=False
+									num:=t.item.to_integer
+								else
+									-- Adds link
+									create link.make (t.item.to_integer)
+									l_links.extend (link)
+								end
+							end
+						end
+					end
+				end
 			end
-			if l_name.is_empty or l_name = Void then
+
+			if presence_user = False then
+				-- The author doesn't exist into the db
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The author comments '" + c2 + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif presence_work_item = False then
+				-- The work_item doesn't exist into the db
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item '" + num.out + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif l_name.is_empty or l_name = Void then
 				-- The work_item name is empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
@@ -163,7 +227,23 @@ feature --handlers about work_items
 				l_result_payload.put(create{JSON_STRING}.make_json ("ERROR: The given user, as regards to the creator, field doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_created_by,l_owner)
+				new_id:=my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_created_by,l_owner)
+				if (l_comments /= Void and l_comments.count >= 1 ) then
+					-- There is at least one comment to add
+					across l_comments as c
+					loop
+						my_db.add_comment (new_id, c.item.gettext, c.item.getauthor)
+					end
+				end
+				if (l_links /= Void and l_links.count >= 1 ) then
+					-- There is at least one link to add
+					across l_links as l
+					loop
+						print("aggiugo")
+						my_db.add_link (new_id, l.item.get2)
+					end
+				end
+				l_result_payload.put ( create {JSON_STRING}.make_json (new_id.out), create {JSON_STRING}.make_json ("new_id"))
 				-- Send an appropriate message
 				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + l_name + "' was added successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
@@ -438,13 +518,13 @@ feature --handlers about comments
 			-- Checks if the given work_item_id exists into the db
 			if my_db.work_item_exists (l_work_item.to_integer) = False then
 				-- The work_item doesn't exist
-				j_obj.put (create {JSON_STRING}.make_json ("error"), create {JSON_STRING}.make_json ("ERROR: The work_item doesn't exist."))
+				j_obj.put ( create {JSON_STRING}.make_json ("ERROR: The work_item doesn't exist."),create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				-- Gets from the database all the comments which are associated with the given id
 				l_result_payload := (my_db.work_item_comments (l_work_item.to_integer))
-				j_obj.put (create {JSON_STRING}.make_json ("success"), create {JSON_STRING}.make_json ("SUCCESS: The comments of the given work_item are listed above."))
+				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The comments of the given work_item are listed above."),create {JSON_STRING}.make_json ("success"))
 				l_result_payload.extend (j_obj)
 				-- Everything ok
 				set_json_header_ok (res, l_result_payload.representation.count)
@@ -556,6 +636,8 @@ feature -- handlers about links
 			l_result_payload: JSON_ARRAY
 		do
 			create l_work_item.make_empty
+			create j_obj.make
+			print("spero funzioni")
 			-- Create json object that we send back as in response
 			create l_result_payload.make_array
 			l_work_item:= req.query_parameter("work_item").string_representation
