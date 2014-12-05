@@ -90,7 +90,7 @@ feature -- Data access
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM user;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 9, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 
 		end
 
@@ -100,7 +100,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE id = '" + id.out + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 
 		end
 
@@ -110,7 +110,7 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make ("SELECT * FROM user WHERE email = '" + email + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 9, Result))
+			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
 
 		end
 
@@ -341,8 +341,8 @@ feature -- Data access
 					Result.username := l_query_result_cursor.item.value (3).out
 					Result.password := l_query_result_cursor.item.value (4).out
 					Result.name := l_query_result_cursor.item.value (5).out
-					Result.last_login := l_query_result_cursor.item.value (7).out
-					Result.is_admin := l_query_result_cursor.item.integer_value (8)
+					Result.last_login := l_query_result_cursor.item.value (6).out
+					Result.is_admin := l_query_result_cursor.item.integer_value (7)
 				end
 			end
 
