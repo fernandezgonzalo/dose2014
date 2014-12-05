@@ -4,6 +4,7 @@ define(
         //System includes
         "angular",
         "angularUIRoute",
+        "angularAnimate",
 
         //Custom includes
         "blocks/navbar/navbar",
@@ -24,7 +25,8 @@ define(
                 "LoginModule",
                 "ProjectsModule",
                 "ProjectModule",
-                "UserModule"
+                "UserModule",
+                "ngAnimate"
             ]
         )
 
