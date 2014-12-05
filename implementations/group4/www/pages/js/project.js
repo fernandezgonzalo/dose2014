@@ -7,6 +7,7 @@ define(
 
         //Custom includes
         "blocks/createtask/createtask",
+        "blocks/edittask/edittask",
         "pages/js/restapi"
     ],
 
@@ -18,6 +19,7 @@ define(
             [
                 "angucomplete",
                 "uiCreateTaskModule",
+                "uiEditTaskModule",
                 "RestApiModule"
             ]
         )
