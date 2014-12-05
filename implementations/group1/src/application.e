@@ -113,6 +113,12 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/developers", agent project.get_users_by_id_project, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/ranking", agent project.get_ranking, router.methods_get)
 
+
+				-- handling of all ht routes relating to "userproject"
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/users_projects", agent project.add_user_in_project, router.methods_post)
+			-- map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/users_projects/{user_poject_id}", agent project.get_ranking, router.methods_get)
+
+
 				-- handling of all ht routes relating to "sprint"
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints", agent sprint.add_sprint, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints", agent project.get_project_sprints, router.methods_get)
