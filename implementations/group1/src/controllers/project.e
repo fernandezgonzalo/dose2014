@@ -162,6 +162,27 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+	delete_user_in_project (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- sends a response that contains a confiramtion message of a deleted project
+		local
+			l_result: JSON_OBJECT
+			l_project_id: STRING
+			l_user_id: STRING
+			flag: BOOLEAN
+		do
+			l_project_id := req.path_parameter ("id_project").string_representation
+			l_user_id := req.path_parameter ("id_user").string_representation
+			flag:= my_db.remove_user_project (l_user_id, l_project_id)
+			create l_result.make
+			if flag then
+				l_result.put (create {JSON_STRING}.make_json ("User removed from project"), create {JSON_STRING}.make_json ("Message"))
+			else
+				l_result.put (create {JSON_STRING}.make_json ("Error"), create {JSON_STRING}.make_json ("Message"))
+			end
+			set_json_header_ok (res, l_result.count)
+			res.put_string (l_result.representation)
+		end
+
 	get_project_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all sprints of a selected project
 		local
