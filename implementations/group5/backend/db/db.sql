@@ -12,7 +12,6 @@ email TEXT UNIQUE,
 username TEXT NOT NULL UNIQUE,
 password TEXT NOT NULL,
 name TEXT,
-photo BLOB,
 last_login DATE NULL,
 is_admin INTEGER NOT NULL,
 salt INTEGER DEFAULT 0
