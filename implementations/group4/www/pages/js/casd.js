@@ -11,7 +11,8 @@ define(
         "pages/js/projects",
         "pages/js/project",
         "pages/js/login",
-        "pages/js/user"
+        "pages/js/user",
+        "pages/js/restapi"
     ],
 
     function(angular)
@@ -26,7 +27,7 @@ define(
                 "ProjectsModule",
                 "ProjectModule",
                 "UserModule",
-                "ngAnimate"
+                "ngAnimate",
             ]
         )
 
@@ -47,12 +48,16 @@ define(
                             url: "/projects",
                             templateUrl: "pages/html/projects.html",
                             controller: "ProjectsCtr",
-                            resolve: {
-                                projectsProvider: "ProjectsProvider",
-                                projects: function (projectsProvider)
-                                {
-                                    return projectsProvider.resolver();
-                                }
+                            resolve:
+                            {
+                                projects:
+                                [
+                                    "ProjectsProvider",
+                                    function (ProjectsProvider)
+                                    {
+                                        return ProjectsProvider.resolver();
+                                    }
+                                ]
                             }
                         }
                     )
@@ -63,8 +68,19 @@ define(
                         {
                             url: "/projects/:id",
                             templateUrl: "pages/html/project.html",
-                            //resolve: { data: 'SomeDataProvider' },
-                            controller: "ProjectCtr"
+                            controller: "ProjectCtr",
+                            resolve:
+                            {
+                                project:
+                                [
+                                    "$stateParams",
+                                    "ProjectProvider",
+                                    function($stateParams, ProjectProvider)
+                                    {
+                                        return ProjectProvider.resolver($stateParams.id);
+                                    }
+                                ]
+                            }
                         }
                     )
 
@@ -74,7 +90,6 @@ define(
                         {
                             url: "/tasks",
                             templateUrl: "pages/html/project/tasks.html",
-                            //resolve: { data: 'SomeDataProvider' },
                             controller: "ProjectTasksCtr"
                         }
                     )
@@ -85,7 +100,6 @@ define(
                         {
                             url: "/sprints",
                             templateUrl: "pages/html/project/sprints.html",
-                            //resolve: { data: 'SomeDataProvider' },
                             controller: "ProjectSprintsCtr"
                         }
                     )
@@ -96,8 +110,28 @@ define(
                         {
                             url: "/users",
                             templateUrl: "pages/html/project/users.html",
-                            //resolve: { data: 'SomeDataProvider' },
-                            controller: "ProjectUsersCtr"
+                            controller: "ProjectUsersCtr",
+                            resolve:
+                            {
+                                all_users:
+                                [
+                                    "AllUsersProvider",
+                                    function (AllUsersProvider)
+                                    {
+                                        return AllUsersProvider.resolver();
+                                    }
+                                ],
+
+                                collaborators:
+                                [
+                                    "ProjectCollaboratorsProvider",
+                                    "$stateParams",
+                                    function (ProjectCollaboratorsProvider, $stateParams)
+                                    {
+                                        return ProjectCollaboratorsProvider.resolver($stateParams.id);
+                                    }
+                                ]
+                            }
                         }
                     )
 
@@ -110,11 +144,14 @@ define(
                             controller: "UserCtr",
                             resolve:
                             {
-                                userProvider: "UserProvider",
-                                user: function (userProvider)
-                                {
-                                    return userProvider.resolver();
-                                }
+                                user:
+                                [
+                                    "UserProvider",
+                                    function (UserProvider)
+                                    {
+                                        return UserProvider.resolver();
+                                    }
+                                ]
                             }
                         }
                     )
@@ -134,7 +171,6 @@ define(
                         {
                             url: "/login",
                             templateUrl: "pages/html/login.html",
-                            //resolve: { data: 'SomeDataProvider' },
                             controller: "LoginCtr"
                         }
                     )
@@ -145,7 +181,6 @@ define(
                         {
                             url: "/sprints",
                             templateUrl: "pages/html/sprints.html"
-                            //resolve: { data: 'SomeDataProvider' },
                         }
                     )
 
@@ -155,7 +190,6 @@ define(
                         {
                             url: "/tasks",
                             templateUrl: "pages/html/tasks.html"
-                            //resolve: { data: 'SomeDataProvider' },
                         }
                     );
                 }
