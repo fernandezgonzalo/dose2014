@@ -59,7 +59,7 @@
 				<p ng-if="!isNew"><a href="" ng-click="toggleComment()"><span class="glyphicon glyphicon-comment"></span> add a comment</a></p>
 				<form ng-if="viewCommentForm" novalidate role="form">
 				  <div class="form-group">
-				    <textarea ng-model="newComment.commentary" class="form-control" rows="3"></textarea>
+				    <textarea ng-model="a.strComment" class="form-control" rows="3"></textarea>
 				  </div>
 				  <button ng-click="saveComment(currentUser.id, currentTask.id)" type="submit" class="btn btn-primary">Submit</button>
 				</form>

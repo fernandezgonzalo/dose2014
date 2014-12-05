@@ -245,7 +245,7 @@ angular.module('Mgmt')
 
       case 'new':
         modalInstance = $modal.open({
-          templateUrl: 'partials/projects_new2.html',
+          templateUrl: 'partials/projects_new.html',
           controller: 'NewModalController',
           size: 'sm',
           resolve: {
