@@ -175,7 +175,7 @@ feature -- Handlers
 			flag:= my_db.remove_user_project (l_user_id, l_project_id)
 			create l_result.make
 			if flag then
-				l_result.put (create {JSON_STRING}.make_json ("User removed from project"), create {JSON_STRING}.make_json ("Message"))
+				l_result.put (create {JSON_STRING}.make_json ("ok"), create {JSON_STRING}.make_json ("Message"))
 			else
 				l_result.put (create {JSON_STRING}.make_json ("Error"), create {JSON_STRING}.make_json ("Message"))
 			end
