@@ -64,6 +64,9 @@ def update_project(session, id_project, name, info):
 	headers = {"content-type": "application/json"}
 	return s.put(uri_update_project, data=json.dumps(payload), headers=headers)
 
-s = requests.Session()
-do_login(s, "asd@asd.com", "asd")
-
+if __name__ == '__main__':
+	s = requests.Session()
+	print "[*] Login with email:asd@asd.com and password:asd"
+	print do_login(s, "asd@asd.com", "asd")
+	print "[*] Get user info id=4"
+	print get_user(s, 4).content
