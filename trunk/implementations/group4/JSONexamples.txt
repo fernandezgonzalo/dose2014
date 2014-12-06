@@ -46,7 +46,8 @@ GET:
         "status":"Active",
         "description":"project1 descr",
         "max_points_per_sprint":"12",
-        "number_of_sprints":"3"
+        "number_of_sprints":"3",
+		"user_id":"1"
     },
     {
         "id":"2",
@@ -54,7 +55,8 @@ GET:
         "status":"Active",
         "description":"project2 descr",
         "max_points_per_sprint":"15",
-        "number_of_sprints":"1"
+        "number_of_sprints":"1",
+		"user_id":"2"
     },
     {
         "id":"3",
@@ -62,7 +64,8 @@ GET:
         "status":"Active",
         "description":"project3 descr",
         "max_points_per_sprint":"16",
-        "number_of_sprints":"1"
+        "number_of_sprints":"1",
+		"user_id":"3"
     }
 ]
 
@@ -74,6 +77,8 @@ GET:
     "status":"Active",
     "description":"project1 descr",
     "max_points_per_sprint":"12",
+	"number_of_sprints":"1",
+	"user_id":"1"
 }
 
 /api/projects/{project_id}/collaborators
