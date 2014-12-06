@@ -21,10 +21,7 @@ feature -- Test routines
 			create session_manager.make
 			create db.make (path_to_db_file)
 			create user.make(db, session_manager)
-			assert ("Email ok", true)
---			assert ("Username ok", user.username.is_equal("John"))
---			assert ("Password ok", user.password.is_equal("secret"))
---			assert ("Status ok", user.is_active)
+			assert ("", true)
 		end
 
 feature -- Extras
