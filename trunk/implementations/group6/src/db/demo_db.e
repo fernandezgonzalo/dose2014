@@ -333,8 +333,8 @@ feature --data access: USERS
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_insert_statement.make ("INSERT INTO user(email,password,name,surname,male,role,photo) VALUES (?,?,?,?,?,?,?);", db)
-			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo>>)
+			create db_insert_statement.make ("INSERT INTO user(email,password,name,surname,male,role,photo, changepwd) VALUES (?,?,?,?,?,?,?,?);", db)
+			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo, false>>)
 
 		end
 
@@ -351,7 +351,7 @@ feature --data access: USERS
 
 		end
 
-	update_user_information(an_email, a_password, a_name, a_surname, a_role, a_path_to_a_photo:STRING;)
+	update_user_information(an_email, a_name, a_surname, a_role, a_path_to_a_photo:STRING;)
 		--updates an existing user's information into the database.
 		--requires:
 		--	an EMAIL of the user, which must be a valid email address, and already present into the database
@@ -361,7 +361,6 @@ feature --data access: USERS
 
 		require
 			valid_email: (an_email /= VOID) AND (not an_email.is_empty)
-			valid_password: (a_password /= VOID) AND (a_password.count = 8)
 			valid_user_name: (a_name /= VOID) AND (not a_name.is_empty)
 			valid_user_surname: (a_surname /= VOID) AND (not a_surname.is_empty)
 			valid_role: a_role /= VOID
@@ -374,8 +373,35 @@ feature --data access: USERS
 			create db_modify_statement.make ("UPDATE user SET name = ? AND surname = ? AND role = ? AND photo = ? WHERE email = '" + an_email + "';" , db)
 			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<a_name, a_surname, a_role, a_path_to_a_photo>>)
 
-			change_user_password(an_email, a_password)
+		end
 
+
+	set_changepwd(user_email: STRING; value: BOOLEAN)
+
+		require
+			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
+		local
+			l_query_result_cursor:  SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_modify_statement.make ("UPDATE user SET changepwd = ? WHERE email = '" + user_email + "';", db)
+			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<value>>)
+		end
+
+	get_changepwd(user_email: STRING): BOOLEAN
+
+		require
+			valid_email: (user_email /= VOID) AND (not user_email.is_empty)
+		local
+			l_query_result_cursor:  SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_query_statement.make ("SELECT changepwd FROM user WHERE email = ?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<user_email>>)
+
+			if l_query_result_cursor.item.value (1) = 1 then
+				Result := true
+			else
+				Result := false
+			end
 		end
 
 	change_user_password(user_email, new_password: STRING)
@@ -417,7 +443,7 @@ feature --data access: USERS
 
 		end
 
-	check_user_password (an_email, a_password: STRING): TUPLE[check_result: BOOLEAN; email: STRING; password: STRING; name: STRING; surname: STRING; gender: STRING; role: STRING]
+	check_user_password (an_email, a_password: STRING): TUPLE[check_result: BOOLEAN; email: STRING; password: STRING; name: STRING; surname: STRING; gender: STRING; role: STRING; changepwd: STRING]
 			-- checks if a user with the given username and password exists into the database
 			-- it returns true if and only if the check was positive, false otherwise
 
@@ -454,6 +480,12 @@ feature --data access: USERS
 					Result.gender := "female"
 				end
 
+				if l_query_result_cursor.item.value(8) = 1 then
+					Result.changepwd := "true"
+				else
+					Result.changepwd := "false"
+				end
+
 			end
 		end
 
@@ -476,12 +508,12 @@ feature --Data access: ITERATIONS
 		do
 			create Result.make_array
 
-			create db_query_statement.make("SELECT * FROM iteration WHERE project = '" + a_project + "';" , db)
-			db_query_statement.execute(agent rows_to_json_array (?, 4, Result))
+			create db_query_statement.make("SELECT iteration.number as iteration_number, iteration.name as title, sum(IFNULL(work_item.points,0)) as points FROM iteration LEFT JOIN work_item ON iteration.number = work_item.nb_iteration AND iteration.project = work_item.project WHERE iteration.project='" + a_project + "' GROUP BY iteration.project, iteration.number;" , db)
+			db_query_statement.execute(agent rows_to_json_array (?, 3, Result))
 
 		end
 
-	add_iteration(a_project: STRING;)
+	add_iteration(a_project: STRING;): TUPLE[number: STRING; name: STRING]
 		--creates a new iteration with the specified information into the database
 		--requires:
 		--a valid PROJECT name, which the iteration belongs to
@@ -509,8 +541,11 @@ feature --Data access: ITERATIONS
 				iteration_name := "ITERATION " + iteration_number.out
 			end
 
-			create db_insert_statement.make ("INSERT INTO iteration(numbers, project, name, backlog) VALUES (?,?,?,?);", db)
+			create db_insert_statement.make ("INSERT INTO iteration(number, project, name, backlog) VALUES (?,?,?,?);", db)
 			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<iteration_number, a_project, iteration_name, is_backlog>>)
+
+			Result.number := iteration_number.out
+			Result.name := iteration_name
 
 		end
 
@@ -537,9 +572,9 @@ feature --Data access: ITERATIONS
 	check_iteration(iteration_number:INTEGER; project: STRING): BOOLEAN
 		--checks if the given iteration exists and return False if it doesn't exist and True otherwise
 		require
-			valid_number: iteration_number >= 0
---			valid_project_name: (project /= VOID)
---			existing_project: check_project_name(project)
+			valid_iteration_number: iteration_number >= 0
+			valid_project_name: (project /= VOID)
+			existing_project: check_project_name(project)
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
@@ -550,6 +585,27 @@ feature --Data access: ITERATIONS
 				Result := False
 			else
 				Result := True
+			end
+		end
+
+
+	is_iteration_empty (project: STRING; number: INTEGER) : BOOLEAN
+		-- check if a project is empty: return true if it is empty
+		require
+			valid_iteration_number: number /= VOID
+			valid_project_name: (project /= VOID)
+			existing_project: check_project_name(project)
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			-- check in the table iteration if some of them are related to the given name project
+			create db_query_statement.make ("SELECT * FROM work_item WHERE project='" + project + "' AND number=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<number>>)
+
+			if l_query_result_cursor.after then
+				Result := true
+			else
+				Result := False
 			end
 		end
 
@@ -982,7 +1038,56 @@ feature --data access: COMMENTS
 
 		end
 
+feature --SEARCH
 
+	search_user(keyword: STRING): TUPLE[success: BOOLEAN; matches: JSON_ARRAY]
+
+		local
+			j_arr: JSON_ARRAY
+
+		do
+
+			 keyword.prepend ("%%")
+			 keyword.append ("%%")
+
+			create db_query_statement.make("SELECT email FROM user WHERE email LIKE '" + keyword + "';" , db)
+			db_query_statement.execute(agent rows_to_json_array (?, 1, j_arr))
+
+			if j_arr.count > 0 then
+
+				Result.success := True
+				Result.matches := j_arr
+
+			else
+				Result.success := False
+			end
+
+		end
+
+
+	search_work_items(keyword: STRING): TUPLE[success: BOOLEAN; matches: JSON_ARRAY]
+
+		local
+			j_arr: JSON_ARRAY
+
+		do
+
+			 keyword.prepend ("%%")
+			 keyword.append ("%%")
+
+			create db_query_statement.make("SELECT id as work_item_id FROM work_item WHERE name LIKE '" + keyword + "';" , db)
+			db_query_statement.execute(agent rows_to_json_array (?, 1, j_arr))
+
+			if j_arr.count > 0 then
+
+				Result.success := True
+				Result.matches := j_arr
+
+			else
+				Result.success := False
+			end
+
+		end
 
 feature {NONE}
 

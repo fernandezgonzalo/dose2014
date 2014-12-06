@@ -45,16 +45,19 @@ feature {NONE} -- Initialization
 			-- a controller for handling sessions
 
 	iteration_ctrl: ITERATION_CTRL
-			-- a controller for handling user requests
+			-- a controller for handling iterations requests
 
 	project_ctrl: PROJECT_CTRL
-			-- a controller for handling user requests
+			-- a controller for handling projectsr requests
 
 	user_ctrl: USER_CTRL
-			-- a controller for handling user requests
+			-- a controller for handling users requests
 
 	work_item_ctrl: WORK_ITEM_CTRL
-			-- a controller handling user requests
+			-- a controller for handling work items requests
+
+	search_ctrl: SEARCH_CTRL
+			-- a controller for handling search requests
 
 	dao: DEMO_DB
 			-- access to the database and the functionality that comes with that class
@@ -65,6 +68,8 @@ feature {NONE} -- Initialization
 
 	link: LINK
 
+	s: STRING
+
 
 	initialize
 			-- Initialize current service.
@@ -72,54 +77,15 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-			--bool:=dao.check_status ("Done")
-			--print("%N%N")
-			--print(bool)
-		--	if dao.is_member ("giorgio@hotmail.it", "The amazing project") then
-		--		print("true G")
-		--	else
-		--		print("false G")
-		--	end
 
-			--print(dao.get_points ("bidon").representation)
-
---			print(dao.get_all_user_projects ("jimmy@yahoo.com").representation)
-
---				 -- BEGIN QUERIES TESTS
---			print("%N***********new test*************%N")
---			print(dao.get_all_users.representation + "%N")
-
---			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
---				dao.remove_user ("nicogallo@gmail.com")
---				print("%Nuser removed%N")
---			else
---				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
---				print("%Nuser added%N")
-
---			end
-
---			print(dao.get_all_users.representation + "%N")
-
---			if dao.check_if_mail_already_present ("nicogallo@gmail.com") then
---				dao.remove_user ("nicogallo@gmail.com")
---				print("%Nuser removed%N")
---			else
---				dao.add_user ("nicogallo@gmail.com", "ambaraba", "Nicolo", "Gallo", "TeamLeader", "path_to_a_photo", True)
---				print("%Nuser added%N")
-
---			end
-
---			print(dao.get_all_users.representation + "%N")
-
-
---				 -- END OF TESTS
 
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create project_ctrl.make (dao, session_manager)
-			create user_ctrl.make (dao)
+			create user_ctrl.make (dao, session_manager)
 			create iteration_ctrl.make (dao)
 			create work_item_ctrl.make (dao)
+			create search_ctrl.make(dao, session_manager)
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
@@ -137,15 +103,17 @@ feature -- Basic operations
 				-- handling the routes related to "sessions"
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.login , router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.logout , router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/sessions/forgotpassword", agent session_ctrl.forgot_password , router.methods_post)
 
 
 				-- handling of all the routes relating to "users"
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.get_users, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.create_user, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.delete_user, router.methods_delete)
-			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.change_password, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.update_user, router.methods_post)
-			--map_uri_template_agent_with_request_methods ("/api/users/{user_email}", agent user_ctrl.get_user_info, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users", agent user_ctrl.delete_user, router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/users/invite", agent user_ctrl.send_invitation, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/changepassword", agent user_ctrl.change_password, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/update", agent user_ctrl.update_user, router.methods_post)
+
 
 				-- handling of all the routes relating to "projects"
 			map_uri_template_agent_with_request_methods ("/api/projects", agent project_ctrl.get_projects, router.methods_get) -- works
@@ -160,10 +128,10 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_name_id}/owners", agent project_ctrl.get_all_project_owners, router.methods_get)
 
 
-				-- handling of all the routes relating to "users"
-			map_uri_template_agent_with_request_methods ("/api/iterations/{project_name}", agent iteration_ctrl.get_all_project_iterations, router.methods_get)
-			map_uri_template_agent_with_request_methods ("/api/iterations", agent iteration_ctrl.create_iteration, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/iterations/{project_name, iteration_number}", agent iteration_ctrl.delete_iteration, router.methods_delete)
+				-- handling of all the routes relating to "iterations"
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.create_iteration, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.get_all_project_iterations, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.delete_iteration, router.methods_delete)
 
 
 				--handling of all the routes relating to "work_items"
@@ -177,6 +145,10 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/work_items/links/{work_item1,work_item2}", agent work_item_ctrl.add_link, router.methods_post) --everything works
 			map_uri_template_agent_with_request_methods ("/api/work_items/{work_item_id}/links", agent work_item_ctrl.remove_link, router.methods_delete) --everything work
 			map_uri_template_agent_with_request_methods ("/api/work_items/links/{work_item_id}", agent work_item_ctrl.get_all_work_item_links, router.methods_get) --everything work
+
+				-- handling of all the routes relating to "search"
+			map_uri_template_agent_with_request_methods ("/api/search/users", agent search_ctrl.search_users, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/search/workitems", agent search_ctrl.search_work_items, router.methods_post)
 
 
 				-- setting the path to the folder from where we serve static files
