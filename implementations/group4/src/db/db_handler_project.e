@@ -29,10 +29,10 @@ feature -- Data access
 			-- a project where the user is collaborator or owner	
 		do
 			create Result.make_array
-			create db_query_statement.make ("select id,name,status,description,max_points_per_sprint from projects p where p.user_id="
-										+user_id.out+" union select id,name,status,description,max_points_per_sprint from projects p,"
+			create db_query_statement.make ("select id,name,status,description,max_points_per_sprint,p.user_id as 'user_id' from projects p where p.user_id="
+										+user_id.out+" union select id,name,status,description,max_points_per_sprint,p.user_id as 'user_id' from projects p,"
 										 +"collaborators c where c.user_id="+user_id.out+" and c.project_id = p.id;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 5, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 
 		end
 
