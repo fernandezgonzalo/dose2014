@@ -75,6 +75,9 @@ feature {NONE} -- Initialization
 			create user.make (dao, session_manager)
 			create project.make (dao)
 			create rol_project.make (dao)
+			create sprint.make (dao, session_manager)
+			create task.make (dao, session_manager)
+			create requirement.make (dao, session_manager)
 
 				-- set the prot of the web server to 9090
 			set_service_option ("port", 9090)
