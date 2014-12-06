@@ -11,7 +11,7 @@ def do_login(session, email, password):
 def do_logout(session):
 	uri_logout = "http://localhost:9090/api/logout"
 	headers = {"content-type": "application/json"}
-	return s.get(uri_logout, headers=headers)
+	return session.get(uri_logout, headers=headers)
 
 def get_users(session):
 	uri_get_users = "http://localhost:9090/api/users"
