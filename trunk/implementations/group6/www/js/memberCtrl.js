@@ -54,7 +54,7 @@ angular.module('Wbpms')
           }
           
        $log.debug("Sending payload: " + JSON.stringify(payload));
-          $http.get('/api/projects/members'+ payload)
+          $http.get('/api/projects/members', payload)
 
           .success(function(data, status, header, config) {
             
@@ -81,9 +81,10 @@ angular.module('Wbpms')
             }
             
            $log.debug("Sending payload: " + JSON.stringify(payload));
-            $http.post('/api/projects/members', payload)
+            $http.post('/api/projects/members/add', payload)
               .success(function(data, status, header, config) {
                 $log.debug('Success: New member <eMailMember> added successfully to <id_project>'),
+                    alert("The new member is added");
                     $scope.members.push({name: $scope.adder.name, eMailMember: $scope.adder.email, point: $scope.adder.point, owner: $scope.adder.owner});
                     //$scope.members.push(data);
               })
@@ -134,9 +135,10 @@ angular.module('Wbpms')
                         $scope.members.splice(i, 1);
                     }
                 }
-            $http.delete('/api/projects/members', payload)
+            $http.delete('/api/projects', payload)
               .success(function(data, status, header, config) {
-                $log.debug('Member Member removed successfully from project');   
+                $log.debug('Member Member removed successfully from project'); 
+                 alert("The new member is removed");
               })
               .error(function(data, status) {
                 $log.debug(data.error);
@@ -154,12 +156,13 @@ angular.module('Wbpms')
             }
             $log.debug("Promote owner");
 
-            $http.post('api/projects/members/promote', payload)
+            $http.post('api/projects/'+project_name_id+'/owners/'+user_email_id, payload)
                 .success(function(data, status, header, config) {
                 $log.debug('New wowner <owner> added successfully to <id_project>')
                     if($scope.members.owner == false) {
                         $scope.members = true;
                     };
+                 alert("The new member promote owner");
               })
                 .error(function(data, status) {
                     $log.debug(data.error);     
