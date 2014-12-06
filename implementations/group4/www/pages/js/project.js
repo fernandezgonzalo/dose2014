@@ -156,6 +156,8 @@ define(
 
                     $scope.add_collaborator = function()
                     {
+                        if($scope.selectedUsers === undefined || $scope.selectedUsers === null)
+                            return false;
                         return restapi.add_project_collaborator($stateParams.id, $scope.selectedUsers.originalObject.id)
                             .then(update_project_collaborators);
                     };
