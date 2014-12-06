@@ -79,7 +79,7 @@ feature -- Data access
 	add_collaborator (user_id, project_id: NATURAL)
 			-- adds a new collaborator
 		do
-			create db_insert_statement.make ("INSERT INTO Collaborators(user_id,project_id) "+
+			create db_insert_statement.make ("INSERT OR REPLACE INTO Collaborators(user_id,project_id) "+
 											"VALUES ('" + user_id.out + "','"+ project_id.out +"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
@@ -115,7 +115,7 @@ feature -- Data access
 	remove_collaborator (user_id, project_id: NATURAL)
 			-- removes the collaborator with the given user_id and project_id
 		do
-			create db_modify_statement.make ("DELETE FROM Colalborators WHERE user_id=" + project_id.out + " AND project_id="+project_id.out+";", db)
+			create db_modify_statement.make ("DELETE FROM Collaborators WHERE user_id=" + user_id.out + " AND project_id="+project_id.out+";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a Collaborator")
