@@ -13,8 +13,8 @@
 		<library name="http" location="$ISE_LIBRARY\contrib\library\network\protocol\http\http.ecf"/>
 		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json.ecf"/>
 		<library name="sqlite" location="$ISE_LIBRARY\unstable\library\persistency\database\sqlite3\sqlite.ecf"/>
+		<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 		<library name="wsf" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\wsf\wsf.ecf"/>
-	<library name="testing" location="$ISE_LIBRARY\library\testing\testing.ecf"/>
 	</target>
 	<target name="demo_nino" extends="common">
 		<root class="APPLICATION" feature="make_and_launch"/>
@@ -23,7 +23,15 @@
 		</option>
 		<library name="default_nino" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\wsf\default\nino.ecf"/>
 		<library name="wsf_session" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\wsf\wsf_session.ecf"/>
-		<cluster name="dose" location=".\" recursive="true"/>
+		<cluster name="dose" location=".\" recursive="true">
+			<file_rule>
+				<exclude>^tests/tests$</exclude>
+			</file_rule>
+			<file_rule>
+				<exclude>^tests/tests$</exclude>
+			</file_rule>
+			<tests name="tests" location="\home\sokky\prog\tesis\dose2014\implementations\group1\src\tests\tests\"/>
+		</cluster>
 	</target>
 	<target name="demo_cgi" extends="common">
 		<root class="APPLICATION" feature="make_and_launch"/>
@@ -41,6 +49,6 @@
 		<library name="default_libfcgi" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\wsf\default\libfcgi.ecf"/>
 		<cluster name="demo" location=".\" recursive="true"/>
 	</target>
-	<target name="demo" extends="demo_nino">		
+	<target name="demo" extends="demo_nino">
 	</target>
 </system>
