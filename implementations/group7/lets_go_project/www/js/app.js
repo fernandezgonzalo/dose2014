@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('myApp', ['ngRoute', 'ngCookies', 'ui.bootstrap']);
+var app = angular.module('myApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'tc.chartjs']);
 
 app.config(['$logProvider', function($logProvider){
   $logProvider.debugEnabled(true);
@@ -78,6 +78,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     templateUrl: 'partials/create_story.html',
     controller: 'StoriesCtrl'
   })
+
   .when('/projects/:projectId/sprints/:sprintId/stories/edit/:storyId', {
     templateUrl: 'partials/edit_story.html',
     controller: 'StoriesCtrl'
@@ -128,6 +129,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     controller: 'TaskboardCtrl'
   })
 
+  .when('/burndownchart/project/:projectId/sprint/:sprintId', {
+    templateUrl: 'partials/burndownChart.html',
+    controller: 'BurndownChartCtrl'
+  })
 
   .otherwise({
     redirectTo: '/login'
@@ -136,52 +141,47 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 ]);
 
 
-app.run(function ($rootScope, $location, $http, $timeout, AuthService, RESTService, $cookieStore) {
+app.run(function ($rootScope, $location, $http, $timeout, AuthService, RESTService, $cookieStore, UserService) {
 
   $rootScope.authService = AuthService;
   $rootScope.restService = RESTService;
 
-  $rootScope.$watch('authService.authorized()', function(){
+  $rootScope.$watch('AuthService.authorized()', function(){
 
     var cookie_lets_go_session_client = $cookieStore.get('lets_go_session_client');
     var cookie_lets_go_user_info = $cookieStore.get('lets_go_user_info');
-    $rootScope.authService.setLoggedIn(cookie_lets_go_session_client,cookie_lets_go_user_info);
 
-    var baseUsersUri = '/users'
+  if(!angular.isUndefined(cookie_lets_go_session_client)  && !angular.isUndefined(cookie_lets_go_user_info) ){
+    AuthService.setLoggedIn(cookie_lets_go_session_client, cookie_lets_go_user_info);
+  }
     var userId = cookie_lets_go_user_info;
-    var getUserUri = baseUsersUri + '/' + userId;
 
-
-    //validate when is not defined userID
     var getUser = function(){
-      RESTService.get(getUserUri, function(data){
-        $rootScope.userInfo = data;
-        //$log.debug(data);
+      UserService.getUserById (userId, function(data){
+      AuthService.setUserInfo(data.id);
       });
     }
 
-    if(userId != undefined){
+    if(!angular.isUndefined(userId)){
       // the user is not logged yet
       getUser();
     }
 
-    // if never logged in, do nothing (otherwise bookmarks fail)
-    if ($rootScope.authService.initialState()){
-      // we are public browsing
-      return;
-    }
-
     // when user logs in, redirect to home
-    if ($rootScope.authService.authorized()){
+    if (AuthService.authorized()){
       $location.path("/projects");
     }
 
     // when user logs out, redirect to home
-    if (!$rootScope.authService.authorized()){
-      $location.path("/");
+    if (!AuthService.authorized()){
+      $location.path("/login");
+    }
+
+    // if never logged in, do nothing (otherwise bookmarks fail)
+    if (AuthService.initialState()){
+      // we are public browsing
+      return;
     }
 
   }, true);
-
-
 });

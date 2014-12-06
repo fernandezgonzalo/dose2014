@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('SprintsCtrl', ['$location', '$scope', '$log', '$routeParams', 'SharedProjectSprintService', 'SprintService', function ($location, $scope, $log, $routeParams, SharedProjectSprintService, SprintService) {
+  .controller('SprintsCtrl', ['$location', '$scope', '$log', '$routeParams', 'SharedProjectSprintService', 'SprintService', 'ProjectService', function ($location, $scope, $log, $routeParams, SharedProjectSprintService, SprintService, ProjectService) {
 
     $scope.sprints = [];
     $scope.sprint_status_options = SprintService.getSprintStatusOptions();
@@ -24,7 +24,6 @@ angular.module('myApp')
     $scope.format = $scope.formats[1];
     //---end config
 
-
     $scope.$on('eventGetRelatedSprints', function(){
       $scope.projectId = SharedProjectSprintService.projectId;
       if($scope.projectId != undefined){
@@ -32,7 +31,6 @@ angular.module('myApp')
       }
 
     });
-
 
     var getSprintsByProjectId = function(projectId){
       if (projectId != undefined){
@@ -57,7 +55,7 @@ angular.module('myApp')
     }
     getSprintBySprintId($routeParams.projectId, $routeParams.sprintId);
 
-    $scope.createSprint = function(name, start_date, end_date, status){
+    $scope.createSprint = function(name, start_date, end_date){
       var projectId = $routeParams.projectId;
 
       if (projectId != undefined){
@@ -66,7 +64,7 @@ angular.module('myApp')
           name: name,
           start_date: start_date,
           end_date: end_date,
-          status: parseInt(status),
+          status: 0,
         }
 
         SprintService.createSprint(projectId, createFormData, function(data){
@@ -78,7 +76,7 @@ angular.module('myApp')
 
 
     $scope.cancelCreateSprint = function(){
-      $location.path("/projects");
+      $location.path(window.history.back());
     }
 
 
@@ -94,7 +92,6 @@ angular.module('myApp')
       }
 
     }
-
 
     $scope.updateSprint = function(name, start_date, end_date, status){
       var sprintId = $routeParams.sprintId;
@@ -119,10 +116,19 @@ angular.module('myApp')
       }
     }
 
-
-    $scope.cancelEditSprint = function(){
-      $location.path("/projects");
+    $scope.cancelUpdateSprint = function(){
+      $location.path(window.history.back());
     }
+
+    var getProjectStartDate = function(projectId){
+      if(projectId != undefined){
+        ProjectService.getProjectById(projectId, function(data){
+          $scope.projectStartDate = data.start_date;
+          $scope.projectEndDate = data.end_date;
+        });
+      }
+    }
+    getProjectStartDate($routeParams.projectId);
 
   }
 ]);

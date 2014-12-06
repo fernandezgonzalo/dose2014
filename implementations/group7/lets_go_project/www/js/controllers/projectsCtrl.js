@@ -8,7 +8,6 @@ angular.module('myApp')
   $scope.projects = [];
 
   //--- datepicker config
-
   $scope.open_start_date  = function($event) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -25,24 +24,30 @@ angular.module('myApp')
   $scope.format = $scope.formats[1];
   //---end config
 
-
   var getProjects = function() {
     ProjectService.getAllProjects(function(data){
       $log.debug('Fetching ' + data.length + ' projects from server...');
       $scope.projects = data;
+
+      angular.forEach($scope.projects,function(project, key){
+        UserService.getUserById(project.owner, function(data){
+          project.ownerName = data.firstname + " " + data.lastname;
+        });
+      })
+
     });
   }
   // fetch the existing projects as init
   getProjects();
 
-
-  $scope.createProject = function(name, description, startDate, endDate, status) {
+  $scope.createProject = function(name, description, startDate, endDate) {
+    if(description==undefined){description="";}
     var createFormData = {
       name: name,
       description: description,
       start_date: startDate,
       end_date: endDate,
-      status: parseInt(status),
+      status: 0,
       owner: userId,
     }
 
@@ -52,11 +57,9 @@ angular.module('myApp')
     });
   }
 
-
   $scope.cancelCreateProject = function(){
-    $location.path("/projects");
+    $location.path(window.history.back());
   }
-
 
   var getProjectById = function(projectId) {
     if(projectId != undefined && projectId != null) {
@@ -64,7 +67,7 @@ angular.module('myApp')
       ProjectService.getProjectById(projectId, function(data){
         $log.debug('Success getting a project');
         $scope.project_retrieved = data;
-        $scope.getIviteDevelopersByProject(data);
+        $scope.getInvitedDevelopersByProject(data);
         $scope.project_option_selected = ProjectService.getOptionByValue(data.status)
       });
     }
@@ -72,8 +75,8 @@ angular.module('myApp')
   // get project from url
   getProjectById($routeParams.projectId);
 
-
   $scope.updateProject = function(projectId, name, description, start_date, end_date, status) {
+    if(description==undefined){description="";}
     var updateFormData = {
       id: projectId,
       name: name,
@@ -90,11 +93,9 @@ angular.module('myApp')
     });
   }
 
-
   $scope.cancelUpdateProject = function(){
-    $location.path("/projects");
+    $location.path(window.history.back());
   }
-
 
   $scope.deleteProject = function(projectId) {
     ProjectService.deleteProject(projectId, function(data){
@@ -103,7 +104,6 @@ angular.module('myApp')
       getProjects();
     });
   }
-
 
   $scope.inviteDevelopersToProject = function(developers) {
     var projectId = 67;
@@ -116,7 +116,6 @@ angular.module('myApp')
       $log.debug('Success inviting developers to project');
     });
   }
-
 
   $scope.removeDevelopersFromProject = function(developers) {
     var projectId = 67;
@@ -134,27 +133,18 @@ angular.module('myApp')
     SharedProjectSprintService.prepForBroadcast(projectId);
   };
 
-
-  $scope.redirectTo = function (projectId,sprintId)
-  {
-
+  $scope.redirectTo = function (projectId, sprintId){
     var path = '/projects/'+projectId+'/sprints/'+sprintId+'/stories'
     $location.path(path);
   }
 
-
-  $scope.getIviteDevelopersByProject = function(data){
-
+  $scope.getInvitedDevelopersByProject = function(data){
     $scope.inviteDevelopersToProjectNames = [];
     angular.forEach(data.invited_devs, function(value, key) {
       UserService.getUserById(value, function(data){
         $scope.inviteDevelopersToProjectNames.push(data.firstname+" "+data.lastname );
-
-
       });
     });
-
-
   }
 
 

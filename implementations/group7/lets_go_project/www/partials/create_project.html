@@ -12,12 +12,15 @@
               <h3 class="panel-title">Create Project {{createFormData.project_name}}</h3>
             </div>
             <div class="panel-body">
-              <form ng-submit="createProject(createFormData.project_name, createFormData.project_description, createFormData.project_start_date, createFormData.project_end_date, createFormData.project_status.value)" accept-charset="UTF-8" role="form">
+              <form name="createProjectForm" ng-submit="createProject(createFormData.project_name, createFormData.project_description, createFormData.project_start_date, createFormData.project_end_date)" accept-charset="UTF-8" role="form">
                 <fieldset>
 
                   <div class="form-group">
                     <label for="project_name">Project Name (*)</label>
-                    <input class="form-control" ng-model="createFormData.project_name" placeholder="Project Name" name="project_name" type="text" required>
+                    <input class="form-control" ng-model="createFormData.project_name" placeholder="Project Name" name="project_name" type="text" required ng-maxlength="30">
+                    <p ng-show="createProjectForm.project_name.$dirty &&createProjectForm.project_name.$invalid" class="text-danger">
+                      Please name your project!
+                    </p>
                   </div>
 
                   <div class="form-group">
@@ -26,21 +29,25 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="start_date">Start Date</label>
+                    <label for="start_date">Start Date(*)</label>
                     <input class="form-control" ng-model="createFormData.project_start_date" placeholder="2013-2-1" name="start_date" type="text" ng-click="open_start_date($event)" datepicker-popup="{{format}}" is-open="start_date_opened" close-text="Close" required>
+                    <p ng-show="createProjectForm.start_date.$dirty &&createProjectForm.start_date.$invalid" class="text-danger">
+                      Please set your project start date!
+                    </p>
                   </div>
 
                   <div class="form-group">
-                    <label for="end_date">Completion Date</label>
-                    <input class="form-control" ng-model="createFormData.project_end_date" placeholder="2014-2-1" name="end_date" type="text" ng-click="open_end_date($event)" datepicker-popup="{{format}}" is-open="end_date_opened" close-text="Close">
+                    <label for="end_date">Completion Date(*)</label>
+                    <input class="form-control" ng-model="createFormData.project_end_date" placeholder="2014-2-1" name="end_date" type="text" ng-click="open_end_date($event)" datepicker-popup="{{format}}" is-open="end_date_opened" close-text="Close" required date-lower-than="{{createFormData.project_start_date|date:'yyyy/MM/dd'}}">
+                    <p ng-show="createProjectForm.end_date.$dirty &&createProjectForm.end_date.$error.dateLowerThan" class="text-danger">
+                      Invalid end date!
+                    </p>
+                    <p ng-show="createProjectForm.end_date.$dirty &&createProjectForm.end_date.$error.required" class="text-danger">
+                      Please set your project end date!
+                    </p>
                   </div>
 
-                  <div class="form-group">
-                    <label for="project_status">Status</label>
-                    <select  class="form-control" ng-model="createFormData.project_status" name="project_status" ng-init="createFormData.project_status = project_status_options[0]" ng-options="option.label for option in project_status_options" required></select>
-                  </div>
-
-                  <input type="submit" class="btn btn-primary" id="submit" value="Create" />
+                  <input type="submit" class="btn btn-primary" id="submit" value="Create" ng-disabled="createProjectForm.$invalid"/>
                   <a ng-click="cancelCreateProject()" class="btn btn-default">Cancel</a>
 
                 </fieldset>
@@ -57,58 +64,3 @@
 
   </div> <!-- end container -->
 </div> <!-- end ProjectCtrl -->
-
-
-
-
-
-
-
-
-
-
-<!--
-<div>
-  <div class="container">
-
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <h2>All Todos</h2>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-		<table class="table">
-		  <tr>
-		    <th>Description</th>
-		    <th>Name</th>
-		    <th>Action</th>
-		  </tr>
-		  <tr ng-repeat="project in projects">
-		  	<td>{{project.description}}</td>
-		  	<td>{{project.name}}</td>
-		  	<td><button ng-click="removeTodo(todo.todoId)">Remove</button></td>
-		  </tr>
-		</table>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-5 col-md-offset-1">
-		<form role="form">
-		  <div class="form-group">
-		    <label for="todoInput">Add todo</label>
-		    <input type="text" class="form-control" ng-model="todoModel.description" id="todoInput" placeholder="Todo description">
-		  </div>
-
-		  <button ng-click="addTodo(todoModel.description)" class="btn btn-default">
-		  	Add todo
-		  </button>
-		</form>
-      </div>
-    </div>
-
-
-  </div>
-</div> -->
