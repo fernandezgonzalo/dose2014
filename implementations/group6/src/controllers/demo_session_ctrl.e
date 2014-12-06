@@ -45,7 +45,7 @@ feature -- Handlers
 			l_payload, l_email, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
-			l_user_data: TUPLE[check_result: BOOLEAN; email: STRING; password: STRING; name: STRING; surname: STRING; gender: STRING; role: STRING]
+			l_user_data: TUPLE[check_result: BOOLEAN; email: STRING; password: STRING; name: STRING; surname: STRING; gender: STRING; role: STRING; changepwd: STRING]
 
 				-- a session
 			l_session: WSF_COOKIE_SESSION
@@ -102,6 +102,8 @@ feature -- Handlers
 				l_session.remember (l_user_data.gender, "gender")
 					-- we store the user role and use the key "role"
 				l_session.remember (l_user_data.role, "role")
+				-- we store the user changepwd and use the key "changepwd"
+				l_session.remember (l_user_data.changepwd, "changepwd")
 
 					-- commit the data; this will trigger the session_manager to actually store the data to disk (in the session folder _WFS_SESSIONS_)
 				l_session.commit
@@ -116,10 +118,11 @@ feature -- Handlers
 				l_result.put (create {JSON_STRING}.make_json ("User logged in."), create {JSON_STRING}.make_json ("success"))
 				l_result.put (create {JSON_STRING}.make_json (l_user_data.email), create {JSON_STRING}.make_json ("email"))
 				l_result.put (create {JSON_STRING}.make_json (l_user_data.password), create {JSON_STRING}.make_json ("password"))
-				l_result.put (create {JSON_STRING}.make_json (l_user_data.name), create {JSON_STRING}.make_json ("name: "))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.name), create {JSON_STRING}.make_json ("name"))
 				l_result.put (create {JSON_STRING}.make_json (l_user_data.surname), create {JSON_STRING}.make_json ("surname"))
 				l_result.put (create {JSON_STRING}.make_json (l_user_data.gender), create {JSON_STRING}.make_json ("gender"))
 				l_result.put (create {JSON_STRING}.make_json (l_user_data.role), create {JSON_STRING}.make_json ("role"))
+				l_result.put (create {JSON_STRING}.make_json (l_user_data.changepwd), create {JSON_STRING}.make_json ("changepwd"))
 
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header_ok (res, l_result.representation.count)
@@ -165,4 +168,72 @@ feature -- Handlers
 				-- add the message to the response
 			res.put_string (l_result.representation)
 		end
+
+
+
+
+	forgot_password (req: WSF_REQUEST; res: WSF_RESPONSE)
+
+
+		local
+			l_result: JSON_OBJECT
+			l_payload, l_email: STRING
+			parser: JSON_PARSER
+
+		do
+			-- create emtpy string object
+			create l_payload.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- in this case the username and password
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+					-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("email") as s then
+					l_email := s.unescaped_string_8
+				end
+
+			end
+
+
+			if (l_email = VOID) OR (l_email.is_empty) then
+
+					-- EMAIL not valid. Sending back a error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not valid."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
+
+			elseif (not my_db.check_if_mail_already_present (l_email)) then
+
+				-- EMAIL not present into the database. Sending back an error message
+				l_result.put (create {JSON_STRING}.make_json ("Email not present into the database."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result.representation.count)
+
+			else
+
+				-- send an email with a random password which need then to be changed
+
+					--set CHANGEPWD at true into the database
+				my_db.set_changepwd (l_email, true)
+
+				l_result.put (create {JSON_STRING}.make_json ("Sent an email to " + l_email + " with a random password."), create {JSON_STRING}.make_json ("success"))
+				set_json_header_ok (res, l_result.representation.count)
+
+			end
+
+				--sending back the result
+			res.put_string (l_result.representation)
+
+		end
+
+
+
+
+
+
 end

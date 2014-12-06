@@ -59,23 +59,30 @@ feature --handlers
 			create l_result_payload.make_array
 
 				-- Check if the project name is valid
-			if (l_project = VOID) OR l_project.is_empty OR (l_project.count > 40) OR (not my_db.check_project_name (l_project)) then
+			if (l_project = VOID) OR l_project.is_empty OR (l_project.count > 40) then
 
 					--project name not valid. sending back an error message
-				j_obj.put (create {JSON_STRING}.make_json ("ERROR: project name not valid."), create {JSON_STRING}.make_json ("error"))
+				j_obj.put (create {JSON_STRING}.make_json ("Project name not valid."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.extend (j_obj)
+				set_json_header (res, 401, l_result_payload.representation.count)
+
+			elseif (not my_db.check_project_name (l_project)) then
+
+					-- PROJECT not present into the database. Sending back an error message
+				j_obj.put (create {JSON_STRING}.make_json ("Project not present into the database."), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
 
 			else
-					-- Get from the database a list of all the iterations of the project
-				l_result_payload := (my_db.get_all_project_iterations (l_project))
 
-				j_obj.put (create {JSON_STRING}.make_json ("List of all project's iterations successfully found."), create {JSON_STRING}.make_json ("success"))
+				j_obj.put (create {JSON_STRING}.make_json ("Iterationsof the project " + l_project), create {JSON_STRING}.make_json ("success"))
+				j_obj.put (my_db.get_all_project_iterations (l_project), create {JSON_STRING}.make_json ("iterations"))
 				l_result_payload.extend (j_obj)
+
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
 
-				-- add the message to the response response
+				-- add the message to the response
 			res.put_string (l_result_payload.representation)
 		end
 
@@ -86,6 +93,7 @@ feature --handlers
 				l_payload, l_project: STRING
 				parser: JSON_PARSER
 				l_result: JSON_OBJECT
+				l_iteration_data: TUPLE[number: STRING; name: STRING]
 			do
 					-- create emtpy string objects
 				create l_payload.make_empty
@@ -115,21 +123,26 @@ feature --handlers
 				if  (l_project = VOID) OR l_project.is_empty OR (l_project.count > 40) then
 
 						-- PROJECT name not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: project name not valid. New iteration was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Project name not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 					-- checking if the PROJECT exists into the database
 				elseif my_db.check_project_name (l_project) then
 
 						--create the new iteration
-					my_db.add_iteration(l_project)
+					l_iteration_data := my_db.add_iteration(l_project)
 
-					l_result.put (create {JSON_STRING}.make_json ("New iteration for project " + l_project + " sucessfully created."), create {JSON_STRING}.make_json ("success"))
+					l_result.put (create {JSON_STRING}.make_json ("Iteration " + l_iteration_data.number.out + " for project " + l_project + " sucessfully created."), create {JSON_STRING}.make_json ("success"))
+					l_result.put (create {JSON_STRING}.make_json (l_iteration_data.number), create {JSON_STRING}.make_json ("iteration_number"))
+					l_result.put (create {JSON_STRING}.make_json (l_iteration_data.name), create {JSON_STRING}.make_json ("title"))
+
+
 					set_json_header_ok (res, l_result.representation.count)
+
 
 				else
 						-- PROJECT not present into the database. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: project not present into the database. New iteration was not created."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Project not present into the database."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				end
@@ -138,6 +151,7 @@ feature --handlers
 				res.put_string (l_result.representation)
 
 			end
+
 
 	delete_iteration(req: WSF_REQUEST; res: WSF_RESPONSE)
 			--deletes an iteration from the database; project's name and iteration's number are expected to be part of
@@ -168,7 +182,7 @@ feature --handlers
 						l_project := s.unescaped_string_8
 					end
 
-					if attached {JSON_NUMBER} j_object.item ("iteration_number") as s then
+					if attached {JSON_STRING} j_object.item ("iteration_number") as s then
 						l_number := s.item.to_integer
 					end
 
@@ -181,38 +195,49 @@ feature --handlers
 				if  (l_project = VOID) OR l_project.is_empty OR (l_project.count > 40) then
 
 						-- PROJECT name not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: project name not valid. Iteration not deleted."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Project name not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				elseif (l_number < 0) then
 
 						-- ITERATION NUMBER not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: iteration number not valid.Iteration not deleted."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Iteration number not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 				elseif (l_number = 0) then
 
 						-- cannot delete the special BACKLOG iteration. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: cannot delete a BACKLOG iteration.Iteration not deleted."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Cannot delete a BACKLOG iteration."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
 
 					-- checking if the PROJECT exists into the database
-				elseif my_db.check_project_name (l_project) then
+				elseif (not my_db.check_project_name (l_project)) then
 
-						--create the new iteration
-					my_db.add_iteration(l_project)
-
-					l_result.put (create {JSON_STRING}.make_json ("Iteration successfully deleted."), create {JSON_STRING}.make_json ("success"))
-					set_json_header_ok (res, l_result.representation.count)
-
-				else
 						-- PROJECT not present into the database. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("ERROR: project not present into the database.Iteration not deleted."), create {JSON_STRING}.make_json ("error"))
+					l_result.put (create {JSON_STRING}.make_json ("Project not present into the database."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
-				end
+				elseif (not my_db.check_iteration (l_number, l_project)) then
 
+						-- PROJECT not present into the database. Sending back an error message
+					l_result.put (create {JSON_STRING}.make_json ("Iteration not present into the database."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result.representation.count)
+
+				elseif (not my_db.is_iteration_empty (l_project, l_number)) then
+
+						-- PROJECT not present into the database. Sending back an error message
+					l_result.put (create {JSON_STRING}.make_json ("Iteration is not empty."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result.representation.count)
+
+				else
+						--delete the iteration
+					my_db.remove_iteration (l_project, l_number)
+
+					l_result.put (create {JSON_STRING}.make_json ("Iteration " + l_number.out + " removed from project." + l_project + " successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result.representation.count)
+
+				end
 					-- sending back the result
 				res.put_string (l_result.representation)
 
