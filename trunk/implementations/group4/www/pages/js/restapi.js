@@ -260,6 +260,28 @@ define(
                         return $http.delete("/api/projects/" + project_id + "/collaborators/" + user_id);
                     };
 
+                    module.create_sprint = function(form, project_id)
+                    {
+                        var request =
+                        {
+                            status: form.status,
+                            duration: form.duration.toString()
+                        };
+                        return $http.post("/api/projects/" + project_id + "/sprints", request);
+                    };
+
+                    module.project_sprints = function(project_id)
+                    {
+                        return $http.get("/api/projects/" + project_id + "/sprints")
+                        .then
+                        (
+                            function (data)
+                            {
+                                return data.data;
+                            }
+                        )
+                    };
+
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PRIVATE METHODS
 

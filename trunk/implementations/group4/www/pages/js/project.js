@@ -48,7 +48,10 @@ define(
             "ProjectSprintsCtr",
             [
                 "$scope",
-                function($scope)
+                "restapi",
+                "$stateParams",
+                "sprints",
+                function($scope, restapi, $stateParams, sprints)
                 {
                     $scope.$on
                     (
@@ -56,7 +59,7 @@ define(
                         function(event, data)
                         {
                             event.stopPropagation();
-                            console.log("create_sprint");
+                            restapi.create_sprint(data, $stateParams.id);
                         }
                     );
 
@@ -80,7 +83,9 @@ define(
 
                     };
 
-                    $scope.sprints = [{"id":"0","status":"Backlog","duration":"0","project_id":"1"},{"id":"0","status":"Backlog","duration":"0","project_id":"2"},{"id":"0","status":"Backlog","duration":"0","project_id":"3"},{"id":"1","status":"Started","duration":"2","project_id":"1"},{"id":"1","status":"Started","duration":"1","project_id":"2"},{"id":"1","status":"Started","duration":"1","project_id":"3"},{"id":"0","status":"Backlog","duration":"0","project_id":"4"},{"id":"0","status":"Backlog","duration":"0","project_id":"5"}];
+                    $scope.sprints = sprints;
+
+                    //$scope.sprints = [{"id":"0","status":"Backlog","duration":"0","project_id":"1"},{"id":"0","status":"Backlog","duration":"0","project_id":"2"},{"id":"0","status":"Backlog","duration":"0","project_id":"3"},{"id":"1","status":"Started","duration":"2","project_id":"1"},{"id":"1","status":"Started","duration":"1","project_id":"2"},{"id":"1","status":"Started","duration":"1","project_id":"3"},{"id":"0","status":"Backlog","duration":"0","project_id":"4"},{"id":"0","status":"Backlog","duration":"0","project_id":"5"}];
                 }
             ]
         )
@@ -220,7 +225,23 @@ define(
                     return module;
                 }
             ]
-        );
+        )
 
+        .factory
+        (
+            'ProjectSprintsProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function(id)
+                    {
+                        return restapi.project_sprints(id);
+                    };
+                    return module;
+                }
+            ]
+        );
     }
 );

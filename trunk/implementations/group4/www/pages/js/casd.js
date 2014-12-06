@@ -100,7 +100,19 @@ define(
                         {
                             url: "/sprints",
                             templateUrl: "pages/html/project/sprints.html",
-                            controller: "ProjectSprintsCtr"
+                            controller: "ProjectSprintsCtr",
+                            resolve:
+                            {
+                                sprints:
+                                [
+                                    "$stateParams",
+                                    "ProjectSprintsProvider",
+                                    function($stateParams, ProjectSprintsProvider)
+                                    {
+                                        return ProjectSprintsProvider.resolver($stateParams.id);
+                                    }
+                                ]
+                            }
                         }
                     )
 
