@@ -131,6 +131,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks", agent task.add_a_task, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks", agent sprint.get_tasks_by_sprint, router.methods_get)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks/{id_task}", agent task.get_a_task, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks/{id_task}", agent task.update_task, router.methods_put)
 			map_uri_template_agent_with_request_methods ("/api/users/{id_user}/projects/{id_project}/sprints/{id_sprint}/tasks", agent task.delete_task, router.methods_delete)
 
 				-- handling of all ht routes relating to "requirement"

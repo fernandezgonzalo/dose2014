@@ -119,6 +119,64 @@ feature -- Handlers
 			res.put_string (l_result_payload)
 		end
 
+	update_task (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_payload, l_task_id, desc, comment, duration, points, status, id_user: STRING
+			parser: JSON_PARSER
+			l_result: JSON_OBJECT
+			flag: BOOLEAN
+		do
+				-- create emtpy string objects
+			create l_payload.make_empty
+			create desc.make_empty
+			create comment.make_empty
+			create duration.make_empty
+			create points.make_empty
+			create status.make_empty
+			create id_user.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- for the todo description and the userId
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+					-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("desc") as n then
+					desc := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("comment") as n then
+					comment := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("duration") as n then
+					duration := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("points") as n then
+					points := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("status") as n then
+					status := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("id_user") as n then
+					id_user := n.unescaped_string_8
+				end
+			end
+			l_task_id := req.path_parameter ("id_task").string_representation
+			flag := my_db.update_task (l_task_id, desc, comment, status, duration, points, id_user)
+
+				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Task updated "), create {JSON_STRING}.make_json ("Message"))
+
+				-- send the response
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
+		end
+
 	delete_task (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted project
 		local

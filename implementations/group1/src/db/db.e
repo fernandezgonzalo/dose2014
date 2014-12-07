@@ -458,17 +458,17 @@ feature -- Data access Task
 			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 		end
 
---	update_task(id_task, desc, comment, status, duration, points, id_user: STRING): BOOLEAN
---			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
---		do
---			create db_modify_statement.make("UPDATE Task SET desc='" + desc.out + "', comment='" + comment.out + "', status='" +status.out+"' WHERE id=" + id_task.out + ";", db)
---			db_modify_statement.execute
---			if db_modify_statement.has_error then
---				Result := False
---			else
---				Result := True
---			end
---		end
+	update_task(id_task, desc, comment, status, duration, points, id_user: STRING): BOOLEAN
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+		do
+			create db_modify_statement.make("UPDATE Task SET desc='" + desc.out + "', comment='" + comment.out + "', duration='" +duration.out+"', points='"+points.out+"', status= '"+status.out+"', id_user= '"+id_user.out+"' WHERE id=" + id_task.out + ";", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				Result := False
+			else
+				Result := True
+			end
+		end
 
 	remove_task (id: NATURAL)
 			-- removes the todo with the given id
