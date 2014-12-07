@@ -50,7 +50,6 @@ feature -- Creation
 		-- Default creation procedure
 		require
 			title_not_void: a_title /= Void
-			descr_not_void: a_descr /= Void
 			type_not_void: a_type /= Void
 			priority_not_void: a_priority /= Void
 			position_not_void: a_pos /= Void
@@ -73,7 +72,6 @@ feature -- Creation
 		-- Creation procedure for a sub task
 		require
 			title_not_void: a_title /= Void
-			descr_not_void: a_descr /= Void
 			type_not_void: a_type /= Void
 			priority_not_void: a_priority /= Void
 			position_not_void: a_pos /= Void
