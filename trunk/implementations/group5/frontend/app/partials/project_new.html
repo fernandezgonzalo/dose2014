@@ -1,0 +1,72 @@
+<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- /modal-header -->
+      <div class="modal-header">
+        <span class="modal-title h4">New project</span><span class="pull-right">
+          <span class="glyphicon glyphicon-plus">
+      </div>	
+
+      <!-- /modal-body -->
+      <div class="modal-body row">
+        <form name="form" class="simple-form" novalidate>
+          <div class="col-md-6">
+            <fieldset>
+
+              <br>
+
+              <!-- Project name -->
+              <div class="control-group">
+                <label class="control-label" for="projectName">Project name</label>
+                <div class="controls">
+                  <input type="text" id="projectName" name="projectName"
+                  ng-model="project.name" placeholder="" class="input-xlarge"
+                  autocorrect="off" spellcheck="false" autocapitalize="off"
+                  tabindex="1" ng-required="true">
+                </div>
+              </div>
+
+              <!-- Client name -->
+              <div class="control-group">
+                <label class="control-label" for="client">Client</label>
+                <div class="controls">
+                  <input type="text" id="client" name="client" ng-model="project.client_name"
+                  placeholder="" class="input-xlarge" autocorrect="off" spellcheck="false"
+                  autocapitalize="off" tabindex="2" ng-required="true">
+                </div>
+              </div>
+
+              <!-- Deadline -->
+              <div class="control-group">
+                <label class="control-label" for="deadline">Deadline</label>
+                <div class="row">
+                  <div class="col-md-12">
+                    <p class="input-group">
+                    <input type="text" class="form-control" ng-model="project.deadline"
+                    datepicker-popup="{{newDatepicker.format}}" is-open="$parent.newDatepicker.opened" min-date="newDatepicker.dt"
+                    datepicker-options="newDatepicker.dateOptions" date-disabled="newDatepicker.disabled(date, mode)"
+                    close-text="Close" tabindex="3" ng-required="true"/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="newDatepicker.open($event)">
+                        <i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+      </div>
+
+      <!-- /modal-footer -->
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" ng-click="createProject(project)"
+          ng-disabled="form.$invalid">Create project</button>
+      </div>	
+
+    </div>
+  </div>
+</div>

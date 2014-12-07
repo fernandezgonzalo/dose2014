@@ -2,39 +2,31 @@
 
 angular.module('Mgmt').service('Datepicker', function() {  
 
-  this.set = function(scope) {
+  this.set = function(datepicker) {
     
-    scope.today = function() {
-      scope.dt = new Date();
+    datepicker.today = function() {
+      datepicker.dt = new Date();
     };
-    scope.today();
-
-    // scope.clear = function() {
-      // scope.dt = new Date();
-      // scope.dt = null;
-    // };
+    datepicker.today();
 
     // Disable weekend selection
-    scope.disabled = function(date, mode) {
+    datepicker.disabled = function(date, mode) {
       return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
     };
 
-    scope.open = function($event) {
+    datepicker.open = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      scope.opened = true;
+      datepicker.opened = true;
     };
 
-    scope.dateOptions = {
+    datepicker.dateOptions = {
       formatYear: 'yy',
       startingDay: 1
     };
 
-    // scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd-MM-yyyy', 'shortDate'];
-    // scope.format = scope.formats[2];
-    
-    scope.format = 'yyyy-MM-dd';
+    datepicker.format = 'yyyy-MM-dd';
 
   };
 });

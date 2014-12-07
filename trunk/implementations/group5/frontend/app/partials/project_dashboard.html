@@ -1,6 +1,7 @@
 <div data-ng-controller="TaskController"><!-- injecting task controller -->
 
-  <div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
+<div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
+<div ng-include src="'partials/project_edit.html'"></div> <!-- Edit project modal -->
 
   <div id="legend">
     <legend>{{project.name}}</legend>
@@ -10,7 +11,8 @@
   <div class="row">
     <div class="col-md-12">
       <button class="btn btn-link col-md-2"
-        ng-click="openModal('edit')">Edit project info</button>
+        data-toggle="modal" data-target="#editProjectModal" ng-click="editProject(project)">
+        Edit project info</button>
       <span class="col-md-8"></span>
       <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
         data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
