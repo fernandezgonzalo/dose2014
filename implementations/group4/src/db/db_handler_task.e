@@ -40,12 +40,12 @@ feature -- Data access
 			db_query_statement.execute (agent row_to_json_object (?, 11, Result))
 		end
 
-	find_by_project_id (a_project_id : NATURAL) : JSON_OBJECT
+	find_by_project_id (a_project_id : NATURAL) : JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task of the given project
 		do
-			create Result.make
+			create Result.make_array
 			create db_query_statement.make("SELECT * FROM Tasks WHERE project_id=" + a_project_id.out + ";" ,db)
-			db_query_statement.execute (agent row_to_json_object (?, 11, Result))
+			db_query_statement.execute (agent rows_to_json_array (?, 11, Result))
 		end
 
 	add_super(a_task: TASK)
