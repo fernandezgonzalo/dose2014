@@ -54,12 +54,17 @@ feature -- Creation
 			priority_not_void: a_priority /= Void
 			position_not_void: a_pos /= Void
 		do
+			if (a_descr = Void) then
+					-- put a blank description if no description is present.
+				description := " "
+			else
+				description := a_descr
+			end
 			sprint_id := a_sprint_id
 			user_id := a_user_id
 			project_id := a_project_id
 			points := some_points
 			title := a_title
-			description := a_descr
 			type := a_type
 			priority := a_priority
 			position := a_pos
