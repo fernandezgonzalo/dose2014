@@ -90,7 +90,19 @@ define(
                         {
                             url: "/tasks",
                             templateUrl: "pages/html/project/tasks.html",
-                            controller: "ProjectTasksCtr"
+                            controller: "ProjectTasksCtr",
+                            resolve:
+                            {
+                                tasks:
+                                [
+                                    "$stateParams",
+                                    "ProjectTasksProvider",
+                                    function($stateParams, ProjectTasksProvider)
+                                    {
+                                        return ProjectTasksProvider.resolver($stateParams.id);
+                                    }
+                                ]
+                            }
                         }
                     )
 
