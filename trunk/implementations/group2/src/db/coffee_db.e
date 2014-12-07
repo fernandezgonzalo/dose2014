@@ -138,7 +138,6 @@ feature -- Data access
 		end
 	end
 
-
 	add(a_table_name: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_query: STRING
@@ -293,6 +292,20 @@ feature -- Data access
 			RESULT:= VOID
 		else
 			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
+		end
+	end
+
+	is_sprint_overlapping(a_start_date, a_end_date: DATE a_project_id: STRING): BOOLEAN
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+ 		create Result
+		create db_query_statement.make ("SELECT * FROM sprint WHERE project_id=? AND ((start_date>? AND start_date>?) OR (end_date<? AND end_date<?));", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id, a_start_date, a_end_date>>)
+		if l_query_result_cursor.after then
+			Result := False
+		else
+			Result := True
 		end
 	end
 
