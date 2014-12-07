@@ -146,6 +146,8 @@ feature
 		end
 	end
 
+
+
 feature
 	is_authorized_add(req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): BOOLEAN
 	do
@@ -236,6 +238,23 @@ feature {NONE} -- helpers
 			i:= i+1
 		end
 
+	end
+
+	get_index_from_map(a_key: STRING a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): INTEGER
+	local
+		i: INTEGER
+	do
+
+		from
+			i:= 1
+		until
+			i>a_map.keys.count
+		loop
+			if equal(a_key, a_map.keys.at (i)) then
+				Result := i
+			end
+			i:= i+1
+		end
 	end
 
 	parse_request(req: WSF_REQUEST) : TUPLE [key: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
