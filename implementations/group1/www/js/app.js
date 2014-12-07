@@ -39,6 +39,10 @@ app.config(['$routeProvider', '$locationProvider',
          templateUrl: 'partials/user-detail.html',
          controller: 'UserCtrl'
          })*/
+		    .when('/user/:userId/project/:projectId/ranking', {
+                templateUrl: 'partials/ranking.html',
+                controller: 'RankingCtrl'
+            })
             .when('/user/:userId/project/:projectId', { // Show project dashboard
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
@@ -58,10 +62,6 @@ app.config(['$routeProvider', '$locationProvider',
              })*/
             .when('/user/:userId/cpanel', {
                 templateUrl: 'partials/cpanel.html',
-                controller: 'UserCtrl'
-            })
-            .when('/ranking', {
-                templateUrl: 'partials/ranking.html',
                 controller: 'UserCtrl'
             })
             .when('/user/:userId', {
