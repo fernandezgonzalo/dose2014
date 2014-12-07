@@ -97,7 +97,8 @@ define(
                 "$scope",
                 "$stateParams",
                 "restapi",
-                function($scope, $stateParams, restapi)
+                "tasks",
+                function($scope, $stateParams, restapi, tasks)
                 {
                     $scope.$on
                     (
@@ -129,7 +130,7 @@ define(
 
                     };
 
-                    $scope.tasks = [{"id":"1","priority":"Low","position":"Backlog","type":"Feature","description":"descr","title":"task1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"1","user_id":"1"},{"id":"2","priority":"Normal","position":"Process","type":"Bug","description":"descr","title":"subtask1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"2","user_id":"2"},{"id":"3","priority":"High","position":"Done","type":"Bug","description":"descr","title":"task2","points":"10","super_task_id":"3","sprint_id":"1","project_id":"3","user_id":"3"}];
+                    $scope.tasks = tasks; //[{"id":"1","priority":"Low","position":"Backlog","type":"Feature","description":"descr","title":"task1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"1","user_id":"1"},{"id":"2","priority":"Normal","position":"Process","type":"Bug","description":"descr","title":"subtask1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"2","user_id":"2"},{"id":"3","priority":"High","position":"Done","type":"Bug","description":"descr","title":"task2","points":"10","super_task_id":"3","sprint_id":"1","project_id":"3","user_id":"3"}];
                 }
             ]
         )
@@ -162,6 +163,8 @@ define(
                     $scope.add_collaborator = function()
                     {
                         if($scope.selectedUsers === undefined || $scope.selectedUsers === null)
+                            return false;
+                        if($scope.selectedUsers.originalObject.id === $scope.project.user_id)
                             return false;
                         return restapi.add_project_collaborator($stateParams.id, $scope.selectedUsers.originalObject.id)
                             .then(update_project_collaborators);
@@ -238,6 +241,23 @@ define(
                     module.resolver = function(id)
                     {
                         return restapi.project_sprints(id);
+                    };
+                    return module;
+                }
+            ]
+        )
+
+        .factory
+        (
+            'ProjectTasksProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function(id)
+                    {
+                        return restapi.project_tasks(id);
                     };
                     return module;
                 }

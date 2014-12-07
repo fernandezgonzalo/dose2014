@@ -282,6 +282,19 @@ define(
                         )
                     };
 
+                    module.project_tasks = function(project_id)
+                    {
+                        return $http.get("/api/projects/" + project_id + "/tasks")
+                        .then
+                        (
+                            function (data)
+                            {
+                                console.log(data);
+                                return data.data;
+                            }
+                        )
+                    };
+
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PRIVATE METHODS
 
