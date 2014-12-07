@@ -584,6 +584,15 @@ feature
 			end
 		end
 
+	email_in_database(a_email: STRING): JSON_OBJECT
+		local
+			user: JSON_OBJECT
+		do
+			create user.make
+			create db_query_statement.make ("SELECT * FROM User WHERE email='"+a_email +"';" , db)
+			db_query_statement.execute (agent row_to_json_object (?, 7, user))
+			Result := user
+		end
 
 
 feature {NONE}

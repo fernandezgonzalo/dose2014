@@ -225,20 +225,25 @@ feature -- Handlers
 					active := a.unescaped_string_8
 				end
 			end
-
-				-- create the user in the database
-			flag := my_db.add_user (name, last_name, email, password, rol, active)
-			l_user_data := my_db.has_user_with_password (email, password)
-			if flag then
+			if my_db.email_in_database (email).is_empty then
+				flag := my_db.add_user (name, last_name, email, password, rol, active)
+				print ("ACA?%N")
+				l_user_data := my_db.has_user_with_password (email, password)
+				if flag then
 					-- add object id to response
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json (l_user_data.id.to_string_32), create {JSON_STRING}.make_json ("id"))
+					create l_result.make
+					l_result.put (create {JSON_STRING}.make_json (l_user_data.id.to_string_32), create {JSON_STRING}.make_json ("id"))
 
 					-- send the response
-				set_json_header_ok (res, l_result.representation.count)
+					set_json_header_ok (res, l_result.representation.count)
+					res.put_string (l_result.representation)
+				end
+			else
+				create l_result.make
+				l_result.put (create {JSON_STRING}.make_json ("Email already registered"), create {JSON_STRING}.make_json ("Message"))
+				set_json_header (res, 401, l_result.representation.count)
 				res.put_string (l_result.representation)
 			end
-				-- fail add_user
 		end
 
 	get_user_role (req: WSF_REQUEST; res: WSF_RESPONSE)

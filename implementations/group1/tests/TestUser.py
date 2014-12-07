@@ -37,11 +37,23 @@ class TestUser(unittest.TestCase):
         lastname = self.faker.last_name()
         email = self.faker.email()
         password = self.faker.password()
-        rol = "1"
-        active = "1"
+        rol = 1
+        active = 1
 
-        #req = post_users(self.session, name, lastname, email, password, rol, active)
-        self.assertTrue(True)
+        req = post_users(self.session, name, lastname, email, password, rol, active)
+        self.assertEqual(req.status_code, 200)
+
+    def test_create_user_with_email_registered(self):
+        name = self.faker.first_name()
+        lastname = self.faker.last_name()
+        email = "asd@asd.com"
+        password = self.faker.password()
+        rol = 1
+        active = 1
+
+        req = post_users(self.session, name, lastname, email, password, rol, active)
+        self.assertEqual(req.status_code, 401)
+        self.assertEqual(req.json().get('Message'), "Email already registered")
 
 if __name__ == '__main__':
     unittest.main()
