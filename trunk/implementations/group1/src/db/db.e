@@ -411,6 +411,18 @@ feature -- Data access Sprint
 		end
 feature -- Data access Task
 
+	add_task (desc, comment, status, duration, points, id_user, id_requirement: STRING): BOOLEAN
+
+		do
+			create db_insert_statement.make ("INSERT INTO Task(desc, comment, duration, points, status, id_user, id_requirement) VALUES ('"+desc.out+"','"+comment.out+"','"+duration.out+"','"+points.out+"','"+status.out+"','"+id_user.out+"','"+id_requirement.out+");", db);
+			db_insert_statement.execute
+			Result := True
+			if db_insert_statement.has_error then
+				print("Error while inserting a new Task")
+				Result := False
+			end
+		end
+
 	search_tasks: JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		do
@@ -446,15 +458,17 @@ feature -- Data access Task
 			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
 		end
 
-	add_task (desc, comment, duration, points, status, id_user, id_requirement: STRING)
-
-		do
-			create db_insert_statement.make ("INSERT INTO Task(id, desc, comment, duration, points, status, id_user, id_requirement) VALUES ('"+desc+"','"+comment+"','"+duration+"','"+points+"','"+status+"','"+id_user+"','"+id_requirement+"');", db);
-			db_insert_statement.execute
-			if db_insert_statement.has_error then
-				print("Error while inserting a new Task")
-			end
-		end
+--	update_task(id_task, desc, comment, status, duration, points, id_user: STRING): BOOLEAN
+--			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
+--		do
+--			create db_modify_statement.make("UPDATE Task SET desc='" + desc.out + "', comment='" + comment.out + "', status='" +status.out+"' WHERE id=" + id_task.out + ";", db)
+--			db_modify_statement.execute
+--			if db_modify_statement.has_error then
+--				Result := False
+--			else
+--				Result := True
+--			end
+--		end
 
 	remove_task (id: NATURAL)
 			-- removes the todo with the given id
