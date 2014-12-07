@@ -84,6 +84,7 @@ feature -- Handlers
 		create l_result.make
 		l_map := parse_request (req)
 		if validate_input(l_map) then
+			l_map:=hash_and_salt(l_map)
 			l_add_result:= my_db.add (table_name,l_map)
 			if l_add_result.success then
 				l_result := my_db.get_from_id (table_name, l_add_result.id)
@@ -123,6 +124,24 @@ feature -- Handlers
 		end
 	end
 
+	hash_and_salt(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+	local
+		l_password: STRING
+		l_salt: STRING
+		hashed_password: STRING
+		bcrypt: BCRYPT
+		i:INTEGER
+	do
+		create bcrypt.make
+		l_salt:=bcrypt.default_gensalt
+		l_password:=get_value_from_map("password",a_map)
+        hashed_password := bcrypt.hashed_password (l_password, l_salt)
+        i:=get_index_from_map("password", a_map)
+        a_map.values[i]:=hashed_password
+        a_map.keys.extend ("salt")
+        a_map.values.extend (l_salt)
+        Result:=a_map
+	end
 
 
 feature {NONE} -- helpers
