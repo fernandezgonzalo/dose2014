@@ -411,6 +411,29 @@ feature -- Data access
 
 	end
 
+	get_recent_changes (a_project_id:STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i:INTEGER
+	do
+			-- create a result object
+ 		create Result.make_array
+		create db_query_statement.make ("SELECT task.* FROM task,requirement WHERE requirement.project_id = ? AND requirement.id=task.requirement_id ORDER BY last_modified LIMIT 10;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
 	get_project_backlog(a_project_id: STRING): JSON_ARRAY
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
