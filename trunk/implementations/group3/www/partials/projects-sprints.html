@@ -16,7 +16,7 @@
                  </div>
                 <div class="col-md-2">
                     <h2>
-                        <a ng-href="http://localhost:9090/LetsGoTeam/index.html#/shareProject"> <!-- poner ruta cuando este! -->
+                        <a ng-href="http://localhost:63342/www/index.html#/shareProject"> <!-- poner ruta cuando este! -->
                             <button  class="btn btn-info pull-right"> Share</button>
                         </a>
                     </h2>
@@ -26,7 +26,7 @@
                 <div class="list-group-item colorHover" ng-repeat = "project in userProjects" ng-click="setProjectSelected(project); setSprints()">
                     <div class="row">
                         <div class="col-md-8">
-                            <h3><strong>{{project.name}}</strong></h3>
+                            <h3 ng-click="setProjectSelected(project); setSprints()"><strong>{{project.name}}</strong></h3>
                             <h4><strong> Owner:</strong> {{project.owner}}</h4>
                             <h4><strong>Status:</strong> {{project.status}} <strong>| Start Date:</strong> {{project.startDate | date}}</h4>
                         </div>

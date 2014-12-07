@@ -11,16 +11,20 @@ var currentProject={};
 var currentSprint={};
 var currentStory={};
 var users = [{id:1 ,firstName:'Juanito',LastName:'Perez',email:'jPe@gmail.com',password:'perez'},
-  {id:2 ,firstName:'Pablito',LastName:'Lopez',email:'pLo@gmail.com',password:'lopez'}];
-var usersProjects = [{idProject:1,idUser:1},{idProject:2,idUser:1},{idProject:3,idUser:2}];
+  {id:2 ,firstName:'Pablito',LastName:'Lopez',email:'pLo@gmail.com',password:'lopez'},
+  {id:3 ,firstName:'alan',LastName:'gonzalez',email:'alan@alan',password:'alan'}];
+var usersProjects = [{idProject:1,idUser:1},{idProject:2,idUser:1},{idProject:3,idUser:2}, {idProject:4,idUser:3}, {idProject:5,idUser:3}];
 var usersTasks = [{idTask:1,idUser:1},{idTask:1,idUser:1},{idTask:1,idUser:2}];
 var projects = [{id:1 , name:'Project1', owner:'Juanito', status:'open', startDate:21345667},
   {id:2 , name:'Project2', owner:'Juanito', status:'open', startDate:97345667},
-  {id:3 , name:'Project3', owner:'Pablito', status:'open', startDate:145667}];
-var projectsSprints =[{idProject:1,idSprint:1},{idProject:1,idSprint:2},{idProject:2,idSprint:3}];
+  {id:3 , name:'Project3', owner:'Pablito', status:'open', startDate:145667},
+  {id:4 , name:'Project4', owner:'alan', status:'open', startDate:145667},
+  {id:5 , name:'Project5', owner:'alan', status:'open', startDate:145667}];
+var projectsSprints =[{idProject:1,idSprint:1},{idProject:1,idSprint:2},{idProject:2,idSprint:3}, {idProject:4,idSprint:4}, {idProject:4,idSprint:1}, {idProject:5,idSprint:2}];
 var sprints = [{id:1 , idProject:1, name:'Sprint1', status:'open', startDate:12345667, completionDate:445123211},
   {id:2 , idProject:1, name:'Sprint2', status:'close', startDate:32265667, completionDate:884312311},
-  {id:3 , idProject:2,name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911} ];
+  {id:3 , idProject:2,name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911},
+  {id:4 , idProject:4,name:'Sprint4', status:'open', startDate:777945667, completionDate:88931911}];
 var stories = [{id:1 , idSprint:1, title:'Story1', description:'Hi', points:20, notes:'ok'},
   {id:2 , idSprint:1, title:'Story2', description:'Hi', points:15, notes:'ok'},
   {id:3 , idSprint:2, title:'Story3', description:'Hi', points:35, notes:'ok'} ];
@@ -99,6 +103,10 @@ app.config(['$routeProvider', '$locationProvider',
           templateUrl: 'partials/project.html',
           controller: 'projectController'
       })
+        .when('/shareProject', {
+          templateUrl: 'partials/shareProject.html',
+          controller: 'ShareProjectCtrl'
+        })
       .otherwise({
         redirectTo: '/home'
       });
