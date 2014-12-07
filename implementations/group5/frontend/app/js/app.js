@@ -76,8 +76,8 @@ app.config(['$routeProvider',
         controller: 'ProjectsController'
       })
       .when('/projects/:id/dashboard', {
-        templateUrl: 'partials/projects_dashboard.html',
-        controller: 'ProjectsController'
+        templateUrl: 'partials/project_dashboard.html',
+        controller: 'ProjectDashboardController'
       })
       .when('/tasks/:id', {
         templateUrl: 'partials/user_dashboard.html',
