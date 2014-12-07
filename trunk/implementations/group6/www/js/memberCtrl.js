@@ -47,10 +47,10 @@ angular.module('Wbpms')
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       
-      var init = function() {
+      var init = function(projectName) {
           
           var payload = {
-              project_name_id: idProject.id_project
+              project_name_id: projectName
           }
           
        $log.debug("Sending payload: " + JSON.stringify(payload));
@@ -71,13 +71,13 @@ angular.module('Wbpms')
       };
         
          //Function add a member in the project list
-        $scope.add_member_to_projects = function() {
+        $scope.add_member_to_projects = function(idProject,eMailUser) {
           /*  alert("member agree to project");
             window.location.href = '#/projects/members';  */
               
             var payload = {
-                project_name_id: $scope.idProject.id_project,
-                user_email_id: $scope.eMailUser.email
+                project_name_id: idProject,
+                user_email_id: eMailUser
             }
             
            $log.debug("Sending payload: " + JSON.stringify(payload));
@@ -90,6 +90,7 @@ angular.module('Wbpms')
               })
               .error(function(data, status) {
                 $log.debug(data.error);
+                 alert("The new member is not added");
 //                $log.debug('Error while trying to add new member to the project');
               });
             
@@ -117,14 +118,14 @@ angular.module('Wbpms')
         }*/
         
         //Function remove a member from the project
-        $scope.remove_member_from_project = function() {
+        $scope.remove_member_from_project = function(projectName,eMail) {
            /* 
             alert("member remove to project");
             window.location.href = '#/projects/members';*/
             
              var payload = {
-                project_name_id: $scope.idProject.id_project,
-                user_email_id: $scope.eMailUser.email
+                project_name_id: projectName,
+                user_email_id: eMail
             }
             
             $log.debug("Sending payload: " + JSON.stringify(payload));
@@ -146,13 +147,13 @@ angular.module('Wbpms')
         }
         
         //Function promote owner
-        $scope.promote_owner = function(){ 
+        $scope.promote_owner = function(projectName,eMail){ 
           /*  alert("member promote owner to project");
             window.location.href = '#/projects/members';*/
             
              var payload = {
-                project_name_id: id_project,
-                user_email_id: eMailMember
+                project_name_id: projectName,
+                user_email_id: eMail
             }
             $log.debug("Promote owner");
 
