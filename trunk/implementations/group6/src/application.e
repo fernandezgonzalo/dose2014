@@ -77,7 +77,6 @@ feature {NONE} -- Initialization
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
 
-
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create project_ctrl.make (dao, session_manager)
@@ -131,7 +130,7 @@ feature -- Basic operations
 
 				-- handling of all the routes relating to "iterations"
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.create_iteration, router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.get_all_project_iterations, router.methods_get)
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/getprojectiterations", agent iteration_ctrl.get_all_project_iterations, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.delete_iteration, router.methods_delete)
 
 

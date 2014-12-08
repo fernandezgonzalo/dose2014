@@ -570,10 +570,6 @@ feature --Data access: ITERATIONS
 		--creates a new iteration with the specified information into the database
 		--requires:
 		--a valid PROJECT name, which the iteration belongs to
-		--a valid iteration NAME
-		--a NUMBER, which should be increasing with respect to the project the iteration belongs to
-		--a boolean value BACKLOG telling if the iteration is the special backlog iteration of the project
-
 		require
 			valid_project_name: (a_project /= VOID)
 			existing_project: check_project_name(a_project)
@@ -648,7 +644,7 @@ feature --Data access: ITERATIONS
 	is_iteration_empty (project: STRING; number: INTEGER) : BOOLEAN
 		-- check if a project is empty: return true if it is empty
 		require
-			valid_iteration_number: number /= VOID
+			valid_iteration_number: number >= 0
 			valid_project_name: (project /= VOID)
 			existing_project: check_project_name(project)
 		local
