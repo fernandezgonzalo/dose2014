@@ -12,7 +12,7 @@ var currentSprint={};
 var currentStory={};
 var users = [{id:1 ,firstName:'Juanito',LastName:'Perez',email:'jPe@gmail.com',password:'perez'},
   {id:2 ,firstName:'Pablito',LastName:'Lopez',email:'pLo@gmail.com',password:'lopez'},
-  {id:3 ,firstName:'alan',LastName:'gonzalez',email:'alan@alan',password:'alan'}];
+  {id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'}];
 var usersProjects = [{idProject:1,idUser:1},{idProject:2,idUser:1},{idProject:3,idUser:2}, {idProject:4,idUser:3}, {idProject:5,idUser:3}];
 var usersTasks = [{idTask:1,idUser:1},{idTask:1,idUser:1},{idTask:1,idUser:2}];
 var projects = [{id:1 , name:'Project1', owner:'Juanito', status:'open', startDate:21345667},

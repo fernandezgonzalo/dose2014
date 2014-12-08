@@ -7,59 +7,49 @@
 <div class="container">
     <div class="row show-grid">
         <div class="col-md-6 col-md-offset-3">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#invite" data-toggle="tab">Invite</a></li>
-                <li><a href="#people_with_access" data-toggle="tab">People with access</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active">
+
+                    <h3>invite</h3>
                     <div class="form-group">
                         <label>Invite</label>
-                        <input type="text" class="form-control" placeholder="Mail from people who want to share the project.">
+                        <input ng-model="usersToShare" type="text" class="form-control" placeholder="Mail from people who want to share the project.">
                     </div>
                     <div class="form-group">
                         <label>Message</label>
                         <textarea class="form-control" placeholder="Add a message"></textarea>
                     </div>
-                    <button class="btn btn-success">Submit</button>
+                    <button ng-click="addUsers(usersToShare); getUsers()" class="btn btn-success">Submit</button>
                     <button class="btn btn-default">Clear</button>
                     <button class="btn btn-danger">Cancel</button>
                     <br />
                     <br />
-                </div>
-                <div class="tab-pane" id="tab_b">
-                    <h4>tab</h4>
-                    <p>other tab</p>
+
+            <div class="list-group-item" ng-repeat="sprint in projectSprints">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3><strong>{{sprint.name}}</strong></h3>
+                        <h4> <strong>Start Date:</strong> {{sprint.startDate | date}} </h4>
+                        <h4><strong> Completion Date:</strong>  {{sprint.completionDate | date}}</h4>
+                    </div>
+                    </div>
                 </div>
 
-            </div><!-- tab content -->
-        </div><!-- end of container -->
+                    <div class="list-group">
+                        <h3>people in project</h3>
+                        <div class="list-group-item colorHover" ng-repeat = "user in usersInProject">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h3><strong>{{user.firstName}}</strong></h3>
+                                    <h4>{{user.LastName}}</h4>
+                                    <h4>{{user.email}}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
     </div>
-</div>
-
-<div class="container">
-
-    <!-------->
-    <div id="content">
-        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-            <li class="active" ng-click= "changeView(1)"><a  data-toggle="tab">Red</a></li>
-            <li ng-click= "changeView(2)"><a data-toggle="tab">Orange</a></li>
-
-        </ul>
-        <div id="my-tab-content" class="tab-content">
-
-                <div ng-show = "isView(1)" class="tab-pane active" id="red">
-                    <h1>Red</h1>
-                    <p>red red red red red red</p>
-                </div>
-
-
-                <div ng-show = "isView(2)" class="tab-pane" id="orange">
-                    <h1>Orange</h1>
-                    <p>orange orange orange orange orange</p>
-                </div>
-        </div>
-
     </div>
 
-</div> <!-- container -->
+
+
+
+
