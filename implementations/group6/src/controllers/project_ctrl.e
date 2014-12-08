@@ -60,7 +60,7 @@ feature --Handlers
 				if req_has_cookie(req, "_session_") then
 					l_user_email := get_session_from_req(req, "_session_").at("email").out
 				end
-			l_user_email := "giorgio@hotmail.it"
+			--l_user_email := "giorgio@hotmail.it"
 			-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 			--now parse the json object that we got as part of the payload
