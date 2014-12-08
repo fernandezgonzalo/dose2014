@@ -17,8 +17,19 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
         };
 
         $scope.successMsgVisible = false;
-
-
+        $scope.usersInProject = [{id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'}];
+        $scope.getUsers = function (){
+            var i;
+            var j;
+            for(i = 0; i < usersProjects.length ; i++){
+                for(j = 0; i < users.length ; j++){
+                    if(usersProjects[i].idProject === users[j].id){
+                        $scope.usersInProject.push(users[j]);
+                    }
+                }
+            }
+            $scope.usersInProject.push({id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'});
+        }
 
         // the function to add the new users
         $scope.addProject = function (newProject) {
