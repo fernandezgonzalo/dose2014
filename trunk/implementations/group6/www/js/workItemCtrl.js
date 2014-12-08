@@ -49,8 +49,8 @@ angular.module('Wbpms')
       var init = function() {
 
         var payload = {
-          project_name = $scope.project.project_name,
-          iteration_number = $scope.iteration.id_iteration
+          project_name : $scope.project.project_name,
+          iteration_number : $scope.iteration.id_iteration
         }
 
       $log.debug("Sending payload: " + JSON.stringify(payload));
