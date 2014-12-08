@@ -47,6 +47,7 @@ feature --Handlers
 			l_payload, l_user_email, l_project_name: STRING
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
+			l_iteration: TUPLE[number: STRING; name: STRING]
 		do
 
 			--create string object to read-in the payload that comes with the request
@@ -96,7 +97,7 @@ feature --Handlers
 			else
 				my_db.add_project (l_project_name, l_user_email)
 				 --create the backlog iteration
-				my_db.add_iteration (l_project_name)
+				l_iteration := my_db.add_iteration (l_project_name)
 				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("New project '" + l_project_name + "' added successfully."), create {JSON_STRING}.make_json ("success"))
 				l_result_payload.put (create {JSON_STRING}.make_json (l_project_name), create {JSON_STRING}.make_json ("project_name"))
