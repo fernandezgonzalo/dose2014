@@ -556,7 +556,9 @@ feature --Data access: ITERATIONS
 			iteration_number: INTEGER
 			iteration_name: STRING
 		do
-			
+
+			create Result
+
 			iteration_number := get_all_project_iterations(a_project).count
 
 			if iteration_number /= 0 then
@@ -566,7 +568,6 @@ feature --Data access: ITERATIONS
 				is_backlog := TRUE
 				iteration_name := "BACKLOG ITERATION"
 			end
-
 
 			create db_insert_statement.make ("INSERT INTO iteration(number, project, name, backlog) VALUES (?,?,?,?);", db)
 			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<iteration_number, a_project, iteration_name, is_backlog>>)
