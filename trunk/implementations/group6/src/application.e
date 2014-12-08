@@ -68,10 +68,6 @@ feature {NONE} -- Initialization
 
 	link: LINK
 
-	n: INTEGER
-
-	data: TUPLE[number: STRING; name: STRING]
-
 
 	initialize
 			-- Initialize current service.
@@ -79,20 +75,6 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-
-
-			n := dao.get_all_project_iterations("R2D2").count
-
-			print("%NIterations: " + n.out + "%N")
-
-			--data := dao.add_iteration ("R2D2")
-
-			--dao.remove_iteration ("R2D2", n-1)
-
-		--	print("%Nnumber: " + data.number + ", name: " + data.name + "%N")
-
-
-
 
 
 			create session_manager.make
