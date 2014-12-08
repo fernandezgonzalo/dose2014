@@ -239,6 +239,12 @@ feature -- Data access : project
 		do
 			create db_modify_statement.make ("UPDATE project SET name='" + a_new_project_name + "' WHERE name='" + a_old_project_name + "';", db)
 			db_modify_statement.execute
+			create db_modify_statement.make ("UPDATE member SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
+			db_modify_statement.execute
+			create db_modify_statement.make ("UPDATE iteration SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
+			db_modify_statement.execute
+			create db_modify_statement.make ("UPDATE work_item SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
+			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while changing project name")
 			end
