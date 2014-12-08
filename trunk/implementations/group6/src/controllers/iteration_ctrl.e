@@ -57,6 +57,7 @@ feature --handlers
 
 				-- create the result json array
 			create l_result_payload.make_array
+			create j_obj.make
 
 				-- Check if the project name is valid
 			if (l_project = VOID) OR l_project.is_empty OR (l_project.count > 40) then
