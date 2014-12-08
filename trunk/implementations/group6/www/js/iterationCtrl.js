@@ -47,21 +47,21 @@ angular.module('Wbpms')
         //Get all iterations of a project
         var payload = {
           project_name : $scope.project.project_name
-          }
+        }
         $log.debug("Sending payload: " + JSON.stringify(payload));
         // send the payload to the server
-          $http.get('/api/projects/iterations', payload)
-             .success(function(data, status, header, config) {
-              alert(JSON.stringify(data));
-              $scope.iterations = data;
-              if(data.length > 0) {
-                $scope.iterationModel.idIteration = $scope.iterations[0];
-              }  
-            })   
-            .error(function(data, status) {
-              alert("ERROR");
-              $log.debug('Error while fetching iterations from server');
-            });  
+        $http.get('/api/projects/iterations', payload)
+           .success(function(data, status, header, config) {
+            alert(JSON.stringify(data));
+            $scope.iterations = data;
+            if(data.length > 0) {
+              $scope.iterationModel.idIteration = $scope.iterations[0];
+            }  
+          })   
+          .error(function(data, status) {
+            alert("ERROR"+ JSON.stringify(data));
+            $log.debug('Error while fetching iterations from server');
+          });  
 
       }
 
