@@ -152,20 +152,42 @@ feature -- Data access : project
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
 		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			l_query_result_cursor, l_item: SQLITE_STATEMENT_ITERATION_CURSOR
+			l_true: BOOLEAN
 		do
 			-- check in the table iteration if some of them are related to the given name project
 			create db_query_statement.make ("SELECT backlog FROM iteration WHERE project='" + a_project_name + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
+			l_item := l_query_result_cursor
+			l_true := true
+			from
+				l_item.start
+			until
+				l_item.after
+			loop
+				print(l_item.item.value (1))
+				print(l_true.out)
+				if l_item.item.boolean_value (1) = false then
+					l_true := false
+				end
+				l_item.forth
+			end
 
-			if l_query_result_cursor.after then
+			if l_true then
 				Result := true
 			else
-				--print(l_query
-				--if l_query_result_cursor.item.value (1) = true then
-				--end
-				Result := False
+				Result := false
 			end
+--			if l_query_result_cursor.after then
+--				Result := true
+--			else
+--				l_query_result_cursor.
+--				print("value: ")
+--				print(l_query_result_cursor.item.value (1))
+--				--if l_query_result_cursor.item.value (1) = true then
+--				--end
+--				Result := False
+--			end
 		end
 
 	has_member (a_project_name: STRING) : BOOLEAN
