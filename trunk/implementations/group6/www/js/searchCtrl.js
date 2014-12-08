@@ -21,42 +21,46 @@ angular.module('Wbpms')
     }
                 
     //search global other user. pre-condition: User is login  
-    $scope.globalOtherUserSearch = function(){
+    $scope.globalOtherUserSearch = function(searchs){
         alert('usa controlador')
-        $scope.globalSearchUser.push($scope.searchs)
-        /*var payload = {
-                keyword: key
+        //$scope.globalSearchUser.push($scope.searchs)
+        var payload = {
+                keyword: $scope.searchs
             }
-
+        $log.debug("Sending payload: " + JSON.stringify(payload));
         $http.post('/api/search/users', payload)
           .success(function(data, status, header, config) {
             // the server should return a json array which contains the uri redirection
             alert('find the user');
-            $scope.globalSearchUser.search.push(data)
+            alert(JSON.stringify(data));
+             //window.location.href = '#/home';
+            //$scope.globalSearchUser.search.push(data)
             //$scope.globalSearchUser = data;
           })
           .error(function(data, status) {
             $log.debug(data.error);
-          });*/
+          });
     }
     
     //search global work item. pre-condition: User is login 
-     $scope.globalWorkItemSearch = function(){
+    
+     $scope.globalWorkItemSearch = function(searchs){
          alert('usa controlador2')
-         $scope.globalSearchWorkItem.push($scope.searchs)
-        /* var payload = {
-                password : keyword
+         //$scope.globalSearchWorkItem.push($scope.searchs)
+         var payload = {
+                keyword: $scope.searchs 
             }
          
-
+        $log.debug("Sending payload: " + JSON.stringify(payload));
         $http.post('/api/search/workitem', payload)
           .success(function(data, status, header, config) {
             // the server should return a json array which contains the uri to redirection
             alert('find the workItem');
-            $scope.globalSearchWorkItem = data;
+            alert(JSON.stringify(data));
+            //$scope.globalSearchWorkItem = data;
           })
           .error(function(data, status) {
             $log.debug('Error workItem not found');
-          });*/
+          });
     }
 }]);
