@@ -17,9 +17,13 @@ create
 feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
+		require
+			valid_parameter: a_dao /= void and a_session_manager /= void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
+		ensure
+			my_db = a_dao and session_manager = a_session_manager
 		end
 
 feature {NONE} -- Private attributes
@@ -48,6 +52,7 @@ feature -- Handlers
 				set_json_header (res, 401, l_result.representation.count)
 				res.put_string (l_result.representation)
 			end
+
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -55,6 +60,7 @@ feature -- Handlers
 			l_result_payload: STRING
 			l_user_id: STRING
 		do
+			create l_user_id.make_empty
 			l_user_id := req.path_parameter ("id_user").string_representation
 			l_result_payload := my_db.search_all_project_by_user (l_user_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
