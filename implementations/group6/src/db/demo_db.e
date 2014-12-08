@@ -614,6 +614,20 @@ feature --Data access: ITERATIONS
 
 feature	--Data access: WORK ITEMS
 
+	all_user_done_work_items(user: STRING):JSON_ARRAY
+	-- Finds all 'Done' work_items which are owned and created from the given user 	
+		do
+			-- Create the result object, in this case an empty JSON_ARRAY	
+			create Result.make_array
+			create db_query_statement.make("SELECT id, number, nb_iteration, project, name, description, points FROM work_item WHERE owner=?  AND created_by=?;" , db)
+			db_query_statement.execute_with_arguments (agent rows_to_json_array(?, 7, Result), <<user,user>>)
+			if(db_query_statement.has_error) then
+				-- the iteration with the given number hasn't any work_item into the db				
+				print("Error while searching the 'Done' work_items.")
+			end
+
+		end
+
 	update_number(start_num: INTEGER)
 	-- Changes the numbers of the work_items which are associated with the same iteration and project and greater number
 		local
@@ -653,6 +667,7 @@ feature	--Data access: WORK ITEMS
 
 		end
 
+
 	--OK
 	iteration_work_items(iteration_number: INTEGER; project_name: STRING): JSON_ARRAY
 	-- Returns a JSON_ARRAY where each element is a JSON_OBJECT representing an work_item of the specified iteration
@@ -663,10 +678,24 @@ feature	--Data access: WORK ITEMS
 			db_query_statement.execute_with_arguments (agent rows_to_json_array(?, 10, Result), <<iteration_number>>)
 			if(db_query_statement.has_error) then
 				-- the iteration with the given number hasn't any work_item into the db				
-				print("Error: The iteration hasn't any work_item.")
+				print("Error while seaching work_items of the given iteration .")
 			end
 		end
 
+	check_work_item(iteration_number: INTEGER; project_name: STRING; work_item_name: STRING): BOOLEAN
+	-- Returns True if the given combination already exists, otherwise returns False
+		local
+				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_query_statement.make ("SELECT * FROM work_item WHERE nb_iteration=? AND project = '" + project_name +"' AND name = '" + work_item_name + "' ;", db)
+			l_query_result_cursor:=db_query_statement.execute_new_with_arguments(<<iteration_number>>)
+			if l_query_result_cursor.after then
+				Result := False
+			else
+				Result := True
+			end
+
+		end
 	--OK
 	work_item_info (work_item_id: INTEGER): JSON_OBJECT
 		-- Returns a JSON_OBJECT with all information about a specified work_item
@@ -747,7 +776,7 @@ feature	--Data access: WORK ITEMS
 		end
 
 	--OK
-	modify_work_item(work_item_id: INTEGER; work_item_iteration: INTEGER;work_item_project: STRING; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING): STRING
+	modify_work_item(work_item_id: INTEGER; work_item_iteration: INTEGER; work_item_name: STRING; work_item_point: INTEGER; work_item_state: STRING; work_item_owner: STRING; work_item_description:STRING; work_item_project: STRING): STRING
 		-- Modifies an existing work_item which the given informations	
 		local
 			a: STRING
@@ -882,8 +911,8 @@ feature --data access: LINKS
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_query_statement.make ("SELECT * FROM link WHERE work_item1 = ? AND work_item2 = ?;",db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<work_item_id1,work_item_id2>>)
+			create db_query_statement.make ("SELECT * FROM link WHERE work_item1 = ? AND work_item2 = ? OR work_item1 = ? AND work_item2 = ?;",db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<work_item_id1,work_item_id2,work_item_id2,work_item_id1>>)
 			if l_query_result_cursor.after then
 				Result := False
 			else
@@ -911,8 +940,8 @@ feature --data access: LINKS
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_modify_statement.make ("DELETE FROM link WHERE work_item1=? AND work_item2=?;", db)
-			l_query_result_cursor:=db_modify_statement.execute_new_with_arguments (<<work_item_id1,work_item_id2>>)
+			create db_modify_statement.make ("DELETE FROM link WHERE work_item1=? AND work_item2=? OR work_item1=? AND  work_item2=?;", db)
+			l_query_result_cursor:=db_modify_statement.execute_new_with_arguments (<<work_item_id1,work_item_id2,work_item_id2,work_item_id1>>)
 			if db_modify_statement.has_error then
 				print("Error while deleting an existing link%N")
 			else
@@ -922,16 +951,22 @@ feature --data access: LINKS
 
 	--OK
 	work_item_links(work_item_id: INTEGER): JSON_ARRAY
-		-- Returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a link with another work_item		
+		-- Returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a link with another work_item	
 		do
 			-- Create the result object, in this case an empty JSON_ARRAY			
 			create Result.make_array
-			create db_query_statement.make("SELECT * FROM link WHERE work_item1=? OR work_item2=?;" , db)
-			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 2, Result), <<work_item_id,work_item_id>>)
+			create db_query_statement.make("SELECT work_item2 as work_item_id FROM link WHERE work_item1=?;" , db)
+			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 1, Result), <<work_item_id>>)
+			create db_query_statement.make("SELECT work_item1 as work_item_id FROM link WHERE work_item2=?;" , db)
+			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 1, Result), <<work_item_id>>)
 			if(db_query_statement.has_error) then
 				-- The work_item with the given number hasn't any link into the db				
-				print("Error while getting of the link%N")
+			print("Error while getting of the link%N")
 			end
+
+
+
+
 
 		end
 
@@ -1027,8 +1062,8 @@ feature --data access: COMMENTS
 		do
 			-- Create the result array, in this case an empty JSON_ARRAY			
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM comment WHERE work_item=? ;", db)
-			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 4, Result), <<work_item_id>>)
+			create db_query_statement.make ("SELECT date, content, author FROM comment WHERE work_item=? ;", db)
+			db_query_statement.execute_with_arguments (agent rows_to_json_array (?, 3, Result), <<work_item_id>>)
 			if db_query_statement.has_error then
 				print("Error during the listing of the comments")
 			else
