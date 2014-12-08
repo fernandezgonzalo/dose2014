@@ -122,7 +122,8 @@ angular.module('Wbpms')
            /* 
             alert("member remove to project");
             window.location.href = '#/projects/members';*/
-            
+            alert(projectName);
+            alert(eMail);
              var payload = {
                 project_name_id: projectName,
                 user_email_id: eMail
