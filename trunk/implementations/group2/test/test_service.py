@@ -48,8 +48,8 @@ class test_service():
         task = Task(user.get_cookie(), req.get_id())
         task.add_task()
         project.get_current_sprint()
-        project.get_backlog()
         project.get_progress()
+        project.get_backlog()
         project.delete_project()
         
     def test_requirement(self):
@@ -96,10 +96,10 @@ class test_service():
 
 if __name__ == "__main__":
     service = test_service()
-    #service.test_user()
+    service.test_user()
     #service.test_project()
     #service.test_requirement()
-    service.test_task()
+    #service.test_task()
     #service.test_sprint()
 
         

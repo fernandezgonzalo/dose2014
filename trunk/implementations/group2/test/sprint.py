@@ -18,8 +18,8 @@ class Sprint:
         url = 'http://localhost:9090/coffee/projects/%s/sprints' % self.project_id
         raw_data = {}
         raw_data["number"] = "1"
-        raw_data["start_date"] = "01/12/2014"
-        raw_data["end_date"] = "15/12/2014"
+        raw_data["start_date"] = "12/01/2014"
+        raw_data["end_date"] = "12/15/2014"
         data = json.dumps(raw_data)
         req = requests.post(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
@@ -30,11 +30,11 @@ class Sprint:
             print "test_add_sprint: " + j_response["Message"]   
             
     def update_sprint(self):
-        url = 'http://localhost:9090/coffee/projects/%s/sprints/%s' % (self.project_id,self.sprint_id)
+        url = 'http://localhost:9090/coffee/sprints/%s' % (self.sprint_id)
         raw_data = {}
         raw_data["number"] = "2"
-        raw_data["start_date"] = "01.12.2014"
-        raw_data["end_date"] = "15.12.2014"
+        raw_data["start_date"] = "12/01/2014"
+        raw_data["end_date"] = "12/15/2014"
         data = json.dumps(raw_data)
         req = requests.put(url, data=data, headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
