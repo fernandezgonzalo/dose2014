@@ -83,15 +83,15 @@ angular.module('Wbpms')
            $log.debug("Sending payload: " + JSON.stringify(payload));
             $http.post('/api/projects/members/add', payload)
               .success(function(data, status, header, config) {
-                $log.debug('Success: New member <eMailMember> added successfully to <id_project>'),
-                    alert("The new member is added");
-                    $scope.members.push({name: $scope.adder.name, eMailMember: $scope.adder.email, point: $scope.adder.point, owner: $scope.adder.owner});
-                    //$scope.members.push(data);
+                $log.debug('Success: New member <user_email_id> added successfully to <project_name_id>'),
+                alert("The new member is added");
+                $scope.members.push(data);
+//                    $scope.members.push({name: $scope.adder.name, eMailMember: $scope.adder.email, point: $scope.adder.point, owner: $scope.adder.owner});    
               })
               .error(function(data, status) {
-                $log.debug(data.error);
+                //$log.debug(data.error);
                  alert("The new member is not added");
-//                $log.debug('Error while trying to add new member to the project');
+                $log.debug('Error while trying to add new member to the project');
               });
             
         }
