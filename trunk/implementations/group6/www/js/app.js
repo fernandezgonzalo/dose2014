@@ -55,12 +55,13 @@ app.factory('UserData', function(){
       surname : '',
       gender : '',
       role : '',
-      changepwd : false
+      changepwd : false,
+      avatar: ''
     }
 });
 
 app.factory('ProjectData', function(){
     return {
-      id_project: ''
+      project_name: ''
     }
 });
