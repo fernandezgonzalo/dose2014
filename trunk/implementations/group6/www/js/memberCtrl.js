@@ -47,17 +47,17 @@ angular.module('Wbpms')
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       
-      var init = function() {
+        $scope.init = function() {
           
           var payload = {
               project_name_id: project.project_name
           }
-          
+         alert(JSON.stringify(payload));
        $log.debug("Sending payload: " + JSON.stringify(payload));
           $http.get('/api/projects/members', payload)
 
           .success(function(data, status, header, config) {
-            
+            alert(JSON.stringify(data));
             // the server should return a json array which contains all the todos
             $scope.members = data;
               if(data.length > 0) {
@@ -66,6 +66,7 @@ angular.module('Wbpms')
                
           })
           .error(function(data, status) {
+            alert(JSON.stringify(data));
             $log.debug(data.error);
           });   
       };
@@ -86,7 +87,9 @@ angular.module('Wbpms')
               .success(function(data, status, header, config) {
                 $log.debug('Success: New member <user_email_id> added successfully to <project_name_id>'),
                 alert("The new member is added");
-                $scope.members.push(data);
+                if (data != null){ 
+                    $scope.members.push(data);
+                }
 //                    $scope.members.push({name: $scope.adder.name, eMailMember: $scope.adder.email, point: $scope.adder.point, owner: $scope.adder.owner});    
               })
               .error(function(data, status) {
