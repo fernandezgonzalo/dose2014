@@ -412,7 +412,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			l_user_email := "giorgio@hotmail.it"
+			--l_user_email := "giorgio@hotmail.it"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -449,7 +449,7 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("New member '" + l_new_member + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (create {JSON_STRING}.make_json (l_project_name), create {JSON_STRING}.make_json ("name"))
 				j_obj.put (create {JSON_STRING}.make_json (l_new_member), create {JSON_STRING}.make_json ("email"))
-				--j_obj.put (create {JSON_STRING}.make_json (my_db.get_project_points (l_project_name).out), create {JSON_STRING}.make_json ("points"))
+				j_obj.put (create {JSON_STRING}.make_json (my_db.get_project_points (l_project_name).out), create {JSON_STRING}.make_json ("points"))
 				j_obj.put (create {JSON_STRING}.make_json ("false"), create {JSON_STRING}.make_json ("owner"))
 				l_result_payload.extend (j_obj)
 				--l_result_payload.extend (my_db.get_points (l_project_name))

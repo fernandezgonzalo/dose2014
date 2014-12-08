@@ -143,9 +143,9 @@ feature -- Data access : project
 			create db_query_statement.make ("SELECT * from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
 			if l_query_result_cursor.after then
-				Result := True
+				Result := false
 			else
-				Result := False
+				Result := true
 			end
 		end
 
@@ -156,7 +156,12 @@ feature -- Data access : project
 		do
 			create db_query_statement.make ("SELECT sum(IFNULL(work_item.points, 0)) FROM work_item WHERE work_item.project='" + a_project_name + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
-			Result := l_query_result_cursor.item.integer_value (1)
+			if l_query_result_cursor.after then
+				Result := l_query_result_cursor.item.integer_value (1)
+			else
+				Result := 0
+			end
+
 		end
 
 
