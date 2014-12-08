@@ -180,9 +180,17 @@ feature -- Handlers
 			l_payload, l_email: STRING
 			parser: JSON_PARSER
 
+			--Modifica Anna
+			env: EXECUTION_ENVIRONMENT
+			new_pass: STRING
+			string: STRING
+    		file_input: PLAIN_TEXT_FILE
+    		-----------------
+
 		do
 			-- create emtpy string object
 			create l_payload.make_empty
+			create l_result.make
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -217,6 +225,34 @@ feature -- Handlers
 			else
 
 				-- send an email with a random password which need then to be changed
+
+				--Modifica Anna
+				create env
+				create new_pass.make_empty
+				-- Autogenerates a password
+				env.launch("python /Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/temp_pass.py")
+				-- Reads generated password from file
+				create file_input.make_open_read("/Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/generation_pass.txt")
+				from file_input.start ; file_input.read_character ;
+				until file_input.off
+				loop
+     			 	new_pass.append_character (file_input.last_character)
+     			  	file_input.read_character
+    			end
+    			file_input.close
+    			-- Removes the generated password into file
+    			env.launch ("python /Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/delete_file_content.py")
+				-- Make a strint to call python script
+				string:="python /Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/send_email_pass.py "
+				string.append_string(l_email)
+				string.append(" ")
+				string.append_string(new_pass)
+				env.launch(string)
+				-- Update the password into user field
+				my_db.change_user_password (l_email, new_pass)
+
+
+ 				----------
 
 					--set CHANGEPWD at true into the database
 				my_db.set_changepwd (l_email, true)
