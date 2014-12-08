@@ -5,7 +5,6 @@ angular.module('Wbpms')
     function ($scope, $http, $log, ProjectData) {
 
        $scope.project = ProjectData;
-
        $scope.iterations = [];
 
       /* $scope.iterations  = [
@@ -38,10 +37,6 @@ angular.module('Wbpms')
            point: ''            
       }
 
-      $scope.newIteration = {
-            new_Iteration_name : ''
-        }        
-
       $scope.delIteration = {
             iteration_name : ''
         } 
@@ -51,20 +46,21 @@ angular.module('Wbpms')
       $scope.init = function() { 
         //Get all iterations of a project
         var payload = {
-          project_name : $scope.project.project_name
+          project_name : project.project_name
           }
-
+        alert(JSON.stringify(data));
         $log.debug("Sending payload: " + JSON.stringify(payload));
-
-        //alert(JSON.stringify(data)); 
-          // send the payload to the server
+        // send the payload to the server
           $http.get('/api/projects/iterations/', payload)
              .success(function(data, status, header, config) {
-              $log.debug('Success fetching iterations from server');
-              $scope.iterations = data[0].iterations;
-              alert(JSON.stringify(data));  
-                })   
+              alert(JSON.stringify(data));
+              $scope.iterations = data;
+              if(data.length > 0) {
+                $scope.iterationModel.idIteration = $scope.iterations[0];
+              }  
+            })   
             .error(function(data, status) {
+              alert(JSON.stringify(data));
               $log.debug('Error while fetching iterations from server');
             });  
 
