@@ -95,11 +95,16 @@ angular.module('Wbpms')
           $http.post('/api/projects/update', payload)
             .success(function(data, status, header, config) {
               $log.debug('Success rename project');
-              alert("The Project was renamed");              
+              alert("The Project was renamed");   
+              for(var i =0; i < $scope.projects.length; i++) {
+                if($scope.projects[i].project_name === oldnameProject) {
+                  $scope.projects[i].project_name = newnameProject;
+                  break;
+                }
+              }           
             })
             .error(function(data, status) {
               $log.debug('Error while trying to rename new project');
-              alert("Error renaming project");               
             });             
     
         }        
@@ -117,12 +122,18 @@ angular.module('Wbpms')
           // send the payload to the server
           $http.delete('/api/projects', payload)
             .success(function(data, status, header, config) {
-              $log.debug('Success remove project');
+              $log.debug('Success remove project');         
               alert("The Project was deleted");                
+              for(var i =0; i < $scope.projects.length; i++) {
+                if($scope.projects[i].project_name === delnameProject) {
+                  $scope.projects.splice(i, 1);
+                  break;
+                }
+              }              
             })
             .error(function(data, status) {
               $log.debug('Error while trying to remove new project');
-              alert("Error deleting project");                
+              alert("Error deleting project"); 
             });		         
 		
         }	
