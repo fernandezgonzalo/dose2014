@@ -40,7 +40,7 @@ angular.module('Wbpms')
         // declaration !AND! call (see parenthesis at end of function)
         // of a function that fetches the todos from the server
         $scope.init = function() {
-            if(scope.loginModel.email != '')
+            if($scope.loginModel.email != '')
                 window.location.href = '#/home';
         };
 
