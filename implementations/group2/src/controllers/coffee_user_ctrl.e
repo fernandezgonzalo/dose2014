@@ -84,7 +84,7 @@ feature -- Handlers
 		create l_result.make
 		l_map := parse_request (req)
 		if validate_input(l_map) then
-			l_map:=hash_and_salt(l_map)
+			--l_map:=hash_and_salt(l_map)
 			l_add_result:= my_db.add (table_name,l_map)
 			if l_add_result.success then
 				l_result := my_db.get_from_id (table_name, l_add_result.id)

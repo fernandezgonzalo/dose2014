@@ -104,6 +104,7 @@ class Project:
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
+        print(j_response)
         if j_response["id"] == self.sprint_id:
             print "test_get_current_sprint: OK"
         else:
@@ -134,6 +135,7 @@ class Project:
         req = requests.get(url,headers={'Content-Type': 'application/json'}, cookies = self.cookie)
         response = req.text
         j_response = json.loads(response)
+        print(j_response)
         if len(j_response) == 1:
             print "test_get_backlog: OK"
         else:
