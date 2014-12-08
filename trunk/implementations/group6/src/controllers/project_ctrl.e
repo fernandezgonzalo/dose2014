@@ -412,7 +412,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "giorgio@hotmail.it"
+			l_user_email := "giorgio@hotmail.it"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -444,7 +444,7 @@ feature --Handlers
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				--my_db.add_member_to_project (l_project_name, l_new_member, False)
+				my_db.add_member_to_project (l_project_name, l_new_member, False)
 				-- Message tutto bene
 				j_obj.put (create {JSON_STRING}.make_json ("New member '" + l_new_member + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (create {JSON_STRING}.make_json (l_project_name), create {JSON_STRING}.make_json ("name"))
