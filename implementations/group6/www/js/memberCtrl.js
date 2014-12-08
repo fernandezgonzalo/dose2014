@@ -32,7 +32,7 @@ angular.module('Wbpms')
         ];
 */
         
-        $scope.idProject = ProjectData;
+        $scope.project = ProjectData;
         $scope.eMailUser = UserData;
         $scope.members = [];
         
@@ -47,10 +47,10 @@ angular.module('Wbpms')
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       
-      var init = function(projectName) {
+      var init = function() {
           
           var payload = {
-              project_name_id: projectName
+              project_name_id: project.project_name
           }
           
        $log.debug("Sending payload: " + JSON.stringify(payload));
@@ -74,7 +74,8 @@ angular.module('Wbpms')
         $scope.add_member_to_projects = function(idProject,eMailUser) {
           /*  alert("member agree to project");
             window.location.href = '#/projects/members';  */
-              
+            alert($scope.idProject);
+            alert($scope.eMailUser);   
             var payload = {
                 project_name_id: idProject,
                 user_email_id: eMailUser
@@ -122,8 +123,7 @@ angular.module('Wbpms')
            /* 
             alert("member remove to project");
             window.location.href = '#/projects/members';*/
-            alert(projectName);
-            alert(eMail);
+           
              var payload = {
                 project_name_id: projectName,
                 user_email_id: eMail

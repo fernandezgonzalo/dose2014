@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
               <div class="col-md-10 col-md-offset-1">
-                <h2>Members - Project: {{idProject.id_project}}</h2>
+                <h2>Members - Project: {{project.project_name}}</h2>
               </div>
             </div>
 
@@ -78,7 +78,7 @@
                     </div>
                     <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">X</button>
-                            <button type="submit" class="btn btn-primary" ng-click="add_member_to_projects(projectName,eMail)" data-dismiss="modal">Send invite</button>
+                            <button type="submit" class="btn btn-primary" ng-click="add_member_to_projects(project.project_name,adderEmail)" data-dismiss="modal">Send invite</button>
                     </div>
                 </div>
             </form>
