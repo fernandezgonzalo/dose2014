@@ -87,11 +87,13 @@ feature {NONE} -- Initialization
 			create work_item_ctrl.make (dao, session_manager)
 			create search_ctrl.make(dao, session_manager)
 
+
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
 
 				-- initialize the router
 			initialize_router
+
 		end
 
 feature -- Basic operations
