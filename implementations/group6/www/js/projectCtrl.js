@@ -148,14 +148,14 @@ angular.module('Wbpms')
     
         }         
 
-        $scope.goToWorkItems = function(project_name) {
+/*        $scope.goToWorkItems = function(project_name) {
         // Go to Work Items 
     
           $scope.proyecto.project_name = project_name; 
 
           window.location.href = '#/projects/iterations/work_items';          
     
-        }  
+        }  */
 
         $scope.goToMembers = function(project_name) {
         // Go to Members 
