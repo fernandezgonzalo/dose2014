@@ -69,6 +69,7 @@ feature {NONE} -- Initialization
 	link: LINK
 
 
+
 	initialize
 			-- Initialize current service.
 		do
@@ -88,6 +89,7 @@ feature {NONE} -- Initialization
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
+
 
 				-- initialize the router
 			initialize_router
