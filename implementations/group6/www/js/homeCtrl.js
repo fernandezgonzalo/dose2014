@@ -26,7 +26,7 @@ angular.module('Wbpms')
         $scope.init = function() {
         // Get all projects of a User
           
-/*          var payload = {
+          var payload = {
               user_email_id : $scope.usuario.email
           }
 
@@ -37,6 +37,8 @@ angular.module('Wbpms')
             .success(function(data, status, header, config) {
               $log.debug('Success fetching projects from server');
               $scope.projects = data[0].projects;
+
+/*              
 
               for(var i =0; i < $scope.projects.length; i++) {
 
@@ -96,12 +98,12 @@ angular.module('Wbpms')
                     $log.debug('Error while fetching projects from server');
                 });   
 
-              } 
+              } */
 
             })
             .error(function(data, status) {
               $log.debug('Error while fetching projects from server');
-            }); */
+            }); 
         
         }    
 
