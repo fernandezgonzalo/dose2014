@@ -129,7 +129,7 @@ feature --Handlers
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 				--we have to convert the json string into an eiffel string
-			if attached {JSON_STRING} j_object.item ("project_name_id") as s then
+			if attached {JSON_STRING} j_object.item ("project_name") as s then
 									l_project_name := s.unescaped_string_8
 				end
 			end
@@ -140,7 +140,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-
+			--l_user_email := "giorgio@hotmail.it"
 			-- Check if the name already exists in the db
 			if  l_project_name = Void or l_project_name.is_empty then
 				--Error name project empty
@@ -171,7 +171,7 @@ feature --Handlers
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				--my_db.remove_project (l_project_name)
+				my_db.remove_project (l_project_name)
 				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project '" + l_project_name + "' removed successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)

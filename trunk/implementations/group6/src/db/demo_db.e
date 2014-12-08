@@ -123,13 +123,18 @@ feature -- Data access : project
 			l_query_result_cursor := db_query_statement.execute_new
 			--l_query_result_cursor.start
 			--if l_query_result_cursor.after then
-				l_query_result_cursor.start
+			if l_query_result_cursor.after = false then
+				--l_query_result_cursor.start
 				if l_query_result_cursor.item.boolean_value (1) then
 					Result := True
 				else
 					print(l_query_result_cursor.item.string_value (1))
 					Result := False
 				end
+			else
+				Result := false
+			end
+
 			--else
 				--Result := False
 			--end
