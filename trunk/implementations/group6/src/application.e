@@ -93,7 +93,6 @@ feature {NONE} -- Initialization
 
 				-- initialize the router
 			initialize_router
-
 		end
 
 feature -- Basic operations

@@ -143,9 +143,9 @@ feature -- Data access : project
 			create db_query_statement.make ("SELECT * from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
 			if l_query_result_cursor.after then
-				Result := True
-			else
 				Result := False
+			else
+				Result := true
 			end
 		end
 
