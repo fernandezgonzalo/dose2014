@@ -149,6 +149,18 @@ feature -- Data access : project
 			end
 		end
 
+	get_project_points (a_project_name: STRING) : INTEGER
+		-- obtain the sum of points of a given project
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create db_query_statement.make ("SELECT sum(IFNULL(work_item.points, 0)) FROM work_item WHERE work_item.project='" + a_project_name + "';", db)
+			l_query_result_cursor := db_query_statement.execute_new
+			Result := l_query_result_cursor.item.integer_value (1)
+		end
+
+
+
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
 		local
