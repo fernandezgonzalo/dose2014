@@ -68,13 +68,27 @@ angular.module('Wbpms')
             $log.debug('Error while fetching iterations from server');
           });
 
-      };
+      }
         
     
      $scope.getWorkItemInfo = function(idWorkItem) {
        //the server should return a json with work_item info
+       var payload = {
+          work_item_id : idWorkItem
+        }
 
-     }
+      $log.debug("Sending payload: " + JSON.stringify(payload));
+        // send the payload to the server
+        $http.get('/api/projects/iterations/getwork_items', payload)
+           .success(function(data, status, header, config) {
+            alert(JSON.stringify(data));
+            $scope.idWorkItem = data;
+          })   
+          .error(function(data, status) {
+            alert("ERROR"+ JSON.stringify(data));
+            $log.debug('Error while try fetch work item info from server');
+          });
+      }
 
      $scope.createWorkItem = function(idIteration, nameProject, titleWorkItem, descriptionIter, pointsIter, createdByIter, statusIter, ownerByIter, comentsIter, linksIter) {
        // function add new work_item inside an iteration
@@ -110,7 +124,22 @@ angular.module('Wbpms')
 
      $scope.deleteWorkItem = function(idWorkItem) {
       // function delete a work_item to a project
-     }
+      var payload = {
+              work_item_id : idWorkItem
+          }
+
+      $log.debug("Sending payload: " + JSON.stringify(payload));
+
+          // send the payload to the server
+          $http.delete('api/projects/iterations/workitems', payload)
+            .success(function(data, status, header, config) {
+              $log.debug('Success remove work item');
+              alert("The work item was deleted");                
+            })
+            .error(function(data, status) {
+              $log.debug('Error while trying to remove a work item');
+            }); 
+        }    
 
      $scope.updateWorkItem = function(idWorkItem, idIteration, idProject, name, description, points, createdBy, owner) {
      // function update a work_item
@@ -119,7 +148,6 @@ angular.module('Wbpms')
      $scope.getAllIterationWorkItems = function(idProject, idIteration) {
      // the server should return a json array which contains all
      // work_items of an iteration
-
 
 
      }
