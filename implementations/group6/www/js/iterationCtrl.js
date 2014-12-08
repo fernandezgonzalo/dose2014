@@ -50,7 +50,7 @@ angular.module('Wbpms')
         }
         $log.debug("Sending payload: " + JSON.stringify(payload));
         // send the payload to the server
-        $http.get('/api/projects/iterations', payload)
+        $http.post('/api/projects/iterations/getprojectiterations', payload)
            .success(function(data, status, header, config) {
             alert(JSON.stringify(data));
             $scope.iterations = data;
