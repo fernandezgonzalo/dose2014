@@ -155,12 +155,15 @@ feature -- Data access : project
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			-- check in the table iteration if some of them are related to the given name project
-			create db_query_statement.make ("SELECT number, name FROM iteration WHERE project='" + a_project_name + "';", db)
+			create db_query_statement.make ("SELECT backlog FROM iteration WHERE project='" + a_project_name + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
 
 			if l_query_result_cursor.after then
 				Result := true
 			else
+				--print(l_query
+				--if l_query_result_cursor.item.value (1) = true then
+				--end
 				Result := False
 			end
 		end
