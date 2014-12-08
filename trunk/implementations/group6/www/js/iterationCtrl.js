@@ -46,12 +46,11 @@ angular.module('Wbpms')
       $scope.init = function() { 
         //Get all iterations of a project
         var payload = {
-          project_name : project.project_name
+          project_name : $scope.project.project_name
           }
-        alert(JSON.stringify(data));
         $log.debug("Sending payload: " + JSON.stringify(payload));
         // send the payload to the server
-          $http.get('/api/projects/iterations/', payload)
+          $http.get('/api/projects/iterations', payload)
              .success(function(data, status, header, config) {
               alert(JSON.stringify(data));
               $scope.iterations = data;
@@ -60,13 +59,13 @@ angular.module('Wbpms')
               }  
             })   
             .error(function(data, status) {
-              alert(JSON.stringify(data));
+              alert("ERROR");
               $log.debug('Error while fetching iterations from server');
             });  
 
       }
 
-      
+     /* 
       $scope.getAllProjectIterations = function() {
       	 //shows all iterations of a project
       	  var payload = {
@@ -77,7 +76,7 @@ angular.module('Wbpms')
 
         //alert(JSON.stringify(data)); 
           // send the payload to the server
-          $http.get('/api/projects/iterations/', payload)
+          $http.get('/api/projects/iterations', payload)
              .success(function(data, status, header, config) {
               $log.debug('Success fetching iterations from server');
               $scope.iterations = data[0].iterations;
@@ -86,7 +85,7 @@ angular.module('Wbpms')
             .error(function(data, status) {
               $log.debug('Error while fetching iterations from server');
             });  
-      } 
+      }  */
 
       $scope.create_iteration = function(nameProject) {  	
         //function add a iteration to the project
