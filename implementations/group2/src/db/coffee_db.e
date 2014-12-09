@@ -263,6 +263,30 @@ feature -- Data access
 		end
 	end
 
+	get_user (a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]) : JSON_OBJECT
+	local
+		l_id: STRING
+		l_counter: INTEGER
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+		create Result.make
+		l_counter:=1
+		across a_map.keys as k  loop
+			if equal(k.item, "id")  then
+				l_id:= a_map.values.at(l_counter)
+			end
+			l_counter:= l_counter+1
+		end
+		create db_query_statement.make ("SELECT id,email,first_name,last_name FROM user WHERE id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<l_id>>)
+		if l_query_result_cursor.after then
+			print("Error while quering table user")
+			RESULT:= VOID
+		else
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+		end
+	end
+
 	get_from_id (a_table_name: STRING a_id: STRING) : JSON_OBJECT
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
