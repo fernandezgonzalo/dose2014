@@ -82,6 +82,7 @@ angular.module('DOSEMS.controllers')
 		}
 		
 		
+		
         $scope.getUrl = function () {
             $scope.bla = "bla";
             $scope.absUrl = $location.absUrl();

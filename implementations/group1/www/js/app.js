@@ -47,6 +47,10 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
             })
+			 .when('/user/:userId/project/:projectId/:taskId', { // Show task view
+                templateUrl: 'partials/task.html',
+                controller: 'TaskCtrl'
+            })
             .when('/user/:userId/project/:projectId/:lookupUserId', {
                 templateUrl: 'partials/user-detail.html',
                 controller: 'UserDetailsCtrl'
