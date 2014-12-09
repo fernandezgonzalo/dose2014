@@ -1,6 +1,7 @@
 <div data-ng-controller="DashboardController" data-ng-init="init()">
     <h1>Dashboard <small>Current Sprint</small></h1>
     <p>Currently displays all reqs(waiting for a method to display just the reqs of current sprint.)</p>
+    <p data-ng-show="err" class="bg-danger">{{err}}</p>
     <div class="row" data-ng-repeat="req in dashboard">
         <div class="panel panel-default">
             <div class="panel-heading">
