@@ -70,3 +70,5 @@ if __name__ == '__main__':
 	print do_login(s, "asd@asd.com", "asd")
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
+
+	
