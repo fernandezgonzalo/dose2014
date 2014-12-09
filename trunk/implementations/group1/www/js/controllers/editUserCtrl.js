@@ -61,12 +61,6 @@ angular.module('DOSEMS.controllers')
                     $window.location.href = '/#/login';
 
                 });
-                Users.restUser();
-                $cookieStore.put('loggedIn', false);
-                $cookieStore.put('userId', -1);
-                $rootScope.$broadcast('loggedOut');
-                $window.location.href = '/#/login';
-
             }
         };
 
