@@ -19,7 +19,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
       localStorage.removeItem(authService.KEY);
     }
   };
-  if (!localStorage) {
+  if (typeof localStorage === 'undefined') {
     storage.putItem = function(value) {
       amplify.store(authService.KEY, value);
     };
