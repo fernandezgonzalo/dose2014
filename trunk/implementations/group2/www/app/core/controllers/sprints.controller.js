@@ -21,8 +21,18 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$stateP
             });
         };
 
+
+        function formatDate(date) {
+            var d = new Date(date);
+            return d.format("mm/dd/yyyy");
+        }
+
         $scope.create = function() {
             var project_id = $stateParams.projectId;
+
+            $scope.sprint.start_date = formatDate($scope.sprint.start_date);
+            $scope.sprint.end_date = formatDate($scope.sprint.end_date);
+
             Projects.one(project_id).all('sprints').post($scope.sprint).then(function(project) {
                 $location.path('/projects/'+ project_id);
             }, function error(err) {
