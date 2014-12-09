@@ -162,6 +162,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			values_str: STRING
 			id: INTEGER_64
 		do
+			pre_insert_action(req, res, input)
 			fields := get_fields_from_json(input)
 			fields_str := get_comma_separated_string_without_quotes_from_array (fields)
 			values_str := get_comma_separated_question_marks(fields.count)
@@ -184,11 +185,11 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			-- Updating the id is not allowed, so ignore this field if present in input
 			create id_key.make_json ("id")
 			if input.has_key(id_key) then
-				input.remove (id_key)
+				input.remove(id_key)
 			end
 
 			resource_id := req.path_parameter(uri_id_name).string_representation
-			input.remove (id_key)
+			pre_update_action(req, res, resource_id, input)
 			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_from_json(input)) + " WHERE id = " + resource_id, get_values_from_json(input))
 			if success then
 				post_update_action(req, res, resource_id, input)
@@ -218,7 +219,15 @@ feature {NONE} -- Internal helpers
 		do
 		end
 
+	pre_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+		do
+		end
+
 	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
+		do
+		end
+
+	pre_update_action(req: WSF_REQUEST; res: WSF_RESPONSE; resource_id: STRING; input: JSON_OBJECT)
 		do
 		end
 
