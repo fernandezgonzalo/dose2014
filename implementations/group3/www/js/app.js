@@ -5,7 +5,7 @@ var app = angular.module('LetsGoTeam', [
 ]);
 
 var projects = [{id:1 ,name:'P1' }];
-var id_user = 3,id_project = 4,id_sprint = 4,id_story = 4,id_task= 2;
+var id_user = 4,id_project = 6,id_sprint = 5,id_story = 4,id_task= 2;
 var currentUser={};
 var currentProject={};
 var currentSprint={};

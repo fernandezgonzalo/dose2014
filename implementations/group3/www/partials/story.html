@@ -22,9 +22,9 @@
 			<label>Description:</label>
 			<textarea class="form-control" ng-model="story.description"  placeholder="description"></textarea> <br>
 		  </div>
-		  <button ng-click="submit(sprint.name, sprint.begin, sprint.end, sprint.status)" class="btn btn-default">
-		  	Submit
-		  </button>
+			<button ng-click="addStory(story)" ng-href="http://localhost:63342/www/index.html#/storyTask" class="btn btn-default">
+				Submit
+			</button>
 		  <button ng-click="cancel()" class="btn btn-default">
 		  	Cancel
 		  </button>

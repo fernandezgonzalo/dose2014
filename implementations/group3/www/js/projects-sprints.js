@@ -13,7 +13,6 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         $scope.userProjects = [];
         $scope.projectSprints = [];
 
-        $scope.currentProject = {};
         // $scope.projectSelected = -1;
         $scope.control = false;
 
@@ -42,7 +41,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
             var i;
             for (i = 0; i < projectsSprints.length; i++) {
 
-                if(projectsSprints[i].idProject === $scope.currentProject.id ){
+                if(projectsSprints[i].idProject === currentProject.id ){
 
                     $scope.projectSprints.push(sprints[projectsSprints[i].idSprint -1]);
                 }
@@ -64,7 +63,6 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
             $scope.setProjectSelected = function(p){
                 //$scope.projectSelected = p.id;
 
-                $scope.currentProject = p;
                 currentProject = p;
             }
 
