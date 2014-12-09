@@ -340,8 +340,8 @@ feature -- Data access
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 	do
  		create Result
-		create db_query_statement.make ("SELECT * FROM sprint WHERE project_id=? AND ((start_date>? AND start_date>?) OR (end_date<? AND end_date<?));", db)
-		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id, a_start_date.out, a_end_date.out>>)
+		create db_query_statement.make ("SELECT * FROM sprint WHERE project_id=? AND ((start_date>? AND end_date<?) OR (start_date<? AND end_date>?) OR (start_date<? AND end_date>?));", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id, a_start_date.out, a_end_date.out, a_start_date.out, a_start_date.out, a_end_date.out, a_end_date.out>>)
 		if l_query_result_cursor.after then
 			Result := False
 		else
