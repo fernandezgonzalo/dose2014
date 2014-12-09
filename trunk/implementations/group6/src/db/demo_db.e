@@ -315,6 +315,16 @@ feature -- Data access : project
 			end
 		end
 
+	downgrade_owner (a_project_name, a_user_email: STRING)
+		-- promote a member owner to a project
+		do
+			create db_modify_statement.make ("UPDATE member SET owner='0' WHERE user='" + a_user_email + "' AND project='" + a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while promoting member")
+			end
+		end
+
 	get_points (a_project_name: STRING): JSON_OBJECT
 		-- get the total numbers of points of a project
 		do

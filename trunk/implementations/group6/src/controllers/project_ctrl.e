@@ -463,13 +463,33 @@ feature --Handlers
 	remove_member_from_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 	-- Remove a member from a project
 		local
-			l_user_email, l_project_name, l_member: STRING
+			l_user_email, l_project_name, l_member, l_payload: STRING
 			l_result_payload: JSON_OBJECT
+			j_obj: JSON_OBJECT
+			parser: JSON_PARSER
 		do
+			create j_obj.make
+			--create string object to read-in the payload that comes with the request
+			create l_payload.make_empty
+				-- create json object that we send back as in response
 			create l_result_payload.make
+			-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			--now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+				--we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
+									l_project_name := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("user_email_id") as s then
+									l_member := s.unescaped_string_8
+				end
+			end
 			-- catch the name of the project and the new member
-			l_member := req.path_parameter ("user_email_id").string_representation
-			l_project_name:= req.path_parameter ("project_name_id").string_representation
+			--l_member := req.path_parameter ("user_email_id").string_representation
+			--l_project_name:= req.path_parameter ("project_name_id").string_representation
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
@@ -518,13 +538,30 @@ feature --Handlers
 		promote_owner (req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- promote a member, owner to a project
 		local
-			l_user_email, l_project_name, l_new_owner: STRING
+			l_user_email, l_project_name, l_new_owner, l_payload: STRING
 			l_result_payload: JSON_OBJECT
+			j_obj: JSON_OBJECT
+			parser: JSON_PARSER
 		do
+			create j_obj.make
+			--create string object to read-in the payload that comes with the request
+			create l_payload.make_empty
+				-- create json object that we send back as in response
 			create l_result_payload.make
-			-- catch the name of the project and the new owner
-			l_new_owner := req.path_parameter ("user_email_id").string_representation
-			l_project_name:= req.path_parameter ("project_name_id").string_representation
+			-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			--now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+				--we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
+									l_project_name := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("user_email_id") as s then
+									l_new_owner := s.unescaped_string_8
+				end
+			end
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
@@ -559,6 +596,74 @@ feature --Handlers
 				my_db.promote_owner (l_project_name, l_new_owner)
 				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("New owner '" + l_new_owner + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
+				set_json_header_ok (res, l_result_payload.representation.count)
+			end
+
+			-- add the message to the response response
+			res.put_string (l_result_payload.representation)
+		end
+
+downgrade_owner (req: WSF_REQUEST; res: WSF_RESPONSE)
+		-- promote a member, owner to a project
+		local
+			l_user_email, l_project_name, l_owner, l_payload: STRING
+			l_result_payload: JSON_OBJECT
+			j_obj: JSON_OBJECT
+			parser: JSON_PARSER
+		do
+			create j_obj.make
+			--create string object to read-in the payload that comes with the request
+			create l_payload.make_empty
+				-- create json object that we send back as in response
+			create l_result_payload.make
+			-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			--now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+				--we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
+									l_project_name := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("user_email_id") as s then
+									l_owner := s.unescaped_string_8
+				end
+			end
+
+			-- Receive the name of the user logged in
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
+			end
+
+			if l_project_name = Void or l_project_name.is_empty then
+				--Error old name project empty
+				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif l_owner = Void or l_owner.is_empty then
+				--Error new owner
+				l_result_payload.put (create {JSON_STRING}.make_json ("New owner email empty"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.check_project_name (l_project_name) = false then
+				--Error name does not exist
+				l_result_payload.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif l_user_email = void or l_user_email.is_empty then
+				--Error nobody is logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+				--Error more than 40 caracters for the name
+			elseif l_project_name.count > 40 then
+				l_result_payload.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.is_owner (l_user_email, l_project_name) = false then
+				--check if user is member.
+				l_result_payload.put (create {JSON_STRING}.make_json ("The user is not owner of this project"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			else
+				my_db.downgrade_owner (l_project_name, l_owner)
+				-- Message tutto bene
+				l_result_payload.put (create {JSON_STRING}.make_json ("User '" + l_owner + "' is no longer a owner of the project '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
 
