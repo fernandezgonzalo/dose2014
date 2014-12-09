@@ -1,6 +1,6 @@
 'use strict';
-angular.module('coffee.core').controller('SprintController', ['$scope', '$stateParams', '$location', 'Global', 'Projects', 'Users','Sprints',
-    function($scope, $stateParams, $location, Global, Projects, Users, Sprints) {
+angular.module('coffee.core').controller('SprintController', ['$scope', '$filter','$stateParams', '$location', 'Global', 'Projects', 'Users','Sprints',
+    function($scope, $filter, $stateParams, $location, Global, Projects, Users, Sprints) {
 
         $scope.global = Global;
 
@@ -17,21 +17,28 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$stateP
         $scope.findOne = function() {
             var id = $stateParams.sprintId;
             Sprints.one(id).get().then(function(sprint) {
-                $scope.sprint = sprint;
+                sprint.start_date = formatDate(sprint.start_date);
+                sprint.end_date = formatDate(sprint.end_date);  
+                $scope.sprint = sprint;              
             });
         };
 
 
         function formatDate(date) {
-            var d = new Date(date);
-            return d.format("mm/dd/yyyy");
+            var myDate = date.split("/");
+            var d = new Date(myDate[2],myDate[0]-1,myDate[1]);
+            return $filter("date")(d, 'yyyy-MM-dd');
+        }
+
+        function formatDateBack(d) {
+            return $filter("date")(d, 'MM/dd/yyyy');
         }
 
         $scope.create = function() {
             var project_id = $stateParams.projectId;
 
-            $scope.sprint.start_date = formatDate($scope.sprint.start_date);
-            $scope.sprint.end_date = formatDate($scope.sprint.end_date);
+            $scope.sprint.start_date = formatDateBack($scope.sprint.start_date);
+            $scope.sprint.end_date = formatDateBack($scope.sprint.end_date);
 
             Projects.one(project_id).all('sprints').post($scope.sprint).then(function(project) {
                 $location.path('/projects/'+ project_id);
@@ -58,9 +65,16 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$stateP
         };
 
         $scope.update = function() {
-            $scope.sprint.put().then(function() {
+            Sprints
+            .one($scope.sprint.id)
+            .customPUT({
+                number: $scope.sprint.number,
+                start_date: formatDateBack($scope.sprint.start_date),
+                end_date: formatDateBack($scope.sprint.end_date)
+            }).then(function(res) {
                 $location.path('listProjects');
             });
+
         };
     }
 ]);
