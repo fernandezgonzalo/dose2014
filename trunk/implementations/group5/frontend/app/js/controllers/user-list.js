@@ -30,7 +30,7 @@ angular.module('Mgmt').controller('UserListController', ['$log', '$scope', 'User
   
   Revertable.prototype = {
     constructor: Revertable,
-    delete: function() {
+    $delete: function() {
       this.user.$delete(this.success.bind(this), this.error.bind(this));
     },
     success: function() {
@@ -44,7 +44,7 @@ angular.module('Mgmt').controller('UserListController', ['$log', '$scope', 'User
       });
       this.undo();
     },
-    do: function() {
+    action: function() {
       this.row.hide();
       this.msg = ngToast.create({
         'content': 'User "' + this.user.username + '" was deleted. <a href="#" class="user-' + this.user.id + '">Undo</span>',
@@ -52,7 +52,7 @@ angular.module('Mgmt').controller('UserListController', ['$log', '$scope', 'User
         'dismissButton': true,
         'dismissOnClick': false
       });
-      this.deferredTask = setTimeout(this.delete.bind(this), 10000);
+      this.deferredTask = setTimeout(this.$delete.bind(this), 10000);
       var limit = 50;
       var setListener = function () {
         var span = $('.user-' + this.user.id);
@@ -79,11 +79,10 @@ angular.module('Mgmt').controller('UserListController', ['$log', '$scope', 'User
     }
   };
 
-  $scope.delete = function($event, user) {
+  $scope.deleteUser = function($event, user) {
     var revertable = new Revertable($event.currentTarget, user);
-    revertable.do();    
+    revertable.action(); // rename do to action, because do is reserved keyword    
     $event.stopPropagation();
   };
-
 
 }]);
