@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 	sprint_ctrl: SPRINT_CONTROLLER
 	project_ctrl: PROJECT_CONTROLLER
 	user_ctrl: USER_CONTROLLER
+	message_ctrl: MESSAGE_CONTROLLER
 
 	db: DATABASE
 		-- access to the database and the functionality that comes with that class
@@ -69,6 +70,7 @@ feature {NONE} -- Initialization
 			create sprint_ctrl.make(db, session_manager, "sprint", "sprints", "sprint_id", "project_id")
 			create project_ctrl.make(db, session_manager, "project", "projects", "project_id", Void)
 			create user_ctrl.make(db, session_manager, "user", "users", "user_id", Void)
+			create message_ctrl.make(db, session_manager, "message", "messages", "message_id", "project_id")
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)
@@ -87,6 +89,7 @@ feature -- Basic operations
 			sprints_base_uri: STRING
 			projects_base_uri: STRING
 			users_base_uri: STRING
+			messages_base_uri: STRING
 		do
 				-- handling the routes related to "sessions"
 			map_uri_template_agent_with_request_methods ("/sessions", agent session_ctrl.login , router.methods_post)
@@ -120,6 +123,11 @@ feature -- Basic operations
 			setup_restful_routing_for(task_ctrl, tasks_base_uri, "task_id")
 			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/assign_devs", agent task_ctrl.add_users_authorized_validated, router.methods_put)
 			map_uri_template_agent_with_request_methods (tasks_base_uri + "/{task_id}/unassign_devs", agent task_ctrl.remove_users_authorized_validated, router.methods_put)
+
+				-- handling of all the routes relating to "messages"
+			messages_base_uri := "/projects/{project_id}/messages"
+			map_uri_template_agent_with_request_methods (messages_base_uri, agent message_ctrl.get_all_authorized, router.methods_get)
+			map_uri_template_agent_with_request_methods (messages_base_uri, agent message_ctrl.create_new_authorized_validated, router.methods_post)
 
 
 				-- setting the path to the folder from where we serve static files

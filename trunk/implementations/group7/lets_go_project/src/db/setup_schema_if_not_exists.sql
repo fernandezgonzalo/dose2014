@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS tasks (
   description           VARCHAR(120) NOT NULL,
   comment               VARCHAR(400) NOT NULL,
   status                INTEGER NOT NULL,
+  progress              INTEGER,
+  completion_date       DATETIME,
   owner                 INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   story_id              INTEGER NOT NULL REFERENCES stories(id) ON DELETE CASCADE
 );
@@ -54,4 +56,10 @@ CREATE TABLE IF NOT EXISTS project_shares (
 CREATE TABLE IF NOT EXISTS task_assignments (
   user_id               INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   task_id               INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+  text                  VARCHAR(400) NOT NULL,
+  project_id            INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE
 );
