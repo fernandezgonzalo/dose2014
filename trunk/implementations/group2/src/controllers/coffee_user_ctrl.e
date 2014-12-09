@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete, add_data_to_map_delete
+		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete, add_data_to_map_delete, update
 	end
 
 create
@@ -30,7 +30,7 @@ feature -- Handlers
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_user_id := req.path_parameter("user_id").string_representation
 			if is_authorized_delete_user(req, l_user_id) then
-				l_result := my_db.get_from_id (table_name, l_user_id)
+				l_result := my_db.get_user_from_id (l_user_id)
 				l_delete_result:= my_db.delete(table_name,l_user_id)
 				if l_delete_result.success then
 					return_success_without_message (l_result, res)
@@ -44,6 +44,33 @@ feature -- Handlers
 			return_error(l_result, res, "User not logged in", 404)
 		end
 	end
+
+	update(req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+			l_result: JSON_OBJECT
+			l_update_result: TUPLE[success: BOOLEAN; id: STRING]
+		do
+			create l_result.make
+			if req_has_cookie (req, "_coffee_session_" ) then
+				l_map := parse_request (req)
+				add_data_to_map_update (req, l_map)
+				if is_authorized_update(req, l_map) then
+					l_update_result:= my_db.update (table_name,l_map)
+					if l_update_result.success then
+						l_result := my_db.get_user_from_id (l_update_result.id)
+						return_success_without_message (l_result, res)
+					else
+						return_error(l_result, res,"Could not update " + table_name, 501)
+					end
+				else
+					return_error (l_result, res, "Not authorized", 403)
+				end
+
+			else
+				return_error(l_result, res, "User not logged in", 404)
+			end
+		end
 
 	is_authorized_delete_user(req: WSF_REQUEST a_user_id:STRING): BOOLEAN
 	do
@@ -87,7 +114,7 @@ feature -- Handlers
 			l_map:=hash_and_salt(l_map)
 			l_add_result:= my_db.add (table_name,l_map)
 			if l_add_result.success then
-				l_result := my_db.get_from_id (table_name, l_add_result.id)
+				l_result := my_db.get_user_from_id (l_add_result.id)
 				return_success_without_message (l_result, res)
 			else
 				return_error(l_result, res,"Could not add to " + table_name, 501)
