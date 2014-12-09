@@ -2,10 +2,11 @@
 
 angular.module('Mgmt').service('Datepicker', function() {  
 
-  this.set = function(datepicker) {
+  this.set = function(datepicker, dateAttribute) {
     
     datepicker.today = function() {
-      datepicker.dt = new Date();
+      datepicker.minDate = new Date();
+      dateAttribute = new Date();
     };
     datepicker.today();
 

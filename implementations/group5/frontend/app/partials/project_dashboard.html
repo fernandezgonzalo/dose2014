@@ -10,8 +10,7 @@
   <h4>{{project.client_name}}</h4>
   <div class="row">
     <div class="col-md-12">
-      <button class="btn btn-link col-md-2"
-        data-toggle="modal" data-target="#editProjectModal" ng-click="editProject(project)">
+      <button class="btn btn-link col-md-2" ng-click="editProject(project)">
         Edit project info</button>
       <span class="col-md-8"></span>
       <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
@@ -38,7 +37,7 @@
 
                 <div ng-model="backlogTasks" ng-repeat="task in backlogTasks" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
-                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid', scroll: true}"
+                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
                   class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
