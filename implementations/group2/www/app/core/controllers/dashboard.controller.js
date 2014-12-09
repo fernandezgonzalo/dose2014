@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('coffee.core').controller('DashboardController', ['$scope', '$stateParams', '$location', '$modal', 'Global', 'Projects', 'Users', 'Requirements', 'Tasks',
-    function($scope, $stateParams, $location, $modal, Global, Projects, Users, Requirements, Tasks) {
+angular.module('coffee.core').controller('DashboardController', ['$scope', '$stateParams', '$location', '$modal', 'Global', 'Projects', 'Users', 'Requirements', 'Tasks', 'Sprints',
+    function($scope, $stateParams, $location, $modal, Global, Projects, Users, Requirements, Tasks, Sprints) {
 
         $scope.global = Global;
 
@@ -16,6 +16,27 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
                     $scope.err = res.data.Message;
                 });
 
+                project.one('current_sprint').get().then(function(sprint) {
+                    console.log('current_sprint', sprint);
+
+                    Sprints.one(sprint.id).getList('tasks').then(function(tasks) {
+
+
+                        $scope.dashboard = {
+                            todo: [],
+                            in_progress: [],
+                            done: []
+                        };
+                       angular.forEach(tasks, function(task) {
+                            task.user = $scope.loadUser(task.user_id);
+                            pushTask(task);
+                        });
+                    });
+
+
+                })
+
+/*
 
                 //TODO: just reqs of current sprint!
                 project.getList('reqs').then(function(reqs){
@@ -39,7 +60,7 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
                         });
                     });
                 });
-
+*/
             });
         };
 
@@ -121,7 +142,7 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             var index = indexOfTask(list, task.id);
             if (index > -1) {
                 task.remove();
-                $scope.dashboard[task.requirement_id].todo.splice(index, 1);
+                $scope.dashboard.todo.splice(index, 1);
             }            
         };
 
@@ -131,46 +152,46 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
 
 
         $scope.onDropToDo = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].todo, data.id);
+            var index = indexOfTask($scope.dashboard.todo, data.id);
             if (index == -1) {
-                $scope.dashboard[data.requirement_id].todo.push(data);
+                $scope.dashboard.todo.push(data);
                 updateTask(data, 'New');
             }
         };
 
         $scope.onDragToDo = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].todo, data.id);
+            var index = indexOfTask($scope.dashboard.todo, data.id);
             if (index > -1) {
-                $scope.dashboard[data.requirement_id].todo.splice(index, 1);
+                $scope.dashboard.todo.splice(index, 1);
             }
         };
 
         $scope.onDragInProgress = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].in_progress, data.id);
+            var index = indexOfTask($scope.dashboard.in_progress, data.id);
             if (index > -1) {
-                $scope.dashboard[data.requirement_id].in_progress.splice(index, 1);
+                $scope.dashboard.in_progress.splice(index, 1);
             }
         };
 
         $scope.onDropInProgress = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].in_progress, data.id);
+            var index = indexOfTask($scope.dashboard.in_progress, data.id);
             if (index == -1) {
-                $scope.dashboard[data.requirement_id].in_progress.push(data);
+                $scope.dashboard.in_progress.push(data);
                 updateTask(data, 'In progress');            
             }
         }
 
         $scope.onDragDone = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].done, data.id);
+            var index = indexOfTask($scope.dashboard.done, data.id);
             if (index > -1) {
-                $scope.dashboard[data.requirement_id].done.splice(index, 1);
+                $scope.dashboard.done.splice(index, 1);
             }
         };
 
         $scope.onDropDone = function(data,evt){
-            var index = indexOfTask($scope.dashboard[data.requirement_id].done, data.id);
+            var index = indexOfTask($scope.dashboard.done, data.id);
             if (index == -1) {
-                $scope.dashboard[data.requirement_id].done.push(data);
+                $scope.dashboard.done.push(data);
                 updateTask(data, 'Completed');                 
             }
         };
@@ -192,13 +213,13 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
         function pushTask(task) {
             var select = {
                 'New': function() { 
-                    $scope.dashboard[task.requirement_id].todo.push(task); 
+                    $scope.dashboard.todo.push(task); 
                 },       
                 'In progress': function() { 
-                    $scope.dashboard[task.requirement_id].in_progress.push(task); 
+                    $scope.dashboard.in_progress.push(task); 
                 },                
                 'Completed': function() { 
-                    $scope.dashboard[task.requirement_id].done.push(task); 
+                    $scope.dashboard.done.push(task); 
                 }      
             };
         
@@ -210,11 +231,14 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
 
         function updateTask(task, progress) {
             task.progress = progress;
-            task.put().then(function(res) {
-                console.log(res);
-            }, function err(msg) {
-                alert(msg);
+
+            Requirements
+            .one(task.requirement_id)
+            .one('tasks', task.id)
+            .customPUT(task).then(function(res) {
             });
+
+
         }
 
     }
