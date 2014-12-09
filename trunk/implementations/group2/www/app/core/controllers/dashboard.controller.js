@@ -116,6 +116,15 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             });
         };
 
+
+        $scope.removeTask = function(list, task) {
+            var index = indexOfTask(list, task.id);
+            if (index > -1) {
+                task.remove();
+                $scope.dashboard[task.requirement_id].todo.splice(index, 1);
+            }            
+        };
+
         ////////////////////////////////////////////////////
         //    Drag & Drop functions
         ////////////////////////////////////////////////////
