@@ -26,8 +26,8 @@ feature -- Handlers
 		do
 			create l_project_id.make_empty
 			l_project_id := req.path_parameter("project_id").string_representation
-			a_map.keys.put_front("project_id")
-			a_map.values.put_front(l_project_id)
+			a_map.keys.extend("project_id")
+			a_map.values.extend(l_project_id)
 	end
 
 	add_data_to_map_get_all (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
