@@ -175,8 +175,10 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   		$scope.viewCommentForm = false;
   		$scope.viewDeadline = false;
         $scope.currentTask = new Task(task);
-        for (var i = 0; i < $scope.tasksComments[task.id].length; i++) {
-			Utility.unescape($scope.tasksComments[task.id][i]);
+        if ($scope.tasksComments[task.id]) {
+	        for (var i = 0; i < $scope.tasksComments[task.id].length; i++) {
+				Utility.unescape($scope.tasksComments[task.id][i]);
+	        }
         }
   };
 
