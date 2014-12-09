@@ -8,9 +8,6 @@ angular.module('Mgmt')
 
   $log.debug('ProjectsController::init');
 
-  $scope.newDatepicker = {};
-  Datepicker.set($scope.newDatepicker);
-
   // Retrieve all the projects. 
   Project.query(function(data) {
     
@@ -53,11 +50,6 @@ angular.module('Mgmt')
     });
   };
 
-  // Go to project's Dashboard.
-  $scope.openProject = function(project) {
-    $location.path('/projects/' + project.id + '/dashboard');
-  };
-
   // Distribute projects into "In progress" and "Finished".
   var organizeProjects = function(data) {
 
@@ -82,6 +74,53 @@ angular.module('Mgmt')
       'unfinished': unfinished
     };
   };
+
+  // Go to project's Dashboard.
+  $scope.openProject = function(project) {
+    $location.path('/projects/' + project.id + '/dashboard');
+  };
+
+
+  // Helpers for "New project" modal.
+
+  $scope.openNewProjectModal = function() {
+
+    // Reset flags and project attributes
+    $scope.projectNameOK = false;
+    $scope.clientNameOK = false;
+    for (var i in $scope.project) {
+      $scope.project[i] = null;
+    }
+
+    $('#newProjectModal').modal('show');
+    $('#newDatepicker').collapse('hide');
+  };
+    
+  $scope.checkProjectName = function(data) {
+    if (data.length !== 0) {
+      $scope.projectNameOK = true;
+    } else {
+      $scope.projectNameOK = false;
+    }
+  };
+
+  $scope.checkClientName = function(data) {
+    if (data.length !== 0) {
+      $scope.clientNameOK = true;
+    } else {
+      $scope.clientNameOK = false;
+    }
+  };
+
+  $scope.newDatepicker = {};
+  $scope.project = {};
+  Datepicker.set($scope.newDatepicker, $scope.project.deadline);
+
+  // Once a date is selected on the datepicker, collapse it.
+  $scope.$watch('project.deadline', function() {
+    $('#newDatepicker').collapse('hide');
+  });
+
 
   // CSS classes to be changed dynamically.
   $scope.unfinishedProjectClass = function(even) {

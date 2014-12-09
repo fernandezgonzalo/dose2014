@@ -1,13 +1,12 @@
+'use strict';
+
 angular.module('Mgmt')
        .controller('ProjectDashboardController', ['$scope', '$log', '$location',
-                   '$routeParams', '$route', 'Utility', 'Project', 'Task', 'Datepicker',
-                   function ($scope, $log, $location, $routeParams, $route,
+                   '$routeParams', 'Utility', 'Project', 'Task', 'Datepicker',
+                   function ($scope, $log, $location, $routeParams,
                              Utility, Project, Task, Datepicker) {
 
   $log.debug('ProjectDashboardController::init');
-
-  $scope.editDatepicker = {};
-  Datepicker.set($scope.editDatepicker);
 
   // Retrieve data for current project.
   if ($routeParams.id) {
@@ -42,7 +41,10 @@ angular.module('Mgmt')
       Utility.escape(updatedProject);
       updatedProject.$update(function() {
         $log.log('Project updated successfully.');
-        $route.reload();
+        // Update project attributes on view
+        for (var i in $scope.projectToEdit) {
+          $scope.project[i] = $scope.projectToEdit[i];
+        }
       }, function() {
         $log.error('There was an error upon project update.');
         $scope.updateProjectError = true;
@@ -125,7 +127,6 @@ angular.module('Mgmt')
   };
 
   // Change updated task status in scope after update.
-  
   var updateTaskScope = function(status) {
 
     switch(status) {
@@ -156,6 +157,10 @@ angular.module('Mgmt')
   $scope.startCallback = function(event, ui, task) {
     $scope.dragDropTask = task;
     draggedTask.id = task.id;
+    // <<------------------------- HERE!!!
+    // $('.panel-body').css({
+    //   'overflow-y': 'visible',
+    // });
   };
 
   $scope.dropCallback = function(event, ui, task, status) {
@@ -178,7 +183,61 @@ angular.module('Mgmt')
     if (draggedTask.id === taskId) {
       draggedTask.id = -1;
     }
+    // $('.panel-body').css({
+    //   'overflow-y': 'scroll',
+    // });
   };
+
+
+  // Helpers for "Edit project" modal.
+
+  // This function is called when user clicks on "Edit project" button.
+  $scope.editProject = function(project) {
+
+    // Unlike for "New project", are init to true because they're valid already.
+    $scope.projectNameOK = true;
+    $scope.clientNameOK = true;
+
+    // Clone 'project' into projectToEdit to decouple the first one.
+    $scope.projectToEdit = JSON.parse(JSON.stringify(project));
+    $('#editProjectModal').modal('show');
+    $('#editDatepicker').collapse('hide');
+  };
+
+  $scope.checkProjectName = function(data) {
+    if (data.length !== 0) {
+      $scope.projectNameOK = true;
+    } else {
+      $scope.projectNameOK = false;
+    }
+  };
+
+  $scope.checkClientName = function(data) {
+    if (data.length !== 0) {
+      $scope.clientNameOK = true;
+    } else {
+      $scope.clientNameOK = false;
+    }
+  };
+
+  $scope.editDatepicker = {};
+  $scope.project = {};
+  Datepicker.set($scope.editDatepicker, $scope.project.deadline);
+
+  // Once a date is selected on the datepicker, collapse it.
+  $scope.$watch('projectToEdit.deadline', function() {
+    $('#editDatepicker').collapse('hide');
+  });
+
+  // If modal is dismissed, reset project properties.
+  $scope.cancelCreation = function() {
+    $scope.projectNameOK = true;
+    $scope.clientNameOK = true;
+    // for (var i in $scope.project) {
+    //   $scope.project[i] = null;
+    // }
+  };
+
 
   // CSS class to be changed dynamically while dragging a task.
   $scope.dragDropClass = function (dragTaskId) {
@@ -199,12 +258,6 @@ angular.module('Mgmt')
     } else {
       return 'btn-default';
     }
-  };
-
-  // This function is called when user clicks on "Edit project" button.
-  $scope.editProject = function(project) {
-    // Clone 'project' object to decouple it.
-    $scope.projectToEdit = JSON.parse(JSON.stringify(project));
   };
 
 }]);
