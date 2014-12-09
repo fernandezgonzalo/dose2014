@@ -349,3 +349,14 @@ th {
 #dashboard .projectsList {
     padding-left: 10px;
 }
+
+.buttons {
+    background-color: #333333;
+    color: #ffffff;
+    min-width: 100px;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0px 8px;
+}

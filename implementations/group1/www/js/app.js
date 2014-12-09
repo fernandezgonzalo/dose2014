@@ -66,7 +66,7 @@ app.config(['$routeProvider', '$locationProvider',
             })
             .when('/user/:userId', {
                 templateUrl: 'partials/user.html',
-                controller: 'UserCtrl'
+                controller: 'EditUserCtrl'
             })
             .when('/user/:userId/projectUsers', {
                 templateUrl: 'partials/manageUsers.html',

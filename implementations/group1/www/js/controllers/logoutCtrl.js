@@ -14,7 +14,7 @@ angular.module('DOSEMS.controllers')
                         $log.debug('Success logging out the user');
                         Users.restUser();
                         $cookieStore.put('loggedIn', false);
-                        $cookieStore.put('userId');
+                        $cookieStore.put('userId', -1);
                         $scope.successMsgVisible = true;
                         $rootScope.$broadcast('loggedOut');
                         // let the message dissapear after 2 secs
