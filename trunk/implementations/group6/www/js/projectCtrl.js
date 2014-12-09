@@ -105,6 +105,7 @@ angular.module('Wbpms')
             })
             .error(function(data, status) {
               $log.debug('Error while trying to rename new project');
+              alert("Error renaming project");               
             });             
     
         }        
@@ -164,7 +165,21 @@ angular.module('Wbpms')
 
           window.location.href = '#/projects/members';          
     
-        }                      
+        }  
+
+        $scope.setDelete = function(project_name) {
+        // Set project name to Delete
+
+          $scope.delProject.project_name = project_name;
+
+        }
+
+        $scope.setRename = function(project_name) {
+        // Set project name to Delete
+
+          $scope.newNameProject.old_project_name = project_name;
+
+        }        
         
     }
   ]);
