@@ -21,7 +21,7 @@ create
 
 feature {None} -- Internal helpers
 
-	is_input_valid(input: JSON_OBJECT): BOOLEAN
+	is_input_valid(req: WSF_REQUEST; input: JSON_OBJECT): BOOLEAN
 		local
 			email_key: JSON_STRING
 		do

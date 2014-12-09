@@ -226,6 +226,13 @@ feature {NONE} -- Internal helpers
 		do
 		end
 
+	get_parent_id(req: WSF_REQUEST): STRING
+		do
+			if parent_uri_id_name /= Void then
+				Result := req.path_parameter(parent_uri_id_name).string_representation
+			end
+		end
+
 	get_update_assignments(fields: ARRAY[STRING]): STRING
 		local
 			i: INTEGER
@@ -398,7 +405,7 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 	ensure_input_validated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE]; input: JSON_OBJECT)
 		do
 			if no_error_occured_so_far(res) then
-				if input /= Void and then is_input_valid(input) then
+				if input /= Void and then is_input_valid(req, input) then
 					implementation.call ([input])
 				else
 					reply_with_400(res)
@@ -424,7 +431,7 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 			Result := res.status_code = {HTTP_STATUS_CODE}.ok
 		end
 
-	is_input_valid(input: JSON_OBJECT): BOOLEAN
+	is_input_valid(req: WSF_REQUEST; input: JSON_OBJECT): BOOLEAN
 		do
 			Result := True
 		end

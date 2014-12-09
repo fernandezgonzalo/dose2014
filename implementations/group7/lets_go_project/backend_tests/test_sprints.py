@@ -13,8 +13,8 @@ class TestSprints(test_rest_resource.TestRestResource):
         self.single_resource_uri = self.resources_uri + '/1'
         self.example_resource = Sprint(
             name="Test Sprint",
-            start_date=date(2013, 1, 1),
-            end_date=date(2014, 12, 31),
+            start_date=date(2018, 1, 1),
+            end_date=date(2018, 12, 31),
             status=1,
             project_id=1,
             stories=[],
@@ -23,8 +23,8 @@ class TestSprints(test_rest_resource.TestRestResource):
 
         self.update_resource = Sprint(
             name="Updated Test Sprint",
-            start_date=date(2013, 1, 2),
-            end_date=date(2014, 12, 2),
+            start_date=date(2015, 1, 2),
+            end_date=date(2015, 12, 2),
             status=2,
             project_id=1,
             stories=[],
