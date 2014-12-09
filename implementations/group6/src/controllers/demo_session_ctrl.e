@@ -183,7 +183,7 @@ feature -- Handlers
 			--Modifica Anna
 			env: EXECUTION_ENVIRONMENT
 			new_pass: STRING
-			string: STRING
+			string, path: STRING
     		file_input: PLAIN_TEXT_FILE
     		-----------------
 
@@ -243,7 +243,10 @@ feature -- Handlers
     			-- Removes the generated password into file
     			env.launch ("python /Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/delete_file_content.py")
 				-- Make a strint to call python script
-				string:="python /Users/Anna/Desktop/Corsi/SE2/DOSE/dose2014/implementations/group6/src/send_email_pass.py "
+				string:="python "
+				path:=my_db.path_to_src_folder(2)
+				string.append_string (path)
+				string.append(" ")
 				string.append_string(l_email)
 				string.append(" ")
 				string.append_string(new_pass)

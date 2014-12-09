@@ -71,8 +71,9 @@ feature {NONE} -- Initialization
 
 
 	initialize
-			-- Initialize current service.
+			-- Initialize current service
 		do
+
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
