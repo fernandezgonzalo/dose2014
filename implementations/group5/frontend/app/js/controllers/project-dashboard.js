@@ -197,6 +197,7 @@ angular.module('Mgmt')
     // Unlike for "New project", are init to true because they're valid already.
     $scope.projectNameOK = true;
     $scope.clientNameOK = true;
+    $scope.deleteAlert = false;
 
     // Clone 'project' into projectToEdit to decouple the first one.
     $scope.projectToEdit = JSON.parse(JSON.stringify(project));
@@ -229,14 +230,18 @@ angular.module('Mgmt')
     $('#editDatepicker').collapse('hide');
   });
 
+  $scope.toggleAlert = function() {
+    $scope.deleteAlert = !$scope.deleteAlert;
+  };
+
   // If modal is dismissed, reset project properties.
-  $scope.cancelCreation = function() {
-    $scope.projectNameOK = true;
-    $scope.clientNameOK = true;
+  // $scope.cancelCreation = function() {
+  //   $scope.projectNameOK = true;
+  //   $scope.clientNameOK = true;
     // for (var i in $scope.project) {
     //   $scope.project[i] = null;
     // }
-  };
+  // };
 
 
   // CSS class to be changed dynamically while dragging a task.

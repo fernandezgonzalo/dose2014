@@ -27,7 +27,7 @@
           <!-- Deadline -->
           <p><b>Deadline: </b>
             <a href="" ng-if="!projectToEdit.deadline" data-toggle="collapse" data-target="#editDatepicker">
-              Click here to set</a>
+              <em>Click here to set</em></a>
             <a href="" data-toggle="collapse" data-target="#editDatepicker">
               {{ projectToEdit.deadline | date: 'mediumDate'}}</a>
           </p>
@@ -51,8 +51,19 @@
           <div class="control-group">
             <div class="row">
               <div style="float: right;">
-                <button class="btn btn-link" ng-click="deleteProject(project)">
+                <button class="btn btn-link" ng-if="!deleteAlert" ng-click="toggleAlert()">
                   <span class="glyphicon glyphicon-remove"></span>  Delete project</button>
+              </div>
+            </div>
+
+            <div class="row centre">
+              <div class="col-md-12 alert alert-danger alert-dismissible" role="alert"
+                ng-if="deleteAlert">
+                <button type="button" class="close" data-dismiss="alert" ng-click="toggleAlert()"><span aria-hidden="true">&times;
+                </span><span class="sr-only">Close</span></button>
+                <b>Warning!</b> This cannot be undone.
+                <br><br>
+                <button class="btn btn-danger" ng-click="deleteProject(project)">Delete!</button>
               </div>
             </div>
           </div>
