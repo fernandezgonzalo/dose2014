@@ -25,9 +25,7 @@
             <div class="col-md-3">
                 <h3 align="center"><strong> Story </strong>
                     <a ng-href="http://localhost:9090/LetsGoTeam/index.html#/story"> <!-- poner ruta -->
-                        <button  class="btn btn-info pull-right">
-                                Add +
-                        </button>
+                        <button  class="btn btn-info pull-right"> Add + </button>
                     </a>
                 </h3>
                 <div class="list-group">
@@ -39,9 +37,9 @@
                             </div>
                             <div class="col-md-6">
                                 <button type="button" class="btn btn-link pull-left">Edit</button>
-                                <a ng-href="http://localhost:63342/www/index.html#/task">
+                                <a ng-href="http://localhost:63342/group3/www/index.html#/task">
                                     <button type="button" class="btn btn-link pull-left">Add task</button>
-                                 </a>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -51,7 +49,7 @@
                 <h3   align="center"><strong> Not Started</strong></h3>
                 <div class="list-group">
                     <div class="list-group-item" ng-repeat="task in tasks" ng-show="task.status === 1">
-                        <h4>{{task.name}}
+                        <h4>{{task.idStory}}
                         <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
                     </div>
                 </div>
@@ -59,8 +57,8 @@
             <div class="col-md-2">
                 <h3   align="center"><strong> In progress</strong></h3>
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="task in stories[storySelected].tasks" ng-show="task.status === 2">
-                        <h4> {{task.name}}
+                    <div class="list-group-item" ng-repeat="task in tasks" ng-show="task.status === 2">
+                        <h4> {{task.idStory}}
                         <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
                     </div>
                 </div>
@@ -68,20 +66,18 @@
             <div class="col-md-2">
                 <h3   align="center"><strong> Completed</strong></h3>
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="task in stories[storySelected].tasks" ng-show="task.status === 3">
-                        <h4> {{task.name}}
-                            <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
+                    <div class="list-group-item" ng-repeat="task in tasks" ng-show="task.status === 3">
+                        <h4> {{task.idStory}}
+                        <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
                     </div>
                 </div>
             </div>
             <div class="col-md-2">
                 <h3 align="center"><strong> Blocked</strong></h3>
                 <div class="list-group">
-                    <div class="list-group-item" ng-repeat="task in stories[storySelected].tasks" ng-show="task.status === 4">
-                        <h4>
-                            {{task.name}}
-                            <button type="button" class="btn btn-link pull-right">Edit</button>
-                        </h4>
+                    <div class="list-group-item" ng-repeat="task in tasks" ng-show="task.status === 4">
+                        <h4>{{task.idStory}}
+                        <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
                     </div>
                 </div>
             </div>

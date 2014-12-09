@@ -10,7 +10,7 @@ angular.module('LetsGoTeam')
            // $scope.project = myService.getSavedProject();
            // $scope.sprint = myService.getSavedSprint();
            // $scope.stories = myService.getSavedStory()
-
+            $scope.users = [];
             $scope.data = {};
             // the model that we bind to the input box
             $scope.task = {
@@ -20,6 +20,14 @@ angular.module('LetsGoTeam')
             };
 
             $scope.successMsgVisible = false;
+
+            var init = function(){
+                $scope.users = [];
+                var i;
+                for (i = 0; i < users.length; i++) {
+                    $scope.users.push(users[i]);
+                }
+            }
 
             // the function to add a story
             $scope.addTask = function(newTask) {
