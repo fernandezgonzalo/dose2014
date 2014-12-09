@@ -15,12 +15,14 @@
 
 	<div>
 		<h3>Add user</h3>		
-		
-		    <input type="text" ng-model="selected_user" typeahead="user as user.first_name + ' ' + user.last_name for user in users | filter:$viewValue | limitTo:8" class="form-control" placeholder="Start Typing">
+		<div class="list-group">
+		    <ul>
+		    	<li data-ng-repeat = 'user in users'>
+		    		{{user.first_name + ' ' + user.last_name}} <span class='btn btn-info' data-ng-click='addUser(user)'>+</span>
+		    	</li>
+		    </ul>
 
-		    <button class="btn btn-primary" data-ng-show="!!selected_user.id" data-ng-click="addUser(selected_user)">
-		    	Add {{selected_user.first_name}} {{selected_user.last_name}} to this project
-		    </button>
+		    </div>
 	</div>
 
 </section>
