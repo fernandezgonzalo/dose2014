@@ -52,8 +52,6 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
         };
 
         $scope.removeTask = function(requirement, task) {
-            console.log('requirement',requirement)
-            console.log('task',task)
             task.remove().then(function() {
                 //TODO: display a flash message
             });
