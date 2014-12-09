@@ -1,44 +1,60 @@
 <div class="block" id="dashboard">
-    <div class="page-header">
-        <h1>Welcome
-            <small> - {{user.name }} {{user.lastname}}</small>
-        </h1>
+    <div class="row">
+        <div class="page-header">
+            <div class="col-md-offset-1">
+                <h1>Welcome
+                    <small> - {{user.name }} {{user.lastname}}</small>
+                </h1>
+            </div>
+        </div>
     </div>
-    <!--
-        <h2>Welcome - {{user.name }} {{user.lastname}}</h2>
-    -->
-    <div class="projectsList">
-        <h3>Your Projects</h3>
-        <ul class="media-list">
-            <li class="media" ng-repeat="project in userProjects">
-                <div class="media-body">
-                    <a class="media-heading" href="/#/user/{{user.id}}/project/{{project.id}}"><h4>
-                        {{project.name}}</h4>
-                    </a>
+    <div class="row">
+        <div class="col-md-offset-1">
+            <div class="projectsList">
+                <h3>Your Projects</h3>
+                <ul ng-if="userProjects.length > 0" class="media-list">
+                    <li class="media" ng-repeat="project in userProjects">
+                        <div class="media-body">
+                            <a class="media-heading" href="/#/user/{{user.id}}/project/{{project.id}}"><h4>
+                                {{project.name}}</h4>
+                            </a>
 
-                    <p>{{project.info}}</p>
+                            <p>{{project.info}}</p>
+                        </div>
+                    </li>
+                    <li ng-if="newProjectData.name.length >0 || newProjectData.info.length > 0" class="media">
+                        <div class="media-body">
+                            <h4>{{newProjectData.name}} -- Preview</h4>
+
+                            <p>{{newProjectData.info}}</p>
+                        </div>
+                    </li>
+                </ul>
+                <div ng-if="userProjects.length == 0">
+                    <h4>You don't have any projects, why don't you create one?</h4>
                 </div>
-            </li>
-        </ul>
+            </div>
+            <div class="newProjectContainer">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="projectName">Project name</label>
+                        <input type="text" class="form-control" ng-model="newProjectData.name" id="projectName"
+                               placeholder="Enter Project name">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectInfo">Password</label>
+                        <textarea class="form-control" ng-model="newProjectData.info" id="projectInfo"
+                                  placeholder="Enter project info"></textarea>
+                    </div>
+                    <div class="alert alert-warning" role="alert" ng-show="emptyInput">Some data must be entered before
+                        project
+                        can be created<br></div>
+                    <button type="button" ng-click="newProject()" class="buttons">
+                        New Project
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="newProjectContainer">
-        <form role="form">
-            <div class="form-group">
-                <label for="projectName">Project name</label>
-                <input type="text" class="form-control" ng-model="newProjectData.name" id="projectName"
-                       placeholder="Enter Project name">
-            </div>
-            <div class="form-group">
-                <label for="projectInfo">Password</label>
-                <textarea class="form-control" ng-model="newProjectData.info" id="projectInfo"
-                          placeholder="Enter project info"></textarea>
-            </div>
-            <div class="alert alert-warning" role="alert" ng-show="emptyInput">Some data must be entered before project
-                can be created<br></div>
+</div>
 
-            <button ng-click="newProject()" class="btn btn-default">
-                New Project
-            </button>
-        </form>
-    </div>
-</div> 

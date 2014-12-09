@@ -1,10 +1,10 @@
 <div id="header" ng-controller="HeaderCtrl">
     <div class="float-left">
-        <a ng-show="loggedIn" href="/#/user/{{user.id}}/home"><img class="logo" src="img/logo.png"/></a>
-        <a ng-hide="loggedIn" href="/#/login"><img class="logo" src="img/logo.png"/></a>
+        <a ng-if="loggedIn" href="/#/user/{{user.id}}/home"><img class="logo" src="img/logo.png"/></a>
+        <a ng-if="!loggedIn" href="/#/login"><img class="logo" src="img/logo.png"/></a>
     </div>
-    <div ng-show="loggedIn" id="user" class="float-right">
-        <a href="/#/user/{{user.id}}/home" class="underline">{{user.name}}</a>
+    <div ng-if="loggedIn" id="user" class="float-right">
+        <a href="/#/user/{{user.id}}" class="underline">{{user.name}}</a>
         <span>(<a href="/#/logout" class="underline">Logout</a>)</span>
     </div>
     <div class="float-left">
@@ -13,12 +13,9 @@
                 <li ng-show="loggedIn">
                     <a href="/#/user/{{user.id}}/home">Dashboard</a>
                 </li>
-                <!--                <li ng-show="loggedIn">
-                                    <a href="/#/tasks">My Tasks</a>
-                                </li>-->
-                <li>
-                    <a href="/#/ranking">Ranking</a>
-                </li>
+                <!--        <li>
+                            <a href="/#/ranking">Ranking</a>
+                        </li>-->
             </ul>
         </div>
     </div>

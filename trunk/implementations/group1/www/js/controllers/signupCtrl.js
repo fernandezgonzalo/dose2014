@@ -20,14 +20,14 @@ angular.module('DOSEMS.controllers')
         };
         $scope.signup = function () {
             $log.debug("Password length = " + $scope.signupData.password.length);
-            if (!angular.equals($scope.signupData.password, $scope.signupData.passwordRepeat) ||
-                $scope.signupData.password.length < 2 ||
-                $scope.signupData.password.length > 20
-            ) {
-                $scope.$passwordError = true;
-                return;
-            }
-            var newUser = new Users.resource();
+                if (!angular.equals($scope.signupData.password, $scope.signupData.passwordRepeat) ||
+                    $scope.signupData.password.length < 2 ||
+                    $scope.signupData.password.length > 20
+                ) {
+                    $scope.$passwordError = true;
+                    return;
+                }
+                var newUser = new Users.resource();
             newUser.name = $scope.signupData.name;
             newUser.lastname = $scope.signupData.lastname;
             newUser.email = $scope.signupData.email;
@@ -36,10 +36,12 @@ angular.module('DOSEMS.controllers')
 
             newUser.$save().then(function (response) {
                 var id = response.id;
-                $rootScope.$broadcast('loggedIn', {userId: id});
+                $log.debug("New id = " + id);
                 $cookieStore.put('loggedIn', true);
                 $cookieStore.put('userId', id);
-                $window.location.href = '/#/user/' + id + '/home';
+                $window.location.href = '/#/login';
+                /*    $rootScope.$broadcast('loggedIn', {userId: id});
+                 $window.location.href = '/#/user/' + id + '/home';*/
             });
         };
 
