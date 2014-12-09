@@ -91,7 +91,7 @@ feature -- Data access : project
 			if db_insert_statement.has_error then
 				print("Error while inserting new project")
 			end
-			-- add the name and the creator in the member table if boolean owner true
+			-- add the name and the creator in the member table with boolean owner true
 			create db_insert_statement.make ("INSERT INTO member VALUES ('" + a_user_name + "','" + a_project_name + "',1);", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
@@ -113,7 +113,6 @@ feature -- Data access : project
 			end
 		end
 
-	--TODO: Doesn't work if the user is not a member of the project
 	is_owner (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -121,28 +120,19 @@ feature -- Data access : project
 			-- check if the given email is owner of the given project
 			create db_query_statement.make ("SELECT owner from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
 			l_query_result_cursor := db_query_statement.execute_new
-			--l_query_result_cursor.start
-			--if l_query_result_cursor.after then
 			if l_query_result_cursor.after = false then
-				--l_query_result_cursor.start
 				if l_query_result_cursor.item.boolean_value (1) then
 					Result := True
 				else
-					print(l_query_result_cursor.item.string_value (1))
 					Result := False
 				end
 			else
 				Result := false
 			end
-
-			--else
-				--Result := False
-			--end
 		end
 
 	is_member (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
 		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			l_array: JSON_ARRAY
 		do
 			-- check if the given email is owner of the given project
@@ -177,6 +167,7 @@ feature -- Data access : project
 
 	is_project_empty (a_project_name: STRING) : BOOLEAN
 		-- check is a project is empty: return true if it is empty
+		-- a project is empty when the only iteration is the backlog
 		local
 			l_query_result_cursor, l_item: SQLITE_STATEMENT_ITERATION_CURSOR
 			l_true: BOOLEAN
@@ -204,28 +195,15 @@ feature -- Data access : project
 			else
 				Result := false
 			end
---			if l_query_result_cursor.after then
---				Result := true
---			else
---				l_query_result_cursor.
---				print("value: ")
---				print(l_query_result_cursor.item.value (1))
---				--if l_query_result_cursor.item.value (1) = true then
---				--end
---				Result := False
---			end
 		end
 
 	has_member (a_project_name: STRING) : BOOLEAN
-		--check if the given project has members
+		--check if the given project has members, actualy more than 1
 		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			l_array: JSON_ARRAY
 		do
-			-- check in the table iteration if some of them are related to the given name project
 			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "';", db)
 			create l_array.make_array
-			--l_query_result_cursor := db_query_statement.execute_new
 			db_query_statement.execute(agent rows_to_json_array (?, 1, l_array))
 			print("count")
 			print(l_array.count)
@@ -234,18 +212,10 @@ feature -- Data access : project
 			else
 				Result := true
 			end
-			-- Always at least one member: the owner
---			l_query_result_cursor.forth
---			if l_query_result_cursor.after then
---				Result := true
---			else
---				Result := False
---			end
 		end
 
 	remove_project (a_project_name: STRING)
-		-- remove the project from table project and member.
-		-- delete on cascade in the db.
+		-- remove the project from tables
 		do
 			create db_modify_statement.make ("DELETE FROM project WHERE name ='"+ a_project_name + "';", db)
 			db_modify_statement.execute
@@ -253,19 +223,19 @@ feature -- Data access : project
 				print("Error while deleting the project from project table")
 			end
 			-- Delete the last owner of the project
-			create db_modify_statement.make ("DELETE FROM member WHERE name ='"+ a_project_name + "';", db)
+			create db_modify_statement.make ("DELETE FROM member WHERE project ='"+ a_project_name + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting the project from member table")
 			end
 			-- TODO check if it's necessary
-			create db_modify_statement.make ("DELETE FROM iteration WHERE name ='"+ a_project_name + "';", db)
+			create db_modify_statement.make ("DELETE FROM iteration WHERE project ='"+ a_project_name + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting the iterations of the project")
 			end
 			-- Delete the delted status work_items of the project
-			create db_modify_statement.make ("DELETE FROM work_item WHERE name ='"+ a_project_name + "';", db)
+			create db_modify_statement.make ("DELETE FROM work_item WHERE project ='"+ a_project_name + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting the work_items of the project")
@@ -277,14 +247,23 @@ feature -- Data access : project
 		do
 			create db_modify_statement.make ("UPDATE project SET name='" + a_new_project_name + "' WHERE name='" + a_old_project_name + "';", db)
 			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while changing project name in project table")
+			end
 			create db_modify_statement.make ("UPDATE member SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
 			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while changing project name in member table")
+			end
 			create db_modify_statement.make ("UPDATE iteration SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
 			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while changing project name in iteration table")
+			end
 			create db_modify_statement.make ("UPDATE work_item SET project='" + a_new_project_name + "' WHERE project='" + a_old_project_name + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while changing project name")
+				print("Error while changing project name in work_item table")
 			end
 		end
 
@@ -323,9 +302,6 @@ feature -- Data access : project
 			-- if the user is an owner check if the tuple doesn't already exist:
 			create db_insert_statement.make ("INSERT INTO member(user, project, owner) VALUES(?,?,?);", db)
 			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<a_user_email, a_project_name, a_owner>>)
-				-- no add a new tuple in the table
-
-				-- yes change the boolean owner into true
 		end
 
 	remove_member_from_project (a_project_name: STRING; a_user_email: STRING)

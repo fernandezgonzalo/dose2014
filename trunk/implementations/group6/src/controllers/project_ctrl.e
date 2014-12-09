@@ -185,19 +185,10 @@ feature --Handlers
 			parser: JSON_PARSER
 		do
 
-			--l_old_project_name := req.path_parameter ("project_name_id").string_representation
-				-- create string object to read-in the payload that comes with the request
+			-- create string object to read-in the payload that comes with the request
 			create l_payload.make_empty
 				-- create json object that we send back as in response
 			create l_result_payload.make
-
-				-- Receive the name of the new project
-
-				if req_has_cookie(req, "_session_") then
-
-					l_user_email := get_session_from_req(req, "_session_").at("email").out
-				end
-			--l_user_email := "giorgio@hotmail.it"
 			-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 			-- now parse the json object that we got as part of the payload
@@ -216,7 +207,11 @@ feature --Handlers
 				end
 			end
 
-			-- Check if the name doesn't already exist
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
+			end
+			--l_user_email := "giorgio@hotmail.it"
+
 			if l_old_project_name = Void or l_old_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Old project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -276,12 +271,9 @@ feature --Handlers
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				-- Get from the database all the projects which the user takes part in: db.get_all_user_project(a_user_email)
 				j_obj.put (create {JSON_STRING}.make_json ("Projects of user"), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (my_db.get_all_user_projects (l_user_email), create {JSON_STRING}.make_json ("projects"))
 				l_result_payload.extend (j_obj)
-				--l_result_payload.extend (my_db.get_all_user_projects (l_user_email))
-				-- Message tutto bene
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
 
@@ -303,6 +295,8 @@ feature --Handlers
 			req.read_input_data_into (l_payload)
 				-- now parse the json object that we got as part of the payload
 			create parser.make_parser (l_payload)
+			create j_obj.make
+			create l_result_payload.make_array
 				-- if the parsing was successful and we have a json object, we fetch the properties
 				-- for the project name
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
@@ -310,10 +304,7 @@ feature --Handlers
 					l_project_name := s.unescaped_string_8
 				end
 			end
-			-- catch the project name in the uri
-			--l_project_name := req.path_parameter ("project_name_id").string_representation
-			create j_obj.make
-			create l_result_payload.make_array
+
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error user email empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -329,45 +320,44 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("Members of project " + l_project_name), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (my_db.get_all_project_members (l_project_name), create {JSON_STRING}.make_json ("members"))
 				l_result_payload.extend (j_obj)
-				-- Message tutto bene
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
-
 			-- add the message to the response response
 			res.put_string (l_result_payload.representation)
 		end
 
-	get_all_project_owners (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- Get all the owners of a project
-		local
-			l_project_name: STRING
-			j_obj: JSON_OBJECT
-			l_result_payload: JSON_ARRAY
-		do
-			-- catch the project name in the uri
-			l_project_name := req.path_parameter ("project_name_id").string_representation
-			create j_obj.make
-			create l_result_payload.make_array
-			if l_project_name = Void or l_project_name.is_empty then
-				--Error user email empty
-				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
-				l_result_payload.extend (j_obj)
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_project_name (l_project_name) = false then
-				--Error user email empty
-				j_obj.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
-				l_result_payload.extend (j_obj)
-				set_json_header (res, 401, l_result_payload.representation.count)
-			else
-				-- Get from the database all the projects which the user takes part in: db.get_all_user_project(a_user_email)
-				l_result_payload := (my_db.get_all_project_owners(l_project_name))
-				-- Message tutto bene
-				set_json_header_ok (res, l_result_payload.representation.count)
-			end
+--TODO useless?
+--	get_all_project_owners (req: WSF_REQUEST; res: WSF_RESPONSE)
+--	-- Get all the owners of a project
+--		local
+--			l_project_name: STRING
+--			j_obj: JSON_OBJECT
+--			l_result_payload: JSON_ARRAY
+--		do
+--			-- catch the project name in the uri
+--			l_project_name := req.path_parameter ("project_name_id").string_representation
+--			create j_obj.make
+--			create l_result_payload.make_array
+--			if l_project_name = Void or l_project_name.is_empty then
+--				--Error user email empty
+--				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
+--				l_result_payload.extend (j_obj)
+--				set_json_header (res, 401, l_result_payload.representation.count)
+--			elseif my_db.check_project_name (l_project_name) = false then
+--				--Error user email empty
+--				j_obj.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("Error"))
+--				l_result_payload.extend (j_obj)
+--				set_json_header (res, 401, l_result_payload.representation.count)
+--			else
+--				-- Get from the database all the projects which the user takes part in: db.get_all_user_project(a_user_email)
+--				l_result_payload := (my_db.get_all_project_owners(l_project_name))
+--				-- Message tutto bene
+--				set_json_header_ok (res, l_result_payload.representation.count)
+--			end
 
-			-- add the message to the response response
-			res.put_string (l_result_payload.representation)
-		end
+--			-- add the message to the response response
+--			res.put_string (l_result_payload.representation)
+--		end
 
 	add_member_to_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 	-- Add a member or an owner to a project
@@ -388,9 +378,8 @@ feature --Handlers
 			create parser.make_parser (l_payload)
 
 			--if the parsing was successful and we have a json object, we fetch the properties
-			-- for the project name
+			-- for the project name and new member id
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
 				--we have to convert the json string into an eiffel string
 				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
 									l_project_name := s.unescaped_string_8
@@ -440,17 +429,14 @@ feature --Handlers
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				my_db.add_member_to_project (l_project_name, l_new_member, False)
-				-- Message tutto bene
 				j_obj.put (create {JSON_STRING}.make_json ("New member '" + l_new_member + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (create {JSON_STRING}.make_json (l_project_name), create {JSON_STRING}.make_json ("name"))
 				j_obj.put (create {JSON_STRING}.make_json (l_new_member), create {JSON_STRING}.make_json ("email"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_project_points (l_project_name).out), create {JSON_STRING}.make_json ("points"))
 				j_obj.put (create {JSON_STRING}.make_json ("false"), create {JSON_STRING}.make_json ("owner"))
 				l_result_payload.extend (j_obj)
-				--l_result_payload.extend (my_db.get_points (l_project_name))
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
-
 			-- add the message to the response response
 			res.put_string (l_result_payload.representation)
 		end
@@ -473,7 +459,6 @@ feature --Handlers
 			--now parse the json object that we got as part of the payload
 			create parser.make_parser (l_payload)
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-
 				--we have to convert the json string into an eiffel string
 				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
 									l_project_name := s.unescaped_string_8
@@ -482,9 +467,6 @@ feature --Handlers
 									l_member := s.unescaped_string_8
 				end
 			end
-			-- catch the name of the project and the new member
-			--l_member := req.path_parameter ("user_email_id").string_representation
-			--l_project_name:= req.path_parameter ("project_name_id").string_representation
 
 			-- Receive the name of the user logged in
 			if req_has_cookie(req, "_session_") then
@@ -524,10 +506,6 @@ feature --Handlers
 
 			-- add the message to the response response
 			res.put_string (l_result_payload.representation)
-
-				-- Check if the user is allowed to remove a member: if he is an owner
-
-				-- Remove from the database: remove_member_project(a_project_name: STRING, a_user_email: STRING)
 		end
 
 		promote_owner (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -589,7 +567,6 @@ feature --Handlers
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				my_db.promote_owner (l_project_name, l_new_owner)
-				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("New owner '" + l_new_owner + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
