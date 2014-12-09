@@ -128,6 +128,60 @@ feature -- Test routines
 			db_handler.db.rollback
 		end
 
+	total_points_by_project_id_test
+			-- Test for routine total_points_by_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_points_by_project_id (1)
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5"))
+		end
+
+	total_tasks_by_sprint_and_project_id_test
+			-- Test for routine total_tasks_by_sprint_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_tasks_by_sprint_and_project_id (1, 1)
+			assert("Count ok", json_result.item ("total_tasks").debug_output.is_equal("1"))
+		end
+
+	total_subtasks_by_sprint_and_project_id_test
+			-- Test for routine total_subtasks_by_sprint_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_subtasks_by_sprint_and_project_id (1,2)
+			assert("Count ok", json_result.item ("total_subtasks").debug_output.is_equal("1"))
+		end
+
+	total_points_by_sprint_and_project_id_test
+			-- Test for routine total_points_by_sprint_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_points_by_sprint_and_project_id (1,3)
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("10"))
+		end
+
+	total_points_by_position_and_project_id_test
+			-- Test for routine total_points_by_position_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_points_by_position_and_project_id ("Backlog", 1)
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5"))
+		end
 end
 
 
