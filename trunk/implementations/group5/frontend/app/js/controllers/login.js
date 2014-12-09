@@ -19,7 +19,6 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
         $('#login_button').button('reset');
         $scope.setCurrentUser(user);
         $location.path('/');
-        $scope.$apply();
       }, function(response) {
         if (response.data.Message) {
           ngToast.create({
