@@ -40,7 +40,7 @@ feature -- Test routines
 		create database.make_open_read_write (path_to_db_file)
 		create crud_user.make(database)
 		create usr.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		was_created := result_add_user.boolean_item (1)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		usr := crud_user.user_by_id(user_id)
@@ -91,7 +91,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	usr := crud_user.user_by_id(user_id)
 	l_result := crud_user.user_by_email("jacinto@mail.com")
@@ -128,7 +128,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.update_user_email(user_id,"midifyemail@mail.com")
 	usr := crud_user.user_by_id(user_id)
@@ -159,7 +159,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.update_user_password(user_id,"1111")
 	usr := crud_user.user_by_id(user_id)
@@ -190,7 +190,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.update_user_name(user_id,"new name")
 	usr := crud_user.user_by_id(user_id)
@@ -221,7 +221,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.update_user_username(user_id,"new username")
 	usr := crud_user.user_by_id(user_id)
@@ -252,7 +252,7 @@ feature -- Test routines
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
 	create usr.make
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.update_user_is_admin(user_id,1)
 	usr := crud_user.user_by_id(user_id)
@@ -280,7 +280,7 @@ feature -- Test routines
 	do
 	create database.make_open_read_write (path_to_db_file)
 	create crud_user.make(database)
-	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+	result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 	user_id := result_add_user.integer_32_item (2).out.to_natural
 	res := crud_user.remove_user_by_id(user_id)
 	assert ("The result must be true", res )
@@ -305,7 +305,7 @@ feature -- Test routines
 		create crud_project.make(database)
 		create crud_user.make(database)
 		create l_result.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		was_created := result_add_project.boolean_item (1)
@@ -355,7 +355,7 @@ feature -- Test routines
 		create crud_project.make(database)
 		create crud_user.make(database)
 		create l_result.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -390,7 +390,7 @@ feature -- Test routines
 		create crud_project.make(database)
 		create crud_user.make(database)
 		create l_result.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -426,7 +426,7 @@ feature -- Test routines
 		create crud_project.make(database)
 		create crud_user.make(database)
 		create l_result.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -462,7 +462,7 @@ feature -- Test routines
 		create crud_project.make(database)
 		create crud_user.make(database)
 		create l_result.make
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -492,7 +492,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -572,7 +572,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -614,7 +614,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -655,7 +655,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -697,7 +697,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -739,7 +739,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -781,14 +781,14 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
 		result_add_task := crud_task.add_task("title","description","status","priority","20/12/2013","estimation",user_id,user_id,project_id)
 		task_id := result_add_task.integer_32_item (2).out.to_natural
 		res := crud_user.remove_user_by_id(user_id)
-		result_add_user := crud_user.add_user ("emilio@mail.com","emilio","1234","emilio","",0)
+		result_add_user := crud_user.add_user ("emilio@mail.com","emilio","1234","emilio",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		res := crud_task.update_task_id_user_assigned(user_id,task_id)
 		l_result := crud_task.task_by_id(task_id)
@@ -826,7 +826,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -867,7 +867,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create l_result.make
 		create crud_task.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -903,7 +903,7 @@ feature -- Test routines
 		create crud_task.make(database)
 		create l_result.make
 		create crud_comment.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -958,7 +958,7 @@ feature -- Test routines
 		create crud_task.make(database)
 		create l_result.make
 		create crud_comment.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural
@@ -1002,7 +1002,7 @@ feature -- Test routines
 		create crud_user.make(database)
 		create crud_task.make(database)
 		create crud_comment.make(database)
-		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto","",0)
+		result_add_user := crud_user.add_user ("jacinto@mail.com","jjaimez","1234","jacinto",0)
 		user_id := result_add_user.integer_32_item (2).out.to_natural
 		result_add_project := crud_project.add_project ("projectt","20/12/2013","rick",user_id)
 		project_id := result_add_project.integer_32_item (2).out.to_natural

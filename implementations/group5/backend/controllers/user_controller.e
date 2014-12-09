@@ -99,7 +99,7 @@ feature -- Handlers
 			was_created := false
 			if not my_crud_user.user_exists_with_email (l_email).boolean_item (1) then
 				if not my_crud_user.user_exists_with_username (l_username).boolean_item (1) then
-					result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, "", l_is_admin.to_integer)
+					result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, l_is_admin.to_integer)
 					was_created := result_add_user.boolean_item (1)
 					user_id := result_add_user.integer_32_item (2)
 				else
