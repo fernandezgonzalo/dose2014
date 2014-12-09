@@ -10,7 +10,7 @@ class
 	inherit
 	COFFEE_BASE_CONTROLLER
 	redefine
-		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete, add_data_to_map_delete, update
+		add_data_to_map_update, add, add_data_to_map_get, is_authorized_update, get_all, delete, add_data_to_map_delete, update, get
 	end
 
 create
@@ -138,6 +138,32 @@ feature -- Handlers
 				l_result_array := my_db.get_all_users
 				if l_result /= Void then
 					return_success_array (l_result_array, res)
+				else
+					create l_result.make
+					return_error(l_result, res,"Could not get from " + table_name, 501)
+				end
+			else
+				return_error (l_result, res, "Not authorized", 403)
+			end
+
+		else
+			return_error(l_result, res, "User not logged in", 404)
+		end
+	end
+
+	get(req: WSF_REQUEST; res: WSF_RESPONSE)
+	local
+		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_result: JSON_OBJECT
+	do
+		create l_result.make
+		if req_has_cookie (req, "_coffee_session_" ) then
+			l_map := parse_request (req)
+			add_data_to_map_get (req, l_map)
+			if is_authorized_get(req,l_map) then
+				l_result := my_db.get_user(l_map)
+				if l_result /= Void then
+					return_success_without_message (l_result, res)
 				else
 					create l_result.make
 					return_error(l_result, res,"Could not get from " + table_name, 501)
