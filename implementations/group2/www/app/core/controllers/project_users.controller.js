@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 angular.module('coffee.core').controller('ProjectUsersController', ['$scope', '$http', '$stateParams', '$location', 'Global', 'Requirements','Projects', 'Users',
     function($scope, $http, $stateParams, $location, Global, Requirements,Projects, Users) {
         $scope.global = Global;
