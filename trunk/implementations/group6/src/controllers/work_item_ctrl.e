@@ -127,7 +127,6 @@ feature --handlers about work_items
 			l_comments: ARRAYED_LIST[COMMENT]
 			l_links: ARRAYED_LIST[LINK]
 			num: INTEGER -- counts hw many comments there are
-			presence_user: BOOLEAN --it is True if the author of the comments exist into the dd, False otherwise
 			presence_work_item: BOOLEAN --it is True if the work_item of the link exist into the dd, False otherwise
 		do
 			-- Create string objects to read-in the payload that comes with the request

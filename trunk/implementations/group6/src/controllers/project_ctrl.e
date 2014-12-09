@@ -422,7 +422,7 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.is_member (l_user_email, l_project_name) = false then
+			elseif my_db.is_member (l_user_email, l_project_name) then
 				--check if user is member.
 				j_obj.put (create {JSON_STRING}.make_json ("The user is not a member of this project"), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)

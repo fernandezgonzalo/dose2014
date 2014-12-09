@@ -95,6 +95,13 @@ feature --handlers
 				parser: JSON_PARSER
 				l_result: JSON_OBJECT
 				l_iteration_data: TUPLE[number: STRING; name: STRING]
+				-- Adds for sending email
+				env: EXECUTION_ENVIRONMENT
+				array_owners: ARRAYED_LIST[STRING]
+				j_owners: JSON_ARRAY
+				i: INTEGER
+				string, email, path: STRING
+				---------------
 			do
 					-- create emtpy string objects
 				create l_payload.make_empty
@@ -140,6 +147,48 @@ feature --handlers
 
 					set_json_header_ok (res, l_result.representation.count)
 
+					-- Adds code for sending email to the owner of the project (Anna)
+					create j_owners.make_array
+					-- Retrieve the owners email
+					j_owners:=my_db.get_all_project_owners(l_project)
+					print(my_db.get_all_project_owners(l_project).representation)
+					create array_owners.make (j_owners.count)
+					print(j_owners.count)
+					across j_owners.array_representation as array loop
+						-- Reads one email at time
+						if attached {JSON_OBJECT} array.item as owner then
+							if attached {JSON_STRING} owner.item ("email") as t then
+								email:= t.unescaped_string_8
+								print(email)
+								array_owners.extend (email)
+							end
+						end
+					end
+					create env
+					-- Sends emails
+					from
+						i:=1
+					until
+						i>array_owners.count
+					loop
+						-- Make a strint to call python script
+						create string.make_empty
+						path:=my_db.path_to_src_folder(1)
+						string:="python "
+						string.append_string (path)
+						string.append_string(array_owners[i])
+						string.append(" %"")
+						string.append (l_project)
+						string.append ("%" %"")
+						string.append (l_iteration_data.name)
+						string.append ("%"")
+						env.launch(string)
+						i:=i+1
+
+					end
+
+					--------------------------------------
+
 
 				else
 						-- PROJECT not present into the database. Sending back an error message
@@ -163,6 +212,13 @@ feature --handlers
 				l_number: INTEGER
 				parser: JSON_PARSER
 				l_result: JSON_OBJECT
+				-- Adds for sending email
+				env: EXECUTION_ENVIRONMENT
+				array_owners: ARRAYED_LIST[STRING]
+				j_owners: JSON_ARRAY
+				i: INTEGER
+				string, email, path, name_iteration: STRING
+							---------------
 			do
 					-- create emtpy string objects
 				create l_payload.make_empty
@@ -237,6 +293,49 @@ feature --handlers
 
 					l_result.put (create {JSON_STRING}.make_json ("Iteration " + l_number.out + " removed from project." + l_project + " successfully."), create {JSON_STRING}.make_json ("success"))
 					set_json_header_ok (res, l_result.representation.count)
+
+					-- Adds code for sending email to the owner of the project (Anna)
+					create j_owners.make_array
+					-- Retrieve the owners email	
+					j_owners:=my_db.get_all_project_owners(l_project)
+					print(my_db.get_all_project_owners(l_project).representation)
+					create array_owners.make (j_owners.count)
+					print(j_owners.count)
+					across j_owners.array_representation as array loop
+					-- Reads one email at time
+					if attached {JSON_OBJECT} array.item as owner then
+						if attached {JSON_STRING} owner.item ("email") as t then
+							email:= t.unescaped_string_8
+							print(email)
+							array_owners.extend (email)
+							end
+						end
+					end
+					create env
+					-- Sends emails
+					from
+						i:=1
+					until
+						i>array_owners.count
+					loop
+						-- Make a strint to call python script
+						create string.make_empty
+						path:=my_db.path_to_src_folder(3)
+						string:="python "
+						string.append_string (path)
+						string.append_string(array_owners[i])
+						string.append(" %"")
+						string.append (l_project)
+						string.append ("%" %"")
+						name_iteration:="ITERATION "
+						name_iteration.append_integer (l_number)
+						string.append (name_iteration)
+						string.append ("%"")
+						env.launch(string)
+						i:=i+1
+					end
+
+									--------------------------------------
 
 				end
 					-- sending back the result

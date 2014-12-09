@@ -1195,6 +1195,21 @@ feature --SEARCH
 
 		end
 
+	path_to_src_folder(file_num: INTEGER): STRING
+		-- calculates the path to the src folder, based on the location of the .ecf file
+		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
+		do
+			if file_num = 1 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_add_iteration.py "
+			end
+			if file_num = 2  then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_pass.py "
+			end
+			if file_num = 3  then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_rem_iteration.py "
+			end
+		end
+
 feature {NONE}
 
 
