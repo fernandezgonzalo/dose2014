@@ -56,6 +56,7 @@ feature -- Handlers
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- return in response all project by user, the id_user is in the header of request
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -68,6 +69,7 @@ feature -- Handlers
 		end
 
 	get_project_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- return project info through the project id in the req
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
@@ -79,6 +81,7 @@ feature -- Handlers
 		end
 
 	get_users_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- return user info through the user id in the req
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -90,6 +93,7 @@ feature -- Handlers
 		end
 
 	delete_users (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- delete user with the user id
 		local
 			l_result: JSON_OBJECT
 			l_user_id: STRING
@@ -112,6 +116,7 @@ feature -- Handlers
 		end
 
 	put_users (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- update user info
 		local
 			l_payload, name, last_name, password, rol, active: STRING
 			parser: JSON_PARSER
