@@ -278,6 +278,21 @@ feature -- Data access
 		end
 	end
 
+	get_user_from_id (a_id: STRING) : JSON_OBJECT
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+	do
+		create Result.make
+		create db_query_statement.make ("SELECT id,email,first_name,last_name FROM user WHERE id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_id>>)
+		if l_query_result_cursor.after then
+			print("Error while quering table user")
+			RESULT:= VOID
+		else
+			row_to_json_object (l_query_result_cursor.item,l_query_result_cursor.item.count, RESULT)
+		end
+	end
+
 	get_current_sprint (a_project_id : STRING) : JSON_OBJECT
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
