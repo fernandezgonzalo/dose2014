@@ -120,7 +120,7 @@ angular.module('Wbpms')
           $log.debug("Sending payload: " + JSON.stringify(payload));
 
           // send the payload to the server
-          $http.post('/api/projects/delprojects/', payload)
+          $http.post('/api/projects/remove', payload)
             .success(function(data, status, header, config) {
               $log.debug('Success remove project');         
               alert("The Project was deleted");                
