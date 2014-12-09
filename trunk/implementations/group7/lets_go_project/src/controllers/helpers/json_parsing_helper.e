@@ -42,4 +42,11 @@ feature
 			end
 		end
 
+
+	get_string_from_json(json: JSON_VALUE): STRING
+		do
+			Result := json.representation
+			Result.replace_substring_all ("%"", "")
+		end
+
 end

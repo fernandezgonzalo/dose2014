@@ -33,7 +33,7 @@ feature -- Handlers
 			if not input.has_key (email_key) then
 				reply_with_400(res)
 			else
-				email := input.item(email_key).representation
+				email := get_string_from_json(input.item(email_key))
 				email.replace_substring_all ("%"", "")
 				user_id := db.query_single_row ("SELECT id from users where email = ?", <<email>>)
 				if user_id.is_empty then
