@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', function($scope, $log, $location, AuthService) {
+angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$location', 'AuthService', '$q', function($scope, $log, $location, AuthService, $q) {
 
   $scope.onloadListeners = [];
 
@@ -35,20 +35,20 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
   };
 
   $scope.getCurrentUser = function() {
-    return new Promise(function(resolve, reject) {
-      if ($scope.currentUser) {
-        resolve($scope.currentUser);
-      } else if (AuthService.isAuthenticated()) {
-        AuthService.getCurrentUser().then(function(user) {
-          resolve(user);
-        }, function() {
-          reject();
-          $location.path('/login');
-        });
-      } else {
+    var deferred = $q.defer();
+    if ($scope.currentUser) {
+      deferred.resolve($scope.currentUser);
+    } else if (AuthService.isAuthenticated()) {
+      AuthService.getCurrentUser().then(function(user) {
+        deferred.resolve(user);
+      }, function() {
+        deferred.reject();
         $location.path('/login');
-      }
-    });
+      });
+    } else {
+      $location.path('/login');
+    }
+    return deferred.promise;
   };
 
   $scope.getCurrentUser().then(function(user) {
