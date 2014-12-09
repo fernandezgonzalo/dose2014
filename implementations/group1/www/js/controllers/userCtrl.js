@@ -17,6 +17,7 @@ angular.module('DOSEMS.controllers')
             {fullName: "Janise Columbus", points: 29}
         ];
 
+		$scope.tasksForSprint=[];
         var userId = $routeParams.userId;
         if (userId != null) {
             //Get the user from server
@@ -39,30 +40,47 @@ angular.module('DOSEMS.controllers')
 		$scope.sprintsIdForProject = SprintsForProject.get({userId:$scope.userId,projectId:$scope.projectId},function(data){
 		
 			$log.info($scope.sprintsIdForProject);
-		/*	var i = 0;
-			for(i=0;i<$scope.sprintsIdForProject.length;i++)
-				$scope.sprintsForProj = Sprints.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:$scope.sprintsIdForProject[i].id},function(data){
-				
-					$log.info(sprintsForProj);
-				
-			//TasksFromSprint
-			});*/
 		});
-		//----------------decomment this if you wanna test get all tasks from Sprint 1
-	/*	$scope.tasksIdFromSprint = TasksFromSprint.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:1},function(data){
-			$log.info(data);
 		
+		
+		//----------------decomment this if you wanna test get all tasks from Sprint 1
+		$scope.tasksIdFromSprintFunction = function(sprintId){
+			$log.info("aici ar tre sa fie prima!");
+			$scope.tasksIdFromSprint = TasksFromSprint.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId},function(data){
+			$log.info(data);
+			$scope.bla1 = data;
+			$log.info("now we are calling!!!!");
+			$log.info(data.length);
+			$scope.taskInfoFunction(data);
+			$scope.tasksForSprint=[];
 		});
-	*/	
+		}
 		
 		// -------------decomment this is you wanna test task details for project 1, sprint 1
 		
 	
-	/*	$scope.taskInfo = Tasks.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:1},function(data){
-			$log.info(data);
+		$scope.taskInfoFunction = function(taskIds){
+			$log.info("am intrat in taskInfoFct si astea is idurile pt taskuri");
+			$log.info(taskIds.length);
+			
+			//$log.info($scope.tasksIdFromSprint);
+			
+			angular.forEach(taskIds, function(obj,id)
+			{
+				
+				var bla = Tasks.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:obj.id},function(data){
+					$log.info("should have task info");
+					$log.info(data);
+					
+					$scope.tasksForSprint.push(data[0]);
+				});
+				$log.info("?????");
+				$log.info(bla);
+			});
+			$log.info("lungime Tasks from Sprint");
+			$log.info($scope.tasksForSprint.length);
+		}
 		
-		});
-		*/
 		
         $scope.getUrl = function () {
             $scope.bla = "bla";
