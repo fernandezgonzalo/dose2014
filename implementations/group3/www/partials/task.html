@@ -19,9 +19,10 @@
 			<input type="text" class="form-control" ng-model="task.number"  placeholder="number"> <br>
 			  <label>Available users:</label>:</label> <br>
 			  <div class="list-group">
+				  Lord: <input type="checkbox" ng-model="lord"> <br/>
 				  <div class="list-group-item" ng-repeat="user in users">
-					  <h4> {{user.name}}
-						  <button type="button" class="btn btn-link pull-right">Edit</button> </h4>
+					  <h4>
+					  {{user.firstName}} {{user.LastName}}: <input type="checkbox" ng-model={{user.id}}> <br/> </h4>
 				  </div>
 			  </div>
 			<label>Assignees:</label> <br>

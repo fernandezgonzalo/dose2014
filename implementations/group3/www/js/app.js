@@ -25,10 +25,10 @@ var sprints = [{id:1 , idProject:1, name:'Sprint1', status:'open', startDate:123
   {id:2 , idProject:1, name:'Sprint2', status:'close', startDate:32265667, completionDate:884312311},
   {id:3 , idProject:2,name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911},
   {id:4 , idProject:4,name:'Sprint4', status:'open', startDate:777945667, completionDate:88931911}];
-var stories = [{id:1 , idSprint:1, title:'Story1', description:'Hi', points:20, notes:'ok'},
+var stories = [{id:1 , idSprint:1, title:'Story1', description:'Hi', points:5, notes:'ok'},
   {id:2 , idSprint:1, title:'Story2', description:'Hi', points:15, notes:'ok'},
   {id:3 , idSprint:2, title:'Story3', description:'Hi', points:35, notes:'ok'} ];
-var tasks = [{id:1, idStory:1, description:'Task1', number:1, points:5}];
+var tasks = [{id:1, idStory:1, description:'Task1', number:1, points:5, status:1}];
 var logged = false;
 
 
