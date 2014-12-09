@@ -23,7 +23,8 @@
     "angular-dragdrop": "~1.0.8",
     "bootstrap": "~3.1.1",
     "chartjs": "~0.2.0",
-    "tc-angular-chartjs": "~1.0.9"
+    "tc-angular-chartjs": "~1.0.9",
+    "amplify": "~1.1.2"
   },
   "devDependencies": {
     "less": "~1.7.5"
