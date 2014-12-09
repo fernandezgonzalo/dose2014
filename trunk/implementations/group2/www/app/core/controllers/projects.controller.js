@@ -51,10 +51,15 @@ angular.module('coffee.core').controller('ProjectController', ['$scope', '$state
             }
         };
 
-        $scope.update = function() {
-            $scope.project.put().then(function() {
-                $location.path('listProjects');
-            });
-        };
+          $scope.update = function() {
+           Projects
+           .one($scope.project.id)
+           .customPUT({
+               name: $scope.project.name,
+               description: $scope.project.description
+           }).then(function(res) {
+               $location.path('/');
+           });
+       };
     }
 ]);
