@@ -48,7 +48,7 @@ angular.module('coffee.core').controller('SprintController', ['$scope', '$filter
         };
 
         $scope.remove = function(sprint) {
-            if (project) {
+            if (sprint) {
                 sprint.remove().then(function() {
                     //TODO: display a flash message
                 });
