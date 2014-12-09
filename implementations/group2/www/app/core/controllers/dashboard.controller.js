@@ -9,6 +9,14 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             var id = $stateParams.projectId;
             Projects.one(id).get().then(function(project) {
                 $scope.project = project;
+                project.one('current_sprint').get().then(function(res) {
+                    $scope.sprint = res;
+                }, function err(res) {
+                    $scope.sprint = null;
+                    $scope.err = res.data.Message;
+                });
+
+
                 //TODO: just reqs of current sprint!
                 project.getList('reqs').then(function(reqs){
                     $scope.project.reqs = reqs;

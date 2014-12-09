@@ -52,7 +52,15 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
         };
 
         $scope.update = function() {
-            $scope.requirement.put().then(function() {
+            Projects
+            .one($scope.requirement.project_id)
+            .one('reqs', $scope.requirement.id)
+            .customPUT({
+                title: $scope.requirement.title,
+                risk: $scope.requirement.risk,
+                description: $scope.requirement.description,
+                priority: $scope.requirement.priority
+            }).then(function(res) {
                 $location.path('listRequirements');
             });
         };
