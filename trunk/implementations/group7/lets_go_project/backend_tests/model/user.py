@@ -49,7 +49,7 @@ def get_mail_address(firstname, lastname):
     return str.lower("%s.%s@gmail.com" % (firstname, lastname))
 
 
-HASHED_EXAMPLE_PASSWORD = get_hashed_password('asdf', 1)
+HASHED_EXAMPLE_PASSWORD = get_hashed_password('asdfasdf', 1)
 
 
 class User(DatabaseItem):

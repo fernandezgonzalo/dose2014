@@ -104,7 +104,7 @@ feature -- Basic operations
 				-- handling of all the routes relating to "projects"
 			projects_base_uri := "/projects"
 			setup_restful_routing_for(project_ctrl, projects_base_uri, "project_id")
-			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_devs", agent project_ctrl.add_users_authorized_validated, router.methods_put)
+			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/invite_dev", agent project_ctrl.add_user_authorized_validated, router.methods_put)
 			map_uri_template_agent_with_request_methods (projects_base_uri + "/{project_id}/remove_devs", agent project_ctrl.remove_users_authorized_validated, router.methods_put)
 
 				-- handling of all the routes relating to "sprints"

@@ -20,6 +20,40 @@ create
 	make
 
 
+feature -- Handlers
+
+	add_user (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+		local
+			resource_id, email: STRING
+			user_id: JSON_OBJECT
+			email_key: JSON_STRING
+		do
+			resource_id := req.path_parameter (uri_id_name).string_representation
+			create email_key.make_json("email")
+			if not input.has_key (email_key) then
+				reply_with_400(res)
+			else
+				email := input.item(email_key).representation
+				email.replace_substring_all ("%"", "")
+				user_id := db.query_single_row ("SELECT id from users where email = ?", <<email>>)
+				if user_id.is_empty then
+					reply_with_404(res)
+				else
+					add_user_transaction(resource_id, user_id.representation)
+					reply_with_204(res)
+				end
+			end
+		end
+
+
+feature -- Error checking handlers (authentication, authorization, input validation)
+
+	add_user_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent add_user(req, res, ?), get_json_object_from_request(req))))
+		end
+
+
 feature {None} -- Internal helpers
 
 	post_insert_action (req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
@@ -55,6 +89,7 @@ feature {None} -- Internal helpers
 		local
 			dummy: ANY
 		do
+
 			dummy := db.insert("INSERT INTO project_shares (user_id, project_id) VALUES (?, ?)", <<dev_id, project_id>>)
 		end
 

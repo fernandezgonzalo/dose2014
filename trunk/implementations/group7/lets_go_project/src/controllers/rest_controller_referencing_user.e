@@ -1,8 +1,7 @@
 note
 	description: "Summary description for {REST_CONTROLLER_REFERENCING_USER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	author: "aaron"
+	date: "1.12.2014"
 
 class
 	REST_CONTROLLER_REFERENCING_USER
@@ -51,6 +50,10 @@ feature {None} -- Internal helpers
 			i: INTEGER
 		do
 			resource_id := req.path_parameter (uri_id_name).string_representation
+
+			if input.has_key(create {JSON_STRING}.make_json("emails")) then
+
+			end
 
 			user_array := get_json_array_from_string(input.item("devs").representation)
 			if user_array /= Void then

@@ -8,7 +8,7 @@ class TestRestResource(unittest.TestCase):
 
     def setUp(self):
         self.root_uri = 'http://%s:%d/' % (config.HOST, config.PORT)
-        cookie = requests.post(self.root_uri + 'sessions', data='{"email": "asdf", "password": "asdf"}').cookies['lets_go_session']
+        cookie = requests.post(self.root_uri + 'sessions', data='{"email": "asdf@asdf", "password": "asdfasdf"}').cookies['lets_go_session']
         self.cookies = dict(lets_go_session=cookie)
 
     def test_get_all(self):
