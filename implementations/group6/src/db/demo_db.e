@@ -143,14 +143,18 @@ feature -- Data access : project
 	is_member (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			l_array: JSON_ARRAY
 		do
 			-- check if the given email is owner of the given project
 			create db_query_statement.make ("SELECT * from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
-			l_query_result_cursor := db_query_statement.execute_new
-			if l_query_result_cursor.after then
-				Result := false
-			else
+			--l_query_result_cursor := db_query_statement.execute_new
+			create l_array.make_array
+			--l_query_result_cursor := db_query_statement.execute_new
+			db_query_statement.execute(agent rows_to_json_array (?, 3, l_array))
+			if l_array.count = 1 then
 				Result := true
+			else
+				Result := false
 			end
 		end
 
