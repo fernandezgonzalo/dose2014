@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', function($log, User, Utility, $http) {
+angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http', '$q', function($log, User, Utility, $http, $q) {
   var TAG = 'AuthService::';
   $log.debug(TAG, 'init');
 
@@ -8,17 +8,17 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   authService.KEY = 'MGMT_ID';
 
   authService.login = function(credentials) {
-    return new Promise(function(resolve, reject) {
-      $http.post('/api/login', credentials).then(function(response) {
-        var user = new User({userId: response.data.id});
-        angular.extend(user, response.data);
-        authService.loginSuccess(user);
-        resolve(user);
-      }, function(response) {
-        $log.debug(TAG, response);
-        reject(response);
-      });
+    var deferred = $q.defer();
+    $http.post('/api/login', credentials).then(function(response) {
+      var user = new User({userId: response.data.id});
+      angular.extend(user, response.data);
+      authService.loginSuccess(user);
+      deferred.resolve(user);
+    }, function(response) {
+      $log.debug(TAG, response);
+      deferred.reject(response);
     });
+    return deferred.promise;
   };
 
   authService.loginSuccess = function(user) {
@@ -54,12 +54,12 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
 
   authService.getCurrentUser = function() {
     var userId = localStorage.getItem(authService.KEY);
-    return new Promise(function(resolve, reject) {
-      User.get({userId: userId}, function(user) {
-        authService.loginSuccess(user);
-        resolve(user);
-      }, reject);
-    });
+    var deferred = $q.defer();
+    User.get({userId: userId}, function(user) {
+      authService.loginSuccess(user);
+      deferred.resolve(user);
+    }, deferred.reject);
+    return deferred.promise;
   };
   return authService;
 }]);
