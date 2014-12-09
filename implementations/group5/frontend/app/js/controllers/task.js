@@ -171,6 +171,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   $scope.openTask = function(task) {
+  		commentsQuery(task.id);
   		$scope.isNew = false;
   		$scope.viewCommentForm = false;
   		$scope.viewDeadline = false;
@@ -304,6 +305,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   $scope.saveComment = function(userId, taskId){
+  	$log.debug('USERID::', userId, 'TASKID', taskId);
   	$scope.newComment = new Comment();
   	Utility.toCamel($scope.newComment);
   	$scope.newComment.idTask = taskId;
@@ -317,6 +319,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   	Utility.escape($scope.newComment);
   	$scope.newComment.$save(function(res){
   		$scope.tempComment.id = res.id;
+  		if (!$scope.tasksComments[taskId]) {$scope.tasksComments[taskId] = [];}
   		$scope.tasksComments[taskId].push($scope.tempComment);
   	});
   };
