@@ -18,6 +18,7 @@ feature
 			req.read_input_data_into (l_payload)
 			print("Received json to parse: " + l_payload)
 			Result := get_json_object_from_string(l_payload)
+			print("%N%NJSON:" + Result.representation)
 		end
 
 

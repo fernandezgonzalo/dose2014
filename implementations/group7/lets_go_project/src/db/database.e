@@ -137,19 +137,24 @@ feature {NONE} -- Format helpers
 			-- each object has as JSON keys the db's colum name and and as JSON value the db's row value
 		local
 			i: NATURAL
+			column_name: STRING
+			key: JSON_STRING
 		do
 			from
 				i := 1
 			until
 				i > a_row.count
 			loop
-				print ("%N%N" + a_result_object.representation)
-				print ("%N" + a_row.statement.string + "%N%N")
-
-				if a_row.type (i) = 1 then
-					a_result_object.put (create {JSON_NUMBER}.make_integer (a_row.integer_value (i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
+				column_name := a_row.column_name(i)
+				create key.make_json (a_row.column_name(i))
+				if a_row.is_null(i) then
+					a_result_object.put(create {JSON_NULL}, key)
 				else
-					a_result_object.put (create {JSON_STRING}.make_json (a_row.string_value(i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
+					if a_row.type (i) = 1 then
+						a_result_object.put (create {JSON_NUMBER}.make_integer(a_row.integer_value (i)), key)
+					else
+						a_result_object.put (create {JSON_STRING}.make_json(a_row.string_value(i)), key)
+					end
 				end
 				i := i + 1
 			end

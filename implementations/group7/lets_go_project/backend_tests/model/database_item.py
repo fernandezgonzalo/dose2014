@@ -47,17 +47,20 @@ class DatabaseItem(object):
                 d[key] = str(value)
         return d
 
+    def replace_none_with_null(self, text):
+        return text.replace('None', 'null')
+
     def get_json_with_database_fields_with_id(self):
-        return str(self.replace_dates_with_strings(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields()))).replace("'", '"')
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields()))).replace("'", '"'))
 
     def get_json_with_database_fields_without_id(self):
-        return str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields())))).replace("'", '"')
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields())))).replace("'", '"'))
 
     def get_json_with_all_fields_with_id(self):
-        return str(self.replace_dates_with_strings(self.get_dict_without_internal_fields())).replace("'", '"')
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_internal_fields())).replace("'", '"'))
 
     def get_json_with_all_fields_without_id(self):
-        return str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_internal_fields()))).replace("'", '"')
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_internal_fields()))).replace("'", '"'))
 
     def get_insert_database_statement(self):
         fields = self.database_fields

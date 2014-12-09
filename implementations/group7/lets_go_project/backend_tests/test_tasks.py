@@ -1,5 +1,6 @@
 import requests
 import unittest
+import datetime
 import test_rest_resource
 from model.task import Task, get_task_from_json
 
@@ -16,6 +17,8 @@ class TestTasks(test_rest_resource.TestRestResource):
             description='some description',
             comment='some comment',
             status=1,
+            progress=50,
+            completion_date=None,
             owner=1,
             story_id=1,
             assigned_devs=[],
@@ -27,6 +30,8 @@ class TestTasks(test_rest_resource.TestRestResource):
             description='some updated description',
             comment='some updated comment',
             status=2,
+            progress=100,
+            completion_date=datetime.date(2014, 12, 6),
             owner=2,
             story_id=1,
             assigned_devs=[],
