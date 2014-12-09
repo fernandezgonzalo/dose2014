@@ -39,10 +39,11 @@ feature {NONE} -- Format helpers
 			loop
 				l_key := a_row.column_name (i)
 				l_key.to_lower
-				j_obj.put (create {JSON_STRING}.make_json (a_row.string_value (i)), create{JSON_STRING}.make_json (l_key))
+				if a_row.value (i) /= Void then
+					j_obj.put (create {JSON_STRING}.make_json (a_row.string_value (i)), create{JSON_STRING}.make_json (l_key))
+				end
 				i := i + 1
 			end
-
 			a_result_array.extend(j_obj)
 		end
 
