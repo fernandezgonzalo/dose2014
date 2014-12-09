@@ -19,22 +19,19 @@ angular.module('coffee.users').controller('LoginCtrl', ['$scope', '$rootScope', 
             $scope.user = Global.user;
         };
         $scope.edit = function() {
-            console.log(this.user)
             var u = {}
             if (this.user.new_password == this.user.new_password_repeated) {
-                
-                
                 var id = this.user.id;
                 var self = this;
-                Users.one(id).get().then(function(user) {
-                    var u = user;
-                    u.first_name = self.user.first_name;
-                    u.last_name = self.user.last_name;
-                    u.password = self.user.new_password;
-
-                    u.put().then(function(){
-                        console.log("SUCCESS")
-                    });
+                var u = {};
+                u.email = self.user.email;
+                u.first_name = self.user.first_name;
+                u.last_name = self.user.last_name;
+                u.password = self.user.new_password;
+                Users
+                .one(id)
+                .customPUT(u).then(function(res) {
+                   $location.url('/');
                 });
 
             } else {
@@ -48,6 +45,19 @@ angular.module('coffee.users').controller('LoginCtrl', ['$scope', '$rootScope', 
                 $location.url('/');
             }, function(err) {
                 $scope.error = err.Message;
+            });
+        };
+
+        $scope.removeUser = function() {
+            console.log("remove");
+            var id = Global.user.id;
+            Users
+            .one(id)
+            .remove().then(function(res) {
+                $http.delete('/coffee/sessions').success(function(response) {
+                    $scope.global.user = null;
+                    $location.url('/');
+                });
             });
         };
     }

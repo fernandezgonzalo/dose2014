@@ -8,10 +8,6 @@ angular.module('coffee.core').controller('HeaderController', ['$scope', '$locati
           {link: 'createProject', title: 'Create Project'},
         ]
         
-        $scope.edit = function() {
-            
-        };
-
         $scope.logout = function() {
             $http.delete('/coffee/sessions').success(function(response) {
                 $scope.global.user = null;
