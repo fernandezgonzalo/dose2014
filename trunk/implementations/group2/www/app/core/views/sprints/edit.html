@@ -1,6 +1,6 @@
 <section data-ng-controller="SprintController" data-ng-init="findOne()"> 
 	<div class="page-header">
-		<h1>Edit Sprint</h1>
+		<h1>Edit Sprint</h1>  
 	</div>
 	<div class="col-md-12">
 		<form name="articleForm" class="form-horizontal" data-ng-submit="update()" novalidate>
@@ -31,5 +31,11 @@
 				</div>
 			</fieldset>
 		</form>
+	</div>
+
+		<div>
+			<a  data-ng-confirm-click="Are you sure?" data-confirmed-click="remove()" class="btn btn-warning">
+             Delete Sprint
+       		</a>	
 	</div>
 </section>
