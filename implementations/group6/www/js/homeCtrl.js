@@ -17,7 +17,7 @@ angular.module('Wbpms')
 
         $scope.iterations = [];           
 
-        $scope.work_Items = [];        
+        $scope.work_Items = [[]];        
 
         $scope.members = [];                            
 
@@ -51,7 +51,7 @@ angular.module('Wbpms')
                 $http.post('/api/projects/iterations/getprojectiterations', payload2)                  
                   .success(function(data, status, header, config) {
                     $log.debug('Success fetching projects from server');
-                    $scope.iterations = data[0].iterations;                    
+                    $scope.iterations = data[0].iterations;    
 
                     for(var j =0; j < $scope.iterations.length; j++) {
 
@@ -67,7 +67,7 @@ angular.module('Wbpms')
                       $http.post('api/projects/iterations/getworkitems', payload3)                  
                         .success(function(data, status, header, config) {
                           $log.debug('Success fetching projects from server');
-                          $scope.work_Items = data[0].work_Items;
+                          $scope.work_Items[j] = data[0].work_Items;                           
                       })
                         .error(function(data, status) {
                           $log.debug('Error while fetching projects from server');
@@ -87,10 +87,11 @@ angular.module('Wbpms')
                 $log.debug("Sending payload: " + JSON.stringify(payload4));
 
                 // send the payload to the server
-                $http.post('/api/projects/getmembers/', payload4)                  
+                $http.post('/api/projects/getmembers', payload4)                  
                   .success(function(data, status, header, config) {
                     $log.debug('Success fetching projects from server');
-                    $scope.iterations = data[0].iterations;
+                    $scope.members = data[0].members;                      
+
                 })
                   .error(function(data, status) {
                     $log.debug('Error while fetching projects from server');
