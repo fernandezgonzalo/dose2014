@@ -858,7 +858,7 @@ feature	--Data access: WORK ITEMS
 				old_name:=a
 				if (a.same_string(work_item_name) = false) then
 					-- The names are different than add a comment
-					text:=("Old name: %"" + a + "%""+", New name: %"" + work_item_name + "%"")
+					text:=("Old name: " + a + " "+", New name: " + work_item_name + "")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET name=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_name,work_item_id>>)
@@ -872,7 +872,7 @@ feature	--Data access: WORK ITEMS
 				b:= l_query_result_cursor.item.integer_value(7)
 				if (b.is_equal(work_item_point) = false) then
 					-- The points are different than add a comment
-					text:=("Old points: %"" + b.out + "%""+", New points: %"" + work_item_point.out + "%"")
+					text:=("Old points: " + b.out + ""+", New points: " + work_item_point.out + "")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET points=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_point,work_item_id>>)
@@ -886,7 +886,7 @@ feature	--Data access: WORK ITEMS
 				a:= l_query_result_cursor.item.value(8).out
 				if (a.same_string(work_item_state) = false) then
 					-- The status are different than add a comment
-					text:=("Old status: %"" + a + "%""+", New status: %"" + work_item_state + "%"")
+					text:=("Old status: " + a + ""+", New status: " + work_item_state + "")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET status=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_state,work_item_id>>)
@@ -900,7 +900,7 @@ feature	--Data access: WORK ITEMS
 				a:= l_query_result_cursor.item.value(10).out
 				if (a.same_string(work_item_owner) = false) then
 					-- The owners are different than add a comment
-					text:=("Old owner: %"" + a + "%""+", New owner: %"" + work_item_owner + "%"")
+					text:=("Old owner: " + a + ""+", New owner: " + work_item_owner + "")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET owner=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_owner,work_item_id>>)
@@ -916,7 +916,7 @@ feature	--Data access: WORK ITEMS
 					-- Remove all links connected with the given work_item
 					remove_all_work_item_links(work_item_id)
 					-- The iterations are different than add a comment
-					text:=("Old iteration: %"" + b.out + "%""+", New iteration: %"" + work_item_iteration.out + "%"")
+					text:=("Old iteration: " + b.out + ""+", New iteration: " + work_item_iteration.out + "")
 					add_comment_from_modification(work_item_id,text)
 					-- Modify its number with respect to the number of the new iteration
 					-- Count and modify the number of the new iteration
@@ -937,7 +937,7 @@ feature	--Data access: WORK ITEMS
 				a:= l_query_result_cursor.item.value(6).out
 				if (a.same_string(work_item_description) = false) then
 					-- The creators are different than add a comment
-					text:=("Old description: %"" + a + "%""+", New description: %"" + work_item_description + "%"")
+					text:=("Old description: " + a + ""+", New description: " + work_item_description + "")
 					add_comment_from_modification(work_item_id,text)
 					create db_modify_statement.make ("UPDATE work_item SET description=? WHERE id=? ;", db)
 					l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_description,work_item_id>>)

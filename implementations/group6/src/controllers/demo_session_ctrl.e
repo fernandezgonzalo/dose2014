@@ -236,7 +236,7 @@ feature -- Handlers
 				from file_input.start ; file_input.read_character ;
 				until file_input.off
 				loop
-     			 	new_pass.append_character (file_input.last_character)
+     			 	new_pass.append_character(file_input.last_character.to_character_8)
      			  	file_input.read_character
     			end
     			file_input.close

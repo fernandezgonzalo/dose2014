@@ -20,7 +20,7 @@ for i in range(random.randrange(1,3)):
     replace_index = random.randrange(len(mypw)//2,len(mypw))
     mypw = mypw[0:replace_index] + mypw[replace_index].upper() + mypw[replace_index+1:]
 
-#Write the generated password into file generation_pass.txt
+# Write the generated password into file generation_pass.txt
 out_file = open("generation_pass.txt","w")
 out_file.write(mypw)
 out_file.close()
