@@ -9,7 +9,6 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
          $scope.project = myService.getSavedProject();
         $scope.sprint = myService.getSavedSprint();
-        $scope.actualStory = {};
         $scope.stories = [];
         $scope.tasks = []
 
@@ -44,7 +43,7 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
             var i;
             for (i = 0; i < tasks.length; i++) {
 
-                if(tasks[i].idStory === $scope.actualStory.id ){
+                if(tasks[i].idStory === currentStory.id ){
 
                     $scope.tasks.push(tasks[i]);
                 }
@@ -73,7 +72,7 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
 
         $scope.setStorySelected = function(s){
             //$scope.storySelected = id;
-            $scope.actualStory = s ;//$scope.stories[id];
+            currentStory = s ;//$scope.stories[id];
         }
 
     }]);

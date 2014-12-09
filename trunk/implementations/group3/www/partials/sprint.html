@@ -22,7 +22,7 @@
 			  <select class="form-control" ng-model="sprint.status" ng-options="status.name for status in statuses"> 
 			  </select>
 		  </div>
-		  <button ng-click="submit(sprint.name, sprint.begin, sprint.end, sprint.status)" class="btn btn-default">
+		  <button ng-click="addSprint(sprint)" ng-href="http://localhost:63342/www/index.html#/projectsSprints" class="btn btn-default">
 		  	Submit
 		  </button>
 		  <button ng-click="cancel()" class="btn btn-default">
