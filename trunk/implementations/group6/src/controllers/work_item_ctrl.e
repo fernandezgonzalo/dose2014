@@ -37,7 +37,7 @@ feature --handlers about work_items
 	get_achieved_work_items(req: WSF_REQUEST; res: WSF_RESPONSE)
 		--Send a responcse which contains all work_items with 'Done' status
 		local
-			l_payload, l_user_email: STRING
+			l_user_email: STRING
 			j_obj: JSON_OBJECT
 			j_array: JSON_ARRAY
 		do
@@ -54,7 +54,6 @@ feature --handlers about work_items
 				j_obj.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, j_obj.representation.count)
 			else
---				l_user_email:= req.query_parameter ("user").string_representation
 				-- Get from the database all the work_items which are associated with the given iteration and project
 				j_array := my_db.all_user_done_work_items (l_user_email)
 				if j_array.count > 0 then
@@ -76,23 +75,35 @@ feature --handlers about work_items
 		--Sends a response which contains a json object with the information about a work_item; the work_item_id, the iteration number and the project name are expected to be
 		--Part of the request payload
 		local
-				l_id: STRING
+				l_id: INTEGER
 				l_result_payload: JSON_OBJECT
+				l_payload: STRING
+				parser: JSON_PARSER
 		do
-			-- Create l_id empty
-			create l_id.make_empty
+			create l_payload.make_empty
+			-- Create l_id default
+			create l_id.default_create
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- The the work_item_id from the URL (as defined by the placeholder in the route)
-			l_id:= req.query_parameter ("work_item_id").string_representation
-			if my_db.work_item_exists (l_id.to_integer) then
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+					l_id := s.item.to_integer
+				end
+			end
+			if my_db.work_item_exists (l_id) then
 				-- Get from the database all the work_items which are associated with the given iteration which is into the given project
-				l_result_payload := my_db.work_item_info(l_id.to_integer)
-				l_result_payload.put(create {JSON_STRING}.make_json ("SUCCESS: The fields of the work_item '" + l_id + "' are listed above."),create {JSON_STRING}.make_json ("success"))
+				l_result_payload := my_db.work_item_info(l_id)
+				l_result_payload.put(create {JSON_STRING}.make_json ("SUCCESS: The fields of the work_item '" + l_id.out + "' are listed above."),create {JSON_STRING}.make_json ("success"))
 				-- Everything ok	
 				set_json_header_ok (res, l_result_payload.representation.count)
 			else
-				l_result_payload.put(create {JSON_STRING}.make_json ("ERROR: The work_item '" + l_id + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put(create {JSON_STRING}.make_json ("ERROR: The work_item '" + l_id.out + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			end
 			-- Add the message to the respons
@@ -112,7 +123,7 @@ feature --handlers about work_items
 			new_id: INTEGER
 			comment: COMMENT
 			link: LINK
-			c1,c2: STRING
+			c1: STRING
 			l_comments: ARRAYED_LIST[COMMENT]
 			l_links: ARRAYED_LIST[LINK]
 			num: INTEGER -- counts hw many comments there are
@@ -139,10 +150,7 @@ feature --handlers about work_items
 			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 				-- We have to convert the json string into an eiffel string
-				if attached {JSON_NUMBER} j_object.item ("number") as s then
-					l_number := s.item.to_integer
-				end
-				if attached {JSON_NUMBER} j_object.item ("iteration_number") as s then
+				if attached {JSON_STRING} j_object.item ("iteration_number") as s then
 					l_iteration := s.item.to_integer
 				end
 				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
@@ -154,7 +162,7 @@ feature --handlers about work_items
 				if attached {JSON_STRING} j_object.item ("description") as s then
 					l_description := s.unescaped_string_8
 				end
-				if attached {JSON_NUMBER} j_object.item ("points") as s then
+				if attached {JSON_STRING} j_object.item ("points") as s then
 					l_points := s.item.to_integer
 				end
 				if attached {JSON_STRING} j_object.item ("createdby") as s then
@@ -166,29 +174,16 @@ feature --handlers about work_items
 				if attached {JSON_STRING} j_object.item ("ownerby") as s then
 					l_owner := s.unescaped_string_8
 				end
- 				if attached {JSON_OBJECT} j_object.item ("comments") as a then
- 					presence_user:= True
- 					-- Reads the author
- 					if attached {JSON_STRING} a.item ("author") as t then
-						c2:= (t.unescaped_string_8)
-						-- Checks the existence of the given user into the db
-						if my_db.check_if_mail_already_present (c2) = False then
-							presence_user:=False
-						end
-					end
-					if presence_user = True then
-						--If the author exists than reads the comments
-						if attached {JSON_ARRAY} a.item ("texts") as arr AND presence_user = True then
-							create l_comments.make (arr.count)
-							across arr.array_representation as array loop
-							-- Reads one text at time
-								if attached {JSON_OBJECT} array.item as comm then
-									if attached {JSON_STRING} comm.item ("text") as t then
-										c1:= t.unescaped_string_8
-										create comment.make (c1, c2)
-										l_comments.extend (comment)
-									end
-								end
+ 				if attached {JSON_ARRAY} j_object.item ("comments") as a then
+ 					-- Reads the comments
+					create l_comments.make (a.count)
+					across a.array_representation as array loop
+						-- Reads one text at time
+						if attached {JSON_OBJECT} array.item as comm then
+							if attached {JSON_STRING} comm.item ("text") as t then
+								c1:= t.unescaped_string_8
+								create comment.make (c1, l_owner)
+								l_comments.extend (comment)
 							end
 						end
 					end
@@ -214,18 +209,11 @@ feature --handlers about work_items
 				end
 			end
 
-			if presence_user = False then
-				-- The author doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The author comments '" + c2 + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_work_item (l_iteration, l_project,l_name ) = True then
+
+			if my_db.check_work_item (l_iteration, l_project,l_name ) = True then
 				-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
---			elseif presence_work_item = False then
---				-- The work_item doesn't exist into the db
---				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item '" + num.out + "' doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
---				set_json_header (res, 401, l_result_payload.representation.count)
 			elseif l_name.is_empty or l_name = Void then
 				-- The work_item name is empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
@@ -300,15 +288,15 @@ feature --handlers about work_items
 	change_work_item(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Changes an existing work_item; all information about the work_item are expeted to be part of the request payload
 		local
-			l_payload, l_state, l_name, l_description, l_owner, l_id, l_project: STRING
-			l_points, l_iteration:INTEGER
+			l_payload, l_state, l_name, l_description, l_owner, l_project: STRING
+			l_points, l_iteration,l_id:INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
 			old_name: STRING
 		do
 			-- Create string objects to read-in the payload that comes with the request
 			create l_payload.make_empty
-			create l_id.make_empty
+			create l_id.default_create
 			create l_iteration.default_create
 			create l_points.default_create
 			create l_project.make_empty
@@ -318,8 +306,6 @@ feature --handlers about work_items
 			create l_state.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- The the work_item_id from the URL (as defined by the placeholder in the route)
-			l_id:= req.query_parameter("work_item_id").string_representation
 			-- Read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 			-- Now parse the json object that we got as part of the payload
@@ -327,7 +313,10 @@ feature --handlers about work_items
 			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 				-- We have to convert the json string into an eiffel string
-				if attached {JSON_NUMBER} j_object.item ("nb_iteration") as s then  --
+				if attached {JSON_STRING} j_object.item ("work_item_id") as s then  --
+					l_id := s.item.to_integer
+				end
+				if attached {JSON_STRING} j_object.item ("nb_iteration") as s then  --
 					l_iteration := s.item.to_integer
 				end
 				if attached {JSON_STRING} j_object.item ("project") as s then
@@ -339,7 +328,7 @@ feature --handlers about work_items
 				if attached {JSON_STRING} j_object.item ("description") as s then
 					l_description := s.unescaped_string_8
 				end
-				if attached {JSON_NUMBER} j_object.item ("points") as s then  --
+				if attached {JSON_STRING} j_object.item ("points") as s then  --
 					l_points := s.item.to_integer
 				end
 				if attached {JSON_STRING} j_object.item ("status") as s then --
@@ -362,9 +351,9 @@ feature --handlers about work_items
 				-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists (l_id.to_integer) = False then
+			elseif my_db.work_item_exists (l_id) = False then
 				-- The work_item doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id + "' doesn't exist."), create {JSON_STRING}.make_json ("Error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			elseif l_description.is_empty or l_description = Void then
 				-- The work_item description is empty
@@ -399,8 +388,7 @@ feature --handlers about work_items
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given owner doesn't exist into the db"), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				old_name:=my_db.modify_work_item(l_id.to_integer,l_iteration,l_name,l_points,l_state,l_owner,l_description,l_project)
-				print("ciao")
+				old_name:=my_db.modify_work_item(l_id,l_iteration,l_name,l_points,l_state,l_owner,l_description,l_project)
 				-- Send an appropriate message
 				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + old_name + "' was modified successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
@@ -413,31 +401,43 @@ feature --handlers about work_items
 	delete_work_item(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Deletes an existing work_item; work_item_id is expected to be part of the request payload
 		local
-			l_id: STRING
+			l_payload: STRING
+			l_id: INTEGER
 			l_result_payload: JSON_OBJECT
+			parser: JSON_PARSER
 		do
+			create l_payload.make_empty
 			-- Create l_id like empty
-			create l_id.make_empty
+			create l_id.default_create
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- The the work_item_id from the URL (as defined by the placeholder in the route)
-			l_id:= req.query_parameter ("work_item_id").string_representation
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+					l_id := s.item.to_integer
+				end
+			end
 			-- Check if the given work_item exists into the db
-			if my_db.work_item_exists (l_id.to_integer) = False then
+			if my_db.work_item_exists(l_id) = False then
 				-- The given work_item doesn't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id + "' doesn't exist."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				-- Update the numbers of the work_item which have a greater number
-				my_db.update_number (l_id.to_integer)
+				my_db.update_number(l_id)
 				-- Remove all links regardin this work_item
-				my_db.remove_all_work_item_links (l_id.to_integer)
+				my_db.remove_all_work_item_links (l_id)
 				-- Remove all comments regardin this work_item
-				my_db.remove_all_work_item_comments (l_id.to_integer)
+				my_db.remove_all_work_item_comments (l_id)
 				-- Remore the given work_item
-				my_db.remove_work_item (l_id.to_integer)
+				my_db.remove_work_item (l_id)
 				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item with id '" + l_id + "' was removed successfully."), create {JSON_STRING}.make_json ("success"))
+				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item with id '" + l_id.out + "' was removed successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
 			-- Add the message to the response
@@ -447,17 +447,32 @@ feature --handlers about work_items
 	get_all_iteration_work_items(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Gets all the work items related to an iteration; project's name and iteration's number are expected to be part of the request paylod
 		local
-			l_project,l_iteration_num: STRING
+			l_project, l_payload: STRING
+			l_iteration_num: INTEGER
 			j_obj: JSON_OBJECT
 			l_result_payload: JSON_ARRAY
+			parser: JSON_PARSER
 		do
-			create l_iteration_num.make_empty
+			create l_iteration_num.default_create
 			create j_obj.make
 			create l_project.make_empty
+			create l_payload.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make_array
-			l_project:= req.query_parameter ("project_name").string_representation
-			l_iteration_num:=req.query_parameter ("iteration_number").string_representation
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("project_name") as s then  --
+					l_project := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("iteration_number") as s then  --
+					l_iteration_num := s.item.to_integer
+				end
+			end
 			if l_project.is_empty or l_project = Void then
 				-- The project name is empty
 				j_obj.put (create {JSON_STRING}.make_json ("ERROR: The project name is empty."), create {JSON_STRING}.make_json ("error"))
@@ -468,7 +483,7 @@ feature --handlers about work_items
 				j_obj.put (create {JSON_STRING}.make_json ("ERROR: The project doesn't exist into db."), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_iteration (l_iteration_num.to_integer, l_project) = False then
+			elseif my_db.check_iteration (l_iteration_num, l_project) = False then
 				-- The given iteration doesn't exist into th db
 				j_obj.put (create {JSON_STRING}.make_json ("ERROR: The iteration doesn't exist into db."), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
@@ -476,8 +491,14 @@ feature --handlers about work_items
 			else
 				-- Get from the database all the work_items which are associated with the given iteration and project
 				l_result_payload := (my_db.iteration_work_items(l_iteration_num.to_integer, l_project))
-				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The work_items of iteration '" + l_iteration_num + "' into project '" + l_project + "' are listed above."), create {JSON_STRING}.make_json ("sucess"))
-				l_result_payload.extend (j_obj)
+				if l_result_payload.count = 0 then
+					-- The given iteration has 0 work item
+					j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The iteration '" + l_iteration_num.out + "' into project '" + l_project + "' hasn't any work_item."), create {JSON_STRING}.make_json ("sucess"))
+					l_result_payload.extend (j_obj)
+				else
+					j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The work_items of iteration '" + l_iteration_num.out + "' into project '" + l_project + "' are listed above."), create {JSON_STRING}.make_json ("sucess"))
+					l_result_payload.extend (j_obj)
+				end
 				-- Everything ok
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
@@ -560,26 +581,37 @@ feature --handlers about comments
 	get_all_work_item_comments(req: WSF_REQUEST; res: WSF_RESPONSE)
 		 -- Sends a response which contains a json array with all comments about a certain work_item; the work_item ID is expected to be part of the request payload
 		local
-			l_work_item: STRING
+			l_payload: STRING
+			l_work_item: INTEGER
 			j_obj: JSON_OBJECT
 			j_array: JSON_ARRAY
+			parser: JSON_PARSER
 		do
-			create l_work_item.make_empty
+			create l_work_item.default_create
 			create j_obj.make
 			create j_array.make_array
-
-			-- Create json object that we send back as in response
-			l_work_item:= req.query_parameter ("work_item_id").string_representation
+			create l_payload.make_empty
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+					l_work_item := s.item.to_integer
+				end
+			end
 			-- Checks if the given work_item_id exists into the db
-			if my_db.work_item_exists (l_work_item.to_integer) = False then
+			if my_db.work_item_exists (l_work_item) = False then
 				-- The work_item doesn't exist
 				j_obj.put ( create {JSON_STRING}.make_json ("ERROR: The given work_item doesn't exist."),create {JSON_STRING}.make_json ("error"))
 				set_json_header_ok (res,j_obj.representation.count)
 			else
-				j_array:= my_db.work_item_comments (l_work_item.to_integer)
+				j_array:= my_db.work_item_comments (l_work_item)
 				j_obj.put (j_array, create {JSON_STRING}.make_json ("comments"))
 				-- Gets from the database all the comments which are associated with the given id
-				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The comments of the given work_item are listed above."),create {JSON_STRING}.make_json ("success"))
+				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The comments of work_item '" + l_work_item.out + "' are listed above."),create {JSON_STRING}.make_json ("success"))
 				-- Everything ok
 				set_json_header_ok (res,j_obj.representation.count)
 			end
@@ -593,34 +625,48 @@ feature -- handlers about links
 	add_link(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Adds a new link between two work_items; both id are expected to be part of the request payload
 		local
-			l_work_item1, l_work_item2:STRING
+			l_payload:STRING
+			l_work_item1, l_work_item2: INTEGER
 			l_result_payload: JSON_OBJECT
+			parser: JSON_PARSER
 		do
+			create l_payload.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			l_work_item1:= req.query_parameter("id_work_item_source").string_representation
-			l_work_item2:= req.query_parameter("id_work_item_destination").string_representation
-
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("id_work_item_source") as s then
+					l_work_item1 := s.item.to_integer
+				end
+				if attached {JSON_STRING} j_object.item ("id_work_item_destination") as s then
+					l_work_item2 := s.item.to_integer
+				end
+			end
 			-- Checks the existence of the given work_items
-			if my_db.work_item_exists(l_work_item1.to_integer) = False AND my_db.work_item_exists(l_work_item2.to_integer) = True then
+			if my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = True then
 				-- The work_item1 doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item source '" + l_work_item1 + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item source '" + l_work_item1.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists(l_work_item1.to_integer) = True AND my_db.work_item_exists(l_work_item2.to_integer) = False then
+			elseif my_db.work_item_exists(l_work_item1) = True AND my_db.work_item_exists(l_work_item2) = False then
 				-- The work_item2 doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item destination '" + l_work_item2 + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item destination '" + l_work_item2.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists(l_work_item1.to_integer) = False AND my_db.work_item_exists(l_work_item2.to_integer) = False then
+			elseif my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = False then
 				-- Both work_item and work_item2 don't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Both work_item sourse '" + l_work_item1 + "' and destination '" + l_work_item2 + "' don't exist."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Both work_item sourse '" + l_work_item1.out + "' and destination '" + l_work_item2.out + "' don't exist."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.link_exist (l_work_item1.to_integer,l_work_item2.to_integer) = True then
+			elseif my_db.link_exist (l_work_item1,l_work_item2) = True then
 				-- The given link already exists into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Link ('" + l_work_item1 +"','" + l_work_item2 +"') already exists into the db."), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Link ('" + l_work_item1.out +"','" + l_work_item2.out +"') already exists into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				-- Everything is correct, therefore adds the new link
-				my_db.add_link (l_work_item1.to_integer, l_work_item2.to_integer)
+				my_db.add_link (l_work_item1, l_work_item2)
 				-- Send an appropriate message
 				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The link was added successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
@@ -690,40 +736,42 @@ feature -- handlers about links
 	get_all_work_item_links(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Send a response which contains a json array with all links about a certain work_item; the work_item is expected to be part of the request payload
 		local
-			l_work_item: STRING
+			l_payload: STRING
+			l_work_item: INTEGER
 			j_obj: JSON_OBJECT
 			j_array: JSON_ARRAY
+			parser: JSON_PARSER
 		do
-			create l_work_item.make_empty
+			-- Create string objects to read-in the payload that comes with the request
+			create l_payload.make_empty
+			create l_work_item.default_create
 			create j_obj.make
-			-- Create json object that we send back as in response
---			create l_result_payload.make_array
-			l_work_item:= req.query_parameter("work_item_id").string_representation
+			-- Read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+			-- Now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				-- We have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+					l_work_item := s.item.to_integer
+				end
+			end
 			-- Checks if the given work_item_id exists into the db
-			if my_db.work_item_exists(l_work_item.to_integer) = False then
+			if my_db.work_item_exists(l_work_item) = False then
 				-- The work_item1 doesn't exist into the db
-				j_obj.put(create {JSON_STRING}.make_json ("ERROR: The work_item '" + l_work_item + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
---				l_result_payload.extend (j_obj)
+				j_obj.put(create {JSON_STRING}.make_json ("ERROR: The work_item '" + l_work_item.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, j_obj.representation.count)
---				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				j_array:= my_db.work_item_links (l_work_item.to_integer)
+				j_array:= my_db.work_item_links (l_work_item)
 				j_obj.put (j_array, create {JSON_STRING}.make_json ("links"))
-
-
-
-				-- Gets from the database all the links which are associated with the given work_item
---				l_result_payload := (my_db.work_item_links (l_work_item.to_integer))
 				-- Adds a proper message
-				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The links regading the work_item '" + l_work_item + "' are listed."), create {JSON_STRING}.make_json ("success"))
---				l_result_payload.extend (j_obj)
+				j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The links regading the work_item '" + l_work_item.out + "' are listed."), create {JSON_STRING}.make_json ("success"))
 				-- Everything ok
 				set_json_header_ok (res, j_obj.representation.count)
---				set_json_header_ok (res, l_result_payload.representation.count)
 			end
 			-- Add the message to the respons
 			res.put_string (j_obj.representation)
---			res.put_string (l_result_payload.representation)
 		end
 
 end
