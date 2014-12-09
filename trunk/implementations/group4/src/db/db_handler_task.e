@@ -120,35 +120,40 @@ feature -- Data access for reports
 			-- returns the sum of the points of the tasks related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE project_id="+ project_id.out +";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_tasks_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
 			-- returns the quantity of tasks related to a given sprint of a project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_tasks FROM tasks WHERE sprint_id="+ sprint_id.out +" AND project_id="+ project_id.out +";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_subtasks_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
 			-- returns the quantity of subtasks related to a given sprint of a project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_subtasks FROM tasks WHERE sprint_id="+ sprint_id.out +" AND project_id="+project_id.out+" AND NOT id = super_task_id;",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_points_by_sprint_and_project_id (sprint_id,project_id: NATURAL) : JSON_OBJECT
 			-- returns the sum of the points of the tasks related to a given sprint of a project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE sprint_id="+sprint_id.out+" AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
-	points_by_position_and_project_id (position: STRING;project_id: NATURAL) : JSON_OBJECT
+	total_points_by_position_and_project_id (position: STRING;project_id: NATURAL) : JSON_OBJECT
 			-- returns the sum of the points of the tasks which position is 'position' related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE position='"+position+"' AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_tasks_by_position_and_project_id (position: STRING;project_id: NATURAL) : JSON_OBJECT
