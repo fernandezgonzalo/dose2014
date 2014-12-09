@@ -128,13 +128,18 @@ feature -- Data access
 			end
 		end
 
-	add_user (email: STRING;username: STRING ;password: STRING; name: STRING; last_lgn: STRING; is_adminn: INTEGER ):TUPLE [was_created:BOOLEAN; id: INTEGER]
+	add_user (email: STRING;username: STRING ;password: STRING; name: STRING; is_adminn: INTEGER ):TUPLE [was_created:BOOLEAN; id: INTEGER]
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			l_password: STRING
+			l_salt: INTEGER_64
+			l_tuple: TUPLE [salt:INTEGER_64; hashed_password: STRING]
 		do	-- adds a new user with the given user name, password,email, name
 			create Result
-
-			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,last_login,is_admin) VALUES ('" + email +"', '" +username  +"', '" +  password  +"', '" + name + "', '"+last_lgn +"', '"+ is_adminn.out + "');", db)
+			l_tuple := crypto_pass(password)
+			l_salt := l_tuple.salt
+			l_password := l_tuple.hashed_password
+			create db_insert_statement.make ("INSERT INTO user (email,username,password,name,last_login,is_admin,salt) VALUES ('" + email +"', '" +username  +"', '" +  l_password  +"', '" + name + "', datetime(), '"+ is_adminn.out + "', '"+ l_salt.out + "');", db)
 			db_insert_statement.execute
 			if db_insert_statement.has_error or db_insert_statement.changes_count=0 then
 			--	print("Error while inserting a new user")
@@ -142,7 +147,7 @@ feature -- Data access
 				Result.was_created:=false;
 			else
 				create db_query_statement.make ("SELECT * FROM user WHERE email=? and password =? ;", db)
-				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, password>>)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, l_password>>)
 				Result.id:= l_query_result_cursor.item.integer_value (1)
 				Result.was_created:= true;
 			end
@@ -185,8 +190,15 @@ feature -- Data access
 
 	update_user_password (id: NATURAL; new_pass: STRING): BOOLEAN
 			-- updates the password of the user identified by id
+		local
+			l_password: STRING
+			l_salt: INTEGER_64
+			l_tuple: TUPLE [salt:INTEGER_64; hashed_password: STRING]
 		do
-			create db_modify_statement.make ("UPDATE user SET password= '"+ new_pass+"' WHERE id= '" + id.out + "' ;", db)
+			l_tuple := crypto_pass(new_pass)
+			l_salt := l_tuple.salt
+			l_password := l_tuple.hashed_password
+			create db_modify_statement.make ("UPDATE user SET password= '"+ l_password+"' , salt ='"+ l_salt.out+"' WHERE id= '" + id.out + "' ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
 			--	print("Error while updating an user")
@@ -196,6 +208,7 @@ feature -- Data access
 				Result:= true;
 			end
 		end
+
 
 	update_user_name (id: NATURAL; new_name: STRING): BOOLEAN
 			-- updates the name of the user identified by id
@@ -321,19 +334,20 @@ feature -- Data access
 				-- otherwise, "has_user" will be false and "id" and "username" will not be set
 			local
 				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+				l_password: STRING
+				l_salt: INTEGER
+				correct_pass : BOOLEAN
 			do
 					-- create a result object
 				create Result
 
-				create db_query_statement.make ("SELECT * FROM user WHERE email=? AND password=?;", db)
-				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, a_password>>)
+				create db_query_statement.make ("SELECT * FROM user WHERE email=?;", db)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email>>)
 
-
-				if l_query_result_cursor.after then
-						-- there are no rows in the result of the query, thus no user with that password exits
-				--	print("Did not find a user with email '" + email  + "' and password '" + a_password + "' in the dataase.%N")
-					Result.has_user := False
-				else
+				l_password := l_query_result_cursor.item.value (4).out
+				l_salt := l_query_result_cursor.item.integer_value (8)
+				correct_pass := valid_pass(a_password,l_password,l_salt)
+				if correct_pass then
 				--	print("Found a user email '" + email + "' and password '" + a_password + "' in the database.%N")
 					Result.has_user := True
 					Result.id := l_query_result_cursor.item.integer_value (1)
@@ -343,6 +357,10 @@ feature -- Data access
 					Result.name := l_query_result_cursor.item.value (5).out
 					Result.last_login := l_query_result_cursor.item.value (6).out
 					Result.is_admin := l_query_result_cursor.item.integer_value (7)
+				else
+				-- there are no rows in the result of the query, thus no user with that password exits
+				--	print("Did not find a user with email '" + email  + "' and password '" + a_password + "' in the dataase.%N")
+					Result.has_user := False
 				end
 			end
 
@@ -385,13 +403,11 @@ feature {NONE}--login
 	local
         bcrypt: BCRYPT
         hashed_password: STRING
-        a_salt_generator: SALT_GENERATOR
         salt: INTEGER_64
         pass: STRING
     do
     	create Result
-        a_salt_generator.make (5)
-        salt := a_salt_generator.new_random
+        salt := get_random_seed
         create bcrypt.make
         pass := user_password + salt.out
         hashed_password := bcrypt.hashed_password (pass, bcrypt.default_gensalt)
@@ -414,6 +430,20 @@ feature {NONE}--login
              Result := false
         end
     end
+
+    	get_random_seed: INTEGER
+			-- Returns a seed for random sequences
+		local
+			l_time: TIME
+			l_seed: INTEGER
+		do
+			create l_time.make_now
+			l_seed := l_time.hour
+			l_seed := l_seed * 60 + l_time.minute
+			l_seed := l_seed * 60 + l_time.second
+			l_seed := l_seed * 1000 + l_time.milli_second
+			Result := l_seed
+		end
 
 
 document_root: READABLE_STRING_8
