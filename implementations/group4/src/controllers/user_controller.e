@@ -51,12 +51,13 @@ feature -- Handlers
 
 				l_result_payload := db_handler_user.find_all.representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				--set_json_header_ok (res, l_result_payload.count)
+				--res.put_string (l_result_payload)
+				prepare_response_2(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response_2("User is not logged in",401,res,true)
 			end
 		end
 
