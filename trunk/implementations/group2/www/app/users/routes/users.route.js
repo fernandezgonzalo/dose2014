@@ -21,6 +21,30 @@ angular.module('coffee.core').config(['$stateProvider',
             return deferred.promise;
         };
 
+        var checkLoggedin = function($q, $timeout, $http, $location, Global) {
+          // Initialize a new promise
+          var deferred = $q.defer();
+
+          // Make an AJAX call to check if the user is logged in
+          $http.get('/coffee/sessions').success(function(user) {
+            // Authenticated
+            if (user) {
+                Global.user = user;
+                $timeout(deferred.resolve);
+            }
+            // Not Authenticated
+            else {
+              $timeout(deferred.reject);
+              $location.url('/login');
+            }
+          }).error(function() {
+              $timeout(deferred.reject);
+              $location.url('/login');
+          });;
+
+          return deferred.promise;
+        };
+
         // states for my app
         $stateProvider.
         state('login', {
@@ -34,6 +58,12 @@ angular.module('coffee.core').config(['$stateProvider',
             templateUrl: '/app/users/views/register.html',
             resolve: {
                 loggedout: checkLoggedOut
+            }
+        }).state('editUser', {
+            url: '/edit',
+            templateUrl: '/app/users/views/edit.html',
+            resolve: {
+                loggedout: checkLoggedin
             }
         });
     }
