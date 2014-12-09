@@ -32,15 +32,40 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $scope.datePicker = {openedDate: false};
   $scope.viewCommentForm = false;
   $scope.viewDeadline = false;
-  $scope.chart = null;
-  $scope.chartData = [
-	  {value: 25, color: '#1E90FF', highlight: '#00BFFF', label: 'Created tasks on total'},
-	  {value: 25, color: '#FFD700', highlight: '#EEE8AA', label: 'In progress tasks on total'},
-	  {value: 25, color: '#F7464A', highlight: '#F08080', label: 'Stopped tasks on total'},
-	  {value: 25, color: '#008000', highlight: '#90EE90', label: 'Finished tasks on total'}
+  $scope.barChart = null;
+  $scope.pieChart = null;
+  $scope.barData = {
+    labels: ['% Created tasks', '% In progress tasks', '% Stopped tasks', '% Finished tasks'],
+    datasets: [
+        {
+            label: 'Tasks dataset',
+            fillColor: 'rgba(151,187,205,0.5)',
+            strokeColor: 'rgba(151,187,205,0.8)',
+            highlightFill: 'rgba(151,187,205,0.75)',
+            highlightStroke: 'rgba(151,187,205,1)',
+            data: [0, 0, 0, 0]
+        }
+    ]
+  };
+  $scope.barOptions = {
+  	responsive: true,
+    scaleBeginAtZero : true,
+    scaleShowGridLines : true,
+    scaleGridLineColor : 'rgba(0,0,0,.05)',
+    scaleGridLineWidth : 1,
+    barShowStroke : true,
+    barStrokeWidth : 2,
+    barValueSpacing : 5,
+    barDatasetSpacing : 1,
+    legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+  };
+  $scope.pieData = [
+  	  {value: 25, color: '#008000', highlight: '#90EE90', label: 'low'},
+	  {value: 25, color: '#FFD700', highlight: '#EEE8AA', label: 'high'},
+	  {value: 25, color: '#F7464A', highlight: '#F08080', label: 'critical'}
   ];
-  $scope.chartOptions = {
-  	//responsive: true,
+  $scope.pieOptions = {
+  	responsive: true,
     segmentShowStroke : true,
     segmentStrokeColor : '#fff',
     segmentStrokeWidth : 2,
@@ -49,9 +74,8 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     animationEasing : 'easeOutBounce',
     animateRotate : true,
     animateScale : false,
-    legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+    legendTemplate : '<ul>'+'<% for (var i=0; i<segments.length; i++) { %>'+'<li>'+'<span style=\"color:<%=segments[i].fillColor%>\">'+'<% if (segments[i].label) { %><%= segments[i].label %><% } %>'+'</span>'+'</li>'+'<% } %>'+'</ul>'
   };
-    
 
   var onload = function() {
     $scope.currentUser.$getTasks(function(data){
@@ -60,12 +84,18 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       var createdTasks = 0;
       var inProgTasks = 0;
       var stoppedTasks = 0;
+      var low = 0;
+      var high = 0;
+      var critical = 0;
       for (var task in $scope.userTasks.data) {
       	Utility.unescape($scope.userTasks.data[task]);
       	//stats variables
       	if ($scope.userTasks.data[task].status === 'created') { createdTasks++; }
       	if ($scope.userTasks.data[task].status === 'in_progress') { inProgTasks++; }
       	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTasks++; }
+      	if ($scope.userTasks.data[task].priority === 'low') {low++;}
+      	if ($scope.userTasks.data[task].priority === 'high') {high++;}
+      	if ($scope.userTasks.data[task].priority === 'critical') {critical++;}
 
       	commentsQuery($scope.userTasks.data[task].id);
 
@@ -80,12 +110,24 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
       $scope.inPrTasksOnTot = (inProgTasks / data.data.length * 100).toFixed(2);
       $scope.stopTasksOnTot = (stoppedTasks / data.data.length * 100).toFixed(2);
       $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
-      if ($scope.chart) {
-	      $scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
-	      $scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
-	      $scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
-	      $scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
-	      $scope.chart.update();
+      $scope.lowOnTot = (low / data.data.length * 100).toFixed(2);
+      $scope.highOnTot = (high / data.data.length * 100).toFixed(2);
+      $scope.critOnTot = (critical / data.data.length * 100).toFixed(2);
+
+      if ($scope.barChart) {
+	      $scope.barChart.datasets[0].bars[0].value = parseFloat($scope.creatTasksOnTot);
+	      $scope.barChart.datasets[0].bars[1].value = parseFloat($scope.inPrTasksOnTot);
+	      $scope.barChart.datasets[0].bars[2].value = parseFloat($scope.stopTasksOnTot);
+	      $scope.barChart.datasets[0].bars[3].value = parseFloat($scope.finTasksOnTot);
+	      $scope.barChart.update();
+      }
+      if ($scope.pieChart) {
+      	$scope.pieChart.segments[0].value = parseFloat($scope.lowOnTot);
+      	$scope.pieChart.segments[1].value = parseFloat($scope.highOnTot);
+      	$scope.pieChart.segments[2].value = parseFloat($scope.critOnTot);
+      	$scope.pieChart.update();
+      	$scope.pieLegend = $scope.pieChart.generateLegend();
+	    $('#pieLegend').append($scope.pieLegend);
       }
 
     });
@@ -154,16 +196,16 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     		$('#taskModal').modal('hide');
     		var i;
     		if (currentStatus === 'finished') {
-    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
-    				if (currentTaskId === $scope.tasksInProgress[i].id) {
-    					$scope.tasksInProgress.splice(i, 1);
-    					$scope.tasksFinished.push($scope.currentTask);
-    				}
-    			}
     			for (i = 0; i < $scope.tasksFinished.length; i++) {
     				if (currentTaskId === $scope.tasksFinished[i].id) {
     					$scope.tasksFinished.splice(i, 1);
     					$scope.tasksFinished.splice(i, 0, $scope.currentTask);
+    				}
+    			}
+    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
+    				if (currentTaskId === $scope.tasksInProgress[i].id) {
+    					$scope.tasksInProgress.splice(i, 1);
+    					$scope.tasksFinished.push($scope.currentTask);
     				}
     			}
     		}
@@ -187,27 +229,49 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     				$scope.tasksComments[$scope.currentTask.id][i].$update();
     			}
     		}
-    		if ($scope.chart) {
+    		if ($scope.barChart && $scope.pieChart) {
     			var createdTasks = 0;
     			var inProgTasks = 0;
     			var stoppedTasks = 0;
     			var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
+    			var low = 0;
+    			var high = 0;
+    			var critical = 0;
 
     			for (i = 0; i < $scope.tasksInProgress.length; i++) {
     				if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
     				if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
     				if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
+    				if ($scope.tasksInProgress[i].priority === 'low') {low++;}
+      				if ($scope.tasksInProgress[i].priority === 'high') {high++;}
+      				if ($scope.tasksInProgress[i].priority === 'critical') {critical++;}
+    			}
+
+    			for (i = 0; i < $scope.tasksFinished.length; i++) {
+    				if ($scope.tasksFinished[i].status === 'created') { createdTasks++; }
+    				if ($scope.tasksFinished[i].status === 'in_progress') { inProgTasks++; }
+    				if ($scope.tasksFinished[i].status === 'stopped') { stoppedTasks++; }
+    				if ($scope.tasksFinished[i].priority === 'low') {low++;}
+      				if ($scope.tasksFinished[i].priority === 'high') {high++;}
+      				if ($scope.tasksFinished[i].priority === 'critical') {critical++;}
     			}
 
     			$scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
     			$scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
     			$scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
     			$scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
-    			$scope.chart.segments[0].value = parseFloat($scope.creatTasksOnTot);
-    			$scope.chart.segments[1].value = parseFloat($scope.inPrTasksOnTot);
-    			$scope.chart.segments[2].value = parseFloat($scope.stopTasksOnTot);
-    			$scope.chart.segments[3].value = parseFloat($scope.finTasksOnTot);
-    			$scope.chart.update();     	
+    			$scope.barChart.datasets[0].bars[0].value = parseFloat($scope.creatTasksOnTot);
+    			$scope.barChart.datasets[0].bars[1].value = parseFloat($scope.inPrTasksOnTot);
+    			$scope.barChart.datasets[0].bars[2].value = parseFloat($scope.stopTasksOnTot);
+    			$scope.barChart.datasets[0].bars[3].value = parseFloat($scope.finTasksOnTot);
+    			$scope.barChart.update(); 
+    			$scope.lowOnTot = (low / totTasks * 100).toFixed(2);
+      			$scope.highOnTot = (high / totTasks * 100).toFixed(2);
+      			$scope.critOnTot = (critical / totTasks * 100).toFixed(2);
+      			$scope.pieChart.segments[0].value = parseFloat($scope.lowOnTot);
+		      	$scope.pieChart.segments[1].value = parseFloat($scope.highOnTot);
+		      	$scope.pieChart.segments[2].value = parseFloat($scope.critOnTot);
+		      	$scope.pieChart.update();	
     		}
     	});
     } 
