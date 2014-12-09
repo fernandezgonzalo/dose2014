@@ -471,7 +471,7 @@ feature -- Data access Sprint
 		do
 			create Result.make_array
 			create db_modify_statement.make ("SELECT type FROM RolProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "');", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
+			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
 			query_not_null: db_query_statement /= void
 		end
