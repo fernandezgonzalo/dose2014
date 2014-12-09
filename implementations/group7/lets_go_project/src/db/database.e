@@ -143,6 +143,9 @@ feature {NONE} -- Format helpers
 			until
 				i > a_row.count
 			loop
+				print ("%N%N" + a_result_object.representation)
+				print ("%N" + a_row.statement.string + "%N%N")
+
 				if a_row.type (i) = 1 then
 					a_result_object.put (create {JSON_NUMBER}.make_integer (a_row.integer_value (i)), create{JSON_STRING}.make_json (a_row.column_name (i)))
 				else

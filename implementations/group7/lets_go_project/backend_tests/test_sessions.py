@@ -3,8 +3,8 @@ import unittest
 import config
 
 
-EMAIL = 'asdf'
-PASSWORD = 'asdf'
+EMAIL = 'asdf@asdf'
+PASSWORD = 'asdfasdf'
 
 
 class TestSessions(unittest.TestCase):

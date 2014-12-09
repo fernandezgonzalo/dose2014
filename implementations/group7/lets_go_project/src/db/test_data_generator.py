@@ -71,7 +71,7 @@ class TestDataGenerator(object):
         self.user_mapping = {user.id: user for user in self.users}
 
         # One of the users should have always the same credentials for testing.
-        self.users[0].email = 'asdf'
+        self.users[0].email = 'asdf@asdf'
         self.users[0].password = HASHED_EXAMPLE_PASSWORD
 
     def generate_projects(self):
