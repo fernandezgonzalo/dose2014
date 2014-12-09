@@ -165,7 +165,7 @@ feature -- Handlers
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_id :=	get_session_from_req (req, "_coffee_session_").item("id").out
 			--l_result.put (my_db.get_from_id ("user", l_id), "user")
-			l_result:= my_db.get_from_id ("user", l_id)
+			l_result:= my_db.get_user_from_id (l_id)
 			--l_result.put (create {JSON_STRING}.make_json ("OK"), create {JSON_STRING}.make_json ("Message"))
 			set_json_header_ok (res, l_result.representation.count)
 		else
