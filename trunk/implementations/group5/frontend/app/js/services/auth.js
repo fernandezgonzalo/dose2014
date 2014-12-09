@@ -7,6 +7,32 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   var authService = {};
   authService.KEY = 'MGMT_ID';
 
+
+  var storage = {
+    putItem: function(value) {
+      localStorage.setItem(authService.KEY, value);
+    },
+    getItem: function() {
+      return localStorage.getItem(authService.KEY);
+    },
+    delItem: function() {
+      localStorage.removeItem(authService.KEY);
+    }
+  };
+  if (!localStorage) {
+    storage.putItem = function(value) {
+      amplify.store(authService.KEY, value);
+    };
+    storage.getItem = function() {
+      return amplify.store(authService.KEY);
+    };
+    storage.delItem = function() {
+      this.putItem(null);
+    };
+  }
+
+
+
   authService.login = function(credentials) {
     var deferred = $q.defer();
     $http.post('/api/login', credentials).then(function(response) {
@@ -25,7 +51,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
     Utility.toCamel(user);
     user.lastLoginDate = Utility.parseDate(user.lastLogin);
     this.currentUser = user;
-    localStorage.setItem(authService.KEY, user.id);
+    storage.putItem(user.id);
     authService.hasAvatar(user);
     return user;
   };
@@ -40,12 +66,12 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
 
   authService.logout = function() {
-    $http.delete('/api/logout');
-    localStorage.removeItem(authService.KEY);
+    $http.delete('/api/logout'); // opera mini falls here because of keyword delete
+    storage.delItem();
   };
  
   authService.isAuthenticated = function () {
-    return localStorage.getItem(authService.KEY) ;
+    return storage.getItem();
   };
  
   authService.isAdmin = function () {
@@ -53,7 +79,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
 
   authService.getCurrentUser = function() {
-    var userId = localStorage.getItem(authService.KEY);
+    var userId = storage.getItem();
     var deferred = $q.defer();
     User.get({userId: userId}, function(user) {
       authService.loginSuccess(user);
