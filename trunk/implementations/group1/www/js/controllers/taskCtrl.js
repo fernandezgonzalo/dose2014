@@ -1,14 +1,24 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-  .controller('TaskCtrl', ['$scope', '$http', '$log',
-	function ($scope, $http, $log) {
+  .controller('TaskCtrl', function ($scope, $routeParams, $log,Tasks) {
 
       $scope.tasks = [];
 
       var init = function() {
 		// Initialization function that gets the tasks from the server
       }();
+	  
+	  $scope.idTask = $routeParams.taskId;
+	  $scope.idProject = $routeParams.projectId;
+	  $scope.idUser = $routeParams.userId;
+	  
+	   
+	  
+	  $scope.taskDetail = Tasks.query({userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask},function(data){
+		$log.debug(data);
+	  
+	  });
 	  
 	  $scope.getTask = function(taskId) {
 		// Gets from the server the task with the id=taskId
@@ -54,5 +64,4 @@ angular.module('DOSEMS.controllers')
 	  $scope.getPointsForTask = function(taskId) {
 		// Gets the points of the task with the id=taskId
       }
-    }  
-  ]);
+    });

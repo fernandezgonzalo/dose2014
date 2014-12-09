@@ -1,4 +1,17 @@
 <div class="block">
 
-  Task view
+ <p><b>Task {{idTask}} details</b></p>
+ <ul ng-repeat="taskDet in taskDetail">
+	<p>Description</p>	
+	<input type="text" placeholder="{{taskDet.desc}}">
+	<p>Comment</p>
+	<input type="text" placeholder="{{taskDet.comment}}">
+	<p>Duration</p>
+	<input type="text" placeholder="{{taskDet.duration}}">
+	<p>Points</p>
+	<input type="text" placeholder="{{taskDet.points}}">
+	<p>Status</p>
+	<input type="text" placeholder="{{taskDet.status}}">
+	
+ </ul>
 </div> 
