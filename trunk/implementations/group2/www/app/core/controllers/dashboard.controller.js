@@ -5,79 +5,46 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
 
         $scope.global = Global;
 
+        $scope.dashboard = {
+            todo: [],
+            in_progress: [],
+            done: []
+        };
+
         $scope.init = function() {
             var id = $stateParams.projectId;
             Projects.one(id).get().then(function(project) {
                 $scope.project = project;
-                project.one('current_sprint').get().then(function(res) {
-                    $scope.sprint = res;
-                }, function err(res) {
-                    $scope.sprint = null;
-                    $scope.err = res.data.Message;
-                });
 
                 project.one('current_sprint').get().then(function(sprint) {
-                    console.log('current_sprint', sprint);
-
                     Sprints.one(sprint.id).getList('tasks').then(function(tasks) {
-
-
-                        $scope.dashboard = {
-                            todo: [],
-                            in_progress: [],
-                            done: []
-                        };
-                       angular.forEach(tasks, function(task) {
-                            task.user = $scope.loadUser(task.user_id);
+                        angular.forEach(tasks, function(task) {
                             pushTask(task);
                         });
                     });
-
-
-                })
-
-/*
-
-                //TODO: just reqs of current sprint!
-                project.getList('reqs').then(function(reqs){
-                    $scope.project.reqs = reqs;
-                    $scope.dashboard = {};
-
-                    angular.forEach(reqs, function(req) {
-                        $scope.dashboard[req.id] = {
-                            todo: [],
-                            in_progress: [],
-                            done: [],
-                            title: req.title,
-                            id: req.id,
-                        };             
-
-                        Requirements.one(req.id).getList('tasks').then(function(tasks) {
-                            angular.forEach(tasks, function(task) {
-                                task.user = $scope.loadUser(task.user_id);
-                                pushTask(task);
-                            });
-                        });
-                    });
+                }, function err(res) {
+                    $scope.err = res.data.Message;
                 });
-*/
             });
         };
 
 
         $scope.loadUser = function(id) {
-            return Users.one(id).get().$object
+            return Users.one(id).get().$object;
         };
 
 
         $scope.assignToMe = function(task) {
             task.user_id = $scope.global.user.id;
             task.user = $scope.global.user;
-            task.put().then(function(res) {
-                console.log(res);
+
+            Requirements
+            .one(task.requirement_id)
+            .one('tasks', task.id)
+            .customPUT(task).then(function(res) {
             }, function err(msg) {
                 alert(msg);
-            }); 
+            });
         };
 
         $scope.openAssign = function (project, task) {
@@ -99,11 +66,13 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             modalInstance.result.then(function (selected_user) {
                 task.user_id = selected_user.id;
                 task.user = selected_user;                
-                task.put().then(function(res) {
-                    console.log(res);
+                Requirements
+                .one(task.requirement_id)
+                .one('tasks', task.id)
+                .customPUT(task).then(function(res) {
                 }, function err(msg) {
                     alert(msg);
-                });                
+                });              
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -127,8 +96,10 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
 
             modalInstance.result.then(function (hours) {
                 task.hours_spent = hours;
-                task.put().then(function(res) {
-                    console.log(res);
+                Requirements
+                .one(task.requirement_id)
+                .one('tasks', task.id)
+                .customPUT(task).then(function(res) {
                 }, function err(msg) {
                     alert(msg);
                 });                
@@ -141,8 +112,15 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
         $scope.removeTask = function(list, task) {
             var index = indexOfTask(list, task.id);
             if (index > -1) {
-                task.remove();
-                $scope.dashboard.todo.splice(index, 1);
+                Requirements
+                .one(task.requirement_id)
+                .one('tasks', task.id)
+                .remove().then(function(res) {
+                }, function err(msg) {
+                    alert(msg);
+                });                  
+
+                list.splice(index, 1);
             }            
         };
 
@@ -211,6 +189,8 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
         }
 
         function pushTask(task) {
+            task.user = $scope.loadUser(task.user_id);
+
             var select = {
                 'New': function() { 
                     $scope.dashboard.todo.push(task); 
@@ -237,7 +217,6 @@ angular.module('coffee.core').controller('DashboardController', ['$scope', '$sta
             .one('tasks', task.id)
             .customPUT(task).then(function(res) {
             });
-
 
         }
 
