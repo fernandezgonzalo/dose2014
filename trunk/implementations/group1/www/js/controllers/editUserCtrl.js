@@ -9,14 +9,10 @@ angular.module('DOSEMS.controllers')
             $scope.oldPasswordError = false;
             $scope.oldPass = '';
             $scope.oldPassInput = '';
-            Users.resource.get({userId: $cookieStore.get('userId')}, function (response) {
-                    $scope.updateUser = {
-                        name: response.name,
-                        lastname: response.lastname,
-                        password: ''
-                    };
-                    $scope.oldPass = response.password;
-                    $scope.userId = response.id;
+            Users.resource.get({userId: $cookieStore.get('userId')}, function (user) {
+                    $scope.updateUser = user;
+                    $scope.oldPass = user.password;
+                    $scope.userId = user.id;
                     $scope.password = '';
                     $scope.passwordRepeat = '';
                     $log.debug($scope.oldPass);
