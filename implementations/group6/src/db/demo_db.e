@@ -216,16 +216,27 @@ feature -- Data access : project
 		--check if the given project has members
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			l_array: JSON_ARRAY
 		do
 			-- check in the table iteration if some of them are related to the given name project
 			create db_query_statement.make ("SELECT user FROM member WHERE project='" + a_project_name + "';", db)
-			l_query_result_cursor := db_query_statement.execute_new
-
-			if l_query_result_cursor.after then
-				Result := true
+			create l_array.make_array
+			--l_query_result_cursor := db_query_statement.execute_new
+			db_query_statement.execute(agent rows_to_json_array (?, 1, l_array))
+			print("count")
+			print(l_array.count)
+			if l_array.count = 1 then
+				Result := false
 			else
-				Result := False
+				Result := true
 			end
+			-- Always at least one member: the owner
+--			l_query_result_cursor.forth
+--			if l_query_result_cursor.after then
+--				Result := true
+--			else
+--				Result := False
+--			end
 		end
 
 	remove_project (a_project_name: STRING)
@@ -235,7 +246,25 @@ feature -- Data access : project
 			create db_modify_statement.make ("DELETE FROM project WHERE name ='"+ a_project_name + "';", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while deleting the project")
+				print("Error while deleting the project from project table")
+			end
+			-- Delete the last owner of the project
+			create db_modify_statement.make ("DELETE FROM member WHERE name ='"+ a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting the project from member table")
+			end
+			-- TODO check if it's necessary
+			create db_modify_statement.make ("DELETE FROM iteration WHERE name ='"+ a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting the iterations of the project")
+			end
+			-- Delete the delted status work_items of the project
+			create db_modify_statement.make ("DELETE FROM work_item WHERE name ='"+ a_project_name + "';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while deleting the work_items of the project")
 			end
 		end
 
