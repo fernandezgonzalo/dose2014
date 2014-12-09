@@ -28,9 +28,16 @@
                             </p>
                             <p>
                             <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
-                            <a data-ng-click="openAssign(project, obj)">Assign</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openAssign(project, obj)">Assign</a>
                             <a data-ng-click="assignToMe(obj)">Assign to Me</a>
-                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a
+                            data-ng-show="project.manager_id == global.user.id"
+                            data-ng-confirm-click="Are you sure?"
+                            data-confirmed-click="removeTask(req.todo, obj)"
+                            >
+                            Delete
+                            </a>
                             </p>
                         </div>
                     </div>
@@ -54,10 +61,17 @@
                             User: {{user.first_name}} {{user.last_name}}
                             </p>
                             <p>
-                            <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-show="project.manager_id == global.user.id"  data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openAssign(project, obj)">Assign</a>
                             <a data-ng-click="assignToMe(obj)">Assign to Me</a>
-                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
                             <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a
+                            data-ng-show="project.manager_id == global.user.id"
+                            data-ng-confirm-click="Are you sure?"
+                            data-confirmed-click="removeTask(req.in_progress, obj)"
+                            >
+                            Delete
+                            </a>
                             </p>
                         </div>
                     </div>
@@ -82,9 +96,16 @@
                             </p>
                             <p>
                             <a data-ng-href='#!/requirements/{{obj.requirement_id}}/tasks/{{obj.id}}/edit'>Edit</a>
+                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openAssign(project, obj)">Assign</a>
                             <a data-ng-click="assignToMe(obj)">Assign to Me</a>
-                            <a data-ng-show="project.manager_id == global.user.id" data-ng-click="openLog(project, obj)">Log Hours</a>
                             <a data-ng-click="openLog(project, obj)">Log Hours</a>
+                            <a
+                            data-ng-show="project.manager_id == global.user.id"
+                            data-ng-confirm-click="Are you sure?"
+                            data-confirmed-click="removeTask(req.done, obj)"
+                            >
+                            Delete
+                            </a>
                             </p>
                         </div>
                     </div>

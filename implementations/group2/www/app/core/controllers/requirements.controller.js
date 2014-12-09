@@ -51,6 +51,19 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
             }
         };
 
+        $scope.removeTask = function(requirement, task) {
+            console.log('requirement',requirement)
+            console.log('task',task)
+            task.remove().then(function() {
+                //TODO: display a flash message
+            });
+            for (var i in requirement.tasks) {
+                if (requirement.tasks[i] === task) {
+                    requirement.tasks.splice(i, 1);
+                }
+            }
+        };
+
         $scope.update = function() {
             Projects
             .one($scope.requirement.project_id)
