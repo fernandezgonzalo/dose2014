@@ -18,8 +18,8 @@
 		<table class="table">
 			<tr ng-repeat="task in tasksInProgress" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-7">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
-				<td class="col-md-2"><span ng-if="task.deadline" class="glyphicon glyphicon-time"></span> {{task.deadline | date:'mediumDate'}}</td>
-				<td class="col-md-1"><span class="glyphicon glyphicon-comment"></span> {{getCommentsNum(task.id)}}</td>
+				<td class="col-md-2 text-primary"><span ng-if="task.deadline" class="glyphicon glyphicon-time icon-blue"></span> {{task.deadline | date:'mediumDate'}}</td>
+				<td class="col-md-1 text-primary"><span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
 			</tr>
 		</table>
@@ -39,8 +39,8 @@
 		<table class="table">
 			<tr ng-repeat="task in tasksFinished" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
 				<td class="col-md-7">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
-				<td class="col-md-2"><span ng-if="task.deadline" class="glyphicon glyphicon-time"></span> {{task.deadline | date:'mediumDate'}}</td>
-				<td class="col-md-1"><span class="glyphicon glyphicon-comment"></span> {{getCommentsNum(task.id)}}</td>
+				<td class="col-md-2 text-primary"><span ng-if="task.deadline" class="glyphicon glyphicon-time icon-blue"></span> {{task.deadline | date:'mediumDate'}}</td>
+				<td class="col-md-1 text-primary"><span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}}</td>
 				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
 			</tr>
 		</table>
