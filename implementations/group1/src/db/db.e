@@ -77,13 +77,13 @@ feature -- Data access Users
 			create db_query_statement.make ("SELECT * FROM User WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent row_to_json_object(?, 7, Result))
 		ensure
-			db_query_statement /= void
+			db_query_statement /= Void
 		end
 
 	add_user (name, lastname, email, password, rol, active: STRING): BOOLEAN
 			-- adds a new user with the given user name
 		require
-			valid_parameters: email /= void and password /= void
+			valid_parameters: email /= Void and password /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO User(name,lastname,email,password,rol,active) VALUES ('" + name + "','" + lastname + "','" + email + "','" + password + "','" + rol + "','" + active + "');", db);
 			db_insert_statement.execute
@@ -97,7 +97,7 @@ feature -- Data access Users
 
 	update_user (id: NATURAL; name, lastname, password, rol, active: STRING): BOOLEAN
 		require
-			valid_parameter: password /= void
+			valid_parameter: password /= Void
 		do
 			create db_modify_statement.make ("UPDATE User SET name='" + name + "', lastname='" + lastname + "', password='" + password + "', rol='" + rol + "', active='" + active + "' WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -111,7 +111,7 @@ feature -- Data access Users
 	remove_user (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM User WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -129,46 +129,46 @@ feature -- Data access Projects
 			create db_query_statement.make ("SELECT * FROM Project;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_all_project_by_user (id_user: INTEGER): JSON_ARRAY
 		require
-			valid_id: id_user /= void and id_user > 0
+			valid_id: id_user /= Void and id_user > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM userproject WHERE id_user=" + id_user.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_all_users_by_project (id_project: INTEGER): JSON_ARRAY
 		require
-			valid_id: id_project /= void and id_project > 0
+			valid_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT id_user FROM UserProject WHERE id_project=" + id_project.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_project (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a project
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Project WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_project (info, name: STRING)
 		require
-			valid_parameter: name /= void
+			valid_parameter: name /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO Project(info, name) VALUES ('" + info + "','" + name + "');", db);
 			db_insert_statement.execute
@@ -179,7 +179,7 @@ feature -- Data access Projects
 
 	update_project (id_project: NATURAL; name, info: STRING): BOOLEAN
 		require
-			valid_id: id_project /= void and id_project > 0
+			valid_id: id_project /= Void and id_project > 0
 		do
 			create db_modify_statement.make ("UPDATE Project SET name='" + name + "', info='" + info + "' WHERE id=" + id_project.out + ";", db)
 			db_modify_statement.execute
@@ -192,7 +192,7 @@ feature -- Data access Projects
 
 	create_project_by_user (id_user: NATURAL; name, info: STRING): BOOLEAN
 		require
-			valid_id: id_user /= void and id_user > 0
+			valid_id: id_user /= Void and id_user > 0
 		local
 			stmt_insert_project, stmt_insert_userproject: STRING
 			l_id_project: INTEGER_64
@@ -221,7 +221,7 @@ feature -- Data access Projects
 	remove_project (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM Project WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -239,24 +239,24 @@ feature -- Data access RolProjects
 			create db_query_statement.make ("SELECT * FROM RolProject;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_rol_project (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM RolProject WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_rol_project (type: STRING)
 		require
-			valid_parameter: type /= void
+			valid_parameter: type /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO RolProject(type) VALUES ('" + type + "');", db);
 			db_insert_statement.execute
@@ -268,7 +268,7 @@ feature -- Data access RolProjects
 	remove_rol_project (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM RolProject WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -286,25 +286,25 @@ feature -- Data access UserProjects
 			create db_query_statement.make ("SELECT * FROM UserProject;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /=Void
 		end
 
 	search_a_user_project (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user project
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM UserProject WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_user_project (id_user, id_project: STRING): BOOLEAN
 		require
-			valid_user_id: id_user /= void
-			valid_project_id: id_project /= void
+			valid_user_id: id_user /= Void
+			valid_project_id: id_project /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO UserProject(id_user, id_project) VALUES ('" + id_user + "','" + id_project + "');", db);
 			db_insert_statement.execute
@@ -318,7 +318,7 @@ feature -- Data access UserProjects
 	remove_user_project (id_user, id_project: STRING): BOOLEAN
 			-- removes the todo with the given id
 		require
-			valid_id: id_user /= void and id_project /= void
+			valid_id: id_user /= Void and id_project /= Void
 		do
 			create db_modify_statement.make ("DELETE FROM UserProject WHERE id_user= '" + id_user + "' and id_project = '" + id_project + "';", db)
 			db_modify_statement.execute
@@ -339,24 +339,24 @@ feature -- Data access RolProject_UserProjects
 			create db_query_statement.make ("SELECT * FROM RolProject_UserProject;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_rol_priject_user_project (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user project
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM RolProject_UserProject WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_rol_project_user_project (id_user, id_project, id_rolproject: STRING)
 		require
-			valid_id: id_user /= void and id_project /= void and id_rolproject /= void
+			valid_id: id_user /= Void and id_project /= Void and id_rolproject /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO RolProject_UserProject(id_user, id_project, id_rolproject) VALUES ('" + id_user + "','" + id_project + "','" + id_rolproject + "');", db);
 			db_insert_statement.execute
@@ -368,7 +368,7 @@ feature -- Data access RolProject_UserProjects
 	remove_rol_project_user_project (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM RolProject_UserProject WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -386,35 +386,35 @@ feature -- Data access Sprint
 			create db_query_statement.make ("SELECT * FROM Sprint;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_sprint (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a sprint
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Sprint WHERE id= '" + id.out + "';", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_tasks_by_sprint (id_sprint: INTEGER): JSON_ARRAY
 		require
-			valid_id: id_sprint /= void and id_sprint > 0
+			valid_id: id_sprint /= Void and id_sprint > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT t.id FROM task t, taskuser_sprint r where r.id_sprint = '" + id_sprint.out + "' and t.id = r.id_task;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_sprint (duration, id_project: STRING): BOOLEAN
 		require
-			valid_parameters: id_project /= void and duration /= void
+			valid_parameters: id_project /= Void and duration /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO Sprint(duration, id_project) VALUES ('" + duration + "','" + id_project + "');", db);
 			db_insert_statement.execute
@@ -428,7 +428,7 @@ feature -- Data access Sprint
 	remove_sprint (id: NATURAL)
 			-- removes the sprint with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM Sprint WHERE id= '" + id.out + "';", db)
 			db_modify_statement.execute
@@ -440,19 +440,19 @@ feature -- Data access Sprint
 	search_project_sprints (id_project: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a list of sprints of a selected project
 		require
-			valid_id: id_project /= void and id_project > 0
+			valid_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT id FROM Sprint WHERE (id_project = " + id_project.out + ");", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	update_sprint (id_sprint, duration: NATURAL): BOOLEAN
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		require
-			valid_id: id_sprint /= void
+			valid_id: id_sprint /= Void
 		do
 			create db_modify_statement.make ("UPDATE Sprint SET duration=" + duration.out + ";", db)
 			db_modify_statement.execute
@@ -466,21 +466,21 @@ feature -- Data access Sprint
 	get_user_role (id_user, id_project: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents the user's role on a determined project
 		require
-			valid_user_id: id_user /= void and id_user > 0
-			valid_project_id: id_project /= void and id_project > 0
+			valid_user_id: id_user /= Void and id_user > 0
+			valid_project_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
 			create db_modify_statement.make ("SELECT type FROM RolProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "');", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 feature -- Data access Task
 
 	add_task (desc, comment, status, duration, points, id_user, id_requirement: STRING): BOOLEAN
 		require
-			valid_parameters: id_user /= void and id_requirement /= void and duration /= void and desc /= void
+			valid_parameters: id_user /= Void and id_requirement /= Void and duration /= Void and desc /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO Task(desc, comment, duration, points, status, id_user, id_requirement) VALUES ('" + desc.out + "','" + comment.out + "','" + duration.out + "','" + points.out + "','" + status.out + "','" + id_user.out + "','" + id_requirement.out + ");", db);
 			db_insert_statement.execute
@@ -498,48 +498,48 @@ feature -- Data access Task
 			create db_query_statement.make ("SELECT * FROM Task;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 8, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_tasks_by_user (id_user: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		require
-			valid_id: id_user /= void and id_user > 0
+			valid_id: id_user /= Void and id_user > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Task where id=" + id_user.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 8, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_user_points_by_project (id_project: INTEGER): JSON_ARRAY
 		require
-			valid_id: id_project /= void and id_project > 0
+			valid_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("select t.id_user, u.name, u.lastname, SUM (t.points) as points from user u, task t, requirement r where r.id_project = '" + id_project.out + "' and t.id_requirement = r.id and u.id = t.id_user  group by t.id_user order by t.points desc;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_task (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Task WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 8, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	update_task (id_task, desc, comment, status, duration, points, id_user: STRING): BOOLEAN
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a task
 		require
-			valid_id: id_user /= void and id_task /= void
+			valid_id: id_user /= Void and id_task /= Void
 		do
 			create db_modify_statement.make ("UPDATE Task SET desc='" + desc.out + "', comment='" + comment.out + "', duration='" + duration.out + "', points='" + points.out + "', status= '" + status.out + "', id_user= '" + id_user.out + "' WHERE id=" + id_task.out + ";", db)
 			db_modify_statement.execute
@@ -553,7 +553,7 @@ feature -- Data access Task
 	remove_task (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM Task WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -571,24 +571,24 @@ feature -- Data access TaskUser_Sprint
 			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_task_user_sprint (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a TaskUser_Sprint
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_task_user_sprint (id_user, id_task, id_sprint: STRING)
 		require
-			valid_id: id_user /= void and id_task /= void and id_sprint /= void
+			valid_id: id_user /= Void and id_task /= Void and id_sprint /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO TaskUser_Sprint(id_user, id_task, id_sprint) VALUES ('" + id_user + "','" + id_task + "','" + id_sprint + "');", db);
 			db_insert_statement.execute
@@ -600,7 +600,7 @@ feature -- Data access TaskUser_Sprint
 	remove_task_user_sprint (id: NATURAL)
 			-- removes the todo with the given id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM TaskUser_Sprint WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -618,24 +618,24 @@ feature -- Data access Requirement
 			create db_query_statement.make ("SELECT * FROM Requirement;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	search_a_requirement (id: INTEGER): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Requirement WHERE id=" + id.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
 		ensure
-			query_not_null: db_query_statement /= void
+			query_not_null: db_query_statement /= Void
 		end
 
 	add_requirement (estimation, desc, id_project: STRING): BOOLEAN
 		require
-			valid_id: id_project /= void
+			valid_id: id_project /= Void
 		do
 			create db_insert_statement.make ("INSERT INTO Requirement(duration, id_project) VALUES ('" + estimation + "','" + desc + "','" + id_project + "');", db);
 			db_insert_statement.execute
@@ -649,7 +649,7 @@ feature -- Data access Requirement
 	remove_requirement (id: NATURAL)
 			-- removes the todo with the given  id
 		require
-			valid_id: id /= void and id > 0
+			valid_id: id /= Void and id > 0
 		do
 			create db_modify_statement.make ("DELETE FROM Requirement WHERE id=" + id.out + ";", db)
 			db_modify_statement.execute
@@ -660,7 +660,7 @@ feature -- Data access Requirement
 
 	update_requirement (estimation, desc, id_project, id_requirement: STRING): BOOLEAN
 		require
-			valid_id: id_project /= void and id_requirement /= void
+			valid_id: id_project /= Void and id_requirement /= Void
 		do
 			create db_modify_statement.make ("UPDATE Requirement SET estimation='" + estimation + "', desc='" + desc + "', id_project='" + id_project + "' WHERE id=" + id_requirement + ";", db)
 			db_modify_statement.execute
@@ -698,7 +698,7 @@ feature
 
 	email_in_database (a_email: STRING): JSON_OBJECT
 		require
-			a_email /= void
+			a_email /= Void
 		local
 			user: JSON_OBJECT
 		do
@@ -707,7 +707,7 @@ feature
 			db_query_statement.execute (agent row_to_json_object(?, 7, user))
 			Result := user
 		ensure
-			user_not_null: db_query_statement /= void
+			user_not_null: db_query_statement /= Void
 		end
 
 feature {NONE}
