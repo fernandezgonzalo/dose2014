@@ -17,6 +17,22 @@ end
 create
 	make
 
+feature -- Handlers
+
+	burndown_chart (req: WSF_REQUEST; res: WSF_RESPONSE)
+		local
+		do
+			reply_with_200_with_data(res, "{%"total_task_count%":100,%"tasks_remaining%":[100,90,90,85,80,80,80]}")
+		end
+
+
+feature -- Error checking handlers (authentication, authorization, input validation)
+
+	burndown_chart_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+		do
+			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent burndown_chart(req, res)))
+		end
+
 
 feature {None} -- Internal helpers
 
