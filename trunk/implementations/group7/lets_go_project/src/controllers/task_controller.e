@@ -53,7 +53,6 @@ feature {None} -- Internal helpers
 			create status_key.make_json("status")
 			if input.has_key (status_key) and then input.item(status_key).representation.is_equal("2") then
 				set_completion_date_to_today(input)
-				print("%NReplacing in new")
 			end
 		end
 
@@ -64,8 +63,7 @@ feature {None} -- Internal helpers
 		do
 			create status_key.make_json("status")
 			old_status := db.query_single_row ("SELECT status FROM tasks WHERE id = ?", <<task_id>>).representation
-			if input.has_key(status_key) and then input.item(status_key).representation.is_equal("2") and then not input.item(status_key).representation.is_equal(old_status) then
-				print("%NReplacing when updating")
+			if input.has_key(status_key) and then not input.item(status_key).representation.is_equal("2") and then not input.item(status_key).representation.is_equal(old_status) then
 				set_completion_date_to_today(input)
 			end
 		end
@@ -75,6 +73,6 @@ feature {None} -- Internal helpers
 			today: DATE
 		do
 			create today.make_now
-			input.replace(create {JSON_STRING}.make_json(today.formatted_out("yyyy-mm-dd")), create {JSON_STRING}.make_json("completion_date"))
+			input.replace(create {JSON_STRING}.make_json(today.formatted_out("yyyy-[0]mm-[0]dd")), create {JSON_STRING}.make_json("completion_date"))
 		end
 end
