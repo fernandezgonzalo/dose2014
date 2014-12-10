@@ -1216,7 +1216,7 @@ feature --SEARCH
 				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
 			end
 			if file_num = 6 then
-				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
+				Result := ".." + Operating_environment.directory_separator.out + "src/new_owner.py "
 			end
 			if file_num = 7 then
 				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_add_member.py  "

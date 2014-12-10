@@ -403,7 +403,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			l_user_email := "annamaria.nestorov@hotmail.it"
+			--l_user_email := "marid06@hotmail.fr"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -546,7 +546,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			l_user_email := "annamaria.nestorov@hotmail.it"
+			--l_user_email := "annamaria.nestorov@hotmail.it"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
@@ -570,6 +570,10 @@ feature --Handlers
 			elseif my_db.is_member (l_user_email, l_project_name) = false then
 				--check if user is member.
 				l_result_payload.put (create {JSON_STRING}.make_json ("The user is not a member of this project"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.is_owner (l_user_email, l_project_name) = false then
+				--check is user is owner
+				l_result_payload.put (create {JSON_STRING}.make_json ("The user is not an owner of this project"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				my_db.remove_member_from_project (l_project_name, l_member)
@@ -649,7 +653,7 @@ feature --Handlers
 			array_owners: ARRAYED_LIST[STRING]
 			j_owners: JSON_ARRAY
 			i: INTEGER
-			string, string2, email, path: STRING
+			string, email, path: STRING
 		do
 			create j_obj.make
 			--create string object to read-in the payload that comes with the request
@@ -696,9 +700,17 @@ feature --Handlers
 			elseif l_project_name.count > 40 then
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.is_member (l_new_owner, l_project_name) = false then
+				--check if user is member.
+				l_result_payload.put (create {JSON_STRING}.make_json ("The new owner is not member of this project"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
 			elseif my_db.is_owner (l_user_email, l_project_name) = false then
 				--check if user is member.
 				l_result_payload.put (create {JSON_STRING}.make_json ("The user is not owner of this project"), create {JSON_STRING}.make_json ("Error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.is_owner (l_new_owner, l_project_name) then
+				--check if user is already owner.
+				l_result_payload.put (create {JSON_STRING}.make_json ("The user is already owner of the project"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				my_db.promote_owner (l_project_name, l_new_owner)
@@ -706,11 +718,15 @@ feature --Handlers
 				set_json_header_ok (res, l_result_payload.representation.count)
 
 				--Send an email to the new owner
-				create string2.make_empty
-				path:=my_db.path_to_src_folder(6)
-				string2:="python "
-				string2.append_string (path)
-				string2.append_string(l_new_owner)
+				create string.make_empty
+				create env
+				path:= my_db.path_to_src_folder(6)
+				string:="python "
+				string.append_string (path)
+				string.append(l_new_owner)
+				string.append(" %"")
+				string.append(l_project_name)
+				string.append ("%"")
 				env.launch(string)
 				-- Adds code for sending email to the owners of the project
 				create j_owners.make_array
@@ -742,11 +758,11 @@ feature --Handlers
 						string:="python "
 						string.append_string (path)
 						string.append_string(array_owners[i])
-						--string.append("%"")
---						string.append (l_project)
---						string.append ("%" %"")
---						string.append (l_iteration_data.name)
---						string.append ("%"")
+						string.append_string(" ")
+						string.append (l_project_name)
+						string.append(" %"")
+						string.append (l_new_owner)
+						string.append ("%"")
 						env.launch(string)
 						i:=i+1
 
@@ -758,7 +774,7 @@ feature --Handlers
 		end
 
 downgrade_owner (req: WSF_REQUEST; res: WSF_RESPONSE)
-		-- promote a member, owner to a project
+		-- downgrade a owner, member to a project
 		local
 			l_user_email, l_project_name, l_owner, l_payload: STRING
 			l_result_payload: JSON_OBJECT
@@ -811,7 +827,7 @@ downgrade_owner (req: WSF_REQUEST; res: WSF_RESPONSE)
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			elseif my_db.is_owner (l_user_email, l_project_name) = false then
-				--check if user is member.
+				--check if user is owner.
 				l_result_payload.put (create {JSON_STRING}.make_json ("The user is not owner of this project"), create {JSON_STRING}.make_json ("Error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
