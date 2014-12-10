@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('RankingCtrl', ['$scope', '$routeParams', '$log', 'ProjectRanking', '$location', function ($scope, $routeParams, $log, ProjectRanking, $location) {
+    .controller('RankingCtrl', ['$rootScope', '$scope', '$routeParams', '$log', 'ProjectRanking', '$location', function ($rootScope, $scope, $routeParams, $log, ProjectRanking, $location) {
 
 		$scope.projectRanking = [];
 		
@@ -16,6 +16,8 @@ angular.module('DOSEMS.controllers')
 			if (projectId != null) {
 				$scope.projectId = $routeParams.projectId;
 			}
+			
+			$rootScope.$broadcast('ProjectPage', $scope.projectId);
 			
 			var response = ProjectRanking.get({userId:$scope.userId,projectId:$scope.projectId});
 			response.$promise.then(function (data) {

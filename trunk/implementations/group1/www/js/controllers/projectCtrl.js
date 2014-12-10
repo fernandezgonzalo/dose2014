@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('ProjectCtrl', ['$scope', '$routeParams', '$log', function ($scope, $routeParams, $http, $log) {
+    .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', function ($rootScope, $scope, $routeParams, $http, $log) {
         var userId = $routeParams.userId;
         var projectId = $routeParams.projectId;
         if (userId != null) {
@@ -12,6 +12,9 @@ angular.module('DOSEMS.controllers')
             //Get the project from server
             $scope.projectId = projectId;
         }
+		
+		$rootScope.$broadcast('ProjectPage', $scope.projectId);
+		
         $scope.userProjectIDs = [];
         $scope.userProjects = [];
 

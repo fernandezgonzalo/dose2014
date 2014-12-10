@@ -16,6 +16,9 @@
                 <!--        <li>
                             <a href="/#/ranking">Ranking</a>
                         </li>-->
+				<li ng-if="isProjectPage">
+                    <a href="/#/user/{{user.id}}/project/{{projectId}}/ranking">Ranking</a>
+                </li>
             </ul>
         </div>
     </div>
