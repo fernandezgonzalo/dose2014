@@ -89,7 +89,15 @@ define(
                         (
                             function (form)
                             {
-                                $scope.$emit("edit_sprint", form);
+                                $scope.$emit
+                                (
+                                    "edit_sprint",
+                                    {
+                                        form: form,
+                                        sprint_id: sprint.id,
+                                        project_id: sprint.project_id
+                                    }
+                                );
                             }
                         );
                     };
