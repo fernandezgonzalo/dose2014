@@ -5,8 +5,10 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('HeaderCtrl', ['Users', '$scope', '$log', '$cookieStore', function (Users, $scope, $log, $cookieStore) {
-        $scope.init = function () {
+    .controller('HeaderCtrl', ['Users', '$scope', '$log', '$cookieStore', '$location', function (Users, $scope, $log, $cookieStore, $location) {
+		
+		$scope.init = function () {
+			$scope.isProjectPage = false;
             $scope.loggedIn = $cookieStore.get('loggedIn');
             if ($scope.loggedIn) {
                 $scope.userId = $cookieStore.get('userId');
@@ -32,6 +34,23 @@ angular.module('DOSEMS.controllers')
             $log.debug("Responded to the loggedOut event");
             $scope.loggedIn = false;
             $scope.user = null;
+        });
+		
+		$scope.$on('$locationChangeSuccess', function(event) {
+			if ($location.path().indexOf("project") > -1) {
+				$scope.isProjectPage = true;
+			} else {
+				$scope.isProjectPage = false;
+			}
+		});
+		
+		$scope.$on('ProjectPage', function (event, data) {
+			if ($location.path().indexOf("project") > -1) {
+				$scope.isProjectPage = true;
+				$scope.projectId = data;
+			} else {
+				$scope.isProjectPage = false;
+			}
         });
 
         $scope.init();
