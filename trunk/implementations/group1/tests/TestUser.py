@@ -83,6 +83,14 @@ class TestUser(unittest.TestCase):
 	for i in range (len  (users_2)):
 		if users_2 [i] ['email'] == "test@email.com":
 			id_user = users_2 [i] ['id']
+	
+		# obtain user information
+	user_info = json.loads(get_user (self.session, id_user).content)
+		# verify that the data entered correctly
+	self.assertEqual(user_info ['name'], "test_name")
+	self.assertEqual(user_info ['lastname'], "test_last_name")
+	self.assertEqual(user_info ['email'], "test@email.com")
+	self.assertEqual(user_info ['password'], "test_password")
 
 		#get all users
 	users_1 = json.loads(get_users(self.session).content)
