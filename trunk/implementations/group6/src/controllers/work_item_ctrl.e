@@ -136,191 +136,185 @@ feature --handlers about work_items
 			string, email, path: STRING
 			--------------------------------------
 		do
+			-- Create json object that we send back as in response
+			create l_result_payload.make
 			-- Receive the user email
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-
---			l_user_email:="annamaria.nestorov@hotmail.it"
-
+			l_user_email:= "annamaria.nestorov@hotmail.it"
 			-- Checks if the given user is logged in
 			if l_user_email = VOID OR l_user_email.is_empty then
 				-- The user isn't logged in
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-			-- Create string objects to read-in the payload that comes with the request
-			create l_payload.make_empty
-			create l_iteration.default_create
-			create l_points.default_create
-			create l_project.make_empty
-			create l_name.make_empty
-			create l_description.make_empty
-			create l_state.make_empty
-			create l_number.default_create
-			-- Create json object that we send back as in response
-			create l_result_payload.make
-			-- Read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-			-- Now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				-- We have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("iteration_number") as s then
-					l_iteration := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("project_name_id") as s then
+				-- Create string objects to read-in the payload that comes with the request
+				create l_payload.make_empty
+				create l_iteration.default_create
+				create l_points.default_create
+				create l_project.make_empty
+				create l_name.make_empty
+				create l_description.make_empty
+				create l_state.make_empty
+				create l_number.default_create
+				-- Read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+				-- Now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+				-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					-- We have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("iteration_number") as s then
+						l_iteration := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("project_name_id") as s then
 					l_project := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("work_item_title") as s then
-					l_name := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("description") as s then
-					l_description := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("points") as s then
-					l_points := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("status") as s then
-					l_state := s.unescaped_string_8
-				end
- 				if attached {JSON_ARRAY} j_object.item ("comments") as a then
- 					-- Reads the comments
-					create l_comments.make (a.count)
-					across a.array_representation as array loop
-						-- Reads one text at time
-						if attached {JSON_OBJECT} array.item as comm then
-							if attached {JSON_STRING} comm.item ("text") as t then
-								c1:= t.unescaped_string_8
-								create comment.make (c1, l_user_email)
-								l_comments.extend (comment)
+					end
+					if attached {JSON_STRING} j_object.item ("work_item_title") as s then
+						l_name := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("description") as s then
+						l_description := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("points") as s then
+						l_points := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("status") as s then
+						l_state := s.unescaped_string_8
+					end
+ 					if attached {JSON_ARRAY} j_object.item ("comments") as a then
+ 						-- Reads the comments
+						create l_comments.make (a.count)
+						across a.array_representation as array loop
+							-- Reads one text at time
+							if attached {JSON_OBJECT} array.item as comm then
+								if attached {JSON_STRING} comm.item ("text") as t then
+									c1:= t.unescaped_string_8
+									create comment.make (c1, l_user_email)
+									l_comments.extend (comment)
+								end
 							end
 						end
 					end
-				end
-				if attached {JSON_ARRAY} j_object.item ("links") as a then
-					presence_work_item := True
-					create l_links.make (a.count)
-					across a.array_representation as lconn loop
-						if attached {JSON_OBJECT}  lconn.item as j_ob AND presence_work_item = True then
-							if attached {JSON_STRING} j_ob.item ("work_item_2") as t then
-								-- Checks if the given work_item exists
-								if my_db.work_item_exists (t.item.to_integer) = False then
-									presence_work_item:=False
-									num:=t.item.to_integer
-								else
-									-- Adds link
-									create link.make (t.item.to_integer)
-									l_links.extend (link)
+					if attached {JSON_ARRAY} j_object.item ("links") as a then
+						presence_work_item := True
+						create l_links.make (a.count)
+						across a.array_representation as lconn loop
+							if attached {JSON_OBJECT}  lconn.item as j_ob AND presence_work_item = True then
+								if attached {JSON_STRING} j_ob.item ("work_item_2") as t then
+									-- Checks if the given work_item exists
+									if my_db.work_item_exists (t.item.to_integer) = False then
+										presence_work_item:=False
+										num:=t.item.to_integer
+									else
+										-- Adds link
+										create link.make (t.item.to_integer)
+										l_links.extend (link)
+									end
 								end
 							end
 						end
 					end
 				end
-			end
-
-
-			if my_db.check_work_item (l_iteration, l_project,l_name ) = True then
-				-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_name.is_empty or l_name = Void then
-				-- The work_item name is empty
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_name.count > 40  then
-				-- The work_item name has more then 40 characters
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name has more then 40 characters."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_description.is_empty or l_description = Void then
-				-- The work_item description is empty
-				l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item description is empty."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_description.count > 165536 then
-				-- The work_item description has more then 165536 characters
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item description has more then 166536 characters."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_points < 0 OR l_points >100 then
-				-- The work_item points is a negative value or are greater than 100
-				l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item points aren't in the valid range [0-100]."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_iteration (l_iteration,l_project) = False then
-				-- The iteration doesn't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_status (l_state) = False then
-				-- The status isn't correct
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given status isn't among the possible choices."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			else
-				new_id:=my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_user_email,l_user_email)
-				if (l_comments /= Void and l_comments.count >= 1 ) then
-					-- There is at least one comment to add
-					across l_comments as c
-					loop
-						my_db.add_comment (new_id, c.item.gettext, c.item.getauthor)
-					end
-				end
-				if (l_links /= Void and l_links.count >= 1 ) then
-					-- There is at least one link to add
-					across l_links as l
-					loop
-						my_db.add_link (new_id, l.item.get2)
-					end
-				end
-				l_result_payload.put ( create {JSON_STRING}.make_json (new_id.out), create {JSON_STRING}.make_json ("new_id"))
-				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + l_name + "' was added successfully."), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result_payload.representation.count)
-
-				-- Adds code for sending email to the owners of the project
-				create j_owners.make_array
-				-- Retrieve the owners email
-				j_owners:=my_db.get_all_project_owners(l_project)
-				print(my_db.get_all_project_owners(l_project).representation)
-				create array_owners.make (j_owners.count)
-				print(j_owners.count)
-				across j_owners.array_representation as array loop
-					-- Reads one email at time
-					if attached {JSON_OBJECT} array.item as owner then
-						if attached {JSON_STRING} owner.item ("email") as t then
-								email:= t.unescaped_string_8
-								print(email)
-								array_owners.extend (email)
+				if my_db.check_work_item (l_iteration, l_project,l_name ) = True then
+					-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_name.is_empty or l_name = Void then
+					-- The work_item name is empty
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_name.count > 40  then
+					-- The work_item name has more then 40 characters
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name has more then 40 characters."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_description.is_empty or l_description = Void then
+					-- The work_item description is empty
+					l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item description is empty."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_description.count > 165536 then
+					-- The work_item description has more then 165536 characters
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item description has more then 166536 characters."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_points < 0 OR l_points >100 then
+					-- The work_item points is a negative value or are greater than 100
+					l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item points aren't in the valid range [0-100]."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_iteration (l_iteration,l_project) = False then
+					-- The iteration doesn't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_status (l_state) = False then
+					-- The status isn't correct
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given status isn't among the possible choices."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				else
+					new_id:=my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_user_email,l_user_email)
+					if (l_comments /= Void and l_comments.count >= 1 ) then
+						-- There is at least one comment to add
+						across l_comments as c
+						loop
+							my_db.add_comment (new_id, c.item.gettext, c.item.getauthor)
 						end
 					end
-				end
-				create env
-				-- Sends emails
-				-- In first place to all owners of the given project
-				from
-					i:=1
-				until
-					i>array_owners.count
-				loop
-					-- Make a strint to call python script
-					create string.make_empty
-					path:=my_db.path_to_src_folder(12)
-					string:="python "
-					string.append_string (path)
-					string.append_string(array_owners[i])
-					string.append_string(" %"")
-					string.append_string(l_name)
-					string.append_string ("%" ")
-					string.append_string(l_user_email)
-					string.append_string(" %"")
-					string.append_string(l_project)
-					string.append_string("%" %"")
-					string.append_string("ITERATION ")
-					string.append_string (l_iteration.out)
-					string.append_string ("%"")
-					env.launch(string)
-					i:=i+1
-				end
+					if (l_links /= Void and l_links.count >= 1 ) then
+						-- There is at least one link to add
+						across l_links as l
+						loop
+							my_db.add_link (new_id, l.item.get2)
+						end
+					end
+					l_result_payload.put ( create {JSON_STRING}.make_json (new_id.out), create {JSON_STRING}.make_json ("new_id"))
+					-- Send an appropriate message
+					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + l_name + "' was added successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result_payload.representation.count)
 
-			-----------------------------------------------------------------------------------------------------
-			end
+					-- Adds code for sending email to the owners of the project
+					create j_owners.make_array
+					-- Retrieve the owners email
+					j_owners:=my_db.get_all_project_owners(l_project)
+
+					create array_owners.make (j_owners.count)
+					across j_owners.array_representation as array loop
+						-- Reads one email at time
+						if attached {JSON_OBJECT} array.item as owner then
+							if attached {JSON_STRING} owner.item ("email") as t then
+									email:= t.unescaped_string_8
+									array_owners.extend (email)
+							end
+						end
+					end
+					create env
+					-- Sends emails
+					-- In first place to all owners of the given project
+					from
+						i:=1
+					until
+						i>array_owners.count
+					loop
+						-- Make a strint to call python script
+						create string.make_empty
+						path:=my_db.path_to_src_folder(12)
+						string:="python "
+						string.append_string (path)
+						string.append_string(array_owners[i])
+						string.append_string(" %"")
+						string.append_string(l_name)
+						string.append_string ("%" ")
+						string.append_string(l_user_email)
+						string.append_string(" %"")
+						string.append_string(l_project)
+						string.append_string("%" %"")
+						string.append_string("ITERATION ")
+						string.append_string (l_iteration.out)
+						string.append_string ("%"")
+						env.launch(string)
+						i:=i+1
+					end
+
+				-----------------------------------------------------------------------------------------------------
+				end
 			end
 
 			-- Add the message to the response
@@ -444,44 +438,120 @@ feature --handlers about work_items
 	delete_work_item(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Deletes an existing work_item; work_item_id is expected to be part of the request payload
 		local
-			l_payload: STRING
+			l_payload, l_user_email: STRING
 			l_id: INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
+			-- Adds for sending email
+			env: EXECUTION_ENVIRONMENT
+			array_owners: ARRAYED_LIST[STRING]
+			j_owners: JSON_ARRAY
+			i, iteration: INTEGER
+			string, email, path, project, name: STRING
+			given_work_item: JSON_OBJECT
+			--------------------------------------
 		do
-			create l_payload.make_empty
-			-- Create l_id like empty
-			create l_id.default_create
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- Read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-			-- Now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				-- We have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
-					l_id := s.item.to_integer
-				end
+			-- Receive the user email
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			-- Check if the given work_item exists into the db
-			if my_db.work_item_exists(l_id) = False then
-				-- The given work_item doesn't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("error"))
+
+			l_user_email:="annamaria.nestorov@hotmail.it"
+			-- Checks if the given user is logged in
+			if l_user_email = VOID OR l_user_email.is_empty then
+				-- The user isn't logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				-- Update the numbers of the work_item which have a greater number
-				my_db.update_number(l_id)
-				-- Remove all links regardin this work_item
-				my_db.remove_all_work_item_links (l_id)
-				-- Remove all comments regardin this work_item
-				my_db.remove_all_work_item_comments (l_id)
-				-- Remore the given work_item
-				my_db.remove_work_item (l_id)
-				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item with id '" + l_id.out + "' was removed successfully."), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result_payload.representation.count)
+				create l_payload.make_empty
+				-- Create l_id like empty
+				create l_id.default_create
+				-- Read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+				-- Now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+				-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					-- We have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+						l_id := s.item.to_integer
+					end
+				end
+				-- Check if the given work_item exists into the db
+				if my_db.work_item_exists(l_id) = False then
+					-- The given work_item doesn't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				else
+					-- Take the tuple with the given work_item fields
+					given_work_item:=my_db.work_item_info (l_id)
+					-- Update the numbers of the work_item which have a greater number
+					my_db.update_number(l_id)
+					-- Remove all links regardin this work_item
+					my_db.remove_all_work_item_links (l_id)
+					-- Remove all comments regardin this work_item
+					my_db.remove_all_work_item_comments (l_id)
+					-- Remore the given work_item
+					my_db.remove_work_item (l_id)
+					-- Send an appropriate message
+					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item with id '" + l_id.out + "' was removed successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result_payload.representation.count)
+
+					if attached {JSON_STRING} given_work_item.item ("project") as s then
+						project:= s.unescaped_string_8
+					end
+					if attached {JSON_STRING} given_work_item.item ("nb_iteration") as s then
+						iteration:= s.item.to_integer
+					end
+					if attached {JSON_STRING} given_work_item.item ("name") as s then
+						name:= s.unescaped_string_8
+					end
+					-- Adds code for sending email to the owners of the project
+					create j_owners.make_array
+					-- Retrieve the owners email
+					j_owners:=my_db.get_all_project_owners(project)
+					create array_owners.make (j_owners.count)
+					across j_owners.array_representation as array loop
+						-- Reads one email at time
+						if attached {JSON_OBJECT} array.item as owner then
+							if attached {JSON_STRING} owner.item ("email") as t then
+									email:= t.unescaped_string_8
+									array_owners.extend (email)
+							end
+						end
+					end
+					create env
+					-- Sends emails
+					-- In first place to all owners of the given project
+					from
+						i:=1
+					until
+						i>array_owners.count
+					loop
+						-- Make a strint to call python script
+						create string.make_empty
+						path:=my_db.path_to_src_folder(13)
+						string:="python "
+						string.append_string (path)
+						string.append_string(array_owners[i])
+						string.append_string(" %"")
+						string.append_string(name)
+						string.append_string ("%" ")
+						string.append_string(l_user_email)
+						string.append_string(" %"")
+						string.append_string(project)
+						string.append_string("%" %"")
+						string.append_string("ITERATION ")
+						string.append_string (iteration.out)
+						string.append_string ("%"")
+						env.launch(string)
+						i:=i+1
+					end
+
+				-----------------------------------------------------------------------------------------------------
+				end
 			end
 			-- Add the message to the response
 			res.put_string (l_result_payload.representation)

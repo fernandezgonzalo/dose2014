@@ -1236,6 +1236,10 @@ feature --SEARCH
 			if file_num = 12 then
 				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_add_work_item.py  "
 			end
+			if file_num = 13 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_rem_work_item.py  "
+			end
+
 
 		end
 
