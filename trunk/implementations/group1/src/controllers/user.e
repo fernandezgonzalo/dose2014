@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		require
-			valid_parameter: a_dao /= void and a_session_manager /= void
+			valid_parameter: a_dao /= Void and a_session_manager /= Void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
