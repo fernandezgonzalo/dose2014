@@ -1,7 +1,7 @@
 <div data-ng-controller="TaskController"><!-- injecting task controller -->
 
-<div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
-<div ng-include src="'partials/project_edit.html'"></div> <!-- Edit project modal -->
+  <div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
+  <div ng-include src="'partials/project_edit.html'"></div> <!-- Edit project modal -->
 
   <div id="legend">
     <legend>{{project.name}}</legend>
@@ -28,7 +28,7 @@
           <!-- Backlog swimlane -->
           <div class="col-md-3">
             <div class="panel panel-danger">
-              <div class="panel-heading"><h4>Backlog</h4></div>
+              <div class="panel-heading"><b>Backlog</b></div>
 
               <div class="panel-body" ng-model="backlogTasks" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(0)',
@@ -52,7 +52,7 @@
           <!-- To do swimlane -->
           <div class="col-md-3">
             <div class="panel panel-warning">
-              <div class="panel-heading"><h4>To do</h4></div>
+              <div class="panel-heading"><b>To do</b></div>
 
               <div class="panel-body" ng-model="todoTasks" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(1)',
@@ -67,7 +67,7 @@
                   data-target="#taskModal">
 
                   {{task.title}}
-                  
+
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@
           <!-- Doing swimlane -->
           <div class="col-md-3">
             <div class="panel panel-info">
-              <div class="panel-heading"><h4>Doing</h4></div>
+              <div class="panel-heading"><b>Doing</b></div>
 
               <div class="panel-body" ng-model="doingTasks" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(2)',
@@ -100,7 +100,7 @@
           <!-- Done swimlane -->
           <div class="col-md-3">
             <div class="panel panel-success">
-              <div class="panel-heading"><h4>Done</h4></div>
+              <div class="panel-heading"><b>Done</b></div>
 
               <div class="panel-body" ng-model="doneTasks" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(3)',
@@ -114,9 +114,7 @@
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
 
-                  <!-- <div ng-mousedown="item.selected = $index" ng-mouseup="item.selected = -1"> -->
-                    {{task.title}}
-                  <!-- </div> -->
+                  {{task.title}}
                 </div>
               </div>
             </div>

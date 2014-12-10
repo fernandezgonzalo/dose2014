@@ -22,11 +22,7 @@ angular.module('Mgmt')
 
     // Retrieve the tasks belonging to the project.
     Task.getProjectTasks({projectId: id}, function(data) {
-      var tasks = organizeTasks(data);
-      $scope.todoTasks = tasks.todo;
-      $scope.doingTasks = tasks.doing;
-      $scope.doneTasks = tasks.done;
-      $scope.backlogTasks = tasks.backlog;
+      organizeTasks(data);
     }, function() {
       $log.error('There was an error while loading project tasks.');
     });
@@ -60,11 +56,7 @@ angular.module('Mgmt')
     updatedTask.status = status;
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
-      updateTaskScope(status);
-      // $log.info($scope.backlogTasks);
-      // $log.info($scope.todoTasks);
-      // $log.info($scope.doingTasks);
-      // $log.info($scope.doneTasks);
+      updateTaskStatusLocal(status);
     }, function() {
       $log.error('There was an error upon task status update.');
     });
@@ -80,18 +72,18 @@ angular.module('Mgmt')
         $location.path('/projects');
       }, function() {
         $log.error('There was an error upon project deletion.');
-        $scope.deleteProjectError = true;
       });
     });
   };
                              
+
   // Distribute tasks into swimlanes according to their status.
   var organizeTasks = function(data) {
 
-    var todo = [];
-    var doing = [];
-    var done = [];
-    var backlog = [];
+    $scope.todoTasks = [];
+    $scope.doingTasks = [];
+    $scope.doneTasks = [];
+    $scope.backlogTasks = [];
 
     // Wait until the actual data arrives from the server.
     data.$promise.then(function(tasks) {
@@ -100,16 +92,16 @@ angular.module('Mgmt')
         Utility.unescape(tasks[i]);
         switch (tasks[i].status) {
           case 'created':
-            todo.push(tasks[i]);
+            $scope.todoTasks.push(tasks[i]);
           break;
           case 'in_progress':
-            doing.push(tasks[i]);
+            $scope.doingTasks.push(tasks[i]);
           break;
           case 'finished':
-            done.push(tasks[i]);
+            $scope.doneTasks.push(tasks[i]);
           break;
           case 'stopped':
-            backlog.push(tasks[i]);
+            $scope.backlogTasks.push(tasks[i]);
           break;
           default:
             $log.error('Task ' + tasks[i].id + ' has no valid status');
@@ -117,17 +109,13 @@ angular.module('Mgmt')
         }
       }
     });
-
-    return {
-      'todo': todo,
-      'doing': doing,
-      'done': done,
-      'backlog': backlog
-    };
   };
 
-  // Change updated task status in scope after update.
-  var updateTaskScope = function(status) {
+
+  // Local changes in $scope
+
+  // Updated task status locally after drag & drop.
+  var updateTaskStatusLocal = function(status) {
 
     switch(status) {
       case 'stopped': 
@@ -144,6 +132,90 @@ angular.module('Mgmt')
         break;
     }
   };
+
+  // Update task locally upon update of the database.
+  $scope.updateTaskLocal = function(task) {
+
+    $log.log('What\'s the task that is arriving?');
+    $log.info(task);
+
+    var found = false;
+    var i = 0;
+
+    // Look for the task in To do swimlane
+    for (i = 0; i < $scope.todoTasks.length && !found; i++) {
+      if ($scope.todoTasks[i].id === task.id) {
+        if ($scope.todoTasks[i].status === task.status) {
+          $scope.todoTasks[i] = task;
+          return;
+        } else {
+          $scope.todoTasks.splice(i, 1);
+          found = true;
+        }
+      }
+    }
+    // Look for the task in Doing swimlane
+    for (i = 0; i < $scope.doingTasks.length && !found; i++) {
+      if ($scope.doingTasks[i].id === task.id) {
+        if ($scope.doingTasks[i].status === task.status) {
+          $scope.doingTasks[i] = task;
+          return;
+        } else {
+          $scope.doingTasks.splice(i, 1);
+          found = true;
+        }
+      }
+    }
+    // Look for the task in Backlog swimlane
+    for (i = 0; i < $scope.backlogTasks.length && !found; i++) {
+      if ($scope.backlogTasks[i].id === task.id) {
+        if ($scope.backlogTasks[i].status === task.status) {
+          $scope.backlogTasks[i] = task;
+          return;
+        } else {
+          $scope.backlogTasks.splice(i, 1);
+          found = true;
+        }
+      }
+    }
+    // Look for the task in Done swimlane
+    for (i = 0; i < $scope.doneTasks.length && !found; i++) {
+      if ($scope.doneTasks[i].id === task.id) {
+        if ($scope.doneTasks[i].status === task.status) {
+          $scope.doneTasks[i] = task;
+          return;
+        } else {
+          $scope.doneTasks.splice(i, 1);
+          found = true;
+        }
+      }
+    }
+
+    // If task status changed, add the task to the respective swimlane.
+    switch (task.status) {
+      case 'created':
+        $scope.todoTasks.push(task);
+        break;
+      case 'in_progress':
+        $scope.doingTasks.push(task);
+        break;
+      case 'finished':
+        $scope.doneTasks.push(task);
+        break;
+      case 'stopped':
+        $scope.backlogTasks.push(task);
+        break;
+      default:
+        $log.error('Task ' + task.id + ' has no valid status');
+      break;
+    }
+    
+    $log.log($scope.backlogTasks);
+    $log.log($scope.todoTasks);
+    $log.log($scope.doingTasks);
+    $log.log($scope.doneTasks);
+  };
+
 
   // Drag & Drop.
   
@@ -233,15 +305,6 @@ angular.module('Mgmt')
   $scope.toggleAlert = function() {
     $scope.deleteAlert = !$scope.deleteAlert;
   };
-
-  // If modal is dismissed, reset project properties.
-  // $scope.cancelCreation = function() {
-  //   $scope.projectNameOK = true;
-  //   $scope.clientNameOK = true;
-    // for (var i in $scope.project) {
-    //   $scope.project[i] = null;
-    // }
-  // };
 
 
   // CSS class to be changed dynamically while dragging a task.
