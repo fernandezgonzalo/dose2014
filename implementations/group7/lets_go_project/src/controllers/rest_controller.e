@@ -212,7 +212,6 @@ feature {NONE} -- Internal helpers
 				Result.statement := "SELECT * FROM " + table_name
 				Result.parameters := Void
 			end
-			print(Result)
 		end
 
 	modify_json(resource: JSON_OBJECT)
@@ -272,35 +271,43 @@ feature {NONE} -- Internal helpers
 
 			check keys.count <= 11 end
 
-			if keys.count = 0 then
-				Result := Void
-			elseif keys.count = 1 then
-				Result := <<json_object.item(keys.at(1)).representation>>
-			elseif keys.count = 2 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation>>
-			elseif keys.count = 3 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation>>
-			elseif keys.count = 4 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation>>
-			elseif keys.count = 5 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation>>
-			elseif keys.count = 6 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation>>
-			elseif keys.count = 7 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation>>
-			elseif keys.count = 8 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation>>
-			elseif keys.count = 9 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation, json_object.item(keys.at(9)).representation>>
-			elseif keys.count = 10 then
-				Result := <<json_object.item(keys.at(1)).representation, json_object.item(keys.at(2)).representation, json_object.item(keys.at(3)).representation, json_object.item(keys.at(4)).representation, json_object.item(keys.at(5)).representation, json_object.item(keys.at(6)).representation, json_object.item(keys.at(7)).representation, json_object.item(keys.at(8)).representation, json_object.item(keys.at(9)).representation, json_object.item(keys.at(10)).representation>>
-			end
+            if keys.count = 0 then
+                Result := Void
+            elseif keys.count = 1 then
+                Result := <<get_value_from_json(json_object, keys.at(1))>>
+            elseif keys.count = 2 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2))>>
+            elseif keys.count = 3 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3))>>
+            elseif keys.count = 4 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4))>>
+            elseif keys.count = 5 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5))>>
+            elseif keys.count = 6 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5)), get_value_from_json(json_object, keys.at(6))>>
+            elseif keys.count = 7 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5)), get_value_from_json(json_object, keys.at(6)), get_value_from_json(json_object, keys.at(7))>>
+            elseif keys.count = 8 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5)), get_value_from_json(json_object, keys.at(6)), get_value_from_json(json_object, keys.at(7)), get_value_from_json(json_object, keys.at(8))>>
+            elseif keys.count = 9 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5)), get_value_from_json(json_object, keys.at(6)), get_value_from_json(json_object, keys.at(7)), get_value_from_json(json_object, keys.at(8)), get_value_from_json(json_object, keys.at(9))>>
+            elseif keys.count = 10 then
+                Result := <<get_value_from_json(json_object, keys.at(1)), get_value_from_json(json_object, keys.at(2)), get_value_from_json(json_object, keys.at(3)), get_value_from_json(json_object, keys.at(4)), get_value_from_json(json_object, keys.at(5)), get_value_from_json(json_object, keys.at(6)), get_value_from_json(json_object, keys.at(7)), get_value_from_json(json_object, keys.at(8)), get_value_from_json(json_object, keys.at(9)), get_value_from_json(json_object, keys.at(10))>>
+            end
 
 			-- Remove quotes from the values
 			across Result as value loop
 				if attached {STRING} value.item as str_value then
                		str_value.replace_substring_all ("%"", "")
             	end
+			end
+		end
+
+	get_value_from_json(json_object: JSON_OBJECT; key: JSON_STRING): STRING
+		do
+			Result := json_object.item(key).representation
+			if Result.is_equal("null") then
+				Result := Void
 			end
 		end
 
