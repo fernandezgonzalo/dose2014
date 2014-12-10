@@ -143,7 +143,7 @@ angular.module('Wbpms')
         $scope.goToIterations = function(project_name) {
         // Go to Iterations 
     
-          $scope.proyecto.project_name = project_name; 
+          $scope.proyecto.project_name = project_name;          
 
           window.location.href = '#/projects/iterations';          
     
@@ -158,10 +158,12 @@ angular.module('Wbpms')
     
         }  */
 
-        $scope.goToMembers = function(project_name) {
+        $scope.goToMembers = function(project_name, points, owner) {
         // Go to Members 
     
           $scope.proyecto.project_name = project_name; 
+          $scope.proyecto.points = points;            
+          $scope.proyecto.owner = owner;           
 
           window.location.href = '#/projects/members';          
     
