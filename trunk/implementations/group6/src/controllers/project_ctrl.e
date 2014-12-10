@@ -524,7 +524,7 @@ feature --Handlers
 			array_owners: ARRAYED_LIST[STRING]
 			j_owners: JSON_ARRAY
 			i: INTEGER
-			string, email, path: STRING
+			string, string2, email, path: STRING
 		do
 			create j_obj.make
 			--create string object to read-in the payload that comes with the request
@@ -580,6 +580,13 @@ feature --Handlers
 				l_result_payload.put (create {JSON_STRING}.make_json ("New owner '" + l_new_owner + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
 
+				--Send an email to the new owner
+				create string2.make_empty
+				path:=my_db.path_to_src_folder(6)
+				string2:="python "
+				string2.append_string (path)
+				string2.append_string(l_new_owner)
+				env.launch(string)
 				-- Adds code for sending email to the owners of the project
 				create j_owners.make_array
 				-- Retrieve the owners email
