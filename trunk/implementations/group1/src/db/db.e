@@ -530,8 +530,8 @@ feature -- Data access Task
 			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Task WHERE id=" + id.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 8, Result))
+			create db_query_statement.make ("SELECT id_user, name, lastname, desc, comment, duration, points, status, id_requirement FROM User as U JOIN (SELECT * FROM Task WHERE id=" + id.out + ") as T ON U.id = T.id_user;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 9, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
 		end
