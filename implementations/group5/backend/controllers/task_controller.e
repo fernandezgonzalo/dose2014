@@ -95,6 +95,7 @@ feature -- Handlers
 					was_created := result_add_task.boolean_item (1)
 					task_id := result_add_task.integer_32_item (2)
 					if was_created then
+						my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
 							--if the task was created,set the response
 						l_result.put (create {JSON_STRING}.make_json (task_id.out), create {JSON_STRING}.make_json ("id"))
 						set_json_header (res, 201, l_result.representation.count)
@@ -184,15 +185,9 @@ feature -- Handlers
 				create l_result.make
 				if my_crud_task.update_task_deadline (l_deadline, l_task_id.to_natural) And my_crud_task.update_task_description (l_description, l_task_id.to_natural) And my_crud_task.update_task_estimation (l_estimation, l_task_id.to_natural) And my_crud_task.update_task_id_user_assigned (l_id_user_assigned.to_natural, l_task_id.to_natural) And my_crud_task.update_task_priority (l_priority, l_task_id.to_natural) And my_crud_task.update_task_status (l_status, l_task_id.to_natural) And my_crud_task.update_task_title (l_title, l_task_id.to_natural) then
 						--if the task was updated,set the response
-					if l_status.is_equal ("finished") then
-						if my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural) then
-							l_result := my_crud_task.task_by_id (l_task_id.to_natural)
-							set_json_header_ok (res, l_result.representation.count)
-						end
-					else
+						my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
 						l_result := my_crud_task.task_by_id (l_task_id.to_natural)
 						set_json_header_ok (res, l_result.representation.count)
-					end
 				end
 				res.put_string (l_result.representation)
 			end
@@ -209,6 +204,7 @@ feature -- Handlers
 			create l_result.make
 			if my_crud_task.remove_task_by_id (l_id.to_natural) then
 					--if the task was removed,set the response
+			--	my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
 				set_json_header (res, 204, l_result.representation.count)
 			end
 			res.put_string (l_result.representation)
