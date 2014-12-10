@@ -39,7 +39,7 @@ feature -- Handlers
 				if user_id.is_empty then
 					reply_with_404(res)
 				else
-					add_user_transaction(resource_id, user_id.representation)
+					add_user_transaction(resource_id, user_id.item(create {JSON_STRING}.make_json("id")).representation)
 					reply_with_204(res)
 				end
 			end
