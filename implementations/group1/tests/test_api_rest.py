@@ -67,8 +67,8 @@ def update_project(session, id_project, name, info):
 if __name__ == '__main__':
 	s = requests.Session()
 	print "[*] Login with email:asd@asd.com and password:asd"
-	print do_login(s, "asd@asd.com", "asd")
+	print do_login(s, "asd@asd.com", "aaa")
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
-
+	
 	
