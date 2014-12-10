@@ -93,6 +93,7 @@ feature {NONE} -- Initialization
 
 				-- initialize the router
 			initialize_router
+
 		end
 
 feature -- Basic operations
@@ -136,16 +137,16 @@ feature -- Basic operations
 
 
 				--handling of all the routes relating to "work_items"
-			map_uri_template_agent_with_request_methods ("/api/projects/iterations/getwork_items", agent work_item_ctrl.get_work_item_info, router.methods_post)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/getwork_item", agent work_item_ctrl.get_work_item_info, router.methods_post)  --everything work
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems", agent work_item_ctrl.create_work_item, router.methods_post)   -- everything work
-			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/{work_item_id}", agent work_item_ctrl.delete_work_item, router.methods_delete)  --everything work
-			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/{work_item_id}", agent work_item_ctrl.change_work_item, router.methods_post)  --everything work
-			map_uri_template_agent_with_request_methods ("api/projects/iterations/getworkitems", agent work_item_ctrl.get_all_iteration_work_items, router.methods_post)  -- everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/delete_workitem", agent work_item_ctrl.delete_work_item, router.methods_delete)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/update", agent work_item_ctrl.change_work_item, router.methods_post)  --everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/getworkitems", agent work_item_ctrl.get_all_iteration_work_items, router.methods_post)  -- everything work
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/comments", agent work_item_ctrl.add_comment, router.methods_post)  -- everything work
-			map_uri_template_agent_with_request_methods ("api/projects/iterations/workitems/getcomments", agent work_item_ctrl.get_all_work_item_comments, router.methods_post)  -- everything work
-			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/links/{id_work_item_source,id_work_item_destination}", agent work_item_ctrl.add_link, router.methods_post) --everything works
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/getcomments", agent work_item_ctrl.get_all_work_item_comments, router.methods_post)  -- everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/links", agent work_item_ctrl.add_link, router.methods_post) --everything works
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/links", agent work_item_ctrl.remove_link, router.methods_delete) --everything work
-			map_uri_template_agent_with_request_methods ("api/projects/iterations/workitems/getlinks", agent work_item_ctrl.get_all_work_item_links, router.methods_post) --everything work
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/getlinks", agent work_item_ctrl.get_all_work_item_links, router.methods_post) --everything work
 			map_uri_template_agent_with_request_methods ("/api/users/achieved_work_items", agent work_item_ctrl.get_achieved_work_items , router.methods_get) --everything work
 
 				-- handling of all the routes relating to "search"

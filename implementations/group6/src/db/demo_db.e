@@ -1209,12 +1209,34 @@ feature --SEARCH
 			if file_num = 3  then
 				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_rem_iteration.py "
 			end
+			if file_num = 4  then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_invitation.py "
+			end
 			if file_num = 5 then
 				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
 			end
 			if file_num = 6 then
-				Result := ".." + Operating_environment.directory_separator.out + "src/new_owner.py "
+				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
 			end
+			if file_num = 7 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_add_member.py  "
+			end
+			if file_num = 8 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_is_added.py  "
+			end
+			if file_num = 9 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_remove_member.py  "
+			end
+			if file_num = 10 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_is_removed.py  "
+			end
+			if file_num = 11 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_welcome.py  "
+			end
+			if file_num = 12 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_add_work_item.py  "
+			end
+
 		end
 
 feature {NONE}

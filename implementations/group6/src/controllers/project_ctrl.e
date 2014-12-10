@@ -366,6 +366,13 @@ feature --Handlers
 			l_result_payload: JSON_ARRAY
 			j_obj: JSON_OBJECT
 			parser: JSON_PARSER
+			-- Adds for sending email
+			env: EXECUTION_ENVIRONMENT
+			array_owners: ARRAYED_LIST[STRING]
+			j_owners: JSON_ARRAY
+			i: INTEGER
+			string, email, path: STRING
+				---------------
 		do
 			create j_obj.make
 			--create string object to read-in the payload that comes with the request
@@ -396,7 +403,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "marid06@hotmail.fr"
+			l_user_email := "annamaria.nestorov@hotmail.it"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -441,6 +448,61 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("false"), create {JSON_STRING}.make_json ("owner"))
 				l_result_payload.extend (j_obj)
 				set_json_header_ok (res, l_result_payload.representation.count)
+
+				-- Adds code for sending email to the owners of the project -------------------------------------------
+				create j_owners.make_array
+				-- Retrieve the owners email
+				j_owners:=my_db.get_all_project_owners(l_project_name)
+				print(my_db.get_all_project_owners(l_project_name).representation)
+				create array_owners.make (j_owners.count)
+				print(j_owners.count)
+				across j_owners.array_representation as array loop
+					-- Reads one email at time
+					if attached {JSON_OBJECT} array.item as owner then
+						if attached {JSON_STRING} owner.item ("email") as t then
+								email:= t.unescaped_string_8
+								print(email)
+								array_owners.extend (email)
+						end
+					end
+				end
+				create env
+				-- Sends emails
+				-- In first place to all owners of the given project
+				from
+					i:=1
+				until
+					i>array_owners.count
+				loop
+					-- Make a strint to call python script
+					create string.make_empty
+					path:=my_db.path_to_src_folder(7)
+					string:="python "
+					string.append_string (path)
+					string.append_string(array_owners[i])
+					string.append_string(" ")
+					string.append_string(l_new_member)
+					string.append(" %"")
+					string.append (l_project_name)
+					string.append ("%"")
+					env.launch(string)
+					i:=i+1
+				end
+				--In second plase to new member
+				create string.make_empty
+				path:=my_db.path_to_src_folder(8)
+				string:="python "
+				string.append_string (path)
+				string.append_string(l_user_email)
+				string.append_string(" ")
+				string.append_string(l_new_member)
+				string.append(" %"")
+				string.append (l_project_name)
+				string.append ("%"")
+				env.launch(string)
+
+			-----------------------------------------------------------------------------------------------------
+
 			end
 			-- add the message to the response response
 			res.put_string (l_result_payload.representation)
@@ -453,6 +515,13 @@ feature --Handlers
 			l_result_payload: JSON_OBJECT
 			j_obj: JSON_OBJECT
 			parser: JSON_PARSER
+			-- Adds for sending email
+			env: EXECUTION_ENVIRONMENT
+			array_owners: ARRAYED_LIST[STRING]
+			j_owners: JSON_ARRAY
+			i: INTEGER
+			string, email, path: STRING
+				---------------
 		do
 			create j_obj.make
 			--create string object to read-in the payload that comes with the request
@@ -477,7 +546,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-
+			l_user_email := "annamaria.nestorov@hotmail.it"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
@@ -507,6 +576,62 @@ feature --Handlers
 				-- Message tutto bene
 				l_result_payload.put (create {JSON_STRING}.make_json ("Member '" + l_member + "' removed successfully from '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
+
+				-- Adds code for sending email to the owners of the project
+				create j_owners.make_array
+				-- Retrieve the owners email
+				j_owners:=my_db.get_all_project_owners(l_project_name)
+				print(my_db.get_all_project_owners(l_project_name).representation)
+				create array_owners.make (j_owners.count)
+				print(j_owners.count)
+				across j_owners.array_representation as array loop
+					-- Reads one email at time
+					if attached {JSON_OBJECT} array.item as owner then
+						if attached {JSON_STRING} owner.item ("email") as t then
+								email:= t.unescaped_string_8
+								print(email)
+								array_owners.extend (email)
+						end
+					end
+				end
+				create env
+				-- Sends emails
+				-- In first place to all owners of the given project
+				from
+					i:=1
+				until
+					i>array_owners.count
+				loop
+					-- Make a strint to call python script
+					create string.make_empty
+					path:=my_db.path_to_src_folder(9)
+					string:="python "
+					string.append_string (path)
+					string.append_string(array_owners[i])
+					string.append_string(" ")
+					string.append_string(l_member)
+					string.append(" %"")
+					string.append (l_project_name)
+					string.append ("%" ")
+					string.append (l_user_email)
+					env.launch(string)
+					i:=i+1
+				end
+				--In second plase to new member
+				create string.make_empty
+				path:=my_db.path_to_src_folder(10)
+				string:="python "
+				string.append_string (path)
+				string.append_string(l_user_email)
+				string.append_string(" ")
+				string.append_string(l_member)
+				string.append(" %"")
+				string.append (l_project_name)
+				string.append ("%"")
+				env.launch(string)
+
+			-----------------------------------------------------------------------------------------------------
+
 			end
 
 			-- add the message to the response response
