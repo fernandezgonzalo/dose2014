@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-  .controller('TaskCtrl', function ($scope, $routeParams, $log,Tasks) {
+  .controller('TaskCtrl', function ($scope, $routeParams, $log, Tasks, $location) {
 
       $scope.tasks = [];
 
@@ -15,10 +15,30 @@ angular.module('DOSEMS.controllers')
 	  
 	   
 	  
-	  $scope.taskDetail = Tasks.query({userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask},function(data){
+	  Tasks.query({userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask},function(data){
 		$log.debug(data);
-	  
+		$scope.taskDetail = data[0];
 	  });
+	  
+	  
+	  $scope.editTask = function() {
+		var params = {userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask};
+		Tasks.update(params,$scope.taskDetail,function(){
+			$location.path("/user/"+$scope.idUser+"/project/"+$scope.idProject);
+		});
+		
+		// Modifies the name, the description and the points of a task with certain id(can be executed only by the project manager and the team leader of the project)
+		$log.info("yey");
+	  }
+	  
+	  $scope.deleteTask = function(){
+		$log.info("deteeeee");
+		var params = {userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask};
+		Tasks.remove(params, function(){
+			//$scope.taskDetail.$delete;
+			$location.path("/user/"+$scope.idUser+"/project/"+$scope.idProject);
+		});
+	  }
 	  
 	  $scope.getTask = function(taskId) {
 		// Gets from the server the task with the id=taskId
@@ -40,13 +60,8 @@ angular.module('DOSEMS.controllers')
 		// Creates a new task for a project (can be executed only by the project manager and the team leader of the project)
       }
 	  
-	  $scope.deleteTask = function(taskId) {
-		// Deletes a task (can be executed only by the project manager and the team leader of the project)
-      }
+	 
 	  
-	  $scope.editTask = function(requirementId, name, description, points) {
-		// Modifies the name, the description and the points of a task with certain id(can be executed only by the project manager and the team leader of the project)
-      }
 	  
 	  $scope.assignToUser = function(taskId, userId) {
 		// Assigns a user to a task (can be executed only by the project manager and the team leader of the project)

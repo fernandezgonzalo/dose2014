@@ -187,7 +187,7 @@ feature -- Handlers
 			my_db.remove_task (l_task_id.to_natural_8)
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Task removed " + l_task_id.out), create {JSON_STRING}.make_json ("Message"))
-			set_json_header_ok (res, l_result.count)
+			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		end
 

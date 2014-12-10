@@ -48,7 +48,6 @@ angular.module('DOSEMS.controllers')
 			$log.info("aici ar tre sa fie prima!");
 			$scope.tasksIdFromSprint = TasksFromSprint.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId},function(data){
 			$log.info(data);
-			$scope.bla1 = data;
 			$log.info("now we are calling!!!!");
 			$log.info(data.length);
 			$scope.taskInfoFunction(data);
@@ -64,7 +63,6 @@ angular.module('DOSEMS.controllers')
 			$log.info(taskIds.length);
 			
 			//$log.info($scope.tasksIdFromSprint);
-			
 			angular.forEach(taskIds, function(obj,id)
 			{
 				
