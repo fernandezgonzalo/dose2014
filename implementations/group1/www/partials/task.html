@@ -1,17 +1,36 @@
 <div class="block">
 
- <p><b>Task {{idTask}} details</b></p>
- <ul ng-repeat="taskDet in taskDetail">
-	<p>Description</p>	
-	<input type="text" placeholder="{{taskDet.desc}}">
-	<p>Comment</p>
-	<input type="text" placeholder="{{taskDet.comment}}">
-	<p>Duration</p>
-	<input type="text" placeholder="{{taskDet.duration}}">
-	<p>Points</p>
-	<input type="text" placeholder="{{taskDet.points}}">
-	<p>Status</p>
-	<input type="text" placeholder="{{taskDet.status}}">
+ <h2> Task {{idTask}} details </h2>
+ <form ng-submit="editTask()">
+	<div class="form-group">
+		<label class="control-label">Description</label>	
+		<input class="form-control" type="text" ng-model="taskDetail.desc">
+	</div>
 	
- </ul>
+	<div class="form-group">
+		<label class="control-label">Comment</label>	
+		<input class="form-control" type="text" ng-model="taskDetail.comment">
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label">Duration</label>	
+		<input class="form-control" type="text" ng-model="taskDetail.duration">
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label">Points</label>	
+		<input class="form-control" type="text" ng-model="taskDetail.points">
+	</div>
+	
+	<div class="form-group">
+		<label class="control-label">Status</label>	
+		<input class="form-control" type="text" ng-model="taskDetail.status">
+	</div>
+	
+	<button> <a ng-href="#/user/{{idUser}}/project/{{idProject}}">Back</a></button>
+	<button type="submit">Save</button>
+	<button type="button" class="btn-danger" ng-click="deleteTask()">Delete</button>
+ </form>
+ 
+
 </div> 

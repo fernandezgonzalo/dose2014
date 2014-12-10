@@ -3,16 +3,12 @@
 	<div class="block projects-column" >
 	
 	<ul ng-repeat = "sprintId in sprintsIdForProject">
-		<li><label ng-click="showDetails=!showDetails;tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
+		<li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
+	</ul>	
 		
-	</ul>
-	
-	
-	
-		
-	<div class="procedure-details" ng-show="!showDetails">
+	<div class="procedure-details" ng-show="!!tasksForSprint.length">
 	<h2>Tasks for Sprint</h2>
-	<table cellpadding="30">
+	<table cellpadding="30" >
 		<tr>
 			<td>Id</td>
 			<td>Name</td>
