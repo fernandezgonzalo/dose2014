@@ -40,7 +40,7 @@ class TestProjects(test_rest_resource.TestRestResource):
     def test_invite_developers(self):
         method = requests.put
         uri = self.single_resource_uri + '/invite_dev'
-        data = '{"email":"adele.beiswenger@gmail.com"}'
+        data = '{"email":"abdul.beirne@gmail.com"}'
         self.ensure_unauthorized_fails_authorized_passes(method, uri, 204, data=data)
 
     def test_remove_developers(self):
