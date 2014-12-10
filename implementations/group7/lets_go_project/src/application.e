@@ -112,6 +112,7 @@ feature -- Basic operations
 
 				-- handling of all the routes relating to "sprints"
 			sprints_base_uri := "/projects/{project_id}/sprints"
+			map_uri_template_agent_with_request_methods (sprints_base_uri + "/{sprint_id}/burndown_chart", agent sprint_ctrl.burndown_chart_authorized, router.methods_get)
 			setup_restful_routing_for(sprint_ctrl, sprints_base_uri, "sprint_id")
 
 				-- handling of all the routes relating to "stories"
