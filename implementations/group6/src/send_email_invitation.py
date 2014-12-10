@@ -4,7 +4,7 @@ import sys
 
 #receives the user email to which send the email
 if len(sys.argv) >= 3:
-    print 'Argument List:', str(sys.argv)
+    #print 'Argument List:', str(sys.argv)
     user_logged = sys.argv[1]
     user_toinvite = sys.argv[2]
 

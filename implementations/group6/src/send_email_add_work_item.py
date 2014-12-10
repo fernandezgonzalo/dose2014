@@ -4,7 +4,7 @@ import sys
 
 #receives the user email to which send the email
 if len(sys.argv) >= 6:
-    print 'Argument List:', str(sys.argv)
+    #print 'Argument List:', str(sys.argv)
     user_email = sys.argv[1]
     work_item_name = sys.argv[2]
     creator_email =sys.argv[3]
