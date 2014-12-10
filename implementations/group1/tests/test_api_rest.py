@@ -42,6 +42,12 @@ def put_users(session, id_user, name, lastname, password, rol, active):
 
 # PROJECTS
 
+def post_projects(session, name, info, id_user):
+	uri_post_users = "http://localhost:9090/api/users/%s/projects" % id_user
+	payload = {"name": name, "info": info}
+	headers = {"content-type": "application/json"}
+
+	return session.post(uri_post_users, data=json.dumps(payload), headers=headers)
 def get_projects(session, id_user):
 	uri_get_projects = "http://localhost:9090/api/users/%s/projects" % id_user
 	headers = {"content-type": "application/json"}
