@@ -327,18 +327,11 @@ feature -- Data access
 				end
 		end
 
-	revise_all_tasks_of_the_project ( id: NATURAL): BOOLEAN
+	revise_all_tasks_of_the_project ( id: NATURAL)
 			-- revise all tasks of the project, if all are finished, set "true" in is_finished of the project
 		do
-			create db_modify_statement.make ("update project set is_finished = 1 where (id= '"+id.out +"' and (select count(*) from task where status= 'Finished' and id_project= '"+id.out +"' )= (select count(*) from task where id_project= '"+id.out +"'));", db)
+			create db_modify_statement.make ("UPDATE project SET is_finished = CASE WHEN (select count(*) from task where status = 'finished' and id_project= '"+id.out +"' )=(select count(*) from task where id_project = '"+id.out +"') THEN 1 ELSE 0 END;;", db)
 			db_modify_statement.execute
-			if db_modify_statement.has_error or db_modify_statement.changes_count=0 then
-			--	print("Error while updating a task")
-				Result:=false;
-					-- TODO: we probably want to return something if there's an error
-			else
-				Result:=true;
-			end
 		end
 
 end
