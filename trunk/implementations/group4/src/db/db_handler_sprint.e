@@ -84,7 +84,8 @@ feature -- Data access for reports
 			-- returns the quantity of sprints which status is 'status' related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_sprints FROM sprints WHERE status='"+ status +"' AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 
