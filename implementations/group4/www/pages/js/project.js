@@ -84,8 +84,6 @@ define(
                     };
 
                     $scope.sprints = sprints;
-
-                    //$scope.sprints = [{"id":"0","status":"Backlog","duration":"0","project_id":"1"},{"id":"0","status":"Backlog","duration":"0","project_id":"2"},{"id":"0","status":"Backlog","duration":"0","project_id":"3"},{"id":"1","status":"Started","duration":"2","project_id":"1"},{"id":"1","status":"Started","duration":"1","project_id":"2"},{"id":"1","status":"Started","duration":"1","project_id":"3"},{"id":"0","status":"Backlog","duration":"0","project_id":"4"},{"id":"0","status":"Backlog","duration":"0","project_id":"5"}];
                 }
             ]
         )
@@ -100,13 +98,24 @@ define(
                 "tasks",
                 function($scope, $stateParams, restapi, tasks)
                 {
+                    function update_project_tasks()
+                    {
+                        return restapi.project_tasks($stateParams.id).then
+                        (
+                            function(data)
+                            {
+                                $scope.tasks = data;
+                            }
+                        )
+                    }
+
                     $scope.$on
                     (
                         "create_task",
                         function(event, data)
                         {
                             event.stopPropagation();
-                            restapi.create_task(data, $stateParams.id);
+                            restapi.create_task(data, $stateParams.id).then(update_project_tasks);
                         }
                     );
 
@@ -116,13 +125,13 @@ define(
                         function(event, data)
                         {
                             event.stopPropagation();
-                            console.log("edit_task");
+                            restapi.edit_project_task(data.form, data.project_id, data.sprint_id, data.task_id).then(update_project_tasks)
                         }
                     );
 
-                    $scope.remove = function()
+                    $scope.remove = function(task)
                     {
-                        console.log("Remove task");
+                        restapi.delete_project_task($stateParams.id, task.id).then(update_project_tasks);
                     };
 
                     $scope.go = function ()
@@ -130,7 +139,7 @@ define(
 
                     };
 
-                    $scope.tasks = tasks; //[{"id":"1","priority":"Low","position":"Backlog","type":"Feature","description":"descr","title":"task1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"1","user_id":"1"},{"id":"2","priority":"Normal","position":"Process","type":"Bug","description":"descr","title":"subtask1","points":"5","super_task_id":"1","sprint_id":"1","project_id":"2","user_id":"2"},{"id":"3","priority":"High","position":"Done","type":"Bug","description":"descr","title":"task2","points":"10","super_task_id":"3","sprint_id":"1","project_id":"3","user_id":"3"}];
+                    $scope.tasks = tasks;
                 }
             ]
         )

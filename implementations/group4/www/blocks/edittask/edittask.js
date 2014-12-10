@@ -129,7 +129,16 @@ define(
                         (
                             function (form)
                             {
-                                $scope.$emit("edit_task", form);
+                                $scope.$emit
+                                (
+                                    "edit_task",
+                                    {
+                                        form: form,
+                                        task_id: task.id,
+                                        sprint_id: task.sprint_id,
+                                        project_id: task.project_id
+                                    }
+                                );
                             }
                         );
                     };
