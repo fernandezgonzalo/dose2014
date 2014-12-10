@@ -38,7 +38,8 @@ angular.module('Wbpms')
       }
 
       $scope.delIteration = {
-            iteration_name : ''
+            project_name : '',
+            iteration_number : ''
         } 
             
       // declaration !AND! call (see parenthesis at end of function)
@@ -116,12 +117,12 @@ angular.module('Wbpms')
           $log.debug("Sending payload: " + JSON.stringify(payload));
 
           // send the payload to the server
-          $http.post('api/projects/iterations', payload)
+          $http.post('api/projects/iterations/delete', payload)
             .success(function(data, status, header, config) {
               $log.debug('Success remove iteration');
               alert("The Iteration was deleted");
               for(var i =0; i < $scope.iterations.length; i++) {
-                if($scope.iterations[i].iteration_number === delIteration) {
+                if($scope.iterations[i].iteration_number === delIteration.iteration_number) {
                   $scope.iterations.splice(i, 1);
                   break;
                 }
@@ -130,6 +131,7 @@ angular.module('Wbpms')
             })
             .error(function(data, status) {
               $log.debug('Error while trying to remove new iteration');
+              alert("Error deleting iteration");
             }); 
         }
 
