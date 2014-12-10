@@ -53,13 +53,24 @@ define(
                 "sprints",
                 function($scope, restapi, $stateParams, sprints)
                 {
+                    function update_project_sprints()
+                    {
+                        return restapi.project_sprints($stateParams.id).then
+                        (
+                            function(data)
+                            {
+                                $scope.sprints = data;
+                            }
+                        )
+                    }
+
                     $scope.$on
                     (
                         "create_sprint",
                         function(event, data)
                         {
                             event.stopPropagation();
-                            restapi.create_sprint(data, $stateParams.id);
+                            restapi.create_sprint(data, $stateParams.id).then(update_project_sprints);
                         }
                     );
 
@@ -69,13 +80,13 @@ define(
                         function(event, data)
                         {
                             event.stopPropagation();
-                            console.log("edit_sprint");
+                            restapi.edit_sprint(data.form, data.project_id, data.sprint_id).then(update_project_sprints);
                         }
                     );
 
-                    $scope.remove = function()
+                    $scope.remove = function(sprint)
                     {
-                        console.log("Remove sprint");
+                        restapi.delete_task($stateParams.id, sprint.id).then(update_project_sprints);
                     };
 
                     $scope.go = function ()

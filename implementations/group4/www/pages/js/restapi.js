@@ -270,6 +270,21 @@ define(
                         return $http.post("/api/projects/" + project_id + "/sprints", request);
                     };
 
+                    module.edit_sprint = function(form, project_id, sprint_id)
+                    {
+                        var request =
+                        {
+                            status: form.status,
+                            duration: form.duration.toString()
+                        };
+                        return $http.post("/api/projects/" + project_id + "/sprints/" + sprint_id, request);
+                    };
+
+                    module.delete_task = function (project_id, sprint_id)
+                    {
+                        return $http.delete("/api/projects/" + project_id + "/sprints/" + sprint_id);
+                    };
+
                     module.project_sprints = function(project_id)
                     {
                         return $http.get("/api/projects/" + project_id + "/sprints")

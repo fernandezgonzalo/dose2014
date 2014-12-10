@@ -1,6 +1,6 @@
 <button type="button" class="btn btn-default" ng-controller="CreateSprintCtr" ng-click="createSprint()">Add sprint</button>
 
-<table ng-if="sprints.length != 0" class="table table-hover text-center">
+<table ng-if="sprints.length != 1" class="table table-hover text-center">
     <thead>
     <tr>
         <th></th>
@@ -11,7 +11,7 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="sprint in sprints" class="warning">
+    <tr ng-repeat="sprint in sprints" ng-if="sprint.id != 0" class="warning">
         <td>
             <img class="clickable inline" ng-click="remove(sprint)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
             <img class="clickable inline" ng-controller="EditSprintCtr" ng-click="editSprint(sprint)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
