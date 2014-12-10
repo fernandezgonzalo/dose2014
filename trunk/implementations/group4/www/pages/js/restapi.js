@@ -295,6 +295,26 @@ define(
                         )
                     };
 
+                    module.delete_project_task = function(project_id, task_id)
+                    {
+                        return $http.delete("/api/projects/" + project_id + "/tasks/" + task_id);
+                    };
+
+                    module.edit_project_task = function (form, project_id, sprint_id, task_id) {
+                        var request =
+                        {
+                            title: form.title,
+                            description: form.description,
+                            priority: form.priority,
+                            position: form.position,
+                            points: form.points.toString(),
+                            type: form.type,
+                            sprint_id: sprint_id
+                        };
+
+                        return $http.post("/api/projects/" + project_id + "/tasks/" + task_id, request);
+                    };
+
                     //////////////////////////////////////////////////////////////
                     ////////////////////// PRIVATE METHODS
 
