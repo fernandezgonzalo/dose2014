@@ -42,12 +42,7 @@ def put_users(session, id_user, name, lastname, password, rol, active):
 
 # PROJECTS
 
-def post_projects(session, name, info, id_user):
-	uri_post_users = "http://localhost:9090/api/users/%s/projects" % id_user
-	payload = {"name": name, "info": info}
-	headers = {"content-type": "application/json"}
 
-	return session.post(uri_post_users, data=json.dumps(payload), headers=headers)
 def get_projects(session, id_user):
 	uri_get_projects = "http://localhost:9090/api/users/%s/projects" % id_user
 	headers = {"content-type": "application/json"}
@@ -64,6 +59,11 @@ def add_project(session, id_user, name, info):
 	headers = {"content-type": "application/json"}
 	return session.post(uri_add_project, data=json.dumps(payload), headers=headers)
 
+def delete_project (session, id_project):
+	uri_delete_project = "http://localhost:9090/api/users/projects/%s" % id_project
+	headers = {"content-type": "application/json"}
+	return session.delete(uri_delete_project, headers=headers)
+
 def update_project(session, id_project, name, info):
 	uri_update_project = "http://localhost:9090/api/users/projects/%s" % id_project
 	payload = {"name": name, "info": info}
@@ -76,5 +76,6 @@ if __name__ == '__main__':
 	print do_login(s, "asd@asd.com", "aaa")
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
+
 	
 	
