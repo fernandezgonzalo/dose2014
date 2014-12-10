@@ -58,9 +58,8 @@ feature -- Data access
 			-- update a sprint
 		do
 			create db_modify_statement.make ("UPDATE Sprints SET status = '"+ sprint.status +"',"+
-															  "duration = '"+ sprint.duration.out +"',"+
-															  "project_id = '"+ sprint.project_id.out +"'"+
-															  "WHERE id="+ sprint_id.out +";" , db)
+															  "duration = '"+ sprint.duration.out +"'"+
+															  "WHERE (id="+ sprint_id.out +") and (project_id = '"+ sprint.project_id.out +"');" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while updating a sprint")
