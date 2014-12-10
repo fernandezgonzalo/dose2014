@@ -51,6 +51,10 @@ feature --handlers
 				l_gender: BOOLEAN
 				parser: JSON_PARSER
 				l_result: JSON_OBJECT
+				-- Adds for sending email
+				env: EXECUTION_ENVIRONMENT
+				string,path: STRING
+				---------------------------
 			do
 					-- create emtpy string objects
 				create l_payload.make_empty
@@ -141,6 +145,21 @@ feature --handlers
 					l_result.put (create {JSON_STRING}.make_json ("Added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("success"))
 					set_json_header_ok (res, l_result.representation.count)
 
+					-- send the invitation from the user to the recipient email
+				-- Adds code for sending email to the owner of the project (Anna)
+				create env
+				-- Sends email
+				-- Make a strint to call python script
+				create string.make_empty
+				path:=my_db.path_to_src_folder(11)
+				string:="python "
+				string.append_string (path)
+				string.append (l_email)
+				string.append ("")
+				env.launch(string)
+
+				----------------------------------------------------
+
 				end
 
 					-- sending back the result
@@ -201,8 +220,12 @@ feature --handlers
 			l_payload, l_user, l_email: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			-- Adds for sending email
+			env: EXECUTION_ENVIRONMENT
+			string,path: STRING
+				---------------
 		do
-
+			create l_payload.make_empty
 				-- catching the user EMAIL from the cookie
 			if req_has_cookie(req, "_session_") then
 				l_user := get_session_from_req(req, "_session_").at("email").out
@@ -225,8 +248,8 @@ feature --handlers
 
 			end
 
+--			l_user:="annamaria.nestorov@hotmail.it"
 
-				--
 			if (l_user = VOID) OR (l_user.is_empty ) then
 
 					-- EMAIL not valid. Sending back an error message
@@ -248,7 +271,21 @@ feature --handlers
 			else
 
 				-- send the invitation from the user to the recipient email
+				-- Adds code for sending email to the owner of the project (Anna)
+				create env
+				-- Sends email
+				-- Make a strint to call python script
+				create string.make_empty
+				path:=my_db.path_to_src_folder(4)
+				string:="python "
+				string.append_string (path)
+				string.append (l_user)
+				string.append (" ")
+				string.append (l_email)
+				string.append ("")
+				env.launch(string)
 
+				----------------------------------------------------
 
 				create l_result.make
 				l_result.put (create {JSON_STRING}.make_json ("Invitation successfully sent."), create {JSON_STRING}.make_json ("success"))

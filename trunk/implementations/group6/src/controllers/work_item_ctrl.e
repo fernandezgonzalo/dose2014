@@ -116,7 +116,7 @@ feature --handlers about work_items
 		--than 40 characters), description (can't be empty and has less than 165536 characters), created_by (can't be empty)
 		--and owner are expected to be part of the request payload
 		local
-			l_payload, l_project,l_state, l_name, l_description, l_created_by, l_owner: STRING
+			l_payload, l_project,l_state, l_name, l_description, l_user_email: STRING
 			l_number, l_points, l_iteration:INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
@@ -128,7 +128,27 @@ feature --handlers about work_items
 			l_links: ARRAYED_LIST[LINK]
 			num: INTEGER -- counts hw many comments there are
 			presence_work_item: BOOLEAN --it is True if the work_item of the link exist into the dd, False otherwise
+			-- Adds for sending email
+			env: EXECUTION_ENVIRONMENT
+			array_owners: ARRAYED_LIST[STRING]
+			j_owners: JSON_ARRAY
+			i: INTEGER
+			string, email, path: STRING
+			--------------------------------------
 		do
+			-- Receive the user email
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
+			end
+
+--			l_user_email:="annamaria.nestorov@hotmail.it"
+
+			-- Checks if the given user is logged in
+			if l_user_email = VOID OR l_user_email.is_empty then
+				-- The user isn't logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
+				set_json_header (res, 401, l_result_payload.representation.count)
+			else
 			-- Create string objects to read-in the payload that comes with the request
 			create l_payload.make_empty
 			create l_iteration.default_create
@@ -136,8 +156,6 @@ feature --handlers about work_items
 			create l_project.make_empty
 			create l_name.make_empty
 			create l_description.make_empty
-			create l_created_by.make_empty
-			create l_owner.make_empty
 			create l_state.make_empty
 			create l_number.default_create
 			-- Create json object that we send back as in response
@@ -164,14 +182,8 @@ feature --handlers about work_items
 				if attached {JSON_STRING} j_object.item ("points") as s then
 					l_points := s.item.to_integer
 				end
-				if attached {JSON_STRING} j_object.item ("createdby") as s then
-					l_created_by := s.unescaped_string_8
-				end
 				if attached {JSON_STRING} j_object.item ("status") as s then
 					l_state := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("ownerby") as s then
-					l_owner := s.unescaped_string_8
 				end
  				if attached {JSON_ARRAY} j_object.item ("comments") as a then
  					-- Reads the comments
@@ -181,7 +193,7 @@ feature --handlers about work_items
 						if attached {JSON_OBJECT} array.item as comm then
 							if attached {JSON_STRING} comm.item ("text") as t then
 								c1:= t.unescaped_string_8
-								create comment.make (c1, l_owner)
+								create comment.make (c1, l_user_email)
 								l_comments.extend (comment)
 							end
 						end
@@ -241,24 +253,8 @@ feature --handlers about work_items
 				-- The status isn't correct
 				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given status isn't among the possible choices."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_owner.same_string ("System") = True then
-				-- System can't be the new owner
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: System can't be the owner."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_created_by.same_string ("System") = True then
-				-- System can't be the new owner
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: System can't be the creator."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_if_mail_already_present (l_owner) = False then
-				-- The given user, as regards to the owner field, doesn't exist into the db
-				l_result_payload.put(create{JSON_STRING}.make_json ("ERROR: The given user, as regards to the owner, field doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_if_mail_already_present (l_created_by) = False then
-				-- The given user, as regards to the creator field, doesn't exist into the db
-				l_result_payload.put(create{JSON_STRING}.make_json ("ERROR: The given user, as regards to the creator, field doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				new_id:=my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_created_by,l_owner)
+				new_id:=my_db.add_work_item (l_name,l_description,l_points,l_iteration,l_project,l_state,l_user_email,l_user_email)
 				if (l_comments /= Void and l_comments.count >= 1 ) then
 					-- There is at least one comment to add
 					across l_comments as c
@@ -277,6 +273,54 @@ feature --handlers about work_items
 				-- Send an appropriate message
 				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + l_name + "' was added successfully."), create {JSON_STRING}.make_json ("success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
+
+				-- Adds code for sending email to the owners of the project
+				create j_owners.make_array
+				-- Retrieve the owners email
+				j_owners:=my_db.get_all_project_owners(l_project)
+				print(my_db.get_all_project_owners(l_project).representation)
+				create array_owners.make (j_owners.count)
+				print(j_owners.count)
+				across j_owners.array_representation as array loop
+					-- Reads one email at time
+					if attached {JSON_OBJECT} array.item as owner then
+						if attached {JSON_STRING} owner.item ("email") as t then
+								email:= t.unescaped_string_8
+								print(email)
+								array_owners.extend (email)
+						end
+					end
+				end
+				create env
+				-- Sends emails
+				-- In first place to all owners of the given project
+				from
+					i:=1
+				until
+					i>array_owners.count
+				loop
+					-- Make a strint to call python script
+					create string.make_empty
+					path:=my_db.path_to_src_folder(12)
+					string:="python "
+					string.append_string (path)
+					string.append_string(array_owners[i])
+					string.append_string(" %"")
+					string.append_string(l_name)
+					string.append_string ("%" ")
+					string.append_string(l_user_email)
+					string.append_string(" %"")
+					string.append_string(l_project)
+					string.append_string("%" %"")
+					string.append_string("ITERATION ")
+					string.append_string (l_iteration.out)
+					string.append_string ("%"")
+					env.launch(string)
+					i:=i+1
+				end
+
+			-----------------------------------------------------------------------------------------------------
+			end
 			end
 
 			-- Add the message to the response
