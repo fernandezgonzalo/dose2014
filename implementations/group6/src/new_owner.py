@@ -13,7 +13,7 @@ if len(sys.argv) >= 2:
 msg = email.message_from_string('Dear member,\n\nWe are glad to inform you that you have been promoted owner of the project %s .\n\nKind Regards\n\nDOSE Service Assistances \n\nThis is an automatically generated email, please do not reply to it. ' %project_name)
 msg['From'] = "dose2014system@hotmail.com"
 msg['To'] = user_email
-msg['Subject'] = "[No reply] - New owner added"
+msg['Subject'] = "[No reply] - New ownership"
 
 s = smtplib.SMTP("smtp.live.com",587)
 s.ehlo()
