@@ -134,17 +134,18 @@ feature -- Data access : project
 	is_member (a_user_email: STRING; a_project_name: STRING) : BOOLEAN
 		local
 			l_array: JSON_ARRAY
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			-- check if the given email is owner of the given project
 			create db_query_statement.make ("SELECT * from member WHERE project='" + a_project_name + "'AND user='" + a_user_email + "';", db)
-			--l_query_result_cursor := db_query_statement.execute_new
-			create l_array.make_array
-			--l_query_result_cursor := db_query_statement.execute_new
-			db_query_statement.execute(agent rows_to_json_array (?, 3, l_array))
-			if l_array.count = 1 then
-				Result := true
+			l_query_result_cursor := db_query_statement.execute_new
+			--print(l_query_result_cursor.item.value (1))
+			if l_query_result_cursor.after then
+
+					-- there are no rows in the result of the query, thus the email is not present into the database
+				Result := False
 			else
-				Result := false
+				Result := True
 			end
 		end
 
@@ -1207,6 +1208,9 @@ feature --SEARCH
 			end
 			if file_num = 3  then
 				Result := ".." + Operating_environment.directory_separator.out + "src/send_email_rem_iteration.py "
+			end
+			if file_num = 5 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
 			end
 		end
 
