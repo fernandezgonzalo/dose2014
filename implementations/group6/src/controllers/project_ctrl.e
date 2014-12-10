@@ -550,7 +550,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			l_user_email := "marid06@hotmail.fr"
+			--l_user_email := "marid06@hotmail.fr"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
