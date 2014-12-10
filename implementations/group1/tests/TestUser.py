@@ -92,6 +92,16 @@ class TestUser(unittest.TestCase):
 	self.assertEqual(user_info ['email'], "test@email.com")
 	self.assertEqual(user_info ['password'], "test_password")
 
+		# modify user data
+	put_user = put_users(self.session, id_user, "test_name_2", "test_last_name_2", "test_password_2", rol, active)
+
+		#verify that the data is successfully modified
+	user_info_2 = json.loads(get_user (self.session, id_user).content)
+	self.assertEqual(user_info_2 ['name'], "test_name_2")
+	self.assertEqual(user_info_2 ['lastname'], "test_last_name_2")
+	self.assertEqual(user_info_2 ['email'], "test@email.com")
+	self.assertEqual(user_info_2 ['password'], "test_password_2")
+
 		#get all users
 	users_1 = json.loads(get_users(self.session).content)
 		# delete user
