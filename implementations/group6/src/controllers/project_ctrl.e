@@ -396,7 +396,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "marid06@hotmail.it"
+			--l_user_email := "marid06@hotmail.fr"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -412,6 +412,11 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("Project name does not exist"), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.is_member (l_new_member, l_project_name) then
+				-- User is already a member
+				j_obj.put (create {JSON_STRING}.make_json ("The user you want to add is already a member"), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.extend (j_obj)
+				set_json_header (res, 401, l_result_payload.representation.count)
 			elseif l_user_email = void or l_user_email.is_empty then
 				--Error nobody is logged in
 				j_obj.put (create {JSON_STRING}.make_json ("User is not logged in"), create {JSON_STRING}.make_json ("error"))
@@ -422,7 +427,7 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("Project name too long"), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
 				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.is_member (l_user_email, l_project_name) then
+			elseif my_db.is_member (l_user_email, l_project_name) = false then
 				--check if user is member.
 				j_obj.put (create {JSON_STRING}.make_json ("The user is not a member of this project"), create {JSON_STRING}.make_json ("error"))
 				l_result_payload.extend (j_obj)
@@ -515,6 +520,11 @@ feature --Handlers
 			l_result_payload: JSON_OBJECT
 			j_obj: JSON_OBJECT
 			parser: JSON_PARSER
+			env: EXECUTION_ENVIRONMENT
+			array_owners: ARRAYED_LIST[STRING]
+			j_owners: JSON_ARRAY
+			i: INTEGER
+			string, email, path: STRING
 		do
 			create j_obj.make
 			--create string object to read-in the payload that comes with the request
@@ -540,7 +550,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-
+			l_user_email := "marid06@hotmail.fr"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				l_result_payload.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("Error"))
@@ -569,6 +579,46 @@ feature --Handlers
 				my_db.promote_owner (l_project_name, l_new_owner)
 				l_result_payload.put (create {JSON_STRING}.make_json ("New owner '" + l_new_owner + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("Success"))
 				set_json_header_ok (res, l_result_payload.representation.count)
+
+				-- Adds code for sending email to the owners of the project
+				create j_owners.make_array
+				-- Retrieve the owners email
+				j_owners:=my_db.get_all_project_owners(l_project_name)
+				print(my_db.get_all_project_owners(l_project_name).representation)
+				create array_owners.make (j_owners.count)
+				print(j_owners.count)
+				across j_owners.array_representation as array loop
+					-- Reads one email at time
+					if attached {JSON_OBJECT} array.item as owner then
+						if attached {JSON_STRING} owner.item ("email") as t then
+								email:= t.unescaped_string_8
+								print(email)
+								array_owners.extend (email)
+						end
+					end
+				end
+				create env
+					-- Sends emails
+					from
+						i:=1
+					until
+						i>array_owners.count
+					loop
+						-- Make a strint to call python script
+						create string.make_empty
+						path:=my_db.path_to_src_folder(5)
+						string:="python "
+						string.append_string (path)
+						string.append_string(array_owners[i])
+						--string.append("%"")
+--						string.append (l_project)
+--						string.append ("%" %"")
+--						string.append (l_iteration_data.name)
+--						string.append ("%"")
+						env.launch(string)
+						i:=i+1
+
+					end
 			end
 
 			-- add the message to the response response
