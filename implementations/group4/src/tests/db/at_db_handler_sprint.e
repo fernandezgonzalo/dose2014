@@ -103,5 +103,17 @@ feature -- Test routines
 		end
 
 
+	total_sprints_by_status_and_project_id_test
+			-- Test for routine total_tasks_by_priority_and_project_id
+		local
+			db_handler : DB_HANDLER_SPRINT
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_sprints_by_status_and_project_id ("Started", 1)
+			assert("Count ok", json_result.item ("total_sprints").debug_output.is_equal("1"))
+		end
+
+
 
 end

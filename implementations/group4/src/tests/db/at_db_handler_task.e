@@ -182,6 +182,39 @@ feature -- Test routines
 			json_result := db_handler.total_points_by_position_and_project_id ("Backlog", 1)
 			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5"))
 		end
+
+	total_tasks_by_position_and_project_id_test
+			-- Test for routine total_tasks_by_position_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_tasks_by_position_and_project_id ("Done", 3)
+			assert("Count ok", json_result.item ("total_tasks_by_position").debug_output.is_equal("1"))
+		end
+
+	total_tasks_by_type_and_project_id_test
+			-- Test for routine total_tasks_by_type_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_tasks_by_type_and_project_id ("Feature", 1)
+			assert("Count ok", json_result.item ("total_tasks_by_type").debug_output.is_equal("1"))
+		end
+
+	total_tasks_by_priority_and_project_id_test
+			-- Test for routine total_tasks_by_priority_and_project_id
+		local
+			db_handler : DB_HANDLER_TASK
+			json_result : JSON_OBJECT
+		do
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			json_result := db_handler.total_tasks_by_priority_and_project_id ("Low", 1)
+			assert("Count ok", json_result.item ("total_tasks_by_priority").debug_output.is_equal("1"))
+		end
 end
 
 

@@ -160,21 +160,24 @@ feature -- Data access for reports
 			-- returns the quantity of tasks which position is 'position' related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_tasks_by_position FROM tasks WHERE position='"+ position +"' AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_tasks_by_type_and_project_id (type: STRING;project_id: NATURAL) : JSON_OBJECT
 			-- returns the quantity of tasks which type is 'type' related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_tasks_by_type FROM tasks WHERE type='"+ type +"' AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 	total_tasks_by_priority_and_project_id (priority: STRING;project_id: NATURAL) : JSON_OBJECT
 			-- returns the quantity of tasks which priority is 'priority' related to a given project
 		do
 			create Result.make
-			-- implement
+			create db_query_statement.make("SELECT COUNT(*) AS total_tasks_by_priority FROM tasks WHERE priority='"+ priority +"' AND project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
 end
