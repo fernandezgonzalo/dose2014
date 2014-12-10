@@ -1212,6 +1212,9 @@ feature --SEARCH
 			if file_num = 5 then
 				Result := ".." + Operating_environment.directory_separator.out + "src/promote_owner.py "
 			end
+			if file_num = 6 then
+				Result := ".." + Operating_environment.directory_separator.out + "src/new_owner.py "
+			end
 		end
 
 feature {NONE}
