@@ -5,16 +5,22 @@
     <p class="lead" data-ng-bind="project.description"></p>
     <a class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/edit'>
     	Edit project
-    </a>
+    </a>    
     <a  class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/dashboard'>
     	Dashboard
-    </a>
-    <a class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/users' data-ng-show="project.manager_id == global.user.id">
-    	Manage users
     </a>
     <a class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/sprints' data-ng-show="project.manager_id == global.user.id">
     	Manage sprints
     </a>
+    <a  class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/users/ranking'>
+    	Users Ranking
+    </a>    
+    <a  class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/recent_activities'>
+    	Recent Activities
+    </a>    
+    <a class="btn btn-info" data-ng-href='#!/projects/{{project.id}}/users' data-ng-show="project.manager_id == global.user.id">
+    	Manage users
+    </a>    
     <a class="btn btn-danger" data-ng-confirm-click="Are you sure?" data-confirmed-click="remove()" data-ng-show="project.manager_id == global.user.id">
     	Delete project
     </a>
