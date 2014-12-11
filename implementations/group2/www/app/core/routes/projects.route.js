@@ -66,6 +66,20 @@ angular.module('coffee.core').config(['$stateProvider', '$urlRouterProvider',
                 loggedin: checkLoggedin
             }
         }).
+        state('recentActivities', {
+            url: '/projects/:projectId/recent_activities',
+            templateUrl: '/app/core/views/projects/recent_activities.html',
+            resolve: {
+                loggedin: checkLoggedin
+            }
+        }).
+        state('usersRanking', {
+            url: '/projects/:projectId/users/ranking',
+            templateUrl: '/app/core/views/projects/ranking.html',
+            resolve: {
+                loggedin: checkLoggedin
+            }
+        }).
         state('usersProject', {
             url: '/projects/:projectId/users',
             templateUrl: '/app/core/views/projects/users.html',
