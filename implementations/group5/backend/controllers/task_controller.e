@@ -96,8 +96,8 @@ feature -- Handlers
 					task_id := result_add_task.integer_32_item (2)
 					if was_created then
 						my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
-							--if the task was created,set the response
-						l_result.put (create {JSON_STRING}.make_json (task_id.out), create {JSON_STRING}.make_json ("id"))
+							--if the task was created,set the response, send back the new json object 
+						l_result := my_crud_task.task_by_id (task_id.to_natural_32)
 						set_json_header (res, 201, l_result.representation.count)
 					end
 				else
