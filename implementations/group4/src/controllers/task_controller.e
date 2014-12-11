@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns tasks."
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-10$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	TASK_CONTROLLER
@@ -50,12 +50,11 @@ feature -- Handlers
 					-- then obtain all the tasks from the database
 				l_result_payload := db_handler_task.find_all.representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -78,12 +77,11 @@ feature -- Handlers
 					-- Then, we return the corresponding result
 				l_result_payload := db_handler_task.find_by_id(l_task_id.to_natural).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -106,12 +104,11 @@ feature -- Handlers
 				-- Then, we return the corresponding result
 				l_result_payload := db_handler_task.find_all_sub_tasks(l_super_task_id.to_natural).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -173,12 +170,12 @@ feature -- Handlers
 				db_handler_task.add_super (new_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Added Task "+ new_task.title,200,res)
+				prepare_response("Added Task "+ new_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -244,12 +241,12 @@ feature -- Handlers
 				db_handler_task.add_sub (new_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Added subtask "+ new_task.title,200,res)
+				prepare_response("Added subtask "+ new_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -319,12 +316,12 @@ feature -- Handlers
 				db_handler_task.update (l_task_id.to_natural,l_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Updated task "+ l_task.title,200,res)
+				prepare_response("Updated task "+ l_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -396,12 +393,12 @@ feature -- Handlers
 				db_handler_task.update (l_task_id.to_natural,l_task)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Updated subtask "+l_task.title,200,res)
+				prepare_response("Updated subtask "+l_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -421,11 +418,11 @@ feature -- Handlers
 				db_handler_task.remove (l_task_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Removed task",200,res)
+				prepare_response("Removed task",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -445,11 +442,11 @@ feature -- Handlers
 				db_handler_task.remove (l_task_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Removed subtask",200,res)
+				prepare_response("Removed subtask",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the tasks
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
