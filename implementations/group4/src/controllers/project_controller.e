@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns projects."
 	author: "$Rio Cuarto4 Team$"
 	date: "$2014-11-11$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	PROJECT_CONTROLLER
@@ -64,13 +64,12 @@ feature -- Handlers
 					-- get all project where the user is owner or collaborator
 				l_result_payload := db_handler_project.find_by_user_loged (l_user_id.to_integer).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -86,8 +85,7 @@ feature -- Handlers
 
 			l_result_payload := db_handler_project.find_by_id (l_project_id.to_integer).representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 
@@ -103,8 +101,7 @@ feature -- Handlers
 			-- and use the user handler to obtain all its collaborators
 			l_result_payload := db_handler_user.find_by_project_id (project_id.to_natural).representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 
@@ -120,8 +117,7 @@ feature -- Handlers
 			-- and use the sprint handler to obtain all its sprints
 			l_result_payload := db_handler_sprint.find_by_project_id (project_id.to_natural).representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 	get_tasks (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -136,8 +132,7 @@ feature -- Handlers
 			-- and use the sprint handler to obtain all its sprints
 			l_result_payload := db_handler_task.find_by_project_id (project_id.to_natural).representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 
@@ -196,12 +191,12 @@ feature -- Handlers
 				db_handler_project.add (new_project)
 
 					-- prepare the response
-				prepare_response("Added project " + new_project.name,200,res)
+				prepare_response("Added project " + new_project.name,200,res,true)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 
 		end
@@ -268,12 +263,12 @@ feature -- Handlers
 					-- create the task in the database
 				db_handler_task.add_super (new_task)
 
-				prepare_response("Added task " + new_task.title,200,res)
+				prepare_response("Added task " + new_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -319,16 +314,16 @@ feature -- Handlers
 						-- create the collaborator in the database
 					db_handler_project.add_collaborator (l_user_id_to_add.to_natural, l_project_id.to_natural)
 
-					prepare_response("Added collaborator",200,res)
+					prepare_response("Added collaborator",200,res,true)
 				else
 						-- the user logged isnt the project owner
 						-- we return an error stating that the user is not authorized to get the users.
-					prepare_response("The user loged isnt the project owner",401,res)
+					prepare_response("The user loged isnt the project owner",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -392,12 +387,12 @@ feature -- Handlers
 					-- update the project in the database
 				db_handler_project.update (l_project_id.to_natural,project)
 
-				prepare_response("Updated project "+ project.name,200,res)
+				prepare_response("Updated project "+ project.name,200,res,true)
 
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -435,16 +430,16 @@ feature -- Handlers
 					db_handler_project.remove (l_project_id.to_natural)
 
 						-- prepare response
-					prepare_response("Removed item",200,res)
+					prepare_response("Removed item",200,res,true)
 				else
 						-- the user logged isnt the project owner
 						-- we return an error stating that the user is not authorized to get the users.
-					prepare_response("The user loged isnt the project owner",401,res)
+					prepare_response("The user loged isnt the project owner",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -487,17 +482,17 @@ feature -- Handlers
 					db_handler_project.remove_collaborator (l_user_id.to_natural, l_project_id.to_natural)
 
 						-- prepare response
-					prepare_response("Removed item",200,res)
+					prepare_response("Removed item",200,res,true)
 
 				else
 						-- the user logged isnt the project owner
 						-- we return an error stating that the user is not authorized to get the users.
-					prepare_response("The user loged isnt the project owner",401,res)
+					prepare_response("The user loged isnt the project owner",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
