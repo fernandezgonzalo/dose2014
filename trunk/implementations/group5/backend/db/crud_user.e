@@ -385,6 +385,21 @@ feature -- Data access
 				end
 		end
 
+		user_is_admin(id:INTEGER): BOOLEAN
+		--returns true if the user identified by id is admin
+		local
+				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			do
+					create Result
+					create db_query_statement.make ("SELECT * FROM user WHERE id=? and is_admin = 1;", db)
+					l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<id>>)
+					if l_query_result_cursor.after then
+						Result := False
+					else
+						Result := True
+					end
+			end
+
 feature {NONE}--login
 
 	is_admin(id:INTEGER): JSON_OBJECT

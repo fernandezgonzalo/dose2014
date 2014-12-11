@@ -168,5 +168,24 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
+		security (req: WSF_REQUEST;): BOOLEAN
+				--
+			local
+				l_session: WSF_COOKIE_SESSION
+				l_id,l_id2: STRING
+			do
+
+					-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
+				create l_session.make (req, "MGMT_SESSION_ID", session_manager)
+
+				if attached {INTEGER_32} l_session.item ("id") as i then
+					l_id2 := i.out
+				end
+
+				create l_id.make_empty
+				l_id := req.path_parameter ("id").string_representation
+				Result := ((my_crud.user_is_admin(l_id.to_integer)) or (l_id.is_equal (l_id2)))
+			end
+
 		
 end
