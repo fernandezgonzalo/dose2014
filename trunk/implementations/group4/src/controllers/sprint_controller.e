@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns sprints."
 	author: "$Rio Cuarto4 Team$"
 	date: "$2014-11-11$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	SPRINT_CONTROLLER
@@ -49,8 +49,7 @@ feature -- Handlers
 		do
 			l_result_payload := db_handler_sprint.find_all.representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 
@@ -70,8 +69,7 @@ feature -- Handlers
 
 			l_result_payload := db_handler_sprint.find_by_id_and_project_id (l_sprint_id.to_integer, l_project_id.to_integer).representation
 
-			set_json_header_ok (res, l_result_payload.count)
-			res.put_string (l_result_payload)
+			prepare_response(l_result_payload,200,res,false)
 		end
 
 
@@ -115,7 +113,7 @@ feature -- Handlers
 			db_handler_sprint.add (new_sprint)
 
 				-- prepare the reponse
-			prepare_response("Added sprint",200,res)
+			prepare_response("Added sprint",200,res,true)
 		end
 
 
@@ -165,7 +163,7 @@ feature -- Handlers
 			db_handler_sprint.update (l_sprint_id.to_natural,sprint)
 
 				-- prepare the reponse
-			prepare_response("Updated sprint "+ l_sprint_id.out,200,res)
+			prepare_response("Updated sprint "+ l_sprint_id.out,200,res,true)
 		end
 
 
@@ -184,7 +182,7 @@ feature -- Handlers
 			db_handler_sprint.remove (l_sprint_id.to_natural, l_sprint_project_id.to_natural)
 
 				-- prepare the reponse
-			prepare_response("Removed item",200,res)
+			prepare_response("Removed item",200,res,true)
 
 		end
 
@@ -202,7 +200,7 @@ feature -- Handlers
 			db_handler_task.remove (l_task_id.to_natural)
 
 				-- prepare the reponse
-			prepare_response("Removed item",200,res)
+			prepare_response("Removed item",200,res,true)
 		end
 
 
