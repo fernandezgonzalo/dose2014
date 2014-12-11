@@ -330,7 +330,7 @@ feature -- Data access
 	revise_all_tasks_of_the_project ( id: NATURAL)
 			-- revise all tasks of the project, if all are finished, set "true" in is_finished of the project
 		do
-			create db_modify_statement.make ("UPDATE project SET is_finished = CASE WHEN (select count(*) from task where status = 'finished' and id_project= '"+id.out +"' )=(select count(*) from task where id_project = '"+id.out +"') THEN 1 ELSE 0 END;;", db)
+			create db_modify_statement.make ("UPDATE project SET is_finished = CASE WHEN (select count(*) from task where status = 'finished' and id_project= '"+id.out +"' )=(select count(*) from task where id_project = '"+id.out +"') THEN 1 ELSE 0 END where id = '"+id.out+"';", db)
 			db_modify_statement.execute
 		end
 
