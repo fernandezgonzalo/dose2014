@@ -87,5 +87,13 @@ feature -- Data access for reports
 			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
+	total_sprints_by_project_id (project_id: NATURAL) : JSON_OBJECT
+			-- returns the quantity of sprints of a given project
+		do
+			create Result.make
+			create db_query_statement.make("SELECT COUNT(*) AS total_sprints FROM sprints WHERE project_id="+project_id.out+";",db)
+			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
+		end
+
 
 end
