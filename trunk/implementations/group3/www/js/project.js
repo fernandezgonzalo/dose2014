@@ -16,6 +16,7 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
 
 
         };
+        $scope.usersInProject=[];
         $scope.statuses = [{stat:'open'},{stat:'closed'}];
 
         $scope.successMsgVisible = false;
