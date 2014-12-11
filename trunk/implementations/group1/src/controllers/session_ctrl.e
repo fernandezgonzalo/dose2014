@@ -35,8 +35,15 @@ feature
 		l_result: JSON_OBJECT
 		l_user_data: TUPLE [has_user: BOOLEAN; id: STRING; email: STRING]
 		l_session: WSF_COOKIE_SESSION
+		hash: SHA256
+		password_hash: STRING_32
+		flag: BOOLEAN
+		user_json: JSON_OBJECT
+		json_str: JSON_STRING
+
 	do
 		create l_payload.make_empty
+		--create bcrypt.make
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -63,7 +70,11 @@ feature
 
 				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
-			l_user_data := my_db.has_user_with_password(l_email, l_password)
+			--create bcrypt.make
+			create hash.make
+			hash.update_from_string (l_email + l_password)
+			l_password := hash.digest_as_string
+			l_user_data := my_db.has_user_with_password(l_email,l_password)
 
 
 			if l_user_data.has_user then

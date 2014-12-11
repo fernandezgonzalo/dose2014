@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		require
-			valid_parameter: a_dao /= Void and a_session_manager /= Void
+			valid_parameter: a_dao /= void and a_session_manager /= void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
@@ -118,11 +118,14 @@ feature -- Handlers
 	put_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 	-- update user info
 		local
-			l_payload, name, last_name, password, rol, active: STRING
+			l_payload, name, last_name, email, password, rol, active: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			l_user_id: STRING
 			flag: BOOLEAN
+			hash: SHA256
+			password_hash: STRING_32
+			l_session: WSF_COOKIE_SESSION
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -164,9 +167,15 @@ feature -- Handlers
 				end
 			end
 
+
+
 				-- create the user in the database
 			l_user_id := req.path_parameter ("id_user").string_representation
-			flag := my_db.update_user (l_user_id.to_natural_8, name, last_name, password, rol, active)
+			email := get_session_from_req (req, "_session_").at ("email").out
+			create hash.make
+			hash.update_from_string (email + password)
+			password_hash := hash.digest_as_string
+			flag := my_db.update_user (l_user_id.to_natural_8, name, last_name, password_hash, rol, active)
 			if flag then
 					-- add object id to response
 				create l_result.make
@@ -186,6 +195,9 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
 			l_user_data: TUPLE [has_user: BOOLEAN; id: STRING]
+			hash: SHA256
+			password_hash: STRING_32
+
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -195,6 +207,7 @@ feature -- Handlers
 			create password.make_empty
 			create rol.make_empty
 			create active.make_empty
+			create hash.make
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -236,10 +249,12 @@ feature -- Handlers
 					active := a.unescaped_string_8
 				end
 			end
+
 			if my_db.email_in_database (email).is_empty then
-				flag := my_db.add_user (name, last_name, email, password, rol, active)
-				print ("ACA?%N")
-				l_user_data := my_db.has_user_with_password (email, password)
+				hash.update_from_string(email + password)
+				password_hash := hash.digest_as_string
+				flag := my_db.add_user (name, last_name, email, password_hash, rol, active)
+				l_user_data := my_db.has_user_with_password (email, password_hash)
 				if flag then
 					-- add object id to response
 					create l_result.make

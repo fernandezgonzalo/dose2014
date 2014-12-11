@@ -29,7 +29,10 @@ class Test(unittest.TestCase):
     def test_update_user(self):
         new_name = "jaja"
         user = get_user(self.session, 39).json()
-        res = put_users(self.session, 39, new_name, user.get("lastname"), user.get("email"), "1", "1")
+        res = put_users(self.session, 39, new_name, user.get("lastname"), user.get('password'), "1", "1")
         #user = get_user(self.session, 39).json()
         user = User.get(User.id == 39)
         self.assertEqual(user.name, new_name)
+
+    def tearDown(self):
+        self.database.close()
