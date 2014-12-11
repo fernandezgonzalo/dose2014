@@ -3,7 +3,6 @@ angular.module('coffee.core').controller('RequirementController', ['$scope', '$s
     function($scope, $stateParams, $location, Global, Requirements,Projects, Users) {
 
         $scope.global = Global;
-
         $scope.find = function() {
             var project_id = $stateParams.projectId;
 

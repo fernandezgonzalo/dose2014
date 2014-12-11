@@ -10,14 +10,18 @@
             <div class="control-group">
                 <label class="control-label" for="textinput">Hours:</label>
                 <div class="controls">
-                    <input id="textinput" name="textinput" type="number" data-ng-model="task.hours_spent" placeholder="placeholder" class="input-xlarge">
+                    <input id="textinput" name="textinput" type="number" data-ng-model="task.hours_spent" placeholder="Log Hours" class="input-xlarge" >
                     <p class="help-block">total hours spent for the task</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-show='task.hours_spent >0 ' ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
                 </div>
             </div>
         </fieldset>
     </form>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-</div>
+
+
