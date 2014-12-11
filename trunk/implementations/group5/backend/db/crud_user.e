@@ -46,7 +46,7 @@ feature {NONE} -- Format helpers
 					else
 						aux:=a_row.string_value (i)
 					end
-						if  ((a_row.column_name (i).is_equal ("passwords")) or (a_row.column_name (i).is_equal ("salt")) or (a_row.column_name (i).is_equal ("is_admin"))) then
+						if  ((a_row.column_name (i).is_equal ("passwords")) or (a_row.column_name (i).is_equal ("salt")) ) then
 							i := i + 1
 						else
 						j_obj.put (create {JSON_STRING}.make_json (aux), create{JSON_STRING}.make_json (a_row.column_name (i)))
