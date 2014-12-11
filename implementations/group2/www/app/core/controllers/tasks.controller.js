@@ -68,6 +68,10 @@ angular.module('coffee.core').controller('TaskController', ['$scope', '$statePar
         };
 
         $scope.update = function() {
+            if($scope.task.sprint_id && $scope.task.sprint_id.id) {
+                $scope.task.sprint_id = $scope.task.sprint_id.id;
+            }
+
             if(!$scope.task.sprint_id) {
                 $scope.task.sprint_id = '0';
             }
