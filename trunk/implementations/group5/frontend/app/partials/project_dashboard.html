@@ -20,7 +20,8 @@
 
   <br>
 
-  <div class="contentWrapper ng-cloak">
+  <!-- <div class="contentWrapper ng-cloak"> -->
+  <div class="container">
     <div class="content">
       <div class="row-fluid">
         <div class="col-md-12">
@@ -30,12 +31,12 @@
             <div class="panel panel-danger">
               <div class="panel-heading"><b>Backlog</b></div>
 
-              <div class="panel-body" ng-model="backlogTasks" data-drop="true"
+              <div class="panel-body" ng-model="swimlanes.stopped" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(0)',
                 onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'stopped\')'}"
-                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=backlogTasks])'}">
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.stopped])'}">
 
-                <div ng-model="backlogTasks" ng-repeat="task in backlogTasks" data-drag="true"
+                <div ng-model="swimlanes.stopped" ng-repeat="task in swimlanes.stopped" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
                   class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
@@ -54,12 +55,12 @@
             <div class="panel panel-warning">
               <div class="panel-heading"><b>To do</b></div>
 
-              <div class="panel-body" ng-model="todoTasks" data-drop="true"
+              <div class="panel-body" ng-model="swimlanes.created" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(1)',
                 onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'created\')'}"
-                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=todoTasks])'}">
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.created])'}">
 
-                <div ng-model="todoTasks" ng-repeat="task in todoTasks" data-drag="true"
+                <div ng-model="swimlanes.created" ng-repeat="task in swimlanes.created" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
                   class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
@@ -78,12 +79,12 @@
             <div class="panel panel-info">
               <div class="panel-heading"><b>Doing</b></div>
 
-              <div class="panel-body" ng-model="doingTasks" data-drop="true"
+              <div class="panel-body" ng-model="swimlanes.in_progress" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(2)',
                 onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'in_progress\')'}"
-                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doingTasks])'}">
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.in_progress])'}">
 
-                <div ng-model="doingTasks" ng-repeat="task in doingTasks" data-drag="true"
+                <div ng-model="swimlanes.in_progress" ng-repeat="task in swimlanes.in_progress" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
                   class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
@@ -102,12 +103,12 @@
             <div class="panel panel-success">
               <div class="panel-heading"><b>Done</b></div>
 
-              <div class="panel-body" ng-model="doneTasks" data-drop="true"
+              <div class="panel-body" ng-model="swimlanes.finished" data-drop="true"
                 jqyoui-droppable="{multiple:false, onOver: 'overCallback(3)',
                 onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'finished\')'}"
-                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=doneTasks])'}">
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.finished])'}">
 
-                <div ng-model="doneTasks" ng-repeat="task in doneTasks" data-drag="true"
+                <div ng-model="swimlanes.finished" ng-repeat="task in swimlanes.finished" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
                   class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
@@ -124,4 +125,22 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Statistics -->
+  <!-- <div class="container"> -->
+  <!--   <div class="row"> -->
+  <!--     <a href="" ng-if="!projectStatistics" ng-click="toggleProjectStatistics()" > -->
+  <!--       Click here to see statistics</a> -->
+  <!--     <a href="" ng-if="projectStatistics" ng-click="toggleProjectStatistics()"> -->
+  <!--       Hide statistics</a> -->
+  <!--   </div> -->
+  <!--   <div ng-if="projectStatistics" class="row"> -->
+  <!--     <div class="col-md-3"> -->
+  <!--       <canvas tc-chartjs-doughnut chart-options="optionsChart1" chart-data="dataset1" auto-legend></canvas> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </div> -->
+
+
 </div>  
