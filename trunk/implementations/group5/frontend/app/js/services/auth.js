@@ -79,7 +79,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
  
   authService.isAdmin = function () {
-    return !!authService.currentUser && authService.currentUser.isAdmin;
+    return !!authService.currentUser && parseInt(authService.currentUser.isAdmin) === 1;
   };
 
   authService.getCurrentUser = function() {
