@@ -65,7 +65,6 @@ feature -- Handlers
 			create l_email.make_empty
 			create l_username.make_empty
 			create l_password.make_empty
-			create l_is_admin.make_empty
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -90,16 +89,13 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
 				end
-				if attached {JSON_STRING} j_object.item ("is_admin") as s then
-					l_is_admin := s.unescaped_string_8
-				end
 			end
 			create l_result.make
 				-- create the user in the database
 			was_created := false
 			if not my_crud_user.user_exists_with_email (l_email).boolean_item (1) then
 				if not my_crud_user.user_exists_with_username (l_username).boolean_item (1) then
-					result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, l_is_admin.to_integer)
+					result_add_user := my_crud_user.add_user (l_email, l_username, l_password, l_name, 0)
 					was_created := result_add_user.boolean_item (1)
 					user_id := result_add_user.integer_32_item (2)
 				else

@@ -93,8 +93,8 @@ feature -- Data access
 			--returns all users
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM user;", db)
-			db_query_statement.execute (agent rows_to_json_array (?, 8, Result))
+			create db_query_statement.make ("SELECT id, email, username, name, is_admin, last_login FROM user;", db)
+			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
 
 		end
 
@@ -103,8 +103,8 @@ feature -- Data access
 
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT * FROM user WHERE id = '" + id.out + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			create db_query_statement.make ("SELECT id, email, username, name, is_admin, last_login FROM user WHERE id = '" + id.out + "';", db)
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 
 		end
 
@@ -113,8 +113,8 @@ feature -- Data access
 
 		do
 			create Result.make
-			create db_query_statement.make ("SELECT * FROM user WHERE email = '" + email + "';", db)
-			db_query_statement.execute (agent row_to_json_object (?, 8, Result))
+			create db_query_statement.make ("SELECT id, email, username, name, is_admin, last_login FROM user WHERE email = '" + email + "';", db)
+			db_query_statement.execute (agent row_to_json_object (?, 6, Result))
 
 		end
 
@@ -150,7 +150,7 @@ feature -- Data access
 				Result.id:= -1 ;
 				Result.was_created:=false;
 			else
-				create db_query_statement.make ("SELECT * FROM user WHERE email=? and password =? ;", db)
+				create db_query_statement.make ("SELECT id FROM user WHERE email=? and password =? ;", db)
 				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email, l_password>>)
 				Result.id:= l_query_result_cursor.item.integer_value (1)
 				Result.was_created:= true;
@@ -304,7 +304,7 @@ feature -- Data access
 		do
 			--create a result object
 			create Result
-			create db_query_statement.make ("SELECT * FROM user WHERE email=?;", db)
+			create db_query_statement.make ("SELECT id FROM user WHERE email=?;", db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<email>>)
 			if l_query_result_cursor.after then
 				Result.exists := False
@@ -321,7 +321,7 @@ feature -- Data access
 		do
 			--create a result object
 			create Result
-			create db_query_statement.make ("SELECT * FROM user WHERE username=?;", db)
+			create db_query_statement.make ("SELECT id FROM user WHERE username=?;", db)
 			l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<username>>)
 			if l_query_result_cursor.after then
 				Result.exists := False
