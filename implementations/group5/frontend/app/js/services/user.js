@@ -10,10 +10,6 @@ angular.module('Mgmt').factory('User', ['$resource', '$http', '$log', function($
                          'update':   {method: 'PUT'}
   });
 
-  User.prototype.$getTasks = function(success) {
-  	$http.get('/api/users/' + this.id + '/tasks').then(success);
-  };
-
   return User;
 
 }]);
