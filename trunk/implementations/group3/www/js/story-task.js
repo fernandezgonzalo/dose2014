@@ -7,10 +7,11 @@ angular.module('LetsGoTeam').controller('storyTaskController', ['$scope', '$http
     function ($scope, $http, $log, $timeout, myService) {
 
 
-         $scope.project = myService.getSavedProject();
-        $scope.sprint = myService.getSavedSprint();
+         $scope.project = currentProject;
+        $scope.sprint = currentSprint;
+        $scope.currStory = currentStory;
         $scope.stories = [];
-        $scope.tasks = []
+        $scope.tasks = [];
 
         var init = function() {
            /* $http.get('/sprint-stories/{sprint.id}')

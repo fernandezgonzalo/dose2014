@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http', '$log', '$timeout',
-    function ($scope, $http, $log, $timeout) {
+    function ($scope,$location, $http, $log, $timeout) {
 // the model that we bind to the input box
         $scope.data = {};
         $scope.currUser = currentUser;
@@ -14,7 +14,9 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
             status: '',
             startDate: ''
 
+
         };
+        $scope.statuses = [{stat:'open'},{stat:'closed'}];
 
         $scope.successMsgVisible = false;
 
@@ -29,18 +31,34 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
                     }
                 }
             }
-            $scope.usersInProject.push({id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'});
-        }
+        };
 
         // the function to add the new users
         $scope.addProject = function (newProject) {
 
             $scope.project = newProject;
 
-            projects.push({id:id_project, name:$scope.project.name, owner:$scope.project.owner, status:$scope.project.status, startDate:$scope.project.startDate});
-            usersProjects.push({idProject:id_project,idUser:currentUser.id});
-            id_project=id_project+1;
+            if (editing){
+                var i;
+                for (i = 0; i < projects.length ; i++){
+                    if (currentProject.id === projects[i].id){
+                        projects.splice(i, 1, {id:currentProject.id, name:$scope.project.name, owner:$scope.currUser.firstName, status:$scope.project.status, startDate:$scope.project.startDate});
+                    }
+                }
+                editing = false;
+            }else {
+                projects.push({
+                    id: id_project,
+                    name: $scope.project.name,
+                    owner: $scope.project.owner,
+                    status: $scope.project.status,
+                    startDate: $scope.project.startDate
+                });
+                usersProjects.push({idProject: id_project, idUser: currentUser.id});
+                id_project = id_project + 1;
 
+            }
+            $location.path("/projectsSprints");
 
         }
     }

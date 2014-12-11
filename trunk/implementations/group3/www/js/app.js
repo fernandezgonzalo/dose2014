@@ -20,7 +20,6 @@ var projects = [{id:1 , name:'Project1', owner:'Juanito', status:'open', startDa
   {id:3 , name:'Project3', owner:'Pablito', status:'open', startDate:145667},
   {id:4 , name:'Project4', owner:'alan', status:'open', startDate:145667},
   {id:5 , name:'Project5', owner:'alan', status:'open', startDate:145667}];
-var projectsSprints =[{idProject:1,idSprint:1},{idProject:1,idSprint:2},{idProject:2,idSprint:3}, {idProject:4,idSprint:4}, {idProject:4,idSprint:1}, {idProject:5,idSprint:2}];
 var sprints = [{id:1 , idProject:1, name:'Sprint1', status:'open', startDate:12345667, completionDate:445123211},
   {id:2 , idProject:1, name:'Sprint2', status:'close', startDate:32265667, completionDate:884312311},
   {id:3 , idProject:2,name:'Sprint3', status:'open', startDate:777945667, completionDate:88931911},
@@ -30,6 +29,7 @@ var stories = [{id:1 , idSprint:1, title:'Story1', description:'Hi', points:5, n
   {id:3 , idSprint:2, title:'Story3', description:'Hi', points:35, notes:'ok'} ];
 var tasks = [{id:1, idStory:1, description:'Task1', number:1, points:5, status:1}];
 var logged = false;
+var editing = false;
 
 
 /** Turn on/off the angular debugging; should be off when deployed */

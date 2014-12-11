@@ -5,12 +5,12 @@
 
 angular.module('LetsGoTeam')
     .controller('TaskController', ['$scope', '$http', '$log', '$timeout',
-        function ($scope, $http, $log, $timeout) {
+        function ($scope,$location, $http, $log, $timeout) {
 
            // $scope.project = myService.getSavedProject();
            // $scope.sprint = myService.getSavedSprint();
            // $scope.stories = myService.getSavedStory()
-            $scope.users = [];
+            $scope.taskUsers = [];
             $scope.data = {};
             // the model that we bind to the input box
             $scope.task = {
@@ -22,12 +22,17 @@ angular.module('LetsGoTeam')
             $scope.successMsgVisible = false;
 
             var init = function(){
-                $scope.users = [];
-                var i;
-                for (i = 0; i < users.length; i++) {
-                    $scope.users.push(users[i]);
+                var i,j;
+                for (i = 0; i < usersProjects.length; i++) {
+                    if (currentProject.id === usersProjects[i].idProject){
+                        for (j = 0; j < users.length; j++){
+                            if (usersProjects[i].idUser === users[j].id)
+                            $scope.taskUsers.push(users[j]);
+                        }
+                    }
+
                 }
-            }
+            }();
 
             // the function to add a story
             $scope.addTask = function(newTask) {
@@ -36,6 +41,7 @@ angular.module('LetsGoTeam')
 
                 tasks.push({id:id_task , idStory:currentStory.id, description:$scope.task.description, number:$scope.task.number, points:$scope.task.points});
                 id_task=id_task+1;
+                //$location.path("/storyTask");
 
                 /*
                 // the payload is simple the json object that we used for binding to the input

@@ -4,6 +4,7 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
     function ($scope, $http, $log, $timeout) {
 // the model that we bind to the input box
        $scope.data = {};
+        $scope.statuses = [{stat:'Future'},{stat:'Closed'},{stat:'Planned'},{stat:'In Progress'}];
 
         $scope.sprint = {
             name: '',
@@ -20,8 +21,18 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
 
             $scope.sprint = newSprint;
 
-            sprints.push({id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
-            id_sprint=id_sprint+1;
+            if (editing){
+                var i;
+                for (i = 0; i < sprints.length ; i++){
+                    if (currentSprint.id === sprints[i].id){
+                        sprints.splice(i, 1, {id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
+                    }
+                }
+                editing = false;
+            }else {
+                sprints.push({id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
+                id_sprint=id_sprint+1;
+            }
 
             /*
             // the payload is simple the json object that we used for binding to the input
