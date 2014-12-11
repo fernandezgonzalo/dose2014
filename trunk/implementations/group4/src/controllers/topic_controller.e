@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns topics."
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-08$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	TOPIC_CONTROLLER
@@ -50,12 +50,11 @@ feature -- Handlers
 
 				l_result_payload := db_handler_topic.find_all.representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the topics
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -75,13 +74,12 @@ feature -- Handlers
 				topic_id := req.path_parameter ("topic_id").string_representation
 				l_result_payload := db_handler_topic.find_by_id (topic_id.to_natural).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the topic
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -102,12 +100,11 @@ feature -- Handlers
 					-- and use the answer handler to obtain all its answers
 				l_result_payload := db_handler_answer.find_by_topic_id (topic_id.to_natural).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to get the answers
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -163,12 +160,12 @@ feature -- Handlers
 				db_handler_topic.add (new_topic, new_user_id.to_natural, new_project_id.to_natural, new_task_id.to_natural, new_sprint_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Added topic "+new_topic.title,200,res)
+				prepare_response("Added topic "+new_topic.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to add a topic
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 
 		end
@@ -236,17 +233,17 @@ feature -- Handlers
 					db_handler_topic.update (l_topic,l_topic_id.to_natural)
 
 						-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-					prepare_response("Updated topic "+l_topic.title,200,res)
+					prepare_response("Updated topic "+l_topic.title,200,res,true)
 				else
 						-- the user_id does not match
 						-- we return an error stating that the user is not authorized to update the topic
-					prepare_response("User is not topic owner",401,res)
+					prepare_response("User is not topic owner",401,res,true)
 				end
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to update the topic
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
@@ -268,12 +265,12 @@ feature -- Handlers
 				db_handler_topic.remove (l_topic_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-				prepare_response("Removed topic",200,res)
+				prepare_response("Removed topic",200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to update the topic
-				prepare_response("User not logged in.",401,res)
+				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 

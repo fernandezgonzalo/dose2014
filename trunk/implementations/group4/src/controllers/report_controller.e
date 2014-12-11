@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns reports."
 	author: "$Rio Cuarto4 Team$"
 	date: "$2014-12-01$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	REPORT_CONTROLLER
@@ -130,11 +130,11 @@ feature -- Operations
 
 
 				l_result_payload := l_result.representation
-				prepare_response_2(l_result_payload,200,res,false)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response_2("User is not logged in",401,res,true)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
