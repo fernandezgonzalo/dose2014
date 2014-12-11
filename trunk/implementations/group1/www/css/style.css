@@ -221,6 +221,13 @@ a.link-button span {
     padding: 0px 8px;
 }
 
+div.inline-fields .float-left {
+	margin-left: 10px;
+}
+div.inline-fields .label-div{
+	margin-top: 0px;
+}
+
 table {
     border-collapse: collapse;
 }
@@ -292,6 +299,10 @@ th {
 }
 
 /* Add User view */
+#addUsers {
+	padding-left: 50px;
+}
+
 #addUsers a.link-button span {
     width: 100px;
 }
@@ -300,14 +311,18 @@ th {
     text-align: right;
 }
 
-#addUSers div.buttons > div {
+#addUsers div.buttons > div {
     display: inline-block;
     margin-right: 10px;
 }
 
 #addUsers table {
-    line-height: 25px;
+    line-height: 50px;
     margin-left: 30px;
+}
+
+#addUsers table th{
+	text-align: center;
 }
 
 #addUsers table .col1 {
@@ -334,6 +349,10 @@ th {
     padding-left: 15px;
 }
 
+#addUsers a.link-button span.add-usertoproject {
+	width: 160px !important;
+}
+
 /* User dashboard */
 
 #dashboard textarea {
@@ -350,7 +369,7 @@ th {
     padding-left: 10px;
 }
 
-.buttons {
+#dashboard .buttons {
     background-color: #333333;
     color: #ffffff;
     min-width: 100px;

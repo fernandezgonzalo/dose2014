@@ -43,6 +43,14 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/ranking.html',
                 controller: 'RankingCtrl'
             })
+			.when('/user/:userId/project/:projectId/manageusers', {
+                templateUrl: 'partials/manageUsers.html',
+                controller: 'ManageUsersCtrl'
+            })
+			.when('/user/:userId/project/:projectId/manageproject', {
+                templateUrl: 'partials/manageProject.html',
+                controller: 'ProjectCtrl'
+            })
             .when('/user/:userId/project/:projectId', { // Show project dashboard
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
