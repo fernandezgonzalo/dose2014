@@ -346,11 +346,14 @@ feature -- Data access
 				create Result
 
 				create db_query_statement.make ("SELECT * FROM user WHERE email=?;", db)
-				l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<email>>)
-
-				l_password := l_query_result_cursor.item.value (4).out
-				l_salt := l_query_result_cursor.item.integer_value (8)
-				correct_pass := valid_pass(a_password,l_password,l_salt)
+				l_query_result_cursor := db_query_statement.execute_new_with_arguments(<<email>>)
+				if not l_query_result_cursor.after then
+					l_password := l_query_result_cursor.item.value (4).out
+					l_salt := l_query_result_cursor.item.integer_value (8)
+					correct_pass := valid_pass(a_password,l_password,l_salt)
+				else
+					correct_pass := False
+				end
 				if correct_pass then
 				--	print("Found a user email '" + email + "' and password '" + a_password + "' in the database.%N")
 					Result.has_user := True
