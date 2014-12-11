@@ -33,6 +33,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         }();
 
         $scope.setProjects = function(){
+            $scope.userProjects = [];
             var i,j;
             for (i = 0; i < usersProjects.length; i++) {
                 if(usersProjects[i].idUser === currentUser.id){
@@ -64,6 +65,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
                     $scope.projectSprints.push(sprints[i]);
                 }
             }
+            currentSprint={};
             /* $http.get('/projects-sprints/{actualProject.id}')
              .success(function(data, status, header, config) {
 
@@ -111,6 +113,7 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
                     projectsSprints.splice(i,1);
                 }
             }
+            currentSprint={};
             $scope.setSprints();
             /*
              $scope.userProjects = [];
@@ -122,11 +125,11 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
              }
              currentProject = {};
              */
-        }
+        };
 
         $scope.setSprintSelected = function(s){
             currentSprint = s
-        }
+        };
 
         $scope.editing = function(value){
             editing = value;
