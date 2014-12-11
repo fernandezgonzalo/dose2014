@@ -18,6 +18,7 @@ angular.module('DOSEMS.controllers')
         ];
 
 		$scope.tasksForSprint=[];
+		$scope.usersFromProj=[];
         var userId = $routeParams.userId;
         if (userId != null) {
             //Get the user from server
@@ -29,12 +30,19 @@ angular.module('DOSEMS.controllers')
         $log.info("fdf");
         $scope.usersIdFromProject = UsersFromProject.get({userId:$scope.userId,projectId:$scope.projectId},function (data) {
 				$log.info($scope.usersIdFromProject.length);
-				$log.info()
+				$log.info("!!!!!!!!!!!!!!!!!!!!");
                 var i = 0;
                 for(i=0;i<$scope.usersIdFromProject.length;i++)
-                
-                        $scope.usersFromProj = Users.resource.get({userId:$scope.usersIdFromProject[i].id_user},function(data){});
-        
+                {
+                        Users.resource.get({userId:$scope.usersIdFromProject[i].id_user},function(data){
+						$log.info("users");
+						$log.info(data);
+							$scope.usersFromProj.push(data);
+						
+					
+						
+						});
+				}	
         });
 
 		$scope.sprintsIdForProject = SprintsForProject.get({userId:$scope.userId,projectId:$scope.projectId},function(data){

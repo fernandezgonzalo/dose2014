@@ -51,7 +51,7 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/task.html',
                 controller: 'TaskCtrl'
             })
-            .when('/user/:userId/project/:projectId/:lookupUserId', {
+            .when('/user/:userId/project/:projectId/userDetail/:lookupUserId', {
                 templateUrl: 'partials/user-detail.html',
                 controller: 'UserDetailsCtrl'
             })/*
