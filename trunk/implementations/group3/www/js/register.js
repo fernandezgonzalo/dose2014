@@ -10,7 +10,7 @@ angular.module('LetsGoTeam')
 // the model that we bind to the input box
 
     $scope.data = [];
-        $scope.listLength = users.length;
+    $scope.listLength = users.length;
     $scope.status = {};
     $scope.user = {
         firstName: '',
@@ -26,15 +26,31 @@ angular.module('LetsGoTeam')
     // the function to add the new users
     $scope.addUser = function (newUser) {
 
-        $scope.successMsgVisible = true;
-
         $scope.user = newUser;
 
-        users.push({id:id_user,firstName:$scope.user.firstName,lastName:$scope.user.lastName,email:$scope.user.email,
-            password:$scope.user.password});
-        id_user = id_user+1;
+        var userFound = false;
+        var i = 0;
+        while (!userFound && i < users.length) {
+            if(users[i].email === $scope.user.email){
+                userFound = true;
+            }
+            i = i+1;
+        }
+        if(userFound){
+            alert("Email already exists!");
+        }
+        else{
 
-        $scope.listLength = users.length;
+            users.push({id:id_user,firstName:$scope.user.firstName,lastName:$scope.user.lastName,email:$scope.user.email,
+                password:$scope.user.password});
+            id_user = id_user+1;
+
+            $scope.listLength = users.length;
+            alert("Successfully registered!");
+            location.href = 'http://localhost:63342/www/index.html#/home';
+        }
+
+
 
 
         // the payload is simple the json object that we used for binding to the input
