@@ -152,9 +152,9 @@ feature -- Handlers
 
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
 			create l_session.make (req, "MGMT_SESSION_ID", session_manager)
+			print(l_session.cookie_name)
 			--
 			l_session.destroy
-			--update_result := my_crud.update_user_last_login (l_id.to_natural_32, "")
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
