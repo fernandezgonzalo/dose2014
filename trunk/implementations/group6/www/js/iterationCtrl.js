@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('Wbpms')
-  .controller('IterationCtrl', ['$scope', '$http', '$log','ProjectData',
-    function ($scope, $http, $log, ProjectData) {
+  .controller('IterationCtrl', ['$scope', '$http', '$log','ProjectData','IterationData',
+    function ($scope, $http, $log, ProjectData, IterationData) {
 
        $scope.project = ProjectData;
+       $scope.iterationD = IterationData;
        $scope.iterations = [];
 
       /* $scope.iterations  = [
@@ -134,5 +135,36 @@ angular.module('Wbpms')
               alert("Error deleting iteration");
             }); 
         }
+
+      $scope.loadWorkItems = function(nameProject, idIteration){
+
+          // List all work Items of an iteration
+          var payload3 = {
+            project_name : nameProject,
+            iteration_number : idIteration
+          }
+
+          // send the payload to the server
+          $http.post('/api/projects/iterations/getworkitems', payload3)                  
+            .success(function(data, status, header, config) {
+              $scope.workitems = data;
+          })
+            .error(function(data, status) {
+              alert('Error while fetching work Items from server'); 
+          });                
+
+        }
+
+
+
+      $scope.goToWorkItems = function(nameProject, idIteration) {
+        // Go to workItems 
+    
+          $scope.project.project_name = nameProject;
+          $scope.iterationD.id_iteration = idIteration 
+
+          window.location.href = '#/projects/iterations/work_items';          
+    
+        }   
 
   }]);

@@ -55,13 +55,10 @@ angular.module('Wbpms')
 
       $log.debug("Sending payload: " + JSON.stringify(payload));
         // send the payload to the server
-        $http.get('api/projects/iterations/workitems', payload)
+        $http.get('api/projects/iterations/getworkitems', payload)
            .success(function(data, status, header, config) {
             alert(JSON.stringify(data));
-            $scope.idWorkItem = data;
-            if(data.length > 0) {
-              $scope.workItemModel.idWorkItem = $scope.workItems[0];
-            }  
+            $scope.workItems = data[0].workItems;
           })   
           .error(function(data, status) {
             alert("ERROR"+ JSON.stringify(data));
