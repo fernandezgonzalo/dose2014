@@ -109,7 +109,7 @@ angular.module('coffee.core').controller('SprintsDashboardController', ['$scope'
             Requirements
             .one(task.requirement_id)
             .one('tasks', task.id)
-            .customPUT(task);            
+            .customPUT(task);
         };
 
         $scope.onDragBacklog = function(task,evt) {
@@ -125,7 +125,7 @@ angular.module('coffee.core').controller('SprintsDashboardController', ['$scope'
                 $scope.tasks_backlog.push(task);
             }
 
-            task.sprint_id = null;
+            task.sprint_id = '0';
 
             Requirements
             .one(task.requirement_id)
