@@ -125,7 +125,7 @@ angular.module('coffee.core').controller('SprintsDashboardController', ['$scope'
                 $scope.tasks_backlog.push(task);
             }
 
-            task.sprint_id = '';
+            task.sprint_id = null;
 
             Requirements
             .one(task.requirement_id)
