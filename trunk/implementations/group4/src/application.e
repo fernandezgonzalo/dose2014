@@ -1,7 +1,7 @@
 note
 	description : "CASD application root class"
-	date        : "$Date$"
-	revision    : "$Revision$"
+	date        : "$2014-11-08$"
+	revision    : "$0.1$"
 
 class
 	APPLICATION

@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns answers."
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-10$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	ANSWER_CONTROLLER
@@ -78,11 +78,11 @@ feature -- Handlers
 				db_handler_answer.add (l_answer)
 
 					-- prepare the response
-				prepare_response("Added answer",200,res)
+				prepare_response("Added answer",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to add an answer
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 
 		end
@@ -121,14 +121,13 @@ feature -- Handlers
 					if attached {JSON_STRING} j_object.item ("description") as description then
 						l_description := description.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("topic_id") as topic_id then
-						l_topic_id := topic_id.unescaped_string_8
-					end
 					if attached {JSON_STRING} j_object.item ("user_id") as user_id then
 						l_user_id := user_id.unescaped_string_8
 					end
 
 				end
+				-- the topic_id from the URL
+				l_topic_id := req.path_parameter ("topic_id").string_representation
 
 				if (l_user_session_id.is_equal (l_user_id)) then
 						-- the user logged is the same user that the user who made the answer.
@@ -141,15 +140,15 @@ feature -- Handlers
 					db_handler_answer.update (l_answer_id.to_natural,l_answer)
 
 						-- prepare the response
-					prepare_response("Updated answer",200,res)
+					prepare_response("Updated answer",200,res,true)
 				else
 						-- prepare the response
-					prepare_response("The user logged is incorrect",401,res)
+					prepare_response("The user logged is incorrect",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to update an answer
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -168,11 +167,11 @@ feature -- Handlers
 				db_handler_answer.remove (l_answer_id.to_natural)
 
 					-- prepare the response
-				prepare_response("Removed item",200,res)
+				prepare_response("Removed item",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
 					-- we return an error stating that the user is not authorized to remove an answer
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 end
