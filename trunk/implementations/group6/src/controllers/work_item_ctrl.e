@@ -128,13 +128,13 @@ feature --handlers about work_items
 			l_links: ARRAYED_LIST[LINK]
 			num: INTEGER -- counts hw many comments there are
 			presence_work_item: BOOLEAN --it is True if the work_item of the link exist into the dd, False otherwise
-			-- Adds for sending email
+			-- Adds for sending email--------------------------------------------
 			env: EXECUTION_ENVIRONMENT
 			array_owners: ARRAYED_LIST[STRING]
 			j_owners: JSON_ARRAY
 			i: INTEGER
 			string, email, path: STRING
-			--------------------------------------
+			---------------------------------------------------------------------
 		do
 			-- Create json object that we send back as in response
 			create l_result_payload.make
@@ -142,7 +142,6 @@ feature --handlers about work_items
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			l_user_email:= "annamaria.nestorov@hotmail.it"
 			-- Checks if the given user is logged in
 			if l_user_email = VOID OR l_user_email.is_empty then
 				-- The user isn't logged in
@@ -221,6 +220,10 @@ feature --handlers about work_items
 					-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
 					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
 					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif presence_work_item = False then
+					-- The given work_item to put into the new link doesn't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item '" + num.out + "' as regards to adding links doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
 				elseif l_name.is_empty or l_name = Void then
 					-- The work_item name is empty
 					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
@@ -241,6 +244,10 @@ feature --handlers about work_items
 					-- The work_item points is a negative value or are greater than 100
 					l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item points aren't in the valid range [0-100]."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_project_name (l_project) = False then
+						-- The project doesn't exist
+						l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given project doesn't exist."), create {JSON_STRING}.make_json ("error"))
+						set_json_header (res, 401, l_result_payload.representation.count)
 				elseif my_db.check_iteration (l_iteration,l_project) = False then
 					-- The iteration doesn't exist
 					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("error"))
@@ -325,110 +332,124 @@ feature --handlers about work_items
 	change_work_item(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Changes an existing work_item; all information about the work_item are expeted to be part of the request payload
 		local
-			l_payload, l_state, l_name, l_description, l_owner, l_project: STRING
+			l_payload, l_state, l_name, l_description, l_owner, l_project, l_user_email: STRING
 			l_points, l_iteration,l_id:INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
 			old_name: STRING
 		do
-			-- Create string objects to read-in the payload that comes with the request
-			create l_payload.make_empty
-			create l_id.default_create
-			create l_iteration.default_create
-			create l_points.default_create
-			create l_project.make_empty
-			create l_name.make_empty
-			create l_description.make_empty
-			create l_owner.make_empty
-			create l_state.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- Read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-			-- Now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				-- We have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("work_item_id") as s then  --
-					l_id := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("nb_iteration") as s then  --
-					l_iteration := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("project") as s then
-					l_project := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("name") as s then  --
-					l_name := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("description") as s then
-					l_description := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("points") as s then  --
-					l_points := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("status") as s then --
-					l_state := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("owner") as s then --
-					l_owner := s.unescaped_string_8
-				end
+			-- Receive the user email
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			-- Check if the name is empty
-			if l_name.is_empty or l_name = Void then
-				-- The work_item name is empty
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_name.count > 40  then
-				-- The work_item name has more then 40 characters
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name has more then 40 characters."), create {JSON_STRING}.make_json ("Error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_work_item (l_iteration, l_project,l_name ) = True then
-				-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists (l_id) = False then
-				-- The work_item doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("Error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_description.is_empty or l_description = Void then
-				-- The work_item description is empty
-				l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item description is empty."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_description.count > 165536 then
-				-- The work_item description has more then 165536 characters
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item description has more then 166536 characters."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_points < 0 OR l_points >100 then
-				-- The work_item points is a negative value or are greater than 100
-				l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item points aren't in the valid range [0-100]."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_iteration (l_iteration,l_project) = False then
-				-- The iteration doesn't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_project_name (l_project) = False then
-				-- The project doesn't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given project doesn't exist."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_status (l_state) = False then
-				-- The status isn't valid
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given status isn't in the valid ones"), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif l_owner.same_string ("System") = True then
-				-- System can't be the new owner
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: System can't be the new owner."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_if_mail_already_present (l_owner) = False then
-				-- The owner isn't into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given owner doesn't exist into the db"), create {JSON_STRING}.make_json ("error"))
+
+			-- Checks if the given user is logged in
+			if l_user_email = VOID OR l_user_email.is_empty then
+				-- The user isn't logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				old_name:=my_db.modify_work_item(l_id,l_iteration,l_name,l_points,l_state,l_owner,l_description,l_project)
-				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + old_name + "' was modified successfully."), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result_payload.representation.count)
+				-- Create string objects to read-in the payload that comes with the request
+				create l_payload.make_empty
+				create l_id.default_create
+				create l_iteration.default_create
+				create l_points.default_create
+				create l_project.make_empty
+				create l_name.make_empty
+				create l_description.make_empty
+				create l_owner.make_empty
+				create l_state.make_empty
+				-- Create json object that we send back as in response
+				create l_result_payload.make
+				-- Read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+				-- Now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+				-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					-- We have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("work_item_id") as s then  --
+						l_id := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("nb_iteration") as s then  --
+						l_iteration := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("project") as s then
+						l_project := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("name") as s then  --
+						l_name := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("description") as s then
+						l_description := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("points") as s then  --
+						l_points := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("status") as s then --
+						l_state := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("owner") as s then --
+						l_owner := s.unescaped_string_8
+					end
+				end
+				-- Check if the name is empty
+					if l_name.is_empty or l_name = Void then
+					-- The work_item name is empty
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name is empty."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_name.count > 40  then
+					-- The work_item name has more then 40 characters
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name has more then 40 characters."), create {JSON_STRING}.make_json ("Error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_work_item (l_iteration, l_project,l_name ) = True then
+					-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.work_item_exists (l_id) = False then
+					-- The work_item doesn't exist into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("Error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_description.is_empty or l_description = Void then
+					-- The work_item description is empty
+					l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item description is empty."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_description.count > 165536 then
+					-- The work_item description has more then 165536 characters
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item description has more then 166536 characters."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_points < 0 OR l_points >100 then
+					-- The work_item points is a negative value or are greater than 100
+						l_result_payload.put ( create {JSON_STRING}.make_json ("ERROR: The work_item points aren't in the valid range [0-100]."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_iteration (l_iteration,l_project) = False then
+					-- The iteration doesn't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given iteration doesn't exist."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_project_name (l_project) = False then
+					-- The project doesn't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given project doesn't exist."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_status (l_state) = False then
+					-- The status isn't valid
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given status isn't in the valid ones"), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif l_owner.same_string ("System") = True then
+					-- System can't be the new owner
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: System can't be the new owner."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_if_mail_already_present (l_owner) = False then
+					-- The owner isn't into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The given owner doesn't exist into the db"), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				else
+					old_name:=my_db.modify_work_item(l_id,l_iteration,l_name,l_points,l_state,l_owner,l_description,l_project)
+					-- Send an appropriate message
+					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item '" + old_name + "' was modified successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result_payload.representation.count)
+				end
 			end
 			-- Add the message to the response
 			res.put_string (l_result_payload.representation)
@@ -458,7 +479,6 @@ feature --handlers about work_items
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
 
-			l_user_email:="annamaria.nestorov@hotmail.it"
 			-- Checks if the given user is logged in
 			if l_user_email = VOID OR l_user_email.is_empty then
 				-- The user isn't logged in
@@ -632,59 +652,65 @@ feature --handlers about comments
 	add_comment(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Adds a new comment; all the information abount it (work_item, content, author) should be not empty and are expected to be part of the request payload
 		local
-			l_payload, l_content, l_author,l_work_item: STRING
+			l_payload, l_content, l_author,l_work_item, l_user_email: STRING
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
 		do
-			-- Create string objects to read-in the payload that comes with the request
-			create l_payload.make_empty
-			create l_content.make_empty
-			create l_author.make_empty
-			create l_work_item.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- Read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-			-- Now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				-- We have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("work_item_id") as s then
-					l_work_item := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("comment") as s then
-					l_content := s.unescaped_string_8
-				end
-				if attached {JSON_STRING} j_object.item ("author") as s then
-					l_author := s.unescaped_string_8
-				end
+			-- Receive the user email
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			-- Checks if the work_item exists
-			if my_db.work_item_exists(l_work_item.to_integer) = False then
-				-- The comment is refered to work_item which doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			-- Checks the correctness of content
-			elseif l_content = VOID OR l_content.is_empty then
-				-- The comment hasn't text
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The comment hasn't text."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			-- Checks if the author exists into the db
-			elseif l_author.same_string ("System") = True then
-				--System can't be the new owner
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: System can't be an author."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.check_if_mail_already_present (l_author) = False then
-				-- The author doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The user doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+
+			-- Checks if the given user is logged in
+			if l_user_email = VOID OR l_user_email.is_empty then
+				-- The user isn't logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				-- Everything is correct, therefore adds the new comment
-				my_db.add_comment (l_work_item.to_integer, l_content, l_author)
-				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The comment was added successfully."), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result_payload.representation.count)
+				-- Create string objects to read-in the payload that comes with the request
+				create l_payload.make_empty
+				create l_content.make_empty
+				create l_author.make_empty
+				create l_work_item.make_empty
+
+				-- Read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+				-- Now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+				-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					-- We have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("work_item_id") as s then
+						l_work_item := s.unescaped_string_8
+					end
+					if attached {JSON_STRING} j_object.item ("comment") as s then
+						l_content := s.unescaped_string_8
+					end
+				end
+				l_author:=l_user_email
+				-- Checks if the work_item exists
+				if my_db.work_item_exists(l_work_item.to_integer) = False then
+					-- The comment is refered to work_item which doesn't exist into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				-- Checks the correctness of content
+				elseif l_content = VOID OR l_content.is_empty then
+					-- The comment hasn't text
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The comment hasn't text."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.check_if_mail_already_present (l_author) = False then
+					-- The author doesn't exist into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The user doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				else
+					-- Everything is correct, therefore adds the new comment
+					my_db.add_comment (l_work_item.to_integer, l_content, l_author)
+					-- Send an appropriate message
+					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The comment was added successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result_payload.representation.count)
+				end
 			end
 			-- Add the message to the response
 			res.put_string (l_result_payload.representation)
@@ -738,51 +764,63 @@ feature -- handlers about links
 	add_link(req: WSF_REQUEST; res: WSF_RESPONSE)
 		-- Adds a new link between two work_items; both id are expected to be part of the request payload
 		local
-			l_payload:STRING
+			l_payload, l_user_email:STRING
 			l_work_item1, l_work_item2: INTEGER
 			l_result_payload: JSON_OBJECT
 			parser: JSON_PARSER
 		do
-			create l_payload.make_empty
 			-- Create json object that we send back as in response
 			create l_result_payload.make
-			-- Read the payload from the request and store it in the string
-			req.read_input_data_into (l_payload)
-			-- Now parse the json object that we got as part of the payload
-			create parser.make_parser (l_payload)
-			-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				-- We have to convert the json string into an eiffel string
-				if attached {JSON_STRING} j_object.item ("id_work_item_source") as s then
-					l_work_item1 := s.item.to_integer
-				end
-				if attached {JSON_STRING} j_object.item ("id_work_item_destination") as s then
-					l_work_item2 := s.item.to_integer
-				end
+			-- Receive the user email
+			if req_has_cookie(req, "_session_") then
+				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			-- Checks the existence of the given work_items
-			if my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = True then
-				-- The work_item1 doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item source '" + l_work_item1.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists(l_work_item1) = True AND my_db.work_item_exists(l_work_item2) = False then
-				-- The work_item2 doesn't exist into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item destination '" + l_work_item2.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = False then
-				-- Both work_item and work_item2 don't exist
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Both work_item sourse '" + l_work_item1.out + "' and destination '" + l_work_item2.out + "' don't exist."), create {JSON_STRING}.make_json ("error"))
-				set_json_header (res, 401, l_result_payload.representation.count)
-			elseif my_db.link_exist (l_work_item1,l_work_item2) = True then
-				-- The given link already exists into the db
-				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Link ('" + l_work_item1.out +"','" + l_work_item2.out +"') already exists into the db."), create {JSON_STRING}.make_json ("error"))
+
+			-- Checks if the given user is logged in
+			if l_user_email = VOID OR l_user_email.is_empty then
+				-- The user isn't logged in
+				l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: the user isn't logged in."), create {JSON_STRING}.make_json ("error"))
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
-				-- Everything is correct, therefore adds the new link
-				my_db.add_link (l_work_item1, l_work_item2)
-				-- Send an appropriate message
-				l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The link was added successfully."), create {JSON_STRING}.make_json ("success"))
-				set_json_header_ok (res, l_result_payload.representation.count)
+				create l_payload.make_empty
+				-- Read the payload from the request and store it in the string
+				req.read_input_data_into (l_payload)
+				-- Now parse the json object that we got as part of the payload
+				create parser.make_parser (l_payload)
+				-- If the parsing was successful and we have a json object, we fetch the properties for the work_item_number
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					-- We have to convert the json string into an eiffel string
+					if attached {JSON_STRING} j_object.item ("id_work_item_source") as s then
+						l_work_item1 := s.item.to_integer
+					end
+					if attached {JSON_STRING} j_object.item ("id_work_item_destination") as s then
+						l_work_item2 := s.item.to_integer
+					end
+				end
+				-- Checks the existence of the given work_items
+				if my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = True then
+					-- The work_item1 doesn't exist into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item source '" + l_work_item1.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.work_item_exists(l_work_item1) = True AND my_db.work_item_exists(l_work_item2) = False then
+					-- The work_item2 doesn't exist into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item destination '" + l_work_item2.out + "'  doesn't exist into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.work_item_exists(l_work_item1) = False AND my_db.work_item_exists(l_work_item2) = False then
+						-- Both work_item and work_item2 don't exist
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Both work_item sourse '" + l_work_item1.out + "' and destination '" + l_work_item2.out + "' don't exist."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.link_exist (l_work_item1,l_work_item2) = True then
+					-- The given link already exists into the db
+					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: Link ('" + l_work_item1.out +"','" + l_work_item2.out +"') already exists into the db."), create {JSON_STRING}.make_json ("error"))
+					set_json_header (res, 401, l_result_payload.representation.count)
+				else
+					-- Everything is correct, therefore adds the new link
+					my_db.add_link (l_work_item1, l_work_item2)
+					-- Send an appropriate message
+					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The link was added successfully."), create {JSON_STRING}.make_json ("success"))
+					set_json_header_ok (res, l_result_payload.representation.count)
+				end
 			end
 			-- Add the message to the response
 			res.put_string (l_result_payload.representation)

@@ -646,7 +646,7 @@ feature --Data access: ITERATIONS
 		require
 			valid_iteration_number: iteration_number >= 0
 			valid_project_name: (project /= VOID)
-			existing_project: check_project_name(project)
+	--		existing_project: check_project_name(project)
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
