@@ -53,6 +53,10 @@ angular.module('Mgmt').service('Utility', ['$log', function($log) {
   };
 
   this.parseDate = function(s) {
+    if (typeof s === 'undefined') {
+      $log.warn(TAG, 'date is undefined');
+      return s;
+    }
     if (s instanceof Date) {
       $log.warn(TAG, 'input is already date, need string; do nothing;', s);
       return s;

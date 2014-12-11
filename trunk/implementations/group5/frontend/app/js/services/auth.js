@@ -71,7 +71,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
  
   authService.isAuthenticated = function () {
-    return storage.getItem();
+    return storage.getItem() && !!authService.currentUser;
   };
  
   authService.isAdmin = function () {
