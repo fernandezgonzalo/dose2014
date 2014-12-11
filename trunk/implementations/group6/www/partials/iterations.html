@@ -30,7 +30,7 @@
                     <th>Title</th>
                     <th>Points</th>
                   </tr>
-                  <tr ng-repeat="iteration in iterations" >
+                <tr ng-repeat="iteration in iterations" >
                     <td>
                         <div class="checkbox">
                         <label>
@@ -47,7 +47,12 @@
                             <i class="fa fa-times"></i> 
                         </button>                         
                     </td>
-                  </tr>
+                    <td width="100"><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="goToWorkItems(project.project_name, iterationD.id_iteration)">
+                            <i class="fa fa-cubes"></i>
+
+                        </button>
+                    </td>
+                 </tr>
                 </table>
               </div>
               </div>

@@ -1,11 +1,11 @@
 <div ng-include="'partials/header.html'"></div>
 <div ng-include="'partials/pestanas.html'"></div>    
-<article>    
+<article ng-init="init()">    
    <div > 
         <div class="container">
             <div class="row">
                   <div class="col-md-10 col-md-offset-1">
-                    <h3>Iteration Number - Work Items</h3>
+                    <h3>Iteration: {{iterationD.title_iteration}} - Work Items</h3>
                   </div>                 
                   <div class="col-md-10 col-lg-offset-10">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal8">+</button>
@@ -22,9 +22,9 @@
                     <th>Points</th>
                   </tr>
                   <tr ng-repeat="workItem in workItems" >
-                    <td>{{workItem.idWorkItem}}</td>
+                    <td>{{workItem.work_item_id}}</td>
                     <td>{{workItem.title}}</td>
-                    <td>{{workItem.point}}</td>
+                    <td>{{workItem.points}}</td>
                   </tr>
                 </table>
               </div>
