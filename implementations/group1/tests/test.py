@@ -27,11 +27,12 @@ class Test(unittest.TestCase):
         self.assertEqual(u.email, email)
 
     def test_update_user(self):
-        new_name = "jaja"
-        user = get_user(self.session, 39).json()
-        res = put_users(self.session, 39, new_name, user.get("lastname"), user.get('password'), "1", "1")
+        do_login(self.session, "bugbunny@gmail.com", "asd")
+        new_name = self.faker.first_name()
+        user = get_user(self.session, 124).json()
+        res = put_users(self.session, 124, new_name, user.get("lastname"), user.get('password'), "1", "1")
         #user = get_user(self.session, 39).json()
-        user = User.get(User.id == 39)
+        user = User.get(User.id == 124)
         self.assertEqual(user.name, new_name)
 
     def tearDown(self):
