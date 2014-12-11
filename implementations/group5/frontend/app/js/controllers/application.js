@@ -38,7 +38,7 @@ angular.module('Mgmt').controller('ApplicationController', ['$scope', '$log', '$
     var deferred = $q.defer();
     if ($scope.currentUser) {
       deferred.resolve($scope.currentUser);
-    } else if (AuthService.isAuthenticated()) {
+    } else if (AuthService.hasAuthenticatedCache()) {
       AuthService.getCurrentUser().then(function(user) {
         deferred.resolve(user);
       }, function() {

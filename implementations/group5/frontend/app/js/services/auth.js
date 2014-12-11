@@ -70,6 +70,10 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
     storage.delItem();
   };
  
+  authService.hasAuthenticatedCache = function() {
+    return !!storage.getItem();
+  };
+
   authService.isAuthenticated = function () {
     return storage.getItem() && !!authService.currentUser;
   };
