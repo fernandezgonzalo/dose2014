@@ -17,7 +17,8 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
         };
 
         $scope.successMsgVisible = false;
-        $scope.usersInProject = [{id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'}];
+
+
         $scope.getUsers = function (){
             var i;
             var j;

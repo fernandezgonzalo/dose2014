@@ -23,29 +23,20 @@
                     <br />
                     <br />
 
-            <div class="list-group-item" ng-repeat="sprint in projectSprints">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h3><strong>{{sprint.name}}</strong></h3>
-                        <h4> <strong>Start Date:</strong> {{sprint.startDate | date}} </h4>
-                        <h4><strong> Completion Date:</strong>  {{sprint.completionDate | date}}</h4>
-                    </div>
-                    </div>
-                </div>
 
-                    <div class="list-group">
-                        <h3>people in project</h3>
-                        <div class="list-group-item colorHover" ng-repeat = "user in usersInProject">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3><strong>{{user.firstName}}</strong></h3>
-                                    <h4>{{user.LastName}}</h4>
-                                    <h4>{{user.email}}</h4>
-                                </div>
+                <div class="list-group">
+                    <h3>people in project</h3>
+                    <div class="list-group-item colorHover" ng-repeat = "user in usersInProject">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3><strong>{{user.firstName}}</strong></h3>
+                                <h4>{{user.LastName}}</h4>
+                                <h4>{{user.email}}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
+        </div>
     </div>
     </div>
 

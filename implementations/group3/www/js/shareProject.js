@@ -5,6 +5,7 @@ angular.module('LetsGoTeam').controller('ShareProjectCtrl', ['$scope', '$http', 
     function ($scope, $http, $log, $timeout) {
         $scope.usersToShare = "";
         $scope.view = 1;
+        $scope.usersInProject = [{id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'}];
         var usersArray = [];
 
         $scope.changeView = function (n){
