@@ -414,7 +414,7 @@ feature {NONE}--login
         salt := get_random_seed
         create bcrypt.make
         pass := user_password + salt.out
-        hashed_password := bcrypt.hashed_password (pass, bcrypt.default_gensalt)
+        hashed_password := bcrypt.hashed_password (pass, bcrypt.new_salt (4))
         Result.hashed_password := hashed_password
         Result.salt := salt;
    	end
