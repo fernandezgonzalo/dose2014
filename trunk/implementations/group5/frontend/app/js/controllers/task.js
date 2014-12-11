@@ -182,7 +182,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
 
   $scope.updateTask = function(){
     Utility.toUnderscore($scope.currentTask);
-   	$scope.tempTask = new Task();
     Utility.escape($scope.currentTask);
 
     if ($scope.isNew){
