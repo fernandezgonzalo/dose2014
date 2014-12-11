@@ -57,7 +57,7 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
 
   authService.hasAvatar = function(user) {
-    user.avatar = '/api/users/' + user.id + '/avatar';
+    user.avatar = '/api/users/' + user.id + '/avatar' + '?_=' + Math.random();
     $http.get(user.avatar).then(function() {
       user.hasAvatar = true;
     }, function() {

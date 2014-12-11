@@ -161,6 +161,10 @@ angular.module('Mgmt').controller('UserController', ['$scope', '$log', '$locatio
         $('#upload_button').button('loading');
         var url = '/api/users/' + $scope.user.id + '/avatar';
         FileUpload.uploadFileToUrl(file, url, function() {
+          if ($scope.currentUser.id === $scope.user.id) {
+            $scope.setCurrentUser($scope.user);
+          }
+          AuthService.hasAvatar($scope.user);          
           $('#upload_button').button('reset');
           ngToast.create({
             content: 'Avatar was uploaded!',
