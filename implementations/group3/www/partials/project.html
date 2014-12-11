@@ -18,7 +18,7 @@
                         <label>Start date:</label>
                         <input type="date" class="form-control" ng-model="project.startDate" id="startDate" placeholder="begin"> <br>
                         <label>Status:</label>
-                        <select class="form-control" ng-model="project.status" ng-options="status.name for status in statuses">
+                        <select class="form-control" ng-init="project.status = statuses[0]" ng-model="project.status" ng-options="obj.stat for obj in statuses">
                         </select>
                     </div>
                     <button ng-click="addProject(project)" ng-href="http://localhost:63342/www/index.html#/projectsSprints" class="btn btn-default">

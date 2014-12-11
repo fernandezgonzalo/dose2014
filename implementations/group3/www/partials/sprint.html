@@ -19,15 +19,19 @@
 			<label>Completion date:</label>
 			<input type="date" class="form-control" ng-model="sprint.end" id="completionDate" placeholder="end"> <br>
 			<label>Status:</label>
-			  <select class="form-control" ng-model="sprint.status" ng-options="status.name for status in statuses"> 
+			  <select class="form-control" ng-init="sprint.status= statuses[0]" ng-model="sprint.status" ng-options="obj.stat for obj in statuses">
 			  </select>
 		  </div>
-		  <button ng-click="addSprint(sprint)" ng-href="http://localhost:63342/www/index.html#/projectsSprints" class="btn btn-default">
-		  	Submit
-		  </button>
-		  <button ng-click="cancel()" class="btn btn-default">
-		  	Cancel
-		  </button>
+			<a ng-href="http://localhost:63342/www/index.html#/projectsSprints" >
+				<button ng-click="addSprint(sprint)"  class="btn btn-default">
+					Submit
+				</button>
+			</a>
+			<a ng-href="http://localhost:63342/www/index.html#/projectsSprints" >
+				<button ng-click="cancel()" class="btn btn-default">
+					Cancel
+				</button>
+			</a>
 		</form>
     </div>
 

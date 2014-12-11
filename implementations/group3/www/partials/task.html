@@ -21,8 +21,7 @@
 			  <input type="number" class="form-control" ng-model="task.points"> <br>
 			  <label>Available users:</label>:</label> <br>
 			  <div class="list-group">
-				  Lord: <input type="checkbox" ng-model="lord"> <br/>
-				  <div class="list-group-item" ng-repeat="user in users">
+				  <div class="list-group-item" ng-repeat="user in taskUsers">
 					  <h4>
 					  {{user.firstName}} {{user.LastName}}: <input type="checkbox" ng-model="user.id"> <br/> </h4>
 				  </div>
@@ -30,12 +29,16 @@
 			<label>Assignees:</label> <br>
 
 		  </div>
-			<button ng-click="addTask(task)" ng-href="http://localhost:63342/www/index.html#/storyTask" class="btn btn-default">
+			<a ng-href="http://localhost:63342/www/index.html#/storyTask">
+			<button ng-click="addTask(task)"  class="btn btn-default">
 				Submit
 			</button>
-		  <button ng-click="cancel()" class="btn btn-default">
-		  	Cancel
-		  </button>
+			</a>
+			<a ng-href="http://localhost:63342/www/index.html#/storyTask">
+			  <button ng-click="cancel()" class="btn btn-default">
+				Cancel
+			  </button>
+			</a>
 		</form>
     </div>
 
