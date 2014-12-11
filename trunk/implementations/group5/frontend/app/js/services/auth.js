@@ -71,15 +71,16 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
  
   authService.hasAuthenticatedCache = function() {
-    return !!storage.getItem();
+    var item = storage.getItem();
+    return typeof item !== 'undefined' && item !== null && Number(item).toString() === item;
   };
 
   authService.isAuthenticated = function () {
-    return storage.getItem() && !!authService.currentUser;
+    return authService.hasAuthenticatedCache() && typeof authService.currentUser !== 'undefined';
   };
  
   authService.isAdmin = function () {
-    return !!authService.currentUser && parseInt(authService.currentUser.isAdmin) === 1;
+    return authService.hasAuthenticatedCache() && parseInt(authService.currentUser.isAdmin) === 1;
   };
 
   authService.getCurrentUser = function() {
