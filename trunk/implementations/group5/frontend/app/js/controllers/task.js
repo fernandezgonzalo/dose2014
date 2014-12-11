@@ -231,48 +231,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     			}
     		}
     		if ($scope.barChart && $scope.pieChart) {
-    			var createdTasks = 0;
-    			var inProgTasks = 0;
-    			var stoppedTasks = 0;
-    			var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
-    			var low = 0;
-    			var high = 0;
-    			var critical = 0;
-
-    			for (i = 0; i < $scope.tasksInProgress.length; i++) {
-    				if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
-    				if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
-    				if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
-    				if ($scope.tasksInProgress[i].priority === 'low') {low++;}
-      				if ($scope.tasksInProgress[i].priority === 'high') {high++;}
-      				if ($scope.tasksInProgress[i].priority === 'critical') {critical++;}
-    			}
-
-    			for (i = 0; i < $scope.tasksFinished.length; i++) {
-    				if ($scope.tasksFinished[i].status === 'created') { createdTasks++; }
-    				if ($scope.tasksFinished[i].status === 'in_progress') { inProgTasks++; }
-    				if ($scope.tasksFinished[i].status === 'stopped') { stoppedTasks++; }
-    				if ($scope.tasksFinished[i].priority === 'low') {low++;}
-      				if ($scope.tasksFinished[i].priority === 'high') {high++;}
-      				if ($scope.tasksFinished[i].priority === 'critical') {critical++;}
-    			}
-
-    			$scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
-    			$scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
-    			$scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
-    			$scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
-    			$scope.barChart.datasets[0].bars[0].value = parseFloat($scope.creatTasksOnTot);
-    			$scope.barChart.datasets[0].bars[1].value = parseFloat($scope.inPrTasksOnTot);
-    			$scope.barChart.datasets[0].bars[2].value = parseFloat($scope.stopTasksOnTot);
-    			$scope.barChart.datasets[0].bars[3].value = parseFloat($scope.finTasksOnTot);
-    			$scope.barChart.update(); 
-    			$scope.lowOnTot = (low / totTasks * 100).toFixed(2);
-      			$scope.highOnTot = (high / totTasks * 100).toFixed(2);
-      			$scope.critOnTot = (critical / totTasks * 100).toFixed(2);
-      			$scope.pieChart.segments[0].value = parseFloat($scope.lowOnTot);
-		      	$scope.pieChart.segments[1].value = parseFloat($scope.highOnTot);
-		      	$scope.pieChart.segments[2].value = parseFloat($scope.critOnTot);
-		      	$scope.pieChart.update();	
+    			updateStats();
     		}
     	});
     } 
@@ -290,6 +249,9 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
  		}
  	}
     $scope.currentTask.$delete();
+    if ($scope.barChart && $scope.pieChart) {
+    	updateStats();
+    }
     $('#taskModal').modal('hide');
   };
 
@@ -381,6 +343,52 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     if (task.priority === 'low') {return 'success';}
     if (task.priority === 'high') {return 'warning';}
     if (task.priority === 'critical') {return 'danger';}
+  };
+
+  var updateStats = function() {
+	var createdTasks = 0;
+	var inProgTasks = 0;
+	var stoppedTasks = 0;
+	var totTasks = $scope.tasksFinished.length + $scope.tasksInProgress.length;
+	var low = 0;
+	var high = 0;
+	var critical = 0;
+
+	var i;
+	for (i = 0; i < $scope.tasksInProgress.length; i++) {
+		if ($scope.tasksInProgress[i].status === 'created') { createdTasks++; }
+		if ($scope.tasksInProgress[i].status === 'in_progress') { inProgTasks++; }
+		if ($scope.tasksInProgress[i].status === 'stopped') { stoppedTasks++; }
+		if ($scope.tasksInProgress[i].priority === 'low') {low++;}
+			if ($scope.tasksInProgress[i].priority === 'high') {high++;}
+			if ($scope.tasksInProgress[i].priority === 'critical') {critical++;}
+	}
+
+	for (i = 0; i < $scope.tasksFinished.length; i++) {
+		if ($scope.tasksFinished[i].status === 'created') { createdTasks++; }
+		if ($scope.tasksFinished[i].status === 'in_progress') { inProgTasks++; }
+		if ($scope.tasksFinished[i].status === 'stopped') { stoppedTasks++; }
+		if ($scope.tasksFinished[i].priority === 'low') {low++;}
+			if ($scope.tasksFinished[i].priority === 'high') {high++;}
+			if ($scope.tasksFinished[i].priority === 'critical') {critical++;}
+	}
+
+	$scope.creatTasksOnTot = (createdTasks / totTasks * 100).toFixed(2);
+	$scope.inPrTasksOnTot = (inProgTasks / totTasks * 100).toFixed(2);
+	$scope.stopTasksOnTot = (stoppedTasks / totTasks * 100).toFixed(2);
+	$scope.finTasksOnTot = ($scope.tasksFinished.length / totTasks * 100).toFixed(2);
+	$scope.barChart.datasets[0].bars[0].value = parseFloat($scope.creatTasksOnTot);
+	$scope.barChart.datasets[0].bars[1].value = parseFloat($scope.inPrTasksOnTot);
+	$scope.barChart.datasets[0].bars[2].value = parseFloat($scope.stopTasksOnTot);
+	$scope.barChart.datasets[0].bars[3].value = parseFloat($scope.finTasksOnTot);
+	$scope.barChart.update(); 
+	$scope.lowOnTot = (low / totTasks * 100).toFixed(2);
+		$scope.highOnTot = (high / totTasks * 100).toFixed(2);
+		$scope.critOnTot = (critical / totTasks * 100).toFixed(2);
+		$scope.pieChart.segments[0].value = parseFloat($scope.lowOnTot);
+  	$scope.pieChart.segments[1].value = parseFloat($scope.highOnTot);
+  	$scope.pieChart.segments[2].value = parseFloat($scope.critOnTot);
+  	$scope.pieChart.update();	
   };
 
  }]);
