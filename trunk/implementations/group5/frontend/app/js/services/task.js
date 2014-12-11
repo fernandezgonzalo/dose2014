@@ -11,7 +11,12 @@ angular.module('Mgmt').factory('Task', ['$resource', '$log', function($resource,
                      'getProjectTasks': {method: 'GET',
                                          params: {projectId: '@id_project'}, 
                                          url: '/api/projects/:projectId/tasks',
-                                         isArray: true}
+                                         isArray: true},
+                     'getUserTasks': { method: 'GET',
+                     					params: {userId: '@id_user_assigned'},
+                     					url: '/api/users/:userId/tasks',
+                     					isArray: true
+                     }
                    });
   
 

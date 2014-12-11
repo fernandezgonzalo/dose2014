@@ -78,41 +78,40 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   var onload = function() {
-    $scope.currentUser.$getTasks(function(data){
+    Task.getUserTasks({userId: $scope.currentUser.id}, function(data){
       $scope.userTasks = data;
-      $log.debug(TAG, data);
       var createdTasks = 0;
       var inProgTasks = 0;
       var stoppedTasks = 0;
       var low = 0;
       var high = 0;
       var critical = 0;
-      for (var task in $scope.userTasks.data) {
-      	Utility.unescape($scope.userTasks.data[task]);
+      for (var task = 0; task < data.length; task++) {
+      	Utility.unescape($scope.userTasks[task]);
       	//stats variables
-      	if ($scope.userTasks.data[task].status === 'created') { createdTasks++; }
-      	if ($scope.userTasks.data[task].status === 'in_progress') { inProgTasks++; }
-      	if ($scope.userTasks.data[task].status === 'stopped') { stoppedTasks++; }
-      	if ($scope.userTasks.data[task].priority === 'low') {low++;}
-      	if ($scope.userTasks.data[task].priority === 'high') {high++;}
-      	if ($scope.userTasks.data[task].priority === 'critical') {critical++;}
+      	if ($scope.userTasks[task].status === 'created') { createdTasks++; }
+      	if ($scope.userTasks[task].status === 'in_progress') { inProgTasks++; }
+      	if ($scope.userTasks[task].status === 'stopped') { stoppedTasks++; }
+      	if ($scope.userTasks[task].priority === 'low') {low++;}
+      	if ($scope.userTasks[task].priority === 'high') {high++;}
+      	if ($scope.userTasks[task].priority === 'critical') {critical++;}
 
-      	commentsQuery($scope.userTasks.data[task].id);
+      	commentsQuery($scope.userTasks[task].id);
 
-        if ($scope.userTasks.data[task].status === 'finished') {
-          $scope.tasksFinished.push($scope.userTasks.data[task]);
+        if ($scope.userTasks[task].status === 'finished') {
+          $scope.tasksFinished.push($scope.userTasks[task]);
         } else {
-          $scope.tasksInProgress.push($scope.userTasks.data[task]);
+          $scope.tasksInProgress.push($scope.userTasks[task]);
         }
       }
       //stats variables
-      $scope.creatTasksOnTot = (createdTasks / data.data.length * 100).toFixed(2);
-      $scope.inPrTasksOnTot = (inProgTasks / data.data.length * 100).toFixed(2);
-      $scope.stopTasksOnTot = (stoppedTasks / data.data.length * 100).toFixed(2);
-      $scope.finTasksOnTot = ($scope.tasksFinished.length / data.data.length * 100).toFixed(2);
-      $scope.lowOnTot = (low / data.data.length * 100).toFixed(2);
-      $scope.highOnTot = (high / data.data.length * 100).toFixed(2);
-      $scope.critOnTot = (critical / data.data.length * 100).toFixed(2);
+      $scope.creatTasksOnTot = (createdTasks / data.length * 100).toFixed(2);
+      $scope.inPrTasksOnTot = (inProgTasks / data.length * 100).toFixed(2);
+      $scope.stopTasksOnTot = (stoppedTasks / data.length * 100).toFixed(2);
+      $scope.finTasksOnTot = ($scope.tasksFinished.length / data.length * 100).toFixed(2);
+      $scope.lowOnTot = (low / data.length * 100).toFixed(2);
+      $scope.highOnTot = (high / data.length * 100).toFixed(2);
+      $scope.critOnTot = (critical / data.length * 100).toFixed(2);
 
       if ($scope.barChart) {
 	      $scope.barChart.datasets[0].bars[0].value = parseFloat($scope.creatTasksOnTot);
@@ -166,8 +165,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     Utility.toUnderscore($scope.currentTask);
     $scope.isNew = true;
     $scope.viewCommentForm = false;
-
-    $log.debug(TAG, 'new task content', $scope.currentTask);
   };
 
   $scope.openTask = function(task) {
@@ -185,7 +182,9 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
 
   $scope.updateTask = function(){
     Utility.toUnderscore($scope.currentTask);
+   	$scope.tempTask = new Task();
     Utility.escape($scope.currentTask);
+
     if ($scope.isNew){
       $scope.currentTask.$save(function(){
         $scope.isNew = false;
@@ -305,7 +304,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   };
 
   $scope.saveComment = function(userId, taskId){
-  	$log.debug('USERID::', userId, 'TASKID', taskId);
   	$scope.newComment = new Comment();
   	Utility.toCamel($scope.newComment);
   	$scope.newComment.idTask = taskId;
@@ -314,7 +312,6 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   	Utility.toUnderscore($scope.newComment);
   	delete $scope.newComment.idTask;
   	delete $scope.newComment.idUser;
-  	$log.debug('COMMENTO DA INSERIRE::', $scope.newComment);
   	$scope.tempComment = new Comment($scope.newComment);
   	Utility.escape($scope.newComment);
   	$scope.newComment.$save(function(res){
