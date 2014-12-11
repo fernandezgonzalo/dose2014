@@ -18,7 +18,7 @@ angular.module('coffee.core').controller('ProjectRankingController', ['$scope', 
         $scope.findUserRanking = function() {
             var project_id = $stateParams.projectId;
 
-            Projects.one(project_id).getList('users').getList('ranking').then(function(ranking) {
+            Projects.one(project_id).one('users').getList('ranking').then(function(ranking) {
                 $scope.current_users = ranking;
             }, function error(err) {
                 console.log('err',err);
