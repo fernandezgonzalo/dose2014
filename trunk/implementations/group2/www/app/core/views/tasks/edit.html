@@ -45,8 +45,8 @@
 							<option value="In progress">
 								In progress
 							</option>
-							<option value="“Completed”">
-								“Completed”
+							<option value="Completed">
+								Completed
 							</option>
 
 						</select>
@@ -54,8 +54,10 @@
 				</div>
 				<div class="form-group">
                    <label class="control-label" for="name">Sprint Number</label>
-                   <div class="controls" data-ng-init="loadSprints(task.sprint_id)">
-                       <select data-ng-model="task.sprint_id" data-ng-options="sprint.id as sprint.number for sprint in sprints" required></select>
+                   <div class="controls" data-ng-init="loadSprints(task.sprint_id);">
+                       <select data-ng-model="task.sprint_id" data-ng-options="sprint.id as sprint.number for sprint in sprints">
+                      	 <option value="">Backlog</option>
+                       </select>
                    </div>
                </div>
 				<div class="form-group">
