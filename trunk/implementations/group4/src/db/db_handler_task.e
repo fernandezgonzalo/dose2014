@@ -120,7 +120,7 @@ feature -- Data access for reports
 			-- returns the sum of the points of the tasks related to a given project
 		do
 			create Result.make
-			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE project_id="+ project_id.out +";",db)
+			create db_query_statement.make("SELECT TOTAL(points) AS total_points FROM tasks WHERE project_id="+ project_id.out +";",db)
 			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
@@ -144,7 +144,7 @@ feature -- Data access for reports
 			-- returns the sum of the points of the tasks related to a given sprint of a project
 		do
 			create Result.make
-			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE sprint_id="+sprint_id.out+" AND project_id="+project_id.out+";",db)
+			create db_query_statement.make("SELECT TOTAL(points) AS total_points FROM tasks WHERE sprint_id="+sprint_id.out+" AND project_id="+project_id.out+";",db)
 			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
@@ -152,7 +152,7 @@ feature -- Data access for reports
 			-- returns the sum of the points of the tasks which position is 'position' related to a given project
 		do
 			create Result.make
-			create db_query_statement.make("SELECT SUM(points) AS total_points FROM tasks WHERE position='"+position+"' AND project_id="+project_id.out+";",db)
+			create db_query_statement.make("SELECT TOTAL(points) AS total_points FROM tasks WHERE position='"+position+"' AND project_id="+project_id.out+";",db)
 			db_query_statement.execute (agent row_to_json_object (?, 1, Result))
 		end
 
