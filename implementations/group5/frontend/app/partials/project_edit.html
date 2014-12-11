@@ -26,7 +26,7 @@
 
           <!-- Deadline -->
           <p><b>Deadline: </b>
-            <a href="" ng-if="!projectToEdit.deadline" data-toggle="collapse" data-target="#editDatepicker">
+            <a href="" style="color: #DD1144" ng-if="!projectToEdit.deadline" data-toggle="collapse" data-target="#editDatepicker">
               <em>Click here to set</em></a>
             <a href="" data-toggle="collapse" data-target="#editDatepicker">
               {{ projectToEdit.deadline | date: 'mediumDate'}}</a>

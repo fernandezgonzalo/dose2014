@@ -80,140 +80,68 @@ angular.module('Mgmt')
   // Distribute tasks into swimlanes according to their status.
   var organizeTasks = function(data) {
 
-    $scope.todoTasks = [];
-    $scope.doingTasks = [];
-    $scope.doneTasks = [];
-    $scope.backlogTasks = [];
+    $scope.swimlanes = {};
+    
+    $scope.swimlanes.created = [];
+    $scope.swimlanes.inProgress = [];
+    $scope.swimlanes.finished = [];
+    $scope.swimlanes.stopped = [];
+
+    Utility.toUnderscore($scope.swimlanes);
+    delete $scope.swimlanes.inProgress;
 
     // Wait until the actual data arrives from the server.
     data.$promise.then(function(tasks) {
       for (var i = 0; i < tasks.length; i++) {
-
-        Utility.unescape(tasks[i]);
-        switch (tasks[i].status) {
-          case 'created':
-            $scope.todoTasks.push(tasks[i]);
-          break;
-          case 'in_progress':
-            $scope.doingTasks.push(tasks[i]);
-          break;
-          case 'finished':
-            $scope.doneTasks.push(tasks[i]);
-          break;
-          case 'stopped':
-            $scope.backlogTasks.push(tasks[i]);
-          break;
-          default:
-            $log.error('Task ' + tasks[i].id + ' has no valid status');
-          break;
-        }
+        $scope.swimlanes[tasks[i].status].push(tasks[i]);
       }
     });
   };
 
 
-  // Local changes in $scope
-
   // Updated task status locally after drag & drop.
-  var updateTaskStatusLocal = function(status) {
+  var updateTaskStatusLocal = function(newStatus) {
 
-    switch(status) {
-      case 'stopped': 
-        $scope.backlogTasks[$scope.backlogTasks.length-1].status = status;
-        break;
-      case 'created': 
-        $scope.todoTasks[$scope.todoTasks.length-1].status = status;
-        break;
-      case 'in_progress': 
-        $scope.doingTasks[$scope.doingTasks.length-1].status = status;
-        break;
-      case 'finished': 
-        $scope.doneTasks[$scope.doneTasks.length-1].status = status;
-        break;
-    }
+    var task = $scope.swimlanes[newStatus].pop();
+    task.status = newStatus;
+    $scope.swimlanes[newStatus].push(task);
   };
 
+
   // Update task locally upon update of the database.
-  $scope.updateTaskLocal = function(task) {
+  $scope.updateTasksLocal = function(task, newTask, deleteTask) {
 
-    $log.log('What\'s the task that is arriving?');
-    $log.info(task);
+    // var task = JSON.parse(JSON.stringify(taskToUpdate));
 
-    var found = false;
-    var i = 0;
 
-    // Look for the task in To do swimlane
-    for (i = 0; i < $scope.todoTasks.length && !found; i++) {
-      if ($scope.todoTasks[i].id === task.id) {
-        if ($scope.todoTasks[i].status === task.status) {
-          $scope.todoTasks[i] = task;
+    // If new task, add it to swimlane according to its status.
+    if (newTask) {
+      $scope.swimlanes[task.status].push(task);
+      return;
+    }
+
+    // Look for the task in the different swimlanes.
+    for (var key in $scope.swimlanes) {
+      var swimlane = $scope.swimlanes[key];
+      for (var i = 0; i < swimlane.length; i++) {
+        if (swimlane[i].id === task.id) {
+          // Check is task is to be deteled.
+          if (deleteTask) {
+            swimlane.splice(i, 1);
+          }
+          // If task status is unchanged, assigned updated task at once.
+          else if (swimlane[i].status === task.status) {
+            swimlane[i] = task;
+          } 
+          // If status changed, remove from current swimlane and add it to new.
+          else {
+            swimlane.splice(i, 1);
+            $scope.swimlanes[task.status].push(task);
+          }
           return;
-        } else {
-          $scope.todoTasks.splice(i, 1);
-          found = true;
         }
       }
     }
-    // Look for the task in Doing swimlane
-    for (i = 0; i < $scope.doingTasks.length && !found; i++) {
-      if ($scope.doingTasks[i].id === task.id) {
-        if ($scope.doingTasks[i].status === task.status) {
-          $scope.doingTasks[i] = task;
-          return;
-        } else {
-          $scope.doingTasks.splice(i, 1);
-          found = true;
-        }
-      }
-    }
-    // Look for the task in Backlog swimlane
-    for (i = 0; i < $scope.backlogTasks.length && !found; i++) {
-      if ($scope.backlogTasks[i].id === task.id) {
-        if ($scope.backlogTasks[i].status === task.status) {
-          $scope.backlogTasks[i] = task;
-          return;
-        } else {
-          $scope.backlogTasks.splice(i, 1);
-          found = true;
-        }
-      }
-    }
-    // Look for the task in Done swimlane
-    for (i = 0; i < $scope.doneTasks.length && !found; i++) {
-      if ($scope.doneTasks[i].id === task.id) {
-        if ($scope.doneTasks[i].status === task.status) {
-          $scope.doneTasks[i] = task;
-          return;
-        } else {
-          $scope.doneTasks.splice(i, 1);
-          found = true;
-        }
-      }
-    }
-
-    // If task status changed, add the task to the respective swimlane.
-    switch (task.status) {
-      case 'created':
-        $scope.todoTasks.push(task);
-        break;
-      case 'in_progress':
-        $scope.doingTasks.push(task);
-        break;
-      case 'finished':
-        $scope.doneTasks.push(task);
-        break;
-      case 'stopped':
-        $scope.backlogTasks.push(task);
-        break;
-      default:
-        $log.error('Task ' + task.id + ' has no valid status');
-      break;
-    }
-    
-    $log.log($scope.backlogTasks);
-    $log.log($scope.todoTasks);
-    $log.log($scope.doingTasks);
-    $log.log($scope.doneTasks);
   };
 
 
@@ -229,10 +157,6 @@ angular.module('Mgmt')
   $scope.startCallback = function(event, ui, task) {
     $scope.dragDropTask = task;
     draggedTask.id = task.id;
-    // <<------------------------- HERE!!!
-    // $('.panel-body').css({
-    //   'overflow-y': 'visible',
-    // });
   };
 
   $scope.dropCallback = function(event, ui, task, status) {
@@ -255,9 +179,6 @@ angular.module('Mgmt')
     if (draggedTask.id === taskId) {
       draggedTask.id = -1;
     }
-    // $('.panel-body').css({
-    //   'overflow-y': 'scroll',
-    // });
   };
 
 
@@ -327,5 +248,51 @@ angular.module('Mgmt')
       return 'btn-default';
     }
   };
+
+
+  // Statistics
+
+  // Helper functions to show data
+
+  $scope.projectStatistics = false;
+  $scope.toggleProjectStatistics = function() {
+    $scope.projectStatistics = !$scope.projectStatistics;
+  };
+
+  var unfinishedAssignedTasks = 7;
+  var finishedAssignedTasks = 4;
+
+  // Unfinished assigned tasks vs Finished assigned tasks.
+
+  $scope.dataset1 = [
+    {
+      value: unfinishedAssignedTasks,
+      color:'#F7464A',
+      highlight: '#FF5A5E',
+      label: 'Pending tasks'
+    },
+    {
+      value: finishedAssignedTasks,
+      color: '#46BFBD',
+      highlight: '#5AD3D1',
+      label: 'Finished tasks'
+    }
+  ];
+
+  $scope.optionsChart1 = {
+    responsive: true,
+    segmentShowStroke: true,
+    segmentStrokeColor: '#fff',
+    segmentStrokeWidth: 2,
+    percentageInnerCutout: 50,
+    animationSteps: 100,
+    animationEasing: 'easeOutBounce',
+    animateRotate: true,
+    animateScale: false,
+    legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<segments.length; i++)' +
+                      '{%><li><span style="background-color:<%=segments[i].fillColor%>"></span>' +
+                      '<%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+  };
+
 
 }]);

@@ -55,7 +55,7 @@
 		              </span>
 		            </div>
 		        </div>
-				<p ng-if="!isNew"><a href = "#" ng-click = "deleteTask(); $event.preventDefault()"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
+				<p ng-if="!isNew"><a href = "#" ng-click = "deleteTask(); $event.preventDefault(); updateTasksLocal(currentTask, isNew, true)"><span class="glyphicon glyphicon-remove"></span> delete task</a></p>
 				<p ng-if="!isNew"><a href="" ng-click="toggleComment()"><span class="glyphicon glyphicon-comment"></span> add a comment</a></p>
 				<form ng-if="viewCommentForm" novalidate role="form">
 				  <div class="form-group">
@@ -68,7 +68,7 @@
 
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click = "updateTask(); updateTaskLocal(currentTask)">Save changes</button>
+			<button type="button" class="btn btn-primary" ng-click = "updateTask(); updateTasksLocal(currentTask, isNew, false)">Save changes</button>
 		</div>	<!-- /modal-footer -->
     </div>
   </div>

@@ -11,9 +11,7 @@ angular.module('Mgmt')
   // Retrieve all the projects. 
   Project.query(function(data) {
     
-    var projects = organizeProjects(data);
-    $scope.finishedProjects = projects.finished;
-    $scope.unfinishedProjects = projects.unfinished;
+    organizeProjects(data);
 
   }, function() {
     $log.error('There was an error while retrieving projects.');
@@ -53,8 +51,8 @@ angular.module('Mgmt')
   // Distribute projects into "In progress" and "Finished".
   var organizeProjects = function(data) {
 
-    var finished = [];
-    var unfinished = [];
+    $scope.finishedProjects = [];
+    $scope.unfinishedProjects = [];
 
     // Wait until data arrives from the server.
     data.$promise.then(function(projects) {
@@ -62,17 +60,13 @@ angular.module('Mgmt')
 
         Utility.toCamel(projects[i]);
         Utility.unescape(projects[i]);
-        if (projects[i].isFinished === 1) {
-          finished.push(projects[i]);
+        if (projects[i].isFinished === '1') {
+          $scope.finishedProjects.push(projects[i]);
         } else {
-          unfinished.push(projects[i]);
+          $scope.unfinishedProjects.push(projects[i]);
         }
       }
     });
-    return {
-      'finished': finished,
-      'unfinished': unfinished
-    };
   };
 
   // Go to project's Dashboard.

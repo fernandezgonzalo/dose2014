@@ -58,7 +58,7 @@
       <tbody>
         <tr ng-repeat="project in finishedProjects"
           ng-click="openProject(project)" class="row-link"
-          ng-class=unfinishedProjectClass($even)>
+          ng-class=finishedProjectClass($even)>
           <td>{{project.name}}</td>
           <td>{{project.clientName}}</td>
           <td>Created by: {{authors[project.idUser]}}</td>
