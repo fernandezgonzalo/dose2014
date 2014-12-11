@@ -6,10 +6,10 @@
 	<div>
 		<h2>Recent Activities</h2>
 		<div class="list-group">
-
-			<ul>
-				<li data-ng-repeat="activity in project.recent_activities">
-					<h4> aca iria el bind data de la actividad </h4>
+			<ul>			
+				<li data-ng-repeat="activity in recent_activities" class="list-group-item">
+					<h4 class="list-group-item-heading">
+						Title: {{activity.title}}, Description: {{activity.description}}, Points: {{activity.points}}, Hours estimated: {{activity.hours_estimated}}, Hours spent: {{activity.hours_spent}}, Progress: {{activity.progress}}, Last modified: {{activity.last_modified}} </h4>
 				</li>
 			</ul>
 		</div>
