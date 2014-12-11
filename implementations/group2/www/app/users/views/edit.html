@@ -1,11 +1,11 @@
-<section data-ng-controller="RegisterCtrl">
+<section data-ng-controller="RegisterCtrl" data-ng-init='initEdit()'>
   <div class="page-header">
     <h1>Create User</h1>
   </div>
   <div class="col-md-12">
     <div class="alert alert-danger animated fadeIn" ng-show="error">{{error}}</div>
 
-    <form name="articleForm" class="form-horizontal" data-ng-submit="register()">
+    <form name="articleForm" class="form-horizontal" data-ng-submit="edit()" novalidate>
       <fieldset>
         <div class="form-group">
           <label class="control-label" for="email">First Name</label>
@@ -22,21 +22,29 @@
         <div class="form-group">
           <label class="control-label" for="email">Email</label>
           <div class="controls">
-            <input name="email" type="email" data-ng-model="user.email" id="email" class="form-control" placeholder="Email" required>
+            <input name="email" type="text" data-ng-model="user.email" id="email" class="form-control" placeholder="Email" readonly="">
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label" for="password">Password</label>
+          <label class="control-label" for="password"> New Password</label>
           <div class="controls">
-            <input required id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="user.password"/>
+            <input id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="user.new_password" min='8'/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="password"> Repeat Password</label>
+          <div class="controls">
+            <input id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="user.new_password_repeated" min='8' />
           </div>
         </div>
         <div class="form-group">
           <input type="submit" class="btn btn-default">
         </div>
+        <!--
         <div data-ng-show="error" class="text-danger">
           <strong data-ng-bind="error"></strong>
         </div>
+        -->
       </fieldset>
     </form>
   </div>

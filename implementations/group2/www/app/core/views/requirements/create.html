@@ -3,7 +3,7 @@
 		<h1>New Requirement</h1>
 	</div>
 	<div class="col-md-12">
-		<form name="articleForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+		<form name="articleForm" class="form-horizontal" data-ng-submit="create()">
 			<fieldset>
 				<div class="form-group">
 					<label class="control-label" for="name">Title</label>
@@ -33,7 +33,7 @@
 				<div class="form-group">
 					<label class="control-label" for="description">Risk</label>
 					<div class="controls">
-						<input type="number" name="risk" data-ng-model="requirement.risk" id="risk" class="form-control" placeholder="Risk">
+						<input type="number" name="risk" data-ng-model="requirement.risk" id="risk" class="form-control" required placeholder="Risk">
 					</div>
 				</div>
 				<!--
