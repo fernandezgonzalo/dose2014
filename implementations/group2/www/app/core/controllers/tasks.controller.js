@@ -38,6 +38,9 @@ angular.module('coffee.core').controller('TaskController', ['$scope', '$statePar
                 var sprint_id = $scope.task.sprint_id.id;
                 $scope.task.sprint_id = sprint_id;  
             }
+            else {
+                $scope.task.sprint_id = '0';
+            }
 
             $scope.task.requirement_id = requirement_id;
             $scope.task.user_id = user_id;
@@ -65,6 +68,10 @@ angular.module('coffee.core').controller('TaskController', ['$scope', '$statePar
         };
 
         $scope.update = function() {
+            if(!$scope.task.sprint_id) {
+                $scope.task.sprint_id = '0';
+            }
+
             Requirements
             .one($scope.task.requirement_id)
             .one('tasks', $scope.task.id)
