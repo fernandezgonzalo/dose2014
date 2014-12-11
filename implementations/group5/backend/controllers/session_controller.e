@@ -152,14 +152,17 @@ feature -- Handlers
 
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
 			create l_session.make (req, "MGMT_SESSION_ID", session_manager)
-			print(l_session.cookie_name)
 			--
+			if attached {INTEGER_32} l_session.item ("id") as i then
+				l_id := i
+			end
 			l_session.destroy
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("User "+ l_id.out +" logged out"), create {JSON_STRING}.make_json ("Message"))
 				-- set the repsone header, indicating that everything went ok by statuscode 204
+			print(l_result.representation)
 			set_json_header (res, 204, l_result.representation.count)
 				-- add the message to the response response
 			res.put_string (l_result.representation)
