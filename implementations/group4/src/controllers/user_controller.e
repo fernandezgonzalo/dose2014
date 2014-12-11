@@ -2,7 +2,7 @@ note
 	description: "Handlers for everything that concerns users."
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-08$"
-	revision: "$0.01$"
+	revision: "$0.1$"
 
 class
 	USER_CONTROLLER
@@ -51,13 +51,11 @@ feature -- Handlers
 
 				l_result_payload := db_handler_user.find_all.representation
 
-				--set_json_header_ok (res, l_result_payload.count)
-				--res.put_string (l_result_payload)
-				prepare_response_2(l_result_payload,200,res,false)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the users.
-				prepare_response_2("User is not logged in",401,res,true)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -76,12 +74,11 @@ feature -- Handlers
 
 				l_result_payload := db_handler_user.find_by_id (l_user_id.to_natural).representation
 
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to get the user.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -103,12 +100,12 @@ feature -- Handlers
 				json_result.remove ("password")
 
 				l_result_payload := json_result.representation
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
+
+				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -150,7 +147,7 @@ feature -- Handlers
 			if db_handler_user.has_user (l_email).has_user then
 					-- Already exists a user with email l_email, thus we return an error stating that
 					-- the user is already registered.
-					prepare_response("Already exists an account with this email",401,res)
+				prepare_response("Already exists an account with this email",401,res,true)
 
 			else
 					-- The email is available
@@ -164,7 +161,7 @@ feature -- Handlers
 				db_handler_user.add (l_user)
 
 					-- prepare the response
-				prepare_response("Added user " + l_user.username,200,res)
+				prepare_response("Added user " + l_user.username,200,res,true)
 
 			end
 		end
@@ -228,17 +225,17 @@ feature -- Handlers
 					db_handler_user.update (l_user_id.to_natural,l_user)
 
 						-- prepare the response
-					prepare_response("Updated user " + l_user.username,200,res)
+					prepare_response("Updated user " + l_user.username,200,res,true)
 
 				else
 						-- the user logged is not the same as the user that is being updated.
 						-- we return an error stating that the user is not authorized to update another user.
-					prepare_response("The user logged is unauthorized for update another user.",401,res)
+					prepare_response("The user logged is unauthorized for update another user.",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to update another user.
-				prepare_response("User is not logged in",401,res)
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -264,7 +261,7 @@ feature -- Handlers
 						-- remove the user
 					db_handler_user.remove (l_user_id.to_natural)
 						-- prepare the reponse
-					prepare_response("Removed item",200,res)
+					prepare_response("Removed item",200,res,true)
 						-- destroy the session
 					create l_session.make (req, "_casd_session_", session_manager)
 					l_session.destroy
@@ -272,12 +269,12 @@ feature -- Handlers
 				else
 						-- the user logged is not the same as the user that is being remoed.
 						-- we return an error stating that the user is not authorized to remove another the user.
-					prepare_response("The user logged is unauthorized for remove another user.",401,res)
+					prepare_response("The user logged is unauthorized for remove another user.",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
 					-- we return an error stating that the user is not authorized to remove another the user.
-				prepare_response("User is not logged in.",401,res)
+				prepare_response("User is not logged in.",401,res,true)
 			end
 		end
 
@@ -344,20 +341,20 @@ feature -- Handlers
 					l_session.apply (req, res, "/")
 
 						-- preapare the response
-					prepare_response("User logged in",200,res)
+					prepare_response("User logged in",200,res,true)
 
 				else
 						-- the password was wrong
 						-- so we don't create a session
 						-- but return an error message
-					prepare_response("Password incorrect",401,res)
+					prepare_response("Password incorrect",401,res,true)
 				end
 
 			else
 					-- the email was wrong
 					-- so we don't create a session
 					-- but return an error message
-				prepare_response("Email incorrect",401,res)
+				prepare_response("Email incorrect",401,res,true)
 			end
 		end
 
@@ -373,7 +370,7 @@ feature -- Handlers
 			create l_session.make (req, "_casd_session_", session_manager)
 			l_session.destroy
 				-- prepare the response
-			prepare_response("User logged out",200,res)
+			prepare_response("User logged out",200,res,true)
 		end
 
 end
