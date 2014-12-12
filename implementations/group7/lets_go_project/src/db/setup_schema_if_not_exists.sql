@@ -61,5 +61,7 @@ CREATE TABLE IF NOT EXISTS task_assignments (
 CREATE TABLE IF NOT EXISTS messages (
   id                    INTEGER PRIMARY KEY AUTOINCREMENT,
   text                  VARCHAR(400) NOT NULL,
-  project_id            INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE
+  timestamp             DATETIME NOT NULL,
+  project_id            INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  user_id               INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );

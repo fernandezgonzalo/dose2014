@@ -27,7 +27,11 @@ feature -- Data access
 		do
 			create Result.make
 			create db_query_statement.make (a_statement + ";", db)
-			db_query_statement.execute_with_arguments(agent row_to_json_object(?, Result), arguments)
+			if arguments /= Void then
+				db_query_statement.execute_with_arguments(agent row_to_json_object(?, Result), arguments)
+			else
+				db_query_statement.execute(agent row_to_json_object(?, Result))
+			end
 		end
 
 	query_rows (a_statement: STRING; arguments: ITERABLE [ANY]): JSON_ARRAY
