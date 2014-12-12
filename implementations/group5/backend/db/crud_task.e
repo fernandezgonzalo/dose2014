@@ -116,6 +116,22 @@ feature -- Data access
 
 		end
 
+		id_project_of_a_task(id : NATURAL): INTEGER
+				-- returns a id project of the task
+			local
+				l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			do
+				create Result
+				create db_query_statement.make ("SELECT id_project FROM task WHERE id = '" + id.out + "';", db)
+				l_query_result_cursor:= db_query_statement.execute_new
+				if not l_query_result_cursor.after then
+					Result:= l_query_result_cursor.item.integer_value (1)
+				else
+					Result:=-1
+				end
+
+			end
+
 	task_by_id_project(id : NATURAL): JSON_ARRAY
 			-- returns a JSON_OBJECT  that represents a task identified by id_project
 
