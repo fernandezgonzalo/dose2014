@@ -1,0 +1,66 @@
+<div ng-init="update(sprint, tasks)" class="container">
+    <div class="row">
+        <div class="row col-lg-6" ng-class="{'border': dragged == backlog_id}" jqyoui-droppable="{multiple:true}" data-drop="true" ng-model="list1">
+            <span class="col-lg-12 text-center"><h2>Backlog</h2></span>
+            <table ng-if="list1.length != 0" class="table table-hover text-center col-lg-12">
+                <thead>
+                <tr>
+                    <th class="text-center">#id</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">Position</th>
+                    <th class="text-center">Title</th>
+                    <th class="text-center">Priority</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="task in list1"
+                        class="warning"
+                        jqyoui-draggable="{index: {{$index}}, onStop:'on_drop(task, sprint.id)', onStart:'on_drag(sprint.id)'}"
+                        data-jqyoui-options="{revert: 'invalid',  helper: 'clone'}"
+                        ng-model="list1"
+                        data-drag="true">
+                        <td>{{task.id}}</td>
+                        <td>{{task.type}}</td>
+                        <td>{{task.position}}</td>
+                        <td>{{task.title}}</td>
+                        <td>{{task.priority}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row col-lg-6" ng-class="{'border': dragged == sprint.id}" jqyoui-droppable="{multiple:true}" data-drop="true" ng-model="list2">
+            <span class="col-lg-12 text-center message">
+                <h2>Sprint {{sprint.id}}</h2>
+            </span>
+            <table ng-if="list2.length != 0" class="table table-hover text-center col-lg-12">
+                <thead>
+                <tr>
+                    <th class="text-center">#id</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">Position</th>
+                    <th class="text-center">Title</th>
+                    <th class="text-center">Priority</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr ng-repeat="task in list2"
+                    class="success"
+                    jqyoui-draggable="{index: {{$index}}, onStop:'on_drop(task, backlog_id)', onStart:'on_drag(backlog_id)'}"
+                    data-jqyoui-options="{revert: 'invalid',  helper: 'clone'}"
+                    ng-model="list2"
+                    data-drag="true"
+                    ng-click="click()">
+                    <td>{{task.id}}</td>
+                    <td>{{task.type}}</td>
+                    <td>{{task.position}}</td>
+                    <td>{{task.title}}</td>
+                    <td>{{task.priority}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

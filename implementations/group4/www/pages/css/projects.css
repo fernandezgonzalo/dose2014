@@ -1,8 +1,11 @@
 .p-projects img {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .p-projects td {
-  cursor: default; }
+  cursor: default;
+}
 
 .inline {
-  display: inline; }
+  display: inline;
+}

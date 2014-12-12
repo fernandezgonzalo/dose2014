@@ -130,6 +130,28 @@ define(
 
                     .state
                     (
+                        "project.sprint",
+                        {
+                            url: "/sprints/:sprint_id",
+                            templateUrl: "pages/html/project/sprint.html",
+                            controller: "ProjectSprintCtr",
+                            resolve:
+                            {
+                                data:
+                                [
+                                    "$stateParams",
+                                    "ProjectSprintProvider",
+                                    function($stateParams, ProjectSprintProvider)
+                                    {
+                                        return ProjectSprintProvider.resolver($stateParams.id, $stateParams.sprint_id);
+                                    }
+                                ]
+                            }
+                        }
+                    )
+
+                    .state
+                    (
                         "project.users",
                         {
                             url: "/users",

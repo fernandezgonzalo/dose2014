@@ -4,6 +4,7 @@ define(
         //System includes
         "angular",
         "anguComplete",
+        "angularDAD",
 
         //Custom includes
         "blocks/createtask/createtask",
@@ -24,7 +25,8 @@ define(
                 "uiEditTaskModule",
                 "uiCreateSprintModule",
                 "uiEditSprintModule",
-                "RestApiModule"
+                "RestApiModule",
+                "ngDragDrop"
             ]
         )
 
@@ -50,8 +52,9 @@ define(
                 "$scope",
                 "restapi",
                 "$stateParams",
+                "$state",
                 "sprints",
-                function($scope, restapi, $stateParams, sprints)
+                function($scope, restapi, $stateParams, $state, sprints)
                 {
                     function update_project_sprints()
                     {
@@ -89,12 +92,75 @@ define(
                         restapi.delete_task($stateParams.id, sprint.id).then(update_project_sprints);
                     };
 
-                    $scope.go = function ()
+                    $scope.go = function (sprint)
                     {
-
+                        $state.go("project.sprint", {sprint_id:sprint.id});
                     };
 
                     $scope.sprints = sprints;
+                }
+            ]
+        )
+
+        .controller
+        (
+            "ProjectSprintCtr",
+            [
+                "$scope",
+                "data",
+                "restapi",
+                "$stateParams",
+                function($scope, data, restapi, $stateParams)
+                {
+                    $scope.sprint = data.sprint;
+                    $scope.tasks = data.tasks;
+                    $scope.backlog_id = "0";
+                    $scope.dragged = null;
+
+                    $scope.update = function(sprint, tasks)
+                    {
+                        $scope.list1 = [];
+                        $scope.list2 = [];
+
+                        for (var i = 0; i < tasks.length; i++)
+                        {
+                            if(tasks[i].sprint_id === "0")
+                            {
+                                $scope.list1.push(tasks[i]);
+                            }
+                            if(tasks[i].sprint_id === sprint.id)
+                            {
+                                $scope.list2.push(tasks[i]);
+                            }
+                        }
+                    };
+
+                    $scope.on_drop = function(event, ui, data, sprint_id)
+                    {
+                        $scope.dragged = null;
+
+                        restapi.edit_project_task(data, $stateParams.id, sprint_id, data.id)
+                        .then
+                        (
+                            function()
+                            {
+                                restapi.project_tasks($stateParams.id)
+                                .then
+                                (
+                                    function(data)
+                                    {
+                                        $scope.tasks = data;
+                                        $scope.update($scope.sprint, $scope.tasks);
+                                    }
+                                )
+                            }
+                        );
+                    };
+
+                    $scope.on_drag = function(event, ui, data)
+                    {
+                        $scope.dragged = data;
+                    }
                 }
             ]
         )
@@ -261,6 +327,64 @@ define(
                     module.resolver = function(id)
                     {
                         return restapi.project_sprints(id);
+                    };
+                    return module;
+                }
+            ]
+        )
+
+        .factory
+        (
+            'ProjectSprintProvider',
+            [
+                "restapi",
+                "$q",
+                function(restapi, $q)
+                {
+                    var module = {};
+                    module.resolver = function(project_id, sprint_id)
+                    {
+                        var results =
+                        {
+                            sprint: undefined,
+                            tasks: undefined
+                        };
+
+                        var promises =
+                        [
+                            restapi.project_sprint(project_id, sprint_id)
+                            .then
+                            (
+                                function(data)
+                                {
+                                    results.sprint = data;
+                                }
+                            ),
+                            restapi.project_tasks(project_id)
+                            .then
+                            (
+                                function(data)
+                                {
+                                    results.tasks = data;
+                                }
+                            )
+                        ];
+                        var deferred = $q.defer();
+
+                        var success = function ()
+                        {
+                            deferred.resolve(results);
+                        };
+
+                        var error = function ()
+                        {
+                            deferred.reject("Can't load sprint");
+                        };
+
+                        $q.all(promises).then(success, error);
+
+                        return deferred.promise;
+
                     };
                     return module;
                 }

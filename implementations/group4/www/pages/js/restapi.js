@@ -297,6 +297,18 @@ define(
                         )
                     };
 
+                    module.project_sprint = function(project_id, sprint_id)
+                    {
+                        return $http.get("/api/projects/" + project_id + "/sprints/" + sprint_id)
+                        .then
+                        (
+                            function (data)
+                            {
+                                return data.data;
+                            }
+                        )
+                    };
+
                     module.project_tasks = function(project_id)
                     {
                         return $http.get("/api/projects/" + project_id + "/tasks")
@@ -304,7 +316,6 @@ define(
                         (
                             function (data)
                             {
-                                console.log(data);
                                 return data.data;
                             }
                         )

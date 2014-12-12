@@ -16,8 +16,10 @@ require.config
             anguComplete: 'libs/js/angucomplete',
             domReady: 'libs/js/domReady',
             jQuery: 'libs/js/jquery-2.1.1',
+            jQueryUi: 'libs/js/jquery-ui.min',
             bootstrap: 'libs/js/bootstrap',
-            bootstrapUi: 'libs/js/ui-bootstrap-tpls-0.11.0'
+            bootstrapUi: 'libs/js/ui-bootstrap-tpls-0.11.0',
+            angularDAD: 'libs/js/angular-dragdrop'
         },
         shim:
         {
@@ -34,7 +36,9 @@ require.config
             angularUtils: { deps: ["angular"] },
             anguComplete: { deps: ["angular"] },
             bootstrap:  { deps: ["jQuery"] },
-            bootstrapUi: { deps: ["bootstrap", "angular"] }
+            bootstrapUi: { deps: ["bootstrap", "angular"] },
+            jQueryUi: { deps: ["jQuery"] },
+            angularDAD: { deps: ["jQueryUi", "angular"] }
         }
     }
 );
