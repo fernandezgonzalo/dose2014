@@ -15,7 +15,7 @@ feature -- Initialization
 	make(new_description : STRING; answered_topic_id : NATURAL; answerer_user_id : NATURAL)
 			-- Creates an answer with a given description, user_id and topic_id.
 		require
-			valid_description: (new_description /= void)
+			valid_description: (new_description /= void) and (new_description.count>0)
 			valid_topic_id: (answered_topic_id>0)
 			valid_user_id: (answerer_user_id>0)
 		do
@@ -37,9 +37,9 @@ feature -- Operations
 	set_description (new_description : STRING)
 			-- update the answer description.
 		require
-			valid_description: (new_description/=void)
+			valid_description: (new_description/=void) and (new_description.count>0)
 		do
 			description := new_description
 		end
-	
+
 end
