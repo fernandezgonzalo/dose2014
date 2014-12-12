@@ -101,6 +101,8 @@ angular.module('Wbpms')
                     $scope.loginModel.gender = data.gender;
                     $scope.loginModel.changepwd = data.changepwd;
 
+                    alert(data.gender);
+
 /*                    if(data.avatarpath===''){
                         if(data.gender === 'Male')
                             $scope.loginModel.avatar = 'img/male.png';
@@ -219,10 +221,8 @@ angular.module('Wbpms')
        }
        
        $scope.logout = function() {
-            alert("intentando salir");
             $http.post('/api/sessions/logout')
             .success(function(data, status, header, config) {
-                alert("sali");
                 $log.debug('Success logout user');
                 $scope.logInSuccessMsgVisible = false;
                 $scope.logInErrorMsgVisible = false;
@@ -246,7 +246,6 @@ angular.module('Wbpms')
                 window.location.href = '#/login';
             })
             .error(function(data, status) {
-                alert("no sali");
                 $log.debug('Error while trying logout user');
                 $scope.logInSuccessMsgVisible = false;
                 $scope.logInErrorMsgVisible = false;
