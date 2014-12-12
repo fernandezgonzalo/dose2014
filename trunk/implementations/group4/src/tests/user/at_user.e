@@ -1,6 +1,6 @@
 note
 	description: "[
-		Tests for routine make_new_user of class User
+		Tests for routines of class User
 	]"
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-06$"
