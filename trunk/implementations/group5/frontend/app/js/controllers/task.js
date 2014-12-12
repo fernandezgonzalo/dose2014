@@ -29,6 +29,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
   $scope.projectSelect = [];
   $scope.tasksComments = [];
   $scope.userHash = [];
+  $scope.userAva = [];
   $scope.datePicker = {openedDate: false};
   $scope.viewCommentForm = false;
   $scope.viewDeadline = false;
@@ -145,6 +146,7 @@ angular.module('Mgmt').controller('TaskController', ['$scope', '$location', '$lo
     for (var i = 0; i < allUsers.length; i++) {
       $scope.userSelect.push({value: allUsers[i].id, text: allUsers[i].username});
       $scope.userHash[allUsers[i].id] = allUsers[i].username;
+      $scope.userAva[allUsers[i].id] = '/api/users/' + allUsers[i].id + '/avatar';
     }
   });
 
