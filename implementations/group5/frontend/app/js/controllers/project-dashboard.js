@@ -141,14 +141,15 @@ angular.module('Mgmt')
       var swimlane = $scope.swimlanes[key];
       for (var i = 0; i < swimlane.length; i++) {
         if (swimlane[i].id === task.id) {
+
           // Check is task is to be deteled.
           if (deleteTask) {
             swimlane.splice(i, 1);
-
             if (task.idUserAssigned === $scope.currentUser.id) {
               $scope.assignedTasks -= 1;
             }
           }
+
           // If task status is unchanged, assigned updated task at once.
           else if (swimlane[i].status === task.status) {
 
@@ -159,9 +160,9 @@ angular.module('Mgmt')
                 swimlane[i].idUserAssigned === $scope.currentUser.id) {
               $scope.assignedTasks -= 1;
             }
-
             swimlane[i] = task;
           } 
+
           // If status changed, remove from current swimlane and add it to new.
           else {
 
@@ -406,6 +407,4 @@ angular.module('Mgmt')
     $scope.legendChart2 = '';
 
   };
-
-
 }]);

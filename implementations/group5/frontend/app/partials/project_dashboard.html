@@ -3,19 +3,20 @@
   <div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
   <div ng-include src="'partials/project_edit.html'"></div> <!-- Edit project modal -->
 
-  <div id="legend">
-    <legend>{{project.name}}</legend>
+  <div class="row">
+    <h1 class="title col-md-12 light-txt">{{project.name}}</h1>
   </div>
 
-  <h4>{{project.client_name}}</h4>
   <div class="row">
-    <div class="col-md-12">
-      <button class="btn btn-link col-md-2" ng-click="editProject(project)">
-        Edit project info</button>
-      <span class="col-md-8"></span>
-      <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
-        data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
-    </div>
+    <h4 class="col-md-12 light-txt">{{project.client_name}}</h4>
+  </div>
+
+  <div class="row">
+    <button class="btn btn-link col-md-2" ng-click="editProject(project)">
+      Edit project info</button>
+    <span class="col-md-8"></span>
+    <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
+      data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></a>
   </div>
 
   <br>
@@ -39,11 +40,13 @@
                 <div ng-model="swimlanes.stopped" ng-repeat="task in swimlanes.stopped" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
 
-                  {{task.title}}
+                  <div class="task-content" style="text-shadow: #CD5250 0 0">
+                    {{task.title}}
+                  </div>
 
                 </div>
               </div>
@@ -63,11 +66,13 @@
                 <div ng-model="swimlanes.created" ng-repeat="task in swimlanes.created" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
 
-                  {{task.title}}
+                  <div class="task-content" style="text-shadow: #E3A64A 0 0">
+                    {{task.title}}
+                  </div>
 
                 </div>
               </div>
@@ -87,11 +92,13 @@
                 <div ng-model="swimlanes.in_progress" ng-repeat="task in swimlanes.in_progress" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
 
-                  {{task.title}}
+                  <div class="task-content" style="text-shadow: #3B88AE 0 0">
+                    {{task.title}}
+                  </div>
 
                 </div>
               </div>
@@ -111,11 +118,14 @@
                 <div ng-model="swimlanes.finished" ng-repeat="task in swimlanes.finished" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
 
-                  {{task.title}}
+                  <div class="task-content" style="text-shadow: #4D984E 0 0">
+                    {{task.title}}
+                  </div>
+
                 </div>
               </div>
             </div>
