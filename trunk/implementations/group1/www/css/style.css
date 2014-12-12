@@ -85,7 +85,6 @@ a.underline {
     background-repeat: repeat-x;
     border-bottom: solid #474745 1px;
     border-top: solid #474745 1px;
-    border-right: solid #474745 1px;
     height: 42px;
     vertical-align: middle;
     margin-top: 80px;
@@ -109,6 +108,10 @@ a.underline {
     padding: 0px;
     line-height: 42px;
     vertical-align: middle;
+}
+
+#navigation ul li:last-child {
+	border-right: solid #474745 1px;
 }
 
 #navigation ul li a:hover {
@@ -378,4 +381,83 @@ th {
     cursor: pointer;
     font-size: 14px;
     padding: 0px 8px;
+}
+
+/* Manage projects view */
+.project-cols {
+	width: 47%;
+	float: left;
+}
+
+#sprints-block {
+	margin-right: 10px;
+}
+
+#sprints-block ol li h5,
+#requirements-block ol li h5 {
+	cursor: pointer;
+}
+
+#sprints-block ol h5.collapsed,
+#requirements-block ol h5.collapsed {
+	text-decoration: underline;
+}
+
+#sprints-block ol h5.expanded,
+#requirements-block ol h5.expanded {
+	text-decoration: none;
+}
+
+#sprints-block table.sprint,
+#requirements-block table.sprint {
+	line-height: 25px;
+}
+
+#sprints-block table.sprint .col1,
+#requirements-block table.requirement .col1 {
+	width: 25px;
+	text-align: center;
+}
+
+#sprints-block table.sprint .col2,
+#requirements-block table.requirement .col2 {
+	width: 200px;
+	padding-left: 5px;
+}
+
+#sprints-block table.sprint .col3,
+#requirements-block table.requirement .col3 {
+	width: 60px;
+	text-align: center;
+}
+
+#sprints-block table.sprint .col4 {
+	width: 120px;
+	padding-left: 5px;
+}
+
+#requirements-block table.requirement .col4 {
+	width: 120px;
+	text-align: center;
+}
+
+#sprints-block table.sprint .col5,
+#requirements-block table.requirement .col5 {
+	width: 120px;
+}
+
+#sprints-block a.link-button span,
+#requirements-block a.link-button span{
+	width: 150px;
+}
+
+#sprints-block div.buttons,
+#requirements-block div.buttons {
+	text-align: right;
+}
+
+#sprints-block div.buttons > div,
+#requirements-block div.buttons > div  {
+	display: inline-block;
+	margin-right: 10px;
 }

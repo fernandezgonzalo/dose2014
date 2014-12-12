@@ -24,5 +24,5 @@ angular.module('DOSEMS.services').factory('UserDetails', function ($resource) {
     return $resource('api/users/:userId', {}, {get: {method: 'get', isArray: true}});
 });
 angular.module('DOSEMS.services').factory('UserRole', function ($resource) {
-    return $resource('/api/users/:userId/projects/:projectId/role', {}, {get: {method: 'get', isArray: true}});
+    return $resource('/api/users/:userId/projects/:projectId/role', {}, {get: {method: 'get'}});
 });
