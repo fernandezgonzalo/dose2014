@@ -25,10 +25,8 @@ angular.module('Mgmt').controller('LoginController', ['$scope', '$location', '$l
             content: response.data.Message,
             class: 'danger'
           });
-          $scope.$apply(function() {
-            $scope.loginForm.email.$setValidity(FLAG, false);
-            $scope.loginForm.password.$setValidity(FLAG, false);
-          });
+          $scope.loginForm.email.$setValidity(FLAG, false);
+          $scope.loginForm.password.$setValidity(FLAG, false);
         } else {
           ngToast.create({
             content: 'Unknow error occured',
