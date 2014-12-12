@@ -126,21 +126,58 @@
     </div>
   </div>
 
+  <div class="row">
+    <br><br>
+  </div>
 
   <!-- Statistics -->
-  <!-- <div class="container"> -->
-  <!--   <div class="row"> -->
-  <!--     <a href="" ng-if="!projectStatistics" ng-click="toggleProjectStatistics()" > -->
-  <!--       Click here to see statistics</a> -->
-  <!--     <a href="" ng-if="projectStatistics" ng-click="toggleProjectStatistics()"> -->
-  <!--       Hide statistics</a> -->
-  <!--   </div> -->
-  <!--   <div ng-if="projectStatistics" class="row"> -->
-  <!--     <div class="col-md-3"> -->
-  <!--       <canvas tc-chartjs-doughnut chart-options="optionsChart1" chart-data="dataset1" auto-legend></canvas> -->
-  <!--     </div> -->
-  <!--   </div> -->
-  <!-- </div> -->
+  <div class="container">
+    <div class="row">
+      <a href="" ng-if="!projectStatistics" ng-click="toggleProjectStatistics()" >
+        Click here to see statistics</a>
+      <a href="" ng-if="projectStatistics" ng-click="toggleProjectStatistics()">
+        Hide statistics</a>
+    </div>
+
+    <div class="row">
+      <br><br>
+    </div>
+
+    <div ng-if="projectStatistics">
+
+      <div class="row">
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <canvas tc-chartjs-doughnut chart-options="optionsChart1"
+            chart-data="dataChart1" chart="chart1" chart-legend="legendChart1"></canvas>
+        </div>
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <canvas tc-chartjs-doughnut chart-options="optionsChart1"
+            chart-data="dataChart2" chart="chart2" chart-legend="legendChart2"></canvas>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5">
+          <div tc-chartjs-legend chart-legend="legendChart1"></div>
+        </div>
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <div tc-chartjs-legend chart-legend="legendChart2"></div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 </div>  
