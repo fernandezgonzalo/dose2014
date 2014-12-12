@@ -39,6 +39,9 @@ feature --handlers
 			l_search_result: TUPLE[success: BOOLEAN; matches: JSON_ARRAY]
 		do
 			create l_payload.make_empty
+			create j_obj.make
+    		create l_result.make_array
+
 				-- catching the user EMAIL from the cookie
 			if req_has_cookie(req, "_session_") then
 				l_email := get_session_from_req(req, "_session_").at("email").out
@@ -119,6 +122,8 @@ feature --handlers
 			l_search_result: TUPLE[success: BOOLEAN; matches: JSON_ARRAY]
 		do
 			create l_payload.make_empty
+			create j_obj.make
+  			create l_result.make_array
 				-- catching the user EMAIL from the cookie
 			if req_has_cookie(req, "_session_") then
 				l_email := get_session_from_req(req, "_session_").at("email").out
