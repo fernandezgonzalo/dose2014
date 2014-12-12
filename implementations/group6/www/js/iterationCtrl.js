@@ -157,12 +157,12 @@ angular.module('Wbpms')
 
 
 
-      $scope.goToWorkItems = function(nameProject, idIteration) {
+      $scope.goToWorkItems = function(iteration) {
         // Go to workItems 
-    
-          $scope.project.project_name = nameProject;
-          $scope.iterationD.id_iteration = idIteration 
-
+          $scope.iterationD.id_iteration = iteration.iteration_number,
+          $scope.iterationD.title_iteration = iteration.title,
+          $scope.iterationD.point_iteration = iteration.points,
+          
           window.location.href = '#/projects/iterations/work_items';          
     
         }   
