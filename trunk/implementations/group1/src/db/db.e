@@ -377,7 +377,7 @@ feature -- Data access Sprint
 			valid_project_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
-			create db_modify_statement.make ("SELECT role FROM UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "';", db)
+			create db_query_statement.make ("SELECT role FROM UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "';", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
