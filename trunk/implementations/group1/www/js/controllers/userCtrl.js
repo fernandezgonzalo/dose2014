@@ -53,6 +53,7 @@ angular.module('DOSEMS.controllers')
 		
 		//----------------decomment this if you wanna test get all tasks from Sprint 1
 		$scope.tasksIdFromSprintFunction = function(sprintId){
+			$scope.sprintIdDisplay = sprintId;
 			$log.info("aici ar tre sa fie prima!");
 			$scope.tasksIdFromSprint = TasksFromSprint.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId},function(data){
 			$log.info(data);

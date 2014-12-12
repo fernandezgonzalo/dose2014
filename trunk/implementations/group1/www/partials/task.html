@@ -1,7 +1,10 @@
 <div class="block">
 
  <h2> Task {{idTask}} details </h2>
+<div class="row">
+<div class="col-sm-6">
  <form ng-submit="editTask()">
+
 	<div class="form-group">
 		<label class="control-label">Description</label>	
 		<input class="form-control" type="text" ng-model="taskDetail.desc" required>
@@ -29,8 +32,27 @@
 	
 	<button> <a ng-href="#/user/{{idUser}}/project/{{idProject}}">Back</a></button>
 	<button type="submit">Save</button>
-	<button type="button" class="btn-danger" ng-click="deleteTask()">Delete</button>
+	<button type="button" class="btn-danger" data-toggle="modal" data-target="#myModal">Delete</button>
  </form>
+ </div>
+ </div>
  
-
+ 
+<!-- modal dialog button------>
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">>
+  <div class="modal-dialog">
+    <div class="modal-content">
+   
+      <div class="modal-body">
+        <p>The task will be deleted from the database. Do you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-Click="deleteTask()">Yes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ 
+ 
 </div> 

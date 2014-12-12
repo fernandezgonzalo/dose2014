@@ -3,6 +3,8 @@
 angular.module('DOSEMS.controllers').
 controller('UserDetailsCtrl', function($routeParams,$scope,$log,Users){
 
+	$scope.userId = $routeParams.userId;
+	$scope.projectId = $routeParams.projectId;
 	$scope.users = Users.resource.query(function (data) {
 		$log.info(data);
 		$scope.getUserInfo();
