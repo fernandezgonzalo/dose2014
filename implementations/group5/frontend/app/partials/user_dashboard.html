@@ -1,19 +1,19 @@
 <div ng-include src="'partials/task.html'"></div> <!-- task modal -->
 
 <div class="row">
-	<h1 class="title col-md-12">My dashboard</h1>
+	<h1 class="title col-md-12 light-txt">My dashboard</h1>
 </div>
 
 <div class="row" ng-show = "!tasksInProgress.length && !tasksFinished.length">
-	<h3 class="col-md-12">You have no assigned task!</h3>
+	<h3 class="col-md-12 light-txt small">You have no assigned task!</h3>
 </div>
 
 <div class="row" ng-show = "!tasksInProgress.length && tasksFinished.length">
-	<h3 class="col-md-12">All your tasks are completed!</h3>
+	<h3 class="col-md-12 light-txt small">All your tasks are completed!</h3>
 </div>
 
 <div class="row" ng-show = "tasksInProgress.length">
-	<h3 class="col-md-12">Not completed tasks</h3>
+	<h3 class="col-md-12 light-txt">Not completed tasks</h3>
 </div>
 
 <div class="row" ng-show = "tasksInProgress.length">
@@ -30,11 +30,11 @@
 </div>
 
 <div class="row" ng-show = "!tasksFinished.length && tasksInProgress.length">
-	<h3 class="col-md-12">It seems like you didn't complete any task..</h3>
+	<h3 class="col-md-12 light-txt small">It seems like you didn't complete any task..</h3>
 </div>
 
 <div class="row" ng-show = "tasksFinished.length">
-	<h3 class="col-md-12">Completed tasks</h3>
+	<h3 class="col-md-12 light-txt">Completed tasks</h3>
 </div>
 
 <div class="row" ng-show = "tasksFinished.length">
@@ -53,7 +53,7 @@
 
 
 <div class="row">
-	<h3 class="col-md-12">Statistics</h3>
+	<h3 class="col-md-12 light-txt">My statistics</h3>
 </div>
 
 <div class="row">
@@ -62,7 +62,7 @@
 	</div>
 	<div class="col-md-4"></div>
 	<div class="col-md-4">
-		<h4>Priorities:</h4>
+		<h4 class="light-txt">My task's priorities:</h4>
 		<div id="pieLegend"></div>
 		<canvas id="pieChart" tc-chartjs-pie chart-data="pieData" chart-options="pieOptions" chart="pieChart"></canvas>
 	</div>

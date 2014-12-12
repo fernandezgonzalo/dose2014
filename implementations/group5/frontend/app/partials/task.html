@@ -12,8 +12,9 @@
 		<div class="modal-body row">
 			<div class="col-md-6">
 				<p>Status: <a href="#" editable-select="currentTask.status" buttons="no" e-ng-options="s.value as s.text for s in statuses" e-required> {{ showStatus() }}</a></p>
-				<p>User: <a href="#" buttons="no" editable-text="currentTask.id_user_assigned" e-typeahead="u.value as u.text for u in userSelect">
-    				{{ showUsers() }}</a>
+				<p>User: 
+					<a href="#" buttons="no" editable-text="currentTask.id_user_assigned" e-typeahead="u.value as u.text for u in userSelect">{{ showUsers() }}</a>
+					<span ng-if="userAva[currentTask.id_user_assigned]" class="pull-right avatar small" style="background-image: url('{{ userAva[currentTask.id_user_assigned] }}')"></span>
     			</p>
 				<p>Priority: <a href="#" editable-select="currentTask.priority" buttons="no" e-ng-options="p.value as p.text for p in priorities" e-required> {{ showPriority() }}</a></p>
 				<p>
