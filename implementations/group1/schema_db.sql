@@ -28,25 +28,12 @@ info TEXT
 CREATE TABLE UserProject (
 id_user INTEGER,
 id_project INTEGER,
+type TEXT,
 PRIMARY KEY (id_user, id_project) ,
 FOREIGN KEY (id_user) REFERENCES User(id) ON DELETE CASCADE,
 FOREIGN KEY (id_project) REFERENCES Project(id) ON DELETE CASCADE
 );
 
-CREATE TABLE RolProject (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-type TEXT UNIQUE
-);
-
-CREATE TABLE RolProject_UserProject (
-id_user INTEGER,
-id_project INTEGER,
-id_rolproject INTEGER,
-PRIMARY KEY (id_user, id_project),
-FOREIGN KEY (id_user) REFERENCES User(id) ON DELETE CASCADE,
-FOREIGN KEY (id_project) REFERENCES Project(id) ON DELETE CASCADE,
-FOREIGN KEY (id_rolproject) REFERENCES RolProject(id) ON DELETE CASCADE
-);
 
 CREATE TABLE Sprint (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
