@@ -1,74 +1,90 @@
 <div id="dashboard">
     <div class="block projects-column">
 
-		<div class="row">
-		<div class="col-md-5">
-		<div class="well">
-		
-			<h2>List of Sprints</h2>
-			<div>
-				<label ng-if="sprintsIdForProject.length==0">There are no sprints for this project! Go to Project
-															Management and add some!
-				</label>
-			</div>
-			<ul ng-repeat="sprintId in sprintsIdForProject">
-				<li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
-			</ul>
-			<div>
-		<!--	<label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint yet!Go to Project
-																   Management and add some!
-			</label> -->
-			</div>	
-		<a ng-href="#/user/{{userId}}/project/{{projectId}}/manageproject">
-            <button align="center">ManageProject</button>
-        </a>
-		</div> <!-- end div well -->
-		</div> <!-- end div col-->
-		
-		
-		<div class="col-md-7">
-		<div class="well" ng-if="sprintsIdForProject.length!=0 && nrOfFctAccess!=0">
-			<label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint yet!Go to Project
-																   Management and add some!
-			</label>
-        <div class="procedure-details" ng-show="!!tasksForSprint.length">
-            <h2>Tasks for Sprint {{sprintIdDisplay}}</h2>
-            <table cellpadding="30">
-                <tr class="row" align="center">
-                    <th style="text-align:center" class="col-md-1">Id</th>
-                    <th style="text-align:center" class="col-md-2">Name</th>
-                    <th style="text-align:center" class="col-md-3">User</th>
-                    <th style="text-align:center" class="col-md-4">Status</th>
-                    <th style="text-align:center" class="col-md-5">Points</th>
-                <tr>
-                <tr class="row" ng-repeat="task in tasksForSprint" align="center">
-                    <td class="col-md-1">{{task.id_task}}</td>
-                    <td class="col-md-2"><a ng-href="#/user/{{userId}}/project/{{projectId}}/{{task.id_task}}">{{task.desc}}</a>
-                    </td>
-                    <td class="col-md-3">{{task.name}} {{task.lastname}}</td>
-                    <td class="col-md-4">{{task.status}}</td>
-                    <td class="col-md-5">{{task.points}}</td>
-                <tr>
-            </table>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="well">
+
+                    <h2>List of Sprints</h2>
+
+                    <div>
+                        <label ng-if="sprintsIdForProject.length==0">There are no sprints for this project! Go to
+                            Project
+                            Management and add some!
+                        </label>
+                    </div>
+                    <ul ng-repeat="sprintId in sprintsIdForProject">
+                        <li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
+                    </ul>
+                    <div>
+                        <!--	<label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint yet!Go to Project
+                                                                                   Management and add some!
+                            </label> -->
+                    </div>
+                    <a ng-href="#/user/{{userId}}/project/{{projectId}}/manageproject">
+                        <button align="center">ManageProject</button>
+                    </a>
+                </div>
+                <!-- end div well -->
+            </div>
+            <!-- end div col-->
+
+
+            <div class="col-md-7">
+                <div class="well" ng-if="sprintsIdForProject.length!=0 && nrOfFctAccess!=0">
+                    <label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint
+                        yet!Go to Project
+                        Management and add some!
+                    </label>
+
+                    <div class="procedure-details" ng-show="!!tasksForSprint.length">
+                        <h2>Tasks for Sprint {{sprintIdDisplay}}</h2>
+                        <table cellpadding="30">
+                            <tr class="row" align="center">
+                                <th style="text-align:center" class="col-md-1">Id</th>
+                                <th style="text-align:center" class="col-md-2">Name</th>
+                                <th style="text-align:center" class="col-md-3">User</th>
+                                <th style="text-align:center" class="col-md-4">Status</th>
+                                <th style="text-align:center" class="col-md-5">Points</th>
+                            <tr>
+                            <tr class="row" ng-repeat="task in tasksForSprint" align="center">
+                                <td class="col-md-1">{{task.id_task}}</td>
+                                <td class="col-md-2"><a
+                                        ng-href="#/user/{{userId}}/project/{{projectId}}/{{task.id_task}}">{{task.desc}}</a>
+                                </td>
+                                <td class="col-md-3">{{task.name}} {{task.lastname}}</td>
+                                <td class="col-md-4">{{task.status}}</td>
+                                <td class="col-md-5">{{task.points}}</td>
+                            <tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- end div well -->
+            </div>
+            <!-- end div col md-->
         </div>
-		</div> <!-- end div well -->
-		</div> <!-- end div col md-->
-		</div> <!-- end div row-->
+        <!-- end div row-->
 
-        
-    </div> <!-- end div projects column -->
-	
-	
-    <div class="block users-column">
-	<div class="well">
-        <h2>Users</h2>
 
-        <ul ng-repeat="user in usersFromProj">
-            <li><a ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
-        </ul>
-        <button><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
     </div>
-	</div>
+    <!-- end div projects column -->
+
+
+    <div class="block users-column">
+        <div class="well">
+            <h2>Users</h2>
+            <ul ng-repeat="user in usersFromProj">
+                <li><a ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
+            </ul>
+            <button><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
+            <h3> User ranking</h3>
+            <a ng-href="#/user/{{userId}}/project/{{projectId}}/ranking">
+                <button type="button" class="buttons">
+                    Ranking
+                </button>
+            </a>
+        </div>
+    </div>
 
     <div class="clear"></div>
 </div>

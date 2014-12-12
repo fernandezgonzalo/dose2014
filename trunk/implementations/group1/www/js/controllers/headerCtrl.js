@@ -8,7 +8,9 @@ angular.module('DOSEMS.controllers')
     .controller('HeaderCtrl', ['Users', '$scope', '$log', '$cookieStore', '$location', function (Users, $scope, $log, $cookieStore, $location) {
 		
 		$scope.init = function () {
+/*
 			$scope.isProjectPage = false;
+*/
             $scope.loggedIn = $cookieStore.get('loggedIn');
             if ($scope.loggedIn) {
                 $scope.userId = $cookieStore.get('userId');
@@ -36,7 +38,7 @@ angular.module('DOSEMS.controllers')
             $scope.user = null;
         });
 		
-		$scope.$on('$locationChangeSuccess', function(event) {
+	/*	$scope.$on('$locationChangeSuccess', function(event) {
 			if ($location.path().indexOf("project") > -1) {
 				$scope.isProjectPage = true;
 			} else {
@@ -52,6 +54,6 @@ angular.module('DOSEMS.controllers')
 				$scope.isProjectPage = false;
 			}
         });
-
+*/
         $scope.init();
     }]);
