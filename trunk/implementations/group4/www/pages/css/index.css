@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0px;
   padding: 0px; }
@@ -43,14 +44,21 @@ body {
 .clickable {
   cursor: pointer; }
 
-.p-projects img {
+.b-projects img {
   cursor: pointer; }
 
-.p-projects td {
+.b-projects td {
   cursor: default; }
 
 .inline {
   display: inline; }
+
+.b-project td {
+  cursor: default; }
+
+.border {
+  border: 2px dashed #d0d0d0;
+  /* Параметры границы */ }
 
 .b-navbar a {
   cursor: pointer; }
