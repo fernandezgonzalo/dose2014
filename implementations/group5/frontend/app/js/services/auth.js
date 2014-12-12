@@ -66,7 +66,9 @@ angular.module('Mgmt').factory('AuthService', ['$log', 'User', 'Utility', '$http
   };
 
   authService.logout = function() {
-    $http['delete'].call($http, '/api/logout');// opera mini falls here because of keyword delete...
+    $http['delete'].call($http, '/api/logout').then(function() {
+      storage.delItem();  
+    });// opera mini falls here because of keyword delete...
     storage.delItem();
   };
  
