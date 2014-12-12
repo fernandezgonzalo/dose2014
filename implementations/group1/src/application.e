@@ -45,9 +45,6 @@ feature {NONE} -- Initialization
 	project: PROJECT
 			-- a controller for handling project requests
 
-	rol_project: ROL_PROJECT
-			-- a controller for handling project requests
-
 	sprint: SPRINT
 			-- a controller for handling sprint requests
 
@@ -74,7 +71,6 @@ feature {NONE} -- Initialization
 			create session_ctrl.make (dao, session_manager)
 			create user.make (dao, session_manager)
 			create project.make (dao)
-			create rol_project.make (dao)
 			create sprint.make (dao, session_manager)
 			create task.make (dao, session_manager)
 			create requirement.make (dao, session_manager)

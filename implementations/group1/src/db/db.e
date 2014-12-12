@@ -230,52 +230,6 @@ feature -- Data access Projects
 			end
 		end
 
-feature -- Data access RolProjects
-
-	search_all_rol_projects: JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a RolProject
-		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM RolProject;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
-		ensure
-			query_not_null: db_query_statement /= Void
-		end
-
-	search_a_rol_project (id: INTEGER): JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user
-		require
-			valid_id: id /= Void and id > 0
-		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM RolProject WHERE id=" + id.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
-		ensure
-			query_not_null: db_query_statement /= Void
-		end
-
-	add_rol_project (type: STRING)
-		require
-			valid_parameter: type /= Void
-		do
-			create db_insert_statement.make ("INSERT INTO RolProject(type) VALUES ('" + type + "');", db);
-			db_insert_statement.execute
-			if db_insert_statement.has_error then
-				print ("Error while inserting a new Rol Project")
-			end
-		end
-
-	remove_rol_project (id: NATURAL)
-			-- removes the todo with the given id
-		require
-			valid_id: id /= Void and id > 0
-		do
-			create db_modify_statement.make ("DELETE FROM RolProject WHERE id=" + id.out + ";", db)
-			db_modify_statement.execute
-			if db_modify_statement.has_error then
-				print ("Error while deleting a Rol Project")
-			end
-		end
 
 feature -- Data access UserProjects
 
@@ -284,7 +238,7 @@ feature -- Data access UserProjects
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM UserProject;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
 			query_not_null: db_query_statement /=Void
 		end
@@ -296,17 +250,17 @@ feature -- Data access UserProjects
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM UserProject WHERE id=" + id.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 2, Result))
+			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
 		end
 
-	add_user_project (id_user, id_project: STRING): BOOLEAN
+	add_user_project (id_user, id_project, role: STRING): BOOLEAN
 		require
 			valid_user_id: id_user /= Void
 			valid_project_id: id_project /= Void
 		do
-			create db_insert_statement.make ("INSERT INTO UserProject(id_user, id_project) VALUES ('" + id_user + "','" + id_project + "');", db);
+			create db_insert_statement.make ("INSERT INTO UserProject(id_user, id_project, role) VALUES ('" + id_user + "','" + id_project + "','"+role+"');", db);
 			db_insert_statement.execute
 			if db_insert_statement.has_error then
 				result := False
@@ -329,53 +283,6 @@ feature -- Data access UserProjects
 			end
 		end
 
-feature -- Data access RolProject_UserProjects
-
---	search_all_rol_projects_user_projects: JSON_ARRAY
---			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a RolProject_UserProject
-
---		do
---			create Result.make_array
---			create db_query_statement.make ("SELECT * FROM RolProject_UserProject;", db)
---			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
---		ensure
---			query_not_null: db_query_statement /= Void
---		end
-
---	search_a_rol_priject_user_project (id: INTEGER): JSON_ARRAY
---			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a user project
---		require
---			valid_id: id /= Void and id > 0
---		do
---			create Result.make_array
---			create db_query_statement.make ("SELECT * FROM RolProject_UserProject WHERE id=" + id.out + ";", db)
---			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
---		ensure
---			query_not_null: db_query_statement /= Void
---		end
-
---	add_rol_project_user_project (id_user, id_project, id_rolproject: STRING)
---		require
---			valid_id: id_user /= Void and id_project /= Void and id_rolproject /= Void
---		do
---			create db_insert_statement.make ("INSERT INTO RolProject_UserProject(id_user, id_project, id_rolproject) VALUES ('" + id_user + "','" + id_project + "','" + id_rolproject + "');", db);
---			db_insert_statement.execute
---			if db_insert_statement.has_error then
---				print ("Error while inserting a new RolProject_UserProject")
---			end
---		end
-
---	remove_rol_project_user_project (id: NATURAL)
---			-- removes the todo with the given id
---		require
---			valid_id: id /= Void and id > 0
---		do
---			create db_modify_statement.make ("DELETE FROM RolProject_UserProject WHERE id=" + id.out + ";", db)
---			db_modify_statement.execute
---			if db_modify_statement.has_error then
---				print ("Error while deleting a RolProject_UserProject")
---			end
---		end
 
 feature -- Data access Sprint
 
@@ -470,7 +377,7 @@ feature -- Data access Sprint
 			valid_project_id: id_project /= Void and id_project > 0
 		do
 			create Result.make_array
-			create db_modify_statement.make ("SELECT type FROM RolProject WHERE id = (SELECT id_rolproject FROM RolProject_UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "');", db)
+			create db_modify_statement.make ("SELECT role FROM UserProject WHERE id_user = '" + id_user.out + "' AND id_project = '" + id_project.out + "';", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
