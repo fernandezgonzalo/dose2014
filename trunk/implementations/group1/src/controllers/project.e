@@ -134,13 +134,14 @@ feature -- Handlers
 	add_user_in_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a user in a project
 		local
-			l_payload,l_user_id, l_project_id: STRING
+			l_payload,l_user_id, l_project_id, role: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
+			create role.make_empty
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -148,10 +149,19 @@ feature -- Handlers
 				-- now parse the json object that we got as part of the payload
 			create parser.make_parser (l_payload)
 
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+					-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("role") as n then
+					role := n.unescaped_string_8
+				end
+
+			end
+
 
 			l_user_id := req.path_parameter ("id_user").string_representation
 			l_project_id := req.path_parameter ("id_project").string_representation
-			flag := my_db.add_user_project (l_user_id, l_project_id)
+			flag := my_db.add_user_project (l_user_id, l_project_id,role)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
