@@ -2,14 +2,30 @@
 <div id="dashboard">
 	<div class="block projects-column">
 	
-		<p>Id user:		{{user.id}}</p>
-		<p>First Name:	{{user.name}}
-		<p>Last Name:	{{user.lastname}}</p>
-		<p>Email:		{{user.email}}</p>
-		<p>Role:		{{user.rol}}</p>
-		
+	<div class="row">
+		<label class="col-md-2">Id user</label>
+		<div class="col-md-2">{{user.id}}</div>
 	</div>
 	
-
+	<div class="row">
+		<label class="col-md-2">First Name</label>
+		<div class="col-md-2">{{user.name}}</div>
+	</div>
+	
+	<div class="row">
+		<label class="col-md-2">Last Name</label>
+		<div class="col-md-2">{{user.lastname}}</div>
+	</div>
+	
+	<div class="row">
+		<label class="col-md-2">E-mail</label>
+		<div class="col-md-2">{{user.email}}</div>
+	</div>
+		
+		
+	<button type="button" class="buttons"><a ng-href="#/user/{{userId}}/project/{{projectId}}">Back</a></button>	
+	</div>
+	
+	
 	<div class="clear"></div>
 </div>
