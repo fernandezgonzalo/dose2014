@@ -47,6 +47,15 @@ angular.module('DOSEMS.controllers')
             }
 
         };
+
+        $scope.showDeleteDialog = function () {
+            if (validatePassword()) {
+                $('#deleteModal').modal('toggle');
+            } else {
+                $scope.oldPasswordError = true;
+
+            }
+        };
         $scope.deleteUser = function () {
             if (validatePassword()) {
                 Users.resource.delete({userId: $scope.userId}, function (data) {
@@ -57,6 +66,8 @@ angular.module('DOSEMS.controllers')
                     $window.location.href = '/#/login';
 
                 });
+            } else {
+                $scope.oldPasswordError = true;
             }
         };
 
