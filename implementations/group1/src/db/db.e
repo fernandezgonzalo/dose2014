@@ -81,7 +81,7 @@ feature -- Data access Users
 		end
 
 	add_user (name, lastname, email, password, rol, active: STRING): BOOLEAN
-			-- adds a new user with the given user name
+			-- adds a new user
 		require
 			valid_parameters: email /= Void and password /= Void
 		do
@@ -256,6 +256,7 @@ feature -- Data access UserProjects
 		end
 
 	add_user_project (id_user, id_project, role: STRING): BOOLEAN
+		-- adds a user to a project with a certain role
 		require
 			valid_user_id: id_user /= Void
 			valid_project_id: id_project /= Void
