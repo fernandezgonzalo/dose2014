@@ -5,8 +5,11 @@
         <ul ng-repeat="sprintId in sprintsIdForProject">
             <li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
         </ul>
-		
-		<!--<div ng-if="tasksForSprint.length==0">No tasks</div> -->
+		<div>
+		<label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint yet!Go to Project
+																   Management and add some!
+		</label>
+		</div>
         <div class="procedure-details" ng-show="!!tasksForSprint.length">
             <h2>Tasks for Sprint {{sprintIdDisplay}}</h2>
             <table cellpadding="30">

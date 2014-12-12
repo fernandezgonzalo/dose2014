@@ -17,6 +17,7 @@ angular.module('DOSEMS.controllers')
             {fullName: "Janise Columbus", points: 29}
         ];
 
+		$scope.nrOfFctAccess = 0;
 		$scope.tasksForSprint=[];
 		$scope.usersFromProj=[];
         var userId = $routeParams.userId;
@@ -51,42 +52,22 @@ angular.module('DOSEMS.controllers')
 		});
 		
 		
-		//----------------decomment this if you wanna test get all tasks from Sprint 1
 		$scope.tasksIdFromSprintFunction = function(sprintId){
+			$scope.nrOfFctAccess ++;
 			$scope.sprintIdDisplay = sprintId;
 			$log.info("aici ar tre sa fie prima!");
 			$scope.tasksIdFromSprint = TasksFromSprint.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId},function(data){
+				var j=0;
+				for(j=0;j<$scope.tasksIdFromSprint.length;j++)
+				{
+					Tasks.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:$scope.tasksIdFromSprint[j].id},function(data){
+						$scope.tasksForSprint.push(data[0]);
+					});
+				}
 			$log.info(data);
-			$log.info("now we are calling!!!!");
-			$log.info(data.length);
-			$scope.taskInfoFunction(data);
-			$scope.tasksForSprint=[];
-		});
-		}
-		
-		// -------------decomment this is you wanna test task details for project 1, sprint 1
-		
-	
-		$scope.taskInfoFunction = function(taskIds){
-			$log.info("am intrat in taskInfoFct si astea is idurile pt taskuri");
-			$log.info(taskIds.length);
-			
-			//$log.info($scope.tasksIdFromSprint);
-			angular.forEach(taskIds, function(obj,id)
-			{
-				
-				var bla = Tasks.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:obj.id},function(data){
-					$log.info("should have task info");
-					$log.info(data);
-					
-					$scope.tasksForSprint.push(data[0]);
-				});
-				$log.info("?????");
-				$log.info(bla);
 			});
-			$log.info("lungime Tasks from Sprint");
-			$log.info($scope.tasksForSprint.length);
-		}
+			$scope.tasksForSprint=[];
+			}
 		
 		
 		
@@ -95,23 +76,5 @@ angular.module('DOSEMS.controllers')
             $scope.absUrl = $location.absUrl();
             //$scope.lookupUserId = $routeParams.lookupUserId;
         }
-        /*$scope.addUser = function (username, password, email, fistName, lastName) {
-         //Add a new user to the server.
-         }
-
-         $scope.deleteUser = function (userID) {
-         //Delete a user. Can only be used ny the superuser or the user with userId
-
-         }
-
-         $scope.updateUser = function (userID, username, password, email, fistName, lastName) {
-         //Update a user. Can only be used ny the superuser or the user with userId
-
-
-         }
-
-         $scope.getUser = function (userID) {
-         //Retrives a user from the server with a specifir userId
-
-         }*/
+        
     });
