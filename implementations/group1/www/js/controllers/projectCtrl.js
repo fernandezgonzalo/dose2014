@@ -1,22 +1,74 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', function ($rootScope, $scope, $routeParams, $http, $log) {
-        var userId = $routeParams.userId;
-        var projectId = $routeParams.projectId;
-        if (userId != null) {
-            //Get the user from server
-            $scope.userId = userId;
-        }
-        if (projectId != null) {
-            //Get the project from server
-            $scope.projectId = projectId;
-        }
+    .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', '$http', 'RegisteredUsers', 'SprintsForProject', 'SprintTasks', 'TaskInfo',
+	            function ($rootScope, $scope, $routeParams, $log, $http, RegisteredUsers, SprintsForProject, SprintTasks, TaskInfo) {
 		
-		$rootScope.$broadcast('ProjectPage', $scope.projectId);
+		$scope.allusers = [];
+		$scope.sprints = [];
 		
-        $scope.userProjectIDs = [];
-        $scope.userProjects = [];
+		$scope.init = function () {
+		    var userId = $routeParams.userId;
+			var projectId = $routeParams.projectId;
+			if (userId != null) {
+				$scope.userId = userId;
+			}
+			if (projectId != null) {
+				$scope.projectId = projectId;
+			}
+			
+			$rootScope.$broadcast('ProjectPage', $scope.projectId);
+
+			var response = RegisteredUsers.get();
+			response.$promise.then(function (data) {
+				var i = 0;
+				for (i = 0; i < data.length; i++) {
+					$scope.allusers.push(data[i]);
+				}
+				$scope.getSprints();
+			});
+		}();
+		
+		$scope.getSprints = function () {
+			var response = SprintsForProject.get({userId:$scope.userId,projectId:$scope.projectId});
+			response.$promise.then(function (data) {
+				var i = 0;
+				for (i = 0; i < data.length; i++) {
+					data[i].tasks = [];
+					$scope.sprints.push(data[i]);
+					$scope.getSprintTasks(data[i].id);
+				}
+			});
+		}
+		
+		$scope.getSprintTasks = function (sprintId) {
+			var response = SprintTasks.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId});
+			response.$promise.then(function (data) {
+				var i = 0;
+				for (i = 0; i < data.length; i++) {
+					$scope.getTaskInfo(sprintId, data[i].id);
+				}
+			});
+		}
+		
+		$scope.getTaskInfo = function (sprintId, taskId) {
+			var response = TaskInfo.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId,taskId:taskId});
+			response.$promise.then(function (data) {
+				var task = data[0];
+				$scope.text = task;
+				var formattedTask = { id: task.id_task,
+							 name: task.desc,
+							 description: task.comment,
+							 userId: task.id_user,
+							 assignedto: task.name + " " + task.lastname,
+							 points: task.points,
+							 status: task.status,
+							 requirement: task.id_requirement,
+							 sprint: sprintId };
+				var tasks = $scope.sprints.filter(function (x) { return x.id == sprintId; })[0].tasks;
+				tasks.push(formattedTask);
+			});
+		}
 
         $scope.getUserProjects = function (userId) {
             // Gets from the server all the projects for a user
@@ -38,8 +90,6 @@ angular.module('DOSEMS.controllers')
                 .error(function (data, status) {
                     $log.debug('Error while getting user projects.');
                 });
-
-
         }
 
         $scope.createProject = function (name, description) {
@@ -73,6 +123,5 @@ angular.module('DOSEMS.controllers')
         $scope.setIteration = function (projectId, iterationId) {
             // Sets the current iteration of the project
         }
-    }
-    ]);
+    }]);
 	

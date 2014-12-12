@@ -1,0 +1,73 @@
+<div id="sprints-block" class="block project-cols">
+	<ol>
+		<li ng-repeat="sprint in sprints | orderBy: 'id'">
+			<h5 class="toggle collapsed">Sprint {{$index + 1}}</h5>
+			<table class="sprint">
+				<tr>
+					<th class="col1"></th>
+					<th class="col2">Task</th>
+					<th class="col3">Status</th>
+					<th class="col4">Assigned To</th>
+					<th class="col5"></th>
+				</tr>
+				<tr ng-repeat="task in sprint.tasks | orderBy: 'id'">
+					<td class="col1">{{$index + 1}}</td>
+					<td class="col2">{{task.name}}</td>
+					<td class="col3">{{task.status}}</td>
+					<td class="col4">{{task.assignedto}}</td>
+					<td class="col5"><a class="link-button" ng-click="removeTaskFromSprint(sprint.id,task.id)"><span>Remove</span></a></td>
+				</tr>
+			</table>
+		</li>
+	</ol>
+	<div class="buttons">
+		<div>
+			<a class="link-button" href=""><span>Add Sprint</span></a>
+		</div>
+		<div>
+			<a class="link-button" href=""><span>Remove Sprint</span></a>
+		</div>
+	</div>
+</div> 
+<!--<div id="requirements-block" class="block project-cols">
+	<ol>
+		<li ng-repeat="requirement in requirements | orderBy: 'id'">
+			<h5 class="toggle collapsed">{{requirement.name}}</h5>
+			<table class="requirement">
+				<tr>
+					<th class="col1"></th>
+					<th class="col2">Task</th>
+					<th class="col3">Status</th>
+					<th class="col4">Points</th>
+					<th class="col5"></th>
+				</tr>
+				<tr ng-repeat="task in requirement.tasks | orderBy: 'id'">
+					<td class="col1">{{$index + 1}}</td>
+					<td class="col2">{{task.name}}</td>
+					<td class="col3">{{task.status}}</td>
+					<td class="col4">{{task.points}}</td>
+					<td class="col5"><a class="link-button" ng-click="removeTaskFromRequirement(requirement.id,task.id)"><span>Remove</span></a></td>
+				</tr>
+			</table>
+		</li>
+	</ol>
+	<div class="buttons">
+		<div>
+			<a class="link-button" href=""><span>Add Requirement</span></a>
+		</div>
+		<div>
+			<a class="link-button" href=""><span>Remove Requirement</span></a>
+		</div>
+	</div>
+</div> -->
+
+<script>
+	$(document).ready(function(){
+		$(".toggle").click(function(){
+		  $(this).next().toggle();
+		  $(this).toggleClass("collapsed");
+		  $(this).toggleClass("expanded");
+		});
+		/*$(".toggle").next().toggle();*/
+	});
+</script>

@@ -40,9 +40,10 @@ angular.module('DOSEMS.controllers')
 		
 		// TODO: Update the database
 		/*$scope.addUser = function () {
-			for (var i = 0; i < $scope.allUsers.length; i++) {
-				if ($scope.allUsers[i].id === $scope.selectedUser) {
-					$scope.projectUsers.push({ id: $scope.selectedUser, name: $scope.allUsers[i].name, role: $scope.role });
+			for (var i = 0; i < $scope.leftUsers.length; i++) {
+				if ($scope.leftUsers[i].id === $scope.selectedUser) {
+					$scope.projectUsers.push($scope.leftUsers[i]);
+					$scope.leftUsers.splice(i, 1);
 				}
 			}
 		}*/
@@ -50,7 +51,7 @@ angular.module('DOSEMS.controllers')
 		$scope.removeUser = function (id) {
 			var response = RemoveUserFromProject.remove({userId:$scope.userId,projectId:$scope.projectId,developerId:id});
 			response.$promise.then(function () {
-				$window.alert("ok");
+				//$window.alert("ok");
 				for (var i = 0; i < $scope.projectUsers.length; i++) {
 					if ($scope.projectUsers[i].id_user == id) {
 						var developer = $scope.projectUsers[i];
@@ -58,7 +59,7 @@ angular.module('DOSEMS.controllers')
 						$scope.leftUsers.push(developer);
 					}
 				}
-			}, function () { $window.alert("failure");});
+			}, function () { /*$window.alert("failure");*/});
 		}
 		
 		$scope.getProjectUsers = function() {
