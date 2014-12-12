@@ -96,7 +96,7 @@ feature -- Handlers
 					task_id := result_add_task.integer_32_item (2)
 					if was_created then
 						my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
-							--if the task was created,set the response, send back the new json object 
+							--if the task was created,set the response, send back the new json object
 						l_result := my_crud_task.task_by_id (task_id.to_natural_32)
 						set_json_header (res, 201, l_result.representation.count)
 					end
@@ -197,14 +197,18 @@ feature -- Handlers
 		local
 			l_id: STRING
 			l_result: JSON_OBJECT
+			id_project: INTEGER
 		do
 				-- create emtpy string objects
 			create l_id.make_empty
 			l_id := req.path_parameter ("id").string_representation
 			create l_result.make
+			id_project:= my_crud_task.id_project_of_a_task (l_id.to_natural)
 			if my_crud_task.remove_task_by_id (l_id.to_natural) then
 					--if the task was removed,set the response
-			--	my_crud_task.revise_all_tasks_of_the_project (l_id_project.to_natural)
+				if  id_project/=1 then
+					my_crud_task.revise_all_tasks_of_the_project (id_project.to_natural_32)
+				end
 				set_json_header (res, 204, l_result.representation.count)
 			end
 			res.put_string (l_result.representation)
