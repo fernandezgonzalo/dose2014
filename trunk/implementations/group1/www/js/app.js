@@ -39,15 +39,15 @@ app.config(['$routeProvider', '$locationProvider',
          templateUrl: 'partials/user-detail.html',
          controller: 'UserCtrl'
          })*/
-		    .when('/user/:userId/project/:projectId/ranking', {
+            .when('/user/:userId/project/:projectId/ranking', {
                 templateUrl: 'partials/ranking.html',
                 controller: 'RankingCtrl'
             })
-			.when('/user/:userId/project/:projectId/manageusers', {
+            .when('/user/:userId/project/:projectId/manageusers', {
                 templateUrl: 'partials/manageUsers.html',
                 controller: 'ManageUsersCtrl'
             })
-			.when('/user/:userId/project/:projectId/manageproject', {
+            .when('/user/:userId/project/:projectId/manageproject', {
                 templateUrl: 'partials/manageProject.html',
                 controller: 'ProjectCtrl'
             })
@@ -55,23 +55,14 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/projectDashboard.html',
                 controller: 'UserCtrl'
             })
-			 .when('/user/:userId/project/:projectId/:taskId', { // Show task view
+            .when('/user/:userId/project/:projectId/:taskId', { // Show task view
                 templateUrl: 'partials/task.html',
                 controller: 'TaskCtrl'
             })
             .when('/user/:userId/project/:projectId/userDetail/:lookupUserId', {
                 templateUrl: 'partials/user-detail.html',
                 controller: 'UserDetailsCtrl'
-            })/*
-         .when('/user/home', {
-         templateUrl: 'partials/home.html',
-         controller: 'ProjectCtrl'
-         })*/
-            /* -- Wjat is this and how does it compare with /user/:userId/project/:projectId ?
-             .when('/user/:userId/home/:projectId', {
-             templateUrl: 'partials/home.html',
-             controller: 'ProjectCtrl'
-             })*/
+            })
             .when('/user/:userId/cpanel', {
                 templateUrl: 'partials/cpanel.html',
                 controller: 'UserCtrl'
@@ -84,15 +75,6 @@ app.config(['$routeProvider', '$locationProvider',
                 templateUrl: 'partials/manageUsers.html',
                 controller: 'UserCtrl'
             })
-
-            /*            .when('/sprint', {
-             templateUrl: 'partials/sprint.html',
-             controller: 'SprintCtrl'
-             })
-             .when('/task', {
-             templateUrl: 'partials/task.html',
-             controller: 'TaskCtrl'
-             })*/
             .otherwise({
                 redirectTo: '/login'
             });

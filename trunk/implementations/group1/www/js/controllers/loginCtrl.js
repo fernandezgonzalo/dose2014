@@ -12,13 +12,13 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                 $scope.successMsgVisible = false;
                 $scope.errorMsgVisible = false;
 
-                if ($cookieStore.get('loggedIn') == true) {
-                    Users.resource.get({userId: $cookieStore.get('userId')}).$promise.then(function (data) {
-                        $log.debug(data);
-                        var user = data;
-                        $scope.login(user.email, user.password)
-                    });
-                }
+                /*                if ($cookieStore.get('loggedIn') == true) {
+                 Users.resource.get({userId: $cookieStore.get('userId')}).$promise.then(function (data) {
+                 $log.debug(data);
+                 var user = data;
+                 $scope.login(user.email, user.password)
+                 });
+                 }*/
             };
             // the function to login
             $scope.login = function (email, pass) {
