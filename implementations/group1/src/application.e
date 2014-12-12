@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 			create session_manager.make
 			create session_ctrl.make (dao, session_manager)
 			create user.make (dao, session_manager)
-			create project.make (dao)
+			create project.make (dao, session_manager)
 			create sprint.make (dao, session_manager)
 			create task.make (dao, session_manager)
 			create requirement.make (dao, session_manager)

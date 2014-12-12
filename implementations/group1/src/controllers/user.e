@@ -110,13 +110,12 @@ feature -- Handlers
 			l_result: JSON_OBJECT
 			l_user_id: STRING
 		do
-
-				l_user_id := req.path_parameter ("id_user").string_representation
-				my_db.remove_user (l_user_id.to_natural_8)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_user_id.out), create {JSON_STRING}.make_json ("Message"))
-				set_json_header_ok (res, l_result.representation.count)
-				res.put_string (l_result.representation)
+			l_user_id := req.path_parameter ("id_user").string_representation
+			my_db.remove_user (l_user_id.to_natural_8)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_user_id.out), create {JSON_STRING}.make_json ("Message"))
+			set_json_header_ok (res, l_result.representation.count)
+			res.put_string (l_result.representation)
 		ensure
 			response_not_null: res /= void
 		end
@@ -280,7 +279,7 @@ feature -- Handlers
 	get_user_role (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void and  req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= void and req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_user_id, l_project_id: STRING
