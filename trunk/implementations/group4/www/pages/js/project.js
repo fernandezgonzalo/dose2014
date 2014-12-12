@@ -117,6 +117,18 @@ define(
                     $scope.backlog_id = "0";
                     $scope.dragged = null;
 
+                    function update_project_tasks()
+                    {
+                        return restapi.project_tasks($stateParams.id).then
+                        (
+                            function(data)
+                            {
+                                $scope.tasks = data;
+                                $scope.update($scope.sprint, $scope.tasks);
+                            }
+                        )
+                    }
+
                     $scope.update = function(sprint, tasks)
                     {
                         $scope.list1 = [];
@@ -135,32 +147,33 @@ define(
                         }
                     };
 
-                    $scope.on_drop = function(event, ui, data, sprint_id)
+                    $scope.on_drop = function(event, ui, data, to)
                     {
+                        var dragged = $scope.dragged;
                         $scope.dragged = null;
-
-                        restapi.edit_project_task(data, $stateParams.id, sprint_id, data.id)
-                        .then
-                        (
-                            function()
-                            {
-                                restapi.project_tasks($stateParams.id)
-                                .then
-                                (
-                                    function(data)
-                                    {
-                                        $scope.tasks = data;
-                                        $scope.update($scope.sprint, $scope.tasks);
-                                    }
-                                )
-                            }
-                        );
+                        if(dragged == to) return;
+                        restapi.edit_project_task(data, $stateParams.id, to, data.id).then(update_project_tasks);
                     };
 
                     $scope.on_drag = function(event, ui, data)
                     {
                         $scope.dragged = data;
-                    }
+                    };
+
+                    $scope.remove_task = function(task)
+                    {
+                        restapi.delete_project_task($stateParams.id, task.id).then(update_project_tasks);
+                    };
+
+                    $scope.$on
+                    (
+                        "edit_task",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            restapi.edit_project_task(data.form, data.project_id, data.sprint_id, data.task_id).then(update_project_tasks)
+                        }
+                    );
                 }
             ]
         )

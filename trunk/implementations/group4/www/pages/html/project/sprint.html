@@ -5,6 +5,7 @@
             <table ng-if="list1.length != 0" class="table table-hover text-center col-lg-12">
                 <thead>
                 <tr>
+                    <th></th>
                     <th class="text-center">#id</th>
                     <th class="text-center">Type</th>
                     <th class="text-center">Position</th>
@@ -20,6 +21,10 @@
                         data-jqyoui-options="{revert: 'invalid',  helper: 'clone'}"
                         ng-model="list1"
                         data-drag="true">
+                        <td>
+                            <img class="clickable inline" ng-click="remove_task(task)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
+                            <img class="clickable inline" ng-controller="EditTaskCtr" ng-click="editTask(task)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
+                        </td>
                         <td>{{task.id}}</td>
                         <td>{{task.type}}</td>
                         <td>{{task.position}}</td>
