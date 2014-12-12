@@ -53,6 +53,7 @@ angular.module('Mgmt')
 
     var updatedTask = new Task(task);
     Utility.escape(updatedTask);
+    Utility.toUnderscore(updatedTask);
     updatedTask.status = status;
     updatedTask.$update(function() {
       $log.log('Task status successfully changed.');
@@ -87,14 +88,26 @@ angular.module('Mgmt')
     $scope.swimlanes.finished = [];
     $scope.swimlanes.stopped = [];
 
+    // For statistics:
+    $scope.assignedTasks = 0;
+
     Utility.toUnderscore($scope.swimlanes);
     delete $scope.swimlanes.inProgress;
 
     // Wait until the actual data arrives from the server.
     data.$promise.then(function(tasks) {
       for (var i = 0; i < tasks.length; i++) {
+        Utility.unescape(tasks[i]);
         $scope.swimlanes[tasks[i].status].push(tasks[i]);
+
+        Utility.toCamel(tasks[i]);
+        if (tasks[i].idUserAssigned === $scope.currentUser.id) {
+          $scope.assignedTasks += 1;
+        }
       }
+      // $scope.chart1 = null;
+      // initStatistics();
+      updateStatistics();
     });
   };
 
@@ -105,18 +118,21 @@ angular.module('Mgmt')
     var task = $scope.swimlanes[newStatus].pop();
     task.status = newStatus;
     $scope.swimlanes[newStatus].push(task);
+    updateStatistics();
   };
 
 
   // Update task locally upon update of the database.
   $scope.updateTasksLocal = function(task, newTask, deleteTask) {
 
-    // var task = JSON.parse(JSON.stringify(taskToUpdate));
-
-
-    // If new task, add it to swimlane according to its status.
+    // If it's a new task, add it to swimlane according to its status.
     if (newTask) {
       $scope.swimlanes[task.status].push(task);
+
+      if (task.idUserAssigned === $scope.currentUser.id) {
+        $scope.assignedTasks += 1;
+      }
+      updateStatistics();
       return;
     }
 
@@ -128,16 +144,39 @@ angular.module('Mgmt')
           // Check is task is to be deteled.
           if (deleteTask) {
             swimlane.splice(i, 1);
+
+            if (task.idUserAssigned === $scope.currentUser.id) {
+              $scope.assignedTasks -= 1;
+            }
           }
           // If task status is unchanged, assigned updated task at once.
           else if (swimlane[i].status === task.status) {
+
+            if (task.idUserAssigned === $scope.currentUser.id &&
+                swimlane[i].idUserAssigned !== $scope.currentUser) {
+              $scope.assignedTasks += 1;
+            } else if (task.idUserAssigned !== $scope.currentUser.id &&
+                swimlane[i].idUserAssigned === $scope.currentUser.id) {
+              $scope.assignedTasks -= 1;
+            }
+
             swimlane[i] = task;
           } 
           // If status changed, remove from current swimlane and add it to new.
           else {
+
+            if (task.idUserAssigned === $scope.currentUser.id &&
+                swimlane[i].idUserAssigned !== $scope.currentUser) {
+              $scope.assignedTasks += 1;
+            } else if (task.idUserAssigned !== $scope.currentUser.id &&
+                swimlane[i].idUserAssigned === $scope.currentUser.id) {
+              $scope.assignedTasks -= 1;
+            }
+
             swimlane.splice(i, 1);
             $scope.swimlanes[task.status].push(task);
           }
+          updateStatistics();
           return;
         }
       }
@@ -252,46 +291,120 @@ angular.module('Mgmt')
 
   // Statistics
 
-  // Helper functions to show data
-
+  // Show or hide project statistics
   $scope.projectStatistics = false;
+
   $scope.toggleProjectStatistics = function() {
     $scope.projectStatistics = !$scope.projectStatistics;
   };
 
-  var unfinishedAssignedTasks = 7;
-  var finishedAssignedTasks = 4;
+  // Helper functions to show statistics with updated values
 
-  // Unfinished assigned tasks vs Finished assigned tasks.
+  // var initStatistics = function() {
+  var updateStatistics = function() {
 
-  $scope.dataset1 = [
-    {
-      value: unfinishedAssignedTasks,
-      color:'#F7464A',
-      highlight: '#FF5A5E',
-      label: 'Pending tasks'
-    },
-    {
-      value: finishedAssignedTasks,
-      color: '#46BFBD',
-      highlight: '#5AD3D1',
-      label: 'Finished tasks'
+    // Initialize array of values for chart 1 and chart 2.
+    // var size = Object.keys($scope.swimlanes).length;
+    $scope.valuesChart1 = [];
+    var size = 4;
+    while(size--) { $scope.valuesChart1[size] = 0; }
+
+    $scope.valuesChart2 = [];
+    size = 2;
+    while(size--) { $scope.valuesChart2[size] = 0; }
+    
+    // Get the total number of tasks.
+    var totalTasks = 0;
+    for (var key in $scope.swimlanes) {
+      totalTasks = totalTasks + $scope.swimlanes[key].length; 
     }
-  ];
 
-  $scope.optionsChart1 = {
-    responsive: true,
-    segmentShowStroke: true,
-    segmentStrokeColor: '#fff',
-    segmentStrokeWidth: 2,
-    percentageInnerCutout: 50,
-    animationSteps: 100,
-    animationEasing: 'easeOutBounce',
-    animateRotate: true,
-    animateScale: false,
-    legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<segments.length; i++)' +
-                      '{%><li><span style="background-color:<%=segments[i].fillColor%>"></span>' +
-                      '<%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+    // Data for chart1.
+    var i = 0;
+    for (key in $scope.swimlanes) {
+      switch(key) {
+        case 'stopped': 
+          i = 0;
+          break;
+        case 'created': 
+          i = 1;
+          break;
+        case 'in_progress': 
+          i = 2;
+          break;
+        case 'finished': 
+          i = 3;
+          break;
+      }
+      $scope.valuesChart1[i] = parseFloat((($scope.swimlanes[key].length/totalTasks)*100).toFixed(2));
+    }
+
+    // Data for chart2.
+    $scope.valuesChart2[0] = parseFloat((($scope.assignedTasks/totalTasks)*100).toFixed(2));
+    $scope.valuesChart2[1] = parseFloat((((totalTasks-$scope.assignedTasks)/totalTasks)*100).toFixed(2));
+  
+    // Chart of tasks distribution.
+
+    $scope.dataChart1 = [
+      {
+        value: $scope.valuesChart1[0],
+        color:'#A94458',
+        highlight: '#CB524F',
+        label: '% tasks in Backlog'
+      },
+      {
+        value: $scope.valuesChart1[1],
+        color: '#E3A64A',
+        highlight: '#F5B350',
+        label: '% tasks in To Do'
+      },
+      {
+        value: $scope.valuesChart1[2],
+        color:'#31709E',
+        highlight: '#3A86BD',
+        label: '% tasks in Doing'
+      },
+      {
+        value: $scope.valuesChart1[3],
+        color: '#3C763F',
+        highlight: '#4A924E',
+        label: '% tasks in Done'
+      }
+    ];
+
+    $scope.dataChart2 = [
+      {
+        value: $scope.valuesChart2[0],
+        color:'#3EA7B2',
+        highlight: '#47BECB',
+        label: '% of tasks assigned to me'
+      },
+      {
+        value: $scope.valuesChart2[1],
+        color: '#7F7F7F',
+        highlight: '#9F9F9F',
+        label: '% of tasks assigned to others'
+      }
+    ];
+
+    $scope.optionsChart1 = {
+      responsive: true,
+      segmentShowStroke: true,
+      segmentStrokeColor: '#fff',
+      segmentStrokeWidth: 2,
+      percentageInnerCutout: 40,
+      animationSteps: 60,
+      animationEasing: 'easeOutBounce',
+      animateRotate: true,
+      animateScale: false,
+      legendTemplate : '<ul class="tc-chart-js-legend"><% for (var i=0; i<segments.length; i++)' +
+        '{%><li><span style="background-color:<%=segments[i].fillColor%>"></span>' +
+        '<%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+    };
+
+    $scope.legendChart1 = '';
+    $scope.legendChart2 = '';
+
   };
 
 
