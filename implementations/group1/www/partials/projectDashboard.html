@@ -1,49 +1,50 @@
-
 <div id="dashboard">
-	<div class="block projects-column" >
-	
-	<h2>List of Sprints</h2>
-	<ul ng-repeat = "sprintId in sprintsIdForProject">
-		<li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
-	</ul>	
-		
-	<div class="procedure-details" ng-show="!!tasksForSprint.length">
-	<h2>Tasks for Sprint</h2>
-	<table cellpadding="30" >
-		<tr class="row" align="center">
-			<th style="text-align:center" class="col-md-1">Id</th>
-			<th style="text-align:center" class="col-md-2">Name</th>
-			<th style="text-align:center" class="col-md-3">User</th>
-			<th style="text-align:center" class="col-md-4">Status</th>
-			<th style="text-align:center" class="col-md-5">Points</th>
-		<tr>
-		<tr class="row" ng-repeat="task in tasksForSprint" align="center">
-			<td class="col-md-1">{{task.id_task}}</td>
-			<td class="col-md-2"><a ng-href="#/user/{{userId}}/project/{{projectId}}/{{task.id_task}}">{{task.desc}}</a></td>
-			<td class="col-md-3">{{task.name}}  {{task.lastname}}</td>
-			<td class="col-md-4">{{task.status}}</td>
-			<td class="col-md-5">{{task.points}}</td>
-		<tr>
-	</table>
-	</div>
+    <div class="block projects-column">
 
-	<button align="center">ManageProject</button>
-		
-	</div>
-	<div class="block users-column" >
-		<p><b><h2 align="center">Users</h2></b></p>
-		
-		<ul ng-repeat="user in usersFromProj">
-			<li><a  ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
-			<!--<button ng-click='getUrl()'>d</button> 
-			<p>aa{{absUrl}}{{lookupUserId}}</p>
-			bb{{projectId}}
-			/user/{{user.id}}/project/{{getUserInfo.projectId}}/{{lookupUserId}} 
-			<li><a href="{{absUrl}}/1">{{user.lastname}}</a></li>
-			{{user.id}} -->
-		</ul>
-		<button><a href="#/manageUsers">ManageUsers</a></button>
-	</div>
+        <h2>List of Sprints</h2>
+        <ul ng-repeat="sprintId in sprintsIdForProject">
+            <li ng-click="tasksIdFromSprintFunction(sprintId.id)">Sprint {{sprintId.id}}</li>
+        </ul>
 
-	<div class="clear"></div>
+        <div class="procedure-details" ng-show="!!tasksForSprint.length">
+            <h2>Tasks for Sprint</h2>
+            <table cellpadding="30">
+                <tr class="row" align="center">
+                    <th style="text-align:center" class="col-md-1">Id</th>
+                    <th style="text-align:center" class="col-md-2">Name</th>
+                    <th style="text-align:center" class="col-md-3">User</th>
+                    <th style="text-align:center" class="col-md-4">Status</th>
+                    <th style="text-align:center" class="col-md-5">Points</th>
+                <tr>
+                <tr class="row" ng-repeat="task in tasksForSprint" align="center">
+                    <td class="col-md-1">{{task.id_task}}</td>
+                    <td class="col-md-2"><a ng-href="#/user/{{userId}}/project/{{projectId}}/{{task.id_task}}">{{task.desc}}</a>
+                    </td>
+                    <td class="col-md-3">{{task.name}} {{task.lastname}}</td>
+                    <td class="col-md-4">{{task.status}}</td>
+                    <td class="col-md-5">{{task.points}}</td>
+                <tr>
+            </table>
+        </div>
+
+        <a ng-href="#/user/{{userId}}/project/{{projectId}}/manageproject">
+            <button align="center">ManageProject</button>
+        </a>
+    </div>
+    <div class="block users-column">
+        <p><b><h2 align="center">Users</h2></b></p>
+
+        <ul ng-repeat="user in usersFromProj">
+            <li><a ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
+            <!--<button ng-click='getUrl()'>d</button>
+            <p>aa{{absUrl}}{{lookupUserId}}</p>
+            bb{{projectId}}
+            /user/{{user.id}}/project/{{getUserInfo.projectId}}/{{lookupUserId}}
+            <li><a href="{{absUrl}}/1">{{user.lastname}}</a></li>
+            {{user.id}} -->
+        </ul>
+        <button><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
+    </div>
+
+    <div class="clear"></div>
 </div>
