@@ -7,7 +7,6 @@ var app = angular.module('DOSEMS', [
 app.config(['$logProvider', function ($logProvider) {
     $logProvider.debugEnabled(true);
 }]);
-
 /** Define the routes for the application; This routing is done by Angular */
 app.config(['$routeProvider', '$locationProvider',
     function ($routeProvider) {
@@ -76,7 +75,8 @@ app.config(['$routeProvider', '$locationProvider',
                 controller: 'UserCtrl'
             })
             .otherwise({
-                redirectTo: '/login'
+                templateUrl: '../partials/404.html',
+                controller: 'NotFoundCtrl'
             });
     }
 

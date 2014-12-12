@@ -30,11 +30,15 @@ angular.module('DOSEMS.controllers', ['ngCookies'])
                 $http.post('/api/login', payload)
                     .success(function (data, status, header, config) {
                         $log.debug('Success logging in the user');
+                        $log.debug(data);
                         $scope.successMsgVisible = true;
-                        $timeout(function () {
-                            $cookieStore.put('loggedIn', true);
-                            $cookieStore.put('userId', data.id);
-                            $rootScope.$broadcast('loggedIn');
+                        $cookieStore.put('loggedIn', true);
+                        $cookieStore.put('userId', data.id);
+                        $rootScope.$broadcast('loggedIn');
+                        $timeout(function () {/*
+                         $cookieStore.put('loggedIn', true);
+                         $cookieStore.put('userId', data.id);
+                         $rootScope.$broadcast('loggedIn');*/
                             $scope.successMsgVisible = false;
                             $window.location.href = '/#/user/' + data.id + '/home';
                         }, 500);
