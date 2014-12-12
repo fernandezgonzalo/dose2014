@@ -88,7 +88,7 @@ feature -- Handlers
 		end
 
 	update_answer (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a answer from the database only if the user session id is the same that the user id who made the answer.
+			-- updates an answer from the database only if the user session id is the same that the user id who made the answer.
 		local
 			l_payload: STRING
 			l_answer_id: STRING
@@ -114,7 +114,6 @@ feature -- Handlers
 				create parser.make_parser (l_payload)
 
 					-- if the parsing was successful and we have a json object, we fetch the properties
-					-- for the answer description, the user_id and the topic_id.
 				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each answer attribute.
@@ -126,7 +125,7 @@ feature -- Handlers
 					end
 
 				end
-				-- the topic_id from the URL
+					-- the topic_id from the URL
 				l_topic_id := req.path_parameter ("topic_id").string_representation
 
 				if (l_user_session_id.is_equal (l_user_id)) then
@@ -153,7 +152,7 @@ feature -- Handlers
 		end
 
 	remove_answer (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a answer from the database
+			-- removes an answer from the database
 		local
 			l_answer_id: STRING
 		do

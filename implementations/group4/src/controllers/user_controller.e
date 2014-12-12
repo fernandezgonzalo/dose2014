@@ -77,7 +77,7 @@ feature -- Handlers
 				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
-					-- we return an error stating that the user is not authorized to get the user.
+					-- we return an error stating that the user is not authorized to get a user.
 				prepare_response("User is not logged in",401,res,true)
 			end
 		end
@@ -110,7 +110,7 @@ feature -- Handlers
 		end
 
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- add a new user; the user data are expected to be part of the request's payload
+			-- adds a new user; the user data are expected to be part of the request's payload
 		local
 			l_payload : STRING
 			l_user_name, l_email, l_password : STRING
@@ -118,7 +118,7 @@ feature -- Handlers
 			l_user : USER
 			parser: JSON_PARSER
 		do
-				-- create emtpy string objects
+				-- create emtpy string object
 			create l_payload.make_empty
 
 				-- read the payload from the request and store it in the string
@@ -127,8 +127,7 @@ feature -- Handlers
 				-- now parse the json object that we got as part of the payload
 			create parser.make_parser (l_payload)
 
-				-- if the parsing was successful and we have a json object, we fetch the properties
-				-- for the todo description and the userId
+				-- if the parsing was successful and we have a json object, we fetch the user data
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each user attribute.
@@ -155,7 +154,6 @@ feature -- Handlers
 					-- here we hash the password with salt for database storing
 				l_hashed_password := bcrypt.hashed_password (l_password, bcrypt.new_salt(4))
 
-
 				create l_user.make(l_user_name,l_email,l_hashed_password)
 					-- create the user in the database
 				db_handler_user.add (l_user)
@@ -167,7 +165,7 @@ feature -- Handlers
 		end
 
 	update_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a existent user
+			-- updates an existent user
 		local
 			l_payload: STRING
 			l_user_session_id, l_user_id: STRING
@@ -176,7 +174,7 @@ feature -- Handlers
 			l_user : USER
 			parser : JSON_PARSER
 		do
-				-- create empty objects
+				-- create empty object
 			create l_payload.make_empty
 
 			if req_has_cookie (req, "_casd_session_") then
@@ -198,8 +196,7 @@ feature -- Handlers
 						-- now parse the json object that we got as part of the payload
 					create parser.make_parser (l_payload)
 
-						-- if the parsing was successful and we have a json object, we fetch the properties
-						-- for the todo description and the userId
+						-- if the parsing was successful and we have a json object, we fetch the user properties
 					if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 						-- we have to convert the json string into an eiffel string for each user attribute.
@@ -240,7 +237,7 @@ feature -- Handlers
 		end
 
 	remove_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a user from the database
+			-- removes a user from the database
 		local
 			l_user_session_id,l_user_id: STRING
 			l_session: WSF_COOKIE_SESSION
@@ -267,13 +264,13 @@ feature -- Handlers
 					l_session.destroy
 
 				else
-						-- the user logged is not the same as the user that is being remoed.
-						-- we return an error stating that the user is not authorized to remove another the user.
+						-- the user logged is not the same as the user that is being removed.
+						-- we return an error stating that the user is not authorized to remove another user.
 					prepare_response("The user logged is unauthorized for remove another user.",401,res,true)
 				end
 			else
 					-- the request has no session cookie and thus no user is logged in
-					-- we return an error stating that the user is not authorized to remove another the user.
+					-- we return an error stating that the user is not authorized to remove another user.
 				prepare_response("User is not logged in.",401,res,true)
 			end
 		end
@@ -292,7 +289,7 @@ feature -- Handlers
 				-- a session
 			l_session: WSF_COOKIE_SESSION
 		do
-				-- create emtpy string objects
+				-- create emtpy string object
 			create l_payload.make_empty
 
 				-- read the payload from the request and store it in the string
@@ -340,7 +337,7 @@ feature -- Handlers
 						-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 					l_session.apply (req, res, "/")
 
-						-- preapare the response
+						-- prepare the response
 					prepare_response("User logged in",200,res,true)
 
 				else
