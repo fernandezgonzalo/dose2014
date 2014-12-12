@@ -36,27 +36,24 @@ feature -- Handlers
 
 	get_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all users
+		require
+			valid_session: req_has_cookie (req, "_session_")
 		local
 			l_result_payload: STRING
 			l_result: JSON_OBJECT
 		do
-			if req_has_cookie (req, "_session_") then
-				l_result_payload := my_db.search_all_users.representation
-				set_json_header_ok (res, l_result_payload.count)
-				res.put_string (l_result_payload)
-			else
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("User is not logged in."), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
-			end
-
+			l_result_payload := my_db.search_all_users.representation
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
+		ensure
+			res /= void
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- return in response all project by user, the id_user is in the header of request
+			-- return in response all project by user, the id_user is in the header of request
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -66,10 +63,15 @@ feature -- Handlers
 			l_result_payload := my_db.search_all_project_by_user (l_user_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			res /= void
 		end
 
 	get_project_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- return project info through the project id in the req
+			-- return project info through the project id in the req
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_project").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
@@ -78,10 +80,15 @@ feature -- Handlers
 			l_result_payload := my_db.search_a_project (l_project_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			res /= void
 		end
 
 	get_users_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- return user info through the user id in the req
+			-- return user info through the user id in the req
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -90,33 +97,35 @@ feature -- Handlers
 			l_result_payload := my_db.search_a_user (l_user_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	delete_users (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- delete user with the user id
+			-- delete user with the user id
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result: JSON_OBJECT
 			l_user_id: STRING
 		do
-			if req_has_cookie (req, "_session_") then
+
 				l_user_id := req.path_parameter ("id_user").string_representation
 				my_db.remove_user (l_user_id.to_natural_8)
 				create l_result.make
 				l_result.put (create {JSON_STRING}.make_json ("Removed user " + l_user_id.out), create {JSON_STRING}.make_json ("Message"))
 				set_json_header_ok (res, l_result.representation.count)
 				res.put_string (l_result.representation)
-			else
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("User is not logged in."), create {JSON_STRING}.make_json ("Message"))
-
-					-- send the response
-				set_json_header (res, 401, l_result.representation.count)
-				res.put_string (l_result.representation)
-			end
+		ensure
+			response_not_null: res /= void
 		end
 
 	put_users (req: WSF_REQUEST; res: WSF_RESPONSE)
-	-- update user info
+			-- update user info
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_user").string_representation /= void
 		local
 			l_payload, name, last_name, email, password, rol, active: STRING
 			parser: JSON_PARSER
@@ -167,8 +176,6 @@ feature -- Handlers
 				end
 			end
 
-
-
 				-- create the user in the database
 			l_user_id := req.path_parameter ("id_user").string_representation
 			email := get_session_from_req (req, "_session_").at ("email").out
@@ -197,7 +204,6 @@ feature -- Handlers
 			l_user_data: TUPLE [has_user: BOOLEAN; id: STRING]
 			hash: SHA256
 			password_hash: STRING_32
-
 		do
 				-- create emtpy string objects
 			create l_payload.make_empty
@@ -249,18 +255,17 @@ feature -- Handlers
 					active := a.unescaped_string_8
 				end
 			end
-
 			if my_db.email_in_database (email).is_empty then
-				hash.update_from_string(email + password)
+				hash.update_from_string (email + password)
 				password_hash := hash.digest_as_string
 				flag := my_db.add_user (name, last_name, email, password_hash, rol, active)
 				l_user_data := my_db.has_user_with_password (email, password_hash)
 				if flag then
-					-- add object id to response
+						-- add object id to response
 					create l_result.make
 					l_result.put (create {JSON_STRING}.make_json (l_user_data.id.to_string_32), create {JSON_STRING}.make_json ("id"))
 
-					-- send the response
+						-- send the response
 					set_json_header_ok (res, l_result.representation.count)
 					res.put_string (l_result.representation)
 				end
@@ -273,6 +278,9 @@ feature -- Handlers
 		end
 
 	get_user_role (req: WSF_REQUEST; res: WSF_RESPONSE)
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_project").string_representation /= void and  req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_user_id, l_project_id: STRING
@@ -282,6 +290,8 @@ feature -- Handlers
 			l_result_payload := my_db.get_user_role (l_user_id.to_integer, l_project_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 end
