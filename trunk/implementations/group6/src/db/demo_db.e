@@ -562,6 +562,24 @@ feature --data access: USERS
 			end
 		end
 
+	get_user_name(user_email: STRING): STRING
+		--returns a JSON_OBJECT representing the specified user's name
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create Result.make_empty
+
+			create db_query_statement.make("SELECT name FROM user WHERE email = '" + user_email + "';" , db)
+			l_query_result_cursor := db_query_statement.execute_new
+			--if l_query_result_cursor.after then
+				Result := l_query_result_cursor.item.string_value (1)
+			--else
+			--	Result := "error"
+			--end
+
+		end
+
+
 
 feature --Data access: ITERATIONS
 
