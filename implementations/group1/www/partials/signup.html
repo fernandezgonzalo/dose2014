@@ -1,4 +1,9 @@
 <div id="signup" class="block">
+    <div ng-show="singupSuccess" class="alert alert-success" role="alert">
+        <p>Signup successful! <a ng-href="#/login">
+            <trong>Click here to continue to Login</trong>
+        </a></p>
+    </div>
     <form role="form" id="signupForm">
         <div class="form-group">
             <label for="name">First name</label>
@@ -14,6 +19,9 @@
             <label for="email">Email</label>
             <input type="text" class="form-control" ng-model="signupData.email" id="email"
                    placeholder="Enter your email">
+        </div>
+        <div ng-show="emailInUse" class="alert alert-danger">
+            <p>The email you have specified is already in use, please use another email</p>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
