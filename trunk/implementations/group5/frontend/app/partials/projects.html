@@ -1,80 +1,59 @@
 <div ng-include src="'partials/project_new.html'"></div> <!-- Create new project modal -->
 
-<div id="legend">
-  <legend>All projects</legend>
+<div class="row">
+	<h1 class="title col-md-12 light-txt">All projects</h1>
 </div>
 
-<br>
-
 <!-- Projects in progress -->
-<div class="row">
+<div class="row" ng-show="unfinishedProjects.length > 0">
+  <h3 class="col-md-10 light-txt">Projects in progress</h3>
+  <button class="col-md-2 btn btn-link" ng-click="openNewProjectModal()">
+    New project <span class="glyphicon glyphicon-plus"></button>
+</div>
+
+<div class="row" ng-show="unfinishedProjects.length === 0">
+  <h3 class="col-md-10 light-txt small">There are no projects in progress.</h3>
+  <button class="col-md-2 btn btn-link" ng-click="openNewProjectModal()">
+    New project <span class="glyphicon glyphicon-plus"></button>
+</div>
+
+<div class="row" ng-show="unfinishedProjects.length > 0">
   <div class="col-md-12">
     <table class="table">
-      <thead>
-        <tr>
-          <th class="col-md-4">Projects in progress</th>
-          <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
-          <th class="col-md-2">
-            <button class="btn btn-link" ng-click="openNewProjectModal()">
-              New project <span class="glyphicon glyphicon-plus"></button>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="project in unfinishedProjects"
-          ng-click="openProject(project)" class="row-link"
-          ng-class=unfinishedProjectClass($even)>
-          <td>{{project.name}}</td>
-          <td>Client: {{project.clientName}}</td>
-          <td>Created by: {{authors[project.idUser]}}</td>
-          <td><span class="glyphicon glyphicon-calendar"></span>
-            {{project.deadline | date:'mediumDate'}}</td>
-        </tr>
-        <!-- If there are no projects in progress, show message. -->
-        <tr ng-if="unfinishedProjects.length == 0"
-          class="row-link danger">
-          <td>There are no projects in progress.</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
+      <tr ng-repeat="project in unfinishedProjects"
+        ng-click="openProject(project)" class="row-link"
+        ng-class=unfinishedProjectClass($even)>
+        <td class="col-md-4"><b>{{project.name}}</b></td>
+        <td class="col-md-3"><em>Client</em>:  {{project.clientName}}</td>
+        <td class="col-md-3"><em>Created by</em>:  {{authors[project.idUser]}}</td>
+        <td class="col-md-2"><span class="glyphicon glyphicon-calendar"></span>
+           {{project.deadline | date:'mediumDate'}}</td>
+      </tr>
     </table>
   </div>
 </div>
 
 <!-- Projects finished -->
-<div class="row">
+<div class="row" ng-show="finishedProjects.length > 0">
+  <h3 class="col-md-10 light-txt">Projects finished</h3>
+</div>
+
+<div class="row" ng-show="finishedProjects.length === 0">
+  <h3 class="col-md-10 light-txt small">There are no finished Projects.</h3>
+</div>
+
+<div class="row" ng-show="finishedProjects.length > 0">
   <div class="col-md-12">
     <table class="table">
-      <thead>
-        <tr>
-          <th class="col-md-4">Projects finished</th>
-          <th class="col-md-3"></th>
-          <th class="col-md-3"></th>
-          <th class="col-md-2"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="project in finishedProjects"
-          ng-click="openProject(project)" class="row-link"
-          ng-class=finishedProjectClass($even)>
-          <td>{{project.name}}</td>
-          <td>{{project.clientName}}</td>
-          <td>Created by: {{authors[project.idUser]}}</td>
-          <td><span class="glyphicon glyphicon-calendar"></span>
-            {{project.deadline | date:'mediumDate'}}</td>
-        </tr>
-        <!-- If there are no projects finished, show message. -->
-        <tr ng-if="finishedProjects.length == 0"
-          class="row-link active">
-          <td>There are no finished projects.</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
+      <tr ng-repeat="project in finishedProjects"
+        ng-click="openProject(project)" class="row-link"
+        ng-class=finishedProjectClass($even)>
+        <td class="col-md-4"><b>{{project.name}}</b></td>
+        <td class="col-md-3"><em>Client</em>:  {{project.clientName}}</td>
+        <td class="col-md-3"><em>Created by</em>:  {{authors[project.idUser]}}</td>
+        <td class="col-md-2"><span class="glyphicon glyphicon-calendar"></span>
+           {{project.deadline | date:'mediumDate'}}</td>
+      </tr>
     </table>
   </div>
 </div>
-
