@@ -193,7 +193,7 @@ feature -- Handlers
 				create parser.make_parser (l_payload)
 
 					-- if the parsing was successful and we have a json object, we fetch the properties
-					-- for the tpic data
+					-- for the topic data
 				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
 					-- we have to convert the json string into an eiffel string for each task attribute.
@@ -232,7 +232,7 @@ feature -- Handlers
 						-- update the task in the database
 					db_handler_topic.update (l_topic,l_topic_id.to_natural)
 
-						-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+						-- create a json object that as a "Message" property that states what happened (in the future, this should be a more meaningful messeage)
 					prepare_response("Updated topic "+l_topic.title,200,res,true)
 				else
 						-- the user_id does not match
@@ -264,12 +264,12 @@ feature -- Handlers
 					-- remove the topic
 				db_handler_topic.remove (l_topic_id.to_natural)
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+					-- create a json object that as a "Message" property that states what happened (in the future, this should be a more meaningful messeage)
 				prepare_response("Removed topic",200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to update the topic
+					-- we return an error stating that the user is not authorized to remove the topic
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
