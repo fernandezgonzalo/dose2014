@@ -10,7 +10,7 @@ inherit
 create
 	make
 feature
-	new(description: STRING user_id: STRING): JSON_ARRAY
+	new(description: STRING; user_id: STRING): JSON_ARRAY
 		do
 			create db_insert_statement.make ("INSERT INTO tasks(description, user_id) VALUES ('" + description + "'," + user_id + ");", db);
 
