@@ -25,6 +25,11 @@
                     <td>{{workItem.number}}</td>
                     <td>{{workItem.name}}</td>
                     <td>{{workItem.points}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal3" ng-click="delete_work_item(workItem.number)">
+                            <i class="fa fa-times"></i>                           
+                        </button>                         
+                    </td>
                   </tr>
                 </table>
               </div>
@@ -166,6 +171,36 @@
             </div>
         </div>
     </div>
+    <!-- Modal Delete Work Item -->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">Delete Work Item</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <form class="form-signin" role="form" id="1181323998">
+                                    <h5> Number of Work Item </h5>
+                                        <input type="nameProject" id="inputWorkItem" class="form-control" ng-model="delWorkItem.work_item_id" ng-readonly="delWorkItem.work_item_id">
+                                    <br>
+                                    <br>
+                                        <div class="col-lg-6">
+                                            <button class="btn btn-lg btn-primary btn-block" type="submit" data-dismiss="modal" ng-click="delete_work_item(delWorkItem.work_item_id)">Done</button>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button class="btn btn-lg btn-danger btn-block" type="button" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                </form>                                 
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
 
 </article>    
 <div ng-include="'partials/footer.html'"></div>
