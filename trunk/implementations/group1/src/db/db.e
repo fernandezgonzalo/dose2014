@@ -314,7 +314,7 @@ feature -- Data access Sprint
 			valid_id: id_sprint /= Void and id_sprint > 0
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Task WHERE id_sprint = '"+id_sprint.out+"';", db)
+			create db_query_statement.make ("SELECT id FROM Task WHERE id_sprint = '"+id_sprint.out+"';", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
@@ -439,7 +439,7 @@ feature -- Data access Task
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT id_user, name, lastname, T.id as id_task, desc, comment, duration, points, status, id_requirement, id_sprint FROM User as U JOIN (SELECT * FROM Task WHERE id=" + id.out + ") as T ON U.id = T.id_user;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 10, Result))
+			db_query_statement.execute (agent rows_to_json_array(?, 11, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
 		end
