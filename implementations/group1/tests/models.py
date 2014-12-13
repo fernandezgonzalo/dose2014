@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from peewee import *
 import json
 
@@ -62,33 +60,6 @@ class User(BaseModel):
             "id": str(self.id)
             })
 
-class Rolproject(BaseModel):
-    type = TextField(null=True)
-
-    class Meta:
-        db_table = 'RolProject'
-
-    def jsonify(self):
-        return json.dumps({
-            "type": self.type,
-            "id": str(self.id)
-            })
-
-class RolprojectUserproject(BaseModel):
-    id_project = ForeignKeyField(Project, null=True)
-    id_rolproject = IntegerField(null=True)
-    id_user = ForeignKeyField(User, null=True)
-
-    class Meta:
-        db_table = 'RolProject_UserProject'
-
-    def jsonify(self):
-        return json.dumps({
-            "id_project": str(self.id_project),
-            "id_rolproject": str(self.id_rolproject),
-            "id_user": str(self.id_user)
-            })
-
 class Sprint(BaseModel):
     duration = IntegerField(null=True)
     id_project = IntegerField(null=True)
@@ -129,7 +100,7 @@ class Task(BaseModel):
 
 class TaskuserSprint(BaseModel):
     id_sprint = IntegerField(null=True)
-    id_task = ForeignKeyField(Task,null=True)
+    id_task = ForeignKeyField(Task, null=True)
     id_user = ForeignKeyField(User, null=True)
 
     class Meta:
@@ -145,6 +116,7 @@ class TaskuserSprint(BaseModel):
 class Userproject(BaseModel):
     id_project = ForeignKeyField(Project, null=True)
     id_user = ForeignKeyField(User, null=True)
+    role = TextField(null=True)
 
     class Meta:
         db_table = 'UserProject'
@@ -152,5 +124,6 @@ class Userproject(BaseModel):
     def jsonify(self):
         return json.dumps({
             "id_project": str(self.id_project),
-            "id_user": str(self.id_user)
+            "id_user": str(self.id_user),
+            "role": self.role
             })
