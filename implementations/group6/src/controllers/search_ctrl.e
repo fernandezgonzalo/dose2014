@@ -41,6 +41,7 @@ feature --handlers
 			create l_payload.make_empty
 			create j_obj.make
     		create l_result.make_array
+    		create l_search_result.default_create
 
 				-- catching the user EMAIL from the cookie
 			if req_has_cookie(req, "_session_") then
