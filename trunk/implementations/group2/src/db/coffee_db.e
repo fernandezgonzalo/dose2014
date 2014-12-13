@@ -474,6 +474,31 @@ feature -- Data access
 		end
 	end
 
+	get_previous_sprints (a_project_id:STRING): JSON_ARRAY
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		i:INTEGER
+		current_date: DATE
+	do
+			-- create a result object
+ 		create Result.make_array
+ 		create current_date.make_now
+		create db_query_statement.make ("SELECT * FROM sprint WHERE project_id = ? AND end_date<? ORDER BY end_date ASC;", db)
+		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id,current_date.out>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				rows_to_json_array (l_query_result_cursor.item, l_query_result_cursor.item.count, RESULT)
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+	end
+
 	get_project_backlog(a_project_id: STRING): JSON_ARRAY
 	local
 		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
