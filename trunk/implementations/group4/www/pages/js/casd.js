@@ -237,21 +237,21 @@ define(
                             resolve:
                             {
                                 sprints:
-                                    [
-                                        "SprintsProvider",
-                                        function (SprintsProvider)
-                                        {
-                                            return SprintsProvider.resolver();
-                                        }
-                                    ],
+                                [
+                                    "SprintsProvider",
+                                    function (SprintsProvider)
+                                    {
+                                        return SprintsProvider.resolver();
+                                    }
+                                ],
                                 projects:
-                                    [
-                                        "ProjectsProvider",
-                                        function (ProjectsProvider)
-                                        {
-                                            return ProjectsProvider.resolver();
-                                        }
-                                    ]
+                                [
+                                    "ProjectsProvider",
+                                    function (ProjectsProvider)
+                                    {
+                                        return ProjectsProvider.resolver();
+                                    }
+                                ]
                             }
                         }
                     )
