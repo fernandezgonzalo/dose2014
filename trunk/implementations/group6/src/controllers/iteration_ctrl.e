@@ -76,7 +76,7 @@ feature --handlers
 
 			else
 
-				j_obj.put (create {JSON_STRING}.make_json ("Iterationsof the project " + l_project), create {JSON_STRING}.make_json ("success"))
+				j_obj.put (create {JSON_STRING}.make_json ("Iterations of the project " + l_project), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (my_db.get_all_project_iterations (l_project), create {JSON_STRING}.make_json ("iterations"))
 				l_result_payload.extend (j_obj)
 
