@@ -104,7 +104,7 @@ feature -- Basic operations
 		do
 				-- handling the routes related to "sessions"
 			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.login , router.methods_post)
-			map_uri_template_agent_with_request_methods ("/api/sessions", agent session_ctrl.logout , router.methods_delete)
+			map_uri_template_agent_with_request_methods ("/api/sessions/logout", agent session_ctrl.logout , router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/sessions/forgotpassword", agent session_ctrl.forgot_password , router.methods_post)
 
 
