@@ -13,77 +13,9 @@ angular.module('Wbpms')
       $scope.workItems = []; 
 
       $scope.comments = [];
-     /* {
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 1'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 2'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 3'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 4'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 5'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 6'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 7'
-      },{
-        date :'12/12/2014',
-        author : 'Guille',
-        content : 'Comentario 8'
-      }
-      ]; */
-
+     
       $scope.linkss = [];
-
-      /*{ work_item_id : 'work item 04'
-      },{
-        work_item_id : 'work item 05'
-      },{
-        work_item_id : 'work item 06'
-      }
-      ]; */
-
-
-     // $scope.work_items = [];     
-
-    /*  $scope.workItems = [
-            {
-                idWorkItem:'001',
-                title:'Work Item 001',
-                point:'00/00'
-            },
-            {
-                idWorkItem:'002',
-                title:'Work Item 002',
-                point:'00/00'
-            },
-            {
-                idWorkItem:'003',
-                title:'Work Item 003',
-                point:'00/00'
-            },
-            {
-                idWorkItem:'004',
-                title:'Work Item 004',
-                point:'00/00'
-            }
-        ]; */
-        
+ 
       $scope.workItemModel = {
            idWorkItem: '',
            title: '',
@@ -224,7 +156,7 @@ angular.module('Wbpms')
             .success(function(data, status, header, config) {
               alert("The work item was deleted");
               for(var i =0; i < $scope.workItems.length; i++) {
-                if($scope.workItems[i].work_item_id === delWorkItem.work_item_id) {
+                if($scope.workItems[i].work_item_id === idWorkItem) {
                   $scope.workItems.splice(i, 1);
                   break;
                 }
@@ -321,6 +253,13 @@ angular.module('Wbpms')
      $scope.goToWorkItem = function(work_item){
         alert("Newell's Old Boys!!!!");
     }
+
+    $scope.setDelete = function(idWorkItem) {
+        // Set number work Item to Delete
+
+          $scope.delWorkItem.work_item_id = idWorkItem;
+
+        }
 
 
   }
