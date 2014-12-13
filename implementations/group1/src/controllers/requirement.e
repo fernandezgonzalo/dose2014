@@ -17,29 +17,42 @@ create
 feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
+		require
+			valid_parameter: a_dao /= void and a_session_manager /= void
 		do
 			my_db := a_dao
+			session_manager := a_session_manager
+		ensure
+			my_db = a_dao and session_manager = a_session_manager
 		end
 
 feature {NONE} -- Private attributes
 
 	my_db: DB
+
 	session_manager: WSF_SESSION_MANAGER
 
 feature -- Handlers
 
 	get_requeriments (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all requeriments
+		require
+			valid_session: req_has_cookie (req, "_session_")
 		local
 			l_result_payload: STRING
 		do
 			l_result_payload := my_db.search_requirement.representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	get_a_requeriment (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with a requeriment
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_requeriment_id: STRING
@@ -48,10 +61,14 @@ feature -- Handlers
 			l_result_payload := my_db.search_a_requirement (l_requeriment_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	add_requeriment (req: WSF_REQUEST; res: WSF_RESPONSE)
-
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_project").string_representation /= void
 		local
 			l_payload, desc, estimation, l_project_id: STRING
 			parser: JSON_PARSER
@@ -73,16 +90,14 @@ feature -- Handlers
 				-- for the todo description and the userId
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 
-						-- we have to convert the json string into an eiffel string
-					if attached {JSON_STRING} j_object.item ("estimation") as n then
-						estimation := n.unescaped_string_8
-					end
-
-					if attached {JSON_STRING} j_object.item ("desc") as d then
-						desc := d.unescaped_string_8
-					end
+					-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("estimation") as n then
+					estimation := n.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("desc") as d then
+					desc := d.unescaped_string_8
+				end
 			end
-
 			l_project_id := req.path_parameter ("id_project").string_representation
 			flag := my_db.add_requirement (estimation, desc, l_project_id)
 
@@ -93,34 +108,43 @@ feature -- Handlers
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
-	end
+		ensure
+			response_not_null: res /= void
+		end
 
 	delete_requirement (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted requirement
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= void
 		local
 			l_result: JSON_OBJECT
 			l_requirement_id: STRING
 		do
-				l_requirement_id := req.path_parameter ("id_requirement").string_representation
-				my_db.remove_requirement (l_requirement_id.to_natural_8)
-				create l_result.make
-				l_result.put (create {JSON_STRING}.make_json ("Project removed " + l_requirement_id.out), create {JSON_STRING}.make_json ("Message"))
-				set_json_header_ok(res, l_result.count)
-				res.put_string(l_result.representation)
+			l_requirement_id := req.path_parameter ("id_requirement").string_representation
+			my_db.remove_requirement (l_requirement_id.to_natural_8)
+			create l_result.make
+			l_result.put (create {JSON_STRING}.make_json ("Project removed " + l_requirement_id.out), create {JSON_STRING}.make_json ("Message"))
+			set_json_header_ok (res, l_result.count)
+			res.put_string (l_result.representation)
+		ensure
+			response_not_null: res /= void
 		end
 
 	update_requiremet (req: WSF_REQUEST; res: WSF_RESPONSE)
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= void
 		local
-			l_payload, estimation, desc,  l_requirement_id, id_project: STRING
+			l_payload, estimation, desc, l_requirement_id, id_project: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
 		do
-			-- create emtpy string objects
+				-- create emtpy string objects
 			create l_payload.make_empty
 			create estimation.make_empty
 			create desc.make_empty
-
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -142,12 +166,8 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("id_project") as i then
 					id_project := i.unescaped_string_8
 				end
-
-
 			end
-
 			l_requirement_id := req.path_parameter ("id_requirement").string_representation
-
 			flag := my_db.update_requirement (estimation, desc, id_project, l_requirement_id)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
@@ -157,6 +177,8 @@ feature -- Handlers
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+		ensure
+			response_not_null: res /= void
 		end
 
 end
