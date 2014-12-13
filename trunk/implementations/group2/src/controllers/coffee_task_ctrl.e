@@ -134,23 +134,47 @@ feature -- Handlers
 		a_map.values.extend (l_req_id)
 	end
 
+	add_data_to_map_task_log (req: WSF_REQUEST a_task_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+	local
+		keys: ARRAYED_LIST[STRING]
+		values: ARRAYED_LIST[STRING]
+		current_date: DATE
+	do
+		--add_data_to_map_add (req, a_map)
+		create current_date.make_now
+		create keys.make(0)
+		create values.make(0)
+		keys.extend("hours_estimated")
+		values.extend(get_value_from_map("hours_estimated",a_task_map))
+		keys.extend("hours_spent")
+		values.extend(get_value_from_map("hours_spent",a_task_map))
+		keys.extend("task_timestamp")
+		values.extend(current_date.out)
+		Result:=[keys,values]
+	end
+
 	add (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+			l_map, l_log_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 			l_result: JSON_OBJECT
 			l_add_result: TUPLE[success: BOOLEAN; id: STRING]
 		do
 			create l_result.make
-
+			create l_log_map.default_create
 			if req_has_cookie (req, "_coffee_session_" ) then
 				l_map := parse_request (req)
 				add_data_to_map_add (req, l_map)
+				l_log_map:=add_data_to_map_task_log(req,l_map)
 				if is_authorized_add(req, l_map) then
 					l_add_result:= my_db.add_to_task (l_map)
 					if l_add_result.success then
 						--l_result.put (my_db.get_from_id (table_name, l_add_result.id), table_name)
 						l_result:= my_db.get_from_id (table_name, l_add_result.id)
 						return_success_without_message (l_result, res)
+						l_log_map.keys.extend("task_id")
+						l_log_map.values.extend(l_add_result.id)
+						l_add_result:=my_db.add ("task_log", l_log_map)
+
 					else
 						return_error(l_result, res,"Could not add to" + table_name, 501)
 					end
@@ -166,17 +190,22 @@ feature -- Handlers
 
 	update(req: WSF_REQUEST; res: WSF_RESPONSE)
 	local
-		l_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
+		l_map, l_log_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
 		l_update_result: TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create l_result.make
+		create l_log_map.default_create
 		if req_has_cookie (req, "_coffee_session_" ) then
 			l_map := parse_request (req)
 			add_data_to_map_update (req, l_map)
+			l_log_map:=add_data_to_map_task_log(req,l_map)
 			if is_authorized_update(req, l_map) then
 				l_update_result:= my_db.update_task (l_map)
 				if l_update_result.success then
+					l_log_map.keys.extend("task_id")
+					l_log_map.values.extend(l_update_result.id)
+					l_update_result:=my_db.add ("task_log", l_log_map)
 					l_result:= my_db.get_from_id (table_name, l_update_result.id)
 					return_success_without_message (l_result, res)
 				else
