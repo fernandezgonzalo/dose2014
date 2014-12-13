@@ -46,7 +46,7 @@ feature -- Data access
 	add (user : USER)
 			-- adds a new user
 		require
-			valid_user: (user/=void)
+			valid_user: (user/=Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Users(user_name,is_active,email,password) "+
 											"VALUES ('" + user.username + "','"+ user.is_active.to_integer.out +"',"+
@@ -60,7 +60,7 @@ feature -- Data access
 	update (user_id : NATURAL;user: USER)
 			-- updates a user
 		require
-			valid_user: (user/=void)
+			valid_user: (user/=Void)
 		do
 			create db_modify_statement.make ("UPDATE Users SET user_name = '"+ user.username +"',"+
 															  "email = '"+ user.email +"',"+
@@ -87,7 +87,7 @@ feature -- Data access
 			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
 			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
 		require
-			valid_email: (a_email/=void) and (a_email.count>0)
+			valid_email: (a_email/=Void) and (a_email.count>0)
 		local
 			json_result : JSON_OBJECT
 		do
