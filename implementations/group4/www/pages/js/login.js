@@ -37,7 +37,8 @@ define(
                     {
                         restapi.login(form.email, form.password).then
                         (
-                            function () {
+                            function ()
+                            {
                                 $state.go("projects");
                             }
                         )
