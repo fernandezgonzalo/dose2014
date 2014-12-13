@@ -11,7 +11,8 @@ define(
         "blocks/edittask/edittask",
         "blocks/createsprint/createsprint",
         "blocks/editsprint/editsprint",
-        "pages/js/restapi"
+        "pages/js/restapi",
+        "pages/js/alertservice"
     ],
 
     function(angular)
@@ -26,7 +27,8 @@ define(
                 "uiCreateSprintModule",
                 "uiEditSprintModule",
                 "RestApiModule",
-                "ngDragDrop"
+                "ngDragDrop",
+                "AlertServiceModule"
             ]
         )
 
@@ -110,7 +112,8 @@ define(
                 "data",
                 "restapi",
                 "$stateParams",
-                function($scope, data, restapi, $stateParams)
+                "alertservice",
+                function($scope, data, restapi, $stateParams, alertservice)
                 {
                     $scope.sprint = data.sprint;
                     $scope.tasks = data.tasks;
@@ -163,6 +166,7 @@ define(
                             }
                             if(points > parseInt($scope.project.max_points_per_sprint, 10))
                             {
+                                alertservice.add("danger",  "You can't add the task to the sprint because maximum points per sprint has exceeded!", 3500);
                                 return update_project_tasks();
                             }
                         }

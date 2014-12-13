@@ -5,6 +5,7 @@ define(
         "angular",
         "angularUIRoute",
         "angularAnimate",
+        "bootstrapUi",
 
         //Custom includes
         "blocks/navbar/navbar",
@@ -12,7 +13,8 @@ define(
         "pages/js/project",
         "pages/js/login",
         "pages/js/user",
-        "pages/js/restapi"
+        "pages/js/restapi",
+        "pages/js/alertservice"
     ],
 
     function(angular)
@@ -28,6 +30,8 @@ define(
                 "ProjectModule",
                 "UserModule",
                 "ngAnimate",
+                "AlertServiceModule",
+                "ui.bootstrap.alert"
             ]
         )
 
@@ -249,7 +253,8 @@ define(
                 "$scope",
                 "restapi",
                 "$state",
-                function($scope, restapi, $state)
+                "alertservice",
+                function($scope, restapi, $state, alertservice)
                 {
                     $scope.$on
                     (
@@ -258,11 +263,17 @@ define(
                         {
                             if(restapi.is_logged())
                             {
+                                alert.add(undefined,  'You have made unauthorized request, please login again', 3500);
                                 restapi.logout();
                             }
                             $state.go("login");
                         }
                     );
+
+                    $scope.closeAlert = function (index)
+                    {
+                        alertservice.closeAlert(index);
+                    }
                 }
             ]
         );

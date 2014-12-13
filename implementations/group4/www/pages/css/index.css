@@ -100,3 +100,15 @@ body {
   -webkit-transform: translate3d(100px, 0, 0);
   -moz-transform: translate3d(100px, 0, 0);
   transform: translate3d(100px, 0, 0); }
+
+.alert.ng-enter {
+  -webkit-animation: rubberBand 500ms;
+  -moz-animation: rubberBand 500ms;
+  -o-animation: rubberBand 500ms;
+  animation: rubberBand 500ms; }
+
+.alert.ng-leave {
+  -webkit-animation: bounceOutRight 500ms;
+  -moz-animation: bounceOutRight 500ms;
+  -o-animation: bounceOutRight 500ms;
+  animation: bounceOutRight 500ms; }
