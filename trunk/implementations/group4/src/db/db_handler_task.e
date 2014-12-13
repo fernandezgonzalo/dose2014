@@ -38,6 +38,8 @@ feature -- Data access
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Tasks WHERE id=" + a_task_id.out + ";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 11, Result))
+		ensure
+			correct_id: (Result.item ("id").debug_output.is_equal(a_task_id.out))
 		end
 
 	find_by_project_id (a_project_id : NATURAL) : JSON_ARRAY
@@ -50,6 +52,8 @@ feature -- Data access
 
 	add_super(a_task: TASK)
 			-- Adds a task
+		require
+			task_not_void: (a_task /= Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,sprint_id,project_id,user_id) VALUES ('" + a_task.priority + "','" + a_task.position + "','" + a_task.type + "','" + a_task.description + "','" + a_task.title + "','" + a_task.points.out + "','" + a_task.sprint_id.out + "','" + a_task.project_id.out + "','" + a_task.user_id.out + "');", db);
 			db_insert_statement.execute
@@ -61,12 +65,14 @@ feature -- Data access
 			create db_modify_statement.make ("UPDATE Tasks SET super_task_id = " + db_insert_statement.last_row_id.out + " WHERE id = " + db_insert_statement.last_row_id.out + ";" , db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
-				print("Error while inserting a new topic. (super_task_id not set)")
+				print("Error while inserting a new task. (super_task_id not set)")
 			end
 		end
 
 	add_sub(a_task: TASK)
 			-- Adds a sub task
+		require
+			subtask_not_void: (a_task /= Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,project_id,user_id) VALUES ('" + a_task.priority + "','" +
 																																						       a_task.position + "','" +
@@ -86,6 +92,8 @@ feature -- Data access
 
 	update (task_id : NATURAL; task: TASK)
 			-- Update a task
+		require
+			task_not_void: (task /= Void)
 		do
 				create db_modify_statement.make ("UPDATE Tasks SET priority = '"+ task.priority +"',"+
 																  "position = '"+ task.position +"',"+
