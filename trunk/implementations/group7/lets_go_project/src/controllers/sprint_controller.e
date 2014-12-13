@@ -144,7 +144,8 @@ feature {None} -- Internal helpers
 						start_date := get_string_from_json(input.item(start_date_key))
 						end_date := get_string_from_json(input.item(end_date_key))
 					end
-					Result := sprint_does_not_overlap(project_id, start_date, end_date)
+					Result := sprint_does_not_overlap(sprint_id, project_id, start_date, end_date)
+					print("%NOverlapping: " + Result.out)
 
 				else
 						-- Creation of a new sprint
@@ -156,16 +157,16 @@ feature {None} -- Internal helpers
 							-- start_date and end_date given
 						start_date := get_string_from_json(input.item(start_date_key))
 						end_date := get_string_from_json(input.item(end_date_key))
-						Result := sprint_does_not_overlap(project_id, start_date, end_date)
+						Result := sprint_does_not_overlap(sprint_id, project_id, start_date, end_date)
 					end
 				end
 			end
 		end
 
 
-	sprint_does_not_overlap(project_id, start_date, end_date: STRING): BOOLEAN
+	sprint_does_not_overlap(sprint_id, project_id, start_date, end_date: STRING): BOOLEAN
 		do
-			Result :=  db.query_rows ("SELECT id FROM sprints where project_id = ? AND (start_date > ? AND start_date < ? OR end_date > ? AND end_date < ? OR start_date <= ? AND end_date >= ?)", <<project_id, start_date, end_date, start_date, end_date, start_date, end_date>>).count = 0
+			Result :=  db.query_rows ("SELECT id FROM sprints WHERE NOT id = ? AND project_id = ? AND (start_date > ? AND start_date < ? OR end_date > ? AND end_date < ? OR start_date <= ? AND end_date >= ?)", <<sprint_id, project_id, start_date, end_date, start_date, end_date, start_date, end_date>>).count = 0
 		end
 
 
