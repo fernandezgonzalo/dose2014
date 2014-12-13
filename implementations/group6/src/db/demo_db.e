@@ -361,7 +361,7 @@ feature --data access: USERS
 
 			create db_query_statement.make("SELECT * FROM user;" , db)
 
-			db_query_statement.execute(agent rows_to_json_array (?, 7, Result))
+			db_query_statement.execute(agent rows_to_json_array (?, 8, Result))
 
 		end
 
@@ -1177,7 +1177,7 @@ feature --SEARCH
 			 keyword.prepend ("%%")
 			 keyword.append ("%%")
 
-			create db_query_statement.make("SELECT email, name, surname, gender, role, photo FROM user WHERE email LIKE '" + keyword + "';" , db)
+			create db_query_statement.make("SELECT email, name, surname, male as gender, role, photo FROM user WHERE email LIKE '" + keyword + "';" , db)
 			db_query_statement.execute(agent rows_to_json_array (?, 6, j_arr))
 
 			if j_arr.count > 0 then

@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 				-- create the dao object and the controllers
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create dao.make (path_to_db_file)
-			
+
 			create session_manager.make
 			create session_ctrl.make(dao, session_manager)
 			create project_ctrl.make (dao, session_manager)
