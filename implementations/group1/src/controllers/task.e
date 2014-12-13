@@ -17,8 +17,13 @@ create
 feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
+		require
+			valid_parameter: a_dao /= void and a_session_manager /= void
 		do
 			my_db := a_dao
+			session_manager := a_session_manager
+		ensure
+			my_db = a_dao and session_manager = a_session_manager
 		end
 
 feature {NONE} -- Private attributes
@@ -30,7 +35,10 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 	add_a_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new project
+			-- adds a new task
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= void and req.path_parameter ("id_sprint").string_representation /= void and req.path_parameter ("id_user").string_representation /= void
 		local
 			l_payload, desc, comment, duration, points, status, l_user_id, l_requirement_id, l_sprint_id: STRING
 			parser: JSON_PARSER
@@ -84,20 +92,29 @@ feature -- Handlers
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+		ensure
+			response_not_null: res /= void
 		end
 
 	get_tasks (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all tasks
+		require
+			valid_session: req_has_cookie (req, "_session_")
 		local
 			l_result_payload: STRING
 		do
 			l_result_payload := my_db.search_tasks.representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	get_a_task (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with a task
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_task").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_task_id: STRING
@@ -106,10 +123,15 @@ feature -- Handlers
 			l_result_payload := my_db.search_a_task (l_task_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	get_tasks_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all task by user
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_user").string_representation /= void
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -118,9 +140,14 @@ feature -- Handlers
 			l_result_payload := my_db.search_tasks_by_user (l_user_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
+		ensure
+			response_not_null: res /= void
 		end
 
 	update_task (req: WSF_REQUEST; res: WSF_RESPONSE)
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_task").string_representation /= void
 		local
 			l_payload, l_task_id, desc, comment, duration, points, status, id_user: STRING
 			parser: JSON_PARSER
@@ -176,10 +203,15 @@ feature -- Handlers
 				-- send the response
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+		ensure
+			response_not_null: res /= void
 		end
 
 	delete_task (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted project
+		require
+			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_task").string_representation /= void
 		local
 			l_result: JSON_OBJECT
 			l_task_id: STRING
@@ -190,7 +222,8 @@ feature -- Handlers
 			l_result.put (create {JSON_STRING}.make_json ("Task removed " + l_task_id.out), create {JSON_STRING}.make_json ("Message"))
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+		ensure
+			response_not_null: res /= void
 		end
-
 
 end
