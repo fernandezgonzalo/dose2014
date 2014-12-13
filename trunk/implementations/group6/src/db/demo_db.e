@@ -407,7 +407,7 @@ feature --data access: USERS
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			create db_insert_statement.make ("INSERT INTO user(email,password,name,surname,male,role,photo, changepwd) VALUES (?,?,?,?,?,?,?,?);", db)
-			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo, false>>)
+			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo, is_male>>)
 
 		end
 
@@ -539,7 +539,7 @@ feature --data access: USERS
 				Result.check_result := False
 
 			else
-				
+
 				Result.check_result := True
 				Result.email := l_query_result_cursor.item.value (1).out
 				Result.name := l_query_result_cursor.item.value (2).out

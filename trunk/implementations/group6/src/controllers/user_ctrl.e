@@ -47,7 +47,8 @@ feature --handlers
 			--creates a new user to the database; new user's information (mail, password, name, surname,
 			--gender, role, photo) are expected to be part of the request payload
 		local
-				l_payload, l_name, l_surname, l_email, l_pwd, l_gender, l_role, l_photo: STRING
+				l_payload, l_name, l_surname, l_email, l_pwd, l_role, l_photo: STRING
+				l_gender: BOOLEAN
 				parser: JSON_PARSER
 				l_result: JSON_OBJECT
 				-- Adds for sending email
@@ -63,7 +64,7 @@ feature --handlers
 				create l_pwd.make_empty
 				create l_role.make_empty
 				create l_photo.make_empty
-				create l_gender.make_empty
+				create l_gender.default_create
 
 					-- read the payload from the request and store it in the string
 				req.read_input_data_into (l_payload)
@@ -94,8 +95,8 @@ feature --handlers
 					if attached {JSON_STRING} j_object.item ("photo") as s then
 						l_photo := s.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("gender") as s then
-						l_gender := s.unescaped_string_8
+					if attached {JSON_STRING} j_object.item ("gender") as b then
+						l_gender := b.item.to_boolean
 					end
 
 				end
@@ -133,23 +134,13 @@ feature --handlers
 					-- checking if ROLE and PHOTO are valid
 				elseif (l_role = VOID) OR (l_photo = VOID) then
 
-						-- ROLE or PHOTO not valid. Sending back an error message
+					-- ROLE or PHOTO not valid. Sending back an error message
 					l_result.put (create {JSON_STRING}.make_json ("Role or photo not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
-				elseif (l_gender = VOID) OR (l_gender.is_empty) OR ((not l_gender.is_equal ("male")) AND (not l_gender.is_equal ("female"))) then
-
-						-- GENDER not valid. Sending back an error message
-					l_result.put (create {JSON_STRING}.make_json ("Gender not valid."), create {JSON_STRING}.make_json ("error"))
-					set_json_header (res, 401, l_result.representation.count)
 				else
-
-					if (l_gender.is_equal ("male")) then
-						my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, TRUE)
-					else
-						my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, FALSE)
-
-					end
+						-- everything ok. Create the user in the database
+					my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, l_gender)
 
 						-- Sending back a success message
 					l_result.put (create {JSON_STRING}.make_json ("Added new user " + l_email + " to the database."), create {JSON_STRING}.make_json ("success"))
