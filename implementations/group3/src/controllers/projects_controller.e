@@ -25,7 +25,8 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			payload, name: STRING
+			payload, name, start_time, end_time: STRING
+			flag: BOOLEAN
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
@@ -36,14 +37,28 @@ feature -- Handlers
 
 			create parser.make_parser(payload)
 
+			flag := false
+
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				if attached {JSON_STRING} j_object.item ("name") as s then
-					name := s.unescaped_string_8
+				if attached {JSON_STRING} j_object.item ("name") as n then
+					name := n.unescaped_string_8
 				end
 
+				if attached {JSON_STRING} j_object.item ("start_time") as st then
+					start_time := st.unescaped_string_8
+					flag := true
+				end
+
+				if attached {JSON_STRING} j_object.item ("end_time") as et then
+					end_time := et.unescaped_string_8
+				end
 			end
 
-			db_model.new(name)
+			if flag then
+				db_model.new(name, start_time, end_time)
+			else
+				db_model.new(name, "", "")
+			end
 
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Created project " + name), create {JSON_STRING}.make_json ("Message"))

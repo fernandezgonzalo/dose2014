@@ -41,7 +41,7 @@ feature
 				end
 			end
 
-			result_payload := db_model.new(description, user_id.to_natural).representation
+			result_payload := db_model.new(description, user_id).representation
 
 			set_json_header_ok (res, result_payload.count)
 			res.put_string(result_payload)
@@ -54,11 +54,10 @@ feature
 		do
 			user_id := req.path_parameter ("user_id").string_representation
 
-			result_payload := db_model.by_user(user_id.to_natural).representation
+			result_payload := db_model.by_user(user_id).representation
 
 			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
 		end
-
 
 end

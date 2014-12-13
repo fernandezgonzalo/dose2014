@@ -26,11 +26,13 @@ feature {NONE}
 	Project: PROJECT
 	Task: TASK
 	User: USER
+	Sprint: SPRINT
 
 	initialize
 		do
 			create db.make_open_read_write (".." + Operating_environment.directory_separator.out + "dose_backend.db")
 			create Project.make(db, "projects")
+			create Sprint.make(db, "sprints")
 			create Task.make(db, "tasks")
 			create User.make(db, "users")
 			create tasks_controller.make(Task)
@@ -48,6 +50,7 @@ feature
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 		do
 			map_uri_template_agent_with_request_methods("/tasks", agent tasks_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods("/tasks/by_user/{id}", agent tasks_controller.by_user, router.methods_get)
 			map_uri_template_agent_with_request_methods("/tasks", agent tasks_controller.add, router.methods_post)
 			map_uri_template_agent_with_request_methods("/tasks/{id}", agent tasks_controller.remove, router.methods_delete)
 			map_uri_template_agent_with_request_methods("/tasks/{id}", agent tasks_controller.show, router.methods_get)
