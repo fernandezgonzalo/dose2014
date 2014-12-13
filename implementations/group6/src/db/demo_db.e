@@ -547,13 +547,15 @@ feature --data access: USERS
 				Result.password := l_query_result_cursor.item.value (4).out
 				Result.role := l_query_result_cursor.item.value (6).out
 
-				if l_query_result_cursor.item.value(5) = 1 then
+
+
+				if l_query_result_cursor.item.value(5).out.is_equal ("1") then
 					Result.gender := "male"
 				else
 					Result.gender := "female"
 				end
 
-				if l_query_result_cursor.item.value(8) = 1 then
+				if l_query_result_cursor.item.value(8).out.is_equal ("1") then
 					Result.changepwd := "true"
 				else
 					Result.changepwd := "false"
