@@ -34,10 +34,20 @@ feature -- Test routines
 		local
 			db_handler : DB_HANDLER_ANSWER
 			json_result : JSON_OBJECT
+			ok, second_time : BOOLEAN
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
-			json_result := db_handler.find_by_id (100)
-			assert ("Answer not found", json_result.is_empty )
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
+			if not second_time then
+				ok := True
+				json_result := db_handler.find_by_id (100)
+				ok := False
+			end
+			assert ("routine failed, as expected", ok )
+		rescue
+			second_time := True
+			if ok then
+				retry
+			end
 		end
 
 	add_answer_test
@@ -47,7 +57,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_ANSWER
 		do
 			create answer.make ("Another answer", 1, 1)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (answer)
@@ -64,7 +74,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_ANSWER
 		do
 			create answer.make ("Another answer", 1, 1)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (answer)
@@ -74,7 +84,6 @@ feature -- Test routines
 			db_handler.update (db_handler.db_insert_statement.last_row_id.to_natural_32, answer)
 				-- assert the answer was successfully updated.
 			assert ("Answer successfully updated", not db_handler.db_insert_statement.has_error )
-
 				-- remove the answer added for test.
 			db_handler.db.rollback
 		end
@@ -86,15 +95,13 @@ feature -- Test routines
 			db_handler : DB_HANDLER_ANSWER
 		do
 			create answer.make ("Another answer", 1, 1)
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (answer)
 			db_handler.remove (db_handler.db_insert_statement.last_row_id.to_natural_32)
-
 				-- assert if the answer was successfully removed.
 			assert ("Answer successfully removed", not db_handler.db_modify_statement.has_error)
-
 			db_handler.db.rollback
 		end
 

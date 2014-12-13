@@ -57,7 +57,6 @@ feature -- Test routines
 				ok := false
 			end
 			assert("routine failed, as expected.",ok)
-			--assert("User not found", json_result.is_empty)
 		rescue
 			second_time := true
 			if ok then
@@ -65,15 +64,13 @@ feature -- Test routines
 			end
 		end
 
-
-
 	find_by_project_id_project_with_collaborators_test
 			-- Test for routine find_by_project_id with a project that have collaborators.
 		local
 			db_handler : DB_HANDLER_USER
 			json_array_result : JSON_ARRAY
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_array_result := db_handler.find_by_project_id (1)
 			assert("Users obtained", json_array_result.count>0)
 		end
@@ -84,7 +81,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 			json_array_result : JSON_ARRAY
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_array_result := db_handler.find_by_project_id (100)
 			assert("There are no users ", json_array_result.count=0)
 		end
@@ -96,7 +93,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 		do
 			create user.make ("email@email.com", "Name", "pass")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(user)
@@ -113,7 +110,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 		do
 			create user.make("email@email.com","Name","pass")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add(user)
@@ -136,7 +133,7 @@ feature -- Test routines
 			json_result : JSON_OBJECT
 		do
 			create user.make("email@email.com","Name","pass")
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			db_handler.db.begin_transaction (true)
 			db_handler.add (user)
@@ -156,10 +153,8 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
-
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			l_user_data := db_handler.has_user ("name1@mail.com")
-
 			assert("User found", l_user_data.has_user)
 			assert("Correct user_id", l_user_data.user_id.is_equal ("1"))
 		end
@@ -170,10 +165,8 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 			l_user_data: TUPLE [has_user: BOOLEAN; user_id: STRING; email: STRING; hashed_pass: STRING]
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
-
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			l_user_data := db_handler.has_user ("no mail")
-
 			assert("User not found", not l_user_data.has_user)
 		end
 

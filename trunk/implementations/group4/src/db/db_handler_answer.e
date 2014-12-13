@@ -21,10 +21,12 @@ feature -- Data access
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Answers WHERE id="+ answer_id.out +";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+		ensure
+			correct_id: Result.item ("id").debug_output.is_equal(answer_id.out)
 		end
 
 	find_by_topic_id (topic_id : NATURAL) : JSON_ARRAY
-			-- return a JSON_ARRAY where each element is a JSON_OBJECT that represents an answer
+			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents an answer
 			-- related with a topic with id = topic_id
 		do
 			create Result.make_array
@@ -34,6 +36,8 @@ feature -- Data access
 
 	add (answer : ANSWER)
 			-- adds a new answer
+		require
+			valid_answer: (answer/=void)
 		do
 			create db_insert_statement.make ("INSERT INTO Answers(description,topic_id,user_id) "+
 											"VALUES ('" + answer.description + "','"+ answer.topic_id.out +"',"+
@@ -45,7 +49,9 @@ feature -- Data access
 		end
 
 	update (answer_id : NATURAL;answer: ANSWER)
-			-- update an answer
+			-- updates an answer
+		require
+			valid_answer: (answer/=void)
 		do
 			create db_modify_statement.make ("UPDATE Answers SET description = '"+ answer.description +"',"+
 															  "topic_id = '"+ answer.topic_id.out +"',"+
@@ -64,7 +70,6 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting an answer")
-					-- TODO: we probably want to return something if there's an error
 			end
 		end
 

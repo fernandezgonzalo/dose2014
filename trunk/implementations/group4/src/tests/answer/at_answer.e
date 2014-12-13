@@ -25,15 +25,15 @@ feature -- Test routines
 			assert ("Topic id ok", answer.topic_id=1)
 		end
 
-	new_answer_with_invalid_user_id_test
-			-- Test that creates an answer with user_id < 1 which is invalid. Should raise an exception.
+	new_answer_with_invalid_description_test
+			-- Test that creates an answer with an empty description which is invalid. Should raise an exception.
 		local
 			ok, second_time : BOOLEAN
 			answer : ANSWER
 		do
 			if not second_time then
 				ok := true
-				create answer.make ("Some answer",1,0)
+				create answer.make ("",1,1)
 				ok := false
 			end
 			assert("routine failed, as expected.",ok)
