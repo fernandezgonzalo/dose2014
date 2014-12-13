@@ -20,12 +20,10 @@ define(
             "SprintsCtr",
             [
                 "$scope",
-                "$log",
-                "restapi",
                 "sprints",
                 "projects",
                 "$state",
-                function($scope, $log, restapi, sprints, projects, $state)
+                function($scope, sprints, projects, $state)
                 {
                     $scope.sprints = sprints;
                     $scope.projects = projects;

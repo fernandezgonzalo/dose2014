@@ -15,7 +15,8 @@ define(
         "pages/js/user",
         "pages/js/restapi",
         "pages/js/alertservice",
-        "pages/js/sprints"
+        "pages/js/sprints",
+        "pages/js/tasks"
     ],
 
     function(angular)
@@ -33,7 +34,8 @@ define(
                 "ngAnimate",
                 "AlertServiceModule",
                 "ui.bootstrap.alert",
-                "SprintsModule"
+                "SprintsModule",
+                "TasksModule"
             ]
         )
 
@@ -261,7 +263,27 @@ define(
                         "tasks",
                         {
                             url: "/tasks",
-                            templateUrl: "pages/html/tasks.html"
+                            templateUrl: "pages/html/tasks.html",
+                            controller: "TasksCtr",
+                            resolve:
+                            {
+                                tasks:
+                                [
+                                    "TasksProvider",
+                                    function (TasksProvider)
+                                    {
+                                        return TasksProvider.resolver();
+                                    }
+                                ],
+                                projects:
+                                [
+                                    "ProjectsProvider",
+                                    function (ProjectsProvider)
+                                    {
+                                        return ProjectsProvider.resolver();
+                                    }
+                                ]
+                            }
                         }
                     );
                 }

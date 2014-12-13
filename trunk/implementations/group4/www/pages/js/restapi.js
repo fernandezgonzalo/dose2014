@@ -351,7 +351,7 @@ define(
                     module.sprints = function()
                     {
                         return $http.get("/api/sprints")
-                            .then
+                        .then
                         (
                             function (data)
                             {
@@ -389,7 +389,8 @@ define(
                         return $http.delete("/api/projects/" + project_id + "/tasks/" + task_id);
                     };
 
-                    module.edit_project_task = function (form, project_id, sprint_id, task_id) {
+                    module.edit_project_task = function (form, project_id, sprint_id, task_id)
+                    {
                         var request =
                         {
                             title: form.title,
@@ -402,6 +403,18 @@ define(
                         };
 
                         return $http.post("/api/projects/" + project_id + "/tasks/" + task_id, request);
+                    };
+
+                    module.tasks = function()
+                    {
+                        return $http.get("/api/tasks")
+                        .then
+                        (
+                            function (data)
+                            {
+                                return data.data;
+                            }
+                        )
                     };
 
                     //////////////////////////////////////////////////////////////
