@@ -254,6 +254,7 @@ define(
                 "restapi",
                 "$state",
                 "alertservice",
+                "$rootScope",
                 function($scope, restapi, $state, alertservice)
                 {
                     $scope.$on
@@ -263,10 +264,13 @@ define(
                         {
                             if(restapi.is_logged())
                             {
-                                alert.add(undefined,  'You have made unauthorized request, please login again', 3500);
-                                restapi.logout();
+                                alertservice.add(undefined,  "You're not allowed to perform that operation!", 3000);
                             }
-                            $state.go("login");
+                            else
+                            {
+                                alertservice.add(undefined,  "Please, login into the system!", 3000);
+                                $state.go("login");
+                            }
                         }
                     );
 

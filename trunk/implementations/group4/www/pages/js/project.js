@@ -275,7 +275,8 @@ define(
                 "all_users",
                 "collaborators",
                 "restapi",
-                function($scope, $stateParams, all_users, collaborators, restapi)
+                "alertservice",
+                function($scope, $stateParams, all_users, collaborators, restapi, alertservice)
                 {
                     function update_project_collaborators()
                     {
@@ -294,9 +295,15 @@ define(
                     $scope.add_collaborator = function()
                     {
                         if($scope.selectedUsers === undefined || $scope.selectedUsers === null)
+                        {
+                            alertservice.add(undefined, "Select user!", 2000);
                             return false;
+                        }
                         if($scope.selectedUsers.originalObject.id === $scope.project.user_id)
+                        {
+                            alertservice.add(undefined, "You are the owner!", 2000);
                             return false;
+                        }
                         return restapi.add_project_collaborator($stateParams.id, $scope.selectedUsers.originalObject.id)
                             .then(update_project_collaborators);
                     };

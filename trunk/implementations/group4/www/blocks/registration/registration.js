@@ -51,7 +51,8 @@ define(
                 "$modal",
                 "$log",
                 "restapi",
-                function($scope, $modal, $log, restapi)
+                "$state",
+                function($scope, $modal, $log, restapi, $state)
                 {
                     $scope.register = function (size)
                     {
@@ -69,7 +70,21 @@ define(
                             function (form)
                             {
                                 $log.info(form);
-                                restapi.register(form.name, form.email, form.password);
+                                restapi.register(form.name, form.email, form.password)
+                                .then
+                                (
+                                    function()
+                                    {
+                                        restapi.login(form.email, form.password)
+                                        .then
+                                        (
+                                            function()
+                                            {
+                                                $state.go("projects");
+                                            }
+                                        )
+                                    }
+                                )
                             }
                         );
                     };

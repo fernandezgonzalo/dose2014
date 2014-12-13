@@ -199,7 +199,14 @@ define(
                         (
                             function(data)
                             {
+                                alertservice.add("success", "You've successfully created new project!", 2000);
                                 return data.data;
+                            },
+                            function(data)
+                            {
+                                alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
                             }
                         );
                     };
@@ -234,8 +241,14 @@ define(
                         (
                             function(data)
                             {
-                                console.log(data.data);
+                                alertservice.add("success", "You've successfully add new task!", 2000);
                                 return data.data;
+                            },
+                            function(data)
+                            {
+                                alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
                             }
                         );
                     };
@@ -263,7 +276,21 @@ define(
                     };
 
                     module.add_project_collaborator = function (project_id, user_id) {
-                        return $http.post("/api/projects/" + project_id + "/collaborators/" + user_id, {});
+                        return $http.post("/api/projects/" + project_id + "/collaborators/" + user_id, {})
+                        .then
+                        (
+                            function(data)
+                            {
+                                alertservice.add("success", "New collaborator was added successfully!", 2000);
+                                return data.data;
+                            },
+                            function(data)
+                            {
+                                alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
+                            }
+                        )
                     };
 
                     module.remove_project_collaborator = function (project_id, user_id) {
@@ -277,7 +304,22 @@ define(
                             status: form.status,
                             duration: form.duration.toString()
                         };
-                        return $http.post("/api/projects/" + project_id + "/sprints", request);
+
+                        return $http.post("/api/projects/" + project_id + "/sprints", request)
+                        .then
+                        (
+                            function(data)
+                            {
+                                alertservice.add("success", "You've successfully created new sprint!", 2000);
+                                return data.data;
+                            },
+                            function(data)
+                            {
+                                alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
+                            }
+                        )
                     };
 
                     module.edit_sprint = function(form, project_id, sprint_id)
