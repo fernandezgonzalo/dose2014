@@ -26,19 +26,19 @@
                     <td>{{workItem.name}}</td>
                     <td>{{workItem.points}}</td>
                     <td>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal3" ng-click="setDelete(workItem.number)">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalDelete" ng-click="setDelete(workItem.number)">
                             <i class="fa fa-times"></i>                           
                         </button>                         
                     </td>
                   </tr>
                 </table>
               </div>
-              </div>
+            </div>
         </div> <!-- end of container --> 
     </div>
 
-<!--Modal add Work Item -->
-<div class="modal bs-example-modal-lg" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!--Modal add Work Item -->
+  <div class="modal bs-example-modal-lg" id="exampleModal8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -172,7 +172,7 @@
         </div>
     </div>
     <!-- Modal Delete Work Item -->
-    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -182,9 +182,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-4">
-                                <form class="form-signin" role="form" id="1181323998">
-                                    <h5> Number of Work Item </h5>
-                                        <input type="nameProject" id="inputWorkItem" class="form-control" ng-model="delWorkItem.work_item_id" ng-readonly="delWorkItem.work_item_id">
+                                <form class="form-signin" role="form">
+                                    <h5> Number Work Item </h5>
+                                        <input type="text" id="inputDelWork" class="form-control" ng-model="delWorkItem.work_item_id" ng-readonly="delWorkItem.work_item_id">
                                     <br>
                                     <br>
                                         <div class="col-lg-6">
@@ -200,7 +200,7 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>   
 
 </article>    
 <div ng-include="'partials/footer.html'"></div>

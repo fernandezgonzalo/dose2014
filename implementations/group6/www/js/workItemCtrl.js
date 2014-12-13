@@ -145,9 +145,9 @@ angular.module('Wbpms')
      }
 
      $scope.delete_work_item = function(idWorkItem) {
-      // function delete a work_item to a project
+
       var payload = {
-              work_item_id : idWorkItem
+              work_item_id : delWorkItem.work_item_id
           }
 
           
