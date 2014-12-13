@@ -137,7 +137,7 @@ feature --handlers
 					l_result.put (create {JSON_STRING}.make_json ("Role or photo not valid."), create {JSON_STRING}.make_json ("error"))
 					set_json_header (res, 401, l_result.representation.count)
 
-				elseif (l_gender = VOID) OR (l_gender.is_empty) OR (not l_gender.is_equal ("male")) OR (not l_gender.is_equal ("female")) then
+				elseif (l_gender = VOID) OR (l_gender.is_empty) OR ((not l_gender.is_equal ("male")) AND (not l_gender.is_equal ("female"))) then
 
 						-- GENDER not valid. Sending back an error message
 					l_result.put (create {JSON_STRING}.make_json ("Gender not valid."), create {JSON_STRING}.make_json ("error"))
