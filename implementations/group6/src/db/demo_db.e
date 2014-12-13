@@ -535,11 +535,11 @@ feature --data access: USERS
 
 
 			if l_query_result_cursor.after then
-					-- there are no rows in the result of the query, thus no user with that password exits
-				print("Could not find a user with the given name and password into the database.%N")
+
 				Result.check_result := False
+
 			else
-				print("A user with the given name and password was successfully found into the database.%N")
+				
 				Result.check_result := True
 				Result.email := l_query_result_cursor.item.value (1).out
 				Result.name := l_query_result_cursor.item.value (2).out
