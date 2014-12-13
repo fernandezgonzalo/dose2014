@@ -314,7 +314,7 @@ feature -- Data access Sprint
 			valid_id: id_sprint /= Void and id_sprint > 0
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT t.id FROM task t, taskuser_sprint r where r.id_sprint = '" + id_sprint.out + "' and t.id = r.id_task;", db)
+			create db_query_statement.make ("SELECT * FROM Task WHERE id_sprint = '"+id_sprint.out+"';", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
@@ -386,11 +386,11 @@ feature -- Data access Sprint
 
 feature -- Data access Task
 
-	add_task (desc, comment, status, duration, points, id_user, id_requirement: STRING): BOOLEAN
+	add_task (desc, comment, status, duration, points, id_user, id_requirement, id_sprint: STRING): BOOLEAN
 		require
-			valid_parameters: id_user /= Void and id_requirement /= Void and duration /= Void and desc /= Void
+			valid_parameters: id_user /= Void and id_requirement /= Void and duration /= Void and desc /= Void and id_sprint /= Void
 		do
-			create db_insert_statement.make ("INSERT INTO Task(desc, comment, duration, points, status, id_user, id_requirement) VALUES ('" + desc.out + "','" + comment.out + "','" + duration.out + "','" + points.out + "','" + status.out + "','" + id_user.out + "','" + id_requirement.out + ");", db);
+			create db_insert_statement.make ("INSERT INTO Task(desc, comment, duration, points, status, id_user, id_requirement, id_sprint) VALUES ('" + desc.out + "','" + comment.out + "','" + duration.out + "','" + points.out + "','" + status.out + "','" + id_user.out + "','" + id_requirement.out + "','"+id_sprint.out+"');", db);
 			db_insert_statement.execute
 			Result := True
 			if db_insert_statement.has_error then
@@ -415,7 +415,7 @@ feature -- Data access Task
 			valid_id: id_user /= Void and id_user > 0
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Task where id=" + id_user.out + ";", db)
+			create db_query_statement.make ("SELECT * FROM Task where id_user=" + id_user.out + ";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 8, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
@@ -438,7 +438,7 @@ feature -- Data access Task
 			valid_id: id /= Void and id > 0
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT id_user, name, lastname, T.id as id_task, desc, comment, duration, points, status, id_requirement FROM User as U JOIN (SELECT * FROM Task WHERE id=" + id.out + ") as T ON U.id = T.id_user;", db)
+			create db_query_statement.make ("SELECT id_user, name, lastname, T.id as id_task, desc, comment, duration, points, status, id_requirement, id_sprint FROM User as U JOIN (SELECT * FROM Task WHERE id=" + id.out + ") as T ON U.id = T.id_user;", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 10, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
@@ -467,53 +467,6 @@ feature -- Data access Task
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print ("Error while deleting a Task")
-			end
-		end
-
-feature -- Data access TaskUser_Sprint
-
-	search_task_user_sprint: JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a TaskUser_Sprint
-		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint;", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
-		ensure
-			query_not_null: db_query_statement /= Void
-		end
-
-	search_a_task_user_sprint (id: INTEGER): JSON_ARRAY
-			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a TaskUser_Sprint
-		require
-			valid_id: id /= Void and id > 0
-		do
-			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM TaskUser_Sprint WHERE id=" + id.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 3, Result))
-		ensure
-			query_not_null: db_query_statement /= Void
-		end
-
-	add_task_user_sprint (id_user, id_task, id_sprint: STRING)
-		require
-			valid_id: id_user /= Void and id_task /= Void and id_sprint /= Void
-		do
-			create db_insert_statement.make ("INSERT INTO TaskUser_Sprint(id_user, id_task, id_sprint) VALUES ('" + id_user + "','" + id_task + "','" + id_sprint + "');", db);
-			db_insert_statement.execute
-			if db_insert_statement.has_error then
-				print ("Error while inserting a new Task")
-			end
-		end
-
-	remove_task_user_sprint (id: NATURAL)
-			-- removes the todo with the given id
-		require
-			valid_id: id /= Void and id > 0
-		do
-			create db_modify_statement.make ("DELETE FROM TaskUser_Sprint WHERE id=" + id.out + ";", db)
-			db_modify_statement.execute
-			if db_modify_statement.has_error then
-				print ("Error while deleting a task_user_sprint")
 			end
 		end
 
