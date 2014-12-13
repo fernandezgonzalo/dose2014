@@ -29,6 +29,8 @@ feature -- Data access
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Users WHERE id="+ user_id.out +";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 5, Result))
+		ensure
+			correct_id: Result.item ("id").debug_output.is_equal(user_id.out)
 		end
 
 	find_by_project_id (project_id : NATURAL): JSON_ARRAY
@@ -43,6 +45,8 @@ feature -- Data access
 
 	add (user : USER)
 			-- adds a new user
+		require
+			valid_user: (user/=void)
 		do
 			create db_insert_statement.make ("INSERT INTO Users(user_name,is_active,email,password) "+
 											"VALUES ('" + user.username + "','"+ user.is_active.to_integer.out +"',"+
@@ -51,10 +55,14 @@ feature -- Data access
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
 			end
+		ensure
+			user_added: has_user(user.email).has_user
 		end
 
 	update (user_id : NATURAL;user: USER)
-			-- update a user
+			-- updates a user
+		require
+			valid_user: (user/=void)
 		do
 			create db_modify_statement.make ("UPDATE Users SET user_name = '"+ user.username +"',"+
 															  "email = '"+ user.email +"',"+
@@ -73,7 +81,6 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a User")
-					-- TODO: we probably want to return something if there's an error
 			end
 		end
 
@@ -81,6 +88,8 @@ feature -- Data access
 			-- checks if a user with given email exists
 			-- if yes, the result tuple value "has_user" will be true and "user_id"."email" and "hashed_pass" will be set
 			-- otherwise, "has_user" will be false and "user_id", "email" and "hashed_pass" will not be set
+		require
+			valid_email: (a_email/=void) and (a_email.count>0)
 		local
 			json_result : JSON_OBJECT
 		do
@@ -101,7 +110,8 @@ feature -- Data access
 				Result.email := json_result.item ("email").debug_output.out
 				Result.hashed_pass := json_result.item ("password").debug_output.out
 			end
-
+		ensure
+			correct_result: (not Result.has_user) or (Result.has_user and Result.email.is_equal(a_email))
 		end
 
 end

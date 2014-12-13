@@ -48,11 +48,24 @@ feature -- Test routines
 		local
 			db_handler : DB_HANDLER_USER
 			json_result : JSON_OBJECT
+			ok, second_time : BOOLEAN
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
-			json_result := db_handler.find_by_id (100)
-			assert("User not found", json_result.is_empty)
+			if not second_time then
+				ok := true
+				json_result := db_handler.find_by_id (100)
+				ok := false
+			end
+			assert("routine failed, as expected.",ok)
+			--assert("User not found", json_result.is_empty)
+		rescue
+			second_time := true
+			if ok then
+				retry
+			end
 		end
+
+
 
 	find_by_project_id_project_with_collaborators_test
 			-- Test for routine find_by_project_id with a project that have collaborators.
