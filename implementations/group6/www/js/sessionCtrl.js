@@ -101,16 +101,10 @@ angular.module('Wbpms')
                     $scope.loginModel.gender = data.gender;
                     $scope.loginModel.changepwd = data.changepwd;
 
-                    alert(data.gender);
-
-/*                    if(data.avatarpath===''){
-                        if(data.gender === 'Male')
-                            $scope.loginModel.avatar = 'img/male.png';
-                        else
-                            $scope.loginModel.avatar = 'img/female.png';
-                    }else{
-                        $scope.loginModel.avatar = data.avatarpath;
-                    }*/
+                    if(data.gender === 'Male')
+                        $scope.loginModel.avatar = 'img/male.png';
+                    else
+                        $scope.loginModel.avatar = 'img/female.png';
                     
                     $scope.logInSuccessMsgVisible = true;
                     $scope.logInErrorMsgVisible = false;
