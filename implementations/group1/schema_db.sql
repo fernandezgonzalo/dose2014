@@ -41,6 +41,7 @@ duration INTEGER,
 id_project INTEGER,
 FOREIGN KEY (id_project) REFERENCES Project(id) ON DELETE CASCADE
 );
+
 CREATE TABLE Task (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 desc TEXT,
@@ -50,18 +51,13 @@ points INTEGER,
 status TEXT,
 id_user INTEGER,
 id_requirement INTEGER,
-FOREIGN KEY (id_requirement ) REFERENCES Requirement (id) ON DELETE CASCADE,
-FOREIGN KEY (id_user) REFERENCES User(id) ON DELETE CASCADE
-);
-CREATE TABLE TaskUser_Sprint (
-id_user INTEGER,
-id_task INTEGER,
 id_sprint INTEGER,
-PRIMARY KEY (id_user, id_task),
-FOREIGN KEY (id_user) REFERENCES User(id) ON DELETE CASCADE,
-FOREIGN KEY (id_task) REFERENCES Task(id) ON DELETE CASCADE,
-FOREIGN KEY (id_sprint) REFERENCES Sprint(id) ON DELETE CASCADE
-);
+FOREIGN KEY (id_requirement ) REFERENCES Requirement (id) ON DELETE CASCADE,
+FOREIGN KEY (id_sprint) REFERENCES Sprint(id) ON DELETE CASCADE,
+FOREIGN KEY (id_user) REFERENCES User(id) ON DELETE CASCADE
+)
+
+
 
 CREATE TABLE Requirement (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
