@@ -147,17 +147,35 @@ define(
                         }
                     };
 
-                    $scope.on_drop = function(event, ui, data, to)
+                    $scope.on_drop = function(event, ui, sprint_id)
                     {
                         var dragged = $scope.dragged;
                         $scope.dragged = null;
-                        if(dragged == to) return;
-                        restapi.edit_project_task(data, $stateParams.id, to, data.id).then(update_project_tasks);
+
+                        if(dragged == null || dragged.sprint_id == sprint_id) return;
+
+                        if(sprint_id != $scope.backlog_id)
+                        {
+                            var points = parseInt(dragged.task.points);
+                            for(var i = 0; i < $scope.list2.length; i++)
+                            {
+                                points += parseInt($scope.list2[i].points);
+                            }
+                            if(points > parseInt($scope.project.max_points_per_sprint, 10))
+                            {
+                                return update_project_tasks();
+                            }
+                        }
+                        restapi.edit_project_task(dragged.task, $stateParams.id, sprint_id, dragged.task.id).then(update_project_tasks);
                     };
 
-                    $scope.on_drag = function(event, ui, data)
+                    $scope.on_drag = function(event, ui, task, sprint_id)
                     {
-                        $scope.dragged = data;
+                        $scope.dragged =
+                        {
+                            sprint_id: sprint_id,
+                            task: task
+                        };
                     };
 
                     $scope.remove_task = function(task)
@@ -172,6 +190,16 @@ define(
                         {
                             event.stopPropagation();
                             restapi.edit_project_task(data.form, data.project_id, data.sprint_id, data.task_id).then(update_project_tasks)
+                        }
+                    );
+
+                    $scope.$on
+                    (
+                        "create_task",
+                        function(event, data)
+                        {
+                            event.stopPropagation();
+                            restapi.create_task(data, $stateParams.id).then(update_project_tasks);
                         }
                     );
                 }
