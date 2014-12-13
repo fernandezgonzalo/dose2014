@@ -15,9 +15,9 @@ feature -- Initialization
 	make(new_user_name, new_email, new_password : STRING)
 			-- Create a new user with all the attributes.
 		require
-			valid_email: (new_email /= void) and (new_email.count>0)
-			valid_user_name: (new_user_name /= void) and (new_user_name.count>0)
-			valid_password: (new_password /= void) and (new_password.count>0)
+			valid_email: (new_email /= Void) and (new_email.count>0)
+			valid_user_name: (new_user_name /= Void) and (new_user_name.count>0)
+			valid_password: (new_password /= Void) and (new_password.count>0)
 		do
 			email := new_email
 			username := new_user_name
@@ -40,7 +40,7 @@ feature -- Operations
 	set_email (new_email : STRING)
 			-- update the user email.
 		require
-			valid_email: (new_email /= void) and (new_email.count>0)
+			valid_email: (new_email /= Void) and (new_email.count>0)
 		do
 			email := new_email
 		end
@@ -48,7 +48,7 @@ feature -- Operations
 	set_user_name (new_user_name : STRING)
 			-- update the user name
 		require
-			valid_user_name: (new_user_name /= void) and (new_user_name.count>0)
+			valid_user_name: (new_user_name /= Void) and (new_user_name.count>0)
 		do
 			username := new_user_name
 		end
@@ -56,7 +56,7 @@ feature -- Operations
 	set_password (new_password : STRING)
 			-- update the user password
 		require
-			valid_password: (new_password /= void) and (new_password.count>0)
+			valid_password: (new_password /= Void) and (new_password.count>0)
 		do
 			password := new_password
 		end

@@ -37,7 +37,7 @@ feature -- Data access
 	add (answer : ANSWER)
 			-- adds a new answer
 		require
-			valid_answer: (answer/=void)
+			valid_answer: (answer/=Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Answers(description,topic_id,user_id) "+
 											"VALUES ('" + answer.description + "','"+ answer.topic_id.out +"',"+
@@ -51,7 +51,7 @@ feature -- Data access
 	update (answer_id : NATURAL;answer: ANSWER)
 			-- updates an answer
 		require
-			valid_answer: (answer/=void)
+			valid_answer: (answer/=Void)
 		do
 			create db_modify_statement.make ("UPDATE Answers SET description = '"+ answer.description +"',"+
 															  "topic_id = '"+ answer.topic_id.out +"',"+
