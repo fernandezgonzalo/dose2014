@@ -6,11 +6,19 @@ define(
     [
         //System includes
         "angular",
-        "storeJson2"
+        "storeJson2",
+
+        //Custom includes
+        "pages/js/alertservice"
     ],
 
     function (angular, store) {
-        return angular.module("RestApiModule", [])
+        return angular.module
+        ("RestApiModule",
+            [
+                "AlertServiceModule"
+            ]
+        )
 
 
         .config
@@ -30,7 +38,8 @@ define(
             [
                 "$http",
                 "$log",
-                function($http, $log)
+                "alertservice",
+                function($http, $log, alertservice)
                 {
 
                     //////////////////////////////////////////////////////////////
@@ -84,14 +93,14 @@ define(
                             function()
                             {
                                 store.set("user", data.email);
+                                alertservice.add("success", "You are successfully logged!", 2000);
                             }
                         )
                         .error
                         (
                             function(data, status)
                             {
-                                $log.debug("error");
-                                $log.debug(data);
+                                alertservice.add("danger", "Login failed: " + data.Message + "!", 2000);
                             }
                         );
                     };
@@ -103,6 +112,7 @@ define(
                             function()
                             {
                                 store.remove("user");
+                                alertservice.add("success", "You are successfully logged out!", 2000);
                             }
                         )
                     };
