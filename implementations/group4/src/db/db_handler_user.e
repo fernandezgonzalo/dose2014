@@ -55,8 +55,6 @@ feature -- Data access
 			if db_insert_statement.has_error then
 				print("Error while inserting a new user")
 			end
-		ensure
-			user_added: has_user(user.email).has_user
 		end
 
 	update (user_id : NATURAL;user: USER)
