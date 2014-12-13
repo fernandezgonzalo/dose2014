@@ -133,7 +133,7 @@ feature -- Basic operations
 				-- handling of all the routes relating to "iterations"
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations", agent iteration_ctrl.create_iteration, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/getprojectiterations", agent iteration_ctrl.get_all_project_iterations, router.methods_post)
-			map_uri_template_agent_with_request_methods ("api/projects/iterations/delete", agent iteration_ctrl.delete_iteration, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/projects/iterations/delete", agent iteration_ctrl.delete_iteration, router.methods_post)
 
 
 				--handling of all the routes relating to "work_items"
