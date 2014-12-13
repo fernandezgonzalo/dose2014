@@ -407,7 +407,7 @@ feature --data access: USERS
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
 			create db_insert_statement.make ("INSERT INTO user(email,password,name,surname,male,role,photo, changepwd) VALUES (?,?,?,?,?,?,?,?);", db)
-			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo, is_male>>)
+			l_query_result_cursor := db_insert_statement.execute_new_with_arguments (<<an_email, a_password.hash_code, a_name, a_surname, is_male, a_role, a_path_to_a_photo, false>>)
 
 		end
 
@@ -1177,8 +1177,8 @@ feature --SEARCH
 			 keyword.prepend ("%%")
 			 keyword.append ("%%")
 
-			create db_query_statement.make("SELECT email FROM user WHERE email LIKE '" + keyword + "';" , db)
-			db_query_statement.execute(agent rows_to_json_array (?, 1, j_arr))
+			create db_query_statement.make("SELECT email, name, surname, gender, role, photo FROM user WHERE email LIKE '" + keyword + "';" , db)
+			db_query_statement.execute(agent rows_to_json_array (?, 6, j_arr))
 
 			if j_arr.count > 0 then
 
