@@ -10,9 +10,9 @@ inherit
 create
 	make
 feature
-	new(description: STRING user_id: NATURAL): JSON_ARRAY
+	new(description: STRING user_id: STRING): JSON_ARRAY
 		do
-			create db_insert_statement.make ("INSERT INTO tasks(description, user_id) VALUES ('" + description + "'," + user_id.out + ");", db);
+			create db_insert_statement.make ("INSERT INTO tasks(description, user_id) VALUES ('" + description + "'," + user_id + ");", db);
 
 			db_insert_statement.execute
 
@@ -21,10 +21,10 @@ feature
 			end
 		end
 
-	by_user(user_id: NATURAL): JSON_ARRAY
+	by_user(user_id: STRING): JSON_ARRAY
 		do
 			create Result.make_array
-			create db_query_statement.make("SELECT * FROM tasks WHERE user_id =" + user_id.out + ";" , db)
+			create db_query_statement.make("select * from tasks JOIN UsersToTasks ON UsersToTasks.taskId = tasks.id WHERE UsersToTasks.userId = " + user_id + ";" , db)
 
 			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end

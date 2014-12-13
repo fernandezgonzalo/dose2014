@@ -28,6 +28,8 @@ CREATE TABLE Users (
 
 CREATE TABLE Projects(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  start_time TEXT,
+  end_time TEXT,
   name TEXT NOT NULL UNIQUE
 );
 
