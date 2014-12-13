@@ -1,3 +1,22 @@
-<div class="container">
-    <h1>Sprints</h1>
+<div class="b-sprints container">
+    <div ng-repeat="project in projects">
+    <h2 ng-click = "state.go('projects',project.id)">Project: {{project.name}}</h2>
+    <table ng-if="sprints.length > 1" class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="clickable text-center">#id</th>
+            <th class="clickable text-center">Status</th>
+            <th class="clickable text-center">Duration</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="sprint in sprints" ng-if="sprint.id != 0 && sprint.project_id == project.id " class="warning">
+            <td ng-click="go(project.id, sprint.id)">{{sprint.id}}</td>
+            <td ng-click="go(project.id, sprint.id)">{{sprint.status}}</td>
+            <td ng-click="go(project.id, sprint.id)">{{sprint.duration}}</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
 </div>
