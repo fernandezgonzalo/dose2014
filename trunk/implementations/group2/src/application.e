@@ -120,6 +120,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/tasks_backlog", agent project_ctrl.get_tasks_backlog ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/progress", agent project_ctrl.get_progress ,router.methods_get)
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/recent_activities", agent project_ctrl.get_recent_activities ,router.methods_get)
+			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/previous_sprints", agent project_ctrl.get_previous_sprints ,router.methods_get)
 
 --				-- handling of all the routes relating to "requirement"
 			map_uri_template_agent_with_request_methods("/coffee/projects/{project_id}/reqs", agent req_ctrl.add ,router.methods_post)
