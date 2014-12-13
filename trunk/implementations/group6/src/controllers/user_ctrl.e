@@ -64,6 +64,7 @@ feature --handlers
 				create l_pwd.make_empty
 				create l_role.make_empty
 				create l_photo.make_empty
+				create l_gender.default_create
 
 					-- read the payload from the request and store it in the string
 				req.read_input_data_into (l_payload)
@@ -94,8 +95,8 @@ feature --handlers
 					if attached {JSON_STRING} j_object.item ("photo") as s then
 						l_photo := s.unescaped_string_8
 					end
-					if attached {JSON_BOOLEAN} j_object.item ("gender") as b then
-						l_gender := b.item
+					if attached {JSON_STRING} j_object.item ("gender") as b then
+						l_gender := b.item.to_boolean
 					end
 
 				end
@@ -138,6 +139,7 @@ feature --handlers
 					set_json_header (res, 401, l_result.representation.count)
 
 				else
+					print(l_gender)
 						-- everything ok. Create the user in the database
 					my_db.add_user (l_email, l_pwd, l_name, l_surname, l_role, l_photo, l_gender)
 
