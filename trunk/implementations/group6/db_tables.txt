@@ -27,6 +27,7 @@ CREATE TABLE user(
 	male boolean,
 	role varchar(30),
 	photo text,
+	changepwd boolean,
 	PRIMARY KEY(email)
 );
 

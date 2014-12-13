@@ -95,8 +95,8 @@ feature --handlers
 					if attached {JSON_STRING} j_object.item ("photo") as s then
 						l_photo := s.unescaped_string_8
 					end
-					if attached {JSON_STRING} j_object.item ("gender") as b then
-						l_gender := b.item.to_boolean
+					if attached {JSON_BOOLEAN} j_object.item ("gender") as b then
+						l_gender := b.item
 					end
 
 				end
