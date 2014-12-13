@@ -348,6 +348,17 @@ define(
                             }
                         )
                     };
+                    module.sprints = function()
+                    {
+                        return $http.get("/api/sprints")
+                            .then
+                        (
+                            function (data)
+                            {
+                                return data.data;
+                            }
+                        )
+                    };
 
                     module.project_sprint = function(project_id, sprint_id)
                     {

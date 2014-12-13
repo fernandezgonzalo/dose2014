@@ -14,7 +14,8 @@ define(
         "pages/js/login",
         "pages/js/user",
         "pages/js/restapi",
-        "pages/js/alertservice"
+        "pages/js/alertservice",
+        "pages/js/sprints"
     ],
 
     function(angular)
@@ -31,7 +32,8 @@ define(
                 "UserModule",
                 "ngAnimate",
                 "AlertServiceModule",
-                "ui.bootstrap.alert"
+                "ui.bootstrap.alert",
+                "SprintsModule"
             ]
         )
 
@@ -230,7 +232,27 @@ define(
                         "sprints",
                         {
                             url: "/sprints",
-                            templateUrl: "pages/html/sprints.html"
+                            templateUrl: "pages/html/sprints.html",
+                            controller: "SprintsCtr",
+                            resolve:
+                            {
+                                sprints:
+                                    [
+                                        "SprintsProvider",
+                                        function (SprintsProvider)
+                                        {
+                                            return SprintsProvider.resolver();
+                                        }
+                                    ],
+                                projects:
+                                    [
+                                        "ProjectsProvider",
+                                        function (ProjectsProvider)
+                                        {
+                                            return ProjectsProvider.resolver();
+                                        }
+                                    ]
+                            }
                         }
                     )
 
