@@ -1171,6 +1171,8 @@ feature --SEARCH
 			j_arr: JSON_ARRAY
 
 		do
+			create j_arr.make_array
+			create Result.default_create
 
 			 keyword.prepend ("%%")
 			 keyword.append ("%%")
@@ -1196,6 +1198,8 @@ feature --SEARCH
 			j_arr: JSON_ARRAY
 
 		do
+			create j_arr.make_array
+			create Result.default_create
 
 			 keyword.prepend ("%%")
 			 keyword.append ("%%")

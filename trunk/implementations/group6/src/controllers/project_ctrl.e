@@ -257,7 +257,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "marid06@hotmail.fr"
+--			l_user_email := "annamaria.nestorov@hotmail.it"
 			create j_obj.make
 			create l_result_payload.make_array
 			-- Check if the name doesn't already exist
