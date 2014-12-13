@@ -46,3 +46,25 @@
   -moz-transform:translate3d(100px, 0, 0);
   transform:translate3d(100px, 0, 0);
 }
+
+$animation-in-name: rubberBand;
+$animation-duration: 500ms;
+$animation-delay: 100ms;
+
+$animation-out-name: bounceOutRight;
+$animation-duration: 500ms;
+$animation-delay: 100ms;
+
+.alert.ng-enter {
+  -webkit-animation: $animation-in-name $animation-duration;
+  -moz-animation: $animation-in-name $animation-duration;
+  -o-animation: $animation-in-name $animation-duration;
+  animation: $animation-in-name $animation-duration;
+}
+
+.alert.ng-leave {
+  -webkit-animation: $animation-out-name $animation-duration;
+  -moz-animation: $animation-out-name $animation-duration;
+  -o-animation: $animation-out-name $animation-duration;
+  animation: $animation-out-name $animation-duration;
+}
