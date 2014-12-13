@@ -59,7 +59,7 @@ feature -- Handlers
 		end
 
 	get_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- sends a reponse that contains a json array with all subtasks out of a task
+			-- sends a reponse that contains a json object with a task of a particular project
 		local
 			l_task_id: STRING
 			l_result_payload: STRING
@@ -70,7 +70,7 @@ feature -- Handlers
 					-- the request has a cookie of name "_casd_session_"
 					-- thus, the user is logged in
 
-					-- First we have to obtain the super task id
+					-- First we have to obtain the task id
 					-- from the URL (as defined by the placeholder in the route)
 				l_task_id := req.path_parameter ("task_id").string_representation
 
@@ -80,7 +80,7 @@ feature -- Handlers
 				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to get the task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
@@ -169,18 +169,18 @@ feature -- Handlers
 					-- create the topic in the database
 				db_handler_task.add_super (new_task)
 
-					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
+					-- create a json object that as a "Message" property that states what happened (in the future, this should be a more meaningful messeage)
 				prepare_response("Added Task "+ new_task.title,200,res,true)
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to add the task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
 	add_sub_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- adds a new task; the task data is expected to be part of the request's payload
+			-- adds a new sub task; the task data is expected to be part of the request's payload
 		local
 			l_payload : STRING
 			new_title, new_descr, new_priority, new_position, new_type, new_sprint_id, new_user_id, new_project_id, new_super_task_id, new_points : STRING
@@ -245,13 +245,13 @@ feature -- Handlers
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to add the sub task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
 	update_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a task from the database
+			-- update a task in the database
 		local
 			l_payload: STRING
 			l_task_id: STRING
@@ -320,14 +320,14 @@ feature -- Handlers
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to update the task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
 
 
 	update_sub_task (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- update a subtask from the database
+			-- update a subtask in the database
 		local
 			l_payload: STRING
 			l_task_id: STRING
@@ -397,7 +397,7 @@ feature -- Handlers
 
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to update the sub task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
@@ -414,14 +414,14 @@ feature -- Handlers
 
 					-- the task_id from the URL (as defined by the placeholder in the route)
 				l_task_id := req.path_parameter ("task_id").string_representation
-					-- remove the topic
+					-- remove the task
 				db_handler_task.remove (l_task_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				prepare_response("Removed task",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to delete the task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end
@@ -438,14 +438,14 @@ feature -- Handlers
 
 					-- the task_id from the URL (as defined by the placeholder in the route)
 				l_task_id := req.path_parameter ("subtask_id").string_representation
-					-- remove the topic
+					-- remove the sub task
 				db_handler_task.remove (l_task_id.to_natural)
 
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				prepare_response("Removed subtask",200,res,true)
 			else
 					-- the request has no session cookie and thus the user is not logged in
-					-- we return an error stating that the user is not authorized to get the tasks
+					-- we return an error stating that the user is not authorized to delete the sub task
 				prepare_response("User not logged in.",401,res,true)
 			end
 		end

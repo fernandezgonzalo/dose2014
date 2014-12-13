@@ -133,7 +133,7 @@ feature -- Operations
 				prepare_response(l_result_payload,200,res,false)
 			else
 					-- the request has no session cookie and thus no user is logged in
-					-- we return an error stating that the user is not authorized to get the users.
+					-- we return an error stating that the user is not authorized to generate a project.
 				prepare_response("User is not logged in",401,res,true)
 			end
 		end
