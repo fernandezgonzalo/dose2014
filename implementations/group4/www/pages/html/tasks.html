@@ -1,3 +1,28 @@
-<div class="container">
-    <h1>Tasks</h1>
+<div class="b-tasks container">
+    <div ng-repeat="project in projects">
+        <h2 class="text-left" ng-click = "state.go('project.tasks', {id:project.id});">Project: {{project.name}}</h2>
+        <table ng-if="tasks.length > 1" class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th class="clickable text-center">#id</th>
+                <th class="clickable text-center">Title</th>
+                <th class="clickable text-center">Points</th>
+                <th class="clickable text-center">Type</th>
+                <th class="clickable text-center">Position</th>
+                <th class="clickable text-center">Priority</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="task in tasks" ng-if="task.project_id == project.id" class="warning">
+                <td>{{task.id}}</td>
+                <td>{{task.title}}</td>
+                <td>{{task.points}}</td>
+                <td>{{task.type}}</td>
+                <td>{{task.position}}</td>
+                <td>{{task.priority}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

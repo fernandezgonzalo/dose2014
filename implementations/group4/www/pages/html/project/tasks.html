@@ -5,9 +5,10 @@
     <tr>
         <th></th>
         <th class="clickable text-center">#id</th>
+        <th class="clickable text-center">Title</th>
+        <th class="clickable text-center">Points</th>
         <th class="clickable text-center">Type</th>
         <th class="clickable text-center">Position</th>
-        <th class="clickable text-center">Title</th>
         <th class="clickable text-center">Priority</th>
     </tr>
     </thead>
@@ -19,9 +20,10 @@
             <img class="clickable inline" ng-controller="EditTaskCtr" ng-click="editTask(task)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>
         </td>
         <td ng-click="go(task)">{{task.id}}</td>
+        <td ng-click="go(task)">{{task.title}}</td>
+        <td ng-click="go(task)">{{task.points}}</td>
         <td ng-click="go(task)">{{task.type}}</td>
         <td ng-click="go(task)">{{task.position}}</td>
-        <td ng-click="go(task)">{{task.title}}</td>
         <td ng-click="go(task)">{{task.priority}}</td>
     </tr>
     </tbody>
