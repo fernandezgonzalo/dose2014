@@ -15,7 +15,7 @@ define(
                 "RestApiModule"
             ]
         )
-            .controller
+        .controller
         (
             "SprintsCtr",
             [
@@ -38,21 +38,22 @@ define(
                 }
             ]
         )
-            .factory
-    (
-        'SprintsProvider',
-        [
-            "restapi",
-            function(restapi)
-            {
-                var module = {};
-                module.resolver = function()
+
+        .factory
+        (
+            'SprintsProvider',
+            [
+                "restapi",
+                function(restapi)
                 {
-                    return restapi.sprints();
-                };
-                return module;
-            }
-        ]
-    )
+                    var module = {};
+                    module.resolver = function()
+                    {
+                        return restapi.sprints();
+                    };
+                    return module;
+                }
+            ]
+        )
     }
 );
