@@ -115,6 +115,10 @@ angular.module('Wbpms')
 
         }
 
+        $scope.delWorkItem = {
+          work_item_id : ''
+        }
+
       $scope.statusWorkItems = {  
             "values": ["Not started", "Ongoing", "Done"] 
         };
@@ -214,17 +218,23 @@ angular.module('Wbpms')
               work_item_id : idWorkItem
           }
 
-      $log.debug("Sending payload: " + JSON.stringify(payload));
-
+          
           // send the payload to the server
           $http.post('/api/projects/iterations/workitems/delete_workitem', payload)
             .success(function(data, status, header, config) {
-              $log.debug('Success remove work item');
-              alert("The work item was deleted");                
+              alert("The work item was deleted");
+              for(var i =0; i < $scope.workItems.length; i++) {
+                if($scope.workItems[i].work_item_id === delWorkItem.work_item_id) {
+                  $scope.workItems.splice(i, 1);
+                  break;
+                }
+              }
+
             })
             .error(function(data, status) {
-              $log.debug('Error while trying to remove a work item');
+             alert("Error deleting work item");
             }); 
+
         }    
 
      $scope.updateWorkItem = function(idWorkItem, idIteration, idProject, name, description, points, createdBy, owner) {
