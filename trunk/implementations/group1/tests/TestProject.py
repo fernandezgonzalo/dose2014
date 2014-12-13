@@ -7,7 +7,7 @@ from faker import Factory
 class TestProject(unittest.TestCase):
 
     def setUp(self):
-        self.session = requests.Session()	
+        self.session = requests.Session()
 
     '''def test_full(self):
 
@@ -21,10 +21,10 @@ class TestProject(unittest.TestCase):
 	### 7) get all projects
 	### 8) delete test project
 	### 9) verify that an item was removed in the database
-	
+
 
 	do_login(self.session, "dex@asd.com", "blood")
-	
+
 		# get all projects in projects_1
 	projects_1 = json.loads(get_projects(self.session, 5).content)
 
@@ -33,19 +33,19 @@ class TestProject(unittest.TestCase):
 		# insert a user
         req = add_project(self.session,5, name, info)
 	self.assertEqual(req.status_code, 200)
-	
+
 		# get all projects in projects_2
 	projects_2  = json.loads(get_projects(self.session, 5).content)
 
 		# the number of projects is increased by 1 after inserting a project
-		# the length projects_1 is equal to the length (projects_2 - 1) 
+		# the length projects_1 is equal to the length (projects_2 - 1)
 	self.assertEqual(len (projects_1), len  (projects_2)-1)
 
 		# get the id of test project in "id_project"
 	for i in range (len  (projects_2)):
 		if projects_2 [i] ['id_user'] == "5" and projects_2 [i] ['id_project'] == id_project:
 			id_project = projects_2 [i] ['id']
-	
+
 		# obtain project information
 	project_info = json.loads(get_project (self.session, id_project).content)
 		# verify that the data entered correctly
@@ -67,9 +67,9 @@ class TestProject(unittest.TestCase):
 		#get all projects in project_2
 	projects_2  = json.loads(get_projects(self.session,5).content)
 		# the number of projects is decremented by 1 after deleting a project
-		# the length projects_1 is equal to the length (projects_2 + 1) 		
+		# the length projects_1 is equal to the length (projects_2 + 1)
 	self.assertEqual(len (projects_1), len  (projects_2)+1) '''
-	
+	self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()
