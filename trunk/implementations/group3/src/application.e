@@ -23,11 +23,13 @@ feature {NONE}
 	tasks_controller: TASKS_CONTROLLER
 	projects_controller: PROJECTS_CONTROLLER
 	sprints_controller: SPRINTS_CONTROLLER
+	stories_controller: STORIES_CONTROLLER
 	users_controller: USERS_CONTROLLER
 	Project: PROJECT
 	Task: TASK
 	User: USER
 	Sprint: SPRINT
+	Story: STORY
 
 	initialize
 		do
@@ -36,10 +38,12 @@ feature {NONE}
 			create Sprint.make(db, "sprints")
 			create Task.make(db, "tasks")
 			create User.make(db, "users")
+			create Story.make(db, "stories")
 			create tasks_controller.make(Task)
 			create projects_controller.make(Project)
 			create sprints_controller.make(Sprint)
 			create users_controller.make(User)
+			create stories_controller.make(Story)
 
 			set_service_option ("port", 9090)
 
@@ -65,12 +69,18 @@ feature
 			--map_uri_template_agent_with_request_methods("/projects/{project_id}", agent projects_controller.edit, router.methods_put)
 
 			map_uri_template_agent_with_request_methods("/sprints", agent sprints_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods("/sprints/by_project/{project_id}", agent sprints_controller.by_project, router.methods_get)
+			map_uri_template_agent_with_request_methods("/project-sprints/{project_id}", agent sprints_controller.by_project, router.methods_get)
 			map_uri_template_agent_with_request_methods("/sprints", agent sprints_controller.add, router.methods_post)
 			map_uri_template_agent_with_request_methods("/sprints/{id}", agent sprints_controller.remove, router.methods_delete)
 			map_uri_template_agent_with_request_methods("/sprints/{id}", agent sprints_controller.show, router.methods_get)
 			--map_uri_template_agent_with_request_methods("/projects/{project_id}", agent projects_controller.edit, router.methods_put)
 
+			map_uri_template_agent_with_request_methods("/stories", agent stories_controller.get_all, router.methods_get)
+			map_uri_template_agent_with_request_methods("/sprint-stories/{sprint_id}", agent stories_controller.by_sprint, router.methods_get)
+			map_uri_template_agent_with_request_methods("/stories", agent stories_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/stories/{id}", agent stories_controller.remove, router.methods_delete)
+			map_uri_template_agent_with_request_methods("/stories/{id}", agent stories_controller.show, router.methods_get)
+			--map_uri_template_agent_with_request_methods("/projects/{project_id}", agent projects_controller.edit, router.methods_put)
 
 			map_uri_template_agent_with_request_methods("/users", agent users_controller.get_all, router.methods_get)
 			map_uri_template_agent_with_request_methods("/users", agent users_controller.add, router.methods_post)
