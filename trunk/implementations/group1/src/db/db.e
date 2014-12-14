@@ -472,11 +472,11 @@ feature -- Data access Task
 
 feature -- Data access Requirement
 
-	search_requirement: JSON_ARRAY
+	search_requirement (id_project: STRING): JSON_ARRAY
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Requirement;", db)
+			create db_query_statement.make ("SELECT * FROM Requirement WHERE id_project = "+id_project+";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
