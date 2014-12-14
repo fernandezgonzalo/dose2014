@@ -39,7 +39,7 @@ a.underline {
 
 #wrapper {
     min-height: 100%;
-    position: relative;
+	margin-bottom: 80px;
 }
 
 #header {
@@ -63,7 +63,7 @@ a.underline {
 #footer {
     width: 100%;
     height: 40px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     background: #000000;
@@ -395,10 +395,10 @@ th {
 
 #sprints-block ol li h5,
 #requirements-block ol li h5 {
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 
-#sprints-block ol h5.collapsed,
+/*#sprints-block ol h5.collapsed,
 #requirements-block ol h5.collapsed {
 	text-decoration: underline;
 }
@@ -406,11 +406,21 @@ th {
 #sprints-block ol h5.expanded,
 #requirements-block ol h5.expanded {
 	text-decoration: none;
-}
+}*/
 
 #sprints-block table.sprint,
 #requirements-block table.sprint {
 	line-height: 25px;
+}
+
+#sprints-block table.sprint tr th,
+#requirements-block table.requirement tr th {
+	text-align: center;
+}
+
+#sprints-block table.sprint tr td ,
+#requirements-block table.requirement tr td {
+	line-height: 40px;
 }
 
 #sprints-block table.sprint .col1,
@@ -421,8 +431,14 @@ th {
 
 #sprints-block table.sprint .col2,
 #requirements-block table.requirement .col2 {
-	width: 200px;
+	width: 180px;
 	padding-left: 5px;
+}
+
+#sprints-block table.sprint .col2 a,
+#requirements-block table.requirement .col2 a {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 #sprints-block table.sprint .col3,
@@ -443,17 +459,18 @@ th {
 
 #sprints-block table.sprint .col5,
 #requirements-block table.requirement .col5 {
-	width: 120px;
+	width: 130px;
+	padding-left: 5px;
 }
 
-#sprints-block a.link-button span,
-#requirements-block a.link-button span{
-	width: 150px;
-}
-
-#sprints-block div.buttons,
-#requirements-block div.buttons {
+#sprints-block ol li div.buttons {
+	margin-top: 5px;
 	text-align: right;
+}
+
+#sprints-block > div.buttons,
+#requirements-block > div.buttons {
+	text-align: left;
 }
 
 #sprints-block div.buttons > div,

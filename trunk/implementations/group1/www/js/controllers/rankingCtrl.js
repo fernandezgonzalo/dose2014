@@ -17,8 +17,6 @@ angular.module('DOSEMS.controllers')
 				$scope.projectId = $routeParams.projectId;
 			}
 			
-			$rootScope.$broadcast('ProjectPage', $scope.projectId);
-			
 			var response = ProjectRanking.get({userId:$scope.userId,projectId:$scope.projectId});
 			response.$promise.then(function (data) {
 				var i = 0;

@@ -21,8 +21,6 @@ angular.module('DOSEMS.controllers')
 				$scope.projectId = projectId;
 			}
 			
-			$rootScope.$broadcast('ProjectPage', $scope.projectId);
-			
 			var response = GetUsersFactory.query();
 			response.$promise.then(function (data) {
 				var i = 0;
