@@ -565,6 +565,7 @@ feature -- Data access
 		l_json_object: JSON_OBJECT
 		i: INTEGER
 		l_req_id: STRING
+		l_task_count: INTEGER
 	do
 		create l_json_object.make
 		create db_query_statement.make ("SELECT id FROM requirement WHERE project_id=?;", db)
@@ -581,7 +582,8 @@ feature -- Data access
 					l_req_id.replace_substring_all ("%"","")
 					create db_query_statement.make("SELECT * FROM task WHERE requirement_id=? AND progress <> 'Completed';", db)
 					l_query_result_cursor1:= db_query_statement.execute_new_with_arguments (<<l_req_id>>)
-					if l_query_result_cursor1.after then
+					l_task_count:= get_count_of_task (l_req_id)
+					if l_query_result_cursor1.after and l_task_count>0 then
 						create db_modify_statement.make("UPDATE requirement SET completed=true WHERE id=?;", db)
 						db_modify_statement.execute_with_arguments (<<l_req_id>>)
 					end
@@ -590,6 +592,26 @@ feature -- Data access
 			else
 				i:=2
 			end
+		end
+	end
+
+	get_count_of_task(a_req_id: STRING): INTEGER
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		temp: STRING
+	do
+		Result:=0
+		create l_json_object.make
+		create db_query_statement.make ("SELECT Count(*) FROM task WHERE requirement_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_req_id>>)
+		if not l_query_result_cursor.after then
+			row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("count(*)") then
+					temp:= l_json_object.item ("count(*)").representation
+					temp.replace_substring_all ("%"","")
+					Result:=temp.to_integer
+				end
 		end
 	end
 
@@ -749,7 +771,11 @@ feature -- Data access
 			temp.replace_substring_all ("%"","")
 			l_completed_tasks:=temp.to_integer
 		end
-		percentage:=((l_completed_tasks*100)//(l_tasks*100))
+		if l_tasks>0 then
+			percentage:=((l_completed_tasks*100)//(l_tasks*100))
+		else
+			percentage:= 0
+		end
 		Result.put (create {JSON_STRING}.make_json (percentage.out), create{JSON_STRING}.make_json ("progress_percentage"))
 
 	end
@@ -814,21 +840,28 @@ feature -- Data access
 			-- otherwise, "has_user" will be false and "id" and "username" will not be set
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			hash: SHA256
 		do
 				-- create a result object
  			create Result
-			create db_query_statement.make ("SELECT * FROM User WHERE email=? AND password=?;", db)
-			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_user_name, a_password>>)
+ 			create hash.make
+			create db_query_statement.make ("SELECT * FROM User WHERE email=?;", db)
+			l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_user_name>>)
 
 			if l_query_result_cursor.after then
 					-- there are no rows in the result of the query, thus no user with that password exits
 				print("Did not find a user with name '" + a_user_name  + "' and password '" + a_password + "' in the dataase.%N")
 				Result.has_user := False
 			else
-				print("Found a user name '" + a_user_name + "' and password '" + a_password + "' in the database.%N")
-				Result.has_user := True
-				Result.id := l_query_result_cursor.item.value (1).out
-				Result.username := l_query_result_cursor.item.value (2).out
+				hash.update_from_string (a_password + l_query_result_cursor.item.value (4).out)
+ 				if equal(hash.digest_as_string,l_query_result_cursor.item.value (3).out) then
+					print("Found a user name '" + a_user_name + "' and password '" + a_password + "' in the database.%N")
+					Result.has_user := True
+					Result.id := l_query_result_cursor.item.value (1).out
+					Result.username := l_query_result_cursor.item.value (2).out
+				else
+					Result.has_user := False
+				end
 			end
 		end
 
