@@ -83,7 +83,7 @@ feature -- Handlers
 			l_user_id := req.path_parameter ("id_user").string_representation
 			l_requirement_id := req.path_parameter ("id_requirement").string_representation
 			l_sprint_id := req.path_parameter ("id_sprint").string_representation
-			flag := my_db.add_task (desc, comment, duration, points, status, l_user_id, l_requirement_id, l_sprint_id)
+			flag := my_db.add_task (desc, comment, status, duration, points, l_user_id, l_requirement_id, l_sprint_id)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
