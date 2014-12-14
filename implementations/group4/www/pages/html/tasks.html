@@ -1,20 +1,20 @@
 <div class="b-tasks container">
     <div ng-repeat="project in projects">
-        <h2 class="text-left" ng-click = "state.go('project.tasks', {id:project.id});">Project: {{project.name}}</h2>
-        <table ng-if="tasks.length > 1" class="table table-hover text-center">
+        <h2 class="text-left clickable" ng-click = "state.go('project.tasks', {id:project.id});">Project: {{project.name}}</h2>
+        <table ng-if="tasks.length > 1" class="table ui-table-hover text-center">
             <thead>
             <tr>
-                <th class="clickable text-center">#id</th>
-                <th class="clickable text-center">Title</th>
-                <th class="clickable text-center">Points</th>
-                <th class="clickable text-center">Type</th>
-                <th class="clickable text-center">Position</th>
-                <th class="clickable text-center">Priority</th>
+                <th class="clickable text-center" ng-click="orderType='id'; order=!order">#id</th>
+                <th class="clickable text-center" ng-click="orderType='title'; order=!order">Title</th>
+                <th class="clickable text-center" ng-click="orderType='points'; order=!order">Points</th>
+                <th class="clickable text-center" ng-click="orderType='type'; order=!order">Type</th>
+                <th class="clickable text-center" ng-click="orderType='position'; order=!order">Position</th>
+                <th class="clickable text-center" ng-click="orderType='priority'; order=!order">Priority</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr ng-repeat="task in tasks" ng-if="task.project_id == project.id" class="warning">
+            <tr ng-repeat="task in tasks | orderBy: orderType | reverse: order" ng-if="task.project_id == project.id" ng-style="get_task_style(task)">
                 <td>{{task.id}}</td>
                 <td>{{task.title}}</td>
                 <td>{{task.points}}</td>

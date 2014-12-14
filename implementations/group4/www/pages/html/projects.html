@@ -1,18 +1,18 @@
 <div class="b-projects container">
     <button type="button" class="btn btn-default" ng-controller="CreateProjectCtr" ng-click="createProject()">Create project</button>
-    <table ng-if="projects.length != 0" class="table table-hover text-center">
+    <table ng-if="projects.length != 0" class="table ui-table-hover text-center">
         <thead>
             <tr>
                 <th></th>
-                <th class="clickable text-center">Project name</th>
-                <th class="clickable text-center">Description</th>
-                <th class="clickable text-center">Status</th>
-                <th class="clickable text-center">Max points/per sprints</th>
+                <th class="clickable text-center" ng-click="orderType='name'; order=!order">Project name</th>
+                <th class="clickable text-center" ng-click="orderType='description'; order=!order">Description</th>
+                <th class="clickable text-center" ng-click="orderType='status'; order=!order">Status</th>
+                <th class="clickable text-center" ng-click="orderType='max_points_per_sprint'; order=!order">Max points/per sprints</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr ng-repeat="project in projects"
+            <tr ng-repeat="project in projects | orderBy:orderType | reverse: order"
                 ng-class="{ 'warning': project.status == 'Active', 'success': project.status == 'Complete', 'info': project.status == 'Canceled' }">
                 <td>
                     <img class="inline" ng-click="remove(project)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>

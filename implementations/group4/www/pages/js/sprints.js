@@ -2,6 +2,7 @@ define(
     [
         //System includes
         "angular",
+        "angularFilters",
 
         //Custom includes
         "pages/js/restapi"
@@ -12,7 +13,8 @@ define(
         (
             "SprintsModule",
             [
-                "RestApiModule"
+                "RestApiModule",
+                "angular.filter"
             ]
         )
         .controller

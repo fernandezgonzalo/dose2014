@@ -19,7 +19,8 @@ require.config
             jQueryUi: 'libs/js/jquery-ui.min',
             bootstrap: 'libs/js/bootstrap',
             bootstrapUi: 'libs/js/ui-bootstrap-tpls-0.11.0',
-            angularDAD: 'libs/js/angular-dragdrop'
+            angularDAD: 'libs/js/angular-dragdrop',
+            angularFilters: 'libs/js/angular-filter'
         },
         shim:
         {
@@ -38,7 +39,8 @@ require.config
             bootstrap:  { deps: ["jQuery"] },
             bootstrapUi: { deps: ["bootstrap", "angular"] },
             jQueryUi: { deps: ["jQuery"] },
-            angularDAD: { deps: ["jQueryUi", "angular"] }
+            angularDAD: { deps: ["jQueryUi", "angular"] },
+            angularFilters: { deps: ["angular"] }
         }
     }
 );

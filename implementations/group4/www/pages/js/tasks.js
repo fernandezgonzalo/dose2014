@@ -2,9 +2,11 @@ define(
     [
         //System includes
         "angular",
+        "angularFilters",
 
         //Custom includes
-        "pages/js/restapi"
+        "pages/js/restapi",
+        "pages/js/helper"
     ],
     function(angular)
     {
@@ -12,7 +14,9 @@ define(
         (
             "TasksModule",
             [
-                "RestApiModule"
+                "RestApiModule",
+                "HelperModule",
+                "angular.filter"
             ]
         )
 
@@ -24,11 +28,13 @@ define(
                 "tasks",
                 "projects",
                 "$state",
-                function($scope, tasks, projects, $state)
+                "taskHelper",
+                function($scope, tasks, projects, $state, taskHelper)
                 {
                     $scope.tasks = tasks;
                     $scope.projects = projects;
                     $scope.state = $state;
+                    $scope.get_task_style = taskHelper.get_style;
                 }
             ]
         )

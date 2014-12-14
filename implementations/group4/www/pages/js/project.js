@@ -5,6 +5,7 @@ define(
         "angular",
         "anguComplete",
         "angularDAD",
+        "angularFilters",
 
         //Custom includes
         "blocks/createtask/createtask",
@@ -12,7 +13,8 @@ define(
         "blocks/createsprint/createsprint",
         "blocks/editsprint/editsprint",
         "pages/js/restapi",
-        "pages/js/alertservice"
+        "pages/js/alertservice",
+        "pages/js/helper"
     ],
 
     function(angular)
@@ -28,7 +30,9 @@ define(
                 "uiEditSprintModule",
                 "RestApiModule",
                 "ngDragDrop",
-                "AlertServiceModule"
+                "AlertServiceModule",
+                "HelperModule",
+                "angular.filter"
             ]
         )
 
@@ -113,7 +117,8 @@ define(
                 "restapi",
                 "$stateParams",
                 "alertservice",
-                function($scope, data, restapi, $stateParams, alertservice)
+                "taskHelper",
+                function($scope, data, restapi, $stateParams, alertservice, taskHelper)
                 {
                     $scope.sprint = data.sprint;
                     $scope.tasks = data.tasks;
@@ -206,6 +211,8 @@ define(
                             restapi.create_task(data, $stateParams.id).then(update_project_tasks);
                         }
                     );
+
+                    $scope.get_task_style = taskHelper.get_style;
                 }
             ]
         )
@@ -218,7 +225,8 @@ define(
                 "$stateParams",
                 "restapi",
                 "tasks",
-                function($scope, $stateParams, restapi, tasks)
+                "taskHelper",
+                function($scope, $stateParams, restapi, tasks, taskHelper)
                 {
                     function update_project_tasks()
                     {
@@ -261,6 +269,7 @@ define(
 
                     };
 
+                    $scope.get_task_style = taskHelper.get_style;
                     $scope.tasks = tasks;
                 }
             ]
@@ -458,6 +467,6 @@ define(
                     return module;
                 }
             ]
-        );
+        )
     }
 );

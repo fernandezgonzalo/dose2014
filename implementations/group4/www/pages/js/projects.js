@@ -3,6 +3,7 @@ define(
     [
         //System includes
         "angular",
+        "angularFilters",
 
         //Custom includes
         "blocks/createproject/createproject",
@@ -19,7 +20,8 @@ define(
                 "RestApiModule",
                 "uiRegistrationModule",
                 "uiCreateProjectModule",
-                "uiEditProjectModule"
+                "uiEditProjectModule",
+                "angular.filter"
             ]
         )
 
