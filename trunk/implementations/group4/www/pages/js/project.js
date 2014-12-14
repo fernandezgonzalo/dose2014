@@ -150,7 +150,7 @@ define(
                             {
                                 $scope.list1.push(tasks[i]);
                             }
-                            if(tasks[i].sprint_id === sprint.id)
+                            else if(tasks[i].sprint_id === sprint.id)
                             {
                                 $scope.list2.push(tasks[i]);
                             }
@@ -169,7 +169,7 @@ define(
                             var points = parseInt(dragged.task.points);
                             for(var i = 0; i < $scope.list2.length; i++)
                             {
-                                points += parseInt($scope.list2[i].points);
+                                points += parseInt($scope.list2[i].points);;
                             }
                             if(points > parseInt($scope.project.max_points_per_sprint, 10))
                             {

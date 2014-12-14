@@ -21,7 +21,7 @@
                         ng-style="get_task_style(task)"
                         jqyoui-draggable="{index: {{$index}}, onStart:'on_drag(task, backlog_id)'}"
                         data-jqyoui-options="{revert: 'invalid',  helper: 'clone'}"
-                        ng-model="list1"
+
                         data-drag="true">
                         <td>
                             <img class="clickable inline" ng-click="remove_task(task)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
@@ -59,7 +59,7 @@
                     ng-style="get_task_style(task)"
                     jqyoui-draggable="{index: {{$index}}, onStart:'on_drag(task, sprint.id)'}"
                     data-jqyoui-options="{revert: 'invalid',  helper: 'clone'}"
-                    ng-model="list2"
+
                     data-drag="true"
                     ng-click="click()">
                     <td>{{task.id}}</td>
