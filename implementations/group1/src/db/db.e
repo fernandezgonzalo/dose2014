@@ -362,7 +362,7 @@ feature -- Data access Sprint
 		require
 			valid_id: id_sprint /= Void
 		do
-			create db_modify_statement.make ("UPDATE Sprint SET duration=" + duration.out + ";", db)
+			create db_modify_statement.make ("UPDATE Sprint SET duration=" + duration.out + " WHERE id = "+id_sprint.out+" ;", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				Result := False
