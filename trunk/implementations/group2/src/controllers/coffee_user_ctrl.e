@@ -184,13 +184,17 @@ feature -- Handlers
 		hashed_password: STRING
 		bcrypt: BCRYPT
 		i:INTEGER
+		hash: SHA256
 	do
 		create bcrypt.make
 		l_salt:=bcrypt.default_gensalt
+		l_password := get_value_from_map ("password", a_map)
+		create hash.make
+		hash.update_from_string (l_password + l_salt)
 	--	l_password:=get_value_from_map("password",a_map)
     --    hashed_password := bcrypt.hashed_password (l_password, l_salt)
-   --     i:=get_index_from_map("password", a_map)
-  --      a_map.values[i]:=hashed_password
+ 		i:=get_index_from_map("password", a_map)
+  	    a_map.values[i]:=hash.digest_as_string
         a_map.keys.extend ("salt")
         a_map.values.extend (l_salt)
         Result:=a_map
