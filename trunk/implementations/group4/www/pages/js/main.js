@@ -21,7 +21,7 @@ require.config
             bootstrapUi: '/libs/js/min/ui-bootstrap-tpls-0.11.0.min',
             angularDAD: '/libs/js/angular-dragdrop',
             angularFilters: '/libs/js/angular-filter',
-            chart: '/libs/js/Chart',
+            chart: '/libs/js/min/Chart.min',
             chartjsDirective: '/libs/js/chartjs-directive'
         },
         shim:
