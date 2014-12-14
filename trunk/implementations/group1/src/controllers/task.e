@@ -38,7 +38,7 @@ feature -- Handlers
 			-- adds a new task
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= Void and req.path_parameter ("id_sprint").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
+			valid_parameter: req.path_parameter ("id_requirement").string_representation /= Void and req.path_parameter ("id_sprint").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_payload, desc, comment, duration, points, status, l_user_id, l_requirement_id, l_sprint_id: STRING
 			parser: JSON_PARSER
