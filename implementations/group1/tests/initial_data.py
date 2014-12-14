@@ -28,15 +28,18 @@ def clean_database():
 
 
 def make_hashed_password(email, password):
-    return sha256(email + password).hexdigest()
+    return sha256(email + password).hexdigest().upper()
 
 def create_random_users(num):
     logger.info("Create %d users" % num)
-    for x in xrange(num):
+    user = User.create(name="Bob", lastname="Esponja", email="bob_esponja@gmail.com", password=make_hashed_password("bob_esponja@gmail.com", "asd"), active="1", rol="1")
+    user.save()
+    create_random_projects_for_user(user.id, 2)
+    for x in xrange(num-1):
         name = fak.first_name()
         lastname = fak.last_name()
         email = fak.email()
-        password = fak.password()
+        password = "asd"
         active = "1"
         rol = "1"
         user = User(name=name, lastname=lastname, email=email, password=make_hashed_password(email, password), active=active, rol=rol)
@@ -55,5 +58,7 @@ def create_random_projects_for_user(id_user, num):
         Userproject.raw('INSERT INTO userproject (id_user, id_project, role) VALUES (?,?,?)', id_user, project.id, "DEV").execute()
 
 
-clean_database()
-create_random_users(3)
+
+if __name__ == '__main__':
+    clean_database()
+    create_random_users(3)
