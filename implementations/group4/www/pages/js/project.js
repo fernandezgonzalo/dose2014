@@ -382,8 +382,8 @@ define(
                                     },
                                     {
                                         value:report.total_normal_tasks*1,
-                                        color: "#46BFBD",
-                                        highlight: "#5AD3D1",
+                                        color: "#D6EF10",
+                                        highlight: "#E6FF20",
                                         label: "Normal"
                                     },
                                     {
@@ -396,6 +396,45 @@ define(
                             options: {
                             }
                         };
+
+                    $scope.ChartByPosition =
+                    {
+                        data: [
+                            {
+                                value:report.total_tasks_backlog*1,
+                                color:"#663300",
+                                highlight: "#AA7139",
+                                label: "Backlog"
+                            },
+                            {
+                                value:report.total_tasks_canceled*1,
+                                color: "#4F6200",
+                                highlight: "#8EA336",
+                                label: "Canceled"
+                            },
+                            {
+                                value:report.total_tasks_done*1,
+                                color: "#45003F",
+                                highlight: "#74276D",
+                                label: "Done"
+                            },
+                            {
+                                value:report.total_tasks_process*1,
+                                color: "#01333F",
+                                highlight: "#718D93",
+                                label: "Process"
+                            },
+                            {
+                                value:report.total_tasks_testing*1,
+                                color: "#46BFBD",
+                                highlight: "#5AD3D1",
+                                label: "Testing"
+                            }
+
+                        ],
+                        options: {
+                        }
+                    };
                     var sprintsAmount = parseInt(report.total_sprints_started) + parseInt(report.total_sprints_completed) + parseInt(report.total_sprints_backlog);
                     sprintsAmount--;
                     var labels = [];
@@ -410,43 +449,43 @@ define(
                         labels = labels.concat(["Sprint " + i]);
                     }
                     $scope.ChartTaskInSprint =
-                    {
-                        data: {
-                            labels : labels,
-                            datasets : [
-                                {
-                                    fillColor : "rgba(220,220,220,0.5)",
-                                    strokeColor : "rgba(220,220,220,1)",
-                                    pointColor : "rgba(220,220,220,1)",
-                                    pointStrokeColor : "#fff",
-                                    data : total_sprint_tasks
-                                },
-                                {
-                                    fillColor : "rgba(220,220,220,0.5)",
-                                    strokeColor : "rgba(220,220,220,1)",
-                                    pointColor : "rgba(220,220,220,1)",
-                                    pointStrokeColor : "#fff",
-                                    data : total_sprint_subtasks
-                                }
-                            ]
-                        },
-                        options: {
-                        }
-                    };
+                {
+                    data: {
+                        labels : labels,
+                        datasets : [
+                            {
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,1)",
+                                pointColor : "rgba(220,220,220,1)",
+                                pointStrokeColor : "#fff",
+                                data : total_sprint_tasks
+                            },
+                            {
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,1)",
+                                pointColor : "rgba(220,220,220,1)",
+                                pointStrokeColor : "#fff",
+                                data : total_sprint_subtasks
+                            }
+                        ]
+                    },
+                    options: {
+                    }
+                };
 
                     $scope.ChartTaskByType =
                     {
                         data: [
                         {
                             value:report.total_bug_tasks*1,
-                            color:"#F7464A",
-                            highlight: "#FF5A5E",
+                            color:"#C92424",
+                            highlight: "#E94444",
                             label: "Bug"
                         },
                         {
                             value:report.total_feature_tasks*1,
-                            color: "#46BFBD",
-                            highlight: "#5AD3D1",
+                            color: "#6CA340",
+                            highlight: "#8CC360",
                             label: "Feature"
                         }
                         ],
