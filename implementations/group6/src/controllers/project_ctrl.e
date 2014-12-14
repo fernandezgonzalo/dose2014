@@ -450,7 +450,7 @@ feature --Handlers
 				j_obj.put (create {JSON_STRING}.make_json ("New member '" + l_new_member + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_user_name (l_new_member)), create {JSON_STRING}.make_json ("name"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_user_surname (l_new_member)), create {JSON_STRING}.make_json ("surname"))
-				j_obj.put (create {JSON_STRING}.make_json (l_new_member), create {JSON_STRING}.make_json ("user"))
+				j_obj.put (create {JSON_STRING}.make_json (l_new_member), create {JSON_STRING}.make_json ("email"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_project_points (l_project_name).out), create {JSON_STRING}.make_json ("points"))
 				j_obj.put (create {JSON_STRING}.make_json ("0"), create {JSON_STRING}.make_json ("owner"))
 				l_result_payload.extend (j_obj)
