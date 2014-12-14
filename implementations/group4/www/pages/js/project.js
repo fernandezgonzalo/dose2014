@@ -60,7 +60,8 @@ define(
                 "$stateParams",
                 "$state",
                 "sprints",
-                function($scope, restapi, $stateParams, $state, sprints)
+                "sprintHelper",
+                function($scope, restapi, $stateParams, $state, sprints, sprintHelper)
                 {
                     function update_project_sprints()
                     {
@@ -104,6 +105,7 @@ define(
                     };
 
                     $scope.sprints = sprints;
+                    $scope.get_sprint_style = sprintHelper.get_style;
                 }
             ]
         )
