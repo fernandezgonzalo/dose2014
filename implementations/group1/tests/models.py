@@ -99,8 +99,8 @@ class Task(BaseModel):
             })
 
 class Userproject(BaseModel):
-    id_project = ForeignKeyField(Project, null=True)
-    id_user = ForeignKeyField(User, null=True)
+    id_project = ForeignKeyField(Project, null=True, db_column="id_project")
+    id_user = ForeignKeyField(User, null=True, db_column="id_user")
     role = TextField(null=True)
 
     class Meta:

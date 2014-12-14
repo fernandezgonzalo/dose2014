@@ -61,19 +61,5 @@ class Test(unittest.TestCase):
         self.assertEqual(res.status_code, 200, "Status code is not 200")
         self.assertEqual(res.json().get('Message'), "Removed user %s" % res_login.json().get('id'), "Message is not 'Removed user id'")
 
-    # def test_delete_user_not_logged(self):
-    #     name = self.faker.first_name()
-    #     lastname = self.faker.last_name()
-    #     email = self.faker.email()
-    #     password = self.faker.password()
-    #     rol = "1"
-    #     active = "1"
-    #     self.session.cookies.pop('_session_')
-
-    #     res_post = post_users(self.session, name, lastname, email, password, rol, active)
-    #     res_del = delete_user(sself.session, res_post.json().get('id'))
-    #     self.assertEqual(res_del.status_code, 401, "Status code is not 401")
-    #     self.assertEqual(res_del.json().get('Message'), "User is not logged in.", "Message is not 'User is not logged in.'")
-
     #def tearDown(self):
     #    self.database.close()
