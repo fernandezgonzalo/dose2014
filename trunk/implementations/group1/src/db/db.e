@@ -476,7 +476,7 @@ feature -- Data access Requirement
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Requirement WHERE id_project = "+id_project+";", db)
+			create db_query_statement.make ("SELECT * FROM Requirement WHERE id_project = "+id_project.out+";", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
@@ -498,7 +498,7 @@ feature -- Data access Requirement
 		require
 			valid_id: id_project /= Void
 		do
-			create db_insert_statement.make ("INSERT INTO Requirement(estimation, desc, id_project) VALUES ('" + estimation + "','" + desc + "','" + id_project + "');", db);
+			create db_insert_statement.make ("INSERT INTO Requirement(estimation, desc, id_project) VALUES ('" + estimation.out + "','" + desc.out + "','" + id_project.out + "');", db);
 			db_insert_statement.execute
 			Result := True
 			if db_insert_statement.has_error then
@@ -523,7 +523,7 @@ feature -- Data access Requirement
 		require
 			valid_id: id_project /= Void and id_requirement /= Void
 		do
-			create db_modify_statement.make ("UPDATE Requirement SET estimation='" + estimation + "', desc='" + desc + "', id_project='" + id_project + "' WHERE id=" + id_requirement + ";", db)
+			create db_modify_statement.make ("UPDATE Requirement SET estimation='" + estimation.out + "', desc='" + desc.out + "', id_project='" + id_project.out + "' WHERE id=" + id_requirement.out + ";", db)
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				Result := False
