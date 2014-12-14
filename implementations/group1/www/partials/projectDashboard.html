@@ -36,6 +36,7 @@
                         yet!Go to Project
                         Management and add some!
                     </label>
+					<button type="button" class="buttons" data-toggle="modal" data-target="#createTaskModal">Create task</button>
 
                     <div class="procedure-details" ng-show="!!tasksForSprint.length">
                         <h2>Tasks for Sprint {{sprintIdDisplay}}</h2>
@@ -86,5 +87,81 @@
         </div>
     </div>
 
+	
+	<!-- button modal -->
+	
+	<div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Create Task</h4>
+      </div>
+      <div class="modal-body">
+        
+		<form ng-submit="addTask()">
+
+			<div class="form-group">
+				<label class="control-label">Description</label>	
+				<input class="form-control" type="text" ng-model="newTask.desc" required>
+			</div>
+	
+			<div class="form-group">
+				<label class="control-label">Comment</label>	
+				<input class="form-control" type="text" ng-model="newTask.comment" required>
+			</div>
+	
+			<div class="form-group">
+				<label class="control-label">Duration</label>	
+				<input class="form-control" type="text" ng-model="newTask.duration" required>
+			</div>
+	
+			<div class="form-group">
+				<label class="control-label">Points</label>	
+				<input class="form-control" type="text" ng-model="newTask.points" required>
+			</div>
+	
+			<div class="form-group">
+				<label class="control-label">Status</label>	
+				<input class="form-control" type="text" ng-model="newTask.status" required>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label">id_user</label>	
+				<input class="form-control" type="text" ng-model="newTask.id_user" required>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label">iD_req</label>	
+				<input class="form-control" type="text" ng-model="newTask.id_requirement" required>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label">id_sprint</label>	
+				<input class="form-control" type="text" ng-model="newTask.id_sprint" required>
+			</div>
+		<!--	
+			<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+					Users
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" ng-repeat="user in usersFromProj">
+					<li role="presentation">{{user.name}}</li>
+				</ul>
+			</div>	
+		-->
+		</form>
+      </div> <!--end modal-body -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="addTask()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	<!--end modal -->
+	
     <div class="clear"></div>
 </div>
