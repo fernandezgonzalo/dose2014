@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		require
-			valid_parameter: a_dao /= void and a_session_manager /= void
+			valid_parameter: a_dao /= Void and a_session_manager /= Void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
@@ -46,14 +46,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			res /= void
+			res /= Void
 		end
 
 	get_projects_by_user (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- return in response all project by user, the id_user is in the header of request
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -64,14 +64,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			res /= void
+			res /= Void
 		end
 
 	get_project_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- return project info through the project id in the req
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
@@ -81,14 +81,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			res /= void
+			res /= Void
 		end
 
 	get_users_by_id (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- return user info through the user id in the req
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_user_id: STRING
@@ -98,14 +98,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	delete_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- delete user with the user id
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_result: JSON_OBJECT
 			l_user_id: STRING
@@ -117,14 +117,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	put_users (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- update user info
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_payload, name, last_name, email, password, rol, active: STRING
 			parser: JSON_PARSER
@@ -279,7 +279,7 @@ feature -- Handlers
 	get_user_role (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void and req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_user_id, l_project_id: STRING
@@ -290,7 +290,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 end
