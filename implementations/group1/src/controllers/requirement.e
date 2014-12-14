@@ -38,10 +38,12 @@ feature -- Handlers
 			-- sends a reponse that contains a json array with all requeriments
 		require
 			valid_session: req_has_cookie (req, "_session_")
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
-			l_result_payload: STRING
+			l_result_payload, l_project_id: STRING
 		do
-			l_result_payload := my_db.search_requirement.representation
+			l_project_id := req.path_parameter ("id_project").string_representation
+			l_result_payload := my_db.search_requirement(l_project_id).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
