@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('SprintsCtrl', ['$location', '$scope', '$log', '$routeParams', 'SharedProjectSprintService', 'SprintService', 'ProjectService', function ($location, $scope, $log, $routeParams, SharedProjectSprintService, SprintService, ProjectService) {
+  .controller('SprintsCtrl', ['$timeout', '$location', '$scope', '$log', '$routeParams', 'SharedProjectSprintService', 'SprintService', 'ProjectService', function ($timeout, $location, $scope, $log, $routeParams, SharedProjectSprintService, SprintService, ProjectService) {
 
     $scope.sprints = [];
     $scope.sprint_status_options = SprintService.getSprintStatusOptions();
@@ -20,8 +20,8 @@ angular.module('myApp')
       $scope.end_date_opened = true;
     };
 
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy'];
-    $scope.format = $scope.formats[1];
+    $scope.formats = ['yyyy/MM/dd'];
+    $scope.format = $scope.formats[0];
     //---end config
 
     $scope.$on('eventGetRelatedSprints', function(){
@@ -31,6 +31,18 @@ angular.module('myApp')
       }
 
     });
+
+    var formattedDate = function(date) {
+      var d = new Date(date || Date.now()),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [ year,month, day ].join('-');
+    }
 
     var getSprintsByProjectId = function(projectId){
       if (projectId != undefined){
@@ -57,20 +69,28 @@ angular.module('myApp')
 
     $scope.createSprint = function(name, start_date, end_date){
       var projectId = $routeParams.projectId;
+      var d_start_date = new Date(start_date);
+      var d_end_date = new Date(end_date);
 
       if (projectId != undefined){
         var createFormData = {
           project_id: parseInt(projectId),
           name: name,
-          start_date: start_date,
-          end_date: end_date,
+          start_date: formattedDate(d_start_date),
+          end_date: formattedDate(d_end_date),
           status: 0,
         }
 
         SprintService.createSprint(projectId, createFormData, function(data){
           $log.debug('Success creating new project');
           $location.path("/projects");
-        });
+        },function(){
+          $scope.errorMsgCreate = true;
+          $timeout(function(){
+            $scope.errorMsgCreate = false;
+          }, 3000);
+        }
+        );
       }
     }
 
@@ -98,13 +118,17 @@ angular.module('myApp')
       var projectId = $routeParams.projectId;
 
       if(sprintId != undefined && projectId != undefined){
+        var d_start_date = new Date(start_date);
+        var d_end_date =  new Date(end_date);
+
         var updateFormData = {
-          id: parseInt(projectId),
+          project_id: parseInt(projectId),
           name: name,
-          start_date: start_date,
-          end_date: end_date,
+          start_date: formattedDate(d_start_date),
+          end_date: formattedDate(d_end_date),
           status: parseInt(status),
         }
+
 
         SprintService.editSprint(projectId, sprintId, updateFormData, function(data){
           $log.debug('Success updating a sprint');

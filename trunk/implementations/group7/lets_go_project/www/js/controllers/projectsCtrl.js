@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('myApp')
-.controller('ProjectsCtrl', ['$scope', '$location', '$routeParams', '$http', '$log', 'AuthService', 'SharedProjectSprintService', 'ProjectService', 'UserService',function ($scope, $location, $routeParams, $http, $log, AuthService, SharedProjectSprintService, ProjectService,UserService) {
+.controller('ProjectsCtrl', ['$timeout', '$scope', '$location', '$routeParams', '$http', '$log', 'AuthService', 'SharedProjectSprintService', 'ProjectService', 'UserService',function ($timeout, $scope, $location, $routeParams, $http, $log, AuthService, SharedProjectSprintService, ProjectService,UserService) {
 
   var userId = AuthService.getUserInfo();
   $scope.project_status_options = ProjectService.getProjectStatusOptions();
   $scope.projects = [];
+  $scope.assigned_devs = [];
+  $scope.ownerEmail = {
+    id:0,
+    email:""
+  };
 
   //--- datepicker config
   $scope.open_start_date  = function($event) {
@@ -20,8 +25,8 @@ angular.module('myApp')
     $scope.end_date_opened = true;
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy'];
-  $scope.format = $scope.formats[1];
+  $scope.formats = ['yyyy/MM/dd'];
+  $scope.format = $scope.formats[0];
   //---end config
 
   var getProjects = function() {
@@ -38,15 +43,19 @@ angular.module('myApp')
     });
   }
   // fetch the existing projects as init
-  getProjects();
+  if($routeParams.projectId==undefined){
+    getProjects();
+  }
 
   $scope.createProject = function(name, description, startDate, endDate) {
+    var d_start_date = new Date(start_date);
+    var d_end_date = new Date(end_date);
     if(description==undefined){description="";}
     var createFormData = {
       name: name,
       description: description,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: formattedDate(d_start_date),
+      end_date: formattedDate(d_end_date),
       status: 0,
       owner: userId,
     }
@@ -63,7 +72,6 @@ angular.module('myApp')
 
   var getProjectById = function(projectId) {
     if(projectId != undefined && projectId != null) {
-
       ProjectService.getProjectById(projectId, function(data){
         $log.debug('Success getting a project');
         $scope.project_retrieved = data;
@@ -77,12 +85,14 @@ angular.module('myApp')
 
   $scope.updateProject = function(projectId, name, description, start_date, end_date, status) {
     if(description==undefined){description="";}
+    var d_start_date = new Date(start_date);
+    var d_end_date = new Date(end_date);
     var updateFormData = {
       id: projectId,
       name: name,
       description: description,
-      start_date: start_date,
-      end_date: end_date,
+      start_date: formattedDate(d_start_date),
+      end_date: formattedDate(d_end_date),
       status: parseInt(status),
       owner: userId,
     }
@@ -109,26 +119,58 @@ angular.module('myApp')
     });
   }
 
-  $scope.inviteDevelopersToProject = function(developers) {
-    var projectId = 67;
-    // var payload = developers;
-    var payload = {
-      devs: [1, 2]
-    };
-
-    ProjectService.inviteDevelopersToProject(projectId, payload, function(){
-      $log.debug('Success inviting developers to project');
-    });
+  var existDev = function(email){
+    var exist = false;
+    for(var i=0;i<$scope.assigned_devs.length;i++){
+      if(email==$scope.assigned_devs[i].email){
+        exist = true;
+      }
+    }
+    if(email==$scope.ownerEmail.email){exist = true;}
+    return exist;
   }
 
-  $scope.removeDevelopersFromProject = function(developers) {
-    var projectId = 67;
+  $scope.inviteDevelopersToProject = function(email) {
+    var projectId = $scope.project_retrieved.id;
+    if(!existDev(email)){
+      var payload = {
+        email: email
+      };
+      ProjectService.inviteDevelopersToProject(projectId, payload, function(){
+        //$scope.assigned_devs.push({id:"",email:email})
+        getProjectById($routeParams.projectId);
+        $log.debug('Success inviting developers to project');
+      },function(){
+        $scope.errorMsgInvite = true;
+        $timeout(function(){
+          $scope.errorMsgInvite = false;
+        }, 2000);
+      });
+    }
+    else {
+      $scope.errorMsgExist = true;
+      $timeout(function(){
+        $scope.errorMsgExist = false;
+      }, 2000);
+    }
+    // var payload = developers;
+
+  }
+
+  $scope.removeDevelopersFromProject = function(developer) {
+    var projectId = $scope.project_retrieved.id;
     // var payload = developers;
     var payload = {
-      devs: [1, 2]
+      devs: [developer.id],
     };
-
-    ProjectService.inviteDevelopersToProject(projectId, payload, function(){
+    //
+    for(var i=0;i<$scope.assigned_devs.length;i++){
+      if ($scope.assigned_devs[i].id==developer.id){
+        $scope.assigned_devs.splice(i,1);
+      }
+    }
+    ProjectService.removeDevelopersFromProject(projectId, payload, function(){
+      //getProjectById($routeParams.projectId);
       $log.debug('Success removing developers to project');
     });
   }
@@ -143,12 +185,41 @@ angular.module('myApp')
   }
 
   $scope.getInvitedDevelopersByProject = function(data){
-    $scope.inviteDevelopersToProjectNames = [];
+    $scope.assigned_devs=[];
     angular.forEach(data.invited_devs, function(value, key) {
-      UserService.getUserById(value, function(data){
-        $scope.inviteDevelopersToProjectNames.push(data.firstname+" "+data.lastname );
+      this.push({id:value, email:""});
+    },$scope.assigned_devs);
+
+    angular.forEach($scope.assigned_devs, function(value, key) {
+      UserService.getUserById(value.id, function(data){
+        value.email = data.email ;
       });
     });
+
+    for(var j=0;j<$scope.assigned_devs.length;j++){
+      if($scope.assigned_devs[j].id == data.owner){
+        $scope.ownerEmail = $scope.assigned_devs[j];
+        $scope.assigned_devs.splice(j,1);
+        break;
+      }
+    }
+
+  }
+
+  $scope.CommitProjectShare = function(){
+    $location.path(window.history.back());
+  }
+
+  var formattedDate = function(date) {
+    var d = new Date(date || Date.now()),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [ year,month, day ].join('-');
   }
 
 
