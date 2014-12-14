@@ -62,7 +62,7 @@ feature -- Operations
 
 					-- sprint data:
 				total_amount_of_sprints := db_handler_sprint.total_sprints_by_project_id (project_id.to_natural).item ("total_sprints").representation.at (2).out.to_natural
-				total_sprints_completed := db_handler_sprint.total_sprints_by_status_and_project_id ("Completed", project_id.to_natural)
+				total_sprints_completed := db_handler_sprint.total_sprints_by_status_and_project_id ("Complete", project_id.to_natural)
 				total_sprints_started := db_handler_sprint.total_sprints_by_status_and_project_id ("Started", project_id.to_natural)
 				total_sprints_backlog := db_handler_sprint.total_sprints_by_status_and_project_id ("Backlog", project_id.to_natural)
 					-- task data:
