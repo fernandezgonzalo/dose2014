@@ -44,6 +44,9 @@ body {
 .clickable {
   cursor: pointer; }
 
+.ui-table-hover tbody > tr:hover {
+  opacity: 0.8; }
+
 .b-projects img {
   cursor: pointer; }
 
@@ -59,6 +62,12 @@ body {
 .border {
   border: 2px dashed #d0d0d0;
   /* Параметры границы */ }
+
+.b-sprints td {
+  cursor: default; }
+
+.b-tasks td {
+  cursor: default; }
 
 .b-navbar a {
   cursor: pointer; }

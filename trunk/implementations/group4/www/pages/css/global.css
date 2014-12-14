@@ -42,3 +42,6 @@ body {
 
 .clickable {
   cursor: pointer; }
+
+.ui-table-hover tbody > tr:hover {
+  opacity: 0.8; }
