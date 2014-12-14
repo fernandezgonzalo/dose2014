@@ -38,29 +38,18 @@ angular.module('Wbpms')
             new_ownedBy : '',
             new_comments : '',
             new_links : ''
-        };
+      };
 
-        $scope.workTemp = {
-          number : '',
-          name : '',
-          points : ''
-
-        }
-
-        $scope.delWorkItem = {
-          work_item_id : ''
-        }
+      $scope.delWorkItem = {
+        work_item_id : '',
+        work_item_number : ''
+      }
 
       $scope.statusWorkItems = {  
             "values": ["Not started", "Ongoing", "Done"] 
-        };
+      };
 
-    /*  $scope.work_items = {
-              "values" : workItems
-            };   */
-
-      
-
+    
 
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
@@ -74,7 +63,7 @@ angular.module('Wbpms')
         // send the payload to the server
         $http.post('/api/projects/iterations/getworkitems', payload)
            .success(function(data, status, header, config) {
-            alert(JSON.stringify(data));
+            data.pop(); // lo hago porque me estaba tomando un elemento de mas que era el succes, con esto elimino el primer elemento de la lista data
             $scope.workItems = data;
             
           })   
@@ -147,16 +136,19 @@ angular.module('Wbpms')
      $scope.delete_work_item = function(idWorkItem) {
 
       var payload = {
-              work_item_id : delWorkItem.work_item_id
+              work_item_id : idWorkItem //delWorkItem.work_item_id
           }
 
-          alert(idWorkItem);
           // send the payload to the server
           $http.post('/api/projects/iterations/workitems/delete_workitem', payload)
             .success(function(data, status, header, config) {
               alert("The work item was deleted");
+              alert($scope.delWorkItem.work_item_number);
+              alert($scope.workItems.length);
+              alert($scope.workItems[0].number);
+              alert($scope.workItems[1].number);
               for(var i =0; i < $scope.workItems.length; i++) {
-                if($scope.workItems[i].work_item_id === idWorkItem) {
+                if($scope.workItems[i].number === $scope.delWorkItem.work_item_number) {
                   $scope.workItems.splice(i, 1);
                   break;
                 }
@@ -211,56 +203,15 @@ angular.module('Wbpms')
      // function delete an existing link between two work_items
      }
 
- /*    $scope.getAllWorkItemLinks = function(idWorkItem) {
-    // the server should return a json array with all links about
-    // a certain work_item
-        var payload = {
-          work_item_id : idWorkItem
-        }  
-
-        $log.debug("Sending payload: " + JSON.stringify(payload));
-        alert(JSON.stringify(payload));
-        // send the payload to the server
-        $http.post('/api/projects/iterations/workitems/getlinks', payload)
-           .success(function(data, status, header, config) {
-            $scope.linkss = data[0].linkss;
-          })   
-          .error(function(data, status) {
-            alert("ERROR"+ JSON.stringify(data));
-          });
-
-     }  */
-
-  /* $scope.get_all_work_item_links = function() {
-    var payload = {
-           project_name : $scope.project.project_name,
-           iteration_number : $scope.iteration.id_iteration
-        }
-        $log.debug("Sending payload: " + JSON.stringify(payload));
-        // send the payload to the server
-        $http.post('/api/projects/iterations/getworkitems', payload)
-           .success(function(data, status, header, config) {
-            alert(JSON.stringify(data));
-            $scope.workItems = data;
-            
-          })   
-          .error(function(data, status) {
-            alert("ERROR"+ JSON.stringify(data));
-          });
-
-   } */
-
-
-     $scope.goToWorkItem = function(work_item){
+    $scope.goToWorkItem = function(work_item){
         alert("Newell's Old Boys!!!!");
     }
 
-    $scope.setDelete = function(idWorkItem) {
-        // Set number work Item to Delete
-
-          $scope.delWorkItem.work_item_id = idWorkItem;
-
-        }
+    $scope.setDelete = function(idWorkItem, numberWorkItem) {
+      // Set number work Item to Delete
+      $scope.delWorkItem.work_item_id = idWorkItem;
+      $scope.delWorkItem.work_item_number = numberWorkItem;
+    }
 
 
   }
