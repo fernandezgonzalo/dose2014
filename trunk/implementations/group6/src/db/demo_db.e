@@ -342,6 +342,17 @@ feature -- Data access : project
 			db_query_statement.execute (agent row_to_json_object(?, 1, Result))
 		 end
 
+	get_members_info (a_project_name: STRING): JSON_ARRAY
+		-- get the total numbers of points of a project
+		local
+			l_result: JSON_OBJECT
+		do
+
+			create Result.make_array
+			create db_query_statement.make ("SELECT user.email, user.name, user.surname, member.owner, sum(IFNULL(work_item.points, 0)) as points FROM member, user LEFT JOIN work_item ON member.project = work_item.project WHERE member.project='" + a_project_name + "' AND user.email=member.user GROUP BY member.user;", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
+		 end
+
 
 feature --data access: USERS
 
@@ -581,6 +592,19 @@ feature --data access: USERS
 
 		end
 
+	get_user_surname(user_email: STRING): STRING
+		--returns a JSON_OBJECT representing the specified user's name
+		local
+			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		do
+			create Result.make_empty
+
+			create db_query_statement.make("SELECT surname FROM user WHERE email = '" + user_email + "';" , db)
+			l_query_result_cursor := db_query_statement.execute_new
+			--if l_query_result_cursor.after then
+				Result := l_query_result_cursor.item.string_value (1)
+
+		end
 
 
 feature --Data access: ITERATIONS

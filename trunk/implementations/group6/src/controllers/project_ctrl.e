@@ -70,7 +70,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "giorgio@hotmail.it"
+			l_user_email := "marid06@hotmail.fr"
 
 
 			-- Check data
@@ -318,7 +318,8 @@ feature --Handlers
 			else
 				-- Get from the database all the projects which the user takes part in: db.get_all_user_project(a_user_email)
 				j_obj.put (create {JSON_STRING}.make_json ("Members of project " + l_project_name), create {JSON_STRING}.make_json ("success"))
-				j_obj.put (my_db.get_all_project_members (l_project_name), create {JSON_STRING}.make_json ("members"))
+				--j_obj.put (my_db.get_all_project_members (l_project_name), create {JSON_STRING}.make_json ("members"))
+				j_obj.put (my_db.get_members_info (l_project_name), create {JSON_STRING}.make_json ("members"))
 				l_result_payload.extend (j_obj)
 				set_json_header_ok (res, l_result_payload.representation.count)
 			end
@@ -403,7 +404,7 @@ feature --Handlers
 			if req_has_cookie(req, "_session_") then
 				l_user_email := get_session_from_req(req, "_session_").at("email").out
 			end
-			--l_user_email := "marid06@hotmail.fr"
+			l_user_email := "marid06@hotmail.fr"
 			if l_project_name = Void or l_project_name.is_empty then
 				--Error old name project empty
 				j_obj.put (create {JSON_STRING}.make_json ("Project name empty"), create {JSON_STRING}.make_json ("error"))
@@ -448,10 +449,12 @@ feature --Handlers
 				my_db.add_member_to_project (l_project_name, l_new_member, False)
 				j_obj.put (create {JSON_STRING}.make_json ("New member '" + l_new_member + "' added successfully to '" + l_project_name + "'."), create {JSON_STRING}.make_json ("success"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_user_name (l_new_member)), create {JSON_STRING}.make_json ("name"))
+				j_obj.put (create {JSON_STRING}.make_json (my_db.get_user_surname (l_new_member)), create {JSON_STRING}.make_json ("surname"))
 				j_obj.put (create {JSON_STRING}.make_json (l_new_member), create {JSON_STRING}.make_json ("user"))
 				j_obj.put (create {JSON_STRING}.make_json (my_db.get_project_points (l_project_name).out), create {JSON_STRING}.make_json ("points"))
-				j_obj.put (create {JSON_STRING}.make_json ("false"), create {JSON_STRING}.make_json ("owner"))
+				j_obj.put (create {JSON_STRING}.make_json ("0"), create {JSON_STRING}.make_json ("owner"))
 				l_result_payload.extend (j_obj)
+				--l_result_payload.extend (my_db.get_members_info (l_project_name, l_new_member))
 				set_json_header_ok (res, l_result_payload.representation.count)
 
 				-- Adds code for sending email to the owners of the project -------------------------------------------
