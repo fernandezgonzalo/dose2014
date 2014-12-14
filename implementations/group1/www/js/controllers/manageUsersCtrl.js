@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-	.controller('ManageUsersCtrl', ['$rootScope', '$scope', '$routeParams', '$log', 'UsersFromProject', 'RegisteredUsers', 'UserDetails', 'UserRole', 'RemoveUserFromProject', '$location', '$window', function ($rootScope, $scope, $routeParams, $log, UsersFromProject, RegisteredUsers, UserDetails, UserRole, RemoveUserFromProject, $location, $window) {
+	.controller('ManageUsersCtrl', ['$rootScope', '$scope', '$routeParams', '$log', 'DevelopersFactory', 'GetUsersFactory', 'RoleFactory', '$location',
+		function ($rootScope, $scope, $routeParams, $log, DevelopersFactory, GetUsersFactory, RoleFactory, $location) {
 		
 		$scope.projectUserIds = [];
 		$scope.projectUsers = [];
@@ -22,36 +23,37 @@ angular.module('DOSEMS.controllers')
 			
 			$rootScope.$broadcast('ProjectPage', $scope.projectId);
 			
-			// TODO: remove
-			/*var response = UserRole.get({userId:$scope.userId,projectId:$scope.projectId});
-			response.$promise.then(function (data) {
-				$scope.text = data;
-			});*/
-			
-			var response = RegisteredUsers.get();
+			var response = GetUsersFactory.query();
 			response.$promise.then(function (data) {
 				var i = 0;
 				for (i = 0; i < data.length; i++) {
 					$scope.registeredUsers.push(data[i]);
 				}
 				$scope.getProjectUsers();
-			});		
+			});
 		}();
-		
-		// TODO: Update the database
-		/*$scope.addUser = function () {
-			for (var i = 0; i < $scope.leftUsers.length; i++) {
-				if ($scope.leftUsers[i].id === $scope.selectedUser) {
-					$scope.projectUsers.push($scope.leftUsers[i]);
-					$scope.leftUsers.splice(i, 1);
-				}
+
+		$scope.addUser = function () {
+			if ($scope.selectedUser < 1 || !$scope.role) {
+				return;
 			}
-		}*/
+			
+			var response = DevelopersFactory.add({userId: $scope.selectedUser, projectId: $scope.projectId, role: $scope.role});
+			response.$promise.then(function () {
+				for (var i = 0; i < $scope.leftUsers.length; i++) {
+					if ($scope.leftUsers[i].id === $scope.selectedUser) {
+						var user = $scope.leftUsers[i];
+						user.role = $scope.role;
+						$scope.projectUsers.push(user);
+						$scope.leftUsers.splice(i, 1);
+					}
+				}
+			});
+		}
 		
 		$scope.removeUser = function (id) {
-			var response = RemoveUserFromProject.remove({userId:$scope.userId,projectId:$scope.projectId,developerId:id});
+			var response = DevelopersFactory.remove({userId:$scope.userId,projectId:$scope.projectId,developerId:id});
 			response.$promise.then(function () {
-				//$window.alert("ok");
 				for (var i = 0; i < $scope.projectUsers.length; i++) {
 					if ($scope.projectUsers[i].id_user == id) {
 						var developer = $scope.projectUsers[i];
@@ -59,11 +61,11 @@ angular.module('DOSEMS.controllers')
 						$scope.leftUsers.push(developer);
 					}
 				}
-			}, function () { /*$window.alert("failure");*/});
+			});
 		}
 		
 		$scope.getProjectUsers = function() {
-			var response = UsersFromProject.get({userId:$scope.userId,projectId:$scope.projectId});
+			var response = DevelopersFactory.query({userId:$scope.userId,projectId:$scope.projectId});
 			response.$promise.then(function (data) {
 				$scope.getRoles(data);
 				$scope.updateLists();
@@ -90,9 +92,12 @@ angular.module('DOSEMS.controllers')
 		}
 		
 		$scope.getUserRole = function(id) {
-			var response = UserRole.get({userId:id,projectId:$scope.projectId});
+			var response = RoleFactory.get({userId:id,projectId:$scope.projectId});
 			response.$promise.then(function (data) {
-				$scope.projectUsers.filter(function (x) { return x.id_user == id; })[0] = data;
+				var current = $scope.projectUsers.filter(function (x) { return x.id == id; });
+				if (current.length > 0) {
+					current[0].role = data[0].role;
+				}
 			});
 		}
     }]);
