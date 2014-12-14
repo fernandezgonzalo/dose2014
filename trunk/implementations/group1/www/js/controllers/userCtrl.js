@@ -77,4 +77,15 @@ angular.module('DOSEMS.controllers')
             //$scope.lookupUserId = $routeParams.lookupUserId;
         }
         
+		$scope.newTask = new Tasks();
+		$scope.addTask = function(){
+				var params = {userId:$scope.userId,projectId:$scope.projectId,sprintId:1};
+				$scope.newTask.$save(params,function(){
+				$location.path("/user/"+$scope.userId+"/project/"+$scope.projectId);
+				
+				});
+				$log.info($scope.newTask);
+				$log.info("addddd wssstask!!!!");
+			
+		}
     });
