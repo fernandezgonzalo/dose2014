@@ -1,132 +1,79 @@
-import unittest
 import requests
-import json
+import unittest
 from test_api_rest import *
+from models import *
 from faker import Factory
 
-class TestUser(unittest.TestCase):
+class Test(unittest.TestCase):
 
     def setUp(self):
         self.session = requests.Session()
         self.faker = Factory.create()
-
-    def test_login(self):
-        email = "bobesponja@gmail.com"
-        password = "asd"
-        req = do_login(self.session, email, password)
-        self.assertEqual(req.status_code, 200)
-
-    def test_login_with_incorrect_data(self):
-        email = "asd@asd.com"
-        password = "asdd"
-        req = do_login(self.session, email, password)
-        self.assertEqual(req.json().get('Message'), "Username or password incorrect")
-        self.assertEqual(req.status_code, 401)
-
-    def test_logout(self):
-        email = "asd@asd.com"
-        password = "aaa"
-        req = do_login(self.session, email, password)
-        req = do_logout(self.session)
-        self.assertEqual(req.json().get('Message'), "User logged out")
-        self.assertEqual(req.status_code, 200)
+        self.database = SqliteDatabase('../database.db')
+        database_proxy.initialize(self.database)
+        do_login(self.session, "bob_esponja@gmail.com", "asd")
 
     def test_create_user(self):
-        # Get random data
         name = self.faker.first_name()
         lastname = self.faker.last_name()
         email = self.faker.email()
         password = self.faker.password()
-        rol = 1
-        active = 1
+        rol = "1"
+        active = "1"
 
-        req = post_users(self.session, name, lastname, email, password, rol, active)
-        self.assertEqual(req.status_code, 200)
+        res = post_users(self.session, name, lastname, email, password, rol, active)
+        self.assertEqual(res.status_code, 200, "Status code is not 200")
+        u = User.get(User.id == res.json().get('id'))
+        self.assertEqual(u.email, email, "The email stored is different from the entered email ")
 
     def test_create_user_with_email_registered(self):
         name = self.faker.first_name()
         lastname = self.faker.last_name()
-        email = "asd@asd.com"
+        email = "bob_esponja@gmail.com"
         password = self.faker.password()
         rol = 1
         active = 1
 
         req = post_users(self.session, name, lastname, email, password, rol, active)
-        self.assertEqual(req.status_code, 401)
-        self.assertEqual(req.json().get('Message'), "Email already registered")
+        self.assertEqual(req.status_code, 401, "Status code is not 401")
+        self.assertEqual(req.json().get('Message'), "Email already registered", "Message is not 'Email already registered'")
 
+    def test_update_user(self):
+        res = do_login(self.session, "bob_esponja@gmail.com", "asd")
+        id_user_logged = res.json().get('id')
+        new_name = self.faker.first_name()
+        user = get_user(self.session, id_user_logged).json()
+        res = put_users(self.session, id_user_logged, new_name, user.get("lastname"), "asd", "1", "1")
+        user = User.get(User.id == id_user_logged)
+        self.assertEqual(user.name, new_name, "The name stored is different from the entered email")
 
+    def test_delete_user(self):
+        name = self.faker.first_name()
+        lastname = self.faker.last_name()
+        email = self.faker.email()
+        password = self.faker.password()
+        rol = "1"
+        active = "1"
 
+        res = post_users(self.session, name, lastname, email, password, rol, active)
+        res_login = do_login(self.session, email, password)
+        res = delete_users(self.session, res_login.json().get('id'))
+        self.assertEqual(res.status_code, 200, "Status code is not 200")
+        self.assertEqual(res.json().get('Message'), "Removed user %s" % res_login.json().get('id'), "Message is not 'Removed user id'")
 
- #    def test_full(self):
+    # def test_delete_user_not_logged(self):
+    #     name = self.faker.first_name()
+    #     lastname = self.faker.last_name()
+    #     email = self.faker.email()
+    #     password = self.faker.password()
+    #     rol = "1"
+    #     active = "1"
+    #     self.session.cookies.pop('_session_')
 
-	# ### things that are tested:
-	# ### 1) get all users
-	# ### 2) insert a new test user
-	# ### 3) verify that there is now a more user in the database
-	# ### 4) verify that the data entered correctly
-	# ### 5) modify user data
-	# ### 6) verify that the data is successfully modified
-	# ### 7) get all users
-	# ### 8) delete test user
-	# ### 9) verify that an item was removed in the database
+    #     res_post = post_users(self.session, name, lastname, email, password, rol, active)
+    #     res_del = delete_user(sself.session, res_post.json().get('id'))
+    #     self.assertEqual(res_del.status_code, 401, "Status code is not 401")
+    #     self.assertEqual(res_del.json().get('Message'), "User is not logged in.", "Message is not 'User is not logged in.'")
 
-
-	# do_login(self.session, "dex@asd.com", "blood")
-
-	# 	# get all users in users_1
-	# users_1 = json.loads(get_users(self.session).content)
-
- #        name = "test_name"
- #        lastname = "test_last_name"
- #        email = "test@email.com"
- #        password = "test_password"
- #        rol = 1
- #        active = 1
-	# 	# insert a user
- #        req = post_users(self.session, name, lastname, email, password, rol, active)
-	# self.assertEqual(req.status_code, 200)
-
-	# 	# get all users in users_2
-	# users_2  = json.loads(get_users(self.session).content)
-
-	# 	# the number of users is increased by 1 after inserting a user
-	# 	# the length users_1 is equal to the length (users_2 - 1)
-	# self.assertEqual(len (users_1), len  (users_2)-1)
-
-	# 	# get the id of test user in "id_user"
-	# for i in range (len  (users_2)):
-	# 	if users_2 [i] ['email'] == "test@email.com":
-	# 		id_user = users_2 [i] ['id']
-
-	# 	# obtain user information
-	# user_info = json.loads(get_user (self.session, id_user).content)
-	# 	# verify that the data entered correctly
-	# self.assertEqual(user_info ['name'], "test_name")
-	# self.assertEqual(user_info ['lastname'], "test_last_name")
-	# self.assertEqual(user_info ['email'], "test@email.com")
-	# self.assertEqual(user_info ['password'], "test_password")
-
-	# 	# modify user data
-	# put_user = put_users(self.session, id_user, "test_name_2", "test_last_name_2", "test_password_2", rol, active)
-
-	# 	#verify that the data is successfully modified
-	# user_info_2 = json.loads(get_user (self.session, id_user).content)
-	# self.assertEqual(user_info_2 ['name'], "test_name_2")
-	# self.assertEqual(user_info_2 ['lastname'], "test_last_name_2")
-	# self.assertEqual(user_info_2 ['email'], "test@email.com")
-	# self.assertEqual(user_info_2 ['password'], "test_password_2")
-
-	# 	#get all users in users_1
-	# users_1 = json.loads(get_users(self.session).content)
-	# 	# delete user
-	# req2 = delete_users (self.session, id_user)
-	# 	#get all users in users_2
-	# users_2  = json.loads(get_users(self.session).content)
-	# 	# the number of users is decremented by 1 after deleting a user
-	# 	# the length users_1 is equal to the length (users_2 + 1)
-	# self.assertEqual(len (users_1), len  (users_2)+1)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    #def tearDown(self):
+    #    self.database.close()
