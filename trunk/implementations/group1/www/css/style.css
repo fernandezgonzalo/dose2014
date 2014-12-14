@@ -199,7 +199,7 @@ input[type="radio"] {
 
 button {
     background-color: #333333;
-    color: #ffffff;
+    color: #ffffff !important;
     min-width: 100px;
     height: 35px;
     border: none;
@@ -468,6 +468,17 @@ th {
 	text-align: right;
 }
 
+#requirements-block ol li div.buttons {
+	margin-top: 5px;
+	text-align: right;
+}
+#requirements-block ol li div.buttons div.inline-label {
+	margin-top: 20px;
+}
+#requirements-block ol li div.buttons input[type="text"] {
+	margin-bottom: -8px;
+}
+
 #sprints-block > div.buttons,
 #requirements-block > div.buttons {
 	text-align: left;
@@ -477,4 +488,8 @@ th {
 #requirements-block div.buttons > div  {
 	display: inline-block;
 	margin-right: 10px;
+}
+
+#requirements-block div.buttons div.add-requirement  input[type="text"] {
+	margin-bottom: -8px;
 }
