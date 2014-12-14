@@ -73,19 +73,21 @@ feature -- Data access
 	add_to_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_values: ARRAYED_LIST[STRING]
+		current_date:DATE_TIME
 	do
 		create l_values.make (9)
+		create current_date.make_now
 		l_values.extend(get_value_from_map ("requirement_id", a_map))
 		l_values.extend(get_value_from_map ("title", a_map))
 		l_values.extend(get_value_from_map ("points", a_map))
 		l_values.extend(get_value_from_map ("hours_estimated", a_map))
 		l_values.extend(get_value_from_map ("description", a_map))
 		l_values.extend(get_value_from_map ("progress", a_map))
-		l_values.extend(get_value_from_map ("last_modified", a_map))
 		l_values.extend(get_value_from_map ("sprint_id", a_map))
 		l_values.extend(get_value_from_map ("user_id", a_map))
+		l_values.extend(current_date.out)
 		create Result.default_create
-		create db_insert_statement.make("Insert into task(requirement_id,title,points,hours_estimated,description,progress,last_modified,sprint_id,user_id) values(?,?,?,?,?,?,?,?,?);", db)
+		create db_insert_statement.make("Insert into task(requirement_id,title,points,hours_estimated,description,progress,sprint_id,user_id,last_modified) values(?,?,?,?,?,?,?,?,?);", db)
 		db_insert_statement.execute_with_arguments (l_values)
 		Result.success:= true
 		Result.id := db_insert_statement.last_row_id.out
@@ -107,24 +109,26 @@ feature -- Data access
 	update_task(a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]): TUPLE[success: BOOLEAN; id: STRING]
 	local
 		l_values: ARRAYED_LIST[STRING]
+		current_date:DATE_TIME
 	do
 		create Result.default_create
 		create l_values.make (9)
+		create current_date.make_now
 		l_values.extend(get_value_from_map ("requirement_id", a_map))
 		l_values.extend(get_value_from_map ("title", a_map))
 		l_values.extend(get_value_from_map ("points", a_map))
 		l_values.extend(get_value_from_map ("hours_estimated", a_map))
 		l_values.extend(get_value_from_map ("description", a_map))
 		l_values.extend(get_value_from_map ("progress", a_map))
-		l_values.extend(get_value_from_map ("last_modified", a_map))
 		l_values.extend(get_value_from_map ("sprint_id", a_map))
+		l_values.extend(current_date.out)
 		l_values.extend(get_value_from_map ("id", a_map))
-		create db_modify_statement.make("Update task Set requirement_id=?,title=?,points=?,hours_estimated=?,description=?,progress=?,last_modified=?,sprint_id=? WHERE id=?;", db)
+		create db_modify_statement.make("Update task Set requirement_id=?,title=?,points=?,hours_estimated=?,description=?,progress=?,sprint_id=?,last_modified=? WHERE id=?;", db)
 		db_modify_statement.execute_with_arguments (l_values)
 		Result.success:= true
 		Result.id := get_value_from_map ("id", a_map)
 		if db_modify_statement.has_error then
-			print("Error while updateing table task")
+			print("Error while updating table task")
 				Result.success:= false
 				Result.id:="-1"
 		else
@@ -458,7 +462,7 @@ feature -- Data access
 	do
 			-- create a result object
  		create Result.make_array
-		create db_query_statement.make ("SELECT task.* FROM task,requirement WHERE requirement.project_id = ? AND requirement.id=task.requirement_id ORDER BY last_modified LIMIT 10;", db)
+		create db_query_statement.make ("SELECT task.* FROM task,requirement WHERE requirement.project_id = ? AND requirement.id=task.requirement_id ORDER BY last_modified DESC LIMIT 20;", db)
 		l_query_result_cursor := db_query_statement.execute_new_with_arguments (<<a_project_id>>)
 		from
 			i:= 1
