@@ -2,6 +2,7 @@
     <h1 class="text-left">Project: {{project.name}}</h1>
     <h5 class="text-left">Maximum points per sprint: {{project.max_points_per_sprint}}</h5>
     <h5 class="text-left">Status: {{project.status}}</h5>
+    <br>
     <div>
         <ul class="nav nav-tabs">
             <li role="presentation" ng-class="{ 'active': state.$current.name == 'project.tasks' }"><a ui-sref=".tasks">Tasks</a></li>
