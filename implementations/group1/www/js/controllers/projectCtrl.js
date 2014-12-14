@@ -1,13 +1,33 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', '$http', 'SprintsFactory', 'TasksFactory',
-	    function ($rootScope, $scope, $routeParams, $log, $http, SprintsFactory, TasksFactory) {
+    .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', '$http', 'SprintsFactory', 'TasksFactory', 'RequirementsFactory',
+	    function ($rootScope, $scope, $routeParams, $log, $http, SprintsFactory, TasksFactory, RequirementsFactory) {
 
 		$scope.sprints = [];
+		$scope.requirements = [];
 		
-		$scope.loadSprints = function () {
+		$scope.loadRequirements = function () {
+			$scope.requirements = [];
+			/*var response = RequirementsFactory.query({userId:$scope.userId,projectId:$scope.projectId});
+			response.$promise.then(function (data) {
+				var i = 0;
+				for (i = 0; i < data.length; i++) {
+					var requirement = { id: data[i].id,
+										name: data[i].desc,
+										estimation: data[i].estimation,
+										project: data[i].id_project,
+										tasks: []
+									};
+					$scope.requirements.push(requirement);
+					$scope.getRequirementTasks(requirement);
+				}
+			});*/
+		}
+		
+		$scope.loadData = function () {
 			$scope.sprints = [];
+			$scope.requirements = [];
 			var response = SprintsFactory.query({userId:$scope.userId,projectId:$scope.projectId});
 			response.$promise.then(function (data) {
 				var i = 0;
@@ -29,7 +49,7 @@ angular.module('DOSEMS.controllers')
 				$scope.projectId = projectId;
 			}
 			
-			$scope.loadSprints();
+			$scope.loadData();
 		}();
 		
 		$scope.getSprintTasks = function (sprintId) {
@@ -37,12 +57,29 @@ angular.module('DOSEMS.controllers')
 			response.$promise.then(function (data) {
 				var i = 0;
 				for (i = 0; i < data.length; i++) {
-					$scope.getTaskInfo(sprintId, data[i].id);
+					var loadRequirements = (i == data.length - 1) ? true : false;
+					$scope.getTaskInfo(sprintId, data[i].id, loadRequirements);
+				}
+				if (data.length == 0) {
+					$scope.loadRequirements();
 				}
 			});
 		}
 		
-		$scope.getTaskInfo = function (sprintId, taskId) {
+		$scope.getRequirementTasks = function (requirement) {
+			var i = 0;
+			var j = 0;
+			for (i = 0; i < $scope.sprints.length; i++) {
+				for (j = 0; j < $scope.sprints[i].tasks.length; j++) {
+					var task = $scope.sprints[i].tasks[j];
+					if (task.requirement == requirement.id) {
+						requirement.tasks.push(task);
+					}
+				}
+			}
+		}
+		
+		$scope.getTaskInfo = function (sprintId, taskId, loadRequirements) {
 			var response = TasksFactory.get({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId,taskId:taskId});
 			response.$promise.then(function (data) {
 				if (data.length > 0) {
@@ -58,6 +95,9 @@ angular.module('DOSEMS.controllers')
 								 sprint: sprintId };
 					var tasks = $scope.sprints.filter(function (x) { return x.id == sprintId; })[0].tasks;
 					tasks.push(formattedTask);
+					if (loadRequirements) {
+						$scope.loadRequirements();
+					}
 				}
 			});
 		}
@@ -87,12 +127,39 @@ angular.module('DOSEMS.controllers')
 		$scope.addSprint = function () {
 			var response = SprintsFactory.add({userId:$scope.userId,projectId:$scope.projectId});
 			response.$promise.then(function (data) {
-				$scope.loadSprints();
+				$scope.loadData();
 			});
 		}
 		
 		$scope.removeSprint = function (id) {
 			var response = SprintsFactory.remove({userId:$scope.userId,projectId:$scope.projectId,sprintId:id});
+			response.$promise.then(function (data) {
+				$scope.loadData();
+			});
+		}
+		
+		$scope.addRequirement = function () {
+			if (!$scope.newRequirement) {
+				return;
+			}
+			var response = RequirementsFactory.add({userId:$scope.userId,projectId:$scope.projectId,name:$scope.newRequirement});
+			response.$promise.then(function (data) {
+				$scope.loadData();
+			});
+		}
+		
+		$scope.changeRequirement = function (id, name, estimation) {
+			if (!name) {
+				return;
+			}
+			var response = RequirementsFactory.update({userId:$scope.userId,projectId:$scope.projectId,requirementId: id, name:name,estimation:estimation});
+			response.$promise.then(function (data) {
+				$scope.loadData();
+			});
+		}
+		
+		$scope.removeRequirement = function (id) {
+			var response = RequirementsFactory.remove({userId:$scope.userId,projectId:$scope.projectId,requirementId:id});
 			response.$promise.then(function (data) {
 				$scope.loadSprints();
 			});
