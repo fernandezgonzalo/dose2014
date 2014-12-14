@@ -136,7 +136,7 @@ feature -- Handlers
 			l_sprint_id: STRING
 		do
 			l_sprint_id := req.path_parameter ("id_sprint").string_representation
-			my_db.remove_user (l_sprint_id.to_natural_8)
+			my_db.remove_sprint (l_sprint_id.to_natural_8)
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json ("Sprint removed " + l_sprint_id.out), create {JSON_STRING}.make_json ("Message"))
 			set_json_header_ok (res, l_result.representation.count)
