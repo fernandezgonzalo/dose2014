@@ -25,7 +25,7 @@ class Project(BaseModel):
 class Requirement(BaseModel):
     desc = TextField(null=True)
     estimation = IntegerField(null=True)
-    id_project = IntegerField(null=True)
+    id_project = ForeignKeyField(Project, null=True)
 
     class Meta:
         db_table = 'Requirement'
@@ -62,7 +62,7 @@ class User(BaseModel):
 
 class Sprint(BaseModel):
     duration = IntegerField(null=True)
-    id_project = IntegerField(null=True)
+    id_project = ForeignKeyField(Project, null=True)
 
     class Meta:
         db_table = 'Sprint'
@@ -78,8 +78,8 @@ class Task(BaseModel):
     comment = TextField(null=True)
     desc = TextField(null=True)
     duration = IntegerField(null=True)
-    id_requirement = IntegerField(null=True)
-    id_user = IntegerField(null=True)
+    id_requirement = ForeignKeyField(Requirement, null=True)
+    id_user = ForeignKeyField(User, null=True)
     points = IntegerField(null=True)
     status = TextField(null=True)
 
@@ -98,21 +98,6 @@ class Task(BaseModel):
             "id": str(self.id)
             })
 
-class TaskuserSprint(BaseModel):
-    id_sprint = IntegerField(null=True)
-    id_task = ForeignKeyField(Task, null=True)
-    id_user = ForeignKeyField(User, null=True)
-
-    class Meta:
-        db_table = 'TaskUser_Sprint'
-
-    def jsonify(self):
-        return json.dumps({
-            "id_sprint": str(self.id_sprint),
-            "id_task": str(self.id_task),
-            "id_user": str(self.id_user)
-            })
-
 class Userproject(BaseModel):
     id_project = ForeignKeyField(Project, null=True)
     id_user = ForeignKeyField(User, null=True)
@@ -120,6 +105,7 @@ class Userproject(BaseModel):
 
     class Meta:
         db_table = 'UserProject'
+        primary_key = CompositeKey('id_project', 'id_user')
 
     def jsonify(self):
         return json.dumps({
