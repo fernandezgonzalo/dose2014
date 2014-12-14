@@ -1,6 +1,10 @@
 <div class="b-tasks container">
     <div ng-repeat="project in projects">
+        <br>
+        <hr>
         <h2 class="text-left clickable" ng-click = "state.go('project.tasks', {id:project.id});">Project: {{project.name}}</h2>
+        <h5 class="text-left">Maximum points per sprint: {{project.max_points_per_sprint}}</h5>
+        <h5 class="text-left">Status: {{project.status}}</h5>
         <table ng-if="tasks.length > 1" class="table ui-table-hover text-center">
             <thead>
             <tr>
