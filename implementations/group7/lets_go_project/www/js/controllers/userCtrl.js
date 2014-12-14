@@ -10,6 +10,7 @@ angular.module('myApp')
     if (!angular.isUndefined(userId) && AuthService.isLoggedIn()){
       UserService.getUserById(userId, function(userInfo){
         $scope.userInfo = userInfo;
+        $rootScope.user_name = userInfo.firstname;
       });
     }
   }
@@ -38,6 +39,9 @@ angular.module('myApp')
     }, function(data){
       $log.error("Error on login!");
       $scope.errorMsgVisible = true;
+      $timeout(function(){
+        $scope.errorMsgVisible = false;
+      },3000);
     });
   };
 
