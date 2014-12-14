@@ -1230,8 +1230,8 @@ feature --SEARCH
 			 keyword.prepend ("%%")
 			 keyword.append ("%%")
 
-			create db_query_statement.make("SELECT id as work_item_id FROM work_item WHERE name LIKE '" + keyword + "';" , db)
-			db_query_statement.execute(agent rows_to_json_array (?, 1, j_arr))
+			create db_query_statement.make("SELECT id as work_item_id, nb_iteration as iteration_number, project FROM work_item WHERE name LIKE '" + keyword + "';" , db)
+			db_query_statement.execute(agent rows_to_json_array (?, 3, j_arr))
 
 			if j_arr.count > 0 then
 
