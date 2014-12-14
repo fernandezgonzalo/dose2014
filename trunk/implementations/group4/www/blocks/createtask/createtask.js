@@ -22,7 +22,8 @@ define(
             [
                 "$scope",
                 "$modalInstance",
-                function ($scope, $modalInstance)
+                "super_task_id",
+                function ($scope, $modalInstance, super_task_id)
                 {
                     $scope.type_opt =
                     [
@@ -80,7 +81,8 @@ define(
                     {
                         type: "Feature",
                         priority: "Normal",
-                        position: "Backlog"
+                        position: "Backlog",
+                        super_task_id: super_task_id
                     };
 
                     $scope.save = function (form)
@@ -104,14 +106,21 @@ define(
                 "$modal",
                 function($scope, $modal)
                 {
-                    $scope.createTask = function (size)
+                    $scope.createTask = function (super_task_id, size)
                     {
                         var modalInstance = $modal.open
                         (
                             {
                                 templateUrl: 'blocks/createtask/modal.html',
                                 controller: 'CreateTaskModalCtr',
-                                size: size
+                                size: size,
+                                resolve:
+                                {
+                                    super_task_id: function()
+                                    {
+                                        return super_task_id;
+                                    }
+                                }
                             }
                         );
 
