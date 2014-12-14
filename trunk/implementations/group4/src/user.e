@@ -16,11 +16,14 @@ feature -- Initialization
 			-- Create a new user with all the attributes.
 		require
 			valid_email: (new_email /= Void) and (new_email.count>0)
-			valid_name: (new_user_name /= Void)
 			valid_password: (new_password /= Void) and (new_password.count>0)
 		do
 			email := new_email
-			username := new_user_name
+			if (new_user_name = Void) then
+				username := ""
+			else
+				username := new_user_name
+			end
 			password := new_password
 			is_active := true
 		end
@@ -47,10 +50,12 @@ feature -- Operations
 
 	set_user_name (new_user_name : STRING)
 			-- update the user name
-		require
-			valid_name: (new_user_name /= Void)
 		do
-			username := new_user_name
+			if (new_user_name = Void) then
+				username := ""
+			else
+				username := new_user_name
+			end
 		end
 
 	set_password (new_password : STRING)
