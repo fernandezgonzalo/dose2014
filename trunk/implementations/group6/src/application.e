@@ -147,7 +147,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/links", agent work_item_ctrl.add_link, router.methods_post) --everything works
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/links/delete", agent work_item_ctrl.remove_link, router.methods_post) --everything work
 			map_uri_template_agent_with_request_methods ("/api/projects/iterations/workitems/getlinks", agent work_item_ctrl.get_all_work_item_links, router.methods_post) --everything work
-			map_uri_template_agent_with_request_methods ("/api/users/achieved_work_items", agent work_item_ctrl.get_achieved_work_items , router.methods_get) --everything work
+			map_uri_template_agent_with_request_methods ("/api/users/achieved_work_items", agent work_item_ctrl.get_achieved_work_items , router.methods_post) --everything work
 
 				-- handling of all the routes relating to "search"
 			map_uri_template_agent_with_request_methods ("/api/search/users", agent search_ctrl.search_users, router.methods_post)
