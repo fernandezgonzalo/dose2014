@@ -203,11 +203,12 @@ feature -- Handlers
 			if is_authorized_update(req, l_map) then
 				l_update_result:= my_db.update_task (l_map)
 				if l_update_result.success then
+					l_result:= my_db.get_from_id (table_name, l_update_result.id)
+					return_success_without_message (l_result, res)
 					l_log_map.keys.extend("task_id")
 					l_log_map.values.extend(l_update_result.id)
 					l_update_result:=my_db.add ("task_log", l_log_map)
-					l_result:= my_db.get_from_id (table_name, l_update_result.id)
-					return_success_without_message (l_result, res)
+
 				else
 					return_error(l_result, res,"Could not update " + table_name, 501)
 				end
