@@ -113,7 +113,27 @@ define(
                             }
                         }
                     )
-
+                        .state
+                    (
+                        "project.report",
+                        {
+                            url: "/report",
+                            templateUrl: "pages/html/project/report.html",
+                            controller: "ProjectReportCtr",
+                            resolve:
+                            {
+                                report:
+                                    [
+                                        "$stateParams",
+                                        "ProjectReportProvider",
+                                        function($stateParams, ProjectReportProvider)
+                                        {
+                                            return ProjectReportProvider.resolver($stateParams.id);
+                                        }
+                                    ]
+                            }
+                        }
+                    )
                     .state
                     (
                         "project.sprints",

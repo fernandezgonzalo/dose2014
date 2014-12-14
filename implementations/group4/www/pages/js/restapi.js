@@ -400,6 +400,18 @@ define(
                             }
                         )
                     };
+
+                    module.project_report = function(project_id)
+                    {
+                      return $http.get("/api/projects/" + project_id + "/reports")
+                          .then
+                      (
+                          function(data)
+                          {
+                              return data.data;
+                          }
+                      )
+                    };
                     module.sprints = function()
                     {
                         return $http.get("/api/sprints")

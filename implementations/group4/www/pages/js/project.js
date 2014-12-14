@@ -6,6 +6,7 @@ define(
         "anguComplete",
         "angularDAD",
         "angularFilters",
+        "chartjsDirective",
 
         //Custom includes
         "blocks/createtask/createtask",
@@ -32,7 +33,9 @@ define(
                 "ngDragDrop",
                 "AlertServiceModule",
                 "HelperModule",
-                "angular.filter"
+                "angular.filter",
+                "AlertServiceModule",
+                "chartjs-directive"
             ]
         )
 
@@ -358,6 +361,119 @@ define(
             ]
         )
 
+        .controller
+        (
+            "ProjectReportCtr",
+            [
+                "$scope",
+                "restapi",
+                "report",
+                function($scope,restapi,report )
+                {
+                    $scope.report = report;
+                    $scope.ChartByPriority =
+                        {
+                                data: [
+                                    {
+                                        value:report.total_high_tasks*1,
+                                        color:"#F7464A",
+                                        highlight: "#FF5A5E",
+                                        label: "High"
+                                    },
+                                    {
+                                        value:report.total_normal_tasks*1,
+                                        color: "#46BFBD",
+                                        highlight: "#5AD3D1",
+                                        label: "Normal"
+                                    },
+                                    {
+                                        value:report.total_low_tasks*1,
+                                        color: "#46BFBD",
+                                        highlight: "#5AD3D1",
+                                        label: "Low"
+                                    }
+                                ],
+                            options: {
+                            }
+                        };
+                    var sprintsAmount = parseInt(report.total_sprints_started) + parseInt(report.total_sprints_completed) + parseInt(report.total_sprints_backlog);
+                    sprintsAmount--;
+                    var labels = [];
+                    var total_sprint_tasks = [];
+                    var total_sprint_subtasks = [];
+                    var total_sprint_points = [];
+                    for (var i=1; i<=sprintsAmount; ++i)
+                    {
+                        total_sprint_tasks = total_sprint_tasks.concat([report["total_sprint_"+i+"_tasks"]]);
+                        total_sprint_subtasks = total_sprint_subtasks.concat([report["total_sprint_"+i+"_subtasks"]]);
+                        total_sprint_points = total_sprint_points.concat([report["total_sprint_"+i+"_points"]]);
+                        labels = labels.concat(["Sprint " + i]);
+                    }
+                    $scope.ChartTaskInSprint =
+                    {
+                        data: {
+                            labels : labels,
+                            datasets : [
+                                {
+                                    fillColor : "rgba(220,220,220,0.5)",
+                                    strokeColor : "rgba(220,220,220,1)",
+                                    pointColor : "rgba(220,220,220,1)",
+                                    pointStrokeColor : "#fff",
+                                    data : total_sprint_tasks
+                                },
+                                {
+                                    fillColor : "rgba(220,220,220,0.5)",
+                                    strokeColor : "rgba(220,220,220,1)",
+                                    pointColor : "rgba(220,220,220,1)",
+                                    pointStrokeColor : "#fff",
+                                    data : total_sprint_subtasks
+                                }
+                            ]
+                        },
+                        options: {
+                        }
+                    };
+
+                    $scope.ChartTaskByType =
+                    {
+                        data: [
+                        {
+                            value:report.total_bug_tasks*1,
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: "Bug"
+                        },
+                        {
+                            value:report.total_feature_tasks*1,
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Feature"
+                        }
+                        ],
+                        options:
+                        {
+                        }
+                    };
+                    $scope.ChartPointsInSprint =
+                    {
+                        data: {
+                            labels : labels,
+                            datasets : [
+                                {
+                                    fillColor : "rgba(220,220,220,0.5)",
+                                    strokeColor : "rgba(220,220,220,1)",
+                                    pointColor : "rgba(220,220,220,1)",
+                                    pointStrokeColor : "#fff",
+                                    data : total_sprint_points
+                                }
+                            ]
+                        },
+                        options: {
+                        }
+                    };
+                }
+            ]
+        )
         .factory
         (
             'AllUsersProvider',
@@ -420,6 +536,23 @@ define(
                     module.resolver = function(id)
                     {
                         return restapi.project_sprints(id);
+                    };
+                    return module;
+                }
+            ]
+        )
+
+        .factory
+        (
+            'ProjectReportProvider',
+            [
+                "restapi",
+                function(restapi)
+                {
+                    var module = {};
+                    module.resolver = function(id)
+                    {
+                        return restapi.project_report(id);
                     };
                     return module;
                 }
