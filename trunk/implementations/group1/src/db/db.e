@@ -498,7 +498,7 @@ feature -- Data access Requirement
 		require
 			valid_id: id_project /= Void
 		do
-			create db_insert_statement.make ("INSERT INTO Requirement(duration, id_project) VALUES ('" + estimation + "','" + desc + "','" + id_project + "');", db);
+			create db_insert_statement.make ("INSERT INTO Requirement(estimation, desc, id_project) VALUES ('" + estimation + "','" + desc + "','" + id_project + "');", db);
 			db_insert_statement.execute
 			Result := True
 			if db_insert_statement.has_error then
