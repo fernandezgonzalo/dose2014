@@ -150,7 +150,7 @@ angular.module('Wbpms')
               work_item_id : delWorkItem.work_item_id
           }
 
-          
+          alert(idWorkItem);
           // send the payload to the server
           $http.post('/api/projects/iterations/workitems/delete_workitem', payload)
             .success(function(data, status, header, config) {
@@ -164,6 +164,7 @@ angular.module('Wbpms')
 
             })
             .error(function(data, status) {
+              alert(idWorkItem);
              alert("Error deleting work item");
             }); 
 
