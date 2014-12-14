@@ -1,31 +1,34 @@
 <div id="sprints-block" class="block project-cols">
+	{{text}}
 	<ol>
 		<li ng-repeat="sprint in sprints | orderBy: 'id'">
 			<h5 class="toggle collapsed">Sprint {{$index + 1}}</h5>
-			<table class="sprint">
+			<table ng-if="sprint.tasks.length > 0" class="sprint">
 				<tr>
 					<th class="col1"></th>
 					<th class="col2">Task</th>
-					<th class="col3">Status</th>
-					<th class="col4">Assigned To</th>
-					<th class="col5"></th>
+					<th class="col3">Points</th>
+					<th class="col4">Status</th>
+					<th class="col5">Assigned To</th>
 				</tr>
 				<tr ng-repeat="task in sprint.tasks | orderBy: 'id'">
 					<td class="col1">{{$index + 1}}</td>
-					<td class="col2">{{task.name}}</td>
-					<td class="col3">{{task.status}}</td>
-					<td class="col4">{{task.assignedto}}</td>
-					<td class="col5"><a class="link-button" ng-click="removeTaskFromSprint(sprint.id,task.id)"><span>Remove</span></a></td>
+					<td class="col2"><a href="/#/user/{{userId}}/project/{{projectId}}/{{task.id}}">{{task.name}}</a></td>
+					<td class="col3">{{task.points}}</td>
+					<td class="col4">{{task.status}}</td>
+					<td class="col5">{{task.assignedto}}</td>
 				</tr>
 			</table>
+			<div class="buttons">
+				<div>
+					<a class="link-button" ng-click="removeSprint(sprint.id)"><span>Remove Sprint</span></a>
+				</div>
+			</div>
 		</li>
 	</ol>
 	<div class="buttons">
 		<div>
-			<a class="link-button" href=""><span>Add Sprint</span></a>
-		</div>
-		<div>
-			<a class="link-button" href=""><span>Remove Sprint</span></a>
+			<a class="link-button" ng-click="addSprint()"><span>Add Sprint</span></a>
 		</div>
 	</div>
 </div> 
@@ -60,14 +63,3 @@
 		</div>
 	</div>
 </div> -->
-
-<script>
-	$(document).ready(function(){
-		$(".toggle").click(function(){
-		  $(this).next().toggle();
-		  $(this).toggleClass("collapsed");
-		  $(this).toggleClass("expanded");
-		});
-		/*$(".toggle").next().toggle();*/
-	});
-</script>
