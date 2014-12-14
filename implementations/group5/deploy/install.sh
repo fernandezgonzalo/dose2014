@@ -34,3 +34,4 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node # fix ubuntu npm installation bug
 
 # MAIL
 sudo apt-get install mailutils
+cp ~/dose2014/deploy/mail/send.py ~/dose2014/
