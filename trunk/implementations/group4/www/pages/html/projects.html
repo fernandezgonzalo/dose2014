@@ -1,4 +1,4 @@
-<div class="b-projects container">
+<div class="b-projects container" ng-init="order=true">
     <button type="button" class="btn btn-default" ng-controller="CreateProjectCtr" ng-click="createProject()">Create project</button>
     <table ng-if="projects.length != 0" class="table ui-table-hover text-center">
         <thead>
@@ -13,7 +13,7 @@
 
         <tbody>
             <tr ng-repeat="project in projects | orderBy:orderType | reverse: order"
-                ng-class="{ 'warning': project.status == 'Active', 'success': project.status == 'Complete', 'info': project.status == 'Canceled' }">
+                ng-style="get_project_style(project)">
                 <td>
                     <img class="inline" ng-click="remove(project)" src="/pages/images/remove.png" style="width: 20px; height: 20px"/>
                     <img class="inline" ng-controller="EditProjectCtr" ng-click="editProject(project)" src="/pages/images/edit.png" style="width: 20px; height: 20px"/>

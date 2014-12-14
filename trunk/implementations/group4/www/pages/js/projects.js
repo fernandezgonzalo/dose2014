@@ -8,7 +8,8 @@ define(
         //Custom includes
         "blocks/createproject/createproject",
         "blocks/editproject/editproject",
-        "pages/js/restapi"
+        "pages/js/restapi",
+        "pages/js/helper"
     ],
 
     function(angular)
@@ -21,7 +22,8 @@ define(
                 "uiRegistrationModule",
                 "uiCreateProjectModule",
                 "uiEditProjectModule",
-                "angular.filter"
+                "angular.filter",
+                "HelperModule"
             ]
         )
 
@@ -34,7 +36,8 @@ define(
                 "restapi",
                 "projects",
                 "$state",
-                function($scope, $log, restapi, projects, $state)
+                "projectHelper",
+                function($scope, $log, restapi, projects, $state, projectHelper)
                 {
                     function update_projects()
                     {
@@ -48,6 +51,7 @@ define(
                     }
 
                     $scope.projects = projects;
+                    $scope.get_project_style = projectHelper.get_style;
 
                     $scope.remove = function(project)
                     {

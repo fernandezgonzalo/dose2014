@@ -5,7 +5,8 @@ define(
         "angularFilters",
 
         //Custom includes
-        "pages/js/restapi"
+        "pages/js/restapi",
+        "pages/js/helper"
     ],
     function(angular)
     {
@@ -14,7 +15,8 @@ define(
             "SprintsModule",
             [
                 "RestApiModule",
-                "angular.filter"
+                "angular.filter",
+                "HelperModule"
             ]
         )
         .controller
@@ -25,11 +27,13 @@ define(
                 "sprints",
                 "projects",
                 "$state",
-                function($scope, sprints, projects, $state)
+                "sprintHelper",
+                function($scope, sprints, projects, $state, sprintHelper)
                 {
                     $scope.sprints = sprints;
                     $scope.projects = projects;
                     $scope.state = $state;
+                    $scope.get_sprint_style = sprintHelper.get_style;
 
                     $scope.go = function(project_id, sprint_id)
                     {
