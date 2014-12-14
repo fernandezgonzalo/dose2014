@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		require
-			valid_parameter: a_dao /= void and a_session_manager /= void
+			valid_parameter: a_dao /= Void and a_session_manager /= Void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
@@ -45,13 +45,13 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_users_by_id_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
@@ -61,13 +61,13 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	update_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_payload, info, name, l_project_id: STRING
 			parser: JSON_PARSER
@@ -108,14 +108,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	add_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a new project
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_payload, info, name, l_user_id: STRING
 			parser: JSON_PARSER
@@ -156,15 +156,15 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	add_user_in_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- adds a user in a project
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
-			req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
+			req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_payload, l_user_id, l_project_id, role: STRING
 			parser: JSON_PARSER
@@ -199,14 +199,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	delete_user_in_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted project
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void and req.path_parameter ("id_user").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
 		local
 			l_result: JSON_OBJECT
 			l_project_id: STRING
@@ -225,14 +225,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_project_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all sprints of a selected project
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_project_id: STRING
@@ -242,14 +242,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	delete_project (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted project
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result: JSON_OBJECT
 			l_project_id: STRING
@@ -261,13 +261,13 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_ranking (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result_payload, l_project_id: STRING
 		do
@@ -276,7 +276,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 end

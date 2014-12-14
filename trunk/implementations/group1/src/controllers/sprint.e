@@ -18,7 +18,7 @@ feature {NONE} -- Creation
 
 	make (a_dao: DB; a_session_manager: WSF_SESSION_MANAGER)
 		require
-			valid_parameter: a_dao /= void and a_session_manager /= void
+			valid_parameter: a_dao /= Void and a_session_manager /= Void
 		do
 			my_db := a_dao
 			session_manager := a_session_manager
@@ -37,7 +37,7 @@ feature -- Handlers
 	add_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_project").string_representation /= void
+			valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_payload, l_project_id, duration: STRING
 			parser: JSON_PARSER
@@ -74,7 +74,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_sprints (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -88,14 +88,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_a_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with a sprints
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_sprint").string_representation /= void
+			valid_parameter: req.path_parameter ("id_sprint").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_sprint_id: STRING
@@ -105,14 +105,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	get_tasks_by_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all tasks of a sprint
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_sprint").string_representation /= void
+			valid_parameter: req.path_parameter ("id_sprint").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_sprint_id: STRING
@@ -123,14 +123,14 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	delete_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a response that contains a confiramtion message of a deleted sprint
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_sprint").string_representation /= void
+			valid_parameter: req.path_parameter ("id_sprint").string_representation /= Void
 		local
 			l_result: JSON_OBJECT
 			l_sprint_id: STRING
@@ -142,13 +142,13 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 	update_sprint (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_sprint").string_representation /= void
+			valid_parameter: req.path_parameter ("id_sprint").string_representation /= Void
 		local
 			l_payload, duration, l_sprint_id: STRING
 			parser: JSON_PARSER
@@ -185,7 +185,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
 		ensure
-			response_not_null: res /= void
+			response_not_null: res /= Void
 		end
 
 end
