@@ -1,11 +1,8 @@
-.p-projects img {
-  cursor: pointer;
-}
+.b-projects img {
+  cursor: pointer; }
 
-.p-projects td {
-  cursor: default;
-}
+.b-projects td {
+  cursor: default; }
 
 .inline {
-  display: inline;
-}
+  display: inline; }

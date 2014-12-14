@@ -247,7 +247,14 @@ define(
                         function(event, data)
                         {
                             event.stopPropagation();
-                            restapi.create_task(data, $stateParams.id).then(update_project_tasks);
+                            if(data.super_task_id)
+                            {
+                                restapi.create_sub_task(data, $stateParams.id, data.super_task_id).then(update_project_tasks);
+                            }
+                            else
+                            {
+                                restapi.create_task(data, $stateParams.id).then(update_project_tasks);
+                            }
                         }
                     );
 
@@ -266,13 +273,36 @@ define(
                         restapi.delete_project_task($stateParams.id, task.id).then(update_project_tasks);
                     };
 
-                    $scope.go = function ()
-                    {
-
-                    };
-
                     $scope.get_task_style = taskHelper.get_style;
                     $scope.tasks = tasks;
+                    $scope.console = console;
+                }
+            ]
+        )
+
+        .controller
+        (
+            "SubTaskCtr",
+            [
+                "$scope",
+                "restapi",
+                function($scope, restapi)
+                {
+                    $scope.sub_tasks = [];
+
+                    $scope.init = function(super_task_id)
+                    {
+                        $scope.super_task_id = super_task_id;
+
+                        return restapi.sub_tasks(super_task_id)
+                        .then
+                        (
+                            function (data)
+                            {
+                                $scope.sub_tasks = data;
+                            }
+                        );
+                    }
                 }
             ]
         )

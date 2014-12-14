@@ -236,6 +236,11 @@ define(
                             type: form.type
                         };
 
+                        if(form.super_task_id)
+                        {
+                            request.super_task_id = form.super_task_id;
+                        }
+
                         return $http.post("/api/projects/"+project_id+"/tasks", request)
                         .then
                         (
@@ -247,6 +252,53 @@ define(
                             function(data)
                             {
                                 alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
+                            }
+                        );
+                    };
+
+                    module.create_sub_task = function (form, project_id, super_task_id)
+                    {
+                        var request =
+                        {
+                            title: form.title,
+                            description: form.description,
+                            priority: form.priority,
+                            position: form.position,
+                            points: form.points.toString(),
+                            type: form.type,
+                            project_id: project_id
+                        };
+
+                        return $http.post("/api" + "/tasks/" + super_task_id + "/subtasks", request)
+                        .then
+                        (
+                            function(data)
+                            {
+                                alertservice.add("success", "You've successfully add new sub task!", 2000);
+                                return data.data;
+                            },
+                            function(data)
+                            {
+                                alertservice.add("danger", "Sorry, please try again!", 2000);
+                                $log.info("error");
+                                $log.info(data);
+                            }
+                        );
+                    };
+
+                    module.sub_tasks = function(super_task_id)
+                    {
+                        return $http.get("/api" + "/tasks/" + super_task_id + "/subtasks")
+                        .then
+                        (
+                            function(data)
+                            {
+                                return data.data;
+                            },
+                            function(data)
+                            {
                                 $log.info("error");
                                 $log.info(data);
                             }

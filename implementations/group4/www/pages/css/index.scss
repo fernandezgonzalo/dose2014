@@ -51,11 +51,9 @@
 
 $animation-in-name: rubberBand;
 $animation-duration: 500ms;
-$animation-delay: 100ms;
 
 $animation-out-name: bounceOutRight;
 $animation-duration: 500ms;
-$animation-delay: 100ms;
 
 .alert.ng-enter {
   -webkit-animation: $animation-in-name $animation-duration;
