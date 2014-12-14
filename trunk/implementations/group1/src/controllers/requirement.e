@@ -52,12 +52,12 @@ feature -- Handlers
 			-- sends a reponse that contains a json array with a requeriment
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= Void
+			valid_parameter: req.path_parameter ("id_requirement").string_representation /= Void
 		local
 			l_result_payload: STRING
 			l_requeriment_id: STRING
 		do
-			l_requeriment_id := req.path_parameter ("id_requeriment").string_representation
+			l_requeriment_id := req.path_parameter ("id_requirement").string_representation
 			l_result_payload := my_db.search_a_requirement (l_requeriment_id.to_integer).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
@@ -116,7 +116,7 @@ feature -- Handlers
 			-- sends a response that contains a confiramtion message of a deleted requirement
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= Void
+			valid_parameter: req.path_parameter ("id_requirement").string_representation /= Void
 		local
 			l_result: JSON_OBJECT
 			l_requirement_id: STRING
@@ -134,7 +134,7 @@ feature -- Handlers
 	update_requiremet (req: WSF_REQUEST; res: WSF_RESPONSE)
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_requeriment").string_representation /= Void
+			valid_parameter: req.path_parameter ("id_requirement").string_representation /= Void
 		local
 			l_payload, estimation, desc, l_requirement_id, id_project: STRING
 			parser: JSON_PARSER
