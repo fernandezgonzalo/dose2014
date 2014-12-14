@@ -39,6 +39,33 @@ define(
             ]
         )
 
+        .controller
+        (
+            "SubTaskCtr",
+            [
+                "$scope",
+                "restapi",
+                function($scope, restapi)
+                {
+                    $scope.sub_tasks = [];
+
+                    $scope.init = function(super_task_id)
+                    {
+                        $scope.super_task_id = super_task_id;
+
+                        return restapi.sub_tasks(super_task_id)
+                        .then
+                        (
+                            function (data)
+                            {
+                                $scope.sub_tasks = data;
+                            }
+                        );
+                    };
+                }
+            ]
+        )
+
         .factory
         (
             'TasksProvider',
