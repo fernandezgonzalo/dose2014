@@ -2,10 +2,12 @@
 
 angular.module('DOSEMS.controllers')
     .controller('ProjectCtrl', ['$rootScope', '$scope', '$routeParams', '$log', '$http', 'SprintsFactory', 'TasksFactory', 'RequirementsFactory',
-	    function ($rootScope, $scope, $routeParams, $log, $http, SprintsFactory, TasksFactory, RequirementsFactory) {
+	    function ($rootScope, $scope, $routeParams, $log, $http, SprintsFactory, TasksFactory, RoleFactory, RequirementsFactory) {
 
 		$scope.sprints = [];
 		$scope.requirements = [];
+		
+		
 		
 		$scope.loadRequirements = function () {
 			$scope.requirements = [];
@@ -165,5 +167,8 @@ angular.module('DOSEMS.controllers')
 			});
 		}
 
+		$scope.userRole = RoleFactory.get({userId:$scope.userId,projectId:$scope.projectId}, function(data){
+			$log.info(data);
+		});
     }]);
 	
