@@ -1,6 +1,6 @@
 import requests
 import unittest
-from test_api_rest import *
+from api_rest import *
 from models import *
 from faker import Factory
 
