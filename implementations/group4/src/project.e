@@ -15,9 +15,9 @@ feature -- Initialization
 	make (new_name: STRING; new_status: STRING; new_description: STRING; new_mpps: NATURAL; new_user_id: NATURAL)
 			-- Creates a project with initial properties
 		require
-			not_void (new_name)
-			not_void (new_description)
-			not_void (new_status)
+			not_empty (new_name)
+			not_empty (new_description)
+			not_empty (new_status)
 		do
 			name := new_name
 			status := new_status
@@ -44,19 +44,21 @@ feature -- Project properties
 feature -- Project seters
 
 	set_project_name(new_name: STRING)
-	do
-		name := new_name
-	end
+			-- Update project name
+		require
+			not_empty (new_name)
+		do
+			name := new_name
+		end
 
 feature -- Auxiliary routines
 
-	not_void(control: STRING) : BOOLEAN
-			-- Validate if isnt void or empty
-	do
-		if (not control.is_equal ("")) then
-			Result := TRUE
+	not_empty(control: STRING) : BOOLEAN
+			-- Validate if isnt empty
+		do
+			if (not control.is_equal ("")) then
+				Result := TRUE
+			end
 		end
-	end
-
 
 end

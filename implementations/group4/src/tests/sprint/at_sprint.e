@@ -1,12 +1,12 @@
 note
-	description: "Tests for routine make at class Sprint"
+	description: "Tests for routines of class Sprint"
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-06$"
 	revision: "$0.01$"
 
 class
-	MAKE_AT_SPRINT
-
+	AT_SPRINT
+	
 inherit
 	EQA_TEST_SET
 

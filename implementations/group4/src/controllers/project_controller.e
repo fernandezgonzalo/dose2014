@@ -445,7 +445,7 @@ feature -- Handlers
 
 
 	remove_collaborator (req: WSF_REQUEST; res: WSF_RESPONSE)
-			-- remove a project from the database
+			-- remove a collaborator from the database
 		local
 			l_user_id, l_project_id, l_owner_user_id, obtained_id: STRING
 			l_aux: JSON_OBJECT

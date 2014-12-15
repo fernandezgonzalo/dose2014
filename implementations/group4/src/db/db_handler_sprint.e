@@ -31,6 +31,9 @@ feature -- Data access
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Sprints WHERE id="+ sprint_id.out +" AND project_id="+project_id.out+";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 4, Result))
+		ensure
+			correct_id: Result.item ("id").debug_output.is_equal(sprint_id.out)
+			correct_project_id: Result.item ("project_id").debug_output.is_equal(project_id.out)
 		end
 
 	find_by_project_id (project_id : NATURAL) : JSON_ARRAY
@@ -44,6 +47,8 @@ feature -- Data access
 
 	add (sprint: SPRINT)
 			-- adds a new sprint
+		require
+			valid_sprint: (sprint/=Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Sprints(id,status,duration,project_id) "+
 											"VALUES ('-1','"+ sprint.status +"','"+ sprint.duration.out +"','"+
@@ -56,6 +61,8 @@ feature -- Data access
 
 	update (sprint_id : NATURAL; sprint: SPRINT)
 			-- update a sprint
+		require
+			valid_sprint: (sprint/=Void)
 		do
 			create db_modify_statement.make ("UPDATE Sprints SET status = '"+ sprint.status +"',"+
 															  "duration = '"+ sprint.duration.out +"'"+
@@ -73,7 +80,6 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a sprint")
-					-- TODO: we probably want to return something if there's an error
 			end
 		end
 
