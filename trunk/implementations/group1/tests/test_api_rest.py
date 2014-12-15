@@ -59,13 +59,13 @@ def add_project(session, id_user, name, info):
 	headers = {"content-type": "application/json"}
 	return session.post(uri_add_project, data=json.dumps(payload), headers=headers)
 
-def delete_project (session, id_project):
-	uri_delete_project = "http://localhost:9090/api/users/projects/%s" % id_project
+def delete_project (session, id_user, id_project):
+	uri_delete_project = "http://localhost:9090/api/users/%s/projects/%s" % (id_user, id_project)
 	headers = {"content-type": "application/json"}
 	return session.delete(uri_delete_project, headers=headers)
 
-def update_project(session, id_project, name, info):
-	uri_update_project = "http://localhost:9090/api/users/projects/%s" % id_project
+def update_project(session, id_user, id_project, name, info):
+	uri_update_project = "http://localhost:9090/api/users/%s/projects/%s" % (id_user, id_project)
 	payload = {"name": name, "info": info}
 	headers = {"content-type": "application/json"}
 	return session.put(uri_update_project, data=json.dumps(payload), headers=headers)
@@ -77,5 +77,5 @@ if __name__ == '__main__':
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
 
-	
-	
+
+
