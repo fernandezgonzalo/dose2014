@@ -39,3 +39,6 @@ class TestLogin(unittest.TestCase):
 
     #def tearDown(self):
     #    self.database.close()
+
+    if __name__ == '__main__':
+        unittest.main()
