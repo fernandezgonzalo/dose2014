@@ -36,10 +36,20 @@ feature -- Test routines
 		local
 			db_handler : DB_HANDLER_PROJECT
 			json_result : JSON_OBJECT
+			ok, second_time : BOOLEAN
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
-			json_result := db_handler.find_by_id (100)
-			assert("Project not found", json_result.is_empty)
+			if not second_time then
+				ok := True
+				json_result := db_handler.find_by_id (100)
+				ok := False
+			end
+			assert ("routine failed, as expected", ok )
+		rescue
+			second_time := True
+			if ok then
+				retry
+			end
 		end
 
 	add_project_test
