@@ -20,29 +20,29 @@
                     <input type="text" class="form-control" ng-model="updateUser.lastname" id="lastname"
                            placeholder="Enter your last name">
                 </div>
-                <div class="form-group">
-                    <label for="oldPassword">Old password *</label>
-                    <input type="password" class="form-control" ng-model="oldPassInput" id="oldPassword"
-                           placeholder="Enter your old password">
-                </div>
-                <div ng-show="oldPasswordError" class="alert alert-danger" role="alert">
-                    <p> Enter your old password before making changes to your account </p>
-                </div>
+                <!--                <div class="form-group">
+                                    <label for="oldPassword">Old password *</label>
+                                    <input type="password" class="form-control" ng-model="oldPassInput" id="oldPassword"
+                                           placeholder="Enter your old password">
+                                </div>
+                                <div ng-show="oldPasswordError" class="alert alert-danger" role="alert">
+                                    <p> Enter your old password before making changes to your account </p>
+                                </div>-->
                 <div class="form-group">
                     <label for="newPassword">New password</label>
-                    <input type="password" class="form-control" ng-model="password" id="newPassword"
+                    <input type="password" class="form-control" ng-model="newPassword" id="newPassword"
                            placeholder="Enter a password between 3 and 20 characters long">
                 </div>
                 <div class="form-group">
                     <label for="newPasswordRepeat">Repeat new password</label>
-                    <input type="password" class="form-control" ng-model="passwordRepeat" id="newPasswordRepeat"
+                    <input type="password" class="form-control" ng-model="newPasswordRepeat" id="newPasswordRepeat"
                            placeholder="Enter your password again">
                 </div>
                 <div ng-show="passwordError" class="alert alert-danger" role="alert">
                     <p> Try again, password don't match or are to long/short </p>
                 </div>
                 <button ng-click="save()" type="button"
-                        class="btn btn-default">
+                        class="buttons">
                     Save changes
                 </button>
                 <button type="button" class="btn btn-danger" ng-click="showDeleteDialog()">
