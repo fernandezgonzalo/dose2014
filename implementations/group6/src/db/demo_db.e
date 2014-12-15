@@ -878,8 +878,40 @@ feature	--Data access: WORK ITEMS
 		-- Removes an existing work_item which has the given identificator	
 		local
 			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+			j_links: JSON_ARRAY
+			array_links: ARRAYED_LIST[INTEGER]
+			link, i: INTEGER
+			text_comment, name: STRING
 		do
-			-- Create the result string, in this case an empty JSON_STRING		
+			-- Search all work_items which has a link with the present one
+			j_links:= work_item_links(work_item_id)
+			create array_links.make (j_links.count)
+			across j_links.array_representation as array loop
+				-- Reads one work_item at time
+				if attached {JSON_OBJECT} array.item as l then
+					if attached {JSON_STRING} l.item ("work_item_id") as t then
+						link:= t.item.to_integer
+						array_links.extend (link)
+					end
+				end
+			end
+			-- Retrieve the name of the deleted work_item
+			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
+			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
+			name:= l_query_result_cursor.item.value (5).out
+			print(name)
+			-- Create the text comment
+			text_comment:="The link with work_item '" + name + "' was removed because the work_item was deleted from the db."
+			-- Adds a new comment as regards the present deletion on the connected work_items
+			from
+				i:=1
+			until
+				i>array_links.count
+			loop
+				add_comment_from_modification(array_links[i], text_comment)
+				i:= i + 1
+			end
+
 			create db_modify_statement.make ("DELETE FROM work_item WHERE id=?;", db)
 			l_query_result_cursor:=db_modify_statement.execute_new_with_arguments(<<work_item_id>>)
 			if db_modify_statement.has_error then
@@ -1078,11 +1110,6 @@ feature --data access: LINKS
 				-- The work_item with the given number hasn't any link into the db				
 			print("Error while getting of the link%N")
 			end
-
-
-
-
-
 		end
 
 	--OK
