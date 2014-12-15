@@ -1,10 +1,12 @@
 note
-	description: "Summary description for {MESSAGE_CONTROLLER}."
+	description: "Request handler for messages."
 	author: "aaron"
 	date: "8.12.2014"
 
+
 class
 	MESSAGE_CONTROLLER
+
 
 inherit
 	REST_CONTROLLER
@@ -13,6 +15,7 @@ redefine
 	post_insert_action
 end
 
+
 create
 	make
 
@@ -20,6 +23,7 @@ create
 feature {NONE} -- Creation
 
 	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+			-- Initialization and configuration for this resource.
 		do
 			Precursor(a_db, a_session_manager)
 			resource_name := "message"
@@ -32,9 +36,11 @@ feature {NONE} -- Creation
 			optional_update_json_fields := <<"text", "timestamp", "user_id", "id">>
 		end
 
+
 feature {NONE} -- Internal helpers
 
 	post_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
+			-- Only store up to 20 messages per project.
 		local
 			dummy: ANY
 		do

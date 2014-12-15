@@ -6,6 +6,7 @@ note
 class
 	PROJECT_CONTROLLER
 
+
 inherit
 	REST_CONTROLLER_REFERENCING_USER
 redefine
@@ -25,6 +26,7 @@ create
 feature {NONE} -- Creation
 
 	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+			-- Initialization and configuration for this resource.
 		do
 			Precursor(a_db, a_session_manager)
 			resource_name := "project"
@@ -41,6 +43,8 @@ feature {NONE} -- Creation
 feature -- Handlers
 
 	add_user (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+			-- Adding users to projects is not done by a list of users ids as usually when using REST_CONTROLLER_REFERENCING_USER, but
+			-- by a single email address.
 		local
 			resource_id, email: STRING
 			user_id: JSON_OBJECT
@@ -49,13 +53,19 @@ feature -- Handlers
 			resource_id := req.path_parameter (uri_id_name).string_representation
 			email_key := jkey("email")
 			if not input.has_key (email_key) then
+					-- an email key must be present
 				reply_with_400(res)
+
 			else
 				email := get_string_from_json(input.item(email_key))
 				user_id := db.query_single_row ("SELECT id from users where email = ?", <<email>>)
+
 				if user_id.is_empty then
+						-- no user was found with this mailaddress.
 					reply_with_404(res)
+
 				else
+						-- a user with this mailaddress was found, add him to the project.
 					add_user_transaction(resource_id, user_id.item(jkey("id")).representation)
 					reply_with_204(res)
 				end
@@ -66,6 +76,7 @@ feature -- Handlers
 feature -- Error checking handlers (authentication, authorization, input validation)
 
 	add_user_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- The aequivalent of REST_CONTROLLER_REFERENCING_USER.add_users_authorized_validated, but for a single user only instead of a list of users.
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent add_user(req, res, ?), get_json_object_from_request(req))))
 		end
@@ -74,11 +85,14 @@ feature -- Error checking handlers (authentication, authorization, input validat
 feature {None} -- Internal helpers
 
 	post_insert_action (req: WSF_REQUEST; res: WSF_RESPONSE; new_id: INTEGER_64; input: JSON_OBJECT)
+			-- Add the author of the project as a member of the project after project creation.
 		do
 			add_user_transaction(new_id.out, get_user_id_from_req(req))
 		end
 
+
 	get_get_all_query_statement(req: WSF_REQUEST): TUPLE[statement: STRING; parameters: ITERABLE[ANY]]
+			-- Do not fetch all projects from database, but projects of this user only.
 		local
 			projects_of_this_user: STRING
 		do
@@ -89,7 +103,9 @@ feature {None} -- Internal helpers
 			Result.parameters := Void
 		end
 
+
 	modify_json(project: JSON_OBJECT)
+			-- add 'sprints' and 'invited_devs' fields to the default json to be returned by GET requests.
 		local
 			invited_devs: JSON_ARRAY
 			sprints: JSON_ARRAY
@@ -102,15 +118,18 @@ feature {None} -- Internal helpers
 			project.put (sprints, "sprints")
 		end
 
+
 	add_user_transaction(project_id: STRING; dev_id: STRING)
+			-- Add the user with id 'dev_id' to this project.
 		local
 			dummy: ANY
 		do
-
 			dummy := db.insert("INSERT INTO project_shares (user_id, project_id) VALUES (?, ?)", <<dev_id, project_id>>)
 		end
 
+
 	remove_user_transaction(project_id: STRING; dev_id: STRING)
+			-- Remove the user with id 'dev_id' from this project.
 		local
 			dummy: ANY
 		do

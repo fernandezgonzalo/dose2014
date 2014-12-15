@@ -25,6 +25,7 @@ create
 feature {NONE} -- Creation
 
 	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+			-- Initialization and configuration for this resource.
 		do
 			Precursor(a_db, a_session_manager)
 			resource_name := "user"

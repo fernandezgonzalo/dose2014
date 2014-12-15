@@ -9,11 +9,10 @@ deferred class
 inherit
 
 	SESSION_HELPER
-		-- inherit this helper to get functions to check for a session cookie
-		-- if a session cookie exists, we can get the data of that session
+		-- helper for dealing with authentiation and authorization
 
 	JSON_HELPER
-		-- helper functionality for json parsing
+		-- helper functionality for dealing with json
 
 	HTTP_RESPONSE_HELPER
 		-- Convenience functions for http responses
@@ -22,6 +21,7 @@ inherit
 feature {NONE} -- Creation
 
 	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+			-- Initialization of this resource.
 		do
 			db := a_db
 			session_manager := a_session_manager
@@ -36,10 +36,13 @@ feature {NONE} -- Private attributes
 
 	db: DATABASE
 	session_manager: WSF_SESSION_MANAGER
+
 	resource_name: STRING
 	table_name: STRING
 	uri_id_name: STRING
 	parent_uri_id_name: STRING
+
+	-- required and optional fields for json inputs when updating and creating this resource
 	required_create_new_json_fields: ARRAY[STRING]
 	optional_create_new_json_fields: ARRAY[STRING]
 	required_update_json_fields: ARRAY[STRING]
@@ -49,6 +52,8 @@ feature {NONE} -- Private attributes
 feature -- Handlers
 
 	get_all (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Handler to fetch all resources.
+			-- Typically routed to a GET /resources request.
 		local
 			results: JSON_ARRAY
 			resources: JSON_ARRAY
@@ -74,22 +79,29 @@ feature -- Handlers
 
 
 	create_new (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Handler to create a new resource.
+			-- Typically routed to a POST /resources request.
 		do
 			create_new_from_json(req, res, get_json_object_from_request (req))
 		end
 
 
 	get (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Handler to fetch a single resource.
+			-- Typically routed to a GET /resources/:id request.
 		local
 			resource: JSON_OBJECT
 			id: STRING
 		do
 			id := req.path_parameter (uri_id_name).string_representation
-
 			resource := db.query_single_row("SELECT * FROM " + table_name + " WHERE id = ?", <<id>>)
+
 			if resource.is_empty then
+					-- no resource found for this id
 				reply_with_404(res)
+
 			else
+					-- a resource was found for this id.
 				modify_json(resource)
 				reply_with_200_with_data(res, resource.representation)
 			end
@@ -97,22 +109,29 @@ feature -- Handlers
 
 
 	update (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Handler to update a resource.
+			-- Typically routed to a PUT /resources/:id request.
 		do
 			update_from_json(req, res, get_json_object_from_request (req))
 		end
 
 
 	delete (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Handler to delete a resource.
+			-- Typically routed to a DELETE /resources/:id request.
 		local
 			success: BOOLEAN
 		do
 			if db.query_rows ("SELECT * FROM " + table_name + " WHERE id = ?", <<get_id(req)>>).count = 0 then
+					-- no resource found for this id.
 				reply_with_404 (res)
 			else
 				success := db.delete_with_primary_key(get_id(req), table_name)
 				if success then
+						-- deleting the resource was successful.
 					reply_with_204(res)
 				else
+						-- removing the resource from the database failed.
 					reply_with_500(res)
 				end
 			end
@@ -122,70 +141,93 @@ feature -- Handlers
 feature -- Error checking handlers (authentication, authorization, input validation)
 
 	get_all_authenticated (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authenticated before trying to access get_all().
 		do
 			ensure_authorized (req, res, agent get_all(req , res))
 		end
 
 
 	get_all_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authorized before trying to access get_all().
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent get_all(req , res)))
 		end
 
 
 	create_new_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authorized and the input is valid before trying to access create_new().
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	create_new_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the input is valid before trying to access create_new().
 		do
 			ensure_input_validated(req, res, agent create_new_from_json(req, res, ?), get_json_object_from_request(req))
 		end
 
 
 	get_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authorized before trying to access get().
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent get(req , res)))
 		end
 
 
 	update_authorized_validated (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authorized and the input is valid before trying to access update().
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent ensure_input_validated (req, res, agent update_from_json(req, res, ?), get_json_object_from_request(req))))
 		end
 
 
 	delete_authorized (req: WSF_REQUEST; res: WSF_RESPONSE)
+			-- Ensure the user is authorized before trying to access delete().
 		do
 			ensure_authenticated (req, res, agent ensure_authorized (req, res, agent delete(req , res)))
 		end
 
 
+feature {NONE} -- Internal helpers	
+
 	create_new_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+			-- Create a new resource from the json data given in 'input'.
 		local
 			fields: ARRAY[STRING]
 			fields_str: STRING
 			values_str: STRING
 			id: INTEGER_64
 		do
+			-- are all required fields present and no forbidden fields present in the json input?
 			ensure_valid_json(req, res, input, required_create_new_json_fields, optional_create_new_json_fields)
+
 			if no_error_occured_so_far(res) then
+
+				-- add a field storing the id of the parent object to the json if this resource has a parent.
 				if parent_uri_id_name /= Void then
 					input.put_string(req.path_parameter(parent_uri_id_name).string_representation, jkey(parent_uri_id_name))
 				end
 
+				-- Pre-insertion hook to be redefined by concrete implementations for custom behaviour.
 				pre_insert_action(req, res, input)
+
 				if no_error_occured_so_far(res) then
+
+					-- We are ready for the insertion now.
 					fields := get_fields_from_json(input)
 					fields_str := get_comma_separated_string_without_quotes_from_array (fields)
 					values_str := get_comma_separated_question_marks(fields.count)
 					id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")", get_values_from_json(input))
 					if id >= 0 then
+						-- Successful insertion
+
+						-- Post-insertion hook to be redefined by concrete implementations for custom behaviour.
 						post_insert_action(req, res, id, input)
+
 						reply_with_201_with_data(res, id.out)
 					else
+						-- The database insertion failed.
 						reply_with_500(res)
 					end
 				end
@@ -194,6 +236,7 @@ feature -- Error checking handlers (authentication, authorization, input validat
 
 
 	update_from_json (req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+			-- Update an existing resource according to the json data given in 'input'.
 		local
 			resource_id: STRING
 			id_key: JSON_STRING
@@ -224,9 +267,6 @@ feature -- Error checking handlers (authentication, authorization, input validat
 				end
 			end
 		end
-
-
-feature {NONE} -- Internal helpers	
 
 	get_get_all_query_statement(req: WSF_REQUEST): TUPLE[statement: STRING; parameters: ITERABLE[ANY]]
 		do
