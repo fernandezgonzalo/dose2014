@@ -197,7 +197,7 @@ input[type="radio"] {
     margin: 2px 15px 2px 2px;
 }
 
-button {
+.buttons, button {
     background-color: #333333;
     color: #ffffff;
     min-width: 100px;
@@ -499,8 +499,4 @@ th {
 
 #signupLink {
     color: #3071a9;
-}
-
-.logout-button, .dasboard-button {
-	color: #ffffff !important;
 }
