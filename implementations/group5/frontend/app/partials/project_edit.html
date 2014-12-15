@@ -51,26 +51,27 @@
           <div class="control-group">
             <div class="row">
               <div style="float: right;">
-                <button ng-disabled="!canEdit" class="btn btn-link" ng-if="!deleteAlert" ng-click="toggleAlert()">
+                <button class="btn btn-link" ng-if="!deleteAlert" ng-click="toggleAlert()">
                   <span class="glyphicon glyphicon-remove"></span>  Delete project</button>
               </div>
             </div>
 
             <div class="row centre">
-              <div class="col-md-12 alert alert-info" role="alert"
-                ng-if="!canEdit">
-                Only admin and user creator can edit and delete it.
-              </div>
-            </div>
-
-            <div class="row centre">
               <div class="col-md-12 alert alert-danger alert-dismissible" role="alert"
-                ng-if="deleteAlert">
+                ng-if="deleteAlert && canEdit">
                 <button type="button" class="close" data-dismiss="alert" ng-click="toggleAlert()">
                   <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <b>Warning!</b> This cannot be undone.
                 <br><br>
                 <button class="btn btn-danger" ng-click="deleteProject(project)">Delete!</button>
+              </div>
+              <div class="row centre">
+                <div class="col-md-12 alert alert-info" role="alert"
+                  ng-if="deleteAlert && !canEdit">
+                  <button type="button" class="close" data-dismiss="alert" ng-click="toggleAlert()">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  Only admin and user creator can edit and delete it.
+                </div>
               </div>
             </div>
           </div>
@@ -81,8 +82,10 @@
       <!-- /modal-footer -->
       <div class="modal-footer">
         <button class="btn btn-default" ng-click="cancelCreation()" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary" ng-click="updateProject(projectToEdit)"
-          ng-disabled="!(projectNameOK && clientNameOK && projectToEdit.deadline) || !canEdit">Save changes</button>
+        <button class="btn btn-primary" ng-if="canEdit" ng-click="updateProject(projectToEdit)"
+          ng-disabled="!(projectNameOK && clientNameOK && projectToEdit.deadline)">Save changes</button>
+        <button class="btn btn-primary" ng-if="!canEdit" ng-click="toggleAlert()"
+          ng-disabled="!(projectNameOK && clientNameOK && projectToEdit.deadline)">Save changes</button>
       </div>	
 
 
