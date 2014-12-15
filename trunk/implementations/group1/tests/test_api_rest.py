@@ -66,6 +66,7 @@ def delete_project (session, id_user, id_project):
 
 def update_project(session, id_user, id_project, name, info):
 	uri_update_project = "http://localhost:9090/api/users/%s/projects/%s" % (id_user, id_project)
+	payload = {"name": name, "info": info}
 	headers = {"content-type": "application/json"}
 	return session.put(uri_update_project, data=json.dumps(payload), headers=headers)
 
