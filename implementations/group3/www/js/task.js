@@ -22,6 +22,7 @@ angular.module('LetsGoTeam')
             $scope.successMsgVisible = false;
 
             var init = function(){
+                $scope.taskUsers = [];
                 var i,j;
                 for (i = 0; i < usersProjects.length; i++) {
                     if (currentProject.id === usersProjects[i].idProject){
@@ -32,15 +33,59 @@ angular.module('LetsGoTeam')
                     }
 
                 }
+                var acum = 0;
+                for (i = 0; i < tasks.length; i++){ // adds up all the points used in all tasks related to the current story
+                    if (tasks[i].idStory === currentStory.id){
+                        acum = acum + tasks[i].points;
+                    }
+                }
+                $scope.maxPoints = currentStory.points - acum; // subtracts the total amount of points with the amount used to know how many are available
+
+                if (editing){
+                    $scope.task.description = currentTask.description;
+                    $scope.task.number = currentTask.number;
+                    $scope.task.points = currentTask.points;
+                }
             }();
 
             // the function to add a story
             $scope.addTask = function(newTask) {
 
                 $scope.task = newTask;
+                if (!($scope.task.description === '')){ // if the title is not blank
+                    if (!($scope.task.points > $scope.maxPoints)){ // if the amount of points is lower or equal to the max number of points available
+                        if (editing){ // if the user is editing
+                            var i;
+                            for (i = 0; i < tasks.length ; i++){
+                                if (currentTask.id === tasks[i].id){
+                                    tasks.splice(i, 1, {
+                                        id: currentTask.id,
+                                        idStory: currentStory.id,
+                                        description: $scope.task.description,
+                                        number: $scope.task.number,
+                                        points: $scope.task.points
+                                    });
+                                    $location.path("/storyTask");
+                                }
+                            }
+                        }else { // if the user is adding a new task
+                            tasks.push({
+                                id: id_task,
+                                idStory: currentStory.id,
+                                description: $scope.task.description,
+                                number: $scope.task.number,
+                                points: $scope.task.points
+                            });
+                            id_task = id_task + 1;
+                            $location.path("/storyTask");
+                        }
 
-                tasks.push({id:id_task , idStory:currentStory.id, description:$scope.task.description, number:$scope.task.number, points:$scope.task.points});
-                id_task=id_task+1;
+                    }else{
+                        alert("You only have "+$scope.maxPoints+" points available to assign. Don't go overboard!");
+                    }
+                }else{
+                    alert("Remember to give your task a description! How will your team know what to do?!");
+                }
                 //$location.path("/storyTask");
 
                 /*

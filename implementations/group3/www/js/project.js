@@ -11,8 +11,8 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
         $scope.project = {
             name: '',
             owner: '',
-            status: '',
-            startDate: ''
+            status: {},
+            startDate: new Date()
 
 
         };
@@ -20,6 +20,7 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
         $scope.statuses = [{stat:'open'},{stat:'closed'}];
 
         $scope.successMsgVisible = false;
+
 
 
         $scope.getUsers = function (){
@@ -34,32 +35,42 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
             }
         };
 
-        // the function to add the new users
         $scope.addProject = function (newProject) {
 
             $scope.project = newProject;
 
-            if (editing){
-                var i;
-                for (i = 0; i < projects.length ; i++){
-                    if (currentProject.id === projects[i].id){
-                        projects.splice(i, 1, {id:currentProject.id, name:$scope.project.name, owner:$scope.currUser.firstName, status:$scope.project.status, startDate:$scope.project.startDate});
+            if (!($scope.project.name === '')) {
+                if (editing) {
+                    var i;
+                    for (i = 0; i < projects.length; i++) {
+                        if (currentProject.id === projects[i].id) {
+                            projects.splice(i, 1, {
+                                id: currentProject.id,
+                                name: $scope.project.name,
+                                owner: $scope.currUser.firstName,
+                                status: $scope.project.status,
+                                startDate: $scope.project.startDate
+                            });
+                        }
                     }
-                }
-                editing = false;
-            }else {
-                projects.push({
-                    id: id_project,
-                    name: $scope.project.name,
-                    owner: $scope.project.owner,
-                    status: $scope.project.status,
-                    startDate: $scope.project.startDate
-                });
-                usersProjects.push({idProject: id_project, idUser: currentUser.id});
-                id_project = id_project + 1;
+                    editing = false;
+                } else {
+                    projects.push({
+                        id: id_project,
+                        name: $scope.project.name,
+                        owner: $scope.project.owner,
+                        status: $scope.project.status,
+                        startDate: $scope.project.startDate
+                    });
+                    usersProjects.push({idProject: id_project, idUser: currentUser.id});
+                    id_project = id_project + 1;
 
+                }
+                $location.path("/projectsSprints");
             }
-            $location.path("/projectsSprints");
+            else {
+                alert("You forgot to give your project a name!");
+            }
 
         }
     }

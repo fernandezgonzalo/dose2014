@@ -1,5 +1,21 @@
 
 <div  class="letsGo container-fluid">
+    <div class ="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            <div class ="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-link pull-left">Your Account</button>
+                </div>
+                <div class="col-md-4">
+                    <a ng-href="http://localhost:63342/www/index.html#/home"> <!-- cambiar por la ruta correcta 9090 -->
+                        <button type="button" ng-click="logout()" class="btn btn-link ">Log out</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6" >
             <div class="row">
@@ -9,9 +25,8 @@
                 <div class="col-md-2">
                     <h2>
                         <a ng-href="http://localhost:63342/www/index.html#/project"> <!-- poner ruta cuando este! -->
-                            <button type="button" class="btn btn-info pull-right" >Add Project</button>
+                            <button type="button" ng-click="editing(false)" class="btn btn-info pull-right" >Add Project</button>
                         </a>
-
                     </h2>
                  </div>
                 <div class="col-md-2">
@@ -48,11 +63,11 @@
         <div class="col-md-6">
             <h1 align="center" > <strong> Sprints </strong>
                 <a ng-href="http://localhost:63342/www/index.html#/sprint">
-                    <button  class="btn btn-info pull-right"> Add Sprint</button>
+                    <button  class="btn btn-info pull-right" ng-click="editing(false)">  Add Sprint</button>
                 </a>
             </h1>
             <div class="list-group">
-                <div class="list-group-item colorHover" ng-repeat="sprint in projectSprints" ng-click="setSprintSelected(sprint)">
+                <div class="list-group-item colorHover" ng-repeat = "sprint in projectSprints" ng-click="setSprintSelected(sprint)">
                     <div class="row">
                         <div class="col-md-8">
                             <h3><strong>{{sprint.name}}</strong></h3>
@@ -70,7 +85,7 @@
                             </a>
                         </div>
                         <div class="col-md-2">
-                            <button ng-click="removeSprintSelected(sprint)"  type="button" class="btn btn-link pull-left"> Remove </button>
+                                <button ng-click="removeSprintSelected(sprint)"  type="button" class="btn btn-link pull-left"> Remove </button>
                         </div>
                     </div>
                 </div>

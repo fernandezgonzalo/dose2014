@@ -40,6 +40,7 @@ angular.module('LetsGoTeam')
 
         // Defining user logged status
         $scope.logged = false;
+        logged = false;
 
         // And some fancy flags to display messages upon user status change
         $scope.byebye = false;

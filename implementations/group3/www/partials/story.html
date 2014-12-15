@@ -14,20 +14,16 @@
 		<form role="form">
 		  <div class="form-group">
 		    <label>Title:</label>
-		    <input type="text" class="form-control" ng-model="story.title"  placeholder="title"> <br>
+		    <input type="text" class="form-control" ng-init="$scope.story.title" ng-model="story.title"  placeholder="title"> <br>
 			<label>Description:</label>
-			<textarea class="form-control" ng-model="story.description"  placeholder="description"></textarea> <br>
+			<textarea class="form-control" ng-init="$scope.story.description" ng-model="story.description"  placeholder="description"></textarea> <br>
 			<label>Points:</label>
-			<input type="number" class="form-control" ng-model="story.points"> <br>
-			<label>Description:</label>
-			<textarea class="form-control" ng-model="story.description"  placeholder="description"></textarea> <br>
+			<input type="number" min="0" ng-init="$scope.story.points" class="form-control" ng-model="story.points"> <br>
 		  </div>
-			<button ng-click="addStory(story)" ng-href="http://localhost:63342/www/index.html#/storyTask" class="btn btn-default">
-				Submit
-			</button>
-		  <button ng-click="cancel()" class="btn btn-default">
-		  	Cancel
-		  </button>
+				<button ng-click="addStory(story)"  class="btn btn-default"> Submit</button>
+			<a ng-href="http://localhost:63342/www/index.html#/storyTask">
+				<button class="btn btn-default"> Cancel</button>
+			</a>
 		</form>
     </div>
 

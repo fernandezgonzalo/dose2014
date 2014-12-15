@@ -4,12 +4,12 @@ var app = angular.module('LetsGoTeam', [
   'ngRoute', 'facebook','googleplus'
 ]);
 
-var projects = [{id:1 ,name:'P1' }];
 var id_user = 4,id_project = 6,id_sprint = 5,id_story = 4,id_task= 2;
 var currentUser={};
 var currentProject={};
 var currentSprint={};
 var currentStory={};
+var currentTask={};
 var users = [{id:1 ,firstName:'Juanito',LastName:'Perez',email:'jPe@gmail.com',password:'perez'},
   {id:2 ,firstName:'Pablito',LastName:'Lopez',email:'pLo@gmail.com',password:'lopez'},
   {id:3 ,firstName:'alan',LastName:'gonzalez',email:'a',password:'a'}];
