@@ -6,77 +6,58 @@
 angular.module('DOSEMS.controllers')
     .controller('EditUserCtrl', ['$rootScope', '$scope', '$log', 'Users', '$cookieStore', '$window', function ($rootScope, $scope, $log, Users, $cookieStore, $window) {
         $scope.init = function () {
-            $scope.oldPasswordError = false;
-            $scope.oldPass = '';
-            $scope.oldPassInput = '';
             Users.resource.get({userId: $cookieStore.get('userId')}, function (user) {
                     $scope.updateUser = user;
-                    $scope.oldPass = user.password;
                     $scope.userId = user.id;
-                    $scope.password = '';
-                    $scope.passwordRepeat = '';
-                    $log.debug($scope.oldPass);
+                    $scope.password = user.password;
+                    $scope.newPassword = '';
+                    $scope.newPasswordRepeat = '';
                 }
             );
         };
 
 
         $scope.save = function () {
-            if (validatePassword()) {
-                if ($scope.password.length > 0 || $scope.passwordRepeat > 0) {
-                    //Change password, check that the new ones match
-                    if (!angular.equals($scope.password, $scope.passwordRepeat) ||
-                        $scope.password.length < 2 ||
-                        $scope.password.length > 20
-                    ) {
-                        $scope.passwordError = true;
-                        return;
-                    } else {
-                        $scope.updateUser.password = $scope.password;
-                    }
+            if ($scope.newPassword.length > 0 || $scope.newPasswordRepeat > 0) {
+                //Change password, check that the new ones match
+                if (!angular.equals($scope.newPassword, $scope.newPasswordRepeat) ||
+                    $scope.newPassword.length < 2 ||
+                    $scope.newPassword.length > 20
+                ) {
+                    $scope.passwordError = true;
+                    return;
+                } else {
+                    $scope.updateUser.password = $scope.newPassword;
                 }
-                $scope.passwordError = false;
-                $scope.oldPasswordError = false;
-                $scope.changesSaved = true;
-                $log.debug($scope.updateUser);
-                Users.resource.update({userId: $scope.userId}, $scope.updateUser, function (data) {
-                    $log.debug(data);
-                });
-            } else {
-                $scope.oldPasswordError = true;
             }
-
+            $scope.passwordError = false;
+            $scope.changesSaved = true;
+            $log.debug($scope.updateUser);
+            Users.resource.update({userId: $scope.userId}, $scope.updateUser, function (data) {
+                $log.debug(data);
+            });
         };
 
         $scope.showDeleteDialog = function () {
-            if (validatePassword()) {
-                $('#deleteModal').modal('toggle');
-            } else {
-                $scope.oldPasswordError = true;
-
-            }
+            $('#deleteModal').modal('toggle');
         };
         $scope.deleteUser = function () {
-            if (validatePassword()) {
-                Users.resource.delete({userId: $scope.userId}, function (data) {
-                    Users.restUser();
-                    $cookieStore.put('loggedIn', false);
-                    $cookieStore.put('userId', -1);
-                    $rootScope.$broadcast('loggedOut');
-                    $window.location.href = '/#/login';
+            Users.resource.delete({userId: $scope.userId}, function (data) {
+                Users.restUser();
+                $cookieStore.put('loggedIn', false);
+                $cookieStore.put('userId', -1);
+                $rootScope.$broadcast('loggedOut');
+                $window.location.href = '/#/login';
 
-                });
-            } else {
-                $scope.oldPasswordError = true;
-            }
+            });
         };
 
 
-        function validatePassword() {
-            $log.debug($scope.oldPass);
-            $log.debug($scope.oldPassInput);
-            return angular.equals($scope.oldPass, $scope.oldPassInput);
-        }
+        /*    function validatePassword() {
+         $log.debug($scope.oldPass);
+         $log.debug($scope.oldPassInput);
+         return angular.equals($scope.oldPass, $scope.oldPassInput);
+         }*/
 
         $scope.init();
     }
