@@ -11,10 +11,12 @@ inherit
 create
 	make
 feature
-	new(name: STRING)
+	new(email: STRING password: STRING)
 		do
-			create db_insert_statement.make ("INSERT INTO users(name) VALUES ('" + name + "');", db);
+			create db_insert_statement.make ("INSERT INTO users(email, password) VALUES ('"
+			    + email + "', '" + password + "');", db);
 
+			print("Hello from new user%N");
 			db_insert_statement.execute
 
 			if db_insert_statement.has_error then

@@ -100,10 +100,9 @@ feature -- Data access
 		end
 
 
-	update_fields(an_update: JSON_OBJECT)
+	update_fields(an_update: JSON_OBJECT; an_id: INTEGER)
 		require
-			has_json: not attached {JSON_OBJECT} an_update
-			has_id: an_update.has_key("id")
+			has_json: attached {JSON_OBJECT} an_update
 		local
 			keys : ARRAY [JSON_STRING]
 			index: INTEGER
@@ -111,16 +110,18 @@ feature -- Data access
 
 		do
 			keys := an_update.current_keys
-			query.make_from_string("UPDATE " + table_name + " SET")
+			create query.make_from_string("UPDATE " + table_name + " SET")
+			create index
 
-			from index := keys.lower - 1
-			until index = keys.upper - 1
+			from index := keys.lower
+			until index = keys.upper
 			loop
-				index := index + 1
 				query.append_string(keys.at(index).representation + " = " + an_update.item (keys.at (index)).representation + ", ")
+				index := index + 1
+
 			end
-			query.append_string(keys.at(keys.upper - 1).representation + " = " + an_update.item(keys.at(keys.upper - 1)).representation)
-			query.append_string(" WHERE id = " + an_update.item("id").representation + ";")
+			query.append_string(keys.at(keys.upper).representation + " = " + an_update.item(keys.at(keys.upper)).representation)
+			query.append_string(" WHERE id = " + an_id.out + ";")
 
 			create db_modify_statement.make(query, db)
 			db_modify_statement.execute
