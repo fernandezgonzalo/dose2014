@@ -83,8 +83,10 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("id_requirement") as n then
 					id_requirement := n.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("id_user") as n then
+					l_user_id := n.unescaped_string_8
+				end
 			end
-			l_user_id := req.path_parameter ("id_user").string_representation
 			l_sprint_id := req.path_parameter ("id_sprint").string_representation
 			flag := my_db.add_task (desc, comment, status, duration, points, l_user_id, id_requirement, l_sprint_id)
 
