@@ -229,6 +229,110 @@ feature -- Data access
 		end
 	end
 
+	assign_points(a_user_id, a_project_id:STRING a_points:STRING):BOOLEAN
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i,t: INTEGER
+		l_points: STRING
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT * FROM developer_mapping WHERE user_id=? AND project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_user_id,a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("points") then
+					l_points:= l_json_object.item ("points").representation
+					l_points.replace_substring_all ("%"","")
+					create db_modify_statement.make("UPDATE developer_mapping SET points=? WHERE user_id=?;", db)
+					t:=a_points.to_integer+l_points.to_integer
+					db_modify_statement.execute_with_arguments (<<t.out,a_user_id>>)
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+		Result:=True
+		if db_modify_statement.has_error then
+			print("Error while assigning points")
+			Result := false
+		end
+	end
+
+	get_progress_of_task(a_id:STRING):STRING
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i: INTEGER
+		l_progress: STRING
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT progress FROM task WHERE id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("progress") then
+					l_progress:= l_json_object.item ("progress").representation
+					l_progress.replace_substring_all ("%"","")
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+		Result:=l_progress
+		if db_query_statement.has_error then
+			print("Error while assigning points")
+		end
+	end
+
+	subtract_points(a_user_id,a_project_id:STRING a_points:STRING):BOOLEAN
+	local
+		l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
+		l_json_object: JSON_OBJECT
+		i,t: INTEGER
+		l_points: STRING
+	do
+		create l_json_object.make
+		create db_query_statement.make ("SELECT points FROM developer_mapping WHERE user_id=? AND project_id=?;", db)
+		l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<a_user_id,a_project_id>>)
+		from
+			i:= 1
+		until
+			i=2
+		loop
+			if not l_query_result_cursor.after then
+				row_to_json_object (l_query_result_cursor.item, l_query_result_cursor.item.count, l_json_object)
+				if l_json_object.has_key ("points") then
+					l_points:= l_json_object.item ("points").representation
+					l_points.replace_substring_all ("%"","")
+					create db_modify_statement.make("UPDATE developer_mapping SET points=? WHERE user_id=?;", db)
+					t:=l_points.to_integer - a_points.to_integer
+					db_modify_statement.execute_with_arguments (<<t.out,a_user_id>>)
+				end
+				l_query_result_cursor.forth
+			else
+				i:=2
+			end
+		end
+		Result:=True
+		if db_modify_statement.has_error then
+			print("Error while assigning points")
+			Result := false
+		end
+	end
+
 	delete (a_table_name: STRING a_id: STRING) : TUPLE[success: BOOLEAN; id: STRING]
 	do
 		create Result.default_create
