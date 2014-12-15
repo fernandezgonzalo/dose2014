@@ -80,16 +80,14 @@ angular.module('Wbpms')
           work_item_id : idWorkItem
         }
 
-      $log.debug("Sending payload: " + JSON.stringify(payload));
-        // send the payload to the server
-        $http.get('/api/projects/iterations/getwork_items', payload)
+      // send the payload to the server
+        $http.post('/api/projects/iterations/getwork_item', payload)
            .success(function(data, status, header, config) {
             alert(JSON.stringify(data));
-            $scope.idWorkItem = data;
+            //$scope.idWorkItem = data;
           })   
           .error(function(data, status) {
             alert("ERROR"+ JSON.stringify(data));
-            $log.debug('Error while try fetch work item info from server');
           });
       }
 
