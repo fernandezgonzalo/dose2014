@@ -39,10 +39,20 @@ feature -- Test routines
 		local
 			db_handler : DB_HANDLER_TOPIC
 			json_result : JSON_OBJECT
+			ok, second_time: BOOLEAN
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
-			json_result := db_handler.find_by_id (100)
-			assert("Topic not found", json_result.is_empty)
+			if not second_time then
+				ok := True
+				json_result := db_handler.find_by_id (100)
+				ok := False
+			end
+			assert("Routine failed as expected", ok)
+		rescue
+			second_time := True
+			if ok then
+				retry
+			end
 		end
 
 	add_topic_test
@@ -54,7 +64,7 @@ feature -- Test routines
 			create topic.make (1, 1, 1, 1,"TITLE","DESCR")
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
-			db_handler.db.begin_transaction (true)
+			db_handler.db.begin_transaction (True)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
 				-- assert when the topic was successfully added.
 			assert ("Topic successfully added", not db_handler.db_insert_statement.has_error)
@@ -71,7 +81,7 @@ feature -- Test routines
 			create topic.make (1, 1, 1, 1,"TITLE","DESCR")
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
-			db_handler.db.begin_transaction (true)
+			db_handler.db.begin_transaction (True)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
 
 			topic.set_title("new_title")
@@ -94,13 +104,12 @@ feature -- Test routines
 			create topic.make (1, 1, 1, 1, "TITLE", "DESCR")
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
-			db_handler.db.begin_transaction (true)
+			db_handler.db.begin_transaction (True)
 			db_handler.add(topic,topic.user_id,topic.project_id,topic.task_id,topic.sprint_id)
 			db_handler.remove (db_handler.db_insert_statement.last_row_id.to_natural_32)
 
-				-- assert when the topic was successfully removed.
-			json_result := db_handler.find_by_id (db_handler.db_insert_statement.last_row_id.to_natural_32)
-			assert("Topic deleted", json_result.is_empty)
+				-- assert that the topic was successfully removed.
+			assert("Topic deleted", not db_handler.db_modify_statement.has_error)
 
 				-- remove the topic added for test
 			db_handler.db.rollback

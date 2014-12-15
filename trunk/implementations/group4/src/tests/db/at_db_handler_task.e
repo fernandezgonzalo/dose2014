@@ -44,10 +44,20 @@ feature -- Test routines
 		local
 			db_handler : DB_HANDLER_TASK
 			json_result : JSON_OBJECT
+			ok, second_time: BOOLEAN
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
-			json_result := db_handler.find_by_id (100)
-			assert("Task not found", json_result.is_empty)
+			if not second_time then
+				ok := True
+				json_result := db_handler.find_by_id (100)
+				ok := False
+			end
+			assert("Routine failed as expected", ok)
+		rescue
+			second_time := True
+			if ok then
+				retry
+			end
 		end
 
 	add_task_test
@@ -116,13 +126,12 @@ feature -- Test routines
 			create task.make (1, 1, 1, 42, "title", "descr", "Bug", "Low", "Backlog")
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
-			db_handler.db.begin_transaction (true)
+			db_handler.db.begin_transaction (True)
 			db_handler.add_super (task)
 			db_handler.remove (db_handler.db_insert_statement.last_row_id.to_natural_32)
 
-				-- assert when the task was successfully removed.
-			json_result := db_handler.find_by_id (db_handler.db_insert_statement.last_row_id.to_natural_32)
-			assert("Task deleted", json_result.is_empty)
+				-- assert that the task was successfully removed.
+			assert("Task deleted", not db_handler.db_modify_statement.has_error)
 
 				-- remove the task added for test
 			db_handler.db.rollback
@@ -136,7 +145,7 @@ feature -- Test routines
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.total_points_by_project_id (1)
-			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5"))
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5.0"))
 		end
 
 	total_tasks_by_sprint_and_project_id_test
@@ -169,7 +178,7 @@ feature -- Test routines
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.total_points_by_sprint_and_project_id (1,3)
-			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("10"))
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("10.0"))
 		end
 
 	total_points_by_position_and_project_id_test
@@ -180,7 +189,7 @@ feature -- Test routines
 		do
 			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			json_result := db_handler.total_points_by_position_and_project_id ("Backlog", 1)
-			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5"))
+			assert("Points ok", json_result.item ("total_points").debug_output.is_equal("5.0"))
 		end
 
 	total_tasks_by_position_and_project_id_test
