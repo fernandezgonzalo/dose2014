@@ -27,22 +27,6 @@ feature {NONE} -- Convenience methods for session handling
 		end
 
 
-	get_session_from_req (req: WSF_REQUEST; a_cookie_name: STRING): detachable WSF_SESSION_DATA
-			-- Returns the session data that belongs to the session cookie of name a_cookie_name
-		local
-			l_session_id: STRING
-		do
-				-- we might return Void if we can't find a session cookie with name a_cookie_name
-			Result := Void
-
-				-- check if we have a session cookie; if yes, get the session id
-			if attached {WSF_STRING} req.cookie (a_cookie_name) as c_id then
-				l_session_id := c_id.value
-				Result := session_manager.session_data (l_session_id)
-			end
-		end
-
-
 	get_user_id_from_req(req: WSF_REQUEST): STRING
 			-- Returns the user id stored in the cookie of the request 'req'.
 		local
@@ -64,5 +48,23 @@ feature {NONE} -- Convenience methods for session handling
 			create hash.make
 	        hash.update_from_string(password + id)
 	        Result := hash.digest_as_string
+		end
+
+
+feature {NONE} -- Internal helpers
+
+	get_session_from_req (req: WSF_REQUEST; a_cookie_name: STRING): detachable WSF_SESSION_DATA
+			-- Returns the session data that belongs to the session cookie of name a_cookie_name
+		local
+			l_session_id: STRING
+		do
+				-- we might return Void if we can't find a session cookie with name a_cookie_name
+			Result := Void
+
+				-- check if we have a session cookie; if yes, get the session id
+			if attached {WSF_STRING} req.cookie (a_cookie_name) as c_id then
+				l_session_id := c_id.value
+				Result := session_manager.session_data (l_session_id)
+			end
 		end
 end
