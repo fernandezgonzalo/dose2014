@@ -1,6 +1,7 @@
 import requests
 import json
 
+# SESSION
 
 def do_login(session, email, password):
 	uri_login = "http://localhost:9090/api/login"
@@ -12,6 +13,8 @@ def do_logout(session):
 	uri_logout = "http://localhost:9090/api/logout"
 	headers = {"content-type": "application/json"}
 	return session.get(uri_logout, headers=headers)
+
+# USERS
 
 def get_users(session):
 	uri_get_users = "http://localhost:9090/api/users"
