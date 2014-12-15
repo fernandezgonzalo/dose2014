@@ -584,12 +584,14 @@ feature --handlers about work_items
 			l_iteration_num: INTEGER
 			j_obj: JSON_OBJECT
 			l_result_payload: JSON_ARRAY
+			array_work_items: JSON_ARRAY
 			parser: JSON_PARSER
 		do
 			create l_iteration_num.default_create
 			create j_obj.make
 			create l_project.make_empty
 			create l_payload.make_empty
+			create array_work_items.make_array
 			-- Create json object that we send back as in response
 			create l_result_payload.make_array
 			-- Read the payload from the request and store it in the string
@@ -623,7 +625,8 @@ feature --handlers about work_items
 				set_json_header (res, 401, l_result_payload.representation.count)
 			else
 				-- Get from the database all the work_items which are associated with the given iteration and project
-				l_result_payload := (my_db.iteration_work_items(l_iteration_num.to_integer, l_project))
+				array_work_items:=my_db.iteration_work_items(l_iteration_num.to_integer, l_project)
+				j_obj.put (array_work_items, create {JSON_STRING}.make_json ("workitems"))
 				if l_result_payload.count = 0 then
 					-- The given iteration has 0 work item
 					j_obj.put (create {JSON_STRING}.make_json ("SUCCESS: The iteration '" + l_iteration_num.out + "' into project '" + l_project + "' hasn't any work_item."), create {JSON_STRING}.make_json ("sucess"))
