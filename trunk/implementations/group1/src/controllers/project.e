@@ -117,7 +117,7 @@ feature -- Handlers
 			valid_session: req_has_cookie (req, "_session_")
 			valid_parameter: req.path_parameter ("id_user").string_representation /= Void
 		local
-			l_payload, info, name, l_user_id: STRING
+			l_result_payload,l_payload, info, name, l_user_id: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
@@ -147,14 +147,10 @@ feature -- Handlers
 			end
 			l_user_id := req.path_parameter ("id_user").string_representation
 			flag := my_db.create_project_by_user (l_user_id.to_natural_8, name, info)
+			l_result_payload := my_db.last_insert_rowid.representation
+			set_json_header_ok (res, l_result_payload.count)
+			res.put_string (l_result_payload)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added project "), create {JSON_STRING}.make_json ("Message"))
-
-				-- send the response
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
 		ensure
 			response_not_null: res /= Void
 		end
