@@ -39,7 +39,7 @@ a.underline {
 
 #wrapper {
     min-height: 100%;
-	margin-bottom: 80px;
+    margin-bottom: 80px;
 }
 
 #header {
@@ -111,7 +111,7 @@ a.underline {
 }
 
 #navigation ul li:last-child {
-	border-right: solid #474745 1px;
+    border-right: solid #474745 1px;
 }
 
 #navigation ul li a:hover {
@@ -225,10 +225,11 @@ a.link-button span {
 }
 
 div.inline-fields .float-left {
-	margin-left: 10px;
+    margin-left: 10px;
 }
-div.inline-fields .label-div{
-	margin-top: 0px;
+
+div.inline-fields .label-div {
+    margin-top: 0px;
 }
 
 table {
@@ -303,7 +304,7 @@ th {
 
 /* Add User view */
 #addUsers {
-	padding-left: 50px;
+    padding-left: 50px;
 }
 
 #addUsers a.link-button span {
@@ -324,8 +325,8 @@ th {
     margin-left: 30px;
 }
 
-#addUsers table th{
-	text-align: center;
+#addUsers table th {
+    text-align: center;
 }
 
 #addUsers table .col1 {
@@ -353,7 +354,7 @@ th {
 }
 
 #addUsers a.link-button span.add-usertoproject {
-	width: 160px !important;
+    width: 160px !important;
 }
 
 /* User dashboard */
@@ -385,17 +386,17 @@ th {
 
 /* Manage projects view */
 .project-cols {
-	width: 47%;
-	float: left;
+    width: 47%;
+    float: left;
 }
 
 #sprints-block {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 #sprints-block ol li h5,
 #requirements-block ol li h5 {
-	/*cursor: pointer;*/
+    /*cursor: pointer;*/
 }
 
 /*#sprints-block ol h5.collapsed,
@@ -410,86 +411,92 @@ th {
 
 #sprints-block table.sprint,
 #requirements-block table.sprint {
-	line-height: 25px;
+    line-height: 25px;
 }
 
 #sprints-block table.sprint tr th,
 #requirements-block table.requirement tr th {
-	text-align: center;
+    text-align: center;
 }
 
-#sprints-block table.sprint tr td ,
+#sprints-block table.sprint tr td,
 #requirements-block table.requirement tr td {
-	line-height: 40px;
+    line-height: 40px;
 }
 
 #sprints-block table.sprint .col1,
 #requirements-block table.requirement .col1 {
-	width: 25px;
-	text-align: center;
+    width: 25px;
+    text-align: center;
 }
 
 #sprints-block table.sprint .col2,
 #requirements-block table.requirement .col2 {
-	width: 180px;
-	padding-left: 5px;
+    width: 180px;
+    padding-left: 5px;
 }
 
 #sprints-block table.sprint .col2 a,
 #requirements-block table.requirement .col2 a {
-	text-decoration: underline;
-	cursor: pointer;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 #sprints-block table.sprint .col3,
 #requirements-block table.requirement .col3 {
-	width: 60px;
-	text-align: center;
+    width: 60px;
+    text-align: center;
 }
 
 #sprints-block table.sprint .col4 {
-	width: 120px;
-	padding-left: 5px;
+    width: 120px;
+    padding-left: 5px;
 }
 
 #requirements-block table.requirement .col4 {
-	width: 120px;
-	text-align: center;
+    width: 120px;
+    text-align: center;
 }
 
 #sprints-block table.sprint .col5,
 #requirements-block table.requirement .col5 {
-	width: 130px;
-	padding-left: 5px;
+    width: 130px;
+    padding-left: 5px;
 }
 
 #sprints-block ol li div.buttons {
-	margin-top: 5px;
-	text-align: right;
+    margin-top: 5px;
+    text-align: right;
 }
 
 #requirements-block ol li div.buttons {
-	margin-top: 5px;
-	text-align: right;
+    margin-top: 5px;
+    text-align: right;
 }
+
 #requirements-block ol li div.buttons div.inline-label {
-	margin-top: 20px;
+    margin-top: 20px;
 }
+
 #requirements-block ol li div.buttons input[type="text"] {
-	margin-bottom: -8px;
+    margin-bottom: -8px;
 }
 
 #sprints-block > div.buttons,
 #requirements-block > div.buttons {
-	text-align: left;
+    text-align: left;
 }
 
 #sprints-block div.buttons > div,
-#requirements-block div.buttons > div  {
-	display: inline-block;
-	margin-right: 10px;
+#requirements-block div.buttons > div {
+    display: inline-block;
+    margin-right: 10px;
 }
 
-#requirements-block div.buttons div.add-requirement  input[type="text"] {
-	margin-bottom: -8px;
+#requirements-block div.buttons div.add-requirement input[type="text"] {
+    margin-bottom: -8px;
+}
+
+#signupLink {
+    color: #3071a9;
 }

@@ -1,7 +1,7 @@
 <div id="signup" class="block">
     <div ng-show="singupSuccess" class="alert alert-success" role="alert">
-        <p>Signup successful! <a ng-href="#/login">
-            <trong>Click here to continue to Login</trong>
+        <p>Signup successful! <a id="signupLink" ng-href="#/login">
+            <strong>Click here to continue to Login</strong>
         </a></p>
     </div>
     <form role="form" id="signupForm">
@@ -34,7 +34,7 @@
                    placeholder="Enter your password again">
         </div>
         <div ng-show="$passwordError" class="alert alert-danger" role="alert">
-            <p> Try again, password don't match or are to long/shot </p>
+            <p> Try again, password don't match or are to long/short </p>
         </div>
         <button ng-click="signup()"
                 class="buttons">
