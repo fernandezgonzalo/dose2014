@@ -3,8 +3,10 @@ note
 	author: "ar"
 	date: "13.11.2014"
 
+
 class
 	STORY_CONTROLLER
+
 
 inherit
 	REST_CONTROLLER
@@ -12,6 +14,7 @@ redefine
 	make,
 	modify_json
 end
+
 
 create
 	make
@@ -34,9 +37,10 @@ feature {NONE} -- Creation
 		end
 
 
-feature {None} -- Internal helpers
+feature {NONE} -- Override some hooks of the default implementation.
 
 	modify_json(story: JSON_OBJECT)
+			-- Override default implementation to add the tasks of this story
 		local
 			tasks: JSON_ARRAY
 			story_id: STRING
@@ -45,5 +49,4 @@ feature {None} -- Internal helpers
 			tasks := db.query_id_list("SELECT id FROM tasks WHERE story_id = ?", <<story_id>>)
 			story.put (tasks, "tasks")
 		end
-
 end

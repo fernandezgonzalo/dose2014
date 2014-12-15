@@ -3,6 +3,7 @@ note
 	author: "ar"
 	date: "13.11.2014"
 
+
 class
 	TASK_CONTROLLER
 
@@ -16,6 +17,7 @@ redefine
 	pre_insert_action,
 	pre_update_action
 end
+
 
 create
 	make
@@ -38,9 +40,10 @@ feature {NONE} -- Creation
 		end
 
 
-feature {None} -- Internal helpers
+feature {NONE} -- Override some hooks of the default implementation.
 
 	modify_json(task: JSON_OBJECT)
+			-- Override default implementation to add the developers assigned to this task
 		local
 			assigned_devs: JSON_ARRAY
 			task_id: STRING
@@ -50,21 +53,27 @@ feature {None} -- Internal helpers
 			task.put (assigned_devs, "assigned_devs")
 		end
 
+
 	add_user_transaction(task_id: STRING; dev_id: STRING)
+			-- Assign the user with id 'dev_id' to this task.
 		local
 			dummy: ANY
 		do
 			dummy := db.insert("INSERT INTO task_assignments (user_id, task_id) VALUES (?, ?)", <<dev_id, task_id>>)
 		end
 
+
 	remove_user_transaction(task_id: STRING; dev_id: STRING)
+			-- Unassign the user with id 'dev_id' from this task.
 		local
 			dummy: ANY
 		do
 			dummy := db.delete("DELETE FROM task_assignments WHERE user_id = ? AND task_id = ?", <<dev_id, task_id>>)
 		end
 
+
 	pre_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
+			-- If the status of the new project is COMPLETED (2), set the completion_date to today.
 		local
 			status_key: JSON_STRING
 		do
@@ -74,7 +83,9 @@ feature {None} -- Internal helpers
 			end
 		end
 
+
 	pre_update_action(req: WSF_REQUEST; res: WSF_RESPONSE; task_id: STRING; input: JSON_OBJECT)
+			-- If the status changed to COMPLETED (2), set the completion_date to today.
 		local
 			status_key: JSON_STRING
 			old_status: STRING
@@ -86,7 +97,11 @@ feature {None} -- Internal helpers
 			end
 		end
 
+
+feature {None} -- Internal helpers
+
 	set_completion_date_to_today(input: JSON_OBJECT)
+			-- Set the completion_date to todays date.
 		local
 			today: DATE
 		do

@@ -3,8 +3,10 @@ note
 	author		: "ar"
 	date		: "14.11.14"
 
+
 class
 	APPLICATION
+
 
 inherit
 	WSF_DEFAULT_SERVICE
@@ -20,26 +22,18 @@ inherit
 		-- for the routing we use uri templates
 		-- thus we can have "varialbes" in the uris
 
+
 create
 	make_and_launch
 
 
-feature {NONE} -- Initialization
+feature {NONE} -- Private attributes
 
-	path_to_db_file: STRING
-		-- calculates the path to the demo.db file, based on the location of the .ecf file
-		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
-		once
-			Result := ".." + Operating_environment.directory_separator.out + "letsgo.db"
-		end
+		-- access to the database
+	db: DATABASE
 
-	path_to_www_folder: STRING
-		-- calculates the path to the www folder, based on the location of the .ecf file
-		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
-		once
-			Result := ".." + Operating_environment.directory_separator.out + "www"
-		end
-
+		-- access to the session manager for authorization
+	session_manager: WSF_FS_SESSION_MANAGER
 
 		-- Handlers for all request and resource types
 	session_ctrl: SESSION_CONTROLLER
@@ -50,11 +44,8 @@ feature {NONE} -- Initialization
 	user_ctrl: USER_CONTROLLER
 	message_ctrl: MESSAGE_CONTROLLER
 
-	db: DATABASE
-		-- access to the database and the functionality that comes with that class
 
-	session_manager: WSF_FS_SESSION_MANAGER
-
+feature -- Basic operations
 
 	initialize
 			-- Initialize current service.
@@ -63,6 +54,7 @@ feature {NONE} -- Initialization
 				-- we reuse the same database connection so we don't open up too many connections at once
 			create db.make (path_to_db_file)
 
+				-- Initialize all controllers.
 			create session_manager.make
 			create session_ctrl.make(db, session_manager)
 			create task_ctrl.make(db, session_manager)
@@ -72,16 +64,15 @@ feature {NONE} -- Initialization
 			create user_ctrl.make(db, session_manager)
 			create message_ctrl.make(db, session_manager)
 
-				-- set the port of the web server to 9090
+				-- set the port of the web server to 9090.
 			set_service_option ("port", 9090)
 
-				-- initialize the router
+				-- initialize the router.
 			initialize_router
 		end
 
-feature -- Basic operations
-
 	setup_router
+			-- Setup the linking between uris, HTTP methods and request handlers.
 		local
 			fhdl: WSF_FILE_SYSTEM_HANDLER
 			tasks_base_uri: STRING
@@ -141,6 +132,15 @@ feature -- Basic operations
 feature {NONE} -- Internal helpers	
 
 	setup_restful_routing_for(controller: REST_CONTROLLER; base_uri: STRING; id_name: STRING)
+			-- Setup restful routes for a resource 'controller' with some 'base_uri' (e.g. /resources) and
+			-- some 'id_name' to be used in the request parameters path (e.g. resource_id if you want something like /resources/{resource_id})
+			-- Sets up the following restful routes (with authorization check and for create-new and update with valid input checks):
+
+			--	GET 	/resources 					-> get_all()
+			--	POST	/resources 					-> create_new()
+			--	GET 	/resources/{resource_id}	-> get()
+			--	PUT 	/resources/{resource_id}	-> update()
+			--	DELETE 	/resources/{resource_id}	-> delete()
 		do
 			map_uri_template_agent_with_request_methods (base_uri, agent controller.get_all_authorized, router.methods_get)
 			map_uri_template_agent_with_request_methods (base_uri, agent controller.create_new_authorized_validated, router.methods_post)
@@ -149,5 +149,18 @@ feature {NONE} -- Internal helpers
 			map_uri_template_agent_with_request_methods (base_uri + "/{" + id_name + "}", agent controller.delete_authorized, router.methods_delete)
 		end
 
+
+	path_to_db_file: STRING
+		-- calculates the path to the demo.db file, based on the location of the .ecf file
+		once
+			Result := ".." + Operating_environment.directory_separator.out + "letsgo.db"
+		end
+
+
+	path_to_www_folder: STRING
+		-- calculates the path to the www folder, based on the location of the .ecf file
+		once
+			Result := ".." + Operating_environment.directory_separator.out + "www"
+		end
 end
 
