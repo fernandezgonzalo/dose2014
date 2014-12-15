@@ -571,6 +571,14 @@ feature
 			user_not_null: db_query_statement /= Void
 		end
 
+	last_insert_rowid: JSON_ARRAY
+
+		do
+			create Result.make_array
+			create db_query_statement.make ("SELECT last_insert_rowid() AS id", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
+		end
+
 feature {NONE}
 
 	db: SQLITE_DATABASE
