@@ -88,7 +88,7 @@ angular.module('DOSEMS.controllers')
         
 		$scope.newTask = new Tasks();
 		$scope.addTask = function(){
-				$scope.newTask.status = "active";
+				$scope.newTask.status = "Active";
 				var params = {userId:$scope.userId,projectId:$scope.projectId,sprintId:selectedSprint};
 				$scope.newTask.$save(params,function(){
 					$('#createTaskModal').modal('hide');

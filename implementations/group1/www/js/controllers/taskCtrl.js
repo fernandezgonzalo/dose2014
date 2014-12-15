@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-  .controller('TaskCtrl', function ($scope, $routeParams, $log, Tasks, $location) {
+  .controller('TaskCtrl', function ($scope, $routeParams, $log, Tasks, RoleFactory, $location) {
 
       $scope.tasks = [];
 
@@ -13,7 +13,9 @@ angular.module('DOSEMS.controllers')
 	  $scope.idProject = $routeParams.projectId;
 	  $scope.idUser = $routeParams.userId;
 	  
-	   
+	   $scope.userRole = RoleFactory.get({userId:$scope.idUser,projectId:$scope.idProject}, function(data){
+			$log.info(data);
+		});
 	  
 	  Tasks.query({userId:$scope.idUser,projectId:$scope.idProject,sprintId:1,tasksId:$scope.idTask},function(data){
 		$log.debug(data);
