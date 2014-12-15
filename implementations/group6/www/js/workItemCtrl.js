@@ -45,6 +45,11 @@ angular.module('Wbpms')
         work_item_number : ''
       }
 
+      $scope.delLink = {
+        first_workItem : '',
+        second_workItem : ''
+      }
+
       $scope.statusWorkItems = {  
             "values": ["Not started", "Ongoing", "Done"] 
       };
@@ -120,14 +125,12 @@ angular.module('Wbpms')
                   $scope.workItems.push(data);
                 })
                 .error(function(data, status) {
-                  alert("ERROR al buscar workitem");
-                  $log.debug('Error while trying to add new work item');
+                  alert("ERROR while search workitem");
                 });
             })          
 
             .error(function(data, status) {
               alert("ERROR al agregar workitem");
-              $log.debug('Error while trying to add new work item');
             });
      }
 
@@ -154,7 +157,6 @@ angular.module('Wbpms')
 
             })
             .error(function(data, status) {
-              alert(idWorkItem);
              alert("Error deleting work item");
             }); 
 
@@ -198,12 +200,9 @@ angular.module('Wbpms')
      }
 
      $scope.removeLink = function(idWorkItemSource, idWorkItemDetination) {
-     // function delete an existing link between two work_items
-     }
+      // function delete an existing link between two work_items
 
-    $scope.goToWorkItem = function(work_item){
-        alert("Newell's Old Boys!!!!");
-    }
+     }
 
     $scope.setDelete = function(idWorkItem, numberWorkItem) {
       // Set number work Item to Delete
@@ -211,6 +210,11 @@ angular.module('Wbpms')
       $scope.delWorkItem.work_item_number = numberWorkItem;
     }
 
+
+   $scope.setDeleteLink = function(firstWorkItem, secondWorkItem) {
+       $scope.delLink.first_workItem = firstWorkItem;
+       $scope.delLink.second_workItem = secondWorkItem;
+   }
 
   }
 ]);

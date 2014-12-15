@@ -133,6 +133,12 @@
                                   <table class="table-links" style="height:200px;">
                                     <tr ng-repeat="link in linkss" >
                                       <td>{{link.name}}</td>
+
+                                      <td align="right">
+                                       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalDeleteLink" ng-click="setDeleteLink(workItem.id, delLink.second_workItem)">
+                                           <i class="fa fa-times"></i>                           
+                                       </button>                         
+                                      </td>
                                     </tr>  
                                   </table>
                                 </div>
