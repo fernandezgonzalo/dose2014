@@ -21,10 +21,12 @@ def get_random_date_in_year(year):
 class DatabaseItem(object):
 
     def __init__(self):
-        self.internal_fields = ['internal_fields', 'non_database_fields', 'database_fields', 'table_name']
+        self.internal_fields = ['internal_fields', 'non_database_fields', 'database_fields', 'table_name', 'parent_id_name', 'non_server_fields']
         self.database_fields = []
         self.non_database_fields = []
+        self.non_server_fields = []
         self.table_name = None
+        self.parent_id_name = None
 
     def get_dict_without_fields(self, d, keys):
         for key in keys:
@@ -37,8 +39,17 @@ class DatabaseItem(object):
     def get_dict_without_id(self, d):
         return self.get_dict_without_fields(d, ['id'])
 
+    def get_dict_without_parent_id(self, d):
+        if self.parent_id_name:
+            return self.get_dict_without_fields(d, [self.parent_id_name])
+        else:
+            return d
+
     def get_dict_without_non_database_fields(self, d):
         return self.get_dict_without_fields(d, self.non_database_fields)
+
+    def get_dict_without_non_server_fields(self, d):
+        return self.get_dict_without_fields(d, self.non_server_fields)
 
     def replace_dates_with_strings(self, d):
         for key in d.keys():
@@ -51,16 +62,16 @@ class DatabaseItem(object):
         return text.replace('None', 'null')
 
     def get_json_with_database_fields_with_id(self):
-        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields()))).replace("'", '"'))
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_parent_id(self.get_dict_without_non_server_fields(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields()))))).replace("'", '"')).replace('u"', '"')
 
     def get_json_with_database_fields_without_id(self):
-        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields())))).replace("'", '"'))
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_parent_id(self.get_dict_without_non_server_fields(self.get_dict_without_id(self.get_dict_without_non_database_fields(self.get_dict_without_internal_fields())))))).replace("'", '"')).replace('u"', '"')
 
     def get_json_with_all_fields_with_id(self):
-        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_internal_fields())).replace("'", '"'))
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_internal_fields())).replace("'", '"')).replace('u"', '"')
 
     def get_json_with_all_fields_without_id(self):
-        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_internal_fields()))).replace("'", '"'))
+        return self.replace_none_with_null(str(self.replace_dates_with_strings(self.get_dict_without_id(self.get_dict_without_internal_fields()))).replace("'", '"')).replace('u"', '"')
 
     def get_insert_database_statement(self):
         fields = self.database_fields

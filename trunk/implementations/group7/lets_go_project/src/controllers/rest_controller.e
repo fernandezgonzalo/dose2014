@@ -21,14 +21,14 @@ inherit
 
 feature {NONE} -- Creation
 
-	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER; a_resource_name, a_table_name, a_uri_id_name, a_parent_uri_id_name: STRING)
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			db := a_db
 			session_manager := a_session_manager
-			resource_name := a_resource_name
-			table_name := a_table_name
-			uri_id_name := a_uri_id_name
-			parent_uri_id_name := a_parent_uri_id_name
+			required_create_new_json_fields := <<>>
+			optional_create_new_json_fields := <<>>
+			required_update_json_fields := <<>>
+			optional_update_json_fields := <<>>
 		end
 
 
@@ -40,6 +40,10 @@ feature {NONE} -- Private attributes
 	table_name: STRING
 	uri_id_name: STRING
 	parent_uri_id_name: STRING
+	required_create_new_json_fields: ARRAY[STRING]
+	optional_create_new_json_fields: ARRAY[STRING]
+	required_update_json_fields: ARRAY[STRING]
+	optional_update_json_fields: ARRAY[STRING]
 
 
 feature -- Handlers
@@ -102,11 +106,15 @@ feature -- Handlers
 		local
 			success: BOOLEAN
 		do
-			success := db.delete_with_primary_key(get_id(req), table_name)
-			if success then
-				reply_with_204(res)
+			if db.query_rows ("SELECT * FROM " + table_name + " WHERE id = ?", <<get_id(req)>>).count = 0 then
+				reply_with_404 (res)
 			else
-				reply_with_500(res)
+				success := db.delete_with_primary_key(get_id(req), table_name)
+				if success then
+					reply_with_204(res)
+				else
+					reply_with_500(res)
+				end
 			end
 		end
 
@@ -162,16 +170,25 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			values_str: STRING
 			id: INTEGER_64
 		do
-			pre_insert_action(req, res, input)
-			fields := get_fields_from_json(input)
-			fields_str := get_comma_separated_string_without_quotes_from_array (fields)
-			values_str := get_comma_separated_question_marks(fields.count)
-			id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")", get_values_from_json(input))
-			if id >= 0 then
-				post_insert_action(req, res, id, input)
-				reply_with_201_with_data(res, id.out)
-			else
-				reply_with_500(res)
+			ensure_valid_json(req, res, input, required_create_new_json_fields, optional_create_new_json_fields)
+			if no_error_occured_so_far(res) then
+				if parent_uri_id_name /= Void then
+					input.put_string(req.path_parameter(parent_uri_id_name).string_representation, jkey(parent_uri_id_name))
+				end
+
+				pre_insert_action(req, res, input)
+				if no_error_occured_so_far(res) then
+					fields := get_fields_from_json(input)
+					fields_str := get_comma_separated_string_without_quotes_from_array (fields)
+					values_str := get_comma_separated_question_marks(fields.count)
+					id := db.insert("INSERT INTO " + table_name + " (" + fields_str + ") VALUES (" + values_str + ")", get_values_from_json(input))
+					if id >= 0 then
+						post_insert_action(req, res, id, input)
+						reply_with_201_with_data(res, id.out)
+					else
+						reply_with_500(res)
+					end
+				end
 			end
 		end
 
@@ -182,20 +199,29 @@ feature -- Error checking handlers (authentication, authorization, input validat
 			id_key: JSON_STRING
 			success: BOOLEAN
 		do
-			-- Updating the id is not allowed, so ignore this field if present in input
-			create id_key.make_json ("id")
-			if input.has_key(id_key) then
-				input.remove(id_key)
-			end
+			ensure_valid_json(req, res, input, required_update_json_fields, optional_update_json_fields)
+			if no_error_occured_so_far(res) then
+				if parent_uri_id_name /= Void then
+					input.put_string(req.path_parameter(parent_uri_id_name).string_representation, jkey(parent_uri_id_name))
+				end
 
-			resource_id := req.path_parameter(uri_id_name).string_representation
-			pre_update_action(req, res, resource_id, input)
-			success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_from_json(input)) + " WHERE id = " + resource_id, get_values_from_json(input))
-			if success then
-				post_update_action(req, res, resource_id, input)
-				reply_with_204(res)
-			else
-				reply_with_500(res)
+				-- Updating the id is not allowed, so ignore this field if present in input
+				id_key := jkey("id")
+				if input.has_key(id_key) then
+					input.remove(id_key)
+				end
+
+				resource_id := req.path_parameter(uri_id_name).string_representation
+				pre_update_action(req, res, resource_id, input)
+				if no_error_occured_so_far(res) then
+					success := db.update("UPDATE " + table_name + " SET " + get_update_assignments(get_fields_from_json(input)) + " WHERE id = " + resource_id, get_values_from_json(input))
+					if success then
+						post_update_action(req, res, resource_id, input)
+						reply_with_204(res)
+					else
+						reply_with_500(res)
+					end
+				end
 			end
 		end
 
@@ -216,6 +242,29 @@ feature {NONE} -- Internal helpers
 
 	modify_json(resource: JSON_OBJECT)
 		do
+		end
+
+	ensure_valid_json(req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT; required_fields, optional_fields: ARRAY[STRING])
+		local
+			key_str: STRING
+		do
+			if input = Void then
+				reply_with_400_with_data(res, "The received data is not a valid json object!")
+			end
+
+			across required_fields as field loop
+				if no_error_occured_so_far(res) and then not input.has_key (jkey(field.item)) then
+					reply_with_400_with_data(res, "Missing json field for resource creation: " + field.item)
+				end
+			end
+
+			across input.current_keys as key loop
+				key_str := key.item.representation
+				key_str.replace_substring_all("%"", "")
+				if no_error_occured_so_far(res) and then not (string_array_has_item(required_fields, key_str) or string_array_has_item(optional_fields, key_str)) then
+					reply_with_400_with_data(res, "Invalid json field for resource creation: " + key_str)
+				end
+			end
 		end
 
 	pre_insert_action(req: WSF_REQUEST; res: WSF_RESPONSE; input: JSON_OBJECT)
@@ -296,10 +345,12 @@ feature {NONE} -- Internal helpers
             end
 
 			-- Remove quotes from the values
-			across Result as value loop
-				if attached {STRING} value.item as str_value then
-               		str_value.replace_substring_all ("%"", "")
-            	end
+			if Result /= Void then
+				across Result as value loop
+					if attached {STRING} value.item as str_value then
+	               		str_value.replace_substring_all ("%"", "")
+	            	end
+				end
 			end
 		end
 
@@ -377,7 +428,7 @@ feature {NONE} -- Internal helpers
 					if query_result.is_empty then
 						reply_with_404 (res)
 					else
-						true_parent_id := query_result.item (create {JSON_STRING}.make_json (parent_item_singular_name + "_id")).representation
+						true_parent_id := query_result.item (jkey(parent_item_singular_name + "_id")).representation
 						if not requested_parent_id.is_equal(true_parent_id) then
 							reply_with_404 (res)
 						end
@@ -396,7 +447,7 @@ feature {NONE} -- Internal helpers
 				user_id := get_user_id_from_req(req)
 				project_id := req.path_parameter("project_id").string_representation
 				if project_id /= Void and user_id /= Void then
-					project_share := db.query_single_row ("SELECT user_id FROM project_shares WHERE user_id = ? AND project_id = ?", <<user_id, project_id>>).item (create {JSON_STRING}.make_json ("user_id"))
+					project_share := db.query_single_row ("SELECT user_id FROM project_shares WHERE user_id = ? AND project_id = ?", <<user_id, project_id>>).item(jkey("user_id"))
 					if project_share = Void then
 						reply_with_401 (res)
 					end
@@ -421,10 +472,14 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 	ensure_input_validated (req: WSF_REQUEST; res: WSF_RESPONSE; implementation: PROCEDURE [ANY, TUPLE]; input: JSON_OBJECT)
 		do
 			if no_error_occured_so_far(res) then
-				if input /= Void and then is_input_valid(req, input) then
-					implementation.call ([input])
+				if input = Void then
+					reply_with_400_with_data(res, "Received invalid input!")
 				else
-					reply_with_400(res)
+					if is_input_valid(req, input) then
+						implementation.call ([input])
+					else
+						reply_with_400_with_data(res, "Invalid input: " + input.representation)
+					end
 				end
 			end
 		end
@@ -450,5 +505,15 @@ feature {NONE} -- Request preprocessors (validators, etc.)
 	is_input_valid(req: WSF_REQUEST; input: JSON_OBJECT): BOOLEAN
 		do
 			Result := True
+		end
+
+	string_array_has_item(array: ARRAY[STRING]; item: STRING): BOOLEAN
+		do
+			Result := False
+			across array as cur_item loop
+				if cur_item.item.is_equal(item) then
+					Result := True
+				end
+			end
 		end
 end

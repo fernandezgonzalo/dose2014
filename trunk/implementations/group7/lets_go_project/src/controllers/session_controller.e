@@ -127,20 +127,21 @@ feature -- Handlers
 			-- that means we destroy the user's session (if one exists)
 
 		local
-			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
+			l_uuid: detachable READABLE_STRING_32
 		do
-				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
-			create l_session.make (req, "lets_go_session", session_manager)
-			l_session.destroy
+			if attached {WSF_STRING} req.cookie ("lets_go_session") as c_uuid then
+				l_uuid := c_uuid.value
+			elseif attached {WSF_STRING} req.query_parameter ("lets_go_session") as q_uuid then
+				l_uuid := q_uuid.value
+			end
 
-				-- create the response
-				-- create a json object that has a "Message" property that states what happend
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User logged out"), create {JSON_STRING}.make_json ("Message"))
-				-- set the repsone header, indicating that everything went ok by statuscode 204
-			set_json_header (res, 204, l_result.representation.count)
-				-- add the message to the response response
-			res.put_string (l_result.representation)
+			if session_manager.session_exists(l_uuid) then
+				create l_session.make(req, "lets_go_session", session_manager)
+				l_session.destroy
+				reply_with_204(res)
+			else
+				reply_with_404(res)
+			end
 		end
 end

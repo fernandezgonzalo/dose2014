@@ -10,12 +10,29 @@ class
 inherit
 	REST_CONTROLLER
 redefine
+	make,
 	is_input_valid,
 	modify_json
 end
 
 create
 	make
+
+
+feature {NONE} -- Creation
+
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+		do
+			Precursor(a_db, a_session_manager)
+			resource_name := "sprint"
+			table_name := "sprints"
+			uri_id_name := "sprint_id"
+			parent_uri_id_name := "project_id"
+			required_create_new_json_fields := <<"name", "start_date", "end_date", "status">>
+			optional_create_new_json_fields := <<>>
+			required_update_json_fields := <<>>
+			optional_update_json_fields := <<"name", "start_date", "end_date", "status", "id">>
+		end
 
 feature -- Handlers
 

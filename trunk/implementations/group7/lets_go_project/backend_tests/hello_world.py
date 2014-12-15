@@ -4,21 +4,21 @@ import requests
 login_response = requests.post('http://localhost:9090/sessions', data='{"email": "asdf@asdf", "password": "asdfasdf"}')
 cookie = login_response.cookies['lets_go_session']
 
-# response = requests.get('http://localhost:9090/projects/1/messages', cookies=dict(lets_go_session=cookie))
-# print response.text
+response = requests.get('http://localhost:9090/projects/1/messages', cookies=dict(lets_go_session=cookie))
+print response.text
 
-# response = requests.post('http://localhost:9090/projects/1/messages', data='{"text": "test", "user_id":1, "timestamp":"2012-04-23T18:25:43.511", "project_id":1}', cookies=dict(lets_go_session=cookie))
-# print response.text
+response = requests.post('http://localhost:9090/projects/1/messages', data='{"text": "test", "user_id":1, "timestamp":"2012-04-23T18:25:43.511Z"}', cookies=dict(lets_go_session=cookie))
+print response.text
 
 # response = requests.get('http://localhost:9090/projects/1/sprints/1/burndown_chart', cookies=dict(lets_go_session=cookie))
 # print response.text
 
-response = requests.get('http://localhost:9090/projects/1/sprints/1', cookies=dict(lets_go_session=cookie))
-print response.text
+# response = requests.get('http://localhost:9090/projects/1/sprints/1', cookies=dict(lets_go_session=cookie))
+# print response.text
 
-response = requests.put('http://localhost:9090/projects/1/sprints/1', data='{"id":1, "start_date":"2014-01-02", "end_date":"2014-01-30"}', cookies=dict(lets_go_session=cookie))
-print response.text
-print response.status_code
+# response = requests.put('http://localhost:9090/projects/1/sprints/1', data='{"id":1, "start_date":"2014-01-02", "end_date":"2014-01-30"}', cookies=dict(lets_go_session=cookie))
+# print response.text
+# print response.status_code
 
 # new_user_data = '{"firstname": "Aaron", "lastname": "Beisch", "email": "aaron.beisch10@gmail.com", "password": "asdf"}'
 # r = requests.post('http://localhost:9090/users', data=new_user_data)

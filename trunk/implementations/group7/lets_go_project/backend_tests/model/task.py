@@ -25,7 +25,7 @@ def get_task_from_json(json_str):
         comment=json_dict['comment'],
         status=json_dict['status'],
         progress=json_dict['progress'],
-        completion_date=datetime.datetime.strptime(json_dict['completion_date'], "%Y-%m-%d").date(),
+        completion_date=datetime.datetime.strptime(json_dict['completion_date'], "%Y-%m-%d").date() if json_dict['completion_date'] else None,
         owner=json_dict['owner'],
         story_id=json_dict['story_id'],
         assigned_devs=json_dict['assigned_devs'],
@@ -49,6 +49,8 @@ class Task(DatabaseItem):
         self.id = id_
         self.database_fields = ['nr', 'description', 'comment', 'status', 'owner', 'story_id']
         self.non_database_fields = ['assigned_devs']
+        self.non_server_fields = ['completion_date']
+        self.parent_id_name = 'story_id'
         self.table_name = 'tasks'
 
 

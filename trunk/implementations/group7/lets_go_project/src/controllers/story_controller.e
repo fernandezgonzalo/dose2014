@@ -9,11 +9,28 @@ class
 inherit
 	REST_CONTROLLER
 redefine
+	make,
 	modify_json
 end
 
 create
 	make
+
+
+feature {NONE} -- Creation
+
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+		do
+			Precursor(a_db, a_session_manager)
+			resource_name := "story"
+			table_name := "stories"
+			uri_id_name := "story_id"
+			parent_uri_id_name := "sprint_id"
+			required_create_new_json_fields := <<"title", "description">>
+			optional_create_new_json_fields := <<"points", "notes">>
+			required_update_json_fields := <<>>
+			optional_update_json_fields := <<"title", "description", "points", "notes", "id">>
+		end
 
 
 feature {None} -- Internal helpers

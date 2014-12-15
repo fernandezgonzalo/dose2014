@@ -16,9 +16,8 @@ feature
 		do
 			create l_payload.make_empty
 			req.read_input_data_into (l_payload)
-			print("Received json to parse: " + l_payload)
+			print("%N%NJSON: " + l_payload)
 			Result := get_json_object_from_string(l_payload)
-			print("%N%NJSON:" + Result.representation)
 		end
 
 
@@ -28,6 +27,7 @@ feature
 		do
 			create parser.make_parser (data)
 			if attached {JSON_OBJECT} parser.parse as j_object then
+				print(j_object.representation)
 				Result := j_object
 			end
 		end
@@ -48,6 +48,11 @@ feature
 		do
 			Result := json.representation
 			Result.replace_substring_all ("%"", "")
+		end
+
+	jkey(key: STRING): JSON_STRING
+		do
+			Result := create {JSON_STRING}.make_json(key)
 		end
 
 end

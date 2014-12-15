@@ -36,6 +36,7 @@ class Story(DatabaseItem):
         self.tasks = []
         self.database_fields = ['title', 'description', 'points', 'notes', 'sprint_id']
         self.non_database_fields = ['tasks']
+        self.parent_id_name = 'sprint_id'
         self.table_name = 'stories'
 
 

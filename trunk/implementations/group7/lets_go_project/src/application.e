@@ -65,12 +65,12 @@ feature {NONE} -- Initialization
 
 			create session_manager.make
 			create session_ctrl.make(db, session_manager)
-			create task_ctrl.make(db, session_manager, "task", "tasks", "task_id", "story_id")
-			create story_ctrl.make(db, session_manager, "story", "stories", "story_id", "sprint_id")
-			create sprint_ctrl.make(db, session_manager, "sprint", "sprints", "sprint_id", "project_id")
-			create project_ctrl.make(db, session_manager, "project", "projects", "project_id", Void)
-			create user_ctrl.make(db, session_manager, "user", "users", "user_id", Void)
-			create message_ctrl.make(db, session_manager, "message", "messages", "message_id", "project_id")
+			create task_ctrl.make(db, session_manager)
+			create story_ctrl.make(db, session_manager)
+			create sprint_ctrl.make(db, session_manager)
+			create project_ctrl.make(db, session_manager)
+			create user_ctrl.make(db, session_manager)
+			create message_ctrl.make(db, session_manager)
 
 				-- set the port of the web server to 9090
 			set_service_option ("port", 9090)

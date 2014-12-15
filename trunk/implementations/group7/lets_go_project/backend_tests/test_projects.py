@@ -35,12 +35,45 @@ class TestProjects(test_rest_resource.TestRestResource):
             sprints=[],
             id_=2
         )
-        # requests.put(self.single_resource_uri + '/invite_devs', data='{"devs":[1]}', cookies=self.cookies)
+
+        self.invalid_create_new_json = [
+            # Not a json object
+            'Test',
+
+            # Missing status
+            '{"description": "some description", "end_date": "2014-12-31", "start_date": "2013-01-01", "owner": 1, "name": "Test Project"}',
+
+            # Missing description
+            '{"status": 1, "end_date": "2014-12-31", "start_date": "2013-01-01", "owner": 1, "name": "Test Project"}',
+
+            # Missing end_date
+            '{"status": 1, "description": "some description", "start_date": "2013-01-01", "owner": 1, "name": "Test Project"}',
+
+            # Missing start_date
+            '{"status": 1, "description": "some description", "end_date": "2014-12-31", "owner": 1, "name": "Test Project"}',
+
+            # Missing owner
+            '{"status": 1, "description": "some description", "end_date": "2014-12-31", "start_date": "2013-01-01", "name": "Test Project"}',
+
+            # Missing name
+            '{"status": 1, "description": "some description", "end_date": "2014-12-31", "start_date": "2013-01-01", "owner": 1}',
+
+            # Additional non-existing field (a)
+            '{"status": 1, "description": "some description", "end_date": "2014-12-31", "start_date": "2013-01-01", "owner": 1, "name": "Test Project", "a": "a"}',
+
+            # Additional existing field (id)
+            '{"status": 1, "description": "some description", "end_date": "2014-12-31", "start_date": "2013-01-01", "owner": 1, "name": "Test Project", "id":1}'
+        ]
+
+        self.invalid_update_json = [
+            # Non-existing field
+            '{"a": "a"}',
+        ]
 
     def test_invite_developers(self):
         method = requests.put
         uri = self.single_resource_uri + '/invite_dev'
-        data = '{"email":"abdul.beirne@gmail.com"}'
+        data = '{"email":"vimal@chellakudam"}'
         self.ensure_unauthorized_fails_authorized_passes(method, uri, 204, data=data)
 
     def test_remove_developers(self):
