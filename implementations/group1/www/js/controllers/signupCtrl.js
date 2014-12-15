@@ -16,7 +16,6 @@ angular.module('DOSEMS.controllers')
                 passwordRepeat: ''
             };
             $scope.$passwordErro = false;
-            $scope.singupSuccess = true;
 
 
         };
