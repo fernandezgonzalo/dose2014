@@ -380,12 +380,13 @@ feature --handlers
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
-
+			create l_payload.make_empty
+			create l_result.make
 				-- catching the user EMAIL from the cookie
 			if req_has_cookie(req, "_session_") then
 				l_email := get_session_from_req(req, "_session_").at("email").out
 			end
-
+			--l_email := "marid06@hotmail.fr"
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
 

@@ -435,7 +435,7 @@ feature --data access: USERS
 
 		end
 
-	update_user_information(an_email, a_name, a_surname, a_role, a_path_to_a_photo:STRING;)
+	update_user_information(an_email, a_name, a_surname, a_role, a_path_to_a_photo:STRING)
 		--updates an existing user's information into the database.
 		--requires:
 		--	an EMAIL of the user, which must be a valid email address, and already present into the database
@@ -450,13 +450,12 @@ feature --data access: USERS
 			valid_role: a_role /= VOID
 			valid_photo: a_path_to_a_photo /= VOID
 			existing_user: check_if_mail_already_present(an_email)
-
-		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 		do
-			create db_modify_statement.make ("UPDATE user SET name = ? AND surname = ? AND role = ? AND photo = ? WHERE email = '" + an_email + "';" , db)
-			l_query_result_cursor := db_modify_statement.execute_new_with_arguments (<<a_name, a_surname, a_role, a_path_to_a_photo>>)
-
+			create db_modify_statement.make ("UPDATE user SET name='"+ a_name + "' , surname='"+a_surname+"' , role='"+a_role+"' , photo='"+a_path_to_a_photo+"' WHERE email='"+an_email+"';", db)
+			db_modify_statement.execute
+			if db_modify_statement.has_error then
+				print("Error while updating user information")
+			end
 		end
 
 
