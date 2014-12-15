@@ -87,7 +87,7 @@ feature -- Test routines
 				-- assert when the project was successfully updated.
 			assert("Project successfully updated", not db_handler.db_modify_statement.has_error)
 
-				-- remove the user added for test
+				-- remove the project added for test
 			db_handler.db.rollback
 		end
 
@@ -110,7 +110,7 @@ feature -- Test routines
 
 			assert("Project removed ", not db_handler.db_insert_statement.has_error)
 
-				-- remove the user added for test
+				-- remove the project added for test
 			db_handler.db.rollback
 		end
 
