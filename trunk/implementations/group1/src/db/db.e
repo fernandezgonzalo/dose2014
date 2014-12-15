@@ -476,8 +476,8 @@ feature -- Data access Requirement
 			-- returns a JSON_ARRAY where each element is a JSON_OBJECT that represents a Requirement
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT * FROM Requirement WHERE id_project = "+id_project.out+";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
+			create db_query_statement.make ("SELECT * FROM Requirement WHERE id_project = '"+id_project.out+"';", db)
+			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
 		end
@@ -489,7 +489,7 @@ feature -- Data access Requirement
 		do
 			create Result.make_array
 			create db_query_statement.make ("SELECT * FROM Requirement WHERE id=" + id.out + ";", db)
-			db_query_statement.execute (agent rows_to_json_array(?, 5, Result))
+			db_query_statement.execute (agent rows_to_json_array(?, 4, Result))
 		ensure
 			query_not_null: db_query_statement /= Void
 		end

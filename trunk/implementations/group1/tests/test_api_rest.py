@@ -66,16 +66,25 @@ def delete_project (session, id_user, id_project):
 
 def update_project(session, id_user, id_project, name, info):
 	uri_update_project = "http://localhost:9090/api/users/%s/projects/%s" % (id_user, id_project)
-	payload = {"name": name, "info": info}
 	headers = {"content-type": "application/json"}
 	return session.put(uri_update_project, data=json.dumps(payload), headers=headers)
+
+# REQUIREMENTS
+
+def get_requirements (session, id_project):
+	uri_get_requirement = "http://localhost:9090/api/users/projects/%s/requirements" % id_project
+	headers = {"content-type": "application/json"}
+	return session.get(uri_get_requirement, headers=headers)
 
 if __name__ == '__main__':
 	s = requests.Session()
 	print "[*] Login with email:asd@asd.com and password:asd"
-	print do_login(s, "asd@asd.com", "aaa")
+	print do_login(s, "asd@asd.com", "asd")
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
+	print " "
+	print get_requirements (s,53).content
+
 
 
 
