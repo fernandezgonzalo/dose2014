@@ -21,7 +21,7 @@
                             </label> -->
                     </div>
                     <a ng-href="#/user/{{userId}}/project/{{projectId}}/manageproject">
-                        <button align="center" class="buttons" type="button">ManageProject</button>
+                        <button align="center" class="buttons dasboard-button" type="button">ManageProject</button>
                     </a>
                 </div>
                 <!-- end div well -->
@@ -58,7 +58,7 @@
                         </table>
                     </div>
 					<p></p>
-					<button type="button" class="buttons" data-toggle="modal" data-target="#createTaskModal" ng-show="userRole[0].role!='DEV'">Create task</button>
+					<button type="button" class="buttons dasboard-button" data-toggle="modal" data-target="#createTaskModal" ng-show="userRole[0].role!='DEV'">Create task</button>
                 </div>
                 <!-- end div well -->
             </div>
@@ -77,10 +77,10 @@
             <ul ng-repeat="user in usersFromProj">
                 <li><a ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
             </ul>
-            <button type="button" class="buttons"><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
+            <button type="button" class="buttons dasboard-button"><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
             <h3> User ranking</h3>
             <a ng-href="#/user/{{userId}}/project/{{projectId}}/ranking">
-                <button type="button" class="buttons">
+                <button type="button" class="buttons dasboard-button">
                     Ranking
                 </button>
             </a>
