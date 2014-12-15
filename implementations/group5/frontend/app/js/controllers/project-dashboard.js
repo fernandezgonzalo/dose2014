@@ -2,11 +2,20 @@
 
 angular.module('Mgmt')
        .controller('ProjectDashboardController', ['$scope', '$log', '$location',
-                   '$routeParams', 'Utility', 'Project', 'Task', 'Datepicker',
+                   '$routeParams', 'Utility', 'Project', 'Task', 'Datepicker', 'User',
                    function ($scope, $log, $location, $routeParams,
-                             Utility, Project, Task, Datepicker) {
+                             Utility, Project, Task, Datepicker, User) {
 
-  $log.debug('ProjectDashboardController::init');
+  var TAG = 'ProjectDashboardController::';
+  $log.debug(TAG, 'init');
+
+  $scope.userHash = {};
+  User.query(function(users) {
+    for (var i = 0; i < users.length; ++i) {
+      var user = users[i];
+      $scope.userHash[user.id] = user;
+    }
+  });
 
   // Retrieve data for current project.
   if ($routeParams.id) {

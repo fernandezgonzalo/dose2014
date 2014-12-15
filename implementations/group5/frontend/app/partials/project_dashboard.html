@@ -40,12 +40,12 @@
                 <div ng-model="swimlanes.stopped" ng-repeat="task in swimlanes.stopped" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
-
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
                   <div class="task-content" style="text-shadow: #CD5250 0 0">
-                    {{task.title}}
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
                   </div>
 
                 </div>
@@ -66,12 +66,12 @@
                 <div ng-model="swimlanes.created" ng-repeat="task in swimlanes.created" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
-
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
                   <div class="task-content" style="text-shadow: #E3A64A 0 0">
-                    {{task.title}}
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
                   </div>
 
                 </div>
@@ -92,12 +92,12 @@
                 <div ng-model="swimlanes.in_progress" ng-repeat="task in swimlanes.in_progress" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
-
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
                   <div class="task-content" style="text-shadow: #3B88AE 0 0">
-                    {{task.title}}
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
                   </div>
 
                 </div>
@@ -118,12 +118,12 @@
                 <div ng-model="swimlanes.finished" ng-repeat="task in swimlanes.finished" data-drag="true"
                   jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
                   onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
-                  class="btn btn-block active task-draggable" ng-class=dragDropClass(task.id)
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
                   ng-click="openTask(task)" data-toggle="modal"
                   data-target="#taskModal">
-
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
                   <div class="task-content" style="text-shadow: #4D984E 0 0">
-                    {{task.title}}
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
                   </div>
 
                 </div>
@@ -191,3 +191,5 @@
 
 
 </div>  
+
+
