@@ -21,14 +21,19 @@ feature
 			payload: STRING
 			parser: JSON_PARSER
 			j_obj: JSON_OBJECT
+			id: STRING
 		do
 			create payload.make_empty
+			create id.make_empty
+
+			id := req.path_parameter ("id").string_representation
+
 			req.read_input_data_into(payload)
 			create parser.make_parser(payload)
 
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 				j_obj := j_object
-				db_model.update_fields(j_obj)
+				db_model.update_fields(j_obj, id.to_integer)
 			end
 		end
 
