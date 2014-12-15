@@ -509,12 +509,12 @@ feature --handlers about work_items
 					given_work_item:=my_db.work_item_info (l_id)
 					-- Update the numbers of the work_item which have a greater number
 					my_db.update_number(l_id)
-					-- Remove all links regardin this work_item
-					my_db.remove_all_work_item_links (l_id)
 					-- Remove all comments regardin this work_item
 					my_db.remove_all_work_item_comments (l_id)
 					-- Remore the given work_item
 					my_db.remove_work_item (l_id)
+					-- Remove all links regardin this work_item
+					my_db.remove_all_work_item_links (l_id)
 					-- Send an appropriate message
 					l_result_payload.put ( create {JSON_STRING}.make_json ("SUCCESS: The work_item with id '" + l_id.out + "' was removed successfully."), create {JSON_STRING}.make_json ("success"))
 					set_json_header_ok (res, l_result_payload.representation.count)
@@ -530,7 +530,7 @@ feature --handlers about work_items
 					end
 					-- Adds code for sending email to the owners of the project
 					create j_owners.make_array
-					-- Retrieve the owners email
+					-- Retrieves the owners email
 					j_owners:=my_db.get_all_project_owners(project)
 					create array_owners.make (j_owners.count)
 					across j_owners.array_representation as array loop
