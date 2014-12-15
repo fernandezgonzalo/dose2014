@@ -20,14 +20,14 @@
 				</tr>
 			</table>
 			<div class="buttons">
-				<div>
+				<div ng-show="userRole[0].role=='Project Manager'">
 					<a class="link-button" ng-click="removeSprint(sprint.id)"><span>Remove Sprint</span></a>
 				</div>
 			</div>
 		</li>
 	</ol>
 	<div class="buttons">
-		<div>
+		<div ng-show="userRole[0].role =='Team Leader' || userRole[0].role =='Project Manager'">
 			<a class="link-button" ng-click="addSprint()"><span>Add Sprint</span></a>
 		</div>
 	</div>
@@ -61,8 +61,8 @@
 	<div class="buttons">
 		<div class="label-div">New Requirement:</div>
 		<div class="add-requirement"><input type="text" ng-model="newRequirement"></div>
-		<div class="add-requirement">
-			<a class="link-button" ng-click="addRequirement()"><span>Add Requirement</span></a>
+		<div class="add-requirement" >
+			<a class="link-button" ng-click="addRequirement()" ng-disabled="userRole[0].role !='DEV'"><span>Add Requirement</span></a>
 		</div>
 	</div>
 </div>
