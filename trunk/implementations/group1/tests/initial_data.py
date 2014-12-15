@@ -30,12 +30,12 @@ def clean_database():
 def make_hashed_password(email, password):
     return sha256(email + password).hexdigest().upper()
 
-def create_random_users(num):
-    logger.info("Create %d users" % num)
+def create_random_users_and_proj(num_user, num_proj):
+    logger.info("Create %d users" % num_user)
     user = User.create(name="Bob", lastname="Esponja", email="bob_esponja@gmail.com", password=make_hashed_password("bob_esponja@gmail.com", "asd"), active="1", rol="1")
     user.save()
-    create_random_projects_for_user(user.id, 2)
-    for x in xrange(num-1):
+    create_random_projects_for_user(user.id, num_proj)
+    for x in xrange(num_user-1):
         name = fak.first_name()
         lastname = fak.last_name()
         email = fak.email()
@@ -44,7 +44,7 @@ def create_random_users(num):
         rol = "1"
         user = User(name=name, lastname=lastname, email=email, password=make_hashed_password(email, password), active=active, rol=rol)
         user.save()
-        create_random_projects_for_user(user.id, 2)
+        create_random_projects_for_user(user.id, num_proj)
 
 
 def create_random_projects_for_user(id_user, num):
@@ -54,11 +54,14 @@ def create_random_projects_for_user(id_user, num):
         info = fak.sentence()
         project = Project.create(name=name, info=info)
         project.save()
-
         Userproject.raw('INSERT INTO userproject (id_user, id_project, role) VALUES (?,?,?)', id_user, project.id, "DEV").execute()
+        create_random_sprint(2, project.id)
 
-
+def create_random_sprint(num, id_project):
+    logger.info("Create %d sprints in %d project" % (num, id_project))
+    for x in xrange(num):
+        sp = Sprint.raw('INSERT INTO SPRINT (id_project, duration) VALUES (?,?)', id_project, "5").execute()
 
 if __name__ == '__main__':
     clean_database()
-    create_random_users(3)
+    create_random_users_and_proj(3, 2)
