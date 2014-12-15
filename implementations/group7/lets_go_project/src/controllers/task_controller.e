@@ -9,6 +9,7 @@ class
 inherit
 	REST_CONTROLLER_REFERENCING_USER
 redefine
+	make,
 	modify_json,
 	add_user_transaction,
 	remove_user_transaction,
@@ -18,6 +19,22 @@ end
 
 create
 	make
+
+
+feature {NONE} -- Creation
+
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+		do
+			Precursor(a_db, a_session_manager)
+			resource_name := "task"
+			table_name := "tasks"
+			uri_id_name := "task_id"
+			parent_uri_id_name := "story_id"
+			required_create_new_json_fields := <<"nr", "description", "comment", "status", "owner">>
+			optional_create_new_json_fields := <<"progress">>
+			required_update_json_fields := <<>>
+			optional_update_json_fields := <<"nr", "description", "comment", "status", "owner", "progress", "id">>
+		end
 
 
 feature {None} -- Internal helpers

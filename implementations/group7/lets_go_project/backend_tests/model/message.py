@@ -26,6 +26,7 @@ class Message(DatabaseItem):
         self.id = id_
         self.database_fields = ['text', 'timestamp', 'project_id', 'user_id']
         self.non_database_fields = []
+        self.parent_id_name = 'project_id'
         self.table_name = 'messages'
 
 

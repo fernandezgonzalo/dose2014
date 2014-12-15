@@ -41,6 +41,7 @@ class Sprint(DatabaseItem):
         self.stories = stories
         self.database_fields = ['name', 'start_date', 'end_date', 'status', 'project_id']
         self.non_database_fields = ['stories']
+        self.parent_id_name = 'project_id'
         self.table_name = 'sprints'
 
 

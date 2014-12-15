@@ -9,6 +9,7 @@ class
 inherit
 	REST_CONTROLLER_REFERENCING_USER
 redefine
+	make,
 	modify_json,
 	get_get_all_query_statement,
 	post_insert_action,
@@ -18,6 +19,22 @@ end
 
 create
 	make
+
+
+feature {NONE} -- Creation
+
+	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+		do
+			Precursor(a_db, a_session_manager)
+			resource_name := "project"
+			table_name := "projects"
+			uri_id_name := "project_id"
+			parent_uri_id_name := Void
+			required_create_new_json_fields := <<"name", "description", "start_date", "end_date", "status", "owner">>
+			optional_create_new_json_fields := <<>>
+			required_update_json_fields := <<>>
+			optional_update_json_fields := <<"name", "description", "start_date", "end_date", "status", "owner", "id">>
+		end
 
 
 feature -- Handlers

@@ -6,7 +6,7 @@ note
 class
 	HTTP_RESPONSE_HELPER
 
-	
+
 inherit
 	HEADER_JSON_HELPER
 		-- inherit this helper to get a procedure that simplifies setting
@@ -61,5 +61,29 @@ feature {NONE} -- Http responses
 	reply_with_500 (res: WSF_RESPONSE)
 		do
 			res.set_status_code({HTTP_STATUS_CODE}.internal_server_error)
+		end
+
+
+	reply_with_400_with_data(res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data (res, {HTTP_STATUS_CODE}.bad_request, data)
+		end
+
+
+	reply_with_401_with_data(res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data (res, {HTTP_STATUS_CODE}.not_found, data)
+		end
+
+
+	reply_with_404_with_data(res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data (res, {HTTP_STATUS_CODE}.not_found, data)
+		end
+
+
+	reply_with_500_with_data(res: WSF_RESPONSE; data: STRING)
+		do
+			reply_with_statuscode_with_data (res, {HTTP_STATUS_CODE}.internal_server_error, data)
 		end
 end

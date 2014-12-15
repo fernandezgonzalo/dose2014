@@ -10,41 +10,30 @@ class TestRestResource(unittest.TestCase):
         self.root_uri = 'http://%s:%d/' % (config.HOST, config.PORT)
         cookie = requests.post(self.root_uri + 'sessions', data='{"email": "asdf@asdf", "password": "asdfasdf"}').cookies['lets_go_session']
         self.cookies = dict(lets_go_session=cookie)
+        self.invalid_create_new_json = []
+        self.invalid_update_json = []
 
     def test_get_all(self):
         method = requests.get
         uri = self.resources_uri
         self.ensure_unauthorized_fails_authorized_passes(method, uri, 200)
 
-    def test_create_new(self):
-        method = requests.post
-        uri = self.resources_uri
-        data = self.example_resource.get_json_with_database_fields_without_id()
-        self.ensure_unauthorized_fails_authorized_passes(method, uri, 201, data=data)
-
     def test_get(self):
         method = requests.get
         uri = self.single_resource_uri
         self.ensure_unauthorized_fails_authorized_passes(method, uri, 200)
 
-    def test_update(self):
-        method = requests.put
-        uri = self.single_resource_uri
-        data = self.update_resource.get_json_with_database_fields_without_id()
-        self.ensure_unauthorized_fails_authorized_passes(method, uri, 204, data=data)
+    def test_create_new_with_invalid_json(self):
+        """Check that creating a new resource with invalid json fails."""
+        for json_data in self.invalid_create_new_json:
+            response = requests.post(self.resources_uri, data=json_data, cookies=self.cookies)
+            self.assertEqual(response.status_code, 400)
 
-    def test_delete(self):
-
-        # Create
-        data = self.example_resource.get_json_with_database_fields_without_id()
-        response = requests.post(self.resources_uri, data=data, cookies=self.cookies)
-        self.assertEqual(response.status_code, 201)
-        id_ = int(response.text)
-        self.example_resource.id = id_
-        single_resource_uri = '%s/%d' % (self.resources_uri, self.example_resource.id)
-
-        method = requests.delete
-        self.ensure_unauthorized_fails_authorized_passes(method, single_resource_uri, 204)
+    def test_update_with_invalid_json(self):
+        """Check that updating a resource with invalid json fails."""
+        for json_data in self.invalid_update_json:
+            response = requests.put(self.single_resource_uri, data=json_data, cookies=self.cookies)
+            self.assertEqual(response.status_code, 400)
 
     def test_create_update_delete(self):
 

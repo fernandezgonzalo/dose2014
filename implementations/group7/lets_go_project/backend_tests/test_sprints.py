@@ -23,8 +23,8 @@ class TestSprints(test_rest_resource.TestRestResource):
 
         self.update_resource = Sprint(
             name="Updated Test Sprint",
-            start_date=date(2015, 1, 2),
-            end_date=date(2015, 12, 2),
+            start_date=date(2017, 2, 1),
+            end_date=date(2017, 2, 28),
             status=2,
             project_id=1,
             stories=[],

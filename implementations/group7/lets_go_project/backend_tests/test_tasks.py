@@ -31,7 +31,7 @@ class TestTasks(test_rest_resource.TestRestResource):
             comment='some updated comment',
             status=2,
             progress=100,
-            completion_date=datetime.date(2014, 12, datetime.datetime.now().day),
+            completion_date=None,
             owner=2,
             story_id=1,
             assigned_devs=[],
