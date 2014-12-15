@@ -8,7 +8,7 @@ note
 	testing: "type/manual"
 
 class
-	MAKE_AT_TASK
+	AT_TASK
 
 inherit
 	EQA_TEST_SET

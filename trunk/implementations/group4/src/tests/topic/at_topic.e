@@ -8,7 +8,7 @@ note
 	testing: "type/manual"
 
 class
-	MAKE_AT_TOPIC
+	AT_TOPIC
 
 inherit
 	EQA_TEST_SET
