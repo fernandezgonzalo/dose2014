@@ -6,7 +6,7 @@
                 <div class="well">
 
                     <h2>List of Sprints</h2>
-
+					<h5 ng-if="sprintsIdForProject.length!=0">Click on a sprint to see the tasks</h5>
                     <div>
                         <label ng-if="sprintsIdForProject.length==0">There are no sprints for this project! Go to
                             Project
@@ -22,7 +22,7 @@
                             </label> -->
                     </div>
                     <a ng-href="#/user/{{userId}}/project/{{projectId}}/manageproject">
-                        <button align="center">ManageProject</button>
+                        <button align="center" class="buttons" type="button">ManageProject</button>
                     </a>
                 </div>
                 <!-- end div well -->
@@ -33,23 +33,22 @@
             <div class="col-md-7">
                 <div class="well" ng-if="sprintsIdForProject.length!=0 && nrOfFctAccess!=0">
                     <label ng-if="tasksForSprint.length==0 && nrOfFctAccess!=0">There are no tasks for this sprint
-                        yet!Go to Project
-                        Management and add some!
+                        yet! Why don't you create some?
                     </label>
-					<button type="button" class="buttons" data-toggle="modal" data-target="#createTaskModal">Create task</button>
+					
 
                     <div class="procedure-details" ng-show="!!tasksForSprint.length">
                         <h2>Tasks for Sprint {{sprintIdDisplay}}</h2>
                         <table cellpadding="30">
                             <tr class="row" align="center">
-                                <th style="text-align:center" class="col-md-1">Id</th>
+                                
                                 <th style="text-align:center" class="col-md-2">Name</th>
                                 <th style="text-align:center" class="col-md-3">User</th>
                                 <th style="text-align:center" class="col-md-4">Status</th>
                                 <th style="text-align:center" class="col-md-5">Points</th>
                             <tr>
                             <tr class="row" ng-repeat="task in tasksForSprint" align="center">
-                                <td class="col-md-1">{{task.id_task}}</td>
+                                
                                 <td class="col-md-2"><a
                                         ng-href="#/user/{{userId}}/project/{{projectId}}/{{task.id_task}}">{{task.desc}}</a>
                                 </td>
@@ -59,6 +58,8 @@
                             <tr>
                         </table>
                     </div>
+					<p></p>
+					<button type="button" class="buttons" data-toggle="modal" data-target="#createTaskModal">Create task</button>
                 </div>
                 <!-- end div well -->
             </div>
@@ -77,7 +78,7 @@
             <ul ng-repeat="user in usersFromProj">
                 <li><a ng-href="#/user/{{userId}}/project/{{projectId}}/userDetail/{{user.id}}">{{user.name}}</a></li>
             </ul>
-            <button><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
+            <button type="button" class="buttons"><a ng-href="#/user/{{userId}}/project/{{projectId}}/manageusers">ManageUsers</a></button>
             <h3> User ranking</h3>
             <a ng-href="#/user/{{userId}}/project/{{projectId}}/ranking">
                 <button type="button" class="buttons">
@@ -102,35 +103,25 @@
 		<form ng-submit="addTask()">
 
 			<div class="form-group">
-				<label class="control-label">Description</label>	
-				<input class="form-control" type="text" ng-model="newTask.desc" required>
+				<label class="control-label">Name</label>	
+				<input class="form-control" type="text" ng-model="newTask.desc" required placeholder="Enter task name">
 			</div>
 	
 			<div class="form-group">
-				<label class="control-label">Comment</label>	
-				<input class="form-control" type="text" ng-model="newTask.comment" required>
+				<label class="control-label">Description</label>	
+				<input class="form-control" type="text" ng-model="newTask.comment" required placeholder="Enter task description">
 			</div>
 	
 			<div class="form-group">
 				<label class="control-label">Duration</label>	
-				<input class="form-control" type="text" ng-model="newTask.duration" required>
+				<input class="form-control" type="text" ng-model="newTask.duration" required placeholder="Enter the duration (days) of a task">
 			</div>
 	
 			<div class="form-group">
 				<label class="control-label">Points</label>	
-				<input class="form-control" type="text" ng-model="newTask.points" required>
-			</div>
-	
-			<div class="form-group">
-				<label class="control-label">Status</label>	
-				<input class="form-control" type="text" ng-model="newTask.status" required>
+				<input class="form-control" type="text" ng-model="newTask.points" required placeholder="Enter the number of points for this task ">
 			</div>
 			
-	<!--		<div class="form-group">
-				<label class="control-label">id_user</label>	
-				<input class="form-control" type="text" ng-model="newTask.id_user" required>
-			</div>
-	-->		
 			<div class="form-group">
 			  <label>User</label>
 			  <select ng-model="newTask.id_user" class="form-control">
