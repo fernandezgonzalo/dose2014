@@ -40,7 +40,7 @@ feature {None} -- Internal helpers
 			tasks: JSON_ARRAY
 			story_id: STRING
 		do
-			story_id := story.item(create {JSON_STRING}.make_json ("id")).representation
+			story_id := story.item(jkey("id")).representation
 			tasks := db.query_id_list("SELECT id FROM tasks WHERE story_id = ?", <<story_id>>)
 			story.put (tasks, "tasks")
 		end

@@ -44,7 +44,7 @@ feature {None} -- Internal helpers
 		local
 			email_key: JSON_STRING
 		do
-			create email_key.make_json("email")
+			email_key := jkey("email")
 			Result := not input.has_key(email_key) or input.has_key(email_key) and then match_email(input.item(email_key).representation)
 		end
 
@@ -77,7 +77,7 @@ feature {None} -- Internal helpers
 
 	post_update_action(req: WSF_REQUEST; res: WSF_RESPONSE; user_id: STRING; input: JSON_OBJECT)
 		do
-			if input.has_key (create {JSON_STRING}.make_json("password")) then
+			if input.has_key (jkey("password")) then
 				hash_and_store_password_from_json(user_id, input)
 			end
 		end
@@ -88,8 +88,7 @@ feature {None} -- Internal helpers
 			existing_users: JSON_ARRAY
 		do
 			if input.has_key(jkey("email")) then
-				email := input.item(jkey("email")).representation
-				email.replace_substring_all ("%"", "")
+				email := get_string_from_json(input.item(jkey("email")))
 				if existing_resource_id = Void then
 					existing_users := db.query_rows("SELECT id FROM users WHERE email=?", <<email>>)
 				else
@@ -111,7 +110,7 @@ feature {None} -- Internal helpers
 			dummy: ANY
 		do
 			-- Extract the password from the given json input
-			password_key := create {JSON_STRING}.make_json("password")
+			password_key := jkey("password")
 			password := input.item(password_key).representation
 			password := password.substring (2, password.count - 1)
 
@@ -130,7 +129,7 @@ feature {None} -- Internal helpers
 			projects: JSON_ARRAY
 			user_id: STRING
 		do
-			user_id := user.item(create {JSON_STRING}.make_json ("id")).representation
+			user_id := user.item(jkey("id")).representation
 			assigned_tasks := db.query_id_list("SELECT task_id FROM task_assignments WHERE user_id = ?", <<user_id>>)
 			projects := db.query_id_list("SELECT project_id FROM project_shares WHERE user_id = ?", <<user_id>>)
 			user.put (assigned_tasks, "assigned_tasks")

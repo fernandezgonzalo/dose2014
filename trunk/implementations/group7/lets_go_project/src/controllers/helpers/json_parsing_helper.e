@@ -1,16 +1,43 @@
 note
-	description: "Helper methods for json parsing."
+	description: "Helper methods for dealin with json."
 	author: "ar"
 	date: "18.11.14"
-	revision: "$Revision$"
-
-class
-	JSON_PARSING_HELPER
 
 
-feature
+deferred class
+	JSON_HELPER
+
+
+feature {NONE} -- String to json conversion and vice versa
+
+	jkey(key: STRING): JSON_STRING
+			-- Returns a json string for 'key'.
+		do
+			Result := create {JSON_STRING}.make_json(key)
+		end
+
+
+	get_string_from_json(value: JSON_VALUE): STRING
+			-- Return the given 'json' value without quotes.
+		do
+			Result := get_without_quotes(value.representation)
+		end
+
+
+	get_without_quotes(value: STRING): STRING
+			-- Return the given 'value' without quotes.
+		do
+			Result := value
+			Result.replace_substring_all("%"", "")
+		end
+
+
+
+feature {NONE} -- Json to object conversion (json parsing helpers)
 
 	get_json_object_from_request(req: WSF_REQUEST): JSON_OBJECT
+			-- Read and parse the content of the request 'req' and return the corresponding json object
+			-- To be used for content of the form {"key": value}
 		local
 			l_payload: STRING
 		do
@@ -22,6 +49,8 @@ feature
 
 
 	get_json_object_from_string(data: STRING): JSON_OBJECT
+			-- Parse the content of the request 'req' and return the corresponding json object
+			-- To be used for content of the form {"key": value}
 		local
 			parser: JSON_PARSER
 		do
@@ -33,6 +62,8 @@ feature
 
 
 	get_json_array_from_string(data: STRING): JSON_ARRAY
+			-- Parse the content of the request 'req' and return the corresponding array of json objects
+			-- To be used for content of the form [{"key": value}, {"key": value}]
 		local
 			parser: JSON_PARSER
 		do
@@ -41,17 +72,4 @@ feature
 				Result := j_array
 			end
 		end
-
-
-	get_string_from_json(json: JSON_VALUE): STRING
-		do
-			Result := json.representation
-			Result.replace_substring_all ("%"", "")
-		end
-
-	jkey(key: STRING): JSON_STRING
-		do
-			Result := create {JSON_STRING}.make_json(key)
-		end
-
 end

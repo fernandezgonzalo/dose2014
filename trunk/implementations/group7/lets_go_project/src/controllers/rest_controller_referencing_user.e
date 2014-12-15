@@ -51,7 +51,7 @@ feature {None} -- Internal helpers
 		do
 			resource_id := req.path_parameter (uri_id_name).string_representation
 
-			if input.has_key(create {JSON_STRING}.make_json("emails")) then
+			if input.has_key(jkey("emails")) then
 
 			end
 

@@ -6,6 +6,9 @@ note
 class
 	DATABASE
 
+inherit
+	JSON_HELPER
+
 create
 	make
 
@@ -150,14 +153,14 @@ feature {NONE} -- Format helpers
 				i > a_row.count
 			loop
 				column_name := a_row.column_name(i)
-				create key.make_json (a_row.column_name(i))
+				key := jkey(a_row.column_name(i))
 				if a_row.is_null(i) then
 					a_result_object.put(create {JSON_NULL}, key)
 				else
 					if a_row.type (i) = 1 then
 						a_result_object.put (create {JSON_NUMBER}.make_integer(a_row.integer_value (i)), key)
 					else
-						a_result_object.put (create {JSON_STRING}.make_json(a_row.string_value(i)), key)
+						a_result_object.put (jkey(a_row.string_value(i)), key)
 					end
 				end
 				i := i + 1

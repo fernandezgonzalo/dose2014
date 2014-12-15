@@ -52,22 +52,19 @@ feature -- Handlers
 
 			across completions as completion loop
 				if attached {JSON_OBJECT} completion.item as completion_obj then
-					completion_date_str := completion_obj.item(create {JSON_STRING}.make_json ("completion_date")).representation
-					completion_date_str.replace_substring_all ("%"", "")
-					completions_table.put (completion_obj.item(create {JSON_STRING}.make_json ("completed")).representation, completion_date_str)
+					completion_date_str := get_string_from_json(completion_obj.item(jkey("completion_date")))
+					completions_table.put (completion_obj.item(jkey("completed")).representation, completion_date_str)
 				end
 			end
 
 			print(completions_table)
 
-			total_task_count := db.query_single_row ("SELECT COUNT(*) AS c FROM tasks WHERE story_id IN (" + story_ids_str + ")", Void).item (create {JSON_STRING}.make_json ("c")).representation
+			total_task_count := db.query_single_row ("SELECT COUNT(*) AS c FROM tasks WHERE story_id IN (" + story_ids_str + ")", Void).item (jkey("c")).representation
 			total_task_count_int := total_task_count.to_integer
 
 			dates_json := db.query_single_row ("SELECT start_date, end_date FROM sprints WHERE id = ?", <<get_id (req)>>)
-			start_date_str := dates_json.item(create {JSON_STRING}.make_json ("start_date")).representation
-			end_date_str := dates_json.item(create {JSON_STRING}.make_json ("end_date")).representation
-			start_date_str.replace_substring_all ("%"", "")
-			end_date_str.replace_substring_all ("%"", "")
+			start_date_str := get_string_from_json(dates_json.item(jkey("start_date")))
+			end_date_str := get_string_from_json(dates_json.item(jkey("end_date")))
 			create start_date.make_from_string (start_date_str, "yyyy-[0]mm-[0]dd")
 			create end_date.make_from_string (end_date_str, "yyyy-[0]mm-[0]dd")
 
@@ -151,13 +148,11 @@ feature {None} -- Internal helpers
 					if input.has_key (start_date_key) and not input.has_key (end_date_key) then
 							-- only start_date given, end_date remains unchanged
 						start_date := get_string_from_json(input.item(start_date_key))
-						end_date := db.query_single_row ("SELECT end_date FROM sprints WHERE id = ?", <<sprint_id>>).item(end_date_key).representation
-						end_date.replace_substring_all ("%"", "")
+						end_date := get_string_from_json(db.query_single_row ("SELECT end_date FROM sprints WHERE id = ?", <<sprint_id>>).item(end_date_key))
 
 					elseif input.has_key (end_date_key) and not input.has_key (start_date_key) then
 							-- only end_date given, start_date remains unchanged
-						start_date := db.query_single_row ("SELECT start_date FROM sprints WHERE id = ?", <<sprint_id>>).item(start_date_key).representation
-						start_date.replace_substring_all ("%"", "")
+						start_date := get_string_from_json(db.query_single_row ("SELECT start_date FROM sprints WHERE id = ?", <<sprint_id>>).item(start_date_key))
 						end_date := get_string_from_json(input.item(end_date_key))
 
 					elseif input.has_key (start_date_key) and input.has_key (end_date_key) then
@@ -205,7 +200,7 @@ feature {None} -- Internal helpers
 			stories: JSON_ARRAY
 			sprint_id: STRING
 		do
-			sprint_id := sprint.item(create {JSON_STRING}.make_json ("id")).representation
+			sprint_id := sprint.item(jkey("id")).representation
 			stories := db.query_id_list("SELECT id FROM stories WHERE sprint_id = ?", <<sprint_id>>)
 			sprint.put (stories, "stories")
 		end
