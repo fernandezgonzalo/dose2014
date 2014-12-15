@@ -1,7 +1,7 @@
 import unittest
 import requests
 import json
-from test_api_rest import *
+from api_rest import *
 from models import *
 from faker import Factory
 import logging
