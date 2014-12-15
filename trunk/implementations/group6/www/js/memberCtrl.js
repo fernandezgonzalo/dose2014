@@ -9,11 +9,12 @@ angular.module('Wbpms')
         $scope.project = ProjectData;
         $scope.eMailUser = UserData;
         $scope.members = [];
-        $scope.searchMember = SearchMemberData
+        $scope.searchData = SearchMemberData
         
         $scope.listEmail = {
             project_email : ''
         }        
+        
         
         $scope.setDeleteUser = function(eMail) {
         // Set project user to Delete
@@ -31,20 +32,27 @@ angular.module('Wbpms')
       
         $scope.init = function() {
           
-          var payload = {
-              project_name_id: $scope.project.project_name
-          }
-          $log.debug("Sending payload: " + JSON.stringify(payload));
-          $http.post('/api/projects/getmembers', payload)
+            if($scope.eMailUser.email === '')
+                window.location.href = '#/login';
+            else 
+              var payload = {
+                  project_name_id: $scope.project.project_name
+              }
+              $log.debug("Sending payload: " + JSON.stringify(payload));
+              $http.post('/api/projects/getmembers', payload)
 
-          .success(function(data, status, header, config) {
-            alert(JSON.stringify(data[0].members));
-            $scope.members = data[0].members;
-          })
-          .error(function(data, status) {
-            $log.debug(data.error);
-          });   
-      }
+              .success(function(data, status, header, config) {
+                alert(JSON.stringify(data[0].members));
+                if ($scope.members.owner === 0)
+                        $scope.members.owner = false
+                else 
+                        $scope.members.owner = true
+                $scope.members = data[0].members;
+              })
+              .error(function(data, status) {
+                $log.debug(data.error);
+              });
+        }
         
          //Function add a member in the project list
         $scope.add_member_to_projects = function(idProject,eMailUser) {
@@ -82,11 +90,10 @@ angular.module('Wbpms')
               .success(function(data, status, header, config) {
                 $log.debug('Member added successfully from project'); 
                 // the server should return a json array which contains all the todos
-                if ($scope.members.owner === 0){
+                if ($scope.members.owner === 0)
                     $scope.members.owner = false
-                } else {
+                else 
                     $scope.members.owner = true
-                };
                 $scope.members = data[0].members;
               })
               .error(function(data, status) {
@@ -109,9 +116,8 @@ angular.module('Wbpms')
                 $log.debug('Member <Member> removed successfully from project'); 
                  // find the element in the data array and remove it
                 for(var i =0; i < $scope.members.length; i++) {
-                    if($scope.members[i].email === payload.user_email_id) {
+                    if($scope.members[i].email === payload.user_email_id) 
                         $scope.members.splice(i, 1);
-                    }
                 }
               })
               .error(function(data, status) {
@@ -132,11 +138,9 @@ angular.module('Wbpms')
                 .success(function(data, status, header, config) {
                 $log.debug('New owner <owner> added successfully to <id_project>');
                 for(var i =0; i < $scope.members.length; i++){
-                    if($scope.members[i].email == eMailUser) {
-                        if (!$scope.members[i].owner){
+                    if($scope.members[i].email === eMailUser) 
+                        if ($scope.members[i].owner = false)
                             $scope.members[i].owner = true;
-                        }
-                    };
                 };
  
                 })
@@ -157,19 +161,15 @@ angular.module('Wbpms')
               .success(function(data, status, header, config) {
                 $log.debug('Downgrade owner <owner> successfully to <id_project>');
                  for(var i =0; i < $scope.members.length; i++){
-                    if($scope.members[i].email == eMailUser) {
-                        if ($scope.members[i].owner){
+                    if($scope.members[i].email === eMailUser) 
+                        if ($scope.members[i].owner = true)
                             $scope.members[i].owner = false;
-                        }
-                    };
-                };
+                 };
               })
           .error(function(data, status) {
             $log.debug(data.error);   
           });
         }
-        
-       
     }
 
     ]);

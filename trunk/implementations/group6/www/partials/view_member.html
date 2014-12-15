@@ -1,15 +1,13 @@
 <div ng-include="'partials/header.html'"></div>
-<div ng-include="'partials/pestanas.html'"></div> 
-
-<article ng-init="init()">  
- <div>   
+<div ng-include="'partials/pestanas.html'"></div>  
+<article ng-init="init()">
+<div>   
   <div class="row">
-    <div class= "col-md-1 col-md-offset-1">
-      <img src="img/male.png" class="img-thumbnail" style="float">
-      </div> 
+    <div class= "col-md- col-md-offset-2">
+      <img src={{memberToShow.avatar}} class="img-thumbnail" style="float">
         <h4>{{memberToShow.name}} {{memberToShow.surname}} <br><br>
-        {{searchMember.email}}</h4>
-      </div>
+        {{memberToShow.email}}</h4>
+    </div>
       <div class="container">
         <div class="col-lg-8">
           <h2>My Work Open Items</h2>
@@ -43,12 +41,12 @@
              <div class="panel-body" style="width:350px; height:200px; overflow-y:scroll;">
               <div class="btn-group-vertical" role="group" aria-label="...">
                 <div>
-                 <!-- <ul ng-repeat="project in projects">
+                  <ul ng-repeat="project in projects">
                     <li><span class="label label-info" ng-model="nameproject" ng-click="loadMembers(project.project_name)">{{project.project_name}} - {{project.points}}</span></li>                      
                       <ul class="dropdown" ng-if="members.project == project.project_name" ng-repeat="member in members.members">
                         <li><span class="label label-success" ng-if="member.name != ''"  ng-click="goToMembers(project.project_name)">{{member.name}} - {{member.points}}</span></li>
                       </ul>        
-                  </ul> -->                    
+                  </ul>                     
                 </div>
               </div>
              </div>
@@ -56,20 +54,7 @@
         </div>        
       </div>	
   </div>
-</div>
-    
+</div > 
 
 </article>    
-
-
-
-
-
-
-
-
-
-
-
-
 <div ng-include="'partials/footer.html'"></div>
