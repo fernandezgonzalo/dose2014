@@ -13,9 +13,11 @@ angular.module('DOSEMS.controllers')
                 lastname: '',
                 email: '',
                 password: '',
-                passwordRepeat: '',
+                passwordRepeat: ''
             };
             $scope.$passwordErro = false;
+            $scope.singupSuccess = true;
+
 
         };
         $scope.signup = function () {

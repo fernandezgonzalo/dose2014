@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', '$window', '$cookieStore', function ($scope, $routeParams, $log, Users, Projects, $window, $cookieStore) {
+    .controller('DashboardCtrl', ['$scope', '$routeParams', '$log', 'Users', 'Projects', '$window', '$cookieStore', 'DevelopersFactory', function ($scope, $routeParams, $log, Users, Projects, $window, $cookieStore, DevelopersFactory) {
         $scope.init = function () {
             $scope.userId = $cookieStore.get('userId');
             $log.debug("DashboardCtrl - init");
@@ -65,11 +65,12 @@ angular.module('DOSEMS.controllers')
                     name: $scope.newProjectData.name,
                     info: $scope.newProjectData.info
                 };
+                $log.debug(response);
                 $scope.userProjects.push(newProject);
                 $scope.newProjectData.info = '';
                 $scope.newProjectData.name = '';
-				$scope.userProjects = [];
-				$scope.getUserProjectsIDs();
+                $scope.userProjects = [];
+                $scope.getUserProjectsIDs();
             });
         };
         $scope.init();
