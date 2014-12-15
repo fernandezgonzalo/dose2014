@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('DOSEMS.controllers')
-    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users,SprintsForProject, Sprints, TasksFromSprint, Tasks,$location) {
+    .controller('UserCtrl', function ($scope, $routeParams, $log, UsersFromProject, Users,SprintsForProject, Sprints,
+										TasksFromSprint, Tasks, RoleFactory, $location) {
 
         $scope.text = "blas";
         $scope.users2 = [
@@ -75,7 +76,9 @@ angular.module('DOSEMS.controllers')
 			refreshSprintTasks();
 		}
 		
-		
+		$scope.userRole = RoleFactory.get({userId:$scope.userId,projectId:$scope.projectId}, function(data){
+			$log.info(data);
+		});
 		
         $scope.getUrl = function () {
             $scope.bla = "bla";
