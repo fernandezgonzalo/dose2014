@@ -32,6 +32,36 @@ feature {NONE} -- String to json conversion and vice versa
 		end
 
 
+	get_value_from_json(json_object: JSON_OBJECT; key: JSON_STRING): STRING
+			-- Returns json_object[key]
+			-- If this is null, return Void.
+		do
+			Result := json_object.item(key).representation
+			if Result.is_equal("null") then
+				Result := Void
+			end
+		end
+
+
+	get_fields_from_json(json_object: JSON_OBJECT): ARRAY[STRING]
+			-- Return an array containing all fields of 'json_object'
+		local
+			keys: ARRAY[JSON_STRING]
+			i: INTEGER
+		do
+			keys := json_object.current_keys
+			create Result.make_filled ("", 1, keys.count)
+
+			from
+                i := 1
+            until
+                i > keys.count
+            loop
+            	Result.put(keys.at(i).representation, i)
+                i := i + 1
+            end
+		end
+
 
 feature {NONE} -- Json to object conversion (json parsing helpers)
 
