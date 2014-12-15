@@ -51,8 +51,15 @@
           <div class="control-group">
             <div class="row">
               <div style="float: right;">
-                <button class="btn btn-link" ng-if="!deleteAlert" ng-click="toggleAlert()">
+                <button ng-disabled="!canEdit" class="btn btn-link" ng-if="!deleteAlert" ng-click="toggleAlert()">
                   <span class="glyphicon glyphicon-remove"></span>  Delete project</button>
+              </div>
+            </div>
+
+            <div class="row centre">
+              <div class="col-md-12 alert alert-info" role="alert"
+                ng-if="!canEdit">
+                Only admin and user creator can edit and delete it.
               </div>
             </div>
 
@@ -75,7 +82,7 @@
       <div class="modal-footer">
         <button class="btn btn-default" ng-click="cancelCreation()" data-dismiss="modal">Close</button>
         <button class="btn btn-primary" ng-click="updateProject(projectToEdit)"
-          ng-disabled="!(projectNameOK && clientNameOK && projectToEdit.deadline)">Save changes</button>
+          ng-disabled="!(projectNameOK && clientNameOK && projectToEdit.deadline) || !canEdit">Save changes</button>
       </div>	
 
 

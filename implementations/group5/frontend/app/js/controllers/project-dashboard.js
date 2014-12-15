@@ -226,7 +226,11 @@ angular.module('Mgmt')
 
   // This function is called when user clicks on "Edit project" button.
   $scope.editProject = function(project) {
-
+    if (parseInt($scope.currentUser.isAdmin) === 1 || project['id_user'] === $scope.currentUser.id) { // jshint ignore:line
+      $scope.canEdit = true;
+    } else {
+      $scope.canEdit = false;
+    }
     // Unlike for "New project", are init to true because they're valid already.
     $scope.projectNameOK = true;
     $scope.clientNameOK = true;
