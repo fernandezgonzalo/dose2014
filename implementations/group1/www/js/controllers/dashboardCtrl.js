@@ -68,6 +68,8 @@ angular.module('DOSEMS.controllers')
                 $scope.userProjects.push(newProject);
                 $scope.newProjectData.info = '';
                 $scope.newProjectData.name = '';
+				$scope.userProjects = [];
+				$scope.getUserProjectsIDs();
             });
         };
         $scope.init();
