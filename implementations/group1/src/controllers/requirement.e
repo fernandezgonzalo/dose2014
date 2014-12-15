@@ -37,8 +37,8 @@ feature -- Handlers
 	get_requeriments (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- sends a reponse that contains a json array with all requeriments
 		require
-			-- valid_session: req_has_cookie (req, "_session_")
-			-- valid_parameter: req.path_parameter ("id_project").string_representation /= Void
+			 valid_session: req_has_cookie (req, "_session_")
+			 valid_parameter: req.path_parameter ("id_project").string_representation /= Void
 		local
 			l_result_payload, l_project_id: STRING
 		do
@@ -47,7 +47,7 @@ feature -- Handlers
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 		ensure
-		--	response_not_null: res /= Void
+			response_not_null: res /= Void
 		end
 
 	get_a_requeriment (req: WSF_REQUEST; res: WSF_RESPONSE)
