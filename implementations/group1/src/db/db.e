@@ -571,11 +571,11 @@ feature
 			user_not_null: db_query_statement /= Void
 		end
 
-	last_insert_rowid: JSON_ARRAY
+	last_insert_project(name, info: STRING): JSON_ARRAY
 
 		do
 			create Result.make_array
-			create db_query_statement.make ("SELECT last_insert_rowid() AS id", db)
+			create db_query_statement.make ("SELECT id FROM project WHERE name = '"+name.out+"' and info = '"+info+"'", db)
 			db_query_statement.execute (agent rows_to_json_array(?, 1, Result))
 		end
 
