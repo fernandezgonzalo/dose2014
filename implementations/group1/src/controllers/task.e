@@ -38,9 +38,9 @@ feature -- Handlers
 			-- adds a new task
 		require
 			valid_session: req_has_cookie (req, "_session_")
-			valid_parameter: req.path_parameter ("id_requirement").string_representation /= Void and req.path_parameter ("id_sprint").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
+			valid_parameter: req.path_parameter ("id_sprint").string_representation /= Void and req.path_parameter ("id_user").string_representation /= Void
 		local
-			l_payload, desc, comment, duration, points, status, l_user_id, l_requirement_id, l_sprint_id: STRING
+			l_payload, desc, comment, duration, points, status, l_user_id, id_requirement, l_sprint_id: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			flag: BOOLEAN
@@ -52,6 +52,7 @@ feature -- Handlers
 			create duration.make_empty
 			create points.make_empty
 			create status.make_empty
+			create id_requirement.make_empty
 
 				-- read the payload from the request and store it in the string
 			req.read_input_data_into (l_payload)
@@ -79,11 +80,13 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("status") as n then
 					status := n.unescaped_string_8
 				end
+				if attached {JSON_STRING} j_object.item ("id_requirement") as n then
+					id_requirement := n.unescaped_string_8
+				end
 			end
 			l_user_id := req.path_parameter ("id_user").string_representation
-			l_requirement_id := req.path_parameter ("id_requirement").string_representation
 			l_sprint_id := req.path_parameter ("id_sprint").string_representation
-			flag := my_db.add_task (desc, comment, status, duration, points, l_user_id, l_requirement_id, l_sprint_id)
+			flag := my_db.add_task (desc, comment, status, duration, points, l_user_id, id_requirement, l_sprint_id)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make
