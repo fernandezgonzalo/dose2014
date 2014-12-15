@@ -83,7 +83,7 @@ if __name__ == '__main__':
 	print "[*] Get user info id=4"
 	print get_user(s, 4).content
 	print " "
-	print get_requirements (s,53).content
+	print add_project (s,60,"","")
 
 
 

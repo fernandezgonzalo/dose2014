@@ -147,7 +147,7 @@ feature -- Handlers
 			end
 			l_user_id := req.path_parameter ("id_user").string_representation
 			flag := my_db.create_project_by_user (l_user_id.to_natural_8, name, info)
-			l_result_payload := my_db.last_insert_rowid.representation
+			l_result_payload := my_db.last_insert_project (name, info).representation
 			set_json_header_ok (res, l_result_payload.count)
 			res.put_string (l_result_payload)
 
