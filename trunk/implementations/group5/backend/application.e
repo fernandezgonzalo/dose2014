@@ -112,7 +112,7 @@ feature -- Basic operations
 			--Logout
 			map_uri_template_agent_with_request_methods ("/api/logout", agent session_ctrl.logout , router.methods_delete)
 			--Email recovery	
-			map_uri_template_agent_with_request_methods ("/api/password_recovery", agent session_ctrl.login, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/password_recovery", agent session_ctrl.recover_email_and_password, router.methods_post)
 
 			--USER RELATED URIs
 
