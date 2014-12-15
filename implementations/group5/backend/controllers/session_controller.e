@@ -8,11 +8,11 @@ class
 	SESSION_CONTROLLER
 
 inherit
+
 	DEMO_HEADER_JSON_HELPER
 
 create
 	make
-
 
 feature {NONE} -- Creation
 
@@ -24,16 +24,13 @@ feature {NONE} -- Creation
 			session_manager := a_session_manager
 		end
 
-
 feature {NONE} -- Private attributes
 
 	my_crud: CRUD_USER
 
 	session_manager: WSF_SESSION_MANAGER
 
-
 feature -- Handlers
-
 
 	login (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- login a user if the username and password provided with the request are correct
@@ -45,15 +42,13 @@ feature -- Handlers
 			l_payload, l_user, l_password: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
-			is_updated_last_login : BOOLEAN
-
+			is_updated_last_login: BOOLEAN
 
 				-- if true the username and password match
-			l_user_data: TUPLE[has_user: BOOLEAN; id:INTEGER; email,username,password,name,last_login:STRING;is_admin: INTEGER]
+			l_user_data: TUPLE [has_user: BOOLEAN; id: INTEGER; email, username, password, name, last_login: STRING; is_admin: INTEGER]
 
 				-- a session
 			l_session: WSF_COOKIE_SESSION
-
 		do
 				-- create emtpy string object
 			create l_payload.make_empty
@@ -77,15 +72,11 @@ feature -- Handlers
 				if attached {JSON_STRING} j_object.item ("password") as s then
 					l_password := s.unescaped_string_8
 				end
-
 			end
-
 
 				-- we now have the username and password that were send.
 				-- check if the database has this particular username & password combination
 			l_user_data := my_crud.has_user_with_password (l_user, l_password)
-
-
 			if l_user_data.has_user then
 					-- yes, the username & password combo was correct
 					-- so next, we create a session
@@ -103,7 +94,6 @@ feature -- Handlers
 					-- commit the data; this will trigger the session_manager to acutally store the data to disk (in the session folder _WFS_SESSIONS_)
 				l_session.commit
 
-
 					-- apply the session cookie to the response; we use path "/" which makes the session cookie available on path of our app
 				l_session.apply (req, res, "/")
 
@@ -113,15 +103,14 @@ feature -- Handlers
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 				create l_result.make
-
 				l_result := my_crud.user_by_id (l_user_data.id.to_natural_32)
 					-- set the repsone header, indicating that everything went ok by statuscode 200
 				set_json_header (res, 200, l_result.representation.count)
 			else
 
-				-- the username & password combination was wrong
-				-- so we don't create a session
-				-- but return an error message
+					-- the username & password combination was wrong
+					-- so we don't create a session
+					-- but return an error message
 
 					-- create the response
 					-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
@@ -136,8 +125,6 @@ feature -- Handlers
 			res.put_string (l_result.representation)
 		end
 
-
-
 	logout (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- logout a user
 			-- that means we destroy the user's session (if one exists)
@@ -145,14 +132,14 @@ feature -- Handlers
 		local
 			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
-			l_id : INTEGER
-			update_result : BOOLEAN
+			l_id: INTEGER
+			update_result: BOOLEAN
 			--date : DATE
 		do
 
 				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
 			create l_session.make (req, "MGMT_SESSION_ID", session_manager)
-			--
+				--
 			if attached {INTEGER_32} l_session.item ("id") as i then
 				l_id := i
 			end
@@ -160,32 +147,74 @@ feature -- Handlers
 				-- create the response
 				-- create a json object that has a "Message" property that states what happend
 			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("User "+ l_id.out +" logged out"), create {JSON_STRING}.make_json ("Message"))
+			l_result.put (create {JSON_STRING}.make_json ("User " + l_id.out + " logged out"), create {JSON_STRING}.make_json ("Message"))
 				-- set the repsone header, indicating that everything went ok by statuscode 204
-			print(l_result.representation)
+			print (l_result.representation)
 			set_json_header (res, 204, l_result.representation.count)
 				-- add the message to the response response
 			res.put_string (l_result.representation)
 		end
 
-		security (req: WSF_REQUEST;): BOOLEAN
-				--
-			local
-				l_session: WSF_COOKIE_SESSION
-				l_id,l_id2: STRING
-			do
+	security (req: WSF_REQUEST;): BOOLEAN
+			--
+		local
+			l_session: WSF_COOKIE_SESSION
+			l_id, l_id2: STRING
+		do
 
-					-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
-				create l_session.make (req, "MGMT_SESSION_ID", session_manager)
+				-- we load the session if it exists (if no session exists, we're acutally creating a new one. But that's okay because we'll immediately destroy it)
+			create l_session.make (req, "MGMT_SESSION_ID", session_manager)
+			if attached {INTEGER_32} l_session.item ("id") as i then
+				l_id2 := i.out
+			end
+			create l_id.make_empty
+			l_id := req.path_parameter ("id").string_representation
+			Result := ((my_crud.user_is_admin (l_id.to_integer)) or (l_id.is_equal (l_id2)))
+		end
 
-				if attached {INTEGER_32} l_session.item ("id") as i then
-					l_id2 := i.out
+	recover_email_and_password (req: WSF_REQUEST; res: WSF_RESPONSE)
+			--Sends an email to administrators to notify of a lost email or password.
+		local
+			ec: EXECUTION_ENVIRONMENT
+			p: PATH
+			l_result: JSON_OBJECT
+			l_payload, l_user, l_id: STRING
+			parser: JSON_PARSER
+		do
+			create ec
+			create l_result.make
+			create p.make_from_string ("/home/dose/dose2014/")
+			create l_payload.make_empty
+			create l_id.make_empty
+			create l_user.make_empty
+
+				-- read the payload from the request and store it in the string
+			req.read_input_data_into (l_payload)
+
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+
+					-- we have to convert the json string into an eiffel string
+				if attached {JSON_STRING} j_object.item ("user") as s then
+					l_user := s.unescaped_string_8
 				end
 
-				create l_id.make_empty
-				l_id := req.path_parameter ("id").string_representation
-				Result := ((my_crud.user_is_admin(l_id.to_integer)) or (l_id.is_equal (l_id2)))
+			end
+			if l_user.has ('@') then
+				l_id := my_crud.user_exists_with_email (l_user).integer_item (2).out
+			else
+				l_id := my_crud.user_exists_with_username (l_user).integer_item (2).out
+			end
+			ec.change_working_path (p)
+			if not l_id.is_empty then
+				ec.system ("python send.py " + l_id)
+				set_json_header (res, 200, l_result.representation.count)
+			else
+				set_json_header (res, 204, l_result.representation.count)
 			end
 
-		
+				--			print(ec.current_working_path.out)
+		end
+
 end
