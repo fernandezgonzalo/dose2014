@@ -3,13 +3,16 @@ note
 	author: "ar"
 	date: "14.11.2014"
 
+
 class
 	SESSION_CONTROLLER
+
 
 inherit
 	SESSION_HELPER
 	HTTP_RESPONSE_HELPER
 	JSON_HELPER
+
 
 create
 	make
@@ -18,6 +21,7 @@ create
 feature {NONE} -- Creation
 
 	make (a_db: DATABASE; a_session_manager: WSF_SESSION_MANAGER)
+			-- Initialization: store a reference to the database object 'a_db' and to the 'a_session_manager'
 		do
 			db := a_db
 			session_manager := a_session_manager
@@ -27,7 +31,6 @@ feature {NONE} -- Creation
 feature {NONE} -- Private attributes
 
 	db: DATABASE
-
 	session_manager: WSF_SESSION_MANAGER
 
 
@@ -109,6 +112,7 @@ feature -- Handlers
 
 					reply_with_200_with_data(res, l_user_data.id.out)
 				else
+					-- Login with invalid credentials
 					res.set_status_code (401)
 				end
 			else
@@ -121,7 +125,6 @@ feature -- Handlers
 		end
 
 
-
 	logout (req: WSF_REQUEST; res: WSF_RESPONSE)
 			-- logout a user
 			-- that means we destroy the user's session (if one exists)
@@ -130,17 +133,20 @@ feature -- Handlers
 			l_session: WSF_COOKIE_SESSION
 			l_uuid: detachable READABLE_STRING_32
 		do
+			-- Fetch the uuid of the session cookie sent with this logout request
 			if attached {WSF_STRING} req.cookie ("lets_go_session") as c_uuid then
 				l_uuid := c_uuid.value
-			elseif attached {WSF_STRING} req.query_parameter ("lets_go_session") as q_uuid then
+			elseif attached {WSF_STRING} req.query_parameter("lets_go_session") as q_uuid then
 				l_uuid := q_uuid.value
 			end
 
 			if session_manager.session_exists(l_uuid) then
+					-- A session with this cookie exists, destroy it!
 				create l_session.make(req, "lets_go_session", session_manager)
 				l_session.destroy
 				reply_with_204(res)
 			else
+					-- No session for this cookie exists.
 				reply_with_404(res)
 			end
 		end
