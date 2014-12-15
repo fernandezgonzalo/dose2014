@@ -8,30 +8,54 @@ angular.module('LetsGoTeam').controller('SprintController', ['$scope', '$http', 
 
         $scope.sprint = {
             name: '',
-            startDate: '',
-            completionDate: '',
+            startDate: new Date(),
+            completionDate: new Date(),
             status: ''
 
         };
 
         $scope.successMsgVisible = false;
 
+
+
         // the function to add the new users
         $scope.addSprint = function (newSprint) {
 
             $scope.sprint = newSprint;
 
-            if (editing){
-                var i;
-                for (i = 0; i < sprints.length ; i++){
-                    if (currentSprint.id === sprints[i].id){
-                        sprints.splice(i, 1, {id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
+            if (!($scope.sprint.name === '')) {
+                if (editing) {
+                    var i;
+                    for (i = 0; i < sprints.length; i++) {
+                        if (currentSprint.id === sprints[i].id) {
+                            sprints.splice(i, 1, {
+                                id: id_sprint,
+                                idProject: currentProject.id,
+                                name: $scope.sprint.name,
+                                status: $scope.sprint.status,
+                                startDate: $scope.sprint.startDate,
+                                completionDate: $scope.sprint.completionDate
+
+                            });
+                            $location.path("/projectsSprints");
+                        }
                     }
+                    editing = false;
+                } else {
+                    sprints.push({
+                        id: id_sprint,
+                        idProject: currentProject.id,
+                        name: $scope.sprint.name,
+                        status: $scope.sprint.status,
+                        startDate: $scope.sprint.startDate,
+                        completionDate: $scope.sprint.completionDate
+                    });
+                    id_sprint = id_sprint + 1;
+                    $location.path("/projectsSprints");
                 }
-                editing = false;
-            }else {
-                sprints.push({id:id_sprint , idProject:currentProject.id, name:$scope.sprint.name, status:$scope.sprint.status, startDate:$scope.sprint.startDate, completionDate:$scope.sprint.completionDate});
-                id_sprint=id_sprint+1;
+            }
+            else {
+                alert("You forgot to give your sprint a name!");
             }
 
             /*

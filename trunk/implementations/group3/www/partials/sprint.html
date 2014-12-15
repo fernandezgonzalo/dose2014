@@ -13,24 +13,20 @@
 		<form role="form">
 		  <div class="form-group">
 		    <label>Name:</label>
-		    <input type="text" class="form-control" ng-model="sprint.name" id="nameInput" placeholder="name"> <br>
+		    <input type="text" class="form-control" ng-init="$scope.sprint.name" ng-model="sprint.name" id="nameInput" placeholder="name"> <br>
 			<label>Start date:</label>
-			<input type="date" class="form-control" ng-model="sprint.begin" id="startDate" placeholder="begin"> <br>
+			<input type="date" class="form-control" ng-init="$scope.sprint.startDate" ng-model="sprint.startDate" id="startDate" placeholder="begin"><br>
 			<label>Completion date:</label>
-			<input type="date" class="form-control" ng-model="sprint.end" id="completionDate" placeholder="end"> <br>
+			<input type="date" class="form-control" ng-init="$scope.sprint.completionDate" ng-model="sprint.completionDate" id="completionDate" placeholder="end"> <br>
 			<label>Status:</label>
-			  <select class="form-control" ng-init="sprint.status= statuses[0]" ng-model="sprint.status" ng-options="obj.stat for obj in statuses">
+			  <select class="form-control" ng-init="$scope.sprint.status" ng-model="sprint.status" ng-options="obj.stat for obj in statuses">
 			  </select>
 		  </div>
+			<button ng-click="addSprint(sprint)"  class="btn btn-default">Submit</button>
 			<a ng-href="http://localhost:63342/www/index.html#/projectsSprints" >
-				<button ng-click="addSprint(sprint)"  class="btn btn-default">
-					Submit
-				</button>
-			</a>
-			<a ng-href="http://localhost:63342/www/index.html#/projectsSprints" >
-				<button ng-click="cancel()" class="btn btn-default">
-					Cancel
-				</button>
+		  		<button ng-click="cancel()" class="btn btn-default">
+		  			Cancel
+		  		</button>
 			</a>
 		</form>
     </div>

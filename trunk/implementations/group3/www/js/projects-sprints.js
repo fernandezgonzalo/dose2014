@@ -97,8 +97,8 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
                     usersProjects.splice(i, 1);
                 }
             }
-            currentProject = {};
             $scope.setProjects();
+            $scope.projectSprints = [];
         };
 
         $scope.removeSprintSelected = function(s){
@@ -113,7 +113,6 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
                     projectsSprints.splice(i,1);
                 }
             }
-            currentSprint={};
             $scope.setSprints();
             /*
              $scope.userProjects = [];

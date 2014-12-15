@@ -14,30 +14,25 @@
 		<form role="form">
 		  <div class="form-group">
 		    <label>Description:</label>
-		    <input type="text" class="form-control" ng-model="task.description" placeholder="description"> <br>
+		    <input type="text" class="form-control" ng-init="$scope.task.description" ng-model="task.description" placeholder="description"> <br>
+
 			<label>Number:</label>
-			<input type="text" class="form-control" ng-model="task.number"  placeholder="number"> <br>
-			  <label>Points:</label>
-			  <input type="number" class="form-control" ng-model="task.points"> <br>
-			  <label>Available users:</label>:</label> <br>
+			<input type="text" class="form-control" ng-init="$scope.task.number" ng-model="task.number"  placeholder="number"> <br>
+
+			<label>Points:</label>
+			<input type="number" min="0" ng-init="$scope.task.points" class="form-control" ng-model="task.points"> <br>
+
+			<label>Available users:</label>
 			  <div class="list-group">
-				  <div class="list-group-item" ng-repeat="user in taskUsers">
-					  <h4>
-					  {{user.firstName}} {{user.LastName}}: <input type="checkbox" ng-model="user.id"> <br/> </h4>
+				  <div class="list-group-item" ng-repeat="user in $scope.users">
+					  	<button type="button" class="btn btn-info pull-left">{{user.firstName}} {{user.LastName}}</button>
 				  </div>
 			  </div>
-			<label>Assignees:</label> <br>
-
+			<label>Assignees:</label>
 		  </div>
+				<button ng-click="addTask(task)" class="btn btn-default"> Submit</button>
 			<a ng-href="http://localhost:63342/www/index.html#/storyTask">
-			<button ng-click="addTask(task)"  class="btn btn-default">
-				Submit
-			</button>
-			</a>
-			<a ng-href="http://localhost:63342/www/index.html#/storyTask">
-			  <button ng-click="cancel()" class="btn btn-default">
-				Cancel
-			  </button>
+				<button class="btn btn-default"> Cancel</button>
 			</a>
 		</form>
     </div>

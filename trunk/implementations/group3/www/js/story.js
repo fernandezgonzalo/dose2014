@@ -9,19 +9,71 @@ angular.module('LetsGoTeam')
             $scope.story = {
                 title: '',
                 description: '',
-                points: '',
+                points: 0,
                 notes: ''
             };
 
             $scope.successMsgVisible = false;
+
+            var init = function(){
+                if (editing){
+                    $scope.story.title = currentStory.title;
+                    $scope.story.description = currentStory.description;
+                    $scope.story.points = currentStory.points
+                }
+            }();
 
             // the function to add a story
             $scope.addStory = function(newStory) {
 
                 $scope.story = newStory;
 
-                stories.push({id:id_story , idSprint:currentSprint.id, title:$scope.story.title, description:$scope.story.description, points:$scope.story.points, notes:$scope.story.notes});
-                id_story=id_story+1;
+                if (editing){ // if the user is editing
+                    if (!($scope.story.title === '')) { // if the title is not blank
+
+                        var i;
+                        var acum = 0;
+                        for (i = 0; i < tasks.length; i++){ // add up the total amount of points used in all tasks related to this story
+                            if (tasks[i].idStory === currentStory.id){
+                                acum = acum + tasks[i].points;
+                            }
+                        }
+                        if ($scope.story.points < acum){ //if the total amount of points used in all tasks related to this story is greater than the new points amount, alert the user
+                            alert("You're leaving your tasks without points! Remember to remove unwanted tasks or reduce their points before changing your total points");
+                        }else{ //update the story with it's new values
+                            for (i = 0; i < stories.length; i++) {
+                                if (currentStory.id === stories[i].id) {
+                                    stories.splice(i, 1, {
+                                        id: currentStory.id,
+                                        idSprint: currentSprint.id,
+                                        title: $scope.story.title,
+                                        description: $scope.story.description,
+                                        points: $scope.story.points,
+                                        notes: $scope.story.notes
+                                    });
+                                    $location.path("/storyTask");
+                                }
+                            }
+                        }
+                    }else{
+                        alert("Don't forget to give your story a title!");
+                    }
+                }else{ // if the user is adding a new story
+                    if (!($scope.story.title === '')){ // if the title is not blank
+                        stories.push({
+                            id: id_story,
+                            idSprint: currentSprint.id,
+                            title: $scope.story.title,
+                            description: $scope.story.description,
+                            points: $scope.story.points,
+                            notes: $scope.story.notes
+                        });
+                        id_story = id_story + 1;
+                        $location.path("/storyTask");
+                    }else{
+                        alert("Don't forget to give your story a title!");
+                    }
+                }
 
 
                 /*
