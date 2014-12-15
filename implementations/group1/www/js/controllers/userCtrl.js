@@ -20,6 +20,7 @@ angular.module('DOSEMS.controllers')
 		$scope.nrOfFctAccess = 0;
 		$scope.tasksForSprint=[];
 		$scope.usersFromProj=[];
+		var selectedSprint;
         var userId = $routeParams.userId;
         if (userId != null) {
             //Get the user from server
@@ -51,23 +52,28 @@ angular.module('DOSEMS.controllers')
 			$log.info($scope.sprintsIdForProject);
 		});
 		
-		
-		$scope.tasksIdFromSprintFunction = function(sprintId){
-			$scope.nrOfFctAccess ++;
-			$scope.sprintIdDisplay = sprintId;
-			$log.info("aici ar tre sa fie prima!");
+		var refreshSprintTasks = function () {
+			var sprintId = selectedSprint;
+
+			$scope.tasksForSprint=[];
 			$scope.tasksIdFromSprint = TasksFromSprint.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId},function(data){
 				var j=0;
-				for(j=0;j<$scope.tasksIdFromSprint.length;j++)
-				{
-					Tasks.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:1,tasksId:$scope.tasksIdFromSprint[j].id},function(data){
+				for(j=0;j<$scope.tasksIdFromSprint.length;j++) {
+					Tasks.query({userId:$scope.userId,projectId:$scope.projectId,sprintId:sprintId,tasksId:$scope.tasksIdFromSprint[j].id},function(data){
 						$scope.tasksForSprint.push(data[0]);
 					});
 				}
-			$log.info(data);
+				$log.info(data);
 			});
-			$scope.tasksForSprint=[];
-			}
+		};
+		
+		$scope.tasksIdFromSprintFunction = function(sprintId){
+			selectedSprint = sprintId;
+			$scope.nrOfFctAccess ++;
+			$scope.sprintIdDisplay = sprintId;
+			$log.info("aici ar tre sa fie prima!");
+			refreshSprintTasks();
+		}
 		
 		
 		
@@ -79,10 +85,10 @@ angular.module('DOSEMS.controllers')
         
 		$scope.newTask = new Tasks();
 		$scope.addTask = function(){
-				var params = {userId:$scope.userId,projectId:$scope.projectId,sprintId:1};
+				var params = {userId:$scope.userId,projectId:$scope.projectId,sprintId:selectedSprint};
 				$scope.newTask.$save(params,function(){
-				$location.path("/user/"+$scope.userId+"/project/"+$scope.projectId);
-				
+					$('#createTaskModal').modal('hide');
+					refreshSprintTasks();
 				});
 				$log.info($scope.newTask);
 				$log.info("addddd wssstask!!!!");
