@@ -69,7 +69,7 @@ feature -- Test routines
 			db_handler.db.begin_transaction (true)
 			db_handler.add(sprint)
 
-			sprint.set_project_duration (15)
+			sprint.set_sprint_duration (15)
 				-- update the project in database
 			db_handler.update(db_handler.db_insert_statement.last_row_id.to_natural_32,sprint)
 				-- assert when the project was successfully updated.

@@ -13,7 +13,7 @@ create
 feature -- Initialization
 
 	make (new_status: STRING; new_duration: NATURAL; new_project_id: NATURAL)
-			-- Creates a project with initial properties
+			-- Creates a sprint with initial properties
 		require
 			not_empty (new_status)
 		do
@@ -31,23 +31,24 @@ feature -- Sprint properties
 	project_id : NATURAL
 
 
-feature -- Project seters
+feature -- Sprint seters
 
-	set_project_duration(new_duration: NATURAL)
-	do
-		duration := new_duration
-	end
+	set_sprint_duration(new_duration: NATURAL)
+			-- Update sprint duration
+		do
+			duration := new_duration
+		end
 
 
 feature -- Auxiliary routines
 
 	not_empty(control: STRING) : BOOLEAN
 			-- Validate if string isnt void or empty
-	do
-		if (not control.is_equal ("")) then
-			Result := TRUE
+		do
+			if (not control.is_equal ("")) then
+				Result := TRUE
+			end
 		end
-	end
 
 
 end

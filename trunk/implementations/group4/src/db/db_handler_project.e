@@ -33,7 +33,6 @@ feature -- Data access
 										+user_id.out+" union select id,name,status,description,max_points_per_sprint,p.user_id as 'user_id' from projects p,"
 										 +"collaborators c where c.user_id="+user_id.out+" and c.project_id = p.id;", db)
 			db_query_statement.execute (agent rows_to_json_array (?, 6, Result))
-
 		end
 
 	find_by_id (project_id : INTEGER) : JSON_OBJECT
@@ -42,6 +41,8 @@ feature -- Data access
 			create Result.make
 			create db_query_statement.make("SELECT * FROM Projects WHERE id="+ project_id.out +";" ,db)
 			db_query_statement.execute (agent row_to_json_object (?, 7, Result))
+		ensure
+			correct_id: Result.item ("id").debug_output.is_equal(project_id.out)
 		end
 
 	find_collabs_by_project_id (project_id : INTEGER) : JSON_ARRAY
@@ -64,6 +65,8 @@ feature -- Data access
 
 	add (project: PROJECT)
 			-- adds a new project
+		require
+			valid_project: (project/=Void)
 		do
 			create db_insert_statement.make ("INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) "+
 											"VALUES ('" + project.name + "','"+ project.status +"','"+ project.description +
@@ -89,6 +92,8 @@ feature -- Data access
 
 	update (project_id : NATURAL; project: PROJECT)
 			-- update a project
+		require
+			valid_project: (project/=Void)
 		do
 			create db_modify_statement.make ("UPDATE Projects SET name = '"+ project.name +"',"+
 															  "status = '"+ project.status +"',"+
@@ -108,7 +113,6 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a Project")
-					-- TODO: we probably want to return something if there's an error
 			end
 		end
 
@@ -119,7 +123,6 @@ feature -- Data access
 			db_modify_statement.execute
 			if db_modify_statement.has_error then
 				print("Error while deleting a Collaborator")
-					-- TODO: we probably want to return something if there's an error
 			end
 		end
 

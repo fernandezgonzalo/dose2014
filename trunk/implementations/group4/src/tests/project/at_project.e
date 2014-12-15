@@ -1,11 +1,11 @@
 note
-	description: "Tests for routine make at class Project"
+	description: "Tests for routines of class Project"
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-06$"
 	revision: "$0.01$"
 
 class
-	MAKE_AT_PROJECT
+	AT_PROJECT
 
 inherit
 	EQA_TEST_SET
@@ -66,3 +66,4 @@ feature -- Test routines
 
 
 end
+
