@@ -126,34 +126,38 @@ feature -- Error checking handlers (authentication, authorization, input validat
 feature {None} -- Internal helpers
 
 	is_input_valid(req: WSF_REQUEST; input: JSON_OBJECT): BOOLEAN
+			-- Check for overlapping sprints
+
 		local
 			sprint_id, project_id: STRING
-			start_date_key, end_date_key, id_key: JSON_STRING
+			start_date_key, end_date_key: JSON_STRING
 			start_date, end_date: STRING
 		do
-			create id_key.make_json("id")
-			create start_date_key.make_json("start_date")
-			create end_date_key.make_json("end_date")
+			start_date_key := jkey("start_date")
+			end_date_key := jkey("end_date")
 			project_id := get_parent_id(req)
 
-			if not input.has_key (start_date_key) and not input.has_key (end_date_key) then
+			if not input.has_key(start_date_key) and not input.has_key(end_date_key) then
 					-- start and end date not affected at all
 				Result := True
 
 			else
 					-- start or end date affected, check for overlaps:
-				if input.has_key(id_key) then
+				if req.is_put_request_method then
 						-- Update of an existing sprint
-					sprint_id := input.item(id_key).representation
+					sprint_id := get_id(req)
+
 
 					if input.has_key (start_date_key) and not input.has_key (end_date_key) then
 							-- only start_date given, end_date remains unchanged
 						start_date := get_string_from_json(input.item(start_date_key))
-						end_date := db.query_single_row ("SELECT end_date FROM sprints WHERE id = ?", <<sprint_id>>).representation
+						end_date := db.query_single_row ("SELECT end_date FROM sprints WHERE id = ?", <<sprint_id>>).item(end_date_key).representation
+						end_date.replace_substring_all ("%"", "")
 
 					elseif input.has_key (end_date_key) and not input.has_key (start_date_key) then
 							-- only end_date given, start_date remains unchanged
-						start_date := db.query_single_row ("SELECT start_date FROM sprints WHERE id = ?", <<sprint_id>>).representation
+						start_date := db.query_single_row ("SELECT start_date FROM sprints WHERE id = ?", <<sprint_id>>).item(start_date_key).representation
+						start_date.replace_substring_all ("%"", "")
 						end_date := get_string_from_json(input.item(end_date_key))
 
 					elseif input.has_key (start_date_key) and input.has_key (end_date_key) then
@@ -162,7 +166,6 @@ feature {None} -- Internal helpers
 						end_date := get_string_from_json(input.item(end_date_key))
 					end
 					Result := sprint_does_not_overlap(sprint_id, project_id, start_date, end_date)
-					print("%NOverlapping: " + Result.out)
 
 				else
 						-- Creation of a new sprint
@@ -174,7 +177,7 @@ feature {None} -- Internal helpers
 							-- start_date and end_date given
 						start_date := get_string_from_json(input.item(start_date_key))
 						end_date := get_string_from_json(input.item(end_date_key))
-						Result := sprint_does_not_overlap(sprint_id, project_id, start_date, end_date)
+						Result := sprint_does_not_overlap(Void, project_id, start_date, end_date)
 					end
 				end
 			end
@@ -183,7 +186,17 @@ feature {None} -- Internal helpers
 
 	sprint_does_not_overlap(sprint_id, project_id, start_date, end_date: STRING): BOOLEAN
 		do
-			Result :=  db.query_rows ("SELECT id FROM sprints WHERE NOT id = ? AND project_id = ? AND (start_date > ? AND start_date < ? OR end_date > ? AND end_date < ? OR start_date <= ? AND end_date >= ?)", <<sprint_id, project_id, start_date, end_date, start_date, end_date, start_date, end_date>>).count = 0
+			print(start_date + " " + end_date)
+			if start_date.is_greater(end_date) then
+				Result := False
+			else
+				if sprint_id = Void then
+					Result :=  db.query_rows ("SELECT id FROM sprints WHERE project_id = ? AND (start_date > ? AND start_date < ? OR end_date > ? AND end_date < ? OR start_date <= ? AND end_date >= ?)", <<project_id, start_date, end_date, start_date, end_date, start_date, end_date>>).count = 0
+				else
+					Result :=  db.query_rows ("SELECT id FROM sprints WHERE NOT id = ? AND project_id = ? AND (start_date > ? AND start_date < ? OR end_date > ? AND end_date < ? OR start_date <= ? AND end_date >= ?)", <<sprint_id, project_id, start_date, end_date, start_date, end_date, start_date, end_date>>).count = 0
+				end
+			end
+
 		end
 
 

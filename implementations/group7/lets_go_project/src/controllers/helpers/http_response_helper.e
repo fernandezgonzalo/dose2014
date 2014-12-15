@@ -66,6 +66,7 @@ feature {NONE} -- Http responses
 
 	reply_with_400_with_data(res: WSF_RESPONSE; data: STRING)
 		do
+			print("%N" + data)
 			reply_with_statuscode_with_data (res, {HTTP_STATUS_CODE}.bad_request, data)
 		end
 
