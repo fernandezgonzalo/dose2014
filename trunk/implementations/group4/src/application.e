@@ -27,15 +27,13 @@ create
 feature {NONE} -- Initialization
 
 	path_to_db_file: STRING
-		-- calculates the path to the demo.db file, based on the location of the .ecf file
-		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
+		-- calculates the path to the casd.db file, based on the location of the .ecf file
 		once
 			Result := ".." + Operating_environment.directory_separator.out + "casd.db"
 		end
 
 	path_to_www_folder: STRING
 		-- calculates the path to the www folder, based on the location of the .ecf file
-		-- Note: we used to have a fixed path here but this way it should work out-of-box for everyone
 		once
 			Result := ".." + Operating_environment.directory_separator.out + "www"
 		end
@@ -53,8 +51,7 @@ feature {NONE} -- Initialization
 	initialize
 			-- Initialize current service.
 		do
-				-- create the dao object and the controllers
-				-- we reuse the same database connection so we don't open up too many connections at once
+				-- create the controllers
 			create session_manager.make
 			create user_ctrl.make (path_to_db_file,session_manager)
 			create project_ctrl.make (path_to_db_file,session_manager)
@@ -134,7 +131,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.update_sub_task, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/tasks/{task_id}/subtasks/{subtask_id}", agent task_ctrl.remove_sub_task, router.methods_delete)
 
-			-- handling of all the routes relating to "reports"
+				-- handling of all the routes relating to "reports"
 			map_uri_template_agent_with_request_methods ("/api/projects/{project_id}/reports", agent report_ctrl.get_report, router.methods_get)
 
 
