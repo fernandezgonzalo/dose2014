@@ -1,19 +1,23 @@
 note
-	description: "Inherit this class in the a controller that access to the session manager"
+	description: "Helper for classes with authorization (sessions)."
 	author: "ar"
+	date: "18.11.14"
+
 
 deferred class
 	SESSION_HELPER
 
-feature
+
+feature {NONE} -- Attributes
 	session_manager: WSF_SESSION_MANAGER
 		deferred
 		end
 
-feature
+
+feature {NONE} -- Convenience methods for session handling
 
 	req_has_cookie (req: WSF_REQUEST): BOOLEAN
-			-- checks if the request has a cookie with the right name
+			-- Checks if the request has a cookie with the right name.
 		do
 			Result := False
 
@@ -24,7 +28,7 @@ feature
 
 
 	get_session_from_req (req: WSF_REQUEST; a_cookie_name: STRING): detachable WSF_SESSION_DATA
-			-- returns the session data that belongs to the session cookie of name a_cookie_name
+			-- Returns the session data that belongs to the session cookie of name a_cookie_name
 		local
 			l_session_id: STRING
 		do
@@ -40,6 +44,7 @@ feature
 
 
 	get_user_id_from_req(req: WSF_REQUEST): STRING
+			-- Returns the user id stored in the cookie of the request 'req'.
 		local
 			session: WSF_SESSION_DATA
 			id: ANY
@@ -52,6 +57,7 @@ feature
 
 
 	get_salted_and_hashed_password(password, id: STRING): STRING
+			-- Returns the hashed 'password' salted with some 'id'.
 		local
 	        hash: SHA256
 		do
@@ -59,5 +65,4 @@ feature
 	        hash.update_from_string(password + id)
 	        Result := hash.digest_as_string
 		end
-
 end

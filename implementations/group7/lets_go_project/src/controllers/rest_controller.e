@@ -12,7 +12,7 @@ inherit
 		-- inherit this helper to get functions to check for a session cookie
 		-- if a session cookie exists, we can get the data of that session
 
-	JSON_PARSING_HELPER
+	JSON_HELPER
 		-- helper functionality for json parsing
 
 	HTTP_RESPONSE_HELPER
@@ -259,8 +259,7 @@ feature {NONE} -- Internal helpers
 			end
 
 			across input.current_keys as key loop
-				key_str := key.item.representation
-				key_str.replace_substring_all("%"", "")
+				key_str := get_string_from_json(key.item)
 				if no_error_occured_so_far(res) and then not (string_array_has_item(required_fields, key_str) or string_array_has_item(optional_fields, key_str)) then
 					reply_with_400_with_data(res, "Invalid json field for resource creation: " + key_str)
 				end
@@ -301,8 +300,7 @@ feature {NONE} -- Internal helpers
             until
                 i > fields.count
             loop
-            	field := fields.at (i)
-            	field.replace_substring_all ("%"", "")
+            	field := get_without_quotes(fields.at(i))
             	Result := Result + field + "=?"
 
             	if i < fields.count then
@@ -348,7 +346,7 @@ feature {NONE} -- Internal helpers
 			if Result /= Void then
 				across Result as value loop
 					if attached {STRING} value.item as str_value then
-	               		str_value.replace_substring_all ("%"", "")
+	               		str_value.replace_substring_all("%"", "")
 	            	end
 				end
 			end
@@ -399,7 +397,7 @@ feature {NONE} -- Internal helpers
             	end
                 i := i + 1
             end
-			Result.replace_substring_all ("%"", "")
+			Result := get_without_quotes(Result)
 		end
 
 	get_comma_separated_question_marks(count: INTEGER): STRING

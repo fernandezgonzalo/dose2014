@@ -7,9 +7,9 @@ class
 	SESSION_CONTROLLER
 
 inherit
-	HEADER_JSON_HELPER
 	SESSION_HELPER
 	HTTP_RESPONSE_HELPER
+	JSON_HELPER
 
 create
 	make
@@ -78,7 +78,7 @@ feature -- Handlers
 
 			end
 
-			l_user_id_json_value := db.query_single_row("SELECT id FROM users WHERE email = ?", <<l_username>>).item (create {JSON_STRING}.make_json("id"))
+			l_user_id_json_value := db.query_single_row("SELECT id FROM users WHERE email = ?", <<l_username>>).item (jkey("id"))
 			if l_user_id_json_value /= Void then
 
 				l_user_id := l_user_id_json_value.representation

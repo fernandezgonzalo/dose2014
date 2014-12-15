@@ -17,6 +17,7 @@ redefine
 	remove_user_transaction
 end
 
+
 create
 	make
 
@@ -46,17 +47,16 @@ feature -- Handlers
 			email_key: JSON_STRING
 		do
 			resource_id := req.path_parameter (uri_id_name).string_representation
-			create email_key.make_json("email")
+			email_key := jkey("email")
 			if not input.has_key (email_key) then
 				reply_with_400(res)
 			else
 				email := get_string_from_json(input.item(email_key))
-				email.replace_substring_all ("%"", "")
 				user_id := db.query_single_row ("SELECT id from users where email = ?", <<email>>)
 				if user_id.is_empty then
 					reply_with_404(res)
 				else
-					add_user_transaction(resource_id, user_id.item(create {JSON_STRING}.make_json("id")).representation)
+					add_user_transaction(resource_id, user_id.item(jkey("id")).representation)
 					reply_with_204(res)
 				end
 			end
@@ -95,7 +95,7 @@ feature {None} -- Internal helpers
 			sprints: JSON_ARRAY
 			project_id: STRING
 		do
-			project_id := project.item(create {JSON_STRING}.make_json ("id")).representation
+			project_id := project.item(jkey("id")).representation
 			invited_devs := db.query_id_list("SELECT user_id FROM project_shares WHERE project_id = ?", <<project_id>>)
 			sprints := db.query_id_list("SELECT id FROM sprints WHERE project_id = ?", <<project_id>>)
 			project.put (invited_devs, "invited_devs")

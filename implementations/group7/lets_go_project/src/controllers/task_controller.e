@@ -44,7 +44,7 @@ feature {None} -- Internal helpers
 			assigned_devs: JSON_ARRAY
 			task_id: STRING
 		do
-			task_id := task.item(create {JSON_STRING}.make_json ("id")).representation
+			task_id := task.item(jkey("id")).representation
 			assigned_devs := db.query_id_list("SELECT user_id FROM task_assignments WHERE task_id = ?", <<task_id>>)
 			task.put (assigned_devs, "assigned_devs")
 		end
@@ -67,7 +67,7 @@ feature {None} -- Internal helpers
 		local
 			status_key: JSON_STRING
 		do
-			create status_key.make_json("status")
+			status_key := jkey("status")
 			if input.has_key (status_key) and then input.item(status_key).representation.is_equal("2") then
 				set_completion_date_to_today(input)
 			end
@@ -78,7 +78,7 @@ feature {None} -- Internal helpers
 			status_key: JSON_STRING
 			old_status: STRING
 		do
-			create status_key.make_json("status")
+			status_key := jkey("status")
 			old_status := db.query_single_row ("SELECT status FROM tasks WHERE id = ?", <<task_id>>).representation
 			if input.has_key(status_key) and then not input.item(status_key).representation.is_equal("2") and then not input.item(status_key).representation.is_equal(old_status) then
 				set_completion_date_to_today(input)
@@ -90,6 +90,6 @@ feature {None} -- Internal helpers
 			today: DATE
 		do
 			create today.make_now
-			input.replace(create {JSON_STRING}.make_json(today.formatted_out("yyyy-[0]mm-[0]dd")), create {JSON_STRING}.make_json("completion_date"))
+			input.replace(jkey(today.formatted_out("yyyy-[0]mm-[0]dd")), jkey("completion_date"))
 		end
 end
