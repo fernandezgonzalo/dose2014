@@ -107,9 +107,12 @@ feature -- Handlers
 
 	add_data_to_map_update (req: WSF_REQUEST a_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]])
 	local
-		l_task_id: STRING
+		l_task_id, l_req_id: STRING
 	do
-		add_data_to_map_add (req, a_map)
+		create l_req_id.make_empty
+		l_req_id := req.path_parameter("req_id").string_representation.out
+		a_map.keys.extend("requirement_id")
+		a_map.values.extend(l_req_id)
 		l_task_id := req.path_parameter("task_id").string_representation.out
 		a_map.keys.extend("id")
 		a_map.values.extend(l_task_id)
@@ -193,18 +196,32 @@ feature -- Handlers
 		l_map, l_log_map: TUPLE [keys: ARRAYED_LIST[STRING]; values: ARRAYED_LIST[STRING]]
 		l_result: JSON_OBJECT
 		l_update_result: TUPLE[success: BOOLEAN; id: STRING]
+		l_task_id:STRING
+		l_success:BOOLEAN
 	do
 		create l_result.make
 		create l_log_map.default_create
 		if req_has_cookie (req, "_coffee_session_" ) then
+
 			l_map := parse_request (req)
 			add_data_to_map_update (req, l_map)
 			l_log_map:=add_data_to_map_task_log(req,l_map)
 			if is_authorized_update(req, l_map) then
+				l_task_id:=get_value_from_map("id",l_map)
+				if (get_value_from_map("progress",l_map)).is_equal("Completed") then
+					l_success:=my_db.assign_points (get_value_from_map("user_id",l_map), my_db.get_project_id_of_task (l_task_id), get_value_from_map("points",l_map))
+				elseif (my_db.get_progress_of_task(l_task_id)).is_equal("Completed") then
+					l_success:=my_db.subtract_points (get_value_from_map("user_id",l_map), my_db.get_project_id_of_task (l_task_id), get_value_from_map("points",l_map))
+				end
 				l_update_result:= my_db.update_task (l_map)
 				if l_update_result.success then
 					l_result:= my_db.get_from_id (table_name, l_update_result.id)
 					return_success_without_message (l_result, res)
+
+
+		--			if (my_db.get_progress_of_task(l_task_id)).is_equal("Completed") then
+		--				l_success:=my_db.assign_points (get_value_from_map("user_id",l_map), my_db.get_project_id_of_task (l_task_id), get_value_from_map("points",l_map))
+		--			end
 					l_log_map.keys.extend("task_id")
 					l_log_map.values.extend(l_update_result.id)
 					l_update_result:=my_db.add ("task_log", l_log_map)
