@@ -116,3 +116,30 @@ CREATE TABLE Answers (
   FOREIGN KEY (topic_id) REFERENCES Topics(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES Users(id)
 );
+
+
+-- Add some users to the users table
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name',1,'name1@mail.com','$2a$04$AmZSLRJRZAv5.LYR0YfsYuJfIg2LyTe8E2PaKbQyUpZOTMCeXEXnK');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name1',1,'name2@mail.com','$2a$04$py7lS7hLvBhC1Q7LtR4Hg.LKuejj7QIjWnstxoLkIsL7kO2Cxox16');
+INSERT INTO Users(user_name,is_active,email,password) VALUES ('name2',0,'name3@mail.com','$2a$04$Cp5cmvyI2sLLV3vxvN61Pu0m4qh3tDQ7XwbxT7ikJ1Nn1jz0FbfuS');
+
+INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project1','Active','project1 descr',10,-1,1);
+INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project2','Active','project2 descr',15,-1,2);
+INSERT INTO Projects(name,status,description,max_points_per_sprint,number_of_sprints,user_id) VALUES ('project3','Active','project3 descr',16,-1,3);
+
+INSERT INTO Collaborators(user_id,project_id) VALUES (2,1);
+INSERT INTO Collaborators(user_id,project_id) VALUES (3,1);
+
+INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',2,1);
+INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',1,2);
+INSERT INTO Sprints(id,status,duration,project_id) VALUES (-1,'Started',1,3);
+
+INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,project_id,user_id) VALUES ('Low','Backlog','Feature','descr','task1',5,1,1,1,1);
+INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,project_id,user_id) VALUES ('Normal','Process','Bug','descr','subtask1',5,1,1,2,2);
+INSERT INTO Tasks(priority,position,type,description,title,points,super_task_id,sprint_id,project_id,user_id) VALUES ('High','Done','Bug','descr','task2',10,3,1,3,3);
+
+INSERT INTO Topics(title,description,answered,user_id,project_id,task_id,sprint_id) VALUES ('topic1','topic1 descr',0,1,1,1,1);
+INSERT INTO Topics(title,description,answered,user_id,project_id,task_id,sprint_id) VALUES ('topic2','topic2 descr',0,2,1,2,1);
+INSERT INTO Topics(title,description,answered,user_id,project_id,task_id,sprint_id) VALUES ('topic3','topic3 descr',1,3,3,3,1);
+
+INSERT INTO Answers(description,topic_id,user_id) VALUES ('answer1',3,3);
