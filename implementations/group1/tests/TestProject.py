@@ -53,6 +53,7 @@ class TestProject(unittest.TestCase):
 		p = Project.select().where(Project.name==name).get()
 		res_del = delete_project(self.session, 44, p.id)
 		self.assertEqual(res_del.status_code, 200, "Status code is not 200")
+		self.assertEqual(res_del.json().get('Message'), "Project removed %d" % p.id, "message wrong")
 
 if __name__ == '__main__':
     unittest.main()
