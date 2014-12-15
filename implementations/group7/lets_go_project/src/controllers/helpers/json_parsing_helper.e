@@ -27,7 +27,6 @@ feature
 		do
 			create parser.make_parser (data)
 			if attached {JSON_OBJECT} parser.parse as j_object then
-				print(j_object.representation)
 				Result := j_object
 			end
 		end

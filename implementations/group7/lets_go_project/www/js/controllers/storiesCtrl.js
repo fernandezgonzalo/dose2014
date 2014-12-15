@@ -48,7 +48,6 @@ angular.module('myApp')
       title: story_title,
       notes:story_notes,
       points: story_points,
-      sprint_id: sprintId,
     }
 
     StoryService.createStory(projectId,sprintId, createFormData, function(data){
@@ -83,7 +82,6 @@ angular.module('myApp')
         title: story_title,
         notes:story_notes,
         points: story_points,
-        sprint_id: sprintId,
       }
 
       StoryService.editStory(projectId, sprintId,storyId, updateFormData, function(data){

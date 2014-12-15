@@ -62,7 +62,6 @@ var formattedDate = function(date) {
         description: description,
         nr: nr,
         owner: ownerId,
-        story_id: storyId,
         status:0,
         comment:comment
       }
@@ -164,7 +163,7 @@ var formattedDate = function(date) {
           owner: ownerId,
           status:status,
           comment:comment,
-          completion_date:formattedDate(today),
+          //completion_date:formattedDate(today),
         }
         TaskService.editTask(projectId, sprintId, storyId, taskId, updateFormData, function(){
           $log.debug('Success updating a task');

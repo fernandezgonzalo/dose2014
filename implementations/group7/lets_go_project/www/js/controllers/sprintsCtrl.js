@@ -74,7 +74,6 @@ angular.module('myApp')
 
       if (projectId != undefined){
         var createFormData = {
-          project_id: parseInt(projectId),
           name: name,
           start_date: formattedDate(d_start_date),
           end_date: formattedDate(d_end_date),
@@ -122,7 +121,6 @@ angular.module('myApp')
         var d_end_date =  new Date(end_date);
 
         var updateFormData = {
-          project_id: parseInt(projectId),
           name: name,
           start_date: formattedDate(d_start_date),
           end_date: formattedDate(d_end_date),
