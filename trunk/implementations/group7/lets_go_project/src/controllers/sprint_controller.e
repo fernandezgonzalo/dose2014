@@ -208,7 +208,7 @@ feature {None} -- Internal helpers
 
 
 	sprint_does_not_overlap(sprint_id, project_id, start_date, end_date: STRING): BOOLEAN
-			-- Ensure that there is no other sprint that overlaps with this 'start_date' and 'end_date'.
+			-- Ensure that there is no other sprint that overlaps with this 'start_date' and 'end_date'.2
 		do
 			if start_date.is_greater(end_date) then
 				Result := False
