@@ -54,27 +54,39 @@ angular.module('Wbpms')
             "values": ["Not started", "Ongoing", "Done"] 
       };
 
+      //Add workitem messagges //
+      $scope.addSuccessMsgVisible = false;
+      $scope.addErrorMsgVisible = false;
+      //Rename workitem messagges //
+      $scope.renameSuccessMsgVisible = false;
+      $scope.renameErrorMsgVisible = false;
+      //Remove workitem messagges //
+      $scope.removeSuccessMsgVisible = false;
+      $scope.removeErrorMsgVisible = false;  
     
 
       // declaration !AND! call (see parenthesis at end of function)
       // of a function that fetches the todos from the server
       $scope.init = function() {
 
-        var payload = {
-           project_name : $scope.project.project_name,
-           iteration_number : $scope.iteration.id_iteration
-        }
-        $log.debug("Sending payload: " + JSON.stringify(payload));
-        // send the payload to the server
-        $http.post('/api/projects/iterations/getworkitems', payload)
-           .success(function(data, status, header, config) {
-            data.pop(); // lo hago porque me estaba tomando un elemento de mas que era el succes, con esto elimino el primer elemento de la lista data
-            $scope.workItems = data;
-            
-          })   
-          .error(function(data, status) {
-            alert("ERROR"+ JSON.stringify(data));
-          });
+          if($scope.usuario.email === '')
+              window.location.href = '#/login';
+          else        
+
+              var payload = {
+                 project_name : $scope.project.project_name,
+                 iteration_number : $scope.iteration.id_iteration
+              }
+              $log.debug("Sending payload: " + JSON.stringify(payload));
+              // send the payload to the server
+              $http.post('/api/projects/iterations/getworkitems', payload)
+                 .success(function(data, status, header, config) {
+                  data.pop(); // lo hago porque me estaba tomando un elemento de mas que era el succes, con esto elimino el primer elemento de la lista data
+                  $scope.workItems = data;
+                  
+                })   
+                .error(function(data, status) {
+                });
 
       }
         
@@ -88,11 +100,9 @@ angular.module('Wbpms')
       // send the payload to the server
         $http.post('/api/projects/iterations/getwork_item', payload)
            .success(function(data, status, header, config) {
-            alert(JSON.stringify(data));
-            //$scope.idWorkItem = data;
+            //$scope.idWorkItem = data;          
           })   
           .error(function(data, status) {
-            alert("ERROR"+ JSON.stringify(data));
           });
       }
 
@@ -114,23 +124,53 @@ angular.module('Wbpms')
        // send the payload to the server
           $http.post('/api/projects/iterations/workitems', payload)
             .success(function(data, status, header, config) {
-              alert("The new work item is added");
-              alert(JSON.stringify(data));
+
               var payload2 = {
                 work_item_id : data.new_id
               }
               $http.post('/api/projects/iterations/getwork_item', payload2)
                 .success(function(data, status, header, config) {
-                  alert(JSON.stringify(data));
                   $scope.workItems.push(data);
                 })
                 .error(function(data, status) {
-                  alert("ERROR while search workitem");
                 });
+
+              var payload3 = {
+                work_item_id : workItems.id,
+                comment : $scope.comments
+              }
+              $http.post('/api/projects/iterations/workitems/comments', payload3)
+                .success(function(data, status, header, config) {
+                })
+                .error(function(data, status) {
+                });
+
+              var payload4 = {
+                id_work_item_source : workItems.id,
+                id_work_item_destination : $scope.linkss
+              }
+              $http.post('/api/projects/iterations/workitems/links', payload4)
+                .success(function(data, status, header, config) {
+                })
+                .error(function(data, status) {
+                });                
+
+
+              $scope.addSuccessMsgVisible = true;
+              $scope.addErrorMsgVisible = false;
+              $scope.renameSuccessMsgVisible = false;
+              $scope.renameErrorMsgVisible = false;
+              $scope.removeSuccessMsgVisible = false;
+              $scope.removeErrorMsgVisible = false;                 
             })          
 
             .error(function(data, status) {
-              alert("ERROR al agregar workitem");
+              $scope.addSuccessMsgVisible = false;
+              $scope.addErrorMsgVisible = true;
+              $scope.renameSuccessMsgVisible = false;
+              $scope.renameErrorMsgVisible = false;
+              $scope.removeSuccessMsgVisible = false;
+              $scope.removeErrorMsgVisible = false;                 
             });
      }
 
@@ -143,21 +183,27 @@ angular.module('Wbpms')
           // send the payload to the server
           $http.post('/api/projects/iterations/workitems/delete_workitem', payload)
             .success(function(data, status, header, config) {
-              alert("The work item was deleted");
-              alert($scope.delWorkItem.work_item_number);
-              alert($scope.workItems.length);
-              alert($scope.workItems[0].number);
-              alert($scope.workItems[1].number);
               for(var i =0; i < $scope.workItems.length; i++) {
                 if($scope.workItems[i].number === $scope.delWorkItem.work_item_number) {
                   $scope.workItems.splice(i, 1);
                   break;
                 }
               }
+              $scope.addSuccessMsgVisible = false;
+              $scope.addErrorMsgVisible = false;
+              $scope.renameSuccessMsgVisible = false;
+              $scope.renameErrorMsgVisible = false;
+              $scope.removeSuccessMsgVisible = true;
+              $scope.removeErrorMsgVisible = false;              
 
             })
             .error(function(data, status) {
-             alert("Error deleting work item");
+              $scope.addSuccessMsgVisible = false;
+              $scope.addErrorMsgVisible = false;
+              $scope.renameSuccessMsgVisible = false;
+              $scope.renameErrorMsgVisible = false;
+              $scope.removeSuccessMsgVisible = false;
+              $scope.removeErrorMsgVisible = true;                
             }); 
 
         }    
@@ -182,14 +228,12 @@ angular.module('Wbpms')
         }  
 
         $log.debug("Sending payload: " + JSON.stringify(payload));
-        alert(JSON.stringify(payload));
         // send the payload to the server
         $http.post('/api/projects/iterations/workitems/getcomments', payload)
            .success(function(data, status, header, config) {
             $scope.comments = data[0].comments;
           })   
           .error(function(data, status) {
-            alert("ERROR"+ JSON.stringify(data));
           });
 
      } 
