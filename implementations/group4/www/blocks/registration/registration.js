@@ -69,7 +69,6 @@ define(
                         (
                             function (form)
                             {
-                                $log.info(form);
                                 restapi.register(form.name, form.email, form.password)
                                 .then
                                 (
