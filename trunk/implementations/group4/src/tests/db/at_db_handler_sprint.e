@@ -1,5 +1,5 @@
 note
-	description: "Tests for routines in class DB_HANDLER_PROJECT"
+	description: "Tests for routines in class DB_HANDLER_SPRINT"
 	author: "Rio Cuarto4 Team"
 	date: "$2014-11-26$"
 	revision: "$0.01$"
@@ -80,12 +80,12 @@ feature -- Test routines
 			db_handler.add(sprint)
 
 			sprint.set_sprint_duration (15)
-				-- update the project in database
+				-- update the sprint in database
 			db_handler.update(db_handler.db_insert_statement.last_row_id.to_natural_32,sprint)
-				-- assert when the project was successfully updated.
-			assert("Sprintt successfully updated", not db_handler.db_modify_statement.has_error)
+				-- assert when the sprint was successfully updated.
+			assert("Sprint successfully updated", not db_handler.db_modify_statement.has_error)
 
-				-- remove the project added for test
+				-- remove the sprint added for test
 			db_handler.db.rollback
 		end
 
@@ -108,7 +108,7 @@ feature -- Test routines
 
 			assert("Sprint removed ", not db_handler.db_insert_statement.has_error)
 
-				-- remove the user added for test
+				-- remove the sprint added for test
 			db_handler.db.rollback
 		end
 
