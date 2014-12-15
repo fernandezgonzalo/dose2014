@@ -33,7 +33,7 @@ feature -- Test routines
 			db_handler : DB_HANDLER_USER
 			json_result : JSON_OBJECT
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 
 			json_result := db_handler.find_by_id (1)
 
@@ -50,7 +50,7 @@ feature -- Test routines
 			json_result : JSON_OBJECT
 			ok, second_time : BOOLEAN
 		do
-			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd.db")
+			create db_handler.make(".." + Operating_environment.directory_separator.out + "casd_test.db")
 			if not second_time then
 				ok := true
 				json_result := db_handler.find_by_id (100)
