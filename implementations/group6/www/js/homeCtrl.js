@@ -31,14 +31,9 @@ angular.module('Wbpms')
 
           if($scope.usuario.email === '')
               window.location.href = '#/login';
-          else        
-          
-              var payload = {
-                  user_email_id : $scope.usuario.email
-              }
-
+          else 
               // send the payload to the server
-              $http.post('/api/users/getprojects', payload)                  
+              $http.post('/api/users/getprojects')                  
                 .success(function(data, status, header, config) {
                   $scope.projects = data[0].projects;   
                 })  
