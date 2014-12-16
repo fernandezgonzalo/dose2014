@@ -1,5 +1,6 @@
 #!/bin/bash
-svn=https://dose2014.googlecode.com/svn/tags/group5-final-release
+# svn=https://dose2014.googlecode.com/svn/tags/group5-final-release
+svn=https://dose2014.googlecode.com/svn/trunk/implementations/group5
 pushd /home/dose/dose2014
 rm -rf .backend_bak
 mv backend .backend_bak
