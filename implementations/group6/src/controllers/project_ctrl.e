@@ -260,7 +260,50 @@ feature --Handlers
 
 			create j_obj.make
 			create l_result_payload.make_array
-			
+
+			-- Check if the name doesn't already exist
+			if l_user_email = Void or l_user_email.is_empty then
+				--Error user email empty
+				j_obj.put (create {JSON_STRING}.make_json ("User email empty"), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.extend (j_obj)
+				set_json_header (res, 401, l_result_payload.representation.count)
+			elseif my_db.check_if_mail_already_present (l_user_email) = false then
+				j_obj.put (create {JSON_STRING}.make_json (l_user_email +" is not valid"), create {JSON_STRING}.make_json ("error"))
+				l_result_payload.extend (j_obj)
+				set_json_header (res, 401, l_result_payload.representation.count)
+			else
+				j_obj.put (create {JSON_STRING}.make_json ("Projects of user"), create {JSON_STRING}.make_json ("success"))
+				j_obj.put (my_db.get_all_user_projects (l_user_email), create {JSON_STRING}.make_json ("projects"))
+				l_result_payload.extend (j_obj)
+				set_json_header_ok (res, l_result_payload.representation.count)
+			end
+
+			-- add the message to the response response
+			res.put_string (l_result_payload.representation)
+		end
+
+	get_all_user_projects_not_login (req: WSF_REQUEST; res: WSF_RESPONSE)
+	-- Get all the projects of a user
+		local
+			l_user_email, l_payload: STRING
+			j_obj: JSON_OBJECT
+			l_result_payload: JSON_ARRAY
+			parser: JSON_PARSER
+		do
+
+			create l_payload.make_empty
+			create j_obj.make
+			create l_result_payload.make_array
+			req.read_input_data_into (l_payload)
+				-- now parse the json object that we got as part of the payload
+			create parser.make_parser (l_payload)
+				-- if the parsing was successful and we have a json object, we fetch the properties
+				-- for the project name
+			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+				if attached {JSON_STRING} j_object.item ("email") as s then
+					l_user_email := s.unescaped_string_8
+				end
+			end
 			-- Check if the name doesn't already exist
 			if l_user_email = Void or l_user_email.is_empty then
 				--Error user email empty
