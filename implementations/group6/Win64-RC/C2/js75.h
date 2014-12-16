@@ -1,0 +1,29 @@
+
+#ifndef _C2_js75_
+#define _C2_js75_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern void F87_1231(EIF_REFERENCE, EIF_REFERENCE);
+extern void F87_1232(EIF_REFERENCE, EIF_REFERENCE);
+extern void F87_1234(EIF_REFERENCE);
+extern void F87_1235(EIF_REFERENCE);
+extern void F87_1236(EIF_REFERENCE);
+extern EIF_REFERENCE F87_1237(EIF_REFERENCE, EIF_INTEGER_32, EIF_INTEGER_32);
+extern EIF_BOOLEAN F87_1238(EIF_REFERENCE);
+extern EIF_REFERENCE F87_1240(EIF_REFERENCE);
+extern EIF_CHARACTER_8 F87_1241(EIF_REFERENCE);
+extern void EIF_Minit75(void);
+extern EIF_REFERENCE F741_5984(EIF_REFERENCE, EIF_INTEGER_32, EIF_INTEGER_32);
+extern void F741_5923(EIF_REFERENCE);
+extern void F741_5922(EIF_REFERENCE);
+extern EIF_CHARACTER_8 F741_5903(EIF_REFERENCE, EIF_INTEGER_32);
+extern long O1184[];
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
