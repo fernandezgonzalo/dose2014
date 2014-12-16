@@ -729,16 +729,6 @@ feature --Data access: ITERATIONS
 
 feature	--Data access: WORK ITEMS
 
-	old_name_work_item(work_item_id: INTEGER):STRING
-	-- Find the name of the given work_item
-		local
-			l_query_result_cursor: SQLITE_STATEMENT_ITERATION_CURSOR
-		do
-			create db_query_statement.make ("SELECT * FROM work_item WHERE id=?;",db)
-			l_query_result_cursor:= db_query_statement.execute_new_with_arguments (<<work_item_id>>)
-			Result:= l_query_result_cursor.item.value (5).out
-		end
-
 	all_user_done_work_items(user: STRING):JSON_ARRAY
 	-- Finds all 'Done' work_items which are owned and created from the given user 	
 		do
