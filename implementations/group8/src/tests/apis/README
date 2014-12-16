@@ -1,9 +1,0 @@
-Please exec:
-
-	python suite.py
-
-or:
-
-	python suite.py --verbose for verbosity
-
-Python 3 required.

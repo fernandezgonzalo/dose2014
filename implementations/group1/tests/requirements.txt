@@ -1,5 +1,0 @@
-ipython==2.3.1
-requests==2.5.0
-fake-factory==0.4.2
-peewee==2.2.4
-pytest==2.6.4
