@@ -404,10 +404,10 @@ feature --handlers about work_items
 					-- The work_item name has more then 40 characters
 					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name has more then 40 characters."), create {JSON_STRING}.make_json ("Error"))
 					set_json_header (res, 401, l_result_payload.representation.count)
-				elseif my_db.check_work_item (l_iteration, l_project,l_name ) = True then
-					-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
-					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
-					set_json_header (res, 401, l_result_payload.representation.count)
+				elseif my_db.old_name_work_item (l_id).same_string (l_name) = False and	my_db.check_work_item (l_iteration, l_project,l_name) = True then
+						-- The work_item with name "l_name" into project "l_project" and into iteration "l_iteration" already exists
+						l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item name '" + l_name + "' already exists into project:'"+ l_project + "' and iteraton:'" + l_iteration.out + "'"), create {JSON_STRING}.make_json ("Error"))
+						set_json_header (res, 401, l_result_payload.representation.count)
 				elseif my_db.work_item_exists (l_id) = False then
 					-- The work_item doesn't exist into the db
 					l_result_payload.put (create {JSON_STRING}.make_json ("ERROR: The work_item with id '" + l_id.out + "' doesn't exist."), create {JSON_STRING}.make_json ("Error"))
