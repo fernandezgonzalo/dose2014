@@ -29,12 +29,13 @@ feature
 
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			payload, name, password: STRING
+			payload, name, password, email: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 		do
 			create payload.make_empty
 			create name.make_empty
+			create email.make_empty
 
 			req.read_input_data_into(payload)
 
@@ -42,6 +43,9 @@ feature
 
 			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 				if attached {JSON_STRING} j_object.item ("email") as s then
+					email := s.unescaped_string_8
+				end
+				if attached {JSON_STRING} j_object.item ("name") as s then
 					name := s.unescaped_string_8
 				end
 				if attached {JSON_STRING} j_object.item ("password") as s then
@@ -50,7 +54,7 @@ feature
 
 			end
 
-			db_model.new(name, password)
+			db_model.new(email, password, name)
 
 				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
 			create l_result.make

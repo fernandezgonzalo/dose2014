@@ -83,7 +83,7 @@ feature
 			map_uri_template_agent_with_request_methods("/stories/{id}", agent projects_controller.update, router.methods_put)
 
 			map_uri_template_agent_with_request_methods("/users", agent users_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods("/users", agent users_controller.add, router.methods_post)
+			map_uri_template_agent_with_request_methods("/login", agent users_controller.add, router.methods_post)
 			map_uri_template_agent_with_request_methods("/users/{id}", agent projects_controller.remove, router.methods_delete)
 			map_uri_template_agent_with_request_methods("/users/{id}", agent projects_controller.show, router.methods_get)
 			map_uri_template_agent_with_request_methods("/users/{id}", agent projects_controller.update, router.methods_put)
