@@ -1,0 +1,195 @@
+<div data-ng-controller="TaskController"><!-- injecting task controller -->
+
+  <div ng-include src="'partials/task.html'"></div> <!-- injecting task modal html in page -->
+  <div ng-include src="'partials/project_edit.html'"></div> <!-- Edit project modal -->
+
+  <div class="row">
+    <h1 class="title col-md-12 light-txt">{{project.name}}</h1>
+  </div>
+
+  <div class="row">
+    <h4 class="col-md-12 light-txt">{{project.client_name}}</h4>
+  </div>
+
+  <div class="row">
+    <button class="btn btn-link col-md-2" ng-click="editProject(project)">
+      Edit project info</button>
+    <span class="col-md-8"></span>
+    <a href="" class="col-md-2" ng-click = "createTask(project.id)" data-toggle="modal"
+      data-target="#taskModal">New task   <span class="glyphicon glyphicon-plus"></span></a>
+  </div>
+
+  <br>
+
+  <!-- <div class="contentWrapper ng-cloak"> -->
+  <div class="container">
+    <div class="content">
+      <div class="row-fluid">
+        <div class="col-md-12">
+
+          <!-- Backlog swimlane -->
+          <div class="col-md-3">
+            <div class="panel panel-danger">
+              <div class="panel-heading"><b>Backlog</b></div>
+
+              <div class="panel-body" ng-model="swimlanes.stopped" data-drop="true"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(0)',
+                onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'stopped\')'}"
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.stopped])'}">
+
+                <div ng-model="swimlanes.stopped" ng-repeat="task in swimlanes.stopped" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
+                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
+                  <div class="task-content" style="text-shadow: #CD5250 0 0">
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- To do swimlane -->
+          <div class="col-md-3">
+            <div class="panel panel-warning">
+              <div class="panel-heading"><b>To do</b></div>
+
+              <div class="panel-body" ng-model="swimlanes.created" data-drop="true"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(1)',
+                onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'created\')'}"
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.created])'}">
+
+                <div ng-model="swimlanes.created" ng-repeat="task in swimlanes.created" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
+                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
+                  <div class="task-content" style="text-shadow: #E3A64A 0 0">
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doing swimlane -->
+          <div class="col-md-3">
+            <div class="panel panel-info">
+              <div class="panel-heading"><b>Doing</b></div>
+
+              <div class="panel-body" ng-model="swimlanes.in_progress" data-drop="true"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(2)',
+                onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'in_progress\')'}"
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.in_progress])'}">
+
+                <div ng-model="swimlanes.in_progress" ng-repeat="task in swimlanes.in_progress" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
+                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
+                  <div class="task-content" style="text-shadow: #3B88AE 0 0">
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Done swimlane -->
+          <div class="col-md-3">
+            <div class="panel panel-success">
+              <div class="panel-heading"><b>Done</b></div>
+
+              <div class="panel-body" ng-model="swimlanes.finished" data-drop="true"
+                jqyoui-droppable="{multiple:false, onOver: 'overCallback(3)',
+                onOut: 'outCallback', onDrop: 'dropCallback(dragDropTask, \'finished\')'}"
+                data-jqyoui-options="{accept:'.task-draggable:not([ng-model=swimlanes.finished])'}">
+
+                <div ng-model="swimlanes.finished" ng-repeat="task in swimlanes.finished" data-drag="true"
+                  jqyoui-draggable="{index: {{$index}}, animate:false, onStart: 'startCallback(task)',
+                  onStop: 'stopCallback(task.id)'}" data-jqyoui-options="{revert: 'invalid'}"
+                  class="btn btn-block active task-draggable" ng-class="dragDropClass(task.id)"
+                  ng-click="openTask(task)" data-toggle="modal"
+                  data-target="#taskModal">
+                  <div class="task-content-line"  ng-class="' btn-' + setPriorityClass(task)"></div>
+                  <div class="task-content" style="text-shadow: #4D984E 0 0">
+                    {{task.title}} | <span class="glyphicon glyphicon-time icon-blue"></span> {{ task.deadline | date: 'mediumDate'}} | <span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}} | {{ userHash[task.idUserAssigned]}}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <br><br>
+  </div>
+
+  <!-- Statistics -->
+  <div class="container">
+    <div class="row">
+      <a href="" ng-if="!projectStatistics" ng-click="toggleProjectStatistics()" >
+        Click here to see statistics</a>
+      <a href="" ng-if="projectStatistics" ng-click="toggleProjectStatistics()">
+        Hide statistics</a>
+    </div>
+
+    <div class="row">
+      <br><br>
+    </div>
+
+    <div ng-if="projectStatistics">
+
+      <div class="row">
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <canvas tc-chartjs-doughnut chart-options="optionsChart1"
+            chart-data="dataChart1" chart="chart1" chart-legend="legendChart1"></canvas>
+        </div>
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <canvas tc-chartjs-doughnut chart-options="optionsChart1"
+            chart-data="dataChart2" chart="chart2" chart-legend="legendChart2"></canvas>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5">
+          <div tc-chartjs-legend chart-legend="legendChart1"></div>
+        </div>
+        <!-- <div class="col-md-1"> -->
+        <!-- </div> -->
+        <div class="col-md-5">
+          <div tc-chartjs-legend chart-legend="legendChart2"></div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>  
+
+

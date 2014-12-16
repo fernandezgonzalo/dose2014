@@ -1,0 +1,18 @@
+<nav class="header navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a ng-if="isAuthenticated()" class="navbar-brand" href="/#/">DOSE Mgmt</a>
+      <a ng-if="!isAuthenticated()" class="navbar-brand" href="/#/login">DOSE Mgmt</a>
+    </div>
+    <div ng-if="isAuthenticated()" class="navbar-header navbar-right table-row">
+        <div>
+          <div ng-if="currentUser.hasAvatar" class="avatar small" style="background-image: url('{{ currentUser.avatar }}')"> </div>
+          <div ng-if="!currentUser.hasAvatar" class="avatar small"> </div>
+        </div>
+        <div>
+          Hello, {{ currentUser.name }}!<br />
+          <span>Last login: {{ currentUser.lastLoginDate | date: "dd/MM/yy 'at' H:mm" }}</span>
+        </div>
+    </div>
+  </div>
+</nav>

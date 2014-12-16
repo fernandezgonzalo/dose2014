@@ -1,0 +1,69 @@
+<div ng-include src="'partials/task.html'"></div> <!-- task modal -->
+
+<div class="row">
+	<h1 class="title col-md-12 light-txt">My dashboard</h1>
+</div>
+
+<div class="row" ng-show = "!tasksInProgress.length && !tasksFinished.length">
+	<h3 class="col-md-12 light-txt small">You have no assigned task!</h3>
+</div>
+
+<div class="row" ng-show = "!tasksInProgress.length && tasksFinished.length">
+	<h3 class="col-md-12 light-txt small">All your tasks are completed!</h3>
+</div>
+
+<div class="row" ng-show = "tasksInProgress.length">
+	<h3 class="col-md-12 light-txt">Not completed tasks</h3>
+</div>
+
+<div class="row" ng-show = "tasksInProgress.length">
+	<div class="col-md-12">
+		<table class="table">
+			<tr ng-repeat="task in tasksInProgress" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
+				<td class="col-md-7">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
+				<td class="col-md-2 text-primary"><span ng-if="task.deadline" class="glyphicon glyphicon-time icon-blue"></span> {{task.deadline | date:'mediumDate'}}</td>
+				<td class="col-md-1 text-primary"><span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}}</td>
+				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="row" ng-show = "!tasksFinished.length && tasksInProgress.length">
+	<h3 class="col-md-12 light-txt small">It seems like you didn't complete any task..</h3>
+</div>
+
+<div class="row" ng-show = "tasksFinished.length">
+	<h3 class="col-md-12 light-txt">Completed tasks</h3>
+</div>
+
+<div class="row" ng-show = "tasksFinished.length">
+	<div class="col-md-12">
+		<table class="table">
+			<tr ng-repeat="task in tasksFinished" ng-click="openTask(task)" ng-class="setPriorityClass(task)" class="row-link" data-toggle="modal" data-target="#taskModal">
+				<td class="col-md-7">[{{projectSelect[task.id_project]}}] {{task.title}}</td>
+				<td class="col-md-2 text-primary"><span ng-if="task.deadline" class="glyphicon glyphicon-time icon-blue"></span> {{task.deadline | date:'mediumDate'}}</td>
+				<td class="col-md-1 text-primary"><span class="glyphicon glyphicon-comment icon-blue"></span> {{getCommentsNum(task.id)}}</td>
+				<td class="col-md-2"><button type="button" class="btn btn-info btn-sm btn-block" ng-click="openProjectDash($event, task.id_project)">view project</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<h3 class="col-md-12 light-txt">My statistics</h3>
+</div>
+
+<div class="row">
+	<div class="col-md-4">
+		<canvas tc-chartjs-bar chart-data="barData" chart-options="barOptions" chart="barChart" width="350" height="350"></canvas>
+	</div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<h4 class="light-txt">My task's priorities:</h4>
+		<div id="pieLegend"></div>
+		<canvas id="pieChart" tc-chartjs-pie chart-data="pieData" chart-options="pieOptions" chart="pieChart"></canvas>
+	</div>
+</div>

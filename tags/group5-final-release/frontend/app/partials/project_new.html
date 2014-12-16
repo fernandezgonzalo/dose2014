@@ -1,0 +1,62 @@
+<div class="modal fade" id="newProjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <!-- /modal-header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;
+          </span><span class="sr-only">Close</span></button>
+        <span class="modal-title h4">
+          <a href="#" editable-text="project.name" e-placeholder="Enter project name"
+            buttons="no" onbeforesave="checkProjectName($data)">
+            {{ project.name || 'Enter project name' }}</a>
+        </span>
+        <!-- <span class="pull-right"><span class="glyphicon glyphicon-plus"> -->
+      </div>	
+
+      <!-- /modal-body -->
+      <div class="modal-body row">
+        <div class="col-md-12">
+
+          <!-- Client name -->
+          <p><b>Client:  </b><a href="#" editable-text="project.client_name"
+             e-placeholder="Enter client name" buttons="no" 
+             onbeforesave="checkClientName($data)">
+                {{ project.client_name || 'Enter client name' }}</a>
+          </p>
+
+          <!-- Deadline -->
+          <p><b>Deadline: </b>
+            <a href="" style="color: #DD1144" ng-if="!project.deadline" data-toggle="collapse" data-target="#newDatepicker">
+              <em>Click here to set</em></a>
+            <a href="" data-toggle="collapse" data-target="#newDatepicker">
+              {{ project.deadline | date: 'mediumDate'}}</a>
+          </p>
+          <div id="newDatepicker" class="row collapse in">
+            <div class="col-md-8">
+              <p class="input-group">
+              <input ="text" class="form-control" ng-model="project.deadline"
+              datepicker-popup="{{newDatepicker.format}}" is-open="$parent.newDatepicker.opened"
+              min-date="newDatepicker.minDate" datepicker-options="newDatepicker.dateOptions"
+              date-disabled="newDatepicker.disabled(date, mode)" close-text="Close" ng-required="true"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="newDatepicker.open($event)">
+                  <i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- /modal-footer -->
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" ng-click="createProject(project)"
+          ng-disabled="!(projectNameOK && clientNameOK && project.deadline)">Create project</button>
+      </div>	
+
+    </div>
+  </div>
+</div>
