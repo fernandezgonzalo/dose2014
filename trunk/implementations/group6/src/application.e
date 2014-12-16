@@ -123,6 +123,7 @@ feature -- Basic operations
 			map_uri_template_agent_with_request_methods ("/api/projects/remove", agent project_ctrl.remove_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/update", agent project_ctrl.rename_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/users/getprojects", agent project_ctrl.get_all_user_projects, router.methods_post)
+			map_uri_template_agent_with_request_methods ("/api/users/info", agent project_ctrl.get_all_user_projects_not_login, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/getmembers", agent project_ctrl.get_all_project_members, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/members/add", agent project_ctrl.add_member_to_project, router.methods_post)
 			map_uri_template_agent_with_request_methods ("/api/projects/members/remove", agent project_ctrl.remove_member_from_project, router.methods_post)
