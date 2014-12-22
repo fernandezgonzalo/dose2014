@@ -9,7 +9,6 @@ class
 inherit
 	CONTROLLER_BASE
 	redefine
-		make,
 		db_model
 end
 
@@ -17,12 +16,14 @@ create
 	make
 
 feature {NONE} -- Creation
-	make(model: STORY)
+	make(model: STORY; a_session_manager: WSF_SESSION_MANAGER)
 		do
 			db_model := model
+			session_manager := a_session_manager
 		end
 feature {NONE} -- Private attributes
 	db_model: STORY
+	session_manager : WSF_SESSION_MANAGER
 feature -- Handlers
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local

@@ -112,30 +112,3 @@ app.config(['$routeProvider', '$locationProvider',
       });
     }
   ]);
-
-
-//TESTING
-
-describe("LetsGoTeam", function () {
-
-  beforeEach(module('LetsGoTeam'));
-
-  describe("registerController", function () {
-
-    var scope, httpBackend;
-    beforeEach(inject(function ($rootScope, $controller, $httpBackend, $http) {
-      scope = $rootScope.$new();
-      httpBackend = $httpBackend;
-      httpBackend.when("GET", "/users").respond([{nombre:"juan",password:"asd"}, {nombre:"pedro",password:"dede"}]);
-      $controller('registerController', {
-        $scope: scope,
-        $http: $http
-      });
-    }));
-
-    it("should have 3 movies", function () {
-      httpBackend.flush();
-      expect(scope.data.length).toBe(2);
-    });
-  });
-});
