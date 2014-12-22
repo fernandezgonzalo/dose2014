@@ -30,20 +30,22 @@ feature {NONE}
 	User: USER
 	Sprint: SPRINT
 	Story: STORY
+	session_manager: WSF_FS_SESSION_MANAGER
 
 	initialize
 		do
+			create session_manager.make
 			create db.make_open_read_write (".." + Operating_environment.directory_separator.out + "dose_backend.db")
 			create Project.make(db, "projects")
 			create Sprint.make(db, "sprints")
 			create Task.make(db, "tasks")
 			create User.make_user(db, "users")
 			create Story.make(db, "stories")
-			create tasks_controller.make(Task)
-			create projects_controller.make(Project)
-			create sprints_controller.make(Sprint)
-			create users_controller.make(User)
-			create stories_controller.make(Story)
+			create tasks_controller.make(Task, session_manager)
+			create projects_controller.make(Project, session_manager)
+			create sprints_controller.make(Sprint, session_manager)
+			create users_controller.make(User, session_manager)
+			create stories_controller.make(Story, session_manager)
 
 			set_service_option ("port", 9090)
 

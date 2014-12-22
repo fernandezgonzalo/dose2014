@@ -8,7 +8,6 @@ inherit
 	export {NONE}
 		update
 	redefine
-		make,
 		db_model
 end
 
@@ -17,14 +16,16 @@ create
 
 feature {NONE} -- Creation
 
-	make (model: USER)
+	make (model: USER; a_session_manager : WSF_SESSION_MANAGER)
 		do
 			db_model := model
+			session_manager := a_session_manager
 		end
 
 
 feature {NONE}
 	db_model: USER
+	session_manager : WSF_SESSION_MANAGER
 feature
 
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -99,6 +100,7 @@ feature
 			payload, password, email: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			l_session: WSF_COOKIE_SESSION
 		do
 			create payload.make_empty
 			create email.make_empty
@@ -119,6 +121,14 @@ feature
 
 			create l_result.make
 			if db_model.login(email, password) then
+				create l_session.make_new ("_session_", session_manager)
+
+				l_session.remember (email, "email")
+
+				l_session.commit
+
+				l_session.apply (req, res, "/")
+
 				set_json_header_ok (res, l_result.representation.count)
 			else
 				set_json_header_error (res, l_result.representation.count)

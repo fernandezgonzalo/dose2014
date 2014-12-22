@@ -4,16 +4,6 @@ note
 
 class
 	CONTROLLER_BASE
-create
-	make
-
-feature {NONE}
-
-	make (a_db_model : DB_MAPPER_BASE)
-		do
-			db_model := a_db_model
-		end
-
 
 feature
 	update(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -99,5 +89,4 @@ feature {NONE}
 
 
 	db_model : DB_MAPPER_BASE
-
 end
