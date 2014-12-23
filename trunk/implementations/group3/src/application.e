@@ -47,7 +47,7 @@ feature {NONE}
 			create users_controller.make(User, session_manager)
 			create stories_controller.make(Story, session_manager)
 
-			set_service_option ("port", 9090)
+			set_service_option ("port", 63342)
 
 			initialize_router
 		end
