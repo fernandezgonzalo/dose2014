@@ -51,12 +51,9 @@ feature
 
 			db_model.new(email, password, name)
 
-				-- create a json object that as a "Message" property that states what happend (in the future, this should be a more meaningful messeage)
-			create l_result.make
-			l_result.put (create {JSON_STRING}.make_json ("Added db_model " + name), create {JSON_STRING}.make_json ("Message"))
-
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+			prepare_response("All right", 200, res, true)
+		rescue
+			prepare_response("Something went wrong", 401, res, true)
 		end
 
 	new_password(req: WSF_REQUEST; res: WSF_RESPONSE)
