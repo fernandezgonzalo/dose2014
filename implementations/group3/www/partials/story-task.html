@@ -3,7 +3,7 @@
         <div class ="row">
             <div class="col-md-10">
                 <div class ="row">
-                    <a ng-href="http://localhost:63342/www/index.html#/projectsSprints"> <!-- cambiar por la ruta correcta 9090 -->
+                    <a ng-href="http://localhost:63342/index.html#/projectsSprints"> <!-- cambiar por la ruta correcta 9090 -->
                         <button type="button" class="btn btn-link pull-left ">Return to Projects</button>
                     </a>
                 </div>
@@ -16,7 +16,7 @@
         <div class=" row" >
             <div class="col-md-3">
                 <h3 align="center"><strong> Story </strong>
-                    <a ng-href="http://localhost:63342/www/index.html#/story"> <!-- poner ruta -->
+                    <a ng-href="http://localhost:63342/index.html#/story"> <!-- poner ruta -->
                         <button  class="btn btn-info pull-right" ng-click="editing(false)">  Add + </button>
                     </a>
                 </h3>
@@ -28,10 +28,10 @@
                                 <h5><strong>Points:</strong> {{story.points}}</h5>
                             </div>
                             <div class="col-md-6">
-                                <a ng-href="http://localhost:63342/www/index.html#/story">
+                                <a ng-href="http://localhost:63342/index.html#/story">
                                     <button type="button" ng-click="editing(true)" class="btn btn-link pull-left">Edit</button>
                                 </a>
-                                <a ng-href="http://localhost:63342/www/index.html#/task">
+                                <a ng-href="http://localhost:63342/index.html#/task">
                                     <button type="button" ng-click="editing(false)" class="btn btn-link pull-left">Add task</button>
                                 </a>
                                 <button type="button" ng-click="removeSelectedStory(story)" class="btn btn-link pull-left">Remove</button>
@@ -45,7 +45,7 @@
                 <div class="list-group">
                     <div class="list-group-item colorHover" ng-repeat="task in tasks" ng-show="task.status === 1" ng-click="setTaskSelected(task)">
                         <h4> {{task.description}}
-                            <a ng-href="http://localhost:63342/www/index.html#/task">
+                            <a ng-href="http://localhost:63342/index.html#/task">
                                 <button type="button" class="btn btn-link pull-right" ng-click="editing(true)">Edit</button>
                             </a>
                             <button type="button" class="btn btn-link pull-right" ng-click="removeSelectedTask(task)">Remove</button>
@@ -61,7 +61,7 @@
                 <div class="list-group">
                     <div class="list-group-item colorHover" ng-repeat="task in tasks" ng-show="task.status === 2" ng-click="setTaskSelected(task)">
                         <h4> {{task.description}}
-                            <a ng-href="http://localhost:63342/www/index.html#/task">
+                            <a ng-href="http://localhost:63342/index.html#/task">
                                 <button type="button" class="btn btn-link pull-right" ng-click="editing(true)">Edit</button>
                             </a>
                             <button type="button" class="btn btn-link pull-right" ng-click="removeSelectedTask(task)">Remove</button>
@@ -77,7 +77,7 @@
                 <div class="list-group">
                     <div class="list-group-item colorHover" ng-repeat="task in tasks" ng-show="task.status === 3" ng-click="setTaskSelected(task)">
                         <h4> {{task.description}}
-                            <a ng-href="http://localhost:63342/www/index.html#/task">
+                            <a ng-href="http://localhost:63342/index.html#/task">
                                 <button type="button" class="btn btn-link pull-right" ng-click="editing(true)">Edit</button>
                             </a>
                             <button type="button" class="btn btn-link pull-right" ng-click="removeSelectedTask(task)">Remove</button>
@@ -93,7 +93,7 @@
                 <div class="list-group">
                     <div class="list-group-item colorHover" ng-repeat="task in tasks" ng-show="task.status === 4" ng-click="setTaskSelected(task)">
                         <h4> {{task.description}}
-                            <a ng-href="http://localhost:63342/www/index.html#/task">
+                            <a ng-href="http://localhost:63342/index.html#/task">
                                 <button type="button" class="btn btn-link pull-right" ng-click="editing(true)">Edit</button>
                             </a>
                             <button type="button" class="btn btn-link pull-right" ng-click="removeSelectedTask(task)">Remove</button>
