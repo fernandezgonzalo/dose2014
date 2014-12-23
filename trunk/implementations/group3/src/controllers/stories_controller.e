@@ -11,19 +11,16 @@ inherit
 	redefine
 		db_model
 end
-
 create
 	make
-
-feature {NONE} -- Creation
-	make(model: STORY; a_session_manager: WSF_SESSION_MANAGER)
+feature {NONE}
+	make(model: STORY; a_session_manager : WSF_SESSION_MANAGER)
 		do
 			db_model := model
-			session_manager := a_session_manager
+	    	session_manager := a_session_manager
 		end
 feature {NONE} -- Private attributes
 	db_model: STORY
-	session_manager : WSF_SESSION_MANAGER
 feature -- Handlers
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
