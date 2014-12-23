@@ -32,6 +32,8 @@ feature
 			else
 				prepare_response("User is not logged in",401,res,true)
 			end
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 	get_all(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -43,6 +45,8 @@ feature
 
 			set_json_header_ok(res, payload.count)
 			res.put_string(payload)
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 	remove(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -58,6 +62,8 @@ feature
 			else
 				prepare_response("User is not logged in", 401,res,true)
 			end
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 
@@ -71,6 +77,8 @@ feature
 
 			set_json_header_ok(res, result_payload.count)
 			res.put_string (result_payload)
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 
