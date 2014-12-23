@@ -8,18 +8,16 @@ inherit
 	redefine
 		db_model
 end
-
 create
 	make
 feature {NONE}
-	make (model: TASK; a_session_manager : WSF_SESSION_MANAGER)
+	make(model: TASK; a_session_manager : WSF_SESSION_MANAGER)
 		do
 			db_model := model
-			session_manager := a_session_manager
+	    	session_manager := a_session_manager
 		end
 feature {NONE}
 	db_model: TASK
-	session_manager : WSF_SESSION_MANAGER
 feature
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local

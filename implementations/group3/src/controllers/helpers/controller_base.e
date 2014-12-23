@@ -4,7 +4,8 @@ note
 
 class
 	CONTROLLER_BASE
-
+inherit
+	SESSION_HELPER
 feature
 	update(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
@@ -13,17 +14,23 @@ feature
 			j_obj: JSON_OBJECT
 			id: STRING
 		do
-			create payload.make_empty
-			create id.make_empty
+			if req_has_cookie (req, "_session_") then
+				create payload.make_empty
+				create id.make_empty
 
-			id := req.path_parameter ("id").string_representation
+				id := req.path_parameter ("id").string_representation
 
-			req.read_input_data_into(payload)
-			create parser.make_parser(payload)
+				req.read_input_data_into(payload)
+				create parser.make_parser(payload)
 
-			if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
-				j_obj := j_object
-				db_model.update_fields(j_obj, id.to_integer)
+				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
+					j_obj := j_object
+					db_model.update_fields(j_obj, id.to_integer)
+				end
+
+				prepare_response("Successfull update", 200, res, true)
+			else
+				prepare_response("User is not logged in",401,res,true)
 			end
 		end
 
@@ -43,14 +50,14 @@ feature
 			id: STRING
 			l_result: JSON_OBJECT
 		do
-			id := req.path_parameter("id").string_representation
-			db_model.delete_by_id(id.to_natural)
+			if req_has_cookie (req, "_session_") then
+				id := req.path_parameter("id").string_representation
+				db_model.delete_by_id(id.to_natural)
 
-			create l_result.make
-			l_result.put(create {JSON_STRING}.make_json ("Removed item"), create {JSON_STRING}.make_json ("Message"))
-
-			set_json_header_ok (res, l_result.representation.count)
-			res.put_string (l_result.representation)
+				prepare_response("Successfull update", 200, res, true)
+			else
+				prepare_response("User is not logged in", 401,res,true)
+			end
 		end
 
 
@@ -87,6 +94,23 @@ feature {NONE}
 			res.header.put_content_length (a_content_length)
 		end
 
+	prepare_response (content : STRING; a_status_code : INTEGER; res : WSF_RESPONSE ; is_message : BOOLEAN)
+		local
+			json_result : JSON_OBJECT
+		do
+			res.set_status_code(a_status_code)
+			res.header.put_content_type_application_json
+			create json_result.make
+			if is_message then
+				json_result.put_string ( content , create {JSON_STRING}.make_json ("Message"))
+				res.header.put_content_length (json_result.representation.count)
+				res.put_string (json_result.representation)
+			else
+				res.header.put_content_length (content.count)
+				res.put_string(content)
+			end
+		end
 
 	db_model : DB_MAPPER_BASE
+	session_manager: WSF_SESSION_MANAGER
 end

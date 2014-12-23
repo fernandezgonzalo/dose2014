@@ -10,22 +10,16 @@ inherit
 	redefine
 		db_model
 end
-
 create
 	make
-
-feature {NONE} -- Creation
-
-	make (model: USER; a_session_manager : WSF_SESSION_MANAGER)
+feature {NONE}
+	make(model: USER; a_session_manager : WSF_SESSION_MANAGER)
 		do
 			db_model := model
-			session_manager := a_session_manager
+	    	session_manager := a_session_manager
 		end
-
-
 feature {NONE}
 	db_model: USER
-	session_manager : WSF_SESSION_MANAGER
 feature
 
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
