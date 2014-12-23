@@ -67,6 +67,8 @@ feature -- Handlers
 			else
 				prepare_response("User is not logged in",401,res,true)
 			end
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 	by_project(req: WSF_REQUEST; res: WSF_RESPONSE)

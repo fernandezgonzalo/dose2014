@@ -53,7 +53,7 @@ feature
 
 			prepare_response("All right", 200, res, true)
 		rescue
-			prepare_response("Something went wrong", 401, res, true)
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 	new_password(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -84,6 +84,8 @@ feature
 
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
 		end
 
 	login(req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -126,6 +128,9 @@ feature
 			end
 
 			res.put_string (l_result.representation)
+		rescue
+			prepare_response("Something went wrong", 500, res, true)
+
 		end
 
 
