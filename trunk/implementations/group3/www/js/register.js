@@ -47,7 +47,7 @@ angular.module('LetsGoTeam')
 
             $scope.listLength = users.length;
             alert("Successfully registered!");
-            location.href = 'http://localhost:63342/www/index.html#/home';
+            location.href = 'http://localhost:63342/index.html#/home';
         }
 
 
