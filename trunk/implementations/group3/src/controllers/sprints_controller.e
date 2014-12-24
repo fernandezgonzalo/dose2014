@@ -75,7 +75,7 @@ feature -- Handlers
 		local
 			project_id, result_payload: STRING
 		do
-			project_id := req.path_parameter ("project_id").string_representation
+			project_id := req.path_parameter("project_id").string_representation
 
 			result_payload := db_model.by_project(project_id).representation
 

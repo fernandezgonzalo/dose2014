@@ -26,7 +26,7 @@ feature
 	by_project(project_id: STRING): JSON_ARRAY
 		do
 			create Result.make_array
-			create db_query_statement.make("select * from sprints JOIN ProjectToSprints ON ProjectToSprints.sprintId = sprints.id WHERE ProjectToSprints.projectId = " + project_id + ";" , db)
+			create db_query_statement.make("select * from sprints WHERE project_id = " + project_id + ";" , db)
 
 			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end
