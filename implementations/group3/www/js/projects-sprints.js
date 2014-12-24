@@ -16,22 +16,6 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         // $scope.projectSelected = -1;
         $scope.control = false;
 
-
-
-        var init = function() {
-            var i,j;
-            for (i = 0; i < usersProjects.length; i++) {
-                if(usersProjects[i].idUser === currentUser.id){
-                    for (j=0; j<projects.length; j++){
-                        if (usersProjects[i].idProject === projects[j].id){
-                            $scope.userProjects.push(projects[j]);
-                        }
-                    }
-                }
-            }
-            currentProject = {};
-        }();
-
         $scope.setProjects = function(){
             $http.get('/projects')
                 .success(function(data, status, header, config) {
@@ -44,23 +28,13 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         };
 
         $scope.setSprints = function(){
-
-            $scope.projectSprints = [];
-            var i;
-            for (i = 0; i < sprints.length; i++) {
-                if(sprints[i].idProject === currentProject.id ){
-                    $scope.projectSprints.push(sprints[i]);
-                }
-            }
-            currentSprint={};
-            /* $http.get('/projects-sprints/{actualProject.id}')
-             .success(function(data, status, header, config) {
-
-             $scope.sprints = data;
-             })
-             .error(function(data, status) {
-             $log.debug('Error while fetching proyects from server');
-             });*/
+            $http.get('/projects-sprints/{actualProject.id}')
+                .success(function(data, status, header, config) {
+                    $scope.sprints = data;
+                })
+                .error(function(data, status) {
+                   $log.debug('Error while fetching proyects from server');
+                });
         };
 
         $scope.shareInfo = function(info1,info2){
