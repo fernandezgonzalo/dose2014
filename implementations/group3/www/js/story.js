@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('LetsGoTeam')
-    .controller('StoryController', ['$scope', '$http', '$log', '$timeout',
-        function ($scope, $http, $log, $timeout) {
+    .controller('StoryController', ['$scope', '$http', '$log', '$location','$timeout',
+        function ($scope, $http, $log, $location, $timeout) {
 
             $scope.data = {};
             // the model that we bind to the input box
