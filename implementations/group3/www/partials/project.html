@@ -12,11 +12,12 @@
                 <form role="form">
                     <div class="form-group">
                         <label>Owner:</label>
-                        <h1 type="text" class="form-control" ng-init="$scope.project.owner" ng-model="project.owner"> {{currUser.firstName}} </h1><br>
+			<div ng-bind-html-unsafe="curr_name"></div>
+                        <h1 type="text" class="form-control" ng-init="$scope.project.owner" ng-model="project.owner">  </h1><br>
                         <label>Name:</label>
                         <input type="text" class="form-control" ng-init="$scope.project.name" ng-model="project.name" id="nameInput" placeholder="name"> <br>
                         <label>Start date:</label>
-                        <input type="date" class="form-control" ng-init="$scope.project.startDate" ng-model="project.startDate" id="startDate" placeholder="begin"> <br>
+                        <input type="date" class="form-control" ng-init="$scope.project.start_time" ng-model="project.start_time" id="startDate" placeholder="begin"> <br>
                         <label>Status:</label>
                         <select class="form-control" ng-init="$scope.project.status" ng-model="project.status"  ng-options="obj.stat for obj in statuses">
                         </select>
@@ -33,3 +34,4 @@
         </div>
     </div>
 </div>
+

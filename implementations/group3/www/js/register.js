@@ -1,91 +1,39 @@
 'use strict';
 
-
-
 angular.module('LetsGoTeam')
 
+.controller('registerController', ['$scope', '$http', '$log', '$location', '$timeout',
+    function($scope, $http, $log, $location, $timeout) {
+        // the model that we bind to the input box
 
-.controller('registerController', ['$scope', '$http', '$log', '$timeout',
-    function ($scope, $http, $log, $timeout) {
-// the model that we bind to the input box
+        $scope.data = [];
+        $scope.status = {};
+        $scope.user = {
+            name: '',
+            email: '',
+            password: ''
+        };
 
-    $scope.data = [];
-    $scope.listLength = users.length;
-    $scope.status = {};
-    $scope.user = {
-        firstName: '',
+        $scope.successMsgVisible = false;
 
-        lastName: '',
-        email: '',
-        password: ''
+        // the function to add the new users
+        $scope.addUser = function(user) {
+                $scope.user = user;
 
-    };
+                // the payload is simple the json object that we used for binding to the input
+                var payload = $scope.user;
 
-    $scope.successMsgVisible = false;
+                $http.post('/users', payload)
+                    .success(function(data, status, header, config) {
+                        console.log('Succesfully registered');
+                        $location.path("/login");
+                        console.log('Succesfully registered');
+                    })
+                    .error(function(data, status) {
+                        alert('User already registered');
+		    })
 
-    // the function to add the new users
-    $scope.addUser = function (newUser) {
-
-        $scope.user = newUser;
-
-        var userFound = false;
-        var i = 0;
-        while (!userFound && i < users.length) {
-            if(users[i].email === $scope.user.email){
-                userFound = true;
-            }
-            i = i+1;
         }
-        if(userFound){
-            alert("Email already exists!");
-        }
-        else{
-
-            users.push({id:id_user,firstName:$scope.user.firstName,lastName:$scope.user.lastName,email:$scope.user.email,
-                password:$scope.user.password});
-            id_user = id_user+1;
-
-            $scope.listLength = users.length;
-            alert("Successfully registered!");
-            location.href = 'http://localhost:63342/index.html#/home';
-        }
-
-
-
-
-        // the payload is simple the json object that we used for binding to the input
-        // var payload = $scope.user;
-
-        /*$http.post('/users', payload)
-         .success(function (data, status, header, config) {
-         $scope.status = data;
-         if ($scope.status === 'ok') {
-         $log.debug('Success adding new user');
-         }
-         else{
-         $log.debug('Error while trying to add a new user');
-         };
-
-
-         // reset the todoModel to not have a description (we keep the last selected user)
-         // $scope.user.firstName = '';
-         $scope.user.name = '';
-         $scope.user.email = '';
-         $scope.user.password = '';
-
-         // show a success message
-         $scope.successMsgVisible = true;
-         // let the message dissapear after 2 secs
-         $timeout(function () {
-         $scope.successMsgVisible = false;
-         }, 2000);
-         })
-         .error(function (data, status) {
-         $log.debug('Error while trying to add a new user');
-         });
-         }*/
-
-    }
     }
 
 
@@ -94,15 +42,15 @@ angular.module('LetsGoTeam')
 .directive('nxEqual', function() {
     return {
         require: 'ngModel',
-        link: function (scope, elem, attrs, model) {
+        link: function(scope, elem, attrs, model) {
             if (!attrs.nxEqual) {
                 console.error('nxEqual expects a model as an argument!');
                 return;
             }
-            scope.$watch(attrs.nxEqual, function (value) {
+            scope.$watch(attrs.nxEqual, function(value) {
                 model.$setValidity('nxEqual', value === model.$viewValue);
             });
-            model.$parsers.push(function (value) {
+            model.$parsers.push(function(value) {
                 var isValid = value === scope.$eval(attrs.nxEqual);
                 model.$setValidity('nxEqual', isValid);
                 return isValid ? value : undefined;
@@ -112,8 +60,3 @@ angular.module('LetsGoTeam')
 });
 
 function Ctrl($scope) {}
-
-
-
-
-
