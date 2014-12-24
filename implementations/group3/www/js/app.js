@@ -37,8 +37,6 @@ app.config(['$logProvider', function($logProvider){
   $logProvider.debugEnabled(false);
 }]);
 
-
-
 app.factory('myService', function() {
   var savedProject = {};
 

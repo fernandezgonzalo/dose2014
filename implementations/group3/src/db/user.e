@@ -23,6 +23,14 @@ feature
 			end
 		end
 
+	get_by_email(email: STRING): JSON_ARRAY
+		do
+			create Result.make_array
+			create db_query_statement.make("SELECT * FROM users" + " WHERE email = '" + email + "';" , db)
+
+			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
+		end
+
 	new_password(email: STRING) : STRING
 		local
 			index : INTEGER

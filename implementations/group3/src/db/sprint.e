@@ -14,7 +14,7 @@ feature
 
 	new(name: STRING; start_time: STRING; end_time: STRING; project_id: STRING)
 		do
-			create db_insert_statement.make ("INSERT INTO sprints(name, start_time, end_time, projectId) VALUES ('" + name + "', '" + start_time + "', '" + end_time + "', '" + project_id +"');", db);
+			create db_insert_statement.make ("INSERT INTO sprints(name, start_time, end_time, project_id) VALUES ('" + name + "', '" + start_time + "', '" + end_time + "', " + project_id +");", db);
 
 			db_insert_statement.execute
 

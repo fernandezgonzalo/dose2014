@@ -36,10 +36,10 @@ angular.module('LetsGoTeam')
                     .success(function(data, status, header, config) {
                         if (status === 200) {
                             console.log('Success logging user');
-			    currentUser = user;
+		  currentUser = data;
                             $location.path("/projectsSprints");
                         } else {
-		            if (!logged)
+	               if (!logged)
                                 $scope.changeView(4);
                             console.log('Incorrect data');
                         };
@@ -48,7 +48,7 @@ angular.module('LetsGoTeam')
 		        if (!logged)
 			    $scope.changeView(4);
                         console.log('Error while trying to login');
-		    })
+	       })
             };
 
             $scope.forgotPassword = function(user) {

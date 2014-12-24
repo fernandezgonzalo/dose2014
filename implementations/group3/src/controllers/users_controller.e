@@ -94,7 +94,7 @@ feature
 
 	login(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
-			payload, password, email: STRING
+			result_payload, payload, password, email: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
 			l_session: WSF_COOKIE_SESSION
@@ -126,12 +126,14 @@ feature
 
 				l_session.apply (req, res, "/")
 
-				set_json_header_ok (res, l_result.representation.count)
+				result_payload := db_model.get_by_email(email).representation
+
+				set_json_header_ok(res, result_payload.count)
+				res.put_string (result_payload)
 			else
 				set_json_header_error (res, l_result.representation.count)
+				res.put_string (l_result.representation)
 			end
-
-			res.put_string (l_result.representation)
 		rescue
 			prepare_response("Something went wrong", 500, res, true)
 
