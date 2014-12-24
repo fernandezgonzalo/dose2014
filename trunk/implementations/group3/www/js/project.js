@@ -31,19 +31,19 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
                 if (editing) {
 		    $http.get('/projects/' + currProject.id.toString())
 			.success(function(data, status, headers, config) {
-				$scope.project = currProject = data;		
+				$scope.project = currProject = data;
 			})
 			.error(function(data, status, headers, config) {
 				alert("Requested project doesn't exists")
-				$location.path('/projectSprints')				
+				$location.path('/projectSprints')
 			})
-			
+
                     editing = false;
                 } else {
-		    $http.post('/projects/' + currProject.id.toString(), $scope.project)
+		    $http.post('/projects', $scope.project)
 			.success(function(data, status, headers, config) {
 				console.log('Project added succesfully')
-				$location.path('/projectSprints')				
+				$location.path('/projectsSprints')
 			})
 			.error(function(data, status, headers, config) {
 				alert("Project with the name given already exists")

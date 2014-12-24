@@ -25,7 +25,6 @@ feature -- Handlers
 	add(req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			payload, name, start_time, end_time: STRING
-			flag: BOOLEAN
 			parser: JSON_PARSER
 		do
 			if req_has_cookie (req, "_session_") then
@@ -36,8 +35,6 @@ feature -- Handlers
 
 				create parser.make_parser(payload)
 
-				flag := false
-
 				if attached {JSON_OBJECT} parser.parse as j_object and parser.is_parsed then
 					if attached {JSON_STRING} j_object.item ("name") as n then
 						name := n.unescaped_string_8
@@ -45,19 +42,18 @@ feature -- Handlers
 
 					if attached {JSON_STRING} j_object.item ("start_time") as st then
 						start_time := st.unescaped_string_8
-						flag := true
+					else
+						start_time := ""
 					end
 
 					if attached {JSON_STRING} j_object.item ("end_time") as et then
 						end_time := et.unescaped_string_8
+					else
+						end_time := ""
 					end
 				end
 
-				if flag then
-					db_model.new(name, start_time, end_time)
-				else
-					db_model.new(name, "", "")
-				end
+				db_model.new(name, start_time, end_time)
 
 				prepare_response("Created project " + name, 200, res, true)
 			else

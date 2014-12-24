@@ -33,27 +33,14 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         }();
 
         $scope.setProjects = function(){
-            $scope.userProjects = [];
-            var i,j;
-            for (i = 0; i < usersProjects.length; i++) {
-                if(usersProjects[i].idUser === currentUser.id){
-                    for (j=0; j<projects.length; j++){
-                        if (usersProjects[i].idProject === projects[j].id){
-                            $scope.userProjects.push(projects[j]);
-                        }
-                    }
-                }
-            }
-            currentProject = {};
-
-            /* $http.get('/projects')
-             .success(function(data, status, header, config) {
-             // the server should return a json array which contains all the todos
-             $scope.projects = data;
-             })
-             .error(function(data, status) {
-             $log.debug('Error while fetching proyects from server');
-             });*/
+            $http.get('/projects')
+                .success(function(data, status, header, config) {
+                    // the server should return a json array which contains all the todos
+                    $scope.projects = data;
+                })
+                .error(function(data, status) {
+                    $log.debug('Error while fetching proyects from server');
+                });
         };
 
         $scope.setSprints = function(){

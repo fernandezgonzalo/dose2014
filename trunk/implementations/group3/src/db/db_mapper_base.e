@@ -99,7 +99,6 @@ feature -- Data access
 			db_query_statement.execute(agent rows_to_json_array(?, 4, Result))
 		end
 
-
 	update_fields(an_update: JSON_OBJECT; an_id: INTEGER)
 		require
 			has_json: attached {JSON_OBJECT} an_update

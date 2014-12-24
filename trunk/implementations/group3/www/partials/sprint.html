@@ -1,37 +1,41 @@
-
 <div>
-  <div class="container">
+    <div class="container">
 
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <h2>Sprint </h2>
-      </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h2>Sprint </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <form role="form">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" ng-init="$scope.sprint.name" ng-model="sprint.name" id="nameInput" placeholder="name">
+                        <br>
+                        <label>Project:</label>
+                        <input type="text" class="form-control" ng-init="$scope.sprint.project_id" ng-model="sprint.project_id" id="nameInput" placeholder="project_id">
+                        </select>
+                        <br>
+                        <label>Start date:</label>
+                        <input type="date" class="form-control" ng-init="$scope.sprint.startDate" ng-model="sprint.startDate" id="startDate" placeholder="begin">
+                        <br>
+                        <label>Completion date:</label>
+                        <input type="date" class="form-control" ng-init="$scope.sprint.completionDate" ng-model="sprint.completionDate" id="completionDate" placeholder="end">
+                        <br>
+                        <label>Status:</label>
+                        <select class="form-control" ng-init="$scope.sprint.status" ng-model="sprint.status" ng-options="obj.stat for obj in statuses">
+                        </select>
+                    </div>
+                    <button ng-click="addSprint(sprint)" class="btn btn-default">Submit</button>
+                    <a ng-href="http://localhost:63342/index.html#/projectsSprints" >
+                        <button class="btn btn-default">
+                            Cancel
+                        </button>
+                    </a>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-		<form role="form">
-		  <div class="form-group">
-		    <label>Name:</label>
-		    <input type="text" class="form-control" ng-init="$scope.sprint.name" ng-model="sprint.name" id="nameInput" placeholder="name"> <br>
-			<label>Start date:</label>
-			<input type="date" class="form-control" ng-init="$scope.sprint.startDate" ng-model="sprint.startDate" id="startDate" placeholder="begin"><br>
-			<label>Completion date:</label>
-			<input type="date" class="form-control" ng-init="$scope.sprint.completionDate" ng-model="sprint.completionDate" id="completionDate" placeholder="end"> <br>
-			<label>Status:</label>
-			  <select class="form-control" ng-init="$scope.sprint.status" ng-model="sprint.status" ng-options="obj.stat for obj in statuses">
-			  </select>
-		  </div>
-			<button ng-click="addSprint(sprint)"  class="btn btn-default">Submit</button>
-			<a ng-href="http://localhost:63342/index.html#/projectsSprints" >
-		  		<button ng-click="cancel()" class="btn btn-default">
-		  			Cancel
-		  		</button>
-			</a>
-		</form>
-    </div>
-
-  </div> 
 </div>
-</div>
-
