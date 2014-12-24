@@ -47,19 +47,13 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
             };
 
         $scope.removeProjectSelected = function(p){
-            var i,j;
-            for (i = 0; i < projects.length; i++){
-                if (projects[i].id === p.id){
-                    projects.splice(i,1);
-                }
-            }
-            for (i = 0; i < usersProjects.length; i++) {
-                if (usersProjects[i].idProject === p.id) {
-                    usersProjects.splice(i, 1);
-                }
-            }
-            $scope.setProjects();
-            $scope.projectSprints = [];
+            $http.delete('/projects/' + currentProject.id.toString())
+                .success(function(data, status, header, config) {
+                     console.log('succsessfull delete');
+                })
+                .error(function(data, status) {
+                   console.log('Error while fetching sprints from server');
+                });
         };
 
         $scope.removeSprintSelected = function(s){

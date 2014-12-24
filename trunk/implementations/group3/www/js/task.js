@@ -4,8 +4,8 @@
 'use strict';
 
 angular.module('LetsGoTeam')
-    .controller('TaskController', ['$scope', '$http', '$log', '$timeout',
-        function ($scope,$location, $http, $log, $timeout) {
+    .controller('TaskController', ['$scope', '$http', '$log', '$location', '$timeout',
+        function ($scope, $http, $log, $location, $timeout) {
 
            // $scope.project = myService.getSavedProject();
            // $scope.sprint = myService.getSavedSprint();
