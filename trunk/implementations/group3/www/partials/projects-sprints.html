@@ -37,13 +37,12 @@
                     </h2>
                 </div>
             </div>
-            <div class="list-group">
-                <div class="list-group-item colorHover" ng-repeat="project in userProjects" ng-click="setProjectSelected(project); setSprints()">
+            <div class="list-group" ng-init="setProjects()">
+                <div class="list-group-item colorHover" ng-repeat="project in projects" ng-click="setProjectSelected(project); setSprints()">
                     <div class="row">
                         <div class="col-md-8">
                             <h3><strong>{{project.name}}</strong></h3>
-                            <h4><strong> Owner:</strong> {{project.owner}}</h4>
-                            <h4><strong>Status:</strong> {{project.status.stat}} <strong>| Start Date:</strong> {{project.startDate | date}}</h4>
+                            <h4><strong><strong>Start Date:</strong> {{project.start_time | date}}</h4>
                         </div>
                         <div class="col-md-2">
                             <a ng-href="http://localhost:63342/index.html#/project">
@@ -67,7 +66,7 @@
                 </a>
             </h1>
             <div class="list-group">
-                <div class="list-group-item colorHover" ng-repeat="sprint in projectSprints" ng-click="setSprintSelected(sprint)">
+                <div class="list-group-item colorHover" ng-repeat="sprint in sprints" ng-click="setSprintSelected(sprint)">
                     <div class="row">
                         <div class="col-md-8">
                             <h3><strong>{{sprint.name}}</strong></h3>

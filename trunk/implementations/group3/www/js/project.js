@@ -10,16 +10,9 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
         $scope.curr_name = currentUser.name;
         $scope.project = {
             name: '',
-            owner: '',
-            status: {},
-            startDate: new Date()
+            startDate: new Date(),
+            endDate: new Date()
         };
-        $scope.usersInProject = [];
-        $scope.statuses = [{
-            stat: 'open'
-        }, {
-            stat: 'closed'
-        }];
 
         $scope.successMsgVisible = false;
 
