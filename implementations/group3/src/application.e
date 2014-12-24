@@ -71,7 +71,7 @@ feature
 			map_uri_template_agent_with_request_methods("/projects/{id}", agent projects_controller.update, router.methods_put)
 
 			map_uri_template_agent_with_request_methods("/sprints", agent sprints_controller.get_all, router.methods_get)
-			map_uri_template_agent_with_request_methods("/project-sprints/{project_id}", agent sprints_controller.by_project, router.methods_get)
+			map_uri_template_agent_with_request_methods("/projects-sprints/{project_id}", agent sprints_controller.by_project, router.methods_get)
 			map_uri_template_agent_with_request_methods("/sprints", agent sprints_controller.add, router.methods_post)
 			map_uri_template_agent_with_request_methods("/sprints/{id}", agent sprints_controller.remove, router.methods_delete)
 			map_uri_template_agent_with_request_methods("/sprints/{id}", agent sprints_controller.show, router.methods_get)

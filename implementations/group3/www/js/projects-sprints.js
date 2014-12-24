@@ -28,12 +28,12 @@ angular.module('LetsGoTeam').controller('projectsSprintsController', ['$scope', 
         };
 
         $scope.setSprints = function(){
-            $http.get('/projects-sprints/{actualProject.id}')
+            $http.get('/projects-sprints/' + currentProject.id.toString())
                 .success(function(data, status, header, config) {
                     $scope.sprints = data;
                 })
                 .error(function(data, status) {
-                   $log.debug('Error while fetching proyects from server');
+                   console.log('Error while fetching sprints from server');
                 });
         };
 

@@ -22,9 +22,9 @@ angular.module('LetsGoTeam').controller('projectController', ['$scope', '$http',
 
             if (!($scope.project.name === '')) {
                 if (editing) {
-		    $http.get('/projects/' + currProject.id.toString())
+		    $http.get('/projects/' + current_project.id.toString())
 			.success(function(data, status, headers, config) {
-				$scope.project = currProject = data;
+				$scope.project = current_project = data;
 			})
 			.error(function(data, status, headers, config) {
 				alert("Requested project doesn't exists")
