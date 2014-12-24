@@ -36,6 +36,7 @@ angular.module('LetsGoTeam')
                     .success(function(data, status, header, config) {
                         if (status === 200) {
                             console.log('Success logging user');
+			    currentUser = user;
                             $location.path("/projectsSprints");
                         } else {
 		            if (!logged)
@@ -56,13 +57,7 @@ angular.module('LetsGoTeam')
 
                 $http.post('/login/forgot-password', payload)
                     .success(function(data, status, header, config) {
-
-                        $scope.data = data;
-                        if ($scope.data.status === 'ok') {
-                            $log.debug('New password:' + $scope.status.newPass);
-                        } else {
-                            $log.debug('Incorrect data');
-                        };
+			$scope.changeView(2);
 
                         // reset the todoModel to not have a description (we keep the last selected user)
                         $scope.user.email = '';

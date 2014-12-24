@@ -61,10 +61,12 @@ feature
 			payload, password, email: STRING
 			parser: JSON_PARSER
 			l_result: JSON_OBJECT
+			system: EXECUTION_ENVIRONMENT
 		do
-			create payload.make_empty
 			create email.make_empty
 			create password.make_empty
+			create system
+			create payload.make_empty
 
 			req.read_input_data_into(payload)
 
@@ -77,6 +79,7 @@ feature
 			end
 
 			password := db_model.new_password(email)
+			system.launch("python forgot_password.py " + email.out + " " + password.out)
 
 			create l_result.make
 			l_result.put (create {JSON_STRING}.make_json (password),
@@ -84,6 +87,7 @@ feature
 
 			set_json_header_ok (res, l_result.representation.count)
 			res.put_string (l_result.representation)
+
 		rescue
 			prepare_response("Something went wrong", 500, res, true)
 		end

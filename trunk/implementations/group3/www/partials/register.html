@@ -1,25 +1,23 @@
 
     <div class = "container">
         <form class="form-signin" name="registerForm"  ng-submit="registerForm.$valid && addUser(user)" novalidate>
-            <h2 class="form-signin-heading"> Sign in </h2>
+            <h2 class="form-signin-heading"> Sign up </h2>
             <fieldset  class="form-group">
-                First name <input ng-model = "user.firstName" class="form-control" type= "text" title="First name"  required/>
+                Name <input ng-model = "user.name" class="form-control" type= "text" title="Name"  required/>
             </fieldset>
             <fieldset  class="form-group">
-                Last name <input ng-model = "user.lastName" class="form-control"  type= "text"  title="Last name" required />
-            </fieldset>
-            <fieldset  class="form-group">
-                email <input ng-model = "user.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required />
+                Email <input ng-model = "user.email" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" required />
             </fieldset>      
             <fieldset  class="form-group">
                 Password <input ng-model = "user.password" type="password"  name="password" class="form-control"  title="Password" required />
             </fieldset>
             <fieldset  class="form-group">
                 Confirm Password <input ng-model = "user.confirmPassword" name="verify" type="password" class="form-control" title="Confirm password" required nx-equal="user.password" /> <br>
-                
             </fieldset>    
             <fieldset class="form-group">
-                <input type="submit" class="btn btn-primary pull-right" value="Register" />
+		  <button class="btn btn-primary pull-right">
+			  Register	
+		  </button>
                 <a ng-href="http://localhost:63342/index.html#/home" >
                     <button class="btn btn-danger pull-left"> Cancel </button>
                 </a>
