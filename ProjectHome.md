@@ -1,0 +1,1 @@
+Here we host the 2014 edition of the globally distributed DOSE course.
